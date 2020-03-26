@@ -1,6 +1,6 @@
-# Drupal 8 Test
+# Drupal 8 Starter
 
-Experiments in having Drupal 8 Functional and Kernel test with existing config.
+Starter repo for Drupal 8 development
 
 ## Requirements
 
