@@ -8,8 +8,8 @@ Starter repo for Drupal 8 development
 
 ## Installation
 
-    git clone git@github.com:amitaibu/drupal8-tests.git
-    cd drupal8-tests
+    git clone git@github.com:amitaibu/drupal8-starter.git
+    cd drupal8-starter
     ddev composer install
     cp .ddev/config.local.yaml.example .ddev/config.local.yaml
     ddev restart
