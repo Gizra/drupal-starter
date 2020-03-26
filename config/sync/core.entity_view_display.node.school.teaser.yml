@@ -1,0 +1,30 @@
+uuid: 0f8c4d7d-2cda-4d67-855e-897a5c69d528
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.school.body
+    - node.type.school
+  module:
+    - text
+    - user
+id: node.school.teaser
+targetEntityType: node
+bundle: school
+mode: teaser
+content:
+  body:
+    label: hidden
+    type: text_summary_or_trimmed
+    weight: 101
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden: {  }

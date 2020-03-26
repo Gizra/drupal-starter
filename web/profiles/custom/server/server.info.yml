@@ -1,0 +1,19 @@
+name: Server
+type: profile
+description: 'Custom profile to allow importing custom config'
+core: 8.x
+
+install:
+  - node
+  - block
+  - dblog
+  - page_cache
+  - dynamic_page_cache
+
+dependencies:
+  - node
+  - block
+
+themes:
+  - classy
+  - seven
