@@ -22,3 +22,22 @@ If you had a previous installation of this repo, and have an error similar to `c
 then execute the following, and re-try installation steps.
 
     ddev rm --unlist
+
+## First Config Export
+
+The config for the `server` profile was created out of the `Standard` profile. To have the intial config as a different one, follow the following steps. We'll use `demo_umami` as example.
+
+    # Re-install drupal based on the profile.
+    ddev . drush site-install demo_umami -y
+    
+    # Delete existing config
+    rm -rf config/sync
+    mkdir config/sync
+    
+    # Let Drupal know about our config directory.
+    ddev exec "echo \"\$settings['config_sync_directory'] = '../config/sync';\" >> /var/www/html/web/sites/default/settings.ddev.php"
+    
+    # Re-export config
+    ddev exec drush cex
+    
+Next, in the replace the profile name with `server` in [here](https://github.com/amitaibu/drupal-static-elasticsearch/blob/35ab12438ca89966f70740adb3157fdd70b70509/config/sync/core.extension.yml#L45) and [here](https://github.com/amitaibu/drupal-static-elasticsearch/blob/35ab12438ca89966f70740adb3157fdd70b70509/config/sync/core.extension.yml#L51)
