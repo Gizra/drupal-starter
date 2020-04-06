@@ -41,3 +41,5 @@ The config for the `server` profile was created out of the `Standard` profile. T
     ddev exec drush cex
     
 Next, in the replace the profile name with `server` in [here](https://github.com/amitaibu/drupal-static-elasticsearch/blob/35ab12438ca89966f70740adb3157fdd70b70509/config/sync/core.extension.yml#L45) and [here](https://github.com/amitaibu/drupal-static-elasticsearch/blob/35ab12438ca89966f70740adb3157fdd70b70509/config/sync/core.extension.yml#L51)
+
+You can now `ddev restart` and the new installation should use the `server` profile, along with the new exported config.
