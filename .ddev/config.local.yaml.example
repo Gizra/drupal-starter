@@ -12,5 +12,5 @@ hooks:
     - exec: echo "\$settings['file_private_path'] = '/var/www/private';" >> /var/www/html/web/sites/default/settings.ddev.php
 
     # Install profile
-    - exec: drush site-install standard -y --existing-config
+    - exec: drush site-install server -y --existing-config
     - exec: drush uli
