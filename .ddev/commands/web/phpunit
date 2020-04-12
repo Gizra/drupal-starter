@@ -1,0 +1,7 @@
+#!/bin/bash
+
+## Description: Run PHPunit tests inside the web container.
+## Usage: phpunit
+## Example: "ddev phpunit" or "ddev phpunit  modules/custom/server_general".
+
+cd .. && ./vendor/bin/phpunit $@

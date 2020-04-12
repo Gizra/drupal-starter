@@ -1,0 +1,38 @@
+sudo: required
+language: php
+dist: bionic
+php:
+  - 7.4
+
+services:
+  - docker
+
+stages:
+  - lint
+  - test
+
+before_install:
+  - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+
+jobs:
+  include:
+    - stage: Lint
+      name: "Drupal coding standard: phpcs"
+      script:
+        - "$TRAVIS_BUILD_DIR/ci-scripts/install_coder.sh"
+        - "export REVIEW_STANDARD=\"Drupal\" && $TRAVIS_BUILD_DIR/ci-scripts/test_coder.sh"
+    - stage: Lint
+      name: "Drupal coding best practices: phpcs"
+      script:
+        - "$TRAVIS_BUILD_DIR/ci-scripts/install_coder.sh"
+        - "export REVIEW_STANDARD=\"DrupalPractice\" && $TRAVIS_BUILD_DIR/ci-scripts/test_coder.sh"
+    - stage: Lint
+      name: "Shell coding standard: shellcheck"
+      script:
+        - "$TRAVIS_BUILD_DIR/ci-scripts/install_shell.sh"
+        - "$TRAVIS_BUILD_DIR/ci-scripts/test_shell.sh"
+    - stage: Test
+      name: "Backend tests: Functional tests"
+      script:
+        - "$TRAVIS_BUILD_DIR/ci-scripts/install_server.sh"
+        - "$TRAVIS_BUILD_DIR/ci-scripts/test_phpunit.sh"

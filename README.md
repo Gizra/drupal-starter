@@ -19,3 +19,11 @@ If you had a previous installation of this repo, and have an error similar to `c
 then execute the following, and re-try installation steps.
 
     ddev rm --unlist
+
+## Code Sniffer
+
+    ddev run_coder
+
+## Tests
+
+    ddev phpunit
