@@ -21,6 +21,9 @@
         "drush/drush": "^10.2"
     },
     "require-dev": {
+        "phpunit/phpunit": "^7",
+        "symfony/phpunit-bridge": "^5.0",
+        "weitzman/drupal-test-traits": "^1.3"
     },
     "conflict": {
         "drupal/drupal": "*"
