@@ -26,3 +26,7 @@ then execute the following, and re-try installation steps.
 ## Code Sniffer
 
     ddev run_coder
+
+## Tests
+
+    ddev phpunit

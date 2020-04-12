@@ -8,6 +8,6 @@ source ci-scripts/helper_functions.sh
 # Run PHPUnit tests
 # -------------------------------------------------- #
 cd "$ROOT_DIR"
-ddev exec ../vendor/bin/phpunit -c ../phpunit.xml.dist modules/custom
+ddev phpunit
 
 exit 0
