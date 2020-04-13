@@ -11,7 +11,7 @@ _core:
 id: theme_server_messages
 theme: theme_server
 region: header
-weight: 0
+weight: -4
 provider: null
 plugin: system_messages_block
 settings:

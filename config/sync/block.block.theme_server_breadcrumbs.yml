@@ -11,7 +11,7 @@ _core:
 id: theme_server_breadcrumbs
 theme: theme_server
 region: header
-weight: 0
+weight: -7
 provider: null
 plugin: system_breadcrumb_block
 settings:

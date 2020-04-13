@@ -10,8 +10,8 @@ _core:
   default_config_hash: jQQUUWN2Uxr5qZtc9zcJKBCxpKY8orN1u2HPqYYRQDI
 id: theme_server_powered
 theme: theme_server
-region: header
-weight: 10
+region: footer
+weight: -5
 provider: null
 plugin: system_powered_by_block
 settings:

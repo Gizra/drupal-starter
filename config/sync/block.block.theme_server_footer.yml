@@ -12,8 +12,8 @@ _core:
   default_config_hash: 8zRjTNbfNAJ94lQpZDu6MkyD87GYJ2zpH9VQPVmRbcM
 id: theme_server_footer
 theme: theme_server
-region: header
-weight: 0
+region: footer
+weight: -6
 provider: null
 plugin: 'system_menu_block:footer'
 settings:
