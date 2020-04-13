@@ -10,7 +10,7 @@ libraries:
   - theme_server/opensans
   - theme_server/font-awesome
 
-logo: logo.png
+logo: logo.svg
 
 base theme: classy
 
