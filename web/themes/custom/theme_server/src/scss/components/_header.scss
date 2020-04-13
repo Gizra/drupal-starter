@@ -1,0 +1,26 @@
+header {
+  background-color: $blue-primary;
+  padding: 40px 0;
+  margin-bottom: 20px;
+
+  .block-system-branding-block {
+    display: flex;
+  }
+
+  a.site-logo {
+    text-decoration: none;
+  }
+
+  .site-name {
+    font-size: 2em;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    a {
+      color: $white;
+      text-decoration: none;
+    }
+  }
+}

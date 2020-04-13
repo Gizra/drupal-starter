@@ -1,15 +1,15 @@
-uuid: acb8dbc1-4eec-42b0-a2bf-35d87c46bc8d
+uuid: 0c3553df-1967-4f27-b118-ab077f0d40d1
 langcode: en
 status: true
 dependencies:
   theme:
-    - bartik
+    - claro
 _core:
-  default_config_hash: 13GQpeITIJsp1kyPniXtWZfyFH87vb1xxJCHifL4UeE
-id: bartik_local_actions
-theme: bartik
+  default_config_hash: osZQ9lL2jTdH5am4LJiZ29RaivhzOf6vCpoRy6FZwIE
+id: claro_local_actions
+theme: claro
 region: content
-weight: -20
+weight: -10
 provider: null
 plugin: local_actions_block
 settings:

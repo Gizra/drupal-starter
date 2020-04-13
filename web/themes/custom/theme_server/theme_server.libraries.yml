@@ -1,0 +1,32 @@
+global-styling:
+  version: 1.0
+  css:
+    theme:
+      dist/css/style.css: {}
+
+global-scripts:
+  js:
+    dist/js/scripts.js: {}
+  dependencies:
+    - core/jquery
+
+librefranklin:
+  css:
+    base:
+      '//fonts.googleapis.com/css?family=Libre+Franklin:400,400i,700': { external: true }
+
+opensans:
+  css:
+    base:
+      '//fonts.googleapis.com/css?family=Open+Sans:400,400i,700': { external: true }
+
+font-awesome:
+  remote: https://fortawesome.github.io/Font-Awesome/
+  version: 4.5.0
+  license:
+    name: MIT
+    url: https://fortawesome.github.io/Font-Awesome/license/
+    gpl-compatible: true
+  css:
+    theme:
+      https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css: { type: external, minified: true }
