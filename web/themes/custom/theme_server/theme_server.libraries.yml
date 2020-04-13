@@ -6,7 +6,7 @@ global-styling:
 
 global-scripts:
   js:
-    src/js/scripts.js: {}
+    dist/js/scripts.js: {}
   dependencies:
     - core/jquery
 

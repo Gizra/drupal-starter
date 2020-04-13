@@ -16,10 +16,6 @@ class RoboFile extends Tasks {
 
   const THEME_BASE = 'web/themes/custom/theme_server';
 
-  const CSS_DIR = self::THEME_BASE . '/dist/css';
-
-  const CSS_DIR_INIT_CMD = 'mkdir -p ' . self::CSS_DIR;
-
   /**
    * Compile the app; On success ...
    *
@@ -33,8 +29,17 @@ class RoboFile extends Tasks {
       $formatter = self::OPTIMIZED_FORMATTER;
     }
 
-    if (!is_dir(self::CSS_DIR)) {
-      $this->_exec(self::CSS_DIR_INIT_CMD);
+    $directories = [
+      'css',
+      'js',
+      'images',
+    ];
+
+    // Cleanup directories.
+    foreach ($directories as $dir) {
+      $directory = self::THEME_BASE . '/dist/' . $dir;
+      $this->_exec("rm -rf $directory");
+      $this->_exec("mkdir -p $directory");
     }
 
     $compiler_options = [];
@@ -42,6 +47,7 @@ class RoboFile extends Tasks {
       $compiler_options['sourceMap'] = Compiler::SOURCE_MAP_INLINE;
     }
 
+    // CSS.
     $result = $this->taskScss([
       self::THEME_BASE . '/src/scss/style.scss' => self::THEME_BASE . '/dist/css/style.css',
     ])
@@ -56,29 +62,38 @@ class RoboFile extends Tasks {
     }
 
     // Javascript.
-    // Copy everything first.
-    $this->_copyDir(self::THEME_BASE . '/src/js', self::THEME_BASE . '/dist/js');
-
     if ($optimize) {
-      //Minify the JS files.
-      $this->taskMinify(self::THEME_BASE . '/src/js/*.js')
-        ->to(self::THEME_BASE . '/dist/js/')
-        ->type('js')
-        ->singleLine(TRUE)
-        ->keepImportantComments(FALSE)
-        ->run();
+      // Minify the JS files.
+      foreach (glob(self::THEME_BASE . '/src/js/*.js') as $js_file) {
+
+        $to = $js_file;
+        $to = str_replace('/src/', '/dist/', $to);
+
+        $this->taskMinify($js_file)
+          ->to($to)
+          ->type('js')
+          ->singleLine(TRUE)
+          ->keepImportantComments(FALSE)
+          ->run();
+      }
+    }
+    else {
+      $this->_copyDir(self::THEME_BASE . '/src/js', self::THEME_BASE . '/dist/js');
     }
 
-    // Images.
-    // Copy everything first.
+    return;
+
+    // Images - Copy everything first.
     $this->_copyDir(self::THEME_BASE . '/src/images', self::THEME_BASE . '/dist/images');
 
+    // Then for the formats that we can optimize, perform it.
     if ($optimize) {
-      // Then for the formats where we can optimize, perform it.
-      $this->taskImageMinify(self::THEME_BASE . '/src/images/*.jpg')
-        ->to(self::THEME_BASE . '/dist/images/')
-        ->run();
-      $this->taskImageMinify(self::THEME_BASE . '/src/images/*.png')
+      $input = [
+        self::THEME_BASE . '/src/images/*.jpg',
+        self::THEME_BASE . '/src/images/*.png',
+      ];
+
+      $this->taskImageMinify($input)
         ->to(self::THEME_BASE . '/dist/images/')
         ->run();
     }
