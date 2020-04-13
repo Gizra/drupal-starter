@@ -38,7 +38,7 @@ class RoboFile extends Tasks {
     // Cleanup directories.
     foreach ($directories as $dir) {
       $directory = self::THEME_BASE . '/dist/' . $dir;
-      $this->_exec("rm -rf $directory");
+      $this->taskCleanDir($directory);
       $this->_exec("mkdir -p $directory");
     }
 
