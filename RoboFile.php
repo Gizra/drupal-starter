@@ -7,7 +7,7 @@ use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Theme compilation Robo file.
+ * Robo commmands.
  */
 class RoboFile extends Tasks {
 
@@ -16,10 +16,6 @@ class RoboFile extends Tasks {
   const DEV_FORMATTER = 'ScssPhp\ScssPhp\Formatter\Expanded';
 
   const THEME_BASE = 'web/themes/custom/theme_server';
-
-  const CSS_DIR = self::THEME_BASE . '/dist/css';
-
-  const CSS_DIR_INIT_CMD = 'mkdir -p ' . self::CSS_DIR;
 
   /**
    * The Pantheon name.
@@ -42,8 +38,17 @@ class RoboFile extends Tasks {
       $formatter = self::OPTIMIZED_FORMATTER;
     }
 
-    if (!is_dir(self::CSS_DIR)) {
-      $this->_exec(self::CSS_DIR_INIT_CMD);
+    $directories = [
+      'css',
+      'js',
+      'images',
+    ];
+
+    // Cleanup directories.
+    foreach ($directories as $dir) {
+      $directory = self::THEME_BASE . '/dist/' . $dir;
+      $this->taskCleanDir($directory);
+      $this->_mkdir($directory);
     }
 
     $compiler_options = [];
@@ -51,6 +56,7 @@ class RoboFile extends Tasks {
       $compiler_options['sourceMap'] = Compiler::SOURCE_MAP_INLINE;
     }
 
+    // CSS.
     $result = $this->taskScss([
       self::THEME_BASE . '/src/scss/style.scss' => self::THEME_BASE . '/dist/css/style.css',
     ])
@@ -64,16 +70,39 @@ class RoboFile extends Tasks {
       return $result;
     }
 
-    // Images.
-    // Copy everything first.
+    // Javascript.
+    if ($optimize) {
+      // Minify the JS files.
+      foreach (glob(self::THEME_BASE . '/src/js/*.js') as $js_file) {
+
+        $to = $js_file;
+        $to = str_replace('/src/', '/dist/', $to);
+
+        $this->taskMinify($js_file)
+          ->to($to)
+          ->type('js')
+          ->singleLine(TRUE)
+          ->keepImportantComments(FALSE)
+          ->run();
+      }
+    }
+    else {
+      $this->_copyDir(self::THEME_BASE . '/src/js', self::THEME_BASE . '/dist/js');
+    }
+
+    return;
+
+    // Images - Copy everything first.
     $this->_copyDir(self::THEME_BASE . '/src/images', self::THEME_BASE . '/dist/images');
 
+    // Then for the formats that we can optimize, perform it.
     if ($optimize) {
-      // Then for the formats where we can optimize, perform it.
-      $this->taskImageMinify(self::THEME_BASE . '/src/images/*.jpg')
-        ->to(self::THEME_BASE . '/dist/images/')
-        ->run();
-      $this->taskImageMinify(self::THEME_BASE . '/src/images/*.png')
+      $input = [
+        self::THEME_BASE . '/src/images/*.jpg',
+        self::THEME_BASE . '/src/images/*.png',
+      ];
+
+      $this->taskImageMinify($input)
         ->to(self::THEME_BASE . '/dist/images/')
         ->run();
     }
@@ -82,7 +111,7 @@ class RoboFile extends Tasks {
   /**
    * Compile the theme (optimized).
    */
-  public function compileTheme() {
+  public function themeCompile() {
     $this->say('Compiling (optimized).');
     $this->compileTheme_(TRUE);
   }
@@ -92,7 +121,7 @@ class RoboFile extends Tasks {
    *
    * Non-optimized.
    */
-  public function compileThemeDebug() {
+  public function themeCompileDebug() {
     $this->say('Compiling (non-optimized).');
     $this->compileTheme_();
   }
@@ -112,7 +141,7 @@ class RoboFile extends Tasks {
   /**
    * Watch the theme and compile on change (optimized).
    */
-  public function watchTheme() {
+  public function themeWatch() {
     $this->say('Compiling and watching (optimized).');
     $this->compileTheme_(TRUE);
     foreach ($this->monitoredThemeDirectories() as $directory) {
@@ -128,11 +157,9 @@ class RoboFile extends Tasks {
   }
 
   /**
-   * Watch the theme path and compile on change.
-   *
-   * Non-optimized, for `Debug.toString`.
+   * Watch the theme path and compile on change (non-optimized).
    */
-  public function watchThemeDebug() {
+  public function themeWatchDebug() {
     $this->say('Compiling and watching (non-optimized).');
     $this->compileTheme_();
     foreach ($this->monitoredThemeDirectories() as $directory) {

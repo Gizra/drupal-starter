@@ -23,6 +23,8 @@
     "require-dev": {
         "consolidation/robo": "^1.0.0",
         "henrikbjorn/lurker": "1.*",
+        "natxet/cssmin": "^3.0",
+        "patchwork/jsqueeze": "^2.0",
         "phpunit/phpunit": "^7",
         "scssphp/scssphp": "^1.0.0",
         "symfony/phpunit-bridge": "^5.0",
