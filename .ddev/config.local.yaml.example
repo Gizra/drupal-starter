@@ -13,4 +13,5 @@ hooks:
 
     # Install profile
     - exec: drush site-install server -y --existing-config
+    - exec: cd .. && ./vendor/bin/robo compile:theme
     - exec: drush uli
