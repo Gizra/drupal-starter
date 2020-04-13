@@ -1,0 +1,20 @@
+name: Drupal 8 Starter Theme
+type: theme
+description: 'A foundation for building a theme for Drupal 8 Starter.'
+package: Server
+core: 8.x
+libraries:
+  - theme_server/global-styling
+  - theme_server/global-scripts
+  - theme_server/librefranklin
+  - theme_server/opensans
+  - theme_server/font-awesome
+
+logo: logo.png
+
+base theme: classy
+
+regions:
+  header: Header
+  content: Content
+  footer: Footer
