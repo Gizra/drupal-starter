@@ -5,8 +5,8 @@ global-styling:
       dist/css/style.css: {}
 
 global-scripts:
-  # js:
-  #   src/js/scripts.js: {}
+  js:
+    src/js/scripts.js: {}
   dependencies:
     - core/jquery
 

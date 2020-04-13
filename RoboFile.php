@@ -55,6 +55,20 @@ class RoboFile extends Tasks {
       return $result;
     }
 
+    // Javascript.
+    // Copy everything first.
+    $this->_copyDir(self::THEME_BASE . '/src/js', self::THEME_BASE . '/dist/js');
+
+    if ($optimize) {
+      //Minify the JS files.
+      $this->taskMinify(self::THEME_BASE . '/src/js/*.js')
+        ->to(self::THEME_BASE . '/dist/js/')
+        ->type('js')
+        ->singleLine(TRUE)
+        ->keepImportantComments(FALSE)
+        ->run();
+    }
+
     // Images.
     // Copy everything first.
     $this->_copyDir(self::THEME_BASE . '/src/images', self::THEME_BASE . '/dist/images');
