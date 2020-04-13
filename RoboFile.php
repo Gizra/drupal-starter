@@ -6,7 +6,7 @@ use Robo\Tasks;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
- * Theme compilation Robo file.
+ * Robo commmands.
  */
 class RoboFile extends Tasks {
 
@@ -73,7 +73,7 @@ class RoboFile extends Tasks {
   /**
    * Compile the theme (optimized).
    */
-  public function compileTheme() {
+  public function themeCompile() {
     $this->say('Compiling (optimized).');
     $this->compileTheme_(TRUE);
   }
@@ -83,7 +83,7 @@ class RoboFile extends Tasks {
    *
    * Non-optimized.
    */
-  public function compileThemeDebug() {
+  public function themeCompileDebug() {
     $this->say('Compiling (non-optimized).');
     $this->compileTheme_();
   }
@@ -103,7 +103,7 @@ class RoboFile extends Tasks {
   /**
    * Watch the theme and compile on change (optimized).
    */
-  public function watchTheme() {
+  public function themeWatch() {
     $this->say('Compiling and watching (optimized).');
     $this->compileTheme_(TRUE);
     foreach ($this->monitoredThemeDirectories() as $directory) {
@@ -119,11 +119,9 @@ class RoboFile extends Tasks {
   }
 
   /**
-   * Watch the theme path and compile on change.
-   *
-   * Non-optimized, for `Debug.toString`.
+   * Watch the theme path and compile on change (non-optimized).
    */
-  public function watchThemeDebug() {
+  public function themeWatchDebug() {
     $this->say('Compiling and watching (non-optimized).');
     $this->compileTheme_();
     foreach ($this->monitoredThemeDirectories() as $directory) {

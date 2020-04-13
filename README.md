@@ -26,13 +26,13 @@ By default, `ddev restart` compiles the theme using Robo.
 
 On the local development environment, execute:
 ```bash
-ddev robo watch:theme-debug
+ddev robo theme:watch-debug
 ```
 
 Then the modifications of the theme will be watched and compiled. The `-debug` suffix ensures that the CSS code remains human-readable,
 and includes a sourcemap.
 
-If you just need to re-compile the theme, `ddev robo compile:theme` is sufficient.
+If you just need to re-compile the theme, `ddev robo theme:compile` is sufficient.
 
 The directory structure:
  - `src/` - put all source stylesheets images, fonts, etc here.
