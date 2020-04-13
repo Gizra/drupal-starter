@@ -1,16 +1,16 @@
-uuid: 834fe730-2ad8-4832-bf32-3475ad3046f8
+uuid: 792b3bad-6e6e-406b-bcc7-305b2f16e5d5
 langcode: en
 status: true
 dependencies:
   module:
     - search
   theme:
-    - bartik
+    - theme_server
 _core:
   default_config_hash: Q-4EcGAsu26ICu4ejEz0uE1zv4akpiaOsizxgZfAmEw
-id: bartik_search
-theme: bartik
-region: sidebar_first
+id: theme_server_search
+theme: theme_server
+region: header
 weight: -1
 provider: null
 plugin: search_form_block
