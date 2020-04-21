@@ -1,6 +1,6 @@
-# Drupal 8 Starter
+# Drupal 8 & 9 Starter
 
-Starter repo for Drupal 8 development. This starter is an opinionated approach,
+Starter repo for Drupal 8 & 9 development. This starter is an opinionated approach,
 with the following concepts and tools:
 
 1. [ddev](https://ddev.readthedocs.io/) should be the only requirement, and
