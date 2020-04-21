@@ -247,6 +247,19 @@ class RoboFile extends Tasks {
     $commitAndDeployConfirm = $this->confirm('Commit changes and deploy?');
     if (!$commitAndDeployConfirm) {
       $this->say('Aborted commit and deploy, you can do it manually');
+
+      // The Pantheon repo is dirty, so check if we want to clean it up before
+      // exit.
+      $cleanupPantheonDirectoryConfirm = $this->confirm("Revert any changes on $pantheonDirectory directory (i.e. `git checkout .`)?");
+      if (!$cleanupPantheonDirectoryConfirm) {
+        // Keep folder as is.
+        return;
+      }
+
+      // We repeat "git clean" twice, as sometimes it seems that a single one
+      // doesn't remove all directories.
+      $this->_exec("cd $pantheonDirectory && git checkout . && git clean -fd && git clean -fd && git status");
+
       return;
     }
 

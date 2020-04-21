@@ -1,5 +1,3 @@
-#ddev-generated: Automatically generated ddev .gitignore.
 # You can remove the above line if you want to edit and maintain this file yourself.
 
-/settings.ddev.php
 /drushrc.php

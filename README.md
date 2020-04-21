@@ -1,6 +1,23 @@
-# Drupal 8 Starter
+# Drupal 8 & 9 Starter
 
-Starter repo for Drupal 8 development
+Starter repo for Drupal 8 & 9 development. This starter is an opinionated approach,
+with the following concepts and tools:
+
+1. [ddev](https://ddev.readthedocs.io/) should be the only requirement, and
+every operation should happen inside ddev's containers. For example, one should
+not ever need to execute commands such as `composer install` from the host
+machine. Instead we have `ddev composer install`. The advantage is that we have
+a consistent, reproducible and shareable environment, so developers don't have
+to lose time over configuration of their host machine.
+1. [Robo](https://robo.li/) is the task manager, and is favored over bash
+scripts. The reason for this is that it's
+assumed PHP developers are more comfortable with PHP than Bash, and it provides
+us with easier iteration, reading and manipulating yaml files, pre-defined
+[tasks](https://robo.li/tasks/Assets/), etc.
+1. We use Travis-CI for continuous integration. A pre-configured and working
+`.travis.yaml` is part of this repo.
+1. We use Pantheon for hosting. A `ddev robo deploy:pantheon` will take care of
+deployments. See more under "Pantheon settings" section.
 
 ## Requirements
 
@@ -45,6 +62,9 @@ For theme development, it's advisable to entirely turn off caching: https://www.
     ddev run_coder
 
 ## Tests
+
+For testing we use [Drupal Test Traits](https://medium.com/massgovdigital/introducing-drupal-test-traits-9fe09e84384c) (DTT), as it allows a very fast and convinent way of testing existing installation profiles.
+See the [example](https://github.com/Gizra/drupal8-starter/blob/master/web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralExampleTest.php) test.
 
     ddev phpunit
 

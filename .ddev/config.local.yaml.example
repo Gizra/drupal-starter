@@ -6,11 +6,6 @@ hooks:
     # Private files directory.
     - exec: mkdir /var/www/private
 
-    # Config and private files settings
-    - exec: echo "\$config_directories[CONFIG_SYNC_DIRECTORY] = '../config/sync';" >> /var/www/html/web/sites/default/settings.ddev.php
-    - exec: echo "\$settings['config_sync_directory'] = '../config/sync';" >> /var/www/html/web/sites/default/settings.ddev.php
-    - exec: echo "\$settings['file_private_path'] = '/var/www/private';" >> /var/www/html/web/sites/default/settings.ddev.php
-
     # Install profile
     - exec: drush site-install server -y --existing-config
 
