@@ -4,11 +4,11 @@ Starter repo for Drupal 8 development. This starter is an opinionated approach,
 with the following concepts and tools:
 
 1. [ddev](https://ddev.readthedocs.io/) should be the only requirement, and
-every operation should happen inside ddev's containers. That is, one should not
-ever need to execute commands such as `composer install` from the host machine.
-Instead we have `ddev composer install`. The advantage is that we have a
-consistent, reproducible and shareable environment, so developers don't have to
-lose time over configuration of their host machine.
+every operation should happen inside ddev's containers. For example, one should
+not ever need to execute commands such as `composer install` from the host
+machine. Instead we have `ddev composer install`. The advantage is that we have
+a consistent, reproducible and shareable environment, so developers don't have
+to lose time over configuration of their host machine.
 1. [Robo](https://robo.li/) is the task manager, and is favored over bash
 scripts. The reason for this is that it's
 assumed PHP developers are more comfortable with PHP than Bash, and it provides
