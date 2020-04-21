@@ -63,6 +63,9 @@ For theme development, it's advisable to entirely turn off caching: https://www.
 
 ## Tests
 
+For testing we use [Drupal Test Traits](https://medium.com/massgovdigital/introducing-drupal-test-traits-9fe09e84384c) (DTT), as it allows a very fast and convinent way of testing existing installation profiles.
+See the [example](https://github.com/Gizra/drupal8-starter/blob/master/web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralExampleTest.php) test.
+
     ddev phpunit
 
 ## Deploy to Pantheon
