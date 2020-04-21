@@ -2,10 +2,7 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
-
-use Drupal\node\Entity\NodeType;
 use Drupal\taxonomy\Entity\Vocabulary;
-use Drupal\user\Entity\User;
 use weitzman\DrupalTestTraits\ExistingSiteBase;
 
 /**
@@ -20,16 +17,17 @@ class ServerGeneralExampleTest extends ExistingSiteBase {
    * @throws \Drupal\Core\Entity\EntityMalformedException
    * @throws \Behat\Mink\Exception\ExpectationException
    */
-  public function testLlama()
-  {
+  public function testLlama() {
     // Creates a user. Will be automatically cleaned up at the end of the test.
-    $author = $this->createUser([], null, true);
+    $author = $this->createUser([], NULL, TRUE);
 
-    // Create a taxonomy term. Will be automatically cleaned up at the end of the test.
+    // Create a taxonomy term. Will be automatically cleaned up at the end of
+    // the test.
     $vocab = Vocabulary::load('tags');
     $term = $this->createTerm($vocab);
 
-    // Create a "Llama" article. Will be automatically cleaned up at end of test.
+    // Create a "Llama" article. Will be automatically cleaned up at end of
+    // test.
     $node = $this->createNode([
       'title' => 'Llama',
       'type' => 'article',
