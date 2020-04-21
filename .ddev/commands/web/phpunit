@@ -2,6 +2,6 @@
 
 ## Description: Run PHPunit tests inside the web container.
 ## Usage: phpunit
-## Example: "ddev phpunit" or "ddev phpunit  modules/custom/server_general".
+## Example: "ddev phpunit" or "ddev phpunit web/modules/custom/server_general".
 
-cd .. && ./vendor/bin/phpunit $@
+cd .. && ./vendor/bin/phpunit -c phpunit.xml.dist  $@
