@@ -57,9 +57,9 @@ The directory structure:
 
 For theme development, it's advisable to entirely turn off caching: https://www.drupal.org/node/2598914
 
-## Code Sniffer
+## PHPCS (Code Sniffer)
 
-    ddev run_coder
+    ddev phpcs
 
 ## Tests
 
