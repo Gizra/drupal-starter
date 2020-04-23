@@ -281,4 +281,43 @@ class RoboFile extends Tasks {
       ->run();
   }
 
+  /**
+   * Perform a Code sniffer test, and fix when applicable.
+   */
+  public function phpcs() {
+    $standards = [
+      'Drupal',
+      'DrupalPractice',
+    ];
+
+    $commands = [
+      'phpcbf',
+      'phpcs',
+    ];
+
+    $directories = [
+      'modules/custom',
+      'themes/custom',
+      'profiles/custom'
+    ];
+
+    $errorCode = null;
+
+    foreach ($directories as $directory) {
+      foreach ($standards as $standard) {
+        $arguments = "--standard=$standard -p --colors --extensions=php,module,inc,install,test,profile,theme,js,css";
+
+        foreach ($commands as $command) {
+          $result = $this->_exec("cd web && $command $directory $arguments");
+          if (empty($errorCode) && !$result->wasSuccessful()) {
+            $errorCode = $result->getExitCode();
+          }
+        }
+      }
+    }
+
+    if (!empty($errorCode)) {
+      return new Robo\ResultData($errorCode, 'PHPCS found some issues');
+    }
+  }
 }
