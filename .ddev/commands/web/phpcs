@@ -1,0 +1,7 @@
+#!/bin/bash
+
+## Description: Run PHPCS inside the container
+## Usage: phpcs
+## Example: "ddev phpcs"
+
+cd .. && ./vendor/bin/robo phpcs
