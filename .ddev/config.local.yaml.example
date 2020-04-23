@@ -1,8 +1,5 @@
 hooks:
   post-start:
-    # Install packages for code-sniffer.
-    # - exec: composer global require drupal/coder:8.3.5
-    # - exec: composer global require dealerdirect/phpcodesniffer-composer-installer
     # Private files directory.
     - exec: mkdir /var/www/private
 
