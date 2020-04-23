@@ -301,19 +301,25 @@ class RoboFile extends Tasks {
       'profiles/custom'
     ];
 
-    $task = $this->taskExecStack();
+    $errorCode = null;
 
     foreach ($directories as $directory) {
       foreach ($standards as $standard) {
         $arguments = "--standard=$standard -p --colors --extensions=php,module,inc,install,test,profile,theme,js,css";
 
         foreach ($commands as $command) {
-          $task->exec("cd web && $command $directory $arguments");
+          $result = $this->_exec("cd web && $command $directory $arguments");
+          if (empty($errorCode) && !$result->wasSuccessful()) {
+            $errorCode = $result->getExitCode();
+          }
         }
       }
     }
 
-    $task->run();
 
+
+    if (!empty($errorCode)) {
+      return new Robo\ResultData($errorCode, 'PHPCS found some issues');
+    }
   }
 }
