@@ -316,8 +316,6 @@ class RoboFile extends Tasks {
       }
     }
 
-
-
     if (!empty($errorCode)) {
       return new Robo\ResultData($errorCode, 'PHPCS found some issues');
     }
