@@ -90,8 +90,6 @@ class RoboFile extends Tasks {
       $this->_copyDir(self::THEME_BASE . '/src/js', self::THEME_BASE . '/dist/js');
     }
 
-    return;
-
     // Images - Copy everything first.
     $this->_copyDir(self::THEME_BASE . '/src/images', self::THEME_BASE . '/dist/images');
 
