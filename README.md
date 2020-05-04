@@ -106,3 +106,13 @@ In case you haven't done so before, make the DDEV container aware of your ssh
 Then you can deploy with
 
     ddev robo deploy:pantheon
+
+## Deploy Environments
+
+To Deploy to a Pantheon environment (e.g. TEST or LIVE) you can use
+
+    # With no argument, deploys to TEST.
+    ddev robo deploy:pantheon-sync
+
+    # Deploy to LIVE.
+    ddev robo deploy:pantheon-sync live

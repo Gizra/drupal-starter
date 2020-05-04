@@ -264,9 +264,32 @@ class RoboFile extends Tasks {
     $pantheonName = self::PANTHEON_NAME;
     $pantheonTerminusEnvironment = $pantheonName . '.dev';
 
-    $this
-      ->taskExecStack()
-      ->exec("cd $pantheonDirectory && git pull && git add . && git commit -am 'Site update' && git push")
+    $this->_exec("cd $pantheonDirectory && git pull && git add . && git commit -am 'Site update' && git push");
+    $this->deployPantheonSync('dev', false);
+  }
+
+  /**
+   * Deploy site from one env to the other on Pantheon.
+   *
+   * @param string $env
+   *   The environment to update.
+   * @param bool $doDeploy
+   *   Determine if a deploy should be done by terminus. That is, for example
+   *   should TEST environment be updated from DEV.
+   *
+   * @throws \Robo\Exception\TaskException
+   */
+  public function deployPantheonSync(string $env = 'test', bool $doDeploy = true) {
+    $pantheonName = self::PANTHEON_NAME;
+    $pantheonTerminusEnvironment = $pantheonName . '.' . $env;
+
+    $task = $this->taskExecStack();
+
+    if ($doDeploy) {
+      $task->exec("terminus env:deploy $pantheonTerminusEnvironment");
+    }
+
+    $task
       ->exec("terminus remote:drush $pantheonTerminusEnvironment -- cr")
 
       // A second cache-clear, because Drupal...
@@ -276,6 +299,7 @@ class RoboFile extends Tasks {
       // A second config import, because Drupal...
       ->exec("terminus remote:drush $pantheonTerminusEnvironment -- cim -y")
       ->exec("terminus remote:drush $pantheonTerminusEnvironment -- cim -y")
+      ->exec("terminus remote:drush $pantheonTerminusEnvironment -- uli")
       ->run();
   }
 
