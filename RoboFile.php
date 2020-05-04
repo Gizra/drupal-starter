@@ -218,7 +218,7 @@ class RoboFile extends Tasks {
     $this->_exec("cd $pantheonDirectory && git checkout $branchName");
 
     // Compile theme
-    $this->compileTheme();
+    $this->themeCompile();
 
     $rsyncExclude = [
       '.git',
