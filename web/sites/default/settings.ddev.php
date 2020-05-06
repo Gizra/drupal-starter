@@ -45,3 +45,8 @@ $config['config_split.config_split.dev']['status'] = TRUE;
 $config['environment_indicator.indicator']['bg_color'] = '#006600';
 $config['environment_indicator.indicator']['fg_color'] = '#ffffff';
 
+// SMTP settings. Use Mail Hog (`ddev describe` to get the URL) to see the sent
+// mails.
+$config['smtp.settings']['smtp_host'] = 'localhost';
+$config['smtp.settings']['smtp_port'] = '1025';
+
