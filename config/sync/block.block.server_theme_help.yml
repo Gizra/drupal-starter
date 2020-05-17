@@ -5,11 +5,11 @@ dependencies:
   module:
     - help
   theme:
-    - theme_server
+    - server_theme
 _core:
   default_config_hash: 8I8iACSa0sKO3k3jlvUG1ge52rfcKX7USJAQYnzuBgg
-id: theme_server_help
-theme: theme_server
+id: server_theme_help
+theme: server_theme
 region: content
 weight: -30
 provider: null

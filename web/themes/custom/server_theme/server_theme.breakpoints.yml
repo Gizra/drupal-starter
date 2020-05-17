@@ -1,16 +1,16 @@
-theme_server.mobile:
+server_theme.mobile:
   label: mobile
   mediaQuery: ''
   weight: 0
   multipliers:
     - 1x
-theme_server.narrow:
+server_theme.narrow:
   label: narrow
   mediaQuery: 'all and (min-width: 560px) and (max-width: 850px)'
   weight: 1
   multipliers:
     - 1x
-theme_server.wide:
+server_theme.wide:
   label: wide
   mediaQuery: 'all and (min-width: 851px)'
   weight: 2

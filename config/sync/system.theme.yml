@@ -1,4 +1,4 @@
 admin: claro
-default: theme_server
+default: server_theme
 _core:
   default_config_hash: fOjer9hADYYnbCJVZMFZIIM1azTFWyg84ZkFDHfAbUg

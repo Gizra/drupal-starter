@@ -15,7 +15,7 @@ class RoboFile extends Tasks {
 
   const DEV_FORMATTER = 'ScssPhp\ScssPhp\Formatter\Expanded';
 
-  const THEME_BASE = 'web/themes/custom/theme_server';
+  const THEME_BASE = 'web/themes/custom/server_theme';
 
   /**
    * The Pantheon name.
