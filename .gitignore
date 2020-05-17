@@ -34,3 +34,6 @@ pantheon_config.sh
 .sass-cache
 .editorconfig
 .gitattributes
+
+# Theme compiled assets
+web/themes/custom/theme_server/dist
