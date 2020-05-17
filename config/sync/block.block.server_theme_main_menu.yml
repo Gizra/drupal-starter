@@ -7,11 +7,11 @@ dependencies:
   module:
     - system
   theme:
-    - theme_server
+    - server_theme
 _core:
   default_config_hash: ChCx7DYNUrPTt5uiRdQAPDKJQMc-_SyAQTrZh8H0o-c
-id: theme_server_main_menu
-theme: theme_server
+id: server_theme_main_menu
+theme: server_theme
 region: header
 weight: -6
 provider: null

@@ -3,11 +3,11 @@ langcode: en
 status: true
 dependencies:
   theme:
-    - theme_server
+    - server_theme
 _core:
   default_config_hash: X9I1OB0W3WlWtrK-CNcg6hNWwa8wficanpH8pYnDZDE
-id: theme_server_local_tasks
-theme: theme_server
+id: server_theme_local_tasks
+theme: server_theme
 region: content
 weight: -40
 provider: null

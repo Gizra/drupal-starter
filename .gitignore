@@ -36,4 +36,4 @@ pantheon_config.sh
 .gitattributes
 
 # Theme compiled assets
-web/themes/custom/theme_server/dist
+web/themes/custom/server_theme/dist

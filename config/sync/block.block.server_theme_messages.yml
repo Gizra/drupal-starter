@@ -5,11 +5,11 @@ dependencies:
   module:
     - system
   theme:
-    - theme_server
+    - server_theme
 _core:
   default_config_hash: KHQIJ7Vfl25lTjzIc7qIvnuistt-Mw2O0kG4jCofmkI
-id: theme_server_messages
-theme: theme_server
+id: server_theme_messages
+theme: server_theme
 region: header
 weight: -4
 provider: null

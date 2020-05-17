@@ -15,7 +15,7 @@ class RoboFile extends Tasks {
 
   const DEV_FORMATTER = 'ScssPhp\ScssPhp\Formatter\Expanded';
 
-  const THEME_BASE = 'web/themes/custom/theme_server';
+  const THEME_BASE = 'web/themes/custom/server_theme';
 
   /**
    * The Pantheon name.
@@ -327,7 +327,7 @@ class RoboFile extends Tasks {
 
     foreach ($directories as $directory) {
       foreach ($standards as $standard) {
-        $arguments = "--standard=$standard -p --colors --extensions=php,module,inc,install,test,profile,theme,js,css";
+        $arguments = "--standard=$standard -p --ignore=server_theme/dist --colors --extensions=php,module,inc,install,test,profile,theme,js,css";
 
         foreach ($commands as $command) {
           $result = $this->_exec("cd web && $command $directory $arguments");
