@@ -187,6 +187,10 @@ class RoboFile extends Tasks {
 
     $pantheonDirectory = '.pantheon';
 
+    if (!file_exists($pantheonDirectory) || !is_dir($pantheonDirectory)) {
+      throw new Exception('Clone the Pantheon artifact repository first into the .pantheon directory');
+    }
+
     $result = $this
       ->taskExec('git status -s')
       ->printOutput(FALSE)
@@ -228,12 +232,14 @@ class RoboFile extends Tasks {
       'sites/default',
       'pantheon.yml',
       'pantheon.upstream.yml',
+      'travis-key.enc',
+      'travis-key',
     ];
 
     $rsyncExcludeString = '--exclude=' . join(' --exclude=', $rsyncExclude);
 
     // Copy all files and folders.
-    $this->_exec("rsync -az --progress --delete $rsyncExcludeString . $pantheonDirectory");
+    $this->_exec("rsync -az -q --delete $rsyncExcludeString . $pantheonDirectory");
 
     // We don't want to change Pantheon's git ignore, as we do want to commit
     // vendor and contrib directories.
@@ -242,7 +248,7 @@ class RoboFile extends Tasks {
 
     $this->_exec("cd $pantheonDirectory && git status");
 
-    $commitAndDeployConfirm = $this->confirm('Commit changes and deploy?');
+    $commitAndDeployConfirm = $this->confirm('Commit changes and deploy?', TRUE);
     if (!$commitAndDeployConfirm) {
       $this->say('Aborted commit and deploy, you can do it manually');
 
