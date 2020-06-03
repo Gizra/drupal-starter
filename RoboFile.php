@@ -348,4 +348,25 @@ class RoboFile extends Tasks {
       return new Robo\ResultData($errorCode, 'PHPCS found some issues');
     }
   }
+
+  /**
+   * Prepares the repository to perform automatic deployment to Pantheon.
+   *
+   * @param string $token
+   *   Terminus machine token: https://pantheon.io/docs/machine-tokens
+   */
+  public function deployConfigAutodeploy(string $token) {
+    if (empty(shell_exec("which travis"))) {
+      // We do not bake it into the Docker image to save on disk space.
+      // We rarely need this operation, also not all the developers
+      // will use it.
+      $this->_exec("sudo apt update");
+      $this->_exec("sudo apt install ruby ruby-dev make g++ --yes");
+      $this->_exec("sudo gem install travis --no-document");
+    }
+    $this->_exec('ssh-keygen -f travis-key');
+    $this->_exec('travis login --org');
+    $this->_exec('travis encrypt-file travis-key --add');
+    $this->_exec('travis encrypt TERMINUS_TOKEN="' . $token . '" --add');
+  }
 }
