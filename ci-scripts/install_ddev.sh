@@ -30,11 +30,4 @@ mkdir ~/.ddev
 cp "ci-scripts/global_config.yaml" ~/.ddev/
 docker network create ddev_default
 
-# -------------------------------------------------- #
-# Installing Profile.
-# -------------------------------------------------- #
-echo "Install Drupal."
-
 ddev composer install
-cp .ddev/config.local.yaml.example .ddev/config.local.yaml
-ddev restart
