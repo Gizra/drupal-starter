@@ -13,8 +13,9 @@ stages:
   - deploy
 
 env:
-  - GIT_HOST="replaceme.drush.in"
-  - PANTHEON_GIT_URL="ssh://something@replaceme.drush.in:repository"
+  global:
+    - GIT_HOST="replaceme.drush.in"
+    - PANTHEON_GIT_URL="ssh://something@replaceme.drush.in:repository"
 
 before_install:
   - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
