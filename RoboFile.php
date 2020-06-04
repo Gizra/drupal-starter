@@ -379,7 +379,7 @@ class RoboFile extends Tasks {
       throw new \Exception('The key generation failed.');
     }
 
-    $result = $this->taskExec('travis login --org')->run();
+    $result = $this->taskExec('travis login')->run();
     if ($result->getExitCode() !== 0) {
       throw new \Exception('The authentication with GitHub via Travis CLI failed.');
     }
