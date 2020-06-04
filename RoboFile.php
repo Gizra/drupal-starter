@@ -374,7 +374,7 @@ class RoboFile extends Tasks {
         ->run();
     }
 
-    $result = $this->taskExec('ssh-keygen -f travis-key')->run();
+    $result = $this->taskExec('ssh-keygen -f travis-key -P ""')->run();
     if ($result->getExitCode() !== 0) {
       throw new \Exception('The key generation failed.');
     }
@@ -384,12 +384,14 @@ class RoboFile extends Tasks {
       throw new \Exception('The authentication with GitHub via Travis CLI failed.');
     }
 
-    $result = $this->taskExec('travis encrypt-file travis-key --add')->run();
+    $result = $this->taskExec('travis encrypt-file travis-key --add --no-interactive')
+      ->run();
     if ($result->getExitCode() !== 0) {
       throw new \Exception('The encryption of the private key failed.');
     }
 
-    $result = $this->taskExec('travis encrypt TERMINUS_TOKEN="' . $token . '" --add')->run();
+    $result = $this->taskExec('travis encrypt TERMINUS_TOKEN="' . $token . '" --add --no-interactive')
+      ->run();
     if ($result->getExitCode() !== 0) {
       throw new \Exception('The encryption of the Terminus token failed.');
     }
@@ -400,19 +402,22 @@ class RoboFile extends Tasks {
     $pantheon_git_url = trim($result->getMessage());
     $host_parts = parse_url($pantheon_git_url);
     $pantheon_git_host = $host_parts['host'];
-    $travis_config = file_get_contents('.travis.yml');
-    str_replace([
-      '{{ PANTHEON_GIT_URL }}',
-      '{{ PANTHEON_GIT_HOST }}',
-      '{{ GITHUB_DEPLOY_BRANCH }}',
-      '{{ PANTHEON_DEPLOY_BRANCH }}',
-    ], [
-      $pantheon_git_url,
-      $pantheon_git_host,
-      $github_deploy_branch,
-      $pantheon_deploy_branch,
-    ], $travis_config);
-    file_put_contents('.travis.yml', $travis_config);
+    $this->taskReplaceInFile('.travis.yml')
+      ->from('{{ PANTHEON_GIT_URL }}')
+      ->to($pantheon_git_url)
+      ->run();
+    $this->taskReplaceInFile('.travis.yml')
+      ->from('{{ PANTHEON_GIT_HOST }}')
+      ->to($pantheon_git_host)
+      ->run();
+    $this->taskReplaceInFile('.travis.yml')
+      ->from('{{ PANTHEON_DEPLOY_BRANCH }}')
+      ->to($pantheon_deploy_branch)
+      ->run();
+    $this->taskReplaceInFile('.travis.yml')
+      ->from('{{ GITHUB_DEPLOY_BRANCH }}')
+      ->to($github_deploy_branch)
+      ->run();
 
     $result = $this->taskExec('git add .travis.yml travis-key.enc')->run();
     if ($result->getExitCode() !== 0) {
@@ -422,4 +427,5 @@ class RoboFile extends Tasks {
     $this->say("Review the changes and make a commit from the added files.");
     $this->say("Add the SSH key to the Pantheon account: https://pantheon.io/docs/ssh-keys .");
   }
+
 }
