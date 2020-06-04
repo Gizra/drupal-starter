@@ -2,51 +2,50 @@ sudo: required
 language: php
 dist: bionic
 php:
-  - 7.4
-
+- 7.4
 services:
-  - docker
-
+- docker
 stages:
-  - lint
-  - test
-  - deploy
-
+- lint
+- test
+- deploy
 env:
   global:
-    - GIT_HOST="{{ PANTHEON_GIT_HOST }}"
-    - PANTHEON_GIT_URL="{{ PANTHEON_GIT_URL }}"
-    -
+  - GIT_HOST="codeserver.dev.9b8d5194-2162-4352-aa81-f7a22c66f108.drush.in"
+  - PANTHEON_GIT_URL="ssh://codeserver.dev.9b8d5194-2162-4352-aa81-f7a22c66f108@codeserver.dev.9b8d5194-2162-4352-aa81-f7a22c66f108.drush.in:2222/~/repository.git"
+  - 
+  - secure: XIV+D2omzBoe8a8DrhuXBO/W14+9RUOojReJ4CZdXvyVNjdo/H+C6PbiDIZfyK8V3EYRrbbII8uKepIvVdmXAHa7xVmWqArQt1/JXq6aQwEkTOUbErEDJUxZ8V6QuuD2VsflxDa446SS7zXZlCo8OkdfjQtMnpVPJxRj4HDwlgHMJIZRxT5fYCGnAPgLExc09t5j0UKlWUQVJxGrCOepl/PakM/2uJq9yKT2CyXJew3eBodt/hW6sAK87eN30vwZg7C22YPX4/aK33Qq4XTCmiuRfsb5rqKNwUoRfX0PV2STF+f2xD4Z86yi6AEjpfn33MCAc+YFjKKlXIAa7uxhX4vGOwDiWWYUt09P1zuIh/6RJLwlc9CROsypATiDhpAlMdTbsLDikQVra/y5vyEtMsaYm7qNpn6U/fA7UfzZIRG/ZZrzOAieuM0zt0L8zz3i+507JTKReMqy35D41AHg9nsYIMn+n1gW+KgAbTeI4PwpfTtvgHYcx5UpY83bOa7Dp0sYVeH4A0T0HNuTkKc436qZxZFTGEuSh0PAkl0LaFaElEmUR1FaWWcTT1rVgGqcN2otrUwt+9OCuYhqPkDysZ76E1dsuojAzzFlWLud6ljLWlbwzBkW+Hprs/WoD2G8RKgMImCWxJwKNwvM1pAKRxXT4gOrWlRB1FHJyXf3VIU=
 before_install:
-  - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
-
+- openssl aes-256-cbc -K $encrypted_2c02e48ad60e_key -iv $encrypted_2c02e48ad60e_iv
+  -in travis-key.enc -out travis-key -d
+- export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 jobs:
   include:
-    - stage: Lint
-      name: "Drupal coding standard: phpcs"
-      script:
-        - "$TRAVIS_BUILD_DIR/ci-scripts/install_coder.sh"
-        - "export REVIEW_STANDARD=\"Drupal\" && $TRAVIS_BUILD_DIR/ci-scripts/test_coder.sh"
-    - stage: Lint
-      name: "Drupal coding best practices: phpcs"
-      script:
-        - "$TRAVIS_BUILD_DIR/ci-scripts/install_coder.sh"
-        - "export REVIEW_STANDARD=\"DrupalPractice\" && $TRAVIS_BUILD_DIR/ci-scripts/test_coder.sh"
-    - stage: Lint
-      name: "Shell coding standard: shellcheck"
-      script:
-        - "$TRAVIS_BUILD_DIR/ci-scripts/install_shell.sh"
-        - "$TRAVIS_BUILD_DIR/ci-scripts/test_shell.sh"
-    - stage: Test
-      name: "Backend tests: Functional tests"
-      script:
-        - "$TRAVIS_BUILD_DIR/ci-scripts/install_ddev.sh"
-        - "$TRAVIS_BUILD_DIR/ci-scripts/install_drupal.sh"
-        - "$TRAVIS_BUILD_DIR/ci-scripts/test_phpunit.sh"
-    - stage: Deploy
-      name: "Deploy to Pantheon"
-      if: branch = "{{ GITHUB_DEPLOY_BRANCH }}" AND type = push
-      script:
-        - "$TRAVIS_BUILD_DIR/ci-scripts/install_ddev.sh"
-        - "$TRAVIS_BUILD_DIR/ci-scripts/prepare_deploy.sh"
-        - "ddev robo deploy:pantheon --no-interaction {{ PANTHEON_DEPLOY_BRANCH }}"
+  - stage: Lint
+    name: 'Drupal coding standard: phpcs'
+    script:
+    - "$TRAVIS_BUILD_DIR/ci-scripts/install_coder.sh"
+    - export REVIEW_STANDARD="Drupal" && $TRAVIS_BUILD_DIR/ci-scripts/test_coder.sh
+  - stage: Lint
+    name: 'Drupal coding best practices: phpcs'
+    script:
+    - "$TRAVIS_BUILD_DIR/ci-scripts/install_coder.sh"
+    - export REVIEW_STANDARD="DrupalPractice" && $TRAVIS_BUILD_DIR/ci-scripts/test_coder.sh
+  - stage: Lint
+    name: 'Shell coding standard: shellcheck'
+    script:
+    - "$TRAVIS_BUILD_DIR/ci-scripts/install_shell.sh"
+    - "$TRAVIS_BUILD_DIR/ci-scripts/test_shell.sh"
+  - stage: Test
+    name: 'Backend tests: Functional tests'
+    script:
+    - "$TRAVIS_BUILD_DIR/ci-scripts/install_ddev.sh"
+    - "$TRAVIS_BUILD_DIR/ci-scripts/install_drupal.sh"
+    - "$TRAVIS_BUILD_DIR/ci-scripts/test_phpunit.sh"
+  - stage: Deploy
+    name: Deploy to Pantheon
+    if: branch = "auto-deploy-test" AND type = push
+    script:
+    - "$TRAVIS_BUILD_DIR/ci-scripts/install_ddev.sh"
+    - "$TRAVIS_BUILD_DIR/ci-scripts/prepare_deploy.sh"
+    - ddev robo deploy:pantheon --no-interaction deployt
