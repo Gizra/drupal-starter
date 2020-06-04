@@ -14,9 +14,9 @@ stages:
 
 env:
   global:
-    - GIT_HOST="replaceme.drush.in"
-    - PANTHEON_GIT_URL="ssh://something@replaceme.drush.in:repository"
-
+    - GIT_HOST="{{ PANTHEON_GIT_HOST }}"
+    - PANTHEON_GIT_URL="{{ PANTHEON_GIT_URL }}"
+    -
 before_install:
   - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 
@@ -45,8 +45,8 @@ jobs:
         - "$TRAVIS_BUILD_DIR/ci-scripts/test_phpunit.sh"
     - stage: Deploy
       name: "Deploy to Pantheon"
-      if: branch = editmetomakeitwork AND type = push
+      if: branch = "{{ GITHUB_DEPLOY_BRANCH }}" AND type = push
       script:
         - "$TRAVIS_BUILD_DIR/ci-scripts/install_ddev.sh"
         - "$TRAVIS_BUILD_DIR/ci-scripts/prepare_deploy.sh"
-        - "ddev robo deploy:pantheon --no-interaction"
+        - "ddev robo deploy:pantheon --no-interaction {{ PANTHEON_DEPLOY_BRANCH }}"

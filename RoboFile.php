@@ -354,8 +354,14 @@ class RoboFile extends Tasks {
    *
    * @param string $token
    *   Terminus machine token: https://pantheon.io/docs/machine-tokens
+   * @param string $project_name
+   *   The project machine name on Pantheon, for example: drupal-starter.
+   * @param string $github_deploy_branch
+   *   The branch that should be pushed automatically to Pantheon.
+   * @param string $pantheon_deploy_branch
+   *   The branch at the artifact repo that should be the target of the deploy.
    */
-  public function deployConfigAutodeploy(string $token) {
+  public function deployConfigAutodeploy(string $token, string $project_name, $github_deploy_branch = 'master', string $pantheon_deploy_branch = 'master') {
     if (empty(shell_exec("which travis"))) {
       // We do not bake it into the Docker image to save on disk space.
       // We rarely need this operation, also not all the developers
@@ -388,6 +394,26 @@ class RoboFile extends Tasks {
       throw new \Exception('The encryption of the Terminus token failed.');
     }
 
+    $result = $this->taskExec("terminus connection:info {$project_name}.dev --fields='Git Command' --format=string | awk '{print $3}'")
+      ->printOutput(FALSE)
+      ->run();
+    $pantheon_git_url = trim($result->getMessage());
+    $host_parts = parse_url($pantheon_git_url);
+    $pantheon_git_host = $host_parts['host'];
+    $travis_config = file_get_contents('.travis.yml');
+    str_replace([
+      '{{ PANTHEON_GIT_URL }}',
+      '{{ PANTHEON_GIT_HOST }}',
+      '{{ GITHUB_DEPLOY_BRANCH }}',
+      '{{ PANTHEON_DEPLOY_BRANCH }}',
+    ], [
+      $pantheon_git_url,
+      $pantheon_git_host,
+      $github_deploy_branch,
+      $pantheon_deploy_branch,
+    ], $travis_config);
+    file_put_contents('.travis.yml', $travis_config);
+
     $result = $this->taskExec('git add .travis.yml travis-key.enc')->run();
     if ($result->getExitCode() !== 0) {
       throw new \Exception("git add failed.");
@@ -395,6 +421,5 @@ class RoboFile extends Tasks {
     $this->say("The project was prepared for the automatic deployment to Pantheon");
     $this->say("Review the changes and make a commit from the added files.");
     $this->say("Add the SSH key to the Pantheon account: https://pantheon.io/docs/ssh-keys .");
-    $this->say("Edit .travis.yml to add the details of the Pantheon project, check the README.md on how to unlock the automatic deployment.");
   }
 }
