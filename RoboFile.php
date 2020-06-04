@@ -360,13 +360,41 @@ class RoboFile extends Tasks {
       // We do not bake it into the Docker image to save on disk space.
       // We rarely need this operation, also not all the developers
       // will use it.
-      $this->_exec("sudo apt update");
-      $this->_exec("sudo apt install ruby ruby-dev make g++ --yes");
-      $this->_exec("sudo gem install travis --no-document");
+      $this->taskExecStack()
+        ->exec('sudo apt update')
+        ->exec('sudo apt install ruby ruby-dev make g++ --yes')
+        ->exec('sudo gem install travis --no-document')
+        ->stopOnFail()
+        ->run();
     }
-    $this->_exec('ssh-keygen -f travis-key');
-    $this->_exec('travis login --org');
-    $this->_exec('travis encrypt-file travis-key --add');
-    $this->_exec('travis encrypt TERMINUS_TOKEN="' . $token . '" --add');
+
+    $result = $this->taskExec('ssh-keygen -f travis-key')->run();
+    if ($result->getExitCode() !== 0) {
+      throw new \Exception('The key generation failed.');
+    }
+
+    $result = $this->taskExec('travis login --org')->run();
+    if ($result->getExitCode() !== 0) {
+      throw new \Exception('The authentication with GitHub via Travis CLI failed.');
+    }
+
+    $result = $this->taskExec('travis encrypt-file travis-key --add')->run();
+    if ($result->getExitCode() !== 0) {
+      throw new \Exception('The encryption of the private key failed.');
+    }
+
+    $result = $this->taskExec('travis encrypt TERMINUS_TOKEN="' . $token . '" --add')->run();
+    if ($result->getExitCode() !== 0) {
+      throw new \Exception('The encryption of the Terminus token failed.');
+    }
+
+    $result = $this->taskExec('git add .travis.yml travis-key.enc')->run();
+    if ($result->getExitCode() !== 0) {
+      throw new \Exception("git add failed.");
+    }
+    $this->say("The project was prepared for the automatic deployment to Pantheon");
+    $this->say("Review the changes and make a commit from the added files.");
+    $this->say("Add the SSH key to the Pantheon account: https://pantheon.io/docs/ssh-keys .");
+    $this->say("Edit .travis.yml to add the details of the Pantheon project, check the README.md on how to unlock the automatic deployment.");
   }
 }
