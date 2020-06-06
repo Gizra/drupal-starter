@@ -379,18 +379,18 @@ class RoboFile extends Tasks {
       throw new \Exception('The key generation failed.');
     }
 
-    $result = $this->taskExec('travis login')->run();
+    $result = $this->taskExec('travis login --pro')->run();
     if ($result->getExitCode() !== 0) {
       throw new \Exception('The authentication with GitHub via Travis CLI failed.');
     }
 
-    $result = $this->taskExec('travis encrypt-file travis-key --add --no-interactive')
+    $result = $this->taskExec('travis encrypt-file travis-key --add --no-interactive --pro')
       ->run();
     if ($result->getExitCode() !== 0) {
       throw new \Exception('The encryption of the private key failed.');
     }
 
-    $result = $this->taskExec('travis encrypt TERMINUS_TOKEN="' . $token . '" --add --no-interactive')
+    $result = $this->taskExec('travis encrypt TERMINUS_TOKEN="' . $token . '" --add --no-interactive --pro')
       ->run();
     if ($result->getExitCode() !== 0) {
       throw new \Exception('The encryption of the Terminus token failed.');
