@@ -23,7 +23,7 @@ class RoboFile extends Tasks {
    * You need to fill this information for Robo to know what's the name of your
    * site.
    */
-  const PANTHEON_NAME = '';
+  const PANTHEON_NAME = 'gizra-drupal-starter';
 
   /**
    * Compile the app; On success ...
