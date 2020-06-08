@@ -131,7 +131,7 @@ To Deploy to a Pantheon environment (e.g. TEST or LIVE) you can use
     # Deploy to LIVE.
     ddev robo deploy:pantheon-sync live
 
-## Automatic deployment to Pantheon
+## Automatic Deployment to Pantheon
 
 In order to deploy upon every merge automatically by Travis, you shall:
 
