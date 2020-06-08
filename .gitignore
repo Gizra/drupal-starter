@@ -29,6 +29,7 @@ web/sites/default/default.services.pantheon.preproduction.yml
 web/sites/default/settings.pantheon.php
 pantheon_config.sh
 .pantheon
+travis-key
 
 #SASS
 .sass-cache

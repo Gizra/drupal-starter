@@ -130,3 +130,15 @@ To Deploy to a Pantheon environment (e.g. TEST or LIVE) you can use
 
     # Deploy to LIVE.
     ddev robo deploy:pantheon-sync live
+
+## Automatic deployment to Pantheon
+
+In order to deploy upon every merge automatically by Travis, you shall:
+
+1. Get a Pantheon machine token (using a dummy new Pantheon user ideally, one user per project for the sake of security): https://pantheon.io/docs/machine-tokens
+1. `ddev deploy:config-autodeploy [your new token] [pantheon project name]`
+1. `git commit -m "Deployment secrets and configuration"`
+1. Add the public key in `travis-key.pub` to the newly created dummy Pantheon user: https://pantheon.io/docs/ssh-keys
+
+Optionally you can specify which target branch you'd like to push on Pantheon, by default it's `master`, so the target is the DEV environment, but alternatively you can issue:
+`ddev deploy:config-autodeploy [your new token] [pantheon project name] [gh_branch] [pantheon_branch]`

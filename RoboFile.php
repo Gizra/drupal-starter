@@ -187,6 +187,10 @@ class RoboFile extends Tasks {
 
     $pantheonDirectory = '.pantheon';
 
+    if (!file_exists($pantheonDirectory) || !is_dir($pantheonDirectory)) {
+      throw new Exception('Clone the Pantheon artifact repository first into the .pantheon directory');
+    }
+
     $result = $this
       ->taskExec('git status -s')
       ->printOutput(FALSE)
@@ -228,12 +232,14 @@ class RoboFile extends Tasks {
       'sites/default',
       'pantheon.yml',
       'pantheon.upstream.yml',
+      'travis-key.enc',
+      'travis-key',
     ];
 
     $rsyncExcludeString = '--exclude=' . join(' --exclude=', $rsyncExclude);
 
     // Copy all files and folders.
-    $this->_exec("rsync -az --progress --delete $rsyncExcludeString . $pantheonDirectory");
+    $this->_exec("rsync -az -q --delete $rsyncExcludeString . $pantheonDirectory");
 
     // We don't want to change Pantheon's git ignore, as we do want to commit
     // vendor and contrib directories.
@@ -242,7 +248,7 @@ class RoboFile extends Tasks {
 
     $this->_exec("cd $pantheonDirectory && git status");
 
-    $commitAndDeployConfirm = $this->confirm('Commit changes and deploy?');
+    $commitAndDeployConfirm = $this->confirm('Commit changes and deploy?', TRUE);
     if (!$commitAndDeployConfirm) {
       $this->say('Aborted commit and deploy, you can do it manually');
 
@@ -342,4 +348,84 @@ class RoboFile extends Tasks {
       return new Robo\ResultData($errorCode, 'PHPCS found some issues');
     }
   }
+
+  /**
+   * Prepares the repository to perform automatic deployment to Pantheon.
+   *
+   * @param string $token
+   *   Terminus machine token: https://pantheon.io/docs/machine-tokens
+   * @param string $project_name
+   *   The project machine name on Pantheon, for example: drupal-starter.
+   * @param string $github_deploy_branch
+   *   The branch that should be pushed automatically to Pantheon.
+   * @param string $pantheon_deploy_branch
+   *   The branch at the artifact repo that should be the target of the deploy.
+   */
+  public function deployConfigAutodeploy(string $token, string $project_name, $github_deploy_branch = 'master', string $pantheon_deploy_branch = 'master') {
+    if (empty(shell_exec("which travis"))) {
+      // We do not bake it into the Docker image to save on disk space.
+      // We rarely need this operation, also not all the developers
+      // will use it.
+      $this->taskExecStack()
+        ->exec('sudo apt update')
+        ->exec('sudo apt install ruby ruby-dev make g++ --yes')
+        ->exec('sudo gem install travis --no-document')
+        ->stopOnFail()
+        ->run();
+    }
+
+    $result = $this->taskExec('ssh-keygen -f travis-key -P ""')->run();
+    if ($result->getExitCode() !== 0) {
+      throw new \Exception('The key generation failed.');
+    }
+
+    $result = $this->taskExec('travis login --pro')->run();
+    if ($result->getExitCode() !== 0) {
+      throw new \Exception('The authentication with GitHub via Travis CLI failed.');
+    }
+
+    $result = $this->taskExec('travis encrypt-file travis-key --add --no-interactive --pro')
+      ->run();
+    if ($result->getExitCode() !== 0) {
+      throw new \Exception('The encryption of the private key failed.');
+    }
+
+    $result = $this->taskExec('travis encrypt TERMINUS_TOKEN="' . $token . '" --add --no-interactive --pro')
+      ->run();
+    if ($result->getExitCode() !== 0) {
+      throw new \Exception('The encryption of the Terminus token failed.');
+    }
+
+    $result = $this->taskExec("terminus connection:info {$project_name}.dev --fields='Git Command' --format=string | awk '{print $3}'")
+      ->printOutput(FALSE)
+      ->run();
+    $pantheon_git_url = trim($result->getMessage());
+    $host_parts = parse_url($pantheon_git_url);
+    $pantheon_git_host = $host_parts['host'];
+    $this->taskReplaceInFile('.travis.yml')
+      ->from('{{ PANTHEON_GIT_URL }}')
+      ->to($pantheon_git_url)
+      ->run();
+    $this->taskReplaceInFile('.travis.yml')
+      ->from('{{ PANTHEON_GIT_HOST }}')
+      ->to($pantheon_git_host)
+      ->run();
+    $this->taskReplaceInFile('.travis.yml')
+      ->from('{{ PANTHEON_DEPLOY_BRANCH }}')
+      ->to($pantheon_deploy_branch)
+      ->run();
+    $this->taskReplaceInFile('.travis.yml')
+      ->from('{{ GITHUB_DEPLOY_BRANCH }}')
+      ->to($github_deploy_branch)
+      ->run();
+
+    $result = $this->taskExec('git add .travis.yml travis-key.enc')->run();
+    if ($result->getExitCode() !== 0) {
+      throw new \Exception("git add failed.");
+    }
+    $this->say("The project was prepared for the automatic deployment to Pantheon");
+    $this->say("Review the changes and make a commit from the added files.");
+    $this->say("Add the SSH key to the Pantheon account: https://pantheon.io/docs/ssh-keys .");
+  }
+
 }

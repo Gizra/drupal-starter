@@ -10,7 +10,13 @@ services:
 stages:
   - lint
   - test
+  - deploy
 
+env:
+  global:
+    - GIT_HOST="{{ PANTHEON_GIT_HOST }}"
+    - PANTHEON_GIT_URL="{{ PANTHEON_GIT_URL }}"
+    -
 before_install:
   - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 
@@ -34,5 +40,13 @@ jobs:
     - stage: Test
       name: "Backend tests: Functional tests"
       script:
-        - "$TRAVIS_BUILD_DIR/ci-scripts/install_server.sh"
+        - "$TRAVIS_BUILD_DIR/ci-scripts/install_ddev.sh"
+        - "$TRAVIS_BUILD_DIR/ci-scripts/install_drupal.sh"
         - "$TRAVIS_BUILD_DIR/ci-scripts/test_phpunit.sh"
+    - stage: Deploy
+      name: "Deploy to Pantheon"
+      if: branch = "{{ GITHUB_DEPLOY_BRANCH }}" AND type = push
+      script:
+        - "$TRAVIS_BUILD_DIR/ci-scripts/install_ddev.sh"
+        - "$TRAVIS_BUILD_DIR/ci-scripts/prepare_deploy.sh"
+        - "ddev robo deploy:pantheon --no-interaction {{ PANTHEON_DEPLOY_BRANCH }}"
