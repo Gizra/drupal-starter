@@ -86,7 +86,7 @@ In short, create a [Machine token](https://dashboard.pantheon.io/users/#account/
 Then, you can create a new site in Pantheon which can also be done with a
 [terminus command](https://pantheon.io/docs/guides/drupal8-commandline):
 
-    terminus site:create my-site "My Site" "Drupal 8"
+    ddev exec terminus site:create my-site "My Site" "Drupal 8"
 
 #### Change to nested docroot structure
 To allow Pantheon to work with composer managed sites and recognize the `web`
