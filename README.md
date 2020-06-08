@@ -117,9 +117,9 @@ Then you can deploy with
 After first deploy, you will want to install the site. We've noticed that
 it gives an error, but after cache-clear, the site can be accessed.
 
-    terminus drush <your-site>.dev -- site-install server -y --existing-config
-    terminus drush <your-site>.dev -- cr
-    terminus drush <your-site>.dev -- uli
+    ddev exec terminus drush <your-site>.dev -- site-install server -y --existing-config
+    ddev exec terminus drush <your-site>.dev -- cr
+    ddev exec terminus drush <your-site>.dev -- uli
 
 ## Deploy Environments
 
