@@ -15,14 +15,13 @@
         }
     ],
     "require": {
-        "composer/installers": "^1.2",
-        "drupal/core-composer-scaffold": "^8.8",
-        "drupal/core-recommended": "^8.8",
+        "composer/installers": "^1.9",
+        "drupal/core-composer-scaffold": "^9.0",
+        "drupal/core-recommended": "^9.0",
         "drush/drush": "^10.2"
     },
     "require-dev": {
         "consolidation/robo": "^1.0.0",
-        "henrikbjorn/lurker": "1.*",
         "natxet/cssmin": "^3.0",
         "patchwork/jsqueeze": "^2.0",
         "phpunit/phpunit": "^7",
@@ -33,7 +32,7 @@
     "conflict": {
         "drupal/drupal": "*"
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "alpha",
     "prefer-stable": true,
     "config": {
         "sort-packages": true
