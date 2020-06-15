@@ -19,6 +19,12 @@ sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/u
 sudo apt -q update -y || true
 sudo apt -q install --only-upgrade docker-ce -y
 
+echo "Install mkcert."
+wget -nv https://github.com/FiloSottile/mkcert/releases/download/v1.4.0/mkcert-v1.4.0-linux-amd64
+sudo mv mkcert-v1.4.0-linux-amd64 /usr/bin/mkcert
+chmod +x /usr/bin/mkcert
+mkcert -install
+
 echo "Install ddev."
 curl -s -L https://raw.githubusercontent.com/drud/ddev/master/scripts/install_ddev.sh | bash
 
