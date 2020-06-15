@@ -28,6 +28,6 @@ curl -s -L https://raw.githubusercontent.com/drud/ddev/master/scripts/install_dd
 echo "Configuring ddev."
 mkdir ~/.ddev
 cp "ci-scripts/global_config.yaml" ~/.ddev/
-docker network create ddev_default
+docker network create ddev_default || ddev logs
 
-ddev composer install
+ddev composer install || ddev logs
