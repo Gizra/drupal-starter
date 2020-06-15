@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e2739b91bc5fd1ce44cc746ff7f6bac1",
+    "content-hash": "4226f73de6b6d7bf4503352e7c32fd32",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -6118,6 +6118,7 @@
                 "javascript",
                 "minification"
             ],
+            "abandoned": true,
             "time": "2016-04-19T09:28:22+00:00"
         },
         {
@@ -7732,23 +7733,23 @@
         },
         {
             "name": "weitzman/drupal-test-traits",
-            "version": "1.3.1",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://gitlab.com/weitzman/drupal-test-traits.git",
-                "reference": "d3d69f8822d609e2953fbef47f5c04ce1f3c3ba6"
+                "reference": "5992285e54e98e22cf1071242dea3c1da81d2b78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://gitlab.com/api/v4/projects/weitzman%2Fdrupal-test-traits/repository/archive.zip?sha=d3d69f8822d609e2953fbef47f5c04ce1f3c3ba6",
-                "reference": "d3d69f8822d609e2953fbef47f5c04ce1f3c3ba6",
+                "url": "https://gitlab.com/api/v4/projects/weitzman%2Fdrupal-test-traits/repository/archive.zip?sha=5992285e54e98e22cf1071242dea3c1da81d2b78",
+                "reference": "5992285e54e98e22cf1071242dea3c1da81d2b78",
                 "shasum": ""
             },
             "require": {
-                "behat/mink": "1.8.0 | 1.7.1 | 1.7.x-dev",
+                "behat/mink": "^1.8 | 1.7.1 | 1.7.x-dev",
                 "behat/mink-goutte-driver": "^1.2",
                 "php": ">=7.0.8",
-                "phpunit/phpunit": "^6.5 || ^7",
+                "phpunit/phpunit": ">=6.5",
                 "webflo/drupal-finder": "^1.1"
             },
             "require-dev": {
@@ -7757,6 +7758,7 @@
                 "dmore/chrome-mink-driver": "^2.6",
                 "drupal-composer/drupal-scaffold": "2.3.0",
                 "drupal/core": "^8.8@alpha",
+                "drupal/core-dev": "^8.8",
                 "drush/drush": "^9",
                 "jakub-onderka/php-parallel-lint": "^1.0",
                 "squizlabs/php_codesniffer": "^3.2",
@@ -7786,7 +7788,7 @@
                 }
             ],
             "description": "Traits for testing Drupal sites that have user content (versus unpopulated sites).",
-            "time": "2019-11-29T09:34:00+00:00"
+            "time": "2020-04-29T23:52:16+00:00"
         }
     ],
     "aliases": [],
