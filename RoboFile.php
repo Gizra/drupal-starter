@@ -239,7 +239,10 @@ class RoboFile extends Tasks {
     $rsyncExcludeString = '--exclude=' . join(' --exclude=', $rsyncExclude);
 
     // Copy all files and folders.
-    $this->_exec("rsync -az -q --delete $rsyncExcludeString . $pantheonDirectory");
+    $result = $this->_exec("rsync -az -q --delete $rsyncExcludeString . $pantheonDirectory")->getExitCode();
+    if ($result !== 0) {
+      throw new Exception('File sync failed');
+    }
 
     // We don't want to change Pantheon's git ignore, as we do want to commit
     // vendor and contrib directories.
@@ -270,7 +273,10 @@ class RoboFile extends Tasks {
     $pantheonName = self::PANTHEON_NAME;
     $pantheonTerminusEnvironment = $pantheonName . '.dev';
 
-    $this->_exec("cd $pantheonDirectory && git pull && git add . && git commit -am 'Site update' && git push");
+    $result = $this->_exec("cd $pantheonDirectory && git pull && git add . && git commit -am 'Site update' && git push")->getExitCode();
+    if ($result !== 0) {
+      throw new Exception('Pushing to the remote repository failed');
+    }
     $this->deployPantheonSync('dev', false);
   }
 
@@ -289,13 +295,14 @@ class RoboFile extends Tasks {
     $pantheonName = self::PANTHEON_NAME;
     $pantheonTerminusEnvironment = $pantheonName . '.' . $env;
 
-    $task = $this->taskExecStack();
+    $task = $this->taskExecStack()
+      ->stopOnFail();
 
     if ($doDeploy) {
       $task->exec("terminus env:deploy $pantheonTerminusEnvironment");
     }
 
-    $task
+    $result = $task
       ->exec("terminus remote:drush $pantheonTerminusEnvironment -- cr")
 
       // A second cache-clear, because Drupal...
@@ -306,7 +313,11 @@ class RoboFile extends Tasks {
       ->exec("terminus remote:drush $pantheonTerminusEnvironment -- cim -y")
       ->exec("terminus remote:drush $pantheonTerminusEnvironment -- cim -y")
       ->exec("terminus remote:drush $pantheonTerminusEnvironment -- uli")
-      ->run();
+      ->run()
+      ->getExitCode();
+    if ($result !== 0) {
+      throw new Exception('The site could not be fully updated at Pantheon.');
+    }
   }
 
   /**
@@ -366,12 +377,17 @@ class RoboFile extends Tasks {
       // We do not bake it into the Docker image to save on disk space.
       // We rarely need this operation, also not all the developers
       // will use it.
-      $this->taskExecStack()
+      $result = $this->taskExecStack()
         ->exec('sudo apt update')
         ->exec('sudo apt install ruby ruby-dev make g++ --yes')
         ->exec('sudo gem install travis --no-document')
         ->stopOnFail()
-        ->run();
+        ->run()
+        ->getExitCode();
+
+      if ($result !== 0) {
+        throw new \Exception('The installation of the dependencies failed.');
+      }
     }
 
     $result = $this->taskExec('ssh-keygen -f travis-key -P ""')->run();
