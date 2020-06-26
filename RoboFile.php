@@ -197,7 +197,8 @@ class RoboFile extends Tasks {
       ->run();
 
     if ($result->getMessage()) {
-      throw new Exception('The working directory is dirty. Please commit any pending changes.');
+      $this->say($result->getMessage());
+      throw new Exception('The working directory is dirty. Please commit the pending changes.');
     }
 
     $result = $this
@@ -206,6 +207,7 @@ class RoboFile extends Tasks {
       ->run();
 
     if ($result->getMessage()) {
+      $this->say($result->getMessage());
       throw new Exception('The Pantheon directory is dirty. Please commit any pending changes.');
     }
 
