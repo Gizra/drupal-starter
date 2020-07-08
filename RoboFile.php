@@ -346,10 +346,10 @@ class RoboFile extends Tasks {
 
     foreach ($directories as $directory) {
       foreach ($standards as $standard) {
-        $arguments = "--standard=$standard -p --ignore=server_theme/dist,node_modules --colors --extensions=php,module,inc,install,test,profile,theme,js,css";
+        $arguments = "--standard=$standard -p --ignore=server_theme/dist,node_modules --colors --extensions=php,module,inc,install,test,profile,theme,js,css,yaml,txt,md";
 
         foreach ($commands as $command) {
-          $result = $this->_exec("cd web && $command $directory $arguments");
+          $result = $this->_exec("cd web && ../vendor/bin/$command $directory $arguments");
           if (empty($errorCode) && !$result->wasSuccessful()) {
             $errorCode = $result->getExitCode();
           }

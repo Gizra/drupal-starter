@@ -26,6 +26,8 @@
     },
     "require-dev": {
         "consolidation/robo": "^1.0.0",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
+        "drupal/coder": "^8.3.1",
         "henrikbjorn/lurker": "1.*",
         "natxet/cssmin": "^3.0",
         "patchwork/jsqueeze": "^2.0",
