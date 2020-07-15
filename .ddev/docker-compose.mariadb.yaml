@@ -1,0 +1,6 @@
+services:
+  db:
+    volumes:
+    - source: /tmp/ddev/drupal-starter
+      target: /var/lib/mysql
+      type: bind
