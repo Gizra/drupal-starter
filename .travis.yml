@@ -7,11 +7,6 @@ php:
 services:
   - docker
 
-addons:
-  apt:
-    sources:
-    - sourceline: 'ppa:longsleep/golang-backports'
-
 stages:
   - lint
   - test
@@ -24,13 +19,13 @@ env:
 
 before_install:
   - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+  - eval "$(gimme stable)"; gimme --list # Install latest Go
 
 jobs:
   include:
     - stage: Lint
       name: "Verify PHP syntax"
       script:
-        - sudo apt install golang-go
         - go get -u github.com/VKCOM/noverify
         - "noverify -allow-checks syntax $TRAVIS_BUILD_DIR/web/modules/custom"
         - "noverify -allow-checks syntax $TRAVIS_BUILD_DIR/web/themes/custom"
