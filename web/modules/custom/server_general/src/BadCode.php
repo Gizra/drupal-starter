@@ -10,7 +10,7 @@ class BadCode {
   /**
    * An example of a syntax error.
    */
-  public function badCode() {
+  public function badMethod() {
     oh_no()
   }
 
