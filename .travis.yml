@@ -7,6 +7,11 @@ php:
 services:
   - docker
 
+addons:
+  apt:
+    sources:
+    - sourceline: 'ppa:longsleep/golang-backports'
+
 stages:
   - lint
   - test
@@ -25,8 +30,6 @@ jobs:
     - stage: Lint
       name: "Verify PHP syntax"
       script:
-        - sudo add-apt-repository ppa:longsleep/golang-backports
-        - sudo apt update
         - sudo apt install golang-go
         - go get -u github.com/VKCOM/noverify
         - "noverify -allow-checks syntax $TRAVIS_BUILD_DIR/web/modules/custom"
