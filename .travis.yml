@@ -23,6 +23,13 @@ before_install:
 jobs:
   include:
     - stage: Lint
+      name: "Verify PHP syntax"
+      script:
+        - go get -u github.com/VKCOM/noverify
+        - "noverify -allow-checks syntax $TRAVIS_BUILD_DIR/web/modules/custom"
+        - "noverify -allow-checks syntax $TRAVIS_BUILD_DIR/web/themes/custom"
+        - "noverify -allow-checks syntax $TRAVIS_BUILD_DIR/web/profiles/custom"
+    - stage: Lint
       name: "Drupal coding standard: phpcs"
       script:
         - "$TRAVIS_BUILD_DIR/ci-scripts/install_coder.sh"
