@@ -4,8 +4,6 @@ dist: bionic
 php:
   - 7.4
 
-go: "1.12"
-
 services:
   - docker
 
@@ -18,7 +16,7 @@ env:
   global:
     - GIT_HOST="{{ PANTHEON_GIT_HOST }}"
     - PANTHEON_GIT_URL="{{ PANTHEON_GIT_URL }}"
-    -
+
 before_install:
   - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 
@@ -27,6 +25,9 @@ jobs:
     - stage: Lint
       name: "Verify PHP syntax"
       script:
+        - sudo add-apt-repository ppa:longsleep/golang-backports
+        - sudo apt update
+        - sudo apt install golang-go
         - go get -u github.com/VKCOM/noverify
         - "noverify -allow-checks syntax $TRAVIS_BUILD_DIR/web/modules/custom"
         - "noverify -allow-checks syntax $TRAVIS_BUILD_DIR/web/themes/custom"
