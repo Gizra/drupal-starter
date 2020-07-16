@@ -4,6 +4,8 @@ dist: bionic
 php:
   - 7.4
 
+go: "1.12"
+
 services:
   - docker
 
