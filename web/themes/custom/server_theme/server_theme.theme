@@ -79,11 +79,13 @@ function server_theme_theme($existing, $type, $theme, $path) {
     ],
   ];
 
-  $info['server_theme_content__image_and_teaser'] = [
+  // Content header (node's title and background image).
+  $info['server_theme_content__hero_header'] = [
     'variables' => [
-      'image' => NULL,
-      'image_alt' => NULL,
-      'teaser' => NULL,
+      'title' => NULL,
+      'background_image' => NULL,
+      // The container type for the title. Either: wide, narrow, full.
+      'title_container' => NULL,
     ],
   ];
 

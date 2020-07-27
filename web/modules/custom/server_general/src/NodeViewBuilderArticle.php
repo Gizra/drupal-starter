@@ -21,11 +21,9 @@ class NodeViewBuilderArticle extends NodeViewBuilderAbstract {
    *   An array of elements for output on the page.
    */
   public function buildFull(array $build, NodeInterface $entity) {
-    $build['server_theme_content__header'] = $this->buildCollectionHeader($entity);
+    $build['server_theme_content__header'] = $this->buildHeroHeader($entity);
     $build['server_theme_content__tags'] = $this->buildContentTags($entity);
-    $build['server_theme_content__image_and_teaser'] = $this->buildImageAndTeaser($entity, 'field_collection_preview_image');
-    $build['server_theme_content__buttons'] = $this->buildCollectionButtons($entity);
-    $build['server_theme_collections'] = $this->buildCollectionElements($entity);
+    $build['server_theme_content__body'] = $this->buildProcessedText($entity);
 
     return $build;
   }
