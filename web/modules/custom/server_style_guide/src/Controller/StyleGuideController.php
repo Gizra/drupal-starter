@@ -209,11 +209,6 @@ class StyleGuideController extends ControllerBase {
       '#theme' => 'server_theme_footer',
     ];
 
-    // It's easier to get the pager working by calling Views block, rather then
-    // trying to create a pager on a non-sql page.
-    $element['block_with_pager'] = views_embed_view('content_recent', 'block_style_guide');
-    $element['block_with_pager']['#prefix'] = $this->getComponentPrefix('Pager');
-
     $element['server_theme_user_image__photo'] = [
       '#prefix' => $this->getComponentPrefix('User Image - With Photo'),
       '#theme' => 'server_theme_user_image',
