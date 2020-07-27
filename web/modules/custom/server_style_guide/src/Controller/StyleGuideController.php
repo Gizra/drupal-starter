@@ -90,9 +90,6 @@ class StyleGuideController extends ControllerBase {
       '#tags' => $tags,
     ];
 
-    $element['server_theme_card__simple'] = $single_card_simple;
-    $element['server_theme_card__simple']['#prefix'] = $this->getComponentPrefix('Simple Card');
-
     $single_card_no_body = $single_card_simple;
     unset($single_card_no_body['#body']);
 
@@ -218,12 +215,11 @@ class StyleGuideController extends ControllerBase {
     $element['block_with_pager']['#prefix'] = $this->getComponentPrefix('Pager');
 
     $element['server_theme_user_image__photo'] = [
-      '#prefix' => $this->getComponentPrefix('User Image'),
+      '#prefix' => $this->getComponentPrefix('User Image - With Photo'),
       '#theme' => 'server_theme_user_image',
       '#image' => $this->getPlaceholderPersonImage(256, 256),
       '#image_alt' => 'Bill Murray',
       '#url' => '#',
-      '#label' => 'Edit',
     ];
 
     $element['server_theme_user_image__initials'] = [
@@ -231,7 +227,6 @@ class StyleGuideController extends ControllerBase {
       '#theme' => 'server_theme_user_image',
       '#initials' => 'BM',
       '#url' => '#',
-      '#label' => 'Add Photo',
     ];
 
     // Add container around each element.

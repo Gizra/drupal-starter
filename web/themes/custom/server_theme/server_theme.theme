@@ -108,6 +108,14 @@ function server_theme_theme($existing, $type, $theme, $path) {
     ],
   ];
 
+  $info['server_theme_user_image'] = [
+    'variables' => [
+      'image' => NULL,
+      'image_alt' => NULL,
+      'initials' => NULL,
+    ],
+  ];
+
   $info['server_theme_footer'] = [
     'variables' => [],
   ];
