@@ -5,9 +5,8 @@ namespace Drupal\server_general;
 use Drupal\Core\Block\BlockManagerInterface;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\Core\Url;
 use Drupal\node\NodeInterface;
-use Drupal\taxonomy\TermInterface;
+
 
 /**
  * Class NodeViewBuilderPerBundleAbstract.
@@ -136,7 +135,7 @@ class NodeViewBuilderAbstract {
 
     $tags = [];
     foreach ($entity->{$field_name}->referencedEntities() as $term) {
-      $tags[] = $this->getContentTags($entity);
+      $tags[] = $this->getTag($entity);
     }
 
     $element = [
@@ -147,27 +146,7 @@ class NodeViewBuilderAbstract {
     return $this->wrapComponentWithContainer($element, 'content-tags');
   }
 
-  /**
-   * Get a tag.
-   *
-   * @todo: Move to Trait?
-   *
-   * @param \Drupal\taxonomy\TermInterface $term
-   *   The term to render.
-   *
-   * @return array
-   *   The renderable array.
-   */
-  protected function getTag(TermInterface $term) {
-    $classes = 'mr-1 text-ms px-3 py-1 my-1 text-center leading-normal rounded-large border-2 border-purple-primary hover:text-blue-900 hover:border-blue-900 rounded-md text-purple-primary h-8 overflow-hidden';
 
-    return [
-      '#type' => 'link',
-      '#title' => $term->label(),
-      '#url' => $term->toUrl(),
-      '#attributes' => ['class' => explode(' ', $classes)],
-    ];
-  }
 
   /**
    * Build an image referenced in the given entity's given field name.

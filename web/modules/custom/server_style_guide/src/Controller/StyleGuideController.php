@@ -10,6 +10,8 @@ use Drupal\Core\Url;
 use Drupal\Core\Utility\LinkGenerator;
 use Drupal\server_general\ButtonBuilderTrait;
 use Drupal\server_general\ComponentWrapTrait;
+use Drupal\server_general\TagBuilderTrait;
+use Drupal\taxonomy\Entity\Term;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -19,6 +21,7 @@ class StyleGuideController extends ControllerBase {
 
   use ButtonBuilderTrait;
   use ComponentWrapTrait;
+  use TagBuilderTrait;
 
   /**
    * The block manager service.
@@ -72,16 +75,16 @@ class StyleGuideController extends ControllerBase {
     $card_image = $this->getPlaceholderImage(600, 520);
 
     $tags = [
-      $this->getTag('The transporter'),
-      $this->getTag('Is more girl'),
+      $this->getMockedTag('The transporter'),
+      $this->getMockedTag('Is more girl'),
     ];
 
     $many_tags = $tags + [
-      $this->getTag('The flight'),
-      $this->getTag('bare klingon'),
-      $this->getTag('Dogma doesn’t balanced understand'),
-      $this->getTag('The plank hails with courage'),
-      $this->getTag('burn the freighter until it rises'),
+      $this->getMockedTag('The flight'),
+      $this->getMockedTag('bare klingon'),
+      $this->getMockedTag('Dogma doesn’t balanced understand'),
+      $this->getMockedTag('The plank hails with courage'),
+      $this->getMockedTag('burn the freighter until it rises'),
     ];
 
     $single_card_simple = [
@@ -297,15 +300,13 @@ class StyleGuideController extends ControllerBase {
    * @return array
    *   The renderable array.
    */
-  protected function getTag($title) {
-    $classes = 'mr-1 text-ms px-3 py-1 my-1 text-center leading-normal rounded-large border-2 border-purple-primary hover:text-blue-900 hover:border-blue-900 rounded-md text-purple-primary h-8 overflow-hidden';
+  public function getMockedTag($title) {
+    $dummy_term = Term::create([
+      'vid' => 'example_vocabulary_machine_name',
+      'name' => $title,
+    ]);
 
-    return [
-      '#type' => 'link',
-      '#title' => $title,
-      '#url' => Url::fromRoute('<front>'),
-      '#attributes' => ['class' => explode(' ', $classes)],
-    ];
+    return $this->buildTag($dummy_term);
   }
 
 }

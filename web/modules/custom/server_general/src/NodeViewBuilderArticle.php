@@ -9,6 +9,8 @@ use Drupal\node\NodeInterface;
  */
 class NodeViewBuilderArticle extends NodeViewBuilderAbstract {
 
+  use TagBuilderTrait;
+
   /**
    * Build full view mode.
    *
