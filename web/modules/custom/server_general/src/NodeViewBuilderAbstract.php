@@ -41,7 +41,7 @@ class NodeViewBuilderAbstract {
   protected $blockManager;
 
   /**
-   * NodeViewBuilderCollection constructor.
+   * Abstract constructor.
    *
    * @param \Drupal\Core\Entity\EntityTypeManager $entity_type_manager
    *   The entity type manager service.
@@ -98,12 +98,12 @@ class NodeViewBuilderAbstract {
    * @param \Drupal\node\NodeInterface $entity
    *   The entity.
    * @param string $image_field_name
-   *   The field name to grab the image from.
+   *   Optional; The field name. Defaults to "field_image".
    *
    * @return array
    *   A render array.
    */
-  protected function buildHeroHeader(NodeInterface $entity, $image_field_name) {
+  protected function buildHeroHeader(NodeInterface $entity, $image_field_name = 'field_image') {
     list($image) = $this->buildImage($entity, $image_field_name);
 
     $element = [
@@ -134,7 +134,7 @@ class NodeViewBuilderAbstract {
 
     $tags = [];
     foreach ($entity->{$field_name}->referencedEntities() as $term) {
-      $tags[] = $this->getTag($term);
+      $tags[] = $this->buildTag($term);
     }
 
     $element = [
