@@ -1,0 +1,7 @@
+services:
+  server_general.node_view_builder_article:
+    class: Drupal\server_general\NodeViewBuilderCollection
+    arguments: ['@entity_type.manager', '@current_user', '@plugin.manager.block']
+  server_general.node_view_builder_basic_page:
+    class: Drupal\server_general\NodeViewBuilderBasicPage
+    arguments: ['@entity_type.manager', '@current_user', '@plugin.manager.block']

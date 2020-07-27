@@ -1,47 +1,19 @@
-@font-face {
-  font-family: 'Gotham Book';
-  src:  url("../fonts/gotham/gotham-book-webfont.otf") format("opentype"),
-  url("../fonts/gotham/gotham-book-webfont.ttf") format("trutype"),
-  url("../fonts/gotham/gotham-book-webfont.svg") format("svg");
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Gotham Medium';
-  src:  url("../fonts/gotham/gotham-medium-webfont.otf") format("opentype"),
-  url("../fonts/gotham/gotham-medium-webfont.ttf") format("truetype"),
-  url("../fonts/gotham/gotham-medium-webfont.svg") format("svg");
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Gotham Bold';
-  src:  url("../fonts/gotham/gotham-bold-webfont.otf") format("opentype"),
-  url("../fonts/gotham/gotham-bold-webfont.ttf") format("truetype"),
-  url("../fonts/gotham/gotham-bold-webfont.svg") format("svg");
-  font-weight: 700;
-  font-style: normal;
-}
-
 h1, h2, h3, h4 {
-  font-family: "Gotham Medium", sans-serif;
-  @apply leading-none;
+  @apply leading-none text-turquoise;
 }
 
 h1 {
-  @apply text-3xl uppercase text-turquoise tracking-wider;
+  @apply text-5xl uppercase tracking-wider;
 }
 
 h2 {
-  @apply text-2xl uppercase text-turquoise;
+  @apply text-3xl uppercase;
 }
 
 h3 {
-  @apply text-lg uppercase text-turquoise;
+  @apply text-lg uppercase;
 }
 
 h4 {
-  @apply text-base text-turquoise;
+  @apply text-base;
 }
