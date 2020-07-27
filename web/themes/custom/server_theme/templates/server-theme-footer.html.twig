@@ -1,0 +1,33 @@
+{% macro socialMedia(name, url) %}
+  <a href="{{ url }}" target="_blank">
+    <i class="fa fa-lg fa-{{ name }}"></i>
+  </a>
+{% endmacro %}
+
+{% macro internalLink(name, url) %}
+  <a href="{{ url }}" class="font-bold">
+    {{ name }}
+  </a>
+{% endmacro %}
+
+<footer class="bg-black text-white">
+  <div class="fluid-container-wider flex flex-col-reverse md:flex-row flex-wrap py-6 justify-between items-center uppercase">
+    <div class="flex flex-col">
+      <div class="text-center sm:text-left">©{{ 'now'|date('Y') }} Your company</div>
+      <div class="text-center sm:text-left">All Rights Reserved</div>
+    </div>
+
+    <div class="flex flex-col items-center mt-6 items-baseline">
+      <div class="flex flex-row mb-2 space-x-2">
+        {{ _self.socialMedia('facebook', 'https://facebook.com/') }}
+        {{ _self.socialMedia('instagram', 'https://instagram.com/') }}
+        {{ _self.socialMedia('twitter', 'https://twitter.com/') }}
+      </div>
+
+      {{ _self.internalLink('Privacy', '/privacy') }}
+      {{ _self.internalLink('About', '/about') }}
+
+    </div>
+
+  </div>
+</footer>

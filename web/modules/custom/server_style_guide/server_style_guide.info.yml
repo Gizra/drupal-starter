@@ -1,0 +1,7 @@
+name: "Server Style Guide"
+type: module
+description: "Handles the style guide page"
+core: 8.x
+package: "server"
+dependencies:
+  - server_general

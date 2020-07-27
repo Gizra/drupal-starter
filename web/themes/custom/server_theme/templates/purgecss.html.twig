@@ -1,0 +1,18 @@
+{#This is a Dummy twig file, with the sole purpose of holding class names
+we are using, so they will not be purged by TailWind's purge CSS when we deoply.
+
+The way CSS purge works is by going over the twig/theme functions and look for
+the class names. If it will see in twig `bg-{{color}}` it will not pick it up,
+as it doesn't know to what it will comiple.
+
+Below are the custom colors we defined in tailwind.config.js
+#}
+
+bg-purple-primary
+bg-turquoise
+
+border-purple-primary
+border-turquoise
+
+text-purple-primary
+text-turquoise

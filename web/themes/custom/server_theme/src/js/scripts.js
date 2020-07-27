@@ -3,12 +3,14 @@
  */
 
 (function ($, Drupal) {
+  'use strict';
 
   /**
-   * Your script goes here.
+   * General behaviours.
    */
   Drupal.behaviors.themeServerGeneral = {
     attach: function (context, settings) {
-    }
+    },
   };
+
 })(jQuery, Drupal);

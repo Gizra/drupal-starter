@@ -1,0 +1,123 @@
+<?php
+
+/**
+ * @file
+ * Theme custom logic.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function server_theme_theme($existing, $type, $theme, $path) {
+  $info = [];
+  $info['server_theme_navbar'] = [
+    'variables' => [],
+  ];
+
+  $info['server_theme_input__header_search'] = [
+    'variables' => [],
+  ];
+
+  $info['server_theme_header__left'] = [
+    'variables' => [
+      'navbar' => NULL,
+      'header_search' => NULL,
+    ],
+  ];
+
+  $info['server_theme_menu__account'] = [
+    'template' => 'menu--account',
+    'variables' => [
+      'user_name' => NULL,
+      'user_picture_url' => NULL,
+      'user_initials' => NULL,
+      'is_anon' => NULL,
+    ],
+  ];
+
+  // Simple card - Hero.
+  $info['server_theme_card__hero'] = [
+    'variables' => [
+      'image' => NULL,
+      'image_alt' => NULL,
+      'title' => NULL,
+      'url' => NULL,
+      'body' => NULL,
+      'author' => NULL,
+      'date' => NULL,
+    ],
+  ];
+
+  // Simple card.
+  $info['server_theme_card__simple'] = [
+    'variables' => [
+      'image' => NULL,
+      'image_alt' => NULL,
+      'title' => NULL,
+      'url' => NULL,
+      'body' => NULL,
+      // A list of links.
+      'tags' => [],
+      'author' => NULL,
+    ],
+  ];
+
+  // Multiple cards.
+  $info['server_theme_cards'] = [
+    'variables' => [
+      // Optional title.
+      'title' => NULL,
+      'cards' => [],
+    ],
+  ];
+
+  // Content tags.
+  $info['server_theme_content__tags'] = [
+    'variables' => [
+      // A list of links.
+      'tags' => [],
+    ],
+  ];
+
+  $info['server_theme_content__image_and_teaser'] = [
+    'variables' => [
+      'image' => NULL,
+      'image_alt' => NULL,
+      'teaser' => NULL,
+    ],
+  ];
+
+  $info['server_theme_content__body'] = [
+    'variables' => [
+      'content' => NULL,
+    ],
+  ];
+
+  // Button.
+  $info['server_theme_button'] = [
+    'variables' => [
+      'label' => NULL,
+      'id' => NULL,
+      'onclick' => NULL,
+      'target' => NULL,
+      'url' => NULL,
+      'color' => NULL,
+      'icon' => NULL,
+      'icon_only' => NULL,
+      'custom_classes' => [],
+    ],
+  ];
+
+  $info['server_theme_footer'] = [
+    'variables' => [],
+  ];
+
+  return $info;
+}
+
+/**
+ * Preprocess Page.
+ */
+function server_theme_preprocess_page(&$variables) {
+  $variables['page']['footer'] = ['#theme' => 'server_theme_footer'];
+}
