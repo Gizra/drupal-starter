@@ -8,6 +8,7 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Render\Renderer;
 use Drupal\Core\Url;
 use Drupal\Core\Utility\LinkGenerator;
+use Drupal\server_general\ButtonBuilderTrait;
 use Drupal\server_general\ComponentWrapTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -16,6 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class StyleGuideController extends ControllerBase {
 
+  use ButtonBuilderTrait;
   use ComponentWrapTrait;
 
   /**
@@ -115,32 +117,29 @@ class StyleGuideController extends ControllerBase {
     ];
 
     // Buttons.
-    $element['server_theme_button'] = [
-      '#prefix' => $this->getComponentPrefix('Button - no icon'),
-      '#theme' => 'server_theme_button',
-      '#label' => 'Register Here',
-      '#url' => 'https://example.com/1234',
-      '#color' => 'turquoise',
-    ];
+    $element['server_theme_button'] = $this->buildButton(
+      $this->t('Register'),
+      '#',
+      'turquoise'
+    );
+    $element['server_theme_button']['#prefix'] = $this->getComponentPrefix('Button - no Icon');
 
-    $element['server_theme_button_icon_calendar'] = [
-      '#prefix' => $this->getComponentPrefix('Button - with icon'),
-      '#theme' => 'server_theme_button',
-      '#label' => 'Add to my calendar',
-      '#url' => 'https://example.com/1234',
-      '#color' => 'purple-primary',
-      '#icon' => 'calendar',
-    ];
+    $element['server_theme_button__icon_calendar'] = $this->buildButton(
+      $this->t('Add to my calendar'),
+      '#',
+      'purple-primary',
+      'calendar'
+    );
+    $element['server_theme_button__icon_calendar']['#prefix'] = $this->getComponentPrefix('Button - with Icon');
 
-    $element['server_theme_button_icon_print'] = [
-      '#prefix' => $this->getComponentPrefix('Button - with icon'),
-      '#theme' => 'server_theme_button',
-      '#label' => 'Print',
-      '#url' => 'javascript:void(0)',
-      '#color' => 'purple-primary',
-      '#icon' => 'print',
-      '#onclick' => 'window.print()',
-    ];
+    $element['server_theme_button__print'] = $this->buildButton(
+      $this->t('Print'),
+      'javascript:void(0)',
+      'purple-primary',
+      'print',
+      'window.print()'
+    );
+    $element['server_theme_button__print']['#prefix'] = $this->getComponentPrefix('Button - Print (OnClick)');
 
     $element['server_theme_content__tags'] = [
       '#prefix' => $this->getComponentPrefix('Content Tags'),
