@@ -15,6 +15,8 @@ use Drupal\user\UserInterface;
  * Implements hook_entity_type_alter().
  */
 function server_general_entity_type_alter(array &$entity_types) {
-  // Override the Node entity's view_builder handler with our own class.
-  $entity_types['node']->setViewBuilderClass(NodeViewBuilder::class);
+  if (!empty($entity_types['node'])) {
+    $entity_types['node']->setViewBuilderClass(NodeViewBuilder::class);
+  }
+
 }
