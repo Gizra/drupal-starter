@@ -309,7 +309,7 @@ class StyleGuideController extends ControllerBase {
    *   The renderable array.
    */
   protected function getTag($title) {
-    $classes = 'mr-1 text-ms px-3 py-1 my-1 text-center leading-tight rounded-large border-2 border-purple-primary hover:text-blue-900 hover:border-blue-900 rounded-md text-purple-primary h-8 overflow-hidden';
+    $classes = 'mr-1 text-ms px-3 py-1 my-1 text-center leading-normal rounded-large border-2 border-purple-primary hover:text-blue-900 hover:border-blue-900 rounded-md text-purple-primary h-8 overflow-hidden';
 
     return [
       '#type' => 'link',
