@@ -7,7 +7,6 @@ use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\node\NodeInterface;
 
-
 /**
  * Class NodeViewBuilderPerBundleAbstract.
  */
@@ -135,7 +134,7 @@ class NodeViewBuilderAbstract {
 
     $tags = [];
     foreach ($entity->{$field_name}->referencedEntities() as $term) {
-      $tags[] = $this->getTag($entity);
+      $tags[] = $this->getTag($term);
     }
 
     $element = [
@@ -145,8 +144,6 @@ class NodeViewBuilderAbstract {
 
     return $this->wrapComponentWithContainer($element, 'content-tags');
   }
-
-
 
   /**
    * Build an image referenced in the given entity's given field name.
