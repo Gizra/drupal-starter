@@ -6,7 +6,6 @@ use Drupal\Core\Block\BlockManagerInterface;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\node\NodeInterface;
-use Drupal\server_mlt\Plugin\MltPluginManager;
 
 /**
  * Class NodeViewBuilderPerBundleAbstract.
