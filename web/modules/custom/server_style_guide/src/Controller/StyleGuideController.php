@@ -201,7 +201,7 @@ class StyleGuideController extends ControllerBase {
     $table_rows[] = $row;
 
     $element['table'] = [
-      '#prefix' => $this->getComponentPrefix('Table'),
+      '#prefix' => $this->getComponentPrefix('Table (Responsive)', 'https://tailwindcomponents.com/component/responsive-table'),
       '#type' => 'table',
       '#header' => $table_header,
       '#rows' => $table_rows,
