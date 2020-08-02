@@ -1,0 +1,5 @@
+name: "Server General"
+type: module
+description: "General and common functionality"
+core: 8.x
+package: "server"

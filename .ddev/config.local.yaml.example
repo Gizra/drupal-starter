@@ -6,8 +6,9 @@ hooks:
     # Install profile
     - exec: drush site-install server -y --existing-config
 
-    # Compile theme
-    - exec-host: ddev robo theme:compile
+    # Compile theme in debug, so we can develop with all Tailwinds' classes.
+    # On deploy, we purge un-needed CSS.
+    - exec-host: ddev robo theme:compile-debug
 
     # Generate one-time login link
     - exec: drush uli

@@ -42,13 +42,14 @@
  * @see html.html.twig
  */
 #}
-<div class="layout-container">
+<div class="layout-container text-black flex-grow">
 
-  <header role="banner">
+  <header role="banner" class="w-full z-50">
       {{ page.header }}
   </header>
 
   {{ page.primary_menu }}
+
   {{ page.secondary_menu }}
 
   {{ page.breadcrumb }}
@@ -57,12 +58,11 @@
 
   {{ page.help }}
 
-  <main role="main">
+  <main role="main" class="mt-2">
     <a id="main-content" tabindex="-1"></a>{# link is in html.html.twig #}
-
-    <div class="layout-content">
+    <div class="py-4">
       {{ page.content }}
-    </div>{# /.layout-content #}
+    </div>
 
     {% if page.sidebar_first %}
       <aside class="layout-sidebar-first" role="complementary">
@@ -78,10 +78,6 @@
 
   </main>
 
-  <footer role="contentinfo">
-      {% if page.footer %}
-          {{ page.footer }}
-      {% endif %}
-  </footer>
-
 </div>{# /.layout-container #}
+
+{{ page.footer }}

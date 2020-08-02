@@ -11,10 +11,6 @@ use Symfony\Component\Yaml\Yaml;
  */
 class RoboFile extends Tasks {
 
-  const OPTIMIZED_FORMATTER = 'ScssPhp\ScssPhp\Formatter\Crunched';
-
-  const DEV_FORMATTER = 'ScssPhp\ScssPhp\Formatter\Expanded';
-
   const THEME_BASE = 'web/themes/custom/server_theme';
 
   /**
@@ -32,38 +28,38 @@ class RoboFile extends Tasks {
    *   Indicate whether to optimize during compilation.
    */
   private function compileTheme_($optimize = FALSE) {
-    // Stylesheets.
-    $formatter = self::DEV_FORMATTER;
-    if ($optimize) {
-      $formatter = self::OPTIMIZED_FORMATTER;
-    }
-
+    // Notice we don't cleanup the `dist/css` as we'd want parcel, which
+    // bundles TailWind and Sass to keep using its cache - for faster builds.
+    // We also don't deal with the "fonts" directory, as Parcel already copies
+    // the fonts as part of compiling the css file.
     $directories = [
-      'css',
       'js',
       'images',
     ];
 
-    // Cleanup directories.
+    // Delete Parcel's cache directory. Caching will occur while robo is
+    // running, but otherwise we remove it, since seems caching is sometimes too
+    // aggressive.
+    $this->_deleteDir(self::THEME_BASE . '/.cache');
+
+    // Cleanup and create directories.
+    $this->_deleteDir(self::THEME_BASE . '/dist');
     foreach ($directories as $dir) {
       $directory = self::THEME_BASE . '/dist/' . $dir;
-      $this->taskCleanDir($directory);
       $this->_mkdir($directory);
     }
 
-    $compiler_options = [];
-    if (!$optimize) {
-      $compiler_options['sourceMap'] = Compiler::SOURCE_MAP_INLINE;
-    }
+    $theme_dir = self::THEME_BASE;
 
-    // CSS.
-    $result = $this->taskScss([
-      self::THEME_BASE . '/src/scss/style.scss' => self::THEME_BASE . '/dist/css/style.css',
-    ])
-      ->setFormatter($formatter)
-      ->importDir([self::THEME_BASE . '/src/scss'])
-      ->compiler('scssphp', $compiler_options)
-      ->run();
+    // Make sure we have all the node packages.
+    $this->_exec("cd $theme_dir && npm install");
+
+    // If we are asked to optimize, we make sure to purge tailwind's css, by
+    // passing the `PURGE_TAILWIND` env variable.
+    // @see tailwind.config.js.
+    $purge_prefix = $optimize ? 'PURGE_TAILWIND=1' : '';
+    $minify = $optimize ? '' : '--no-minify';
+    $result = $this->_exec("cd $theme_dir && $purge_prefix npx parcel build -d ./dist/css ./src/scss/style.scss $minify --out-dir=./dist/css --out-file=style.css --public-url ./");
 
     if ($result->getExitCode() !== 0) {
       $this->taskCleanDir(['dist/css']);
@@ -104,6 +100,8 @@ class RoboFile extends Tasks {
         ->to(self::THEME_BASE . '/dist/images/')
         ->run();
     }
+
+    $this->_exec('drush cache:rebuild');
   }
 
   /**

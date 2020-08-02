@@ -1,0 +1,19 @@
+<div class="w-32 user-image-wrapper">
+  {% if url %}
+    <a href="{{ url }}">
+  {% endif %}
+
+  <div class="rounded-full overflow-hidden h-32 mb-4">
+    {% if image %}
+      <img src="{{ image }}" alt="{{ image_alt }}" class="object-cover w-full" />
+    {% else %}
+      <div class="flex w-full h-full justify-center items-center bg-purple-primary text-white font-bold text-4xl">
+        {{ initials }}
+      </div>
+    {% endif %}
+  </div>
+
+  {% if url %}
+    </a>
+  {% endif %}
+</div>

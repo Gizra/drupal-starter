@@ -1,5 +1,6 @@
-@import "variables";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import "typography";
-@import "layout";
-@import "components/header";
-@import "components/footer";
+@import "components/list";

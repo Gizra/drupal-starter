@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * @file
+ * Functionality for the Style guide module.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function server_style_guide_theme() {
+  $info = [];
+
+  $info['server_style_guide_header'] = [
+    'variables' => [
+      'title' => NULL,
+      // The unique HTML id (e.g. `#foo`). We don't use the reserved `#id`.
+      'unique_id' => NULL,
+      // Optional; a link to the design.
+      'link' => NULL,
+    ],
+  ];
+
+  return $info;
+}

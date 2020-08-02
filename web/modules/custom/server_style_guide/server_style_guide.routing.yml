@@ -1,0 +1,9 @@
+server_style_guide.style_guide:
+  path: '/style-guide'
+  defaults:
+    _controller: '\Drupal\server_style_guide\Controller\StyleGuideController::styleGuidePage'
+    _title: 'Style Guide'
+  requirements:
+    _permission: 'access content'
+  options:
+    no_cache: 'TRUE'
