@@ -6,8 +6,10 @@
   {% endif %}
 
   <div class="sm:grid sm:grid-cols-2 md:grid-cols-3 gap-8">
-    {% for card in cards %}
-      {{ card  }}
+    {% for row in rows %}
+      <div{{ row.attributes }}>
+        {{- row.content -}}
+      </div>
     {% endfor %}
   </div>
 

@@ -112,11 +112,19 @@ class StyleGuideController extends ControllerBase {
       $single_card_long_author_name,
     ];
 
+    $rows = [];
+    foreach ($cards as $card) {
+      $rows[] = [
+        'content' => $card,
+        'attributes' => [],
+      ];
+    }
+
     $element['server_theme_cards'] = [
       '#prefix' => $this->getComponentPrefix('Multiple Cards - With Title'),
       '#theme' => 'server_theme_cards',
       '#title' => $this->t('Related Items'),
-      '#cards' => $cards,
+      '#rows' => $rows,
     ];
 
     // Buttons.

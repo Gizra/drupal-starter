@@ -67,7 +67,12 @@ function server_theme_theme($existing, $type, $theme, $path) {
     'variables' => [
       // Optional title.
       'title' => NULL,
-      'cards' => [],
+      // A list of the view's row items.
+      // - attributes: The row's HTML attributes.
+      // - content: The row's content.
+      // This is copied from Views, so we could easily have Views list wired to
+      // this theme.
+      'rows' => [],
     ],
   ];
 
