@@ -1,5 +1,5 @@
 server_general.homepage:
-  path: '/home'
+  path: '/homepage'
   defaults:
     _controller: '\Drupal\server_general\Controller\Homepage::view'
   requirements:
