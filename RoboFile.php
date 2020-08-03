@@ -180,19 +180,19 @@ class RoboFile extends Tasks {
   /**
    * Deploy to Pantheon.
    *
-   * @param string $branchName
+   * @param string $branch_name
    *   The branch name to commit to. Default to master.
    *
    * @throws \Exception
    */
-  public function deployPantheon($branchName = 'master') {
+  public function deployPantheon($branch_name = 'master') {
     if (empty(self::PANTHEON_NAME)) {
       throw new Exception('You need to fill the "PANTHEON_NAME" const in the Robo file. so it will know what is the name of your site.');
     }
 
-    $pantheonDirectory = '.pantheon';
+    $pantheon_directory = '.pantheon';
 
-    if (!file_exists($pantheonDirectory) || !is_dir($pantheonDirectory)) {
+    if (!file_exists($pantheon_directory) || !is_dir($pantheon_directory)) {
       throw new Exception('Clone the Pantheon artifact repository first into the .pantheon directory');
     }
 
@@ -207,7 +207,7 @@ class RoboFile extends Tasks {
     }
 
     $result = $this
-      ->taskExec("cd $pantheonDirectory && git status -s")
+      ->taskExec("cd $pantheon_directory && git status -s")
       ->printOutput(FALSE)
       ->run();
 
@@ -217,21 +217,21 @@ class RoboFile extends Tasks {
     }
 
     // Validate pantheon.yml has web_docroot: true.
-    if (!file_exists($pantheonDirectory . '/pantheon.yml')) {
-      throw new Exception("pantheon.yml is missing from the Pantheon directory ($pantheonDirectory)");
+    if (!file_exists($pantheon_directory . '/pantheon.yml')) {
+      throw new Exception("pantheon.yml is missing from the Pantheon directory ($pantheon_directory)");
     }
 
-    $yaml = Yaml::parseFile($pantheonDirectory . '/pantheon.yml');
+    $yaml = Yaml::parseFile($pantheon_directory . '/pantheon.yml');
     if (empty($yaml['web_docroot'])) {
-      throw new Exception("'web_docroot: true' is missing from pantheon.yml in Pantheon directory ($pantheonDirectory)");
+      throw new Exception("'web_docroot: true' is missing from pantheon.yml in Pantheon directory ($pantheon_directory)");
     }
 
-    $this->_exec("cd $pantheonDirectory && git checkout $branchName");
+    $this->_exec("cd $pantheon_directory && git checkout $branch_name");
 
     // Compile theme.
     $this->themeCompile();
 
-    $rsyncExclude = [
+    $rsync_exclude = [
       '.git',
       '.ddev',
       '.idea',
@@ -243,10 +243,10 @@ class RoboFile extends Tasks {
       'travis-key',
     ];
 
-    $rsyncExcludeString = '--exclude=' . implode(' --exclude=', $rsyncExclude);
+    $rsync_exclude_string = '--exclude=' . implode(' --exclude=', $rsync_exclude);
 
     // Copy all files and folders.
-    $result = $this->_exec("rsync -az -q --delete $rsyncExcludeString . $pantheonDirectory")->getExitCode();
+    $result = $this->_exec("rsync -az -q --delete $rsync_exclude_string . $pantheon_directory")->getExitCode();
     if ($result !== 0) {
       throw new Exception('File sync failed');
     }
@@ -254,30 +254,30 @@ class RoboFile extends Tasks {
     // We don't want to change Pantheon's git ignore, as we do want to commit
     // vendor and contrib directories.
     // @todo: Ignore it from rsync, but './.gitignore' didn't work.
-    $this->_exec("cd $pantheonDirectory && git checkout .gitignore");
+    $this->_exec("cd $pantheon_directory && git checkout .gitignore");
 
-    $this->_exec("cd $pantheonDirectory && git status");
+    $this->_exec("cd $pantheon_directory && git status");
 
-    $commitAndDeployConfirm = $this->confirm('Commit changes and deploy?', TRUE);
-    if (!$commitAndDeployConfirm) {
+    $commit_and_deploy_confirm = $this->confirm('Commit changes and deploy?', TRUE);
+    if (!$commit_and_deploy_confirm) {
       $this->say('Aborted commit and deploy, you can do it manually');
 
       // The Pantheon repo is dirty, so check if we want to clean it up before
       // exit.
-      $cleanupPantheonDirectoryConfirm = $this->confirm("Revert any changes on $pantheonDirectory directory (i.e. `git checkout .`)?");
-      if (!$cleanupPantheonDirectoryConfirm) {
+      $cleanup_pantheon_directory_confirm = $this->confirm("Revert any changes on $pantheon_directory directory (i.e. `git checkout .`)?");
+      if (!$cleanup_pantheon_directory_confirm) {
         // Keep folder as is.
         return;
       }
 
       // We repeat "git clean" twice, as sometimes it seems that a single one
       // doesn't remove all directories.
-      $this->_exec("cd $pantheonDirectory && git checkout . && git clean -fd && git clean -fd && git status");
+      $this->_exec("cd $pantheon_directory && git checkout . && git clean -fd && git clean -fd && git status");
 
       return;
     }
 
-    $result = $this->_exec("cd $pantheonDirectory && git pull && git add . && git commit -am 'Site update' && git push")->getExitCode();
+    $result = $this->_exec("cd $pantheon_directory && git pull && git add . && git commit -am 'Site update' && git push")->getExitCode();
     if ($result !== 0) {
       throw new Exception('Pushing to the remote repository failed');
     }
@@ -286,12 +286,12 @@ class RoboFile extends Tasks {
     // This "git push" above is as async operation, so prevent invoking
     // for instance drush cim before the new changes are there.
     usleep(self::DEPLOYMENT_WAIT_TIME);
-    $pantheonEnv = $branchName == 'master' ? 'dev' : $branchName;
+    $pantheon_env = $branch_name == 'master' ? 'dev' : $branch_name;
     do {
-      $code_sync_completed = $this->_exec("terminus workflow:list " . self::PANTHEON_NAME . " --format=csv | grep " . $pantheonEnv . " | grep Sync | grep -v succeeded")->getExitCode();
+      $code_sync_completed = $this->_exec("terminus workflow:list " . self::PANTHEON_NAME . " --format=csv | grep " . $pantheon_env . " | grep Sync | grep -v succeeded")->getExitCode();
       usleep(self::DEPLOYMENT_WAIT_TIME);
     } while (!$code_sync_completed);
-    $this->deployPantheonSync($pantheonEnv, FALSE);
+    $this->deployPantheonSync($pantheon_env, FALSE);
   }
 
   /**
@@ -299,34 +299,34 @@ class RoboFile extends Tasks {
    *
    * @param string $env
    *   The environment to update.
-   * @param bool $doDeploy
+   * @param bool $do_deploy
    *   Determine if a deploy should be done by terminus. That is, for example
    *   should TEST environment be updated from DEV.
    *
    * @throws \Robo\Exception\TaskException
    */
-  public function deployPantheonSync(string $env = 'test', bool $doDeploy = TRUE) {
-    $pantheonName = self::PANTHEON_NAME;
-    $pantheonTerminusEnvironment = $pantheonName . '.' . $env;
+  public function deployPantheonSync(string $env = 'test', bool $do_deploy = TRUE) {
+    $pantheon_name = self::PANTHEON_NAME;
+    $pantheon_terminus_environment = $pantheon_name . '.' . $env;
 
     $task = $this->taskExecStack()
       ->stopOnFail();
 
-    if ($doDeploy) {
-      $task->exec("terminus env:deploy $pantheonTerminusEnvironment");
+    if ($do_deploy) {
+      $task->exec("terminus env:deploy $pantheon_terminus_environment");
     }
 
     $result = $task
-      ->exec("terminus remote:drush $pantheonTerminusEnvironment -- cr")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- cr")
 
       // A second cache-clear, because Drupal...
-      ->exec("terminus remote:drush $pantheonTerminusEnvironment -- cr")
-      ->exec("terminus remote:drush $pantheonTerminusEnvironment -- updb -y")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- cr")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- updb -y")
 
       // A second config import, because Drupal...
-      ->exec("terminus remote:drush $pantheonTerminusEnvironment -- cim -y")
-      ->exec("terminus remote:drush $pantheonTerminusEnvironment -- cim -y")
-      ->exec("terminus remote:drush $pantheonTerminusEnvironment -- uli")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- cim -y")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- cim -y")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- uli")
       ->run()
       ->getExitCode();
     if ($result !== 0) {
@@ -354,7 +354,7 @@ class RoboFile extends Tasks {
       'profiles/custom',
     ];
 
-    $errorCode = NULL;
+    $error_code = NULL;
 
     foreach ($directories as $directory) {
       foreach ($standards as $standard) {
@@ -362,15 +362,15 @@ class RoboFile extends Tasks {
 
         foreach ($commands as $command) {
           $result = $this->_exec("cd web && ../vendor/bin/$command $directory $arguments");
-          if (empty($errorCode) && !$result->wasSuccessful()) {
-            $errorCode = $result->getExitCode();
+          if (empty($error_code) && !$result->wasSuccessful()) {
+            $error_code = $result->getExitCode();
           }
         }
       }
     }
 
-    if (!empty($errorCode)) {
-      return new Robo\ResultData($errorCode, 'PHPCS found some issues');
+    if (!empty($error_code)) {
+      return new Robo\ResultData($error_code, 'PHPCS found some issues');
     }
   }
 
