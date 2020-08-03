@@ -456,6 +456,8 @@ class RoboFile extends Tasks {
     $this->say("The project was prepared for the automatic deployment to Pantheon");
     $this->say("Review the changes and make a commit from the added files.");
     $this->say("Add the SSH key to the Pantheon account: https://pantheon.io/docs/ssh-keys .");
+    $this->say("Add the SSH key to the GitHub project as a deploy key: https://docs.github.com/en/developers/overview/managing-deploy-keys .");
+    $this->say("Convert the project to nested docroot: https://pantheon.io/docs/nested-docroot .");
   }
 
 }
