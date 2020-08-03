@@ -18,6 +18,11 @@ class RoboFile extends Tasks {
   const THEME_BASE = 'web/themes/custom/server_theme';
 
   /**
+   * The wait time between deployment checks in microseconds.
+   */
+  const DEPLOYMENT_WAIT_TIME = '500000';
+
+  /**
    * The Pantheon name.
    *
    * You need to fill this information for Robo to know what's the name of your
@@ -128,7 +133,7 @@ class RoboFile extends Tasks {
    * Directories that should be watched for the theme.
    *
    * @return array
-   *  List of directories.
+   *   List of directories.
    */
   protected function monitoredThemeDirectories() {
     return [
@@ -211,7 +216,7 @@ class RoboFile extends Tasks {
       throw new Exception('The Pantheon directory is dirty. Please commit any pending changes.');
     }
 
-    // Validate pantheon.yml has web_docroot: true
+    // Validate pantheon.yml has web_docroot: true.
     if (!file_exists($pantheonDirectory . '/pantheon.yml')) {
       throw new Exception("pantheon.yml is missing from the Pantheon directory ($pantheonDirectory)");
     }
@@ -223,7 +228,7 @@ class RoboFile extends Tasks {
 
     $this->_exec("cd $pantheonDirectory && git checkout $branchName");
 
-    // Compile theme
+    // Compile theme.
     $this->themeCompile();
 
     $rsyncExclude = [
@@ -238,7 +243,7 @@ class RoboFile extends Tasks {
       'travis-key',
     ];
 
-    $rsyncExcludeString = '--exclude=' . join(' --exclude=', $rsyncExclude);
+    $rsyncExcludeString = '--exclude=' . implode(' --exclude=', $rsyncExclude);
 
     // Copy all files and folders.
     $result = $this->_exec("rsync -az -q --delete $rsyncExcludeString . $pantheonDirectory")->getExitCode();
@@ -272,14 +277,21 @@ class RoboFile extends Tasks {
       return;
     }
 
-    $pantheonName = self::PANTHEON_NAME;
-    $pantheonTerminusEnvironment = $pantheonName . '.dev';
-
     $result = $this->_exec("cd $pantheonDirectory && git pull && git add . && git commit -am 'Site update' && git push")->getExitCode();
     if ($result !== 0) {
       throw new Exception('Pushing to the remote repository failed');
     }
-    $this->deployPantheonSync('dev', false);
+
+    // Let's wait until the code is deployed to the environment.
+    // This "git push" above is as async operation, so prevent invoking
+    // for instance drush cim before the new changes are there.
+    usleep(self::DEPLOYMENT_WAIT_TIME);
+    $pantheonEnv = $branchName == 'master' ? 'dev' : $branchName;
+    do {
+      $code_sync_completed = $this->_exec("terminus workflow:list " . self::PANTHEON_NAME . " --format=csv | grep " . $pantheonEnv . " | grep Sync | grep -v succeeded")->getExitCode();
+      usleep(self::DEPLOYMENT_WAIT_TIME);
+    } while (!$code_sync_completed);
+    $this->deployPantheonSync($pantheonEnv, FALSE);
   }
 
   /**
@@ -293,7 +305,7 @@ class RoboFile extends Tasks {
    *
    * @throws \Robo\Exception\TaskException
    */
-  public function deployPantheonSync(string $env = 'test', bool $doDeploy = true) {
+  public function deployPantheonSync(string $env = 'test', bool $doDeploy = TRUE) {
     $pantheonName = self::PANTHEON_NAME;
     $pantheonTerminusEnvironment = $pantheonName . '.' . $env;
 
@@ -318,7 +330,7 @@ class RoboFile extends Tasks {
       ->run()
       ->getExitCode();
     if ($result !== 0) {
-      throw new Exception('The site could not be fully updated at Pantheon.');
+      throw new Exception('The site could not be fully updated at Pantheon. Try "ddev robo deploy:pantheon-reboot" manually.');
     }
   }
 
@@ -339,10 +351,10 @@ class RoboFile extends Tasks {
     $directories = [
       'modules/custom',
       'themes/custom',
-      'profiles/custom'
+      'profiles/custom',
     ];
 
-    $errorCode = null;
+    $errorCode = NULL;
 
     foreach ($directories as $directory) {
       foreach ($standards as $standard) {
@@ -366,7 +378,7 @@ class RoboFile extends Tasks {
    * Prepares the repository to perform automatic deployment to Pantheon.
    *
    * @param string $token
-   *   Terminus machine token: https://pantheon.io/docs/machine-tokens
+   *   Terminus machine token: https://pantheon.io/docs/machine-tokens.
    * @param string $project_name
    *   The project machine name on Pantheon, for example: drupal-starter.
    * @param string $github_deploy_branch
