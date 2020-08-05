@@ -10,28 +10,11 @@
  */
 function server_theme_theme($existing, $type, $theme, $path) {
   $info = [];
-  $info['server_theme_navbar'] = [
-    'variables' => [],
-  ];
 
-  $info['server_theme_input__header_search'] = [
-    'variables' => [],
-  ];
-
-  $info['server_theme_header__left'] = [
+  $info['server_theme_tag'] = [
     'variables' => [
-      'navbar' => NULL,
-      'header_search' => NULL,
-    ],
-  ];
-
-  $info['server_theme_menu__account'] = [
-    'template' => 'menu--account',
-    'variables' => [
-      'user_name' => NULL,
-      'user_picture_url' => NULL,
-      'user_initials' => NULL,
-      'is_anon' => NULL,
+      'url' => NULL,
+      'title' => NULL,
     ],
   ];
 
