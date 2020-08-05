@@ -13,6 +13,7 @@ use Drupal\node\NodeInterface;
 class NodeViewBuilderAbstract {
 
   use ComponentWrapTrait;
+  use TagBuilderTrait;
 
   /**
    * The image style to use on Hero images.
