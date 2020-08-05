@@ -38,6 +38,11 @@ $settings['trusted_host_patterns'] = ['.*'];
 // better performance.
 $settings['class_loader_auto_detect'] = FALSE;
 
+if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
+  include $app_root . '/' . $site_path . '/settings.local.php';
+}
+
+
 // Custom settings.
 $settings['file_private_path'] = '/var/www/private';
 $settings['config_sync_directory'] = '../config/sync';

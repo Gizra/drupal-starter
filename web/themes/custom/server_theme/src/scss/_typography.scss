@@ -1,7 +1,19 @@
-body  {
-    font-family: 'Open Sans', sans-serif;
+h1, h2, h3, h4 {
+  @apply leading-none text-turquoise;
 }
 
-h1, h2, h3, h4 {
-  font-family: "Libre Franklin", sans-serif;
+h1 {
+  @apply text-5xl uppercase tracking-wider;
+}
+
+h2 {
+  @apply text-3xl uppercase;
+}
+
+h3 {
+  @apply text-lg uppercase;
+}
+
+h4 {
+  @apply text-base;
 }

@@ -1,0 +1,11 @@
+<div class="flex flex-row items-baseline">
+  <div class="mb-4 mt-8">
+    <a class="text-blue-500 text-3xl font-bold" href="#{{ unique_id }}" id="{{ unique_id }}">{{ title }}</a>
+  </div>
+
+  {% if link %}
+    <div class="ml-4">
+      <a class="text-sm text-blue-500" href="{{ link }}" target="_blank">{{ 'See design'|t }}</a>
+    </div>
+  {% endif %}
+</div>

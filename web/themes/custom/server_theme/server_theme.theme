@@ -1,0 +1,135 @@
+<?php
+
+/**
+ * @file
+ * Theme custom logic.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function server_theme_theme($existing, $type, $theme, $path) {
+  $info = [];
+
+  $info['server_theme_tag'] = [
+    'variables' => [
+      'url' => NULL,
+      'title' => NULL,
+    ],
+  ];
+
+  // Simple card - Hero.
+  $info['server_theme_card__hero'] = [
+    'variables' => [
+      'image' => NULL,
+      'image_alt' => NULL,
+      'title' => NULL,
+      'url' => NULL,
+      'body' => NULL,
+      'author' => NULL,
+      'date' => NULL,
+    ],
+  ];
+
+  // Simple card.
+  $info['server_theme_card__simple'] = [
+    'variables' => [
+      'image' => NULL,
+      'image_alt' => NULL,
+      'title' => NULL,
+      'url' => NULL,
+      'body' => NULL,
+      // A list of links.
+      'tags' => [],
+      'author' => NULL,
+    ],
+  ];
+
+  // Multiple cards.
+  $info['server_theme_cards'] = [
+    'variables' => [
+      // Optional title.
+      'title' => NULL,
+      // A list of the view's row items.
+      // - attributes: The row's HTML attributes.
+      // - content: The row's content.
+      // This is copied from Views, so we could easily have Views list wired to
+      // this theme.
+      'rows' => [],
+    ],
+  ];
+
+  // Content tags.
+  $info['server_theme_content__tags'] = [
+    'variables' => [
+      // A list of links.
+      'tags' => [],
+    ],
+  ];
+
+  // Content header (node's title and background image).
+  $info['server_theme_content__hero_header'] = [
+    'variables' => [
+      'title' => NULL,
+      'background_image' => NULL,
+      // The container type for the title. Either: wide, narrow, full.
+      'title_container' => NULL,
+    ],
+  ];
+
+  $info['server_theme_content__body'] = [
+    'variables' => [
+      'content' => NULL,
+    ],
+  ];
+
+  // Button.
+  $info['server_theme_button'] = [
+    'variables' => [
+      'label' => NULL,
+      'id' => NULL,
+      'onclick' => NULL,
+      'target' => NULL,
+      'url' => NULL,
+      'color' => NULL,
+      'icon' => NULL,
+      'icon_only' => NULL,
+      'custom_classes' => [],
+    ],
+  ];
+
+  $info['server_theme_user_image'] = [
+    'variables' => [
+      'image' => NULL,
+      'image_alt' => NULL,
+      'initials' => NULL,
+    ],
+  ];
+
+  $info['server_theme_footer'] = [
+    'variables' => [],
+  ];
+
+  return $info;
+}
+
+/**
+ * Implements hook_preprocess_page().
+ */
+function server_theme_preprocess_page(&$variables) {
+  $variables['page']['footer'] = ['#theme' => 'server_theme_footer'];
+}
+
+/**
+ * Implements hook_preprocess_page_title().
+ *
+ * On node view pages, we'll take care of showing the page title (i.e. the
+ * <h1> element).
+ */
+function server_theme_preprocess_page_title(&$variables) {
+  $node = \Drupal::routeMatch()->getParameter('node');
+
+  if ($node) {
+    $variables['title'] = '';
+  }
+}

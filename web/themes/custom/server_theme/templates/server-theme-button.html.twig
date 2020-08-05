@@ -1,0 +1,72 @@
+{#
+/**
+ * Available variables:
+ * - label: (string/render) The label of the link.
+ * - icon_only: (bool) If true, outputs an icon link with a visually hidden label.
+ * - icon: (string) Name of a font-awesome icon.
+ * - color: (string) Set button background color, or icon color if icon_only = true.
+ * - button_attributes: (attributes) Drupal attributes object for the link.
+ * - url: (string) If no button_attributes, then this is used as an href attribute.
+ * - id: (string) If no button_attributes, then this is used as an id attribute.
+ * - onclick: (string) If no button_attributes, then this is used as an onclick attribute.
+ * - target: (string) If no button_attributes, then this is used as a target attribute.
+ * - custom_classes: (string) If no button_attributes, then this is used to add custom classes to the button.
+ */
+#}
+{% if icon_only %}
+  {% set classes = [
+    color ? 'text-' ~ color : '',
+  ] %}
+{% else %}
+  {% set classes = [
+    'mr-4',
+    'w-full',
+    'mb-4',
+    'sm:mb-0',
+    'sm:text-left',
+    'sm:w-auto',
+    color ? 'bg-' ~ color : '',
+    'text-white',
+    'text-lg',
+    'uppercase',
+    'font-bold',
+    'py-3',
+    'px-6',
+    'rounded-lg',
+  ] %}
+{% endif %}
+{% if custom_classes %}
+  {% set classes = classes|merge(custom_classes) %}
+{% endif %}
+
+{% if button_attributes is empty %}
+  {% set button_attributes = create_attribute({
+    'class': classes,
+    'href': url,
+  }) %}
+  {% if id %}
+    {% set button_attributes = button_attributes.setAttribute('id', id) %}
+  {% endif %}
+  {% if onclick %}
+    {% set button_attributes = button_attributes.setAttribute('onclick', onclick) %}
+  {% endif %}
+  {% if target %}
+    {% set button_attributes = button_attributes.setAttribute('target', target) %}
+  {% endif %}
+  {% if icon_only %}
+    {% set button_attributes = button_attributes.setAttribute('title', label) %}
+  {% endif %}
+{% else %}
+  {% set button_attributes = button_attributes.addClass(classes) %}
+{% endif %}
+
+<a {{ button_attributes }}>
+  {% if icon %}
+    <i class="fa fa-lg fa-{{ icon }} mr-2"></i>
+  {% endif %}
+  {% if icon_only %}
+    <span class="sr-only">{{ label }}</span>
+  {% else %}
+    {{ label }}
+  {% endif %}
+</a>

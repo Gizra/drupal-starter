@@ -38,3 +38,6 @@ travis-key
 
 # Theme compiled assets
 web/themes/custom/server_theme/dist
+web/themes/custom/server_theme/node_modules
+web/themes/custom/server_theme/.cache
+web/themes/custom/server_theme/.parcel-cache

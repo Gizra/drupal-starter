@@ -1,0 +1,6 @@
+server_general.homepage:
+  path: '/homepage'
+  defaults:
+    _controller: '\Drupal\server_general\Controller\Homepage::view'
+  requirements:
+    _permission: 'access content'

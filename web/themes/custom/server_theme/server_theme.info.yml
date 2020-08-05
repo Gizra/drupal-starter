@@ -6,8 +6,6 @@ core: 8.x
 libraries:
   - server_theme/global-styling
   - server_theme/global-scripts
-  - server_theme/librefranklin
-  - server_theme/opensans
   - server_theme/font-awesome
 
 logo: logo.svg
@@ -18,3 +16,10 @@ regions:
   header: Header
   content: Content
   footer: Footer
+
+# Remove CSS files
+stylesheets-remove:
+  - core/themes/classy/css/components/file.css
+  - core/themes/classy/css/components/links.css
+  - core/themes/classy/css/components/messages.css
+  - core/themes/stable/css/system/components/ajax-progress.module.css
