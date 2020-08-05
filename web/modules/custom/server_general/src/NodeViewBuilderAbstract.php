@@ -8,7 +8,7 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\node\NodeInterface;
 
 /**
- * Class NodeViewBuilderPerBundleAbstract.
+ * Class NodeViewBuilderAbstract.
  */
 class NodeViewBuilderAbstract {
 
@@ -82,7 +82,7 @@ class NodeViewBuilderAbstract {
    * @param \Drupal\node\NodeInterface $entity
    *   The entity.
    *
-   * @return array[]
+   * @return array
    *   A renderable array.
    */
   protected function getElementBase(NodeInterface $entity) {
@@ -175,7 +175,7 @@ class NodeViewBuilderAbstract {
    * @param string $field_name
    *   Optional; The field name. Defaults to "field_image".
    *
-   * @return array|string
+   * @return array
    *   An array containing url and alt.
    */
   protected function buildImage(NodeInterface $entity, $field_name = 'field_image') {

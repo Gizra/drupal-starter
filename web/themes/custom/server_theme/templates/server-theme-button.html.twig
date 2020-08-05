@@ -57,7 +57,7 @@
     {% set button_attributes = button_attributes.setAttribute('title', label) %}
   {% endif %}
 {% else %}
-  {% set button_attributes = button_attributes.addClass(classes|join(' ')) %}
+  {% set button_attributes = button_attributes.addClass(classes) %}
 {% endif %}
 
 <a {{ button_attributes }}>
