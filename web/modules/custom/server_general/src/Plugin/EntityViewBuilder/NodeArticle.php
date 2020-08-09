@@ -7,6 +7,12 @@ use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
 
 /**
  * Class NodeArticle.
+ *
+ * @EntityViewBuilder(
+ *   id = "node.article",
+ *   label = @Translation("Node - Article"),
+ *   description = "Node view builder for Article bundle."
+ * )
  */
 class NodeArticle extends NodeViewBuilderAbstract {
 

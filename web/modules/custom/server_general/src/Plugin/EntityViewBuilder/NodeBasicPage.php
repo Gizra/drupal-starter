@@ -7,6 +7,12 @@ use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
 
 /**
  * Class NodeBasicPage.
+ *
+ * @EntityViewBuilder(
+ *   id = "node.page",
+ *   label = @Translation("Node - Basic page"),
+ *   description = "Node view builder for Basic page bundle."
+ * )
  */
 class NodeBasicPage extends NodeViewBuilderAbstract {
 
