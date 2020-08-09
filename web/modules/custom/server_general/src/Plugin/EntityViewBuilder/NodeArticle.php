@@ -6,9 +6,9 @@ use Drupal\node\NodeInterface;
 use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
 
 /**
- * Class NodeViewBuilderArticle.
+ * Class NodeArticle.
  */
-class NodeViewBuilderArticle extends NodeViewBuilderAbstract {
+class NodeArticle extends NodeViewBuilderAbstract {
 
   /**
    * Build full view mode.

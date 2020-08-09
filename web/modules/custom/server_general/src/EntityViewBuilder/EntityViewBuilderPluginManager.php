@@ -9,7 +9,7 @@ use Drupal\Core\Plugin\DefaultPluginManager;
 /**
  * Plugin manager for Entity view builder.
  */
-class ActionLinkPluginManager extends DefaultPluginManager {
+class EntityViewBuilderPluginManager extends DefaultPluginManager {
 
   /**
    * {@inheritdoc}
@@ -19,4 +19,5 @@ class ActionLinkPluginManager extends DefaultPluginManager {
     $this->alterInfo('server_general_entity_view_build_info');
     $this->setCacheBackend($cache_backend, 'server_general_entity_view_build_plugins');
   }
+
 }
