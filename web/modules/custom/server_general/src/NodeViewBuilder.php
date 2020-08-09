@@ -15,10 +15,18 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class NodeViewBuilder extends CoreNodeViewBuilder {
 
   /**
+   * The entity view builder service.
+   *
+   * @var \Drupal\server_general\EntityViewBuilder\EntityViewBuilderPluginManager
+   */
+  protected $entityViewBuilderPluginManager;
+
+  /**
    * {@inheritDoc}
    */
   public static function createInstance(ContainerInterface $container, EntityTypeInterface $entity_type) {
     $builder = parent::createInstance($container, $entity_type);
+    $builder->entityViewBuilderPluginManager = $container->get('plugin.manager.server_general.entity_view_builder');
 
     return $builder;
   }
@@ -35,32 +43,19 @@ class NodeViewBuilder extends CoreNodeViewBuilder {
     $build = parent::build($build);
 
     /** @var \Drupal\node\NodeInterface $entity */
-    // Note that the $build array that arrive from
-    // \Drupal\server_general\NodeViewBuilderTrait::buildRelatedItems
-    // is missing some keys including the #entity_type.
-    // We're fixing it by hardcoding `$build['#node']`, but need to see if it's
-    // not hiding a different problem. For now it seems to work.
     $entity = $build['#node'];
+    $bundle = $entity->bundle();
 
-    if (!in_array($entity->getType(), [
-      'article',
-      'page',
-    ])) {
-      // Not a node type we override.
+    // Check if we have a plugin to take over the bundle of this entity.
+    $plugin_id = $entity->getEntityTypeId() . '.' . $bundle;
+    $plugin_definition = $this->entityViewBuilderPluginManager->getDefinition($plugin_id);
+
+    if (!$plugin_definition) {
+      // We don't have a plugin.
       return $build;
     }
 
-    $bundle = $entity->bundle();
-    $builder_service = NULL;
-    switch ($bundle) {
-      case 'article':
-        $builder_service = $this->nodeViewBuilderArticle;
-        break;
-
-      case 'page':
-        $builder_service = $this->nodeViewBuilderBasicPage;
-        break;
-    }
+    $plugin = $plugin_definition->getPlugin();
 
     $view_mode = $build['#view_mode'];
 
@@ -68,7 +63,7 @@ class NodeViewBuilder extends CoreNodeViewBuilder {
     $method = 'build' . mb_convert_case($view_mode, MB_CASE_TITLE);
     $method = str_replace(['_', '-', ' '], '', $method);
 
-    if (!is_callable([$builder_service, $method])) {
+    if (!is_callable([$plugin, $method])) {
       throw new \Exception("The node view builder method `$method` for bundle $bundle and view mode $view_mode not found");
     }
 
@@ -77,7 +72,7 @@ class NodeViewBuilder extends CoreNodeViewBuilder {
       unset($build[$key]);
     }
 
-    return $builder_service->$method($build, $entity);
+    return $plugin->$method($build, $entity);
   }
 
 }

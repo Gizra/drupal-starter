@@ -1,4 +1,4 @@
 services:
-  plugin.manager.flag.linktype:
+  plugin.manager.server_general.entity_view_builder:
     class: Drupal\server_general\EntityViewBuilder\EntityViewBuilderPluginManager
     arguments: ['@container.namespaces', '@cache.discovery', '@module_handler']
