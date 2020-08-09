@@ -15,33 +15,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class NodeViewBuilder extends CoreNodeViewBuilder {
 
   /**
-   * The node view builder for Article node type.
-   *
-   * @var \Drupal\server_general\NodeViewBuilderArticle
-   */
-  protected $nodeViewBuilderArticle;
-
-  /**
-   * The node view builder for Basic page node type.
-   *
-   * @var \Drupal\server_general\NodeViewBuilderBasicPage
-   */
-  protected $nodeViewBuilderBasicPage;
-
-  /**
-   * The block manager.
-   *
-   * @var \Drupal\Core\Block\BlockManagerInterface
-   */
-  protected $blockManager;
-
-  /**
    * {@inheritDoc}
    */
   public static function createInstance(ContainerInterface $container, EntityTypeInterface $entity_type) {
     $builder = parent::createInstance($container, $entity_type);
-    $builder->nodeViewBuilderArticle = $container->get('server_general.node_view_builder_article');
-    $builder->nodeViewBuilderBasicPage = $container->get('server_general.node_view_builder_basic_page');
 
     return $builder;
   }

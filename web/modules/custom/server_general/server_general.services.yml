@@ -1,7 +1,4 @@
 services:
-  server_general.node_view_builder_article:
-    class: Drupal\server_general\NodeViewBuilderArticle
-    arguments: ['@entity_type.manager', '@current_user', '@plugin.manager.block']
-  server_general.node_view_builder_basic_page:
-    class: Drupal\server_general\NodeViewBuilderBasicPage
-    arguments: ['@entity_type.manager', '@current_user', '@plugin.manager.block']
+  plugin.manager.flag.linktype:
+    class: Drupal\server_general\EntityViewBuilder\EntityViewBuilderPluginManager
+    arguments: ['@container.namespaces', '@cache.discovery', '@module_handler']

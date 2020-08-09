@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\server_general;
+namespace Drupal\server_general\EntityViewBuilder;
 
 use Drupal\Core\Block\BlockManagerInterface;
 use Drupal\Core\Entity\EntityTypeManager;
