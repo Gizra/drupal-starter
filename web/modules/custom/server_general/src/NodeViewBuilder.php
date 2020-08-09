@@ -51,7 +51,8 @@ class NodeViewBuilder extends CoreNodeViewBuilder {
     $plugin_id = $entity->getEntityTypeId() . '.' . $bundle;
 
     try {
-      $plugin_definition = $this->entityViewBuilderPluginManager->getDefinition($plugin_id);
+      // Check if plugin exists.
+      $this->entityViewBuilderPluginManager->getDefinition($plugin_id);
     }
     catch (PluginNotFoundException $e) {
       // We don't have a plugin.
@@ -59,7 +60,6 @@ class NodeViewBuilder extends CoreNodeViewBuilder {
     }
 
     $plugin = $this->entityViewBuilderPluginManager->createInstance($plugin_id);
-
     $view_mode = $build['#view_mode'];
 
     // We should get a method name such as `buildFull`, and `buildTeaser`.

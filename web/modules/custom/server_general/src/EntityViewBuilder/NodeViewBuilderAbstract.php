@@ -82,6 +82,9 @@ abstract class NodeViewBuilderAbstract extends PluginBase implements EntityViewB
     );
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function build(array $build) {
     /** @var \Drupal\node\NodeInterface $entity */
     $entity = $build['#node'];

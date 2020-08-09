@@ -10,6 +10,15 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
  */
 interface EntityViewBuilderPluginInterface extends ContainerFactoryPluginInterface, PluginInspectionInterface {
 
+  /**
+   * Build a render array.
+   *
+   * @param array $build
+   *   The existing render array.
+   *
+   * @return array
+   *   The new render array.
+   */
   public function build(array $build);
 
 }
