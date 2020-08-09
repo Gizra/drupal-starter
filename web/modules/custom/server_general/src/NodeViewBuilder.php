@@ -2,6 +2,7 @@
 
 namespace Drupal\server_general;
 
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Render\Element;
 use Drupal\node\NodeViewBuilder as CoreNodeViewBuilder;
@@ -48,9 +49,11 @@ class NodeViewBuilder extends CoreNodeViewBuilder {
 
     // Check if we have a plugin to take over the bundle of this entity.
     $plugin_id = $entity->getEntityTypeId() . '.' . $bundle;
-    $plugin_definition = $this->entityViewBuilderPluginManager->getDefinition($plugin_id);
 
-    if (!$plugin_definition) {
+    try {
+      $plugin_definition = $this->entityViewBuilderPluginManager->getDefinition($plugin_id);
+    }
+    catch (PluginNotFoundException $e) {
       // We don't have a plugin.
       return $build;
     }

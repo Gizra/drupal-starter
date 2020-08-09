@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\server_general;
+namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\node\NodeInterface;
 use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
