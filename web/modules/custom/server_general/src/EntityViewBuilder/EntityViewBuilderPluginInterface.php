@@ -19,11 +19,13 @@ interface EntityViewBuilderPluginInterface extends ContainerFactoryPluginInterfa
    * @param \Drupal\Core\Entity\EntityInterface $entity
    *   The entity to show.
    * @param string $view_mode
-   *   The view mode.
+   *   The view mode. Defaults to "full".
+   * @param string $langcode
+   *   Optional; The language code.
    *
    * @return array
    *   The new render array.
    */
-  public function build(array $build, EntityInterface $entity, $view_mode = 'full');
+  public function build(array $build, EntityInterface $entity, $view_mode = 'full', $langcode = NULL);
 
 }
