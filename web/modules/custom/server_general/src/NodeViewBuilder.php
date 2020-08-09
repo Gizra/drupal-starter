@@ -58,7 +58,7 @@ class NodeViewBuilder extends CoreNodeViewBuilder {
       return $build;
     }
 
-    $plugin = $plugin_definition->getPlugin();
+    $plugin = $this->entityViewBuilderPluginManager->createInstance($plugin_id);
 
     $view_mode = $build['#view_mode'];
 

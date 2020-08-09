@@ -6,11 +6,13 @@ use Drupal\Core\Block\BlockManagerInterface;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\node\NodeInterface;
+use Drupal\server_general\ComponentWrapTrait;
+use Drupal\server_general\TagBuilderTrait;
 
 /**
  * Class NodeViewBuilderAbstract.
  */
-class NodeViewBuilderAbstract {
+abstract class NodeViewBuilderAbstract implements EntityViewBuilderPluginInterface {
 
   use ComponentWrapTrait;
   use TagBuilderTrait;
@@ -55,6 +57,24 @@ class NodeViewBuilderAbstract {
     $this->entityTypeManager = $entity_type_manager;
     $this->currentUser = $current_user;
     $this->blockManager = $block_manager;
+  }
+
+  public function build(array $build) {
+    /** @var \Drupal\node\NodeInterface $entity */
+    $entity = $build['#node'];
+    $bundle = $entity->bundle();
+    $view_mode = $build['#view_mode'];
+
+    // We should get a method name such as `buildFull`, and `buildTeaser`.
+    $method = 'build' . mb_convert_case($view_mode, MB_CASE_TITLE);
+    $method = str_replace(['_', '-', ' '], '', $method);
+
+    if (!is_callable([$this, $method])) {
+      throw new \Exception("The node view builder method `$method` for bundle $bundle and view mode $view_mode not found");
+    }
+
+    return $this->$method($build, $entity);
+
   }
 
   /**
