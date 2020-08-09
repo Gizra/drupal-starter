@@ -4,15 +4,17 @@ namespace Drupal\server_general\EntityViewBuilder;
 
 use Drupal\Core\Block\BlockManagerInterface;
 use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\Core\Plugin\PluginBase;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\node\NodeInterface;
 use Drupal\server_general\ComponentWrapTrait;
 use Drupal\server_general\TagBuilderTrait;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class NodeViewBuilderAbstract.
  */
-abstract class NodeViewBuilderAbstract implements EntityViewBuilderPluginInterface {
+abstract class NodeViewBuilderAbstract extends PluginBase implements EntityViewBuilderPluginInterface {
 
   use ComponentWrapTrait;
   use TagBuilderTrait;
@@ -46,6 +48,12 @@ abstract class NodeViewBuilderAbstract implements EntityViewBuilderPluginInterfa
   /**
    * Abstract constructor.
    *
+   * @param array $configuration
+   *   A configuration array containing information about the plugin instance.
+   * @param string $plugin_id
+   *   The plugin_id for the plugin instance.
+   * @param mixed $plugin_definition
+   *   The plugin implementation definition.
    * @param \Drupal\Core\Entity\EntityTypeManager $entity_type_manager
    *   The entity type manager service.
    * @param \Drupal\Core\Session\AccountInterface $current_user
@@ -53,10 +61,25 @@ abstract class NodeViewBuilderAbstract implements EntityViewBuilderPluginInterfa
    * @param \Drupal\Core\Block\BlockManagerInterface $block_manager
    *   The block manager.
    */
-  public function __construct(EntityTypeManager $entity_type_manager, AccountInterface $current_user, BlockManagerInterface $block_manager) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManager $entity_type_manager, AccountInterface $current_user, BlockManagerInterface $block_manager) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entity_type_manager;
     $this->currentUser = $current_user;
     $this->blockManager = $block_manager;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('entity_type.manager'),
+      $container->get('current_user'),
+      $container->get('plugin.manager.block')
+    );
   }
 
   public function build(array $build) {
