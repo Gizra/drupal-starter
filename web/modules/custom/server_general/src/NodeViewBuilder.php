@@ -60,22 +60,13 @@ class NodeViewBuilder extends CoreNodeViewBuilder {
     }
 
     $plugin = $this->entityViewBuilderPluginManager->createInstance($plugin_id);
-    $view_mode = $build['#view_mode'];
-
-    // We should get a method name such as `buildFull`, and `buildTeaser`.
-    $method = 'build' . mb_convert_case($view_mode, MB_CASE_TITLE);
-    $method = str_replace(['_', '-', ' '], '', $method);
-
-    if (!is_callable([$plugin, $method])) {
-      throw new \Exception("The node view builder method `$method` for bundle $bundle and view mode $view_mode not found");
-    }
 
     // Remove the unneeded stuff from the default build.
     foreach (Element::children($build) as $key) {
       unset($build[$key]);
     }
 
-    return $plugin->$method($build, $entity);
+    return $plugin->build($build, $entity);
   }
 
 }

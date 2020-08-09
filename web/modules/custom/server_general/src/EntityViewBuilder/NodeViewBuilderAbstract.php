@@ -3,6 +3,7 @@
 namespace Drupal\server_general\EntityViewBuilder;
 
 use Drupal\Core\Block\BlockManagerInterface;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Plugin\PluginBase;
 use Drupal\Core\Session\AccountInterface;
@@ -85,9 +86,7 @@ abstract class NodeViewBuilderAbstract extends PluginBase implements EntityViewB
   /**
    * {@inheritdoc}
    */
-  public function build(array $build) {
-    /** @var \Drupal\node\NodeInterface $entity */
-    $entity = $build['#node'];
+  public function build(array $build, EntityInterface $entity) {
     $bundle = $entity->bundle();
     $view_mode = $build['#view_mode'];
 
