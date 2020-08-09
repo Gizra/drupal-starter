@@ -18,10 +18,12 @@ interface EntityViewBuilderPluginInterface extends ContainerFactoryPluginInterfa
    *   The existing render array.
    * @param \Drupal\Core\Entity\EntityInterface $entity
    *   The entity to show.
+   * @param string $view_mode
+   *   The view mode.
    *
    * @return array
    *   The new render array.
    */
-  public function build(array $build, EntityInterface $entity);
+  public function build(array $build, EntityInterface $entity, $view_mode = 'full');
 
 }

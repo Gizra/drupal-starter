@@ -3,6 +3,7 @@
 namespace Drupal\server_general;
 
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Render\Element;
 use Drupal\node\NodeViewBuilder as CoreNodeViewBuilder;
@@ -40,11 +41,8 @@ class NodeViewBuilder extends CoreNodeViewBuilder {
    *
    * @throws \Exception
    */
-  public function build(array $build) {
-    $build = parent::build($build);
-
-    /** @var \Drupal\node\NodeInterface $entity */
-    $entity = $build['#node'];
+  public function view(EntityInterface $entity, $view_mode = 'full', $langcode = NULL) {
+    $build = parent::view($entity, $view_mode, $langcode);
     $bundle = $entity->bundle();
 
     // Check if we have a plugin to take over the bundle of this entity.
@@ -61,7 +59,8 @@ class NodeViewBuilder extends CoreNodeViewBuilder {
 
     $plugin = $this->entityViewBuilderPluginManager->createInstance($plugin_id);
 
-    // Remove the unneeded stuff from the default build.
+    // Remove the unneeded stuff from the default build. We would add everything
+    // manually.
     foreach (Element::children($build) as $key) {
       unset($build[$key]);
     }
