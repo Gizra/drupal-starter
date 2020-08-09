@@ -19,7 +19,7 @@ class ServerGeneralExampleTest extends ExistingSiteBase {
    */
   public function testArticle() {
     // Creates a user. Will be automatically cleaned up at the end of the test.
-    $author = $this->createUser([], NULL, TRUE);
+    $author = $this->createUser();
 
     // Create a taxonomy term. Will be automatically cleaned up at the end of
     // the test.
@@ -36,7 +36,6 @@ class ServerGeneralExampleTest extends ExistingSiteBase {
       ],
       'uid' => $author->id(),
     ]);
-    $node->setPublished()->save();
     $this->assertEquals($author->id(), $node->getOwnerId());
 
     // We can browse pages.
