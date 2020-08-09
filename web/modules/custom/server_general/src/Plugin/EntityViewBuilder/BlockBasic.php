@@ -39,7 +39,6 @@ class BlockBasic extends PluginBase implements EntityViewBuilderPluginInterface 
    */
   public function build(array $build, EntityInterface $entity, $view_mode = 'full') {
     $build['title'] = $this->buildTitle($entity);
-    dump($build['title']);
     $build['body'] = $this->buildBody($entity);
     $build['extra'] = $this->buildExtra();
 
