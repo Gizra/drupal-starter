@@ -26,6 +26,6 @@ interface EntityViewBuilderPluginInterface extends ContainerFactoryPluginInterfa
    * @return array
    *   The new render array.
    */
-  public function build(array $build, EntityInterface $entity, $view_mode = 'full', $langcode = NULL);
+  public function view(array $build, EntityInterface $entity, $view_mode = 'full', $langcode = NULL);
 
 }

@@ -54,7 +54,7 @@ trait EntityViewBuilderTrait {
       unset($build[$key]);
     }
 
-    return $plugin->build($build, $entity, $view_mode, $langcode);
+    return $plugin->view($build, $entity, $view_mode, $langcode);
   }
 
 }

@@ -88,7 +88,7 @@ abstract class NodeViewBuilderAbstract extends PluginBase implements EntityViewB
   /**
    * {@inheritdoc}
    */
-  public function build(array $build, EntityInterface $entity, $view_mode = 'full', $langcode = NULL) {
+  public function view(array $build, EntityInterface $entity, $view_mode = 'full', $langcode = NULL) {
     $bundle = $entity->bundle();
     $view_mode = $build['#view_mode'];
 
