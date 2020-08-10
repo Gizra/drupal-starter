@@ -5,12 +5,17 @@
  * Module file.
  */
 
+use Drupal\server_general\BlockContentViewBuilder;
 use Drupal\server_general\NodeViewBuilder;
 
 /**
  * Implements hook_entity_type_alter().
  */
 function server_general_entity_type_alter(array &$entity_types) {
+  if (!empty($entity_types['block_content'])) {
+    $entity_types['block_content']->setViewBuilderClass(BlockContentViewBuilder::class);
+  }
+
   if (!empty($entity_types['node'])) {
     $entity_types['node']->setViewBuilderClass(NodeViewBuilder::class);
   }

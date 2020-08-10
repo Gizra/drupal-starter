@@ -4,15 +4,15 @@ namespace Drupal\server_general;
 
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
-use Drupal\node\NodeViewBuilder as CoreNodeViewBuilder;
+use Drupal\block_content\BlockContentViewBuilder as CoreBlockContentViewBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class NodeViewBuilder.
+ * Class BlockViewBuilder.
  *
- * Overrides the core node view builder class to output nodes in custom style.
+ * Overrides the core block view builder class to output nodes in custom style.
  */
-class NodeViewBuilder extends CoreNodeViewBuilder {
+class BlockContentViewBuilder extends CoreBlockContentViewBuilder {
 
   use EntityViewBuilderTrait;
 
@@ -34,12 +34,7 @@ class NodeViewBuilder extends CoreNodeViewBuilder {
   }
 
   /**
-   * {@inheritDoc}
-   *
-   * This is a dispatcher method, that decides - according to the node type, to
-   * which specific node type node vie builder service to call.
-   *
-   * @throws \Exception
+   * {@inheritdoc}
    */
   public function view(EntityInterface $entity, $view_mode = 'full', $langcode = NULL) {
     return $this->doView($entity, $view_mode, $langcode);

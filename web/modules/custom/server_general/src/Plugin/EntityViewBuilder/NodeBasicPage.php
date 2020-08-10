@@ -1,13 +1,20 @@
 <?php
 
-namespace Drupal\server_general;
+namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\node\NodeInterface;
+use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
 
 /**
- * Class NodeViewBuilderBasicPage.
+ * Class NodeBasicPage.
+ *
+ * @EntityViewBuilder(
+ *   id = "node.page",
+ *   label = @Translation("Node - Basic page"),
+ *   description = "Node view builder for Basic page bundle."
+ * )
  */
-class NodeViewBuilderBasicPage extends NodeViewBuilderAbstract {
+class NodeBasicPage extends NodeViewBuilderAbstract {
 
   /**
    * Build "Basic Page" in "Full" view mode.

@@ -1,13 +1,20 @@
 <?php
 
-namespace Drupal\server_general;
+namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\node\NodeInterface;
+use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
 
 /**
- * Class NodeViewBuilderArticle.
+ * Class NodeArticle.
+ *
+ * @EntityViewBuilder(
+ *   id = "node.article",
+ *   label = @Translation("Node - Article"),
+ *   description = "Node view builder for Article bundle."
+ * )
  */
-class NodeViewBuilderArticle extends NodeViewBuilderAbstract {
+class NodeArticle extends NodeViewBuilderAbstract {
 
   /**
    * Build full view mode.
