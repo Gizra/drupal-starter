@@ -55,3 +55,4 @@ $config['environment_indicator.indicator']['fg_color'] = '#ffffff';
 $config['smtp.settings']['smtp_host'] = 'localhost';
 $config['smtp.settings']['smtp_port'] = '1025';
 
+$config['system.logging']['error_level'] = 'verbose';
