@@ -286,7 +286,7 @@ class RoboFile extends Tasks {
     usleep(self::DEPLOYMENT_WAIT_TIME);
     $pantheon_env = $branch_name == 'master' ? 'dev' : $branch_name;
     do {
-      $code_sync_completed = $this->_exec("terminus workflow:list " . self::PANTHEON_NAME . " --format=csv | grep " . $pantheon_env . " | grep Sync | grep -v succeeded")->getExitCode();
+      $code_sync_completed = $this->_exec("terminus workflow:list " . self::PANTHEON_NAME . " --format=csv | grep " . $pantheon_env . " | grep Sync | awk -F',' '{print $5}' | grep running")->getExitCode();
       usleep(self::DEPLOYMENT_WAIT_TIME);
     } while (!$code_sync_completed);
     $this->deployPantheonSync($pantheon_env, FALSE);
