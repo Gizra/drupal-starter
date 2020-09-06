@@ -22,7 +22,8 @@
         "composer/installers": "^1.2",
         "drupal/core-composer-scaffold": "^8.9",
         "drupal/core-recommended": "^8.8",
-        "drush/drush": "^10.2"
+        "drush/drush": "^10.2",
+        "oomphinc/composer-installers-extender": "^2.0"
     },
     "require-dev": {
         "consolidation/robo": "^1.0.0",
