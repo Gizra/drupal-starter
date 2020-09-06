@@ -10,7 +10,7 @@ use Drupal\server_general\ProcessedTextBuilderTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class BlockBasic.
+ * The "Block Basic" plugin.
  *
  * @EntityViewBuilder(
  *   id = "block_content.basic",

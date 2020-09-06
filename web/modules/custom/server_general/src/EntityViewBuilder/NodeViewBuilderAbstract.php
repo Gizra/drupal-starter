@@ -14,7 +14,7 @@ use Drupal\server_general\TagBuilderTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class NodeViewBuilderAbstract.
+ * An abstract class for Node View Builders classes.
  */
 abstract class NodeViewBuilderAbstract extends PluginBase implements EntityViewBuilderPluginInterface {
 

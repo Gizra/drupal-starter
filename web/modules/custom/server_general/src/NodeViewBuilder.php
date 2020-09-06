@@ -8,8 +8,6 @@ use Drupal\node\NodeViewBuilder as CoreNodeViewBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class NodeViewBuilder.
- *
  * Overrides the core node view builder class to output nodes in custom style.
  */
 class NodeViewBuilder extends CoreNodeViewBuilder {
