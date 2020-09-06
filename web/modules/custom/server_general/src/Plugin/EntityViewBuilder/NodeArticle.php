@@ -6,7 +6,7 @@ use Drupal\node\NodeInterface;
 use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
 
 /**
- * Class NodeArticle.
+ * The "Node Article" plugin.
  *
  * @EntityViewBuilder(
  *   id = "node.article",

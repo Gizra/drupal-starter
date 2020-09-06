@@ -6,7 +6,7 @@ use Drupal\node\NodeInterface;
 use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
 
 /**
- * Class NodeBasicPage.
+ * The "Node Basic Page" plugin.
  *
  * @EntityViewBuilder(
  *   id = "node.page",

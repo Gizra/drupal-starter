@@ -6,7 +6,7 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\server_general\ComponentWrapTrait;
 
 /**
- * Class Homepage.
+ * A controller to build the "Homepage".
  */
 class Homepage extends ControllerBase {
 
