@@ -44,6 +44,16 @@ module.exports = {
       // Custom module and the Style guide may have needed classes.
       '../../../modules/custom/**/*.php',
     ],
+    options: {
+      whitelist: [
+        'bg-purple-primary',
+        'bg-turquoise',
+        'border-purple-primary',
+        'border-turquoise',
+        'text-purple-primary',
+        'text-turquoise',
+      ],
+    },
   },
   plugins: [
     require('@tailwindcss/custom-forms'),
