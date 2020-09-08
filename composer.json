@@ -19,9 +19,14 @@
         }
     ],
     "require": {
+        "ext-json": "*",
+        "ext-mbstring": "*",
         "composer/installers": "^1.2",
+        "cweagans/composer-patches": "^1.6",
         "drupal/core-composer-scaffold": "^8.9",
         "drupal/core-recommended": "^8.8",
+        "drupal/elasticsearch_connector": "^7.0@alpha",
+        "drupal/search_api": "^1.17",
         "drush/drush": "^10.2",
         "oomphinc/composer-installers-extender": "^2.0"
     },
@@ -46,6 +51,16 @@
         "sort-packages": true
     },
     "extra": {
+        "patchLevel": {
+            "drupal/core": "-p2"
+        },
+        "patches": {
+            "drupal/elasticsearch_connector": {
+                "Preserve ES index settings": "https://www.drupal.org/files/issues/2020-01-28/3109361-elasticsearch_connector-preserve-index-settings-1.patch",
+                "SearchBuilder::flattenKeys throws Array offset Notice in PHP 7.4": "https://www.drupal.org/files/issues/2020-04-08/array-offset-notice-php7.4-3125891-2.patch",
+                "bool search": "https://www.drupal.org/files/issues/2019-08-23/elastic_connector-7.x-search_condition_boolean_fields-3008751.patch"
+            }
+        },
         "drupal-scaffold": {
             "locations": {
                 "web-root": "web/"

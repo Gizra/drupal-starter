@@ -18,6 +18,8 @@ class RoboFile extends Tasks {
    */
   const DEPLOYMENT_WAIT_TIME = '500000';
 
+  private static $indexPrefix = 'elasticsearch_index_pantheon_';
+
   /**
    * The Pantheon name.
    *
@@ -239,6 +241,7 @@ class RoboFile extends Tasks {
       'pantheon.upstream.yml',
       'travis-key.enc',
       'travis-key',
+      'server.es.secrets.json',
     ];
 
     $rsync_exclude_string = '--exclude=' . implode(' --exclude=', $rsync_exclude);
@@ -456,6 +459,298 @@ class RoboFile extends Tasks {
     $this->say("Add the SSH key to the Pantheon account: https://pantheon.io/docs/ssh-keys .");
     $this->say("Add the SSH key to the GitHub project as a deploy key: https://docs.github.com/en/developers/overview/managing-deploy-keys .");
     $this->say("Convert the project to nested docroot: https://pantheon.io/docs/nested-docroot .");
+  }
+
+
+  private $indices = [
+    "server",
+  ];
+
+  private $environments = ["qa", "dev", "test", "live"];
+
+  private $sites = ["server"];
+
+  /**
+   * Generates a cryptographically secure random string for the password.
+   *
+   * @param int $length
+   *   Length of the random string.
+   * @param string $keyspace
+   *   The set of characters that can be part of the output string.
+   *
+   * @return string
+   *   The random string.
+   *
+   * @throws \Exception
+   */
+  protected function randomStr(
+    int $length = 64,
+    string $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  ): string {
+    if ($length < 1) {
+      throw new \RangeException("Length must be a positive integer");
+    }
+    $pieces = [];
+    $max = mb_strlen($keyspace, '8bit') - 1;
+    for ($i = 0; $i < $length; ++$i) {
+      $pieces[] = $keyspace[random_int(0, $max)];
+    }
+    return implode('', $pieces);
+  }
+
+  /**
+   * Provision command.
+   *
+   * @param string $es_url
+   *   Fully qualified URL to ES, for example: http://elasticsearch:9200 .
+   * @param string $username
+   *   The username of the ES admin user.
+   * @param string $password
+   *   The password of the ES admin user.
+   *
+   * @throws \Exception
+   */
+  public function elasticsearchProvision($es_url, $username, $password) {
+    $es_url = rtrim($es_url, '/');
+    if (strstr($es_url, '//elasticsearch:') !== FALSE) {
+      // Detect DDEV.
+      self::$indexPrefix = 'elasticsearch_index_db_';
+    }
+    $index_creation = $this->taskParallelExec();
+    $role_creation = $this->taskParallelExec();
+    $user_creation = $this->taskParallelExec();
+    $credentials = [];
+    foreach ($this->environments as $environment) {
+      foreach ($this->indices as $index) {
+        $index_creation->process("curl -u {$username}:{$password} -X PUT {$es_url}/" . self::$indexPrefix . "{$index}_{$environment}");
+      }
+      $all_roles = [];
+      foreach ($this->sites as $site) {
+        if (!isset($credentials[$site])) {
+          $credentials[$site] = [];
+        }
+        if (!isset($credentials[$site][$environment])) {
+          $credentials[$site][$environment] = [];
+        }
+        $allowed_indices = [];
+        foreach ($this->indices as $index) {
+          if (strstr($index, $site) !== FALSE) {
+            $allowed_indices[] = '"' . self::$indexPrefix . $index . '_' . $environment . '"';
+          }
+        }
+        $allowed_indices = implode(',', $allowed_indices);
+
+        $role_data = <<<END
+{ "cluster": ["all"],
+  "indices": [
+    {
+      "names": [ $allowed_indices ],
+      "privileges": ["all"]
+    }
+  ]
+}
+END;
+
+        $role_creation->process("curl -u {$username}:{$password} -X POST {$es_url}/_security/role/${site}_${environment} -H 'Content-Type: application/json' --data '$role_data'");
+        $all_roles[] = '"' . $site . '_' . $environment . '"';
+
+        // Generate random password or re-use an existing one from the JSON.
+        $existing_password = $this->getUserPassword($site, $environment);
+        $user_pw = !empty($existing_password) ? $existing_password : $this->randomStr();
+        $user_data = <<<END
+{ "password" : "$user_pw",
+  "roles": [ "{$site}_{$environment}" ]
+}
+END;
+        $credentials[$site][$environment] = $user_pw;
+        $user_creation->process("curl -u {$username}:{$password} -X POST {$es_url}/_security/user/${site}_${environment} -H 'Content-Type: application/json' --data '$user_data'");
+      }
+
+    }
+
+    $index_creation->run();
+    $role_creation->run();
+    $user_creation->run();
+
+    $this->elasticsearchSynonyms($es_url, $username, $password);
+    $this->elasticsearchStopwords($es_url, $username, $password);
+    $this->elasticsearchAnalyzer($es_url, $username, $password);
+
+    // We expose the credentials as files on the system.
+    // Should be securely handled and deleted after the execution.
+    foreach ($credentials as $site => $credential_per_environment) {
+      file_put_contents($site . '.es.secrets.json', json_encode($credential_per_environment));
+    }
+  }
+
+  /**
+   * Apply / actualize stopwords.
+   *
+   * @param string $es_url
+   *   Fully qualified URL to ES, for example: http://elasticsearch:9200 .
+   * @param string $username
+   *   The username of the ES admin user.
+   * @param string $password
+   *   The password of the ES admin user.
+   * @param string $english_stopword_path
+   *   The path to the English stopword list.
+   *
+   * @throws \Exception
+   */
+  public function elasticsearchStopwords($es_url, $username = '', $password = '', $english_stopword_path = 'config/elasticsearch/stopwords.txt') {
+    if (!file_exists($english_stopword_path)) {
+      throw new Exception("The English stopword file does not exist");
+    }
+
+    $stopword_combined = file($english_stopword_path);
+    if (empty($stopword_combined)) {
+      throw new Exception("The stopword lists would be empty, check the specified files");
+    }
+    $prepared_stopwords = [];
+    foreach ($stopword_combined as $stopword) {
+      $prepared_stopwords[] = '"' . trim($stopword) . '"';
+    }
+    $stopword_list = implode(',', $prepared_stopwords);
+    $stopword_data = <<<END
+{
+  "analysis": {
+    "filter": {
+      "stop": {
+        "type": "stop",
+        "stopwords": [ $stopword_list ]
+      }
+    }
+  }
+}
+END;
+
+    $this->applyIndexSettings($es_url, $username, $password, $stopword_data);
+  }
+
+  /**
+   * Apply / actualize synonyms.
+   *
+   * @param string $es_url
+   *   Fully qualified URL to ES, for example: http://elasticsearch:9200 .
+   * @param string $username
+   *   The username of the ES admin user.
+   * @param string $password
+   *   The password of the ES admin user.
+   * @param string $english_synonym_path
+   *   The path to the English synonym list.
+   *
+   * @throws \Exception
+   */
+  public function elasticsearchSynonyms($es_url, $username = '', $password = '', $english_synonym_path = 'config/elasticsearch/synonyms.txt') {
+    if (!file_exists($english_synonym_path)) {
+      throw new Exception("The English synonym file does not exist");
+    }
+    $synonym_combined = file($english_synonym_path);
+    if (empty($synonym_combined)) {
+      throw new Exception("The synonym lists would be empty, check the specified files");
+    }
+    $prepared_synonyms = [];
+    foreach ($synonym_combined as $synonym) {
+      $prepared_synonyms[] = '"' . trim($synonym) . '"';
+    }
+    $synonym_list = implode(',', $prepared_synonyms);
+    $synonym_data = <<<END
+{
+  "analysis": {
+    "filter": {
+      "synonym": {
+        "type": "synonym_graph",
+        "lenient": true,
+        "synonyms": [ $synonym_list ]
+      }
+    }
+  }
+}
+END;
+
+    $this->applyIndexSettings($es_url, $username, $password, $synonym_data);
+  }
+
+  /**
+   * Apply / actualize synonyms.
+   *
+   * @param string $es_url
+   *   Fully qualified URL to ES, for example: http://elasticsearch:9200 .
+   * @param string $username
+   *   The username of the ES admin user.
+   * @param string $password
+   *   The password of the ES admin user.
+   *
+   * @throws \Exception
+   */
+  public function elasticsearchAnalyzer($es_url, $username = '', $password = '') {
+    $analyzer_data = <<<END
+{
+  "analysis": {
+    "analyzer": {
+      "default": {
+        "type": "custom",
+        "char_filter":  [ "html_strip" ],
+        "tokenizer": "standard",
+        "filter": [ "lowercase", "stop", "synonym" ]
+      }
+    }
+  }
+}
+END;
+
+    $this->applyIndexSettings($es_url, $username, $password, $analyzer_data);
+  }
+
+  /**
+   * Apply index configuration snippet to all indices.
+   *
+   * @param string $es_url
+   *   Fully qualified URL to ES, for example: http://elasticsearch:9200 .
+   * @param string $username
+   *   The username of the ES admin user.
+   * @param string $password
+   *   The password of the ES admin user.
+   * @param string $data
+   *   The JSON snippet to apply.
+   */
+  private function applyIndexSettings($es_url, $username, $password, $data) {
+    foreach ($this->environments as $environment) {
+      foreach ($this->indices as $index) {
+        $this->taskExec("curl -u {$username}:{$password} -X POST {$es_url}/" . self::$indexPrefix . "{$index}_{$environment}/_close")->run();
+        $this->taskExec("curl -u {$username}:{$password} -X PUT {$es_url}/" . self::$indexPrefix . "{$index}_{$environment}/_settings -H 'Content-Type: application/json' --data '$data'")->run();;
+        $this->taskExec("curl -u {$username}:{$password} -X POST {$es_url}/" . self::$indexPrefix . "{$index}_{$environment}/_open")->run();
+      }
+    }
+  }
+
+  /**
+   * Returns an already existing password for the given user.
+   *
+   * @param string $site
+   *   The site ID.
+   * @param string $environment
+   *   The environment ID.
+   *
+   * @return string|NULL
+   */
+  protected function getUserPassword($site, $environment) {
+    $credentials_file = $site . '.es.secrets.json';
+    if (!file_exists($credentials_file)) {
+      return NULL;
+    }
+    $credentials = file_get_contents($credentials_file);
+    if (empty($credentials)) {
+      return NULL;
+    }
+    $credentials = json_decode($credentials, TRUE);
+    if (!is_array($credentials)) {
+      return NULL;
+    }
+    if (!isset($credentials[$environment])) {
+      return NULL;
+    }
+    return $credentials[$environment];
   }
 
 }

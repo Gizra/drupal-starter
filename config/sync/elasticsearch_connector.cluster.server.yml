@@ -1,0 +1,14 @@
+uuid: dba5f9d7-768a-4164-a897-5c0832c2c2df
+langcode: en
+status: '1'
+dependencies: {  }
+cluster_id: server
+name: server
+url: 'http://elasticsearch:9200'
+options:
+  multiple_nodes_connection: false
+  use_authentication: 0
+  authentication_type: Basic
+  username: ''
+  password: ''
+  timeout: '3'
