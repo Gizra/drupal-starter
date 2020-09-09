@@ -65,10 +65,6 @@ To take a look, you can check these first:
  - https://drupal-starter.ddev.site:9201/\_cat/indices - list of all indices
  - https://drupal-starter.ddev.site:9201/\_search - list of all documents
 
-### Disable ElasticSearch
-
-In case the project doesn't require any search, you can easily drop ElasticSearch support by reverting https://patch-diff.githubusercontent.com/raw/Gizra/drupal-starter/pull/67.patch - see https://www.drupal.org/patch/reverse . As the development continues, it will be more and more conflicts when trying to revert the patch, but it clearly marks the key points that must be deleted.
-
 ## PHPCS (Code Sniffer)
 
     ddev phpcs
