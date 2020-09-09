@@ -57,6 +57,14 @@ The directory structure:
 
 For theme development, it's advisable to entirely turn off caching: https://www.drupal.org/node/2598914
 
+## ElasticSearch
+
+The starter kit comes out of the box with ElasticSearch. Search API is activated and DDEV provides an ElasticSearch instance, already configured to use a [stopwords](https://github.com/Gizra/drupal-starter/blob/master/config/elasticsearch/stopwords.txt) and a [synonyms](https://github.com/Gizra/drupal-starter/blob/master/config/elasticsearch/synonyms.txt) list. Also it creates 4 indices (QA, DEV, TEST and LIVE) to reflect our typical Pantheon setup. The site inside DDEV will use the DEV index.
+
+### Disable ElasticSearch
+
+In case the project doesn't require any search, you can easily drop ElasticSearch support by reverting https://patch-diff.githubusercontent.com/raw/Gizra/drupal-starter/pull/67.patch - see https://www.drupal.org/patch/reverse .
+
 ## PHPCS (Code Sniffer)
 
     ddev phpcs
