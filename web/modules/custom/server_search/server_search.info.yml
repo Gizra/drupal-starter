@@ -1,0 +1,5 @@
+name: "Server Search"
+type: module
+description: "Handles custom logic for the ES integration"
+core: 8.x
+package: "Server"
