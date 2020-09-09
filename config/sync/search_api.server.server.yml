@@ -10,7 +10,7 @@ description: ''
 backend: elasticsearch
 backend_config:
   cluster_settings:
-    cluster: un
+    cluster: server
   fuzziness: auto
   scheme: http
   host: localhost
