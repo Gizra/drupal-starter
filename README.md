@@ -57,6 +57,11 @@ The directory structure:
 
 For theme development, it's advisable to entirely turn off caching: https://www.drupal.org/node/2598914
 
+#### Compressing SVG files
+```
+ddev robo theme:compress-svg
+```
+
 ## ElasticSearch
 
 The starter kit comes out of the box with ElasticSearch. Search API is activated and DDEV provides an ElasticSearch instance, already configured to use a [stopwords](https://github.com/Gizra/drupal-starter/blob/master/config/elasticsearch/stopwords.txt) and a [synonyms](https://github.com/Gizra/drupal-starter/blob/master/config/elasticsearch/synonyms.txt) list. Also it creates 4 indices (QA, DEV, TEST and LIVE) to reflect our typical Pantheon setup. The site inside DDEV will use the DEV index.
