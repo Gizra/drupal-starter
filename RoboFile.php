@@ -753,4 +753,40 @@ END;
     return $credentials[$environment];
   }
 
+  /**
+   * Generates log of changes since the given tag.
+   *
+   * @param string $tag
+   *   The git tag to compare since. Usually the tag from the previous release.
+   *   If you're releasing for example 1.0.2, then you should get changes since
+   *   1.0.1, so $tag = 1.0.1.
+   *
+   * @throws \Exception
+   */
+  public function generateReleaseNotes($tag) {
+    $result = $this->_exec("git tag | grep $tag || exit 1");
+    if ($result->getExitCode()) {
+      throw new Exception('The tag does not exist.');
+    }
+    $this->say('Copy release notes below');
+    echo "Changelog:\n";
+    $log = $this->taskExec("git log --merges --pretty=format:'%s¬¬|¬¬%b' $tag..")->printOutput(FALSE)->run()->getMessage();
+    $lines = explode("\n", $log);
+    foreach ($lines as $line) {
+      $log_messages = explode("¬¬|¬¬", $line);
+      $matches = [];
+      preg_match_all('/Merge pull request #([0-9]+)/', $line, $matches);
+
+      if (count($log_messages) < 2) {
+        continue;
+      }
+
+      if (!isset($matches[1][0])) {
+        continue;
+      }
+
+      print "- Issue #%s: {$log_messages[1]} (Pull Request #{$matches[1][0]})\n";
+    }
+  }
+
 }
