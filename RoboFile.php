@@ -763,15 +763,26 @@ END;
    *
    * @throws \Exception
    */
-  public function generateReleaseNotes($tag) {
+  public function generateReleaseNotes($tag = NULL) {
     $result = $this->_exec("git tag | grep $tag || exit 1");
     if ($result->getExitCode()) {
-      throw new Exception('The tag does not exist.');
+      $latest_tag = $this->taskExec("git tag --sort=version:refname | tail -n1")->printOutput(FALSE)->run()->getMessage();
+      if (empty($latest_tag)) {
+        throw new Exception('There are no tags in this repository.');
+      }
+      if (!$this->confirm("Would you like to compare from $latest_tag?")) {
+        $this->say("Specify the tag as an argument");
+        exit(1);
+      }
+      $tag = $latest_tag;
     }
-    $this->say('Copy release notes below');
-    echo "Changelog:\n";
+
     $log = $this->taskExec("git log --merges --pretty=format:'%s¬¬|¬¬%b' $tag..")->printOutput(FALSE)->run()->getMessage();
     $lines = explode("\n", $log);
+
+    $this->say('Copy release notes below');
+    echo "Changelog:\n";
+
     foreach ($lines as $line) {
       $log_messages = explode("¬¬|¬¬", $line);
       $matches = [];
