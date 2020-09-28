@@ -338,10 +338,8 @@ class RoboFile extends Tasks {
   /**
    * Reinstall the site on specific env on Pantheon.
    *
-   * Running this command via `ddev` will require terminus login inside ddev.
-   * Instead, it's possible to run the command locally, where usually already
-   * authenticated to `terminus`:
-   * - `./vendor/consolidation/robo/robo reinstall:env`
+   * Running this command via `ddev` will require terminus login inside ddev:
+   * `ddev auth ssh`
    *
    * @param string $env
    *   The environment to reinstall (default='qa').
