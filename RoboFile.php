@@ -785,18 +785,34 @@ END;
 
     foreach ($lines as $line) {
       $log_messages = explode("¬¬|¬¬", $line);
-      $matches = [];
-      preg_match_all('/Merge pull request #([0-9]+)/', $line, $matches);
+      $pr_matches = [];
+      preg_match_all('/Merge pull request #([0-9]+)/', $line, $pr_matches);
 
       if (count($log_messages) < 2) {
         continue;
       }
 
-      if (!isset($matches[1][0])) {
+      if (!isset($pr_matches[1][0])) {
         continue;
       }
 
-      print "- Issue #%s: {$log_messages[1]} (Pull Request #{$matches[1][0]})\n";
+      $log_messages[1] = trim($log_messages[1]);
+      if (empty($log_messages[1])) {
+        continue;
+      }
+
+      // The issue number is a required part of the branch name
+      // So usually we can grab it from the log too, but that's optional
+      // If we cannot detect it, we still print a less verbose changelog line.
+      $issue_matches = [];
+      preg_match_all('!from Gizra/([0-9]+)!', $line, $issue_matches);
+
+      if (isset($issue_matches[1][0])) {
+        print "- Issue #{$issue_matches[1][0]} :{$log_messages[1]} (Pull Request #{$pr_matches[1][0]})\n";
+      }
+      else {
+        print "- {$log_messages[1]} (Pull Request #{$pr_matches[1][0]})\n";
+      }
     }
   }
 
