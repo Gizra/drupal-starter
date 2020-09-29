@@ -122,12 +122,11 @@ Then you can deploy with
 
 ### Install the Site with the Profile
 
-After first deploy, you will want to install the site. We've noticed that
-it gives an error, but after cache-clear, the site can be accessed.
+After first deploy, you will want to install the site:
+`ddev robo deploy:pantheon-install-env dev`
 
-    ddev exec terminus drush <your-site>.dev -- site-install server -y --existing-config
-    ddev exec terminus drush <your-site>.dev -- cr
-    ddev exec terminus drush <your-site>.dev -- uli
+This command is also useful if a deployment got stuck due to non-deployable
+config changes, so it can reboot the environment from scratch.
 
 ## Deploy Environments
 

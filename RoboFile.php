@@ -336,17 +336,17 @@ class RoboFile extends Tasks {
   }
 
   /**
-   * Reinstall the site on specific env on Pantheon.
+   * Install the site on specific env on Pantheon from scratch.
    *
    * Running this command via `ddev` will require terminus login inside ddev:
    * `ddev auth ssh`
    *
    * @param string $env
-   *   The environment to reinstall (default='qa').
+   *   The environment to install (default='qa').
    *
    * @throws \Robo\Exception\TaskException
    */
-  public function reinstallEnv(string $env = 'qa') {
+  public function deployPantheonInstallEnv(string $env = 'qa') {
     $forbidden_envs = [
       'live',
     ];
@@ -381,7 +381,7 @@ class RoboFile extends Tasks {
     }
 
     if ($result !== 0) {
-      throw new Exception("The site failed to get reinstalled on Pantheon's `{$env}` environment.");
+      throw new Exception("The site failed to get installed on Pantheon's `{$env}` environment.");
     }
   }
 
