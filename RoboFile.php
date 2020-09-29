@@ -770,7 +770,7 @@ END;
       if (empty($latest_tag)) {
         throw new Exception('There are no tags in this repository.');
       }
-      if (!$this->confirm("Would you like to compare from $latest_tag?")) {
+      if (!$this->confirm("Would you like to compare from the latest tag: $latest_tag?")) {
         $this->say("Specify the tag as an argument");
         exit(1);
       }
