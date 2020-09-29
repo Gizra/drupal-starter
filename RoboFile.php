@@ -803,4 +803,83 @@ END;
     return $credentials[$environment];
   }
 
+  /**
+   * Generates log of changes since the given tag.
+   *
+   * @param string|null $tag
+   *   The git tag to compare since. Usually the tag from the previous release.
+   *   If you're releasing for example 1.0.2, then you should get changes since
+   *   1.0.1, so $tag = 1.0.1. Omit for detecting the last tag automatically.
+   *
+   * @throws \Exception
+   */
+  public function generateReleaseNotes($tag = NULL) {
+    // Check if the specified tag exists or not.
+    if (!empty($tag)) {
+      $result = $this->taskExec("git tag | grep \"$tag\"")
+        ->printOutput(FALSE)
+        ->run()
+        ->getMessage();
+      if (empty($result)) {
+        $this->say('The specified tag does not exist: ' . $tag);
+      }
+    }
+
+    if (empty($result)) {
+      $latest_tag = $this->taskExec("git tag --sort=version:refname | tail -n1")
+        ->printOutput(FALSE)
+        ->run()
+        ->getMessage();
+      if (empty($latest_tag)) {
+        throw new Exception('There are no tags in this repository.');
+      }
+      if (!$this->confirm("Would you like to compare from the latest tag: $latest_tag?")) {
+        $this->say("Specify the tag as an argument");
+        exit(1);
+      }
+      $tag = $latest_tag;
+    }
+
+    $log = $this->taskExec("git log --merges --pretty=format:'%s¬¬|¬¬%b' $tag..")->printOutput(FALSE)->run()->getMessage();
+    $lines = explode("\n", $log);
+
+    $this->say('Copy release notes below');
+    echo "Changelog:\n";
+
+    foreach ($lines as $line) {
+      $log_messages = explode("¬¬|¬¬", $line);
+      $pr_matches = [];
+      preg_match_all('/Merge pull request #([0-9]+)/', $line, $pr_matches);
+
+      if (count($log_messages) < 2) {
+        // No log message at all, not meaningful for changelog.
+        continue;
+      }
+
+      if (!isset($pr_matches[1][0])) {
+        // Could not detect PR number.
+        continue;
+      }
+
+      $log_messages[1] = trim($log_messages[1]);
+      if (empty($log_messages[1])) {
+        // Whitespace-only log message, not meaningful for changelog.
+        continue;
+      }
+
+      // The issue number is a required part of the branch name
+      // So usually we can grab it from the log too, but that's optional
+      // If we cannot detect it, we still print a less verbose changelog line.
+      $issue_matches = [];
+      preg_match_all('!from Gizra/([0-9]+)!', $line, $issue_matches);
+
+      if (isset($issue_matches[1][0])) {
+        print "- Issue #{$issue_matches[1][0]} :{$log_messages[1]} (#{$pr_matches[1][0]})\n";
+      }
+      else {
+        print "- {$log_messages[1]} (#{$pr_matches[1][0]})\n";
+      }
+    }
+  }
+
 }
