@@ -811,7 +811,7 @@ END;
         print "- Issue #{$issue_matches[1][0]} :{$log_messages[1]} (#{$pr_matches[1][0]})\n";
       }
       else {
-        print "- {$log_messages[1]} (Pull Request #{$pr_matches[1][0]})\n";
+        print "- {$log_messages[1]} (#{$pr_matches[1][0]})\n";
       }
     }
   }
