@@ -756,17 +756,30 @@ END;
   /**
    * Generates log of changes since the given tag.
    *
-   * @param string $tag
+   * @param string|null $tag
    *   The git tag to compare since. Usually the tag from the previous release.
    *   If you're releasing for example 1.0.2, then you should get changes since
-   *   1.0.1, so $tag = 1.0.1.
+   *   1.0.1, so $tag = 1.0.1. Omit for detecting the last tag automatically.
    *
    * @throws \Exception
    */
   public function generateReleaseNotes($tag = NULL) {
-    $result = $this->_exec("git tag | grep $tag || exit 1");
-    if ($result->getExitCode()) {
-      $latest_tag = $this->taskExec("git tag --sort=version:refname | tail -n1")->printOutput(FALSE)->run()->getMessage();
+    // Check if the specified tag exists or not.
+    if (!empty($tag)) {
+      $result = $this->taskExec("git tag | grep \"$tag\"")
+        ->printOutput(FALSE)
+        ->run()
+        ->getMessage();
+      if (empty($result)) {
+        $this->say('The specified tag does not exist: ' . $tag);
+      }
+    }
+
+    if (empty($result)) {
+      $latest_tag = $this->taskExec("git tag --sort=version:refname | tail -n1")
+        ->printOutput(FALSE)
+        ->run()
+        ->getMessage();
       if (empty($latest_tag)) {
         throw new Exception('There are no tags in this repository.');
       }
@@ -789,15 +802,18 @@ END;
       preg_match_all('/Merge pull request #([0-9]+)/', $line, $pr_matches);
 
       if (count($log_messages) < 2) {
+        // No log message at all, not meaningful for changelog.
         continue;
       }
 
       if (!isset($pr_matches[1][0])) {
+        // Could not detect PR number.
         continue;
       }
 
       $log_messages[1] = trim($log_messages[1]);
       if (empty($log_messages[1])) {
+        // Whitespace-only log message, not meaningful for changelog.
         continue;
       }
 
