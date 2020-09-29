@@ -381,7 +381,7 @@ class RoboFile extends Tasks {
     }
 
     if ($result !== 0) {
-      throw new Exception("The site failed to get installed on Pantheon's `{$env}` environment.");
+      throw new Exception("The site failed to install on Pantheon's `{$env}` environment.");
     }
   }
 
