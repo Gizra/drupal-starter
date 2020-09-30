@@ -138,6 +138,20 @@ To Deploy to a Pantheon environment (e.g. TEST or LIVE) you can use
     # Deploy to LIVE.
     ddev robo deploy:pantheon-sync live
 
+### Release notes
+
+Deployments should imply a release, you can generate a release notes based on
+tags. You can generate a changelog using
+
+    ddev robo generate:release-notes
+
+Or alternatively, you can specify a tag that's the base of the comparison.
+
+    ddev robo generate:release-notes 0.1.2
+
+One line in the changelog reflects one merged pull requests and the command
+assembles it from the Git log.
+
 ## Automatic Deployment to Pantheon
 
 In order to deploy upon every merge automatically by Travis, you shall:
