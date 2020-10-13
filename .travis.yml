@@ -25,24 +25,24 @@ jobs:
     - stage: Lint
       name: "Drupal coding standard: phpcs"
       script:
-        - "$TRAVIS_BUILD_DIR/ci-scripts/install_coder.sh"
+        - "$TRAVIS_BUILD_DIR/ci-scripts/install_coder.sh || travis_terminate 1;"
         - "export REVIEW_STANDARD=\"Drupal\" && $TRAVIS_BUILD_DIR/ci-scripts/test_coder.sh"
     - stage: Lint
       name: "Drupal coding best practices: phpcs"
       script:
-        - "$TRAVIS_BUILD_DIR/ci-scripts/install_coder.sh"
+        - "$TRAVIS_BUILD_DIR/ci-scripts/install_coder.sh || travis_terminate 1;"
         - "export REVIEW_STANDARD=\"DrupalPractice\" && $TRAVIS_BUILD_DIR/ci-scripts/test_coder.sh"
     - stage: Lint
       name: "Shell coding standard: shellcheck"
       script:
-        - "$TRAVIS_BUILD_DIR/ci-scripts/install_shell.sh"
-        - "$TRAVIS_BUILD_DIR/ci-scripts/test_shell.sh"
+        - "$TRAVIS_BUILD_DIR/ci-scripts/install_shell.sh || travis_terminate 1;"
+        - "$TRAVIS_BUILD_DIR/ci-scripts/test_shell.sh || travis_terminate 1;"
     - stage: Test
       name: "Backend tests: Functional tests"
       script:
-        - "$TRAVIS_BUILD_DIR/ci-scripts/install_ddev.sh"
-        - "$TRAVIS_BUILD_DIR/ci-scripts/install_drupal.sh"
-        - "$TRAVIS_BUILD_DIR/ci-scripts/test_phpunit.sh"
+        - "$TRAVIS_BUILD_DIR/ci-scripts/install_ddev.sh || travis_terminate 1;"
+        - "$TRAVIS_BUILD_DIR/ci-scripts/install_drupal.sh || travis_terminate 1;"
+        - "$TRAVIS_BUILD_DIR/ci-scripts/test_phpunit.sh || travis_terminate 1;"
     - stage: Deploy
       name: "Deploy to Pantheon"
       if: branch = "{{ GITHUB_DEPLOY_BRANCH }}" AND type = push
