@@ -27,3 +27,4 @@ content:
     label: hidden
 hidden:
   member_for: true
+  search_api_excerpt: true
