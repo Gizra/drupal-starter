@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f997f5454b7425d9e5c3ffcd81fc0f35",
+    "content-hash": "7b0043fb47c3df6aa3e72da161e51d48",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2039,6 +2039,132 @@
             }
         },
         {
+            "name": "drupal/pluggable_entity_view_builder",
+            "version": "dev-1.0.x",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/pluggable_entity_view_builder.git",
+                "reference": "0f080ddabc9249a8ad13c6edef3d59ce5d21a080"
+            },
+            "require": {
+                "drupal/core": "^8 || ^9"
+            },
+            "require-dev": {
+                "composer/installers": "^1",
+                "cweagans/composer-patches": "~1.0",
+                "drupal/core-composer-scaffold": "^8.0",
+                "drupal/core-dev": "^8.0",
+                "drupal/core-recommended": "^8.0",
+                "drush/drush": "^10",
+                "mglaman/phpstan-drupal": "^0.12",
+                "php-parallel-lint/php-parallel-lint": "^1.2",
+                "phpstan/phpstan-deprecation-rules": "^0.12",
+                "zaporylie/composer-drupal-optimizations": "^1.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.0.x": "1.0.x-dev"
+                },
+                "drupal": {
+                    "version": "1.0.x-dev",
+                    "datestamp": "1602060069",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Project has not opted into security advisory coverage!"
+                    }
+                },
+                "installer-paths": {
+                    "web/core": [
+                        "type:drupal-core"
+                    ],
+                    "web/libraries/{$name}": [
+                        "type:drupal-library"
+                    ],
+                    "web/modules/contrib/{$name}": [
+                        "type:drupal-module"
+                    ],
+                    "web/profiles/{$name}": [
+                        "type:drupal-profile"
+                    ],
+                    "web/themes/{$name}": [
+                        "type:drupal-theme"
+                    ],
+                    "drush/{$name}": [
+                        "type:drupal-drush"
+                    ]
+                },
+                "drupal-scaffold": {
+                    "locations": {
+                        "web-root": "web/"
+                    }
+                },
+                "drush": {
+                    "services": {
+                        "drush.services.yml": "^9 || ^10"
+                    }
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    ".spoons/ScriptHandler.php"
+                ]
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "scripts": {
+                "si": [
+                    "drush si -v --db-url=${SIMPLETEST_DB:-mysql://root:password@mariadb/db}"
+                ],
+                "phpcs": [
+                    "phpcs web/modules/custom"
+                ],
+                "lint": [
+                    "parallel-lint --exclude web --exclude vendor ."
+                ],
+                "webserver": [
+                    "cd web && php -S 0.0.0.0:8888 .ht.router.php"
+                ],
+                "chromedriver": [
+                    "chromedriver --port=9515 --verbose --whitelisted-ips --log-path=/tmp/chromedriver.log --no-sandbox"
+                ],
+                "unit": [
+                    "phpunit --verbose web/modules/custom"
+                ],
+                "phpstan": [
+                    "phpstan analyse web/modules/custom"
+                ],
+                "stylelint": [
+                    "yarn --silent --cwd web/core stylelint --formatter verbose --config ./.stylelintrc.json ../modules/custom/**/*.css"
+                ],
+                "eslint": [
+                    "yarn --silent --cwd web/core eslint -c ./.eslintrc.json ../modules/custom"
+                ],
+                "post-update-cmd": [
+                    "Spoons\\ScriptHandler::createSymlinks"
+                ]
+            },
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "amitaibu",
+                    "homepage": "https://www.drupal.org/user/57511"
+                },
+                {
+                    "name": "drupalspoons",
+                    "homepage": "https://www.drupal.org/user/3647684"
+                }
+            ],
+            "description": "Define entity view builders as plugins, defined per bundle.",
+            "homepage": "https://www.drupal.org/project/pluggable_entity_view_builder",
+            "support": {
+                "source": "https://gitlab.com/drupalspoons/pluggable_entity_view_builder",
+                "issues": "https://gitlab.com/drupalspoons/pluggable_entity_view_builder/-/issues"
+            },
+            "time": "2020-10-07T09:24:00+00:00"
+        },
+        {
             "name": "drupal/search_api",
             "version": "1.17.0",
             "source": {
@@ -4008,12 +4134,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ruflin/Elastica.git",
-                "reference": "9146c80736cde1cf38cda29eb191130c4536bf44"
+                "reference": "92ebd27619ea7469674f94962fc3952478d4ddf7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ruflin/Elastica/zipball/9146c80736cde1cf38cda29eb191130c4536bf44",
-                "reference": "9146c80736cde1cf38cda29eb191130c4536bf44",
+                "url": "https://api.github.com/repos/ruflin/Elastica/zipball/92ebd27619ea7469674f94962fc3952478d4ddf7",
+                "reference": "92ebd27619ea7469674f94962fc3952478d4ddf7",
                 "shasum": ""
             },
             "require": {
@@ -4023,7 +4149,7 @@
                 "psr/log": "^1.0"
             },
             "require-dev": {
-                "aws/aws-sdk-php": "^3.0",
+                "aws/aws-sdk-php": "^3.155",
                 "guzzlehttp/guzzle": "^6.3"
             },
             "suggest": {
@@ -4059,7 +4185,7 @@
                 "client",
                 "search"
             ],
-            "time": "2020-08-10T07:42:16+00:00"
+            "time": "2020-10-12T11:46:01+00:00"
         },
         {
             "name": "stack/builder",
@@ -8825,7 +8951,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "drupal/elasticsearch_connector": 15
+        "drupal/elasticsearch_connector": 15,
+        "drupal/pluggable_entity_view_builder": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

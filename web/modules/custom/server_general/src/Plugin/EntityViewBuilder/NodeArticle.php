@@ -28,9 +28,9 @@ class NodeArticle extends NodeViewBuilderAbstract {
    *   Render array.
    */
   public function buildFull(array $build, NodeInterface $entity) {
-    $build['server_theme_content__header'] = $this->buildHeroHeader($entity);
-    $build['server_theme_content__tags'] = $this->buildContentTags($entity);
-    $build['server_theme_content__body'] = $this->buildBody($entity);
+    $build['header'] = $this->buildHeroHeader($entity);
+    $build['tags'] = $this->buildContentTags($entity);
+    $build['body'] = $this->buildBody($entity);
 
     return $build;
   }

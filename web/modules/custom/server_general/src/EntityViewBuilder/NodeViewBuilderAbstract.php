@@ -2,21 +2,16 @@
 
 namespace Drupal\server_general\EntityViewBuilder;
 
-use Drupal\Core\Block\BlockManagerInterface;
-use Drupal\Core\Entity\EntityInterface;
-use Drupal\Core\Entity\EntityTypeManager;
-use Drupal\Core\Plugin\PluginBase;
-use Drupal\Core\Session\AccountInterface;
 use Drupal\node\NodeInterface;
-use Drupal\server_general\ComponentWrapTrait;
+use Drupal\pluggable_entity_view_builder\ComponentWrapTrait;
+use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
 use Drupal\server_general\ProcessedTextBuilderTrait;
 use Drupal\server_general\TagBuilderTrait;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * An abstract class for Node View Builders classes.
  */
-abstract class NodeViewBuilderAbstract extends PluginBase implements EntityViewBuilderPluginInterface {
+abstract class NodeViewBuilderAbstract extends EntityViewBuilderPluginAbstract {
 
   use ComponentWrapTrait;
   use ProcessedTextBuilderTrait;
@@ -26,83 +21,6 @@ abstract class NodeViewBuilderAbstract extends PluginBase implements EntityViewB
    * The image style to use on Hero images.
    */
   const IMAGE_STYLE_HERO = 'hero';
-
-  /**
-   * The entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
-   * The current user.
-   *
-   * @var \Drupal\Core\Session\AccountInterface
-   */
-  protected $currentUser;
-
-  /**
-   * The block manager.
-   *
-   * @var \Drupal\Core\Block\BlockManagerInterface
-   */
-  protected $blockManager;
-
-  /**
-   * Abstract constructor.
-   *
-   * @param array $configuration
-   *   A configuration array containing information about the plugin instance.
-   * @param string $plugin_id
-   *   The plugin_id for the plugin instance.
-   * @param mixed $plugin_definition
-   *   The plugin implementation definition.
-   * @param \Drupal\Core\Entity\EntityTypeManager $entity_type_manager
-   *   The entity type manager service.
-   * @param \Drupal\Core\Session\AccountInterface $current_user
-   *   The current user.
-   * @param \Drupal\Core\Block\BlockManagerInterface $block_manager
-   *   The block manager.
-   */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManager $entity_type_manager, AccountInterface $current_user, BlockManagerInterface $block_manager) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->entityTypeManager = $entity_type_manager;
-    $this->currentUser = $current_user;
-    $this->blockManager = $block_manager;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    return new static(
-      $configuration,
-      $plugin_id,
-      $plugin_definition,
-      $container->get('entity_type.manager'),
-      $container->get('current_user'),
-      $container->get('plugin.manager.block')
-    );
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function view(array $build, EntityInterface $entity, $view_mode = 'full', $langcode = NULL) {
-    $bundle = $entity->bundle();
-    $view_mode = $build['#view_mode'];
-
-    // We should get a method name such as `buildFull`, and `buildTeaser`.
-    $method = 'build' . mb_convert_case($view_mode, MB_CASE_TITLE);
-    $method = str_replace(['_', '-', ' '], '', $method);
-
-    if (!is_callable([$this, $method])) {
-      throw new \Exception("The node view builder method `$method` for bundle $bundle and view mode $view_mode not found");
-    }
-
-    return $this->$method($build, $entity);
-
-  }
 
   /**
    * Default build in "Teaser" view mode.
@@ -162,7 +80,7 @@ abstract class NodeViewBuilderAbstract extends PluginBase implements EntityViewB
       '#background_image' => $image,
     ];
 
-    return $this->wrapComponentWithContainer($element, 'hero-header', 'fluid-container-full');
+    return $this->wrapComponentWithContainer($element, 'hero-header-wrapper', 'fluid-container-full');
   }
 
   /**
@@ -187,7 +105,7 @@ abstract class NodeViewBuilderAbstract extends PluginBase implements EntityViewB
       '#tags' => $tags,
     ];
 
-    return $this->wrapComponentWithContainer($element, 'content-tags');
+    return $this->wrapComponentWithContainer($element, 'content-tags-wrapper', 'fluid-container-narrow');
   }
 
   /**
