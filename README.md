@@ -127,12 +127,11 @@ Then you can deploy with
 
 ### Install the Site with the Profile
 
-After first deploy, you will want to install the site. We've noticed that
-it gives an error, but after cache-clear, the site can be accessed.
+After first deploy, you will want to install the site:
+`ddev robo deploy:pantheon-install-env dev`
 
-    ddev exec terminus drush <your-site>.dev -- site-install server -y --existing-config
-    ddev exec terminus drush <your-site>.dev -- cr
-    ddev exec terminus drush <your-site>.dev -- uli
+This command is also useful if a deployment got stuck due to non-deployable
+config changes, so it can reboot the environment from scratch.
 
 ## Deploy Environments
 
@@ -143,6 +142,20 @@ To Deploy to a Pantheon environment (e.g. TEST or LIVE) you can use
 
     # Deploy to LIVE.
     ddev robo deploy:pantheon-sync live
+
+### Release notes
+
+Deployments should imply a release, you can generate a release notes based on
+tags. You can generate a changelog using
+
+    ddev robo generate:release-notes
+
+Or alternatively, you can specify a tag that's the base of the comparison.
+
+    ddev robo generate:release-notes 0.1.2
+
+One line in the changelog reflects one merged pull requests and the command
+assembles it from the Git log.
 
 ## Automatic Deployment to Pantheon
 

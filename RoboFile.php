@@ -361,6 +361,56 @@ class RoboFile extends Tasks {
   }
 
   /**
+   * Install the site on specific env on Pantheon from scratch.
+   *
+   * Running this command via `ddev` will require terminus login inside ddev:
+   * `ddev auth ssh`
+   *
+   * @param string $env
+   *   The environment to install (default='qa').
+   *
+   * @throws \Robo\Exception\TaskException
+   */
+  public function deployPantheonInstallEnv(string $env = 'qa') {
+    $forbidden_envs = [
+      'live',
+    ];
+    if (in_array($env, $forbidden_envs)) {
+      throw new Exception("Reinstalling the site on `{$env}` environment is forbidden.");
+    }
+
+    $pantheon_name = self::PANTHEON_NAME;
+    $pantheon_terminus_environment = $pantheon_name . '.' . $env;
+
+    // This set of commands should work, so expecting no failures.
+    // (tend to invoke the same flow as DDEV's `config.local.yaml`.
+    $task = $this
+      ->taskExecStack()
+      ->stopOnFail();
+
+    $result = $task
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- si server -y --existing-config")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- en server_migrate -y")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- migrate:import --group=server")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- pm:uninstall server_migrate")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- uli")
+      ->run()
+      ->getExitCode();
+
+    // For these environments, set the `admin` user's password to `1234`.
+    $envs_to_set_admin_simple_password = [
+      'qa'
+    ];
+    if (in_array($env, $envs_to_set_admin_simple_password)) {
+      $task->exec("terminus remote:drush $pantheon_terminus_environment -- user:password admin 1234")->run();
+    }
+
+    if ($result !== 0) {
+      throw new Exception("The site failed to install on Pantheon's `{$env}` environment.");
+    }
+  }
+
+  /**
    * Perform a Code sniffer test, and fix when applicable.
    */
   public function phpcs() {
@@ -776,6 +826,85 @@ END;
       return NULL;
     }
     return $credentials[$environment];
+  }
+
+  /**
+   * Generates log of changes since the given tag.
+   *
+   * @param string|null $tag
+   *   The git tag to compare since. Usually the tag from the previous release.
+   *   If you're releasing for example 1.0.2, then you should get changes since
+   *   1.0.1, so $tag = 1.0.1. Omit for detecting the last tag automatically.
+   *
+   * @throws \Exception
+   */
+  public function generateReleaseNotes($tag = NULL) {
+    // Check if the specified tag exists or not.
+    if (!empty($tag)) {
+      $result = $this->taskExec("git tag | grep \"$tag\"")
+        ->printOutput(FALSE)
+        ->run()
+        ->getMessage();
+      if (empty($result)) {
+        $this->say('The specified tag does not exist: ' . $tag);
+      }
+    }
+
+    if (empty($result)) {
+      $latest_tag = $this->taskExec("git tag --sort=version:refname | tail -n1")
+        ->printOutput(FALSE)
+        ->run()
+        ->getMessage();
+      if (empty($latest_tag)) {
+        throw new Exception('There are no tags in this repository.');
+      }
+      if (!$this->confirm("Would you like to compare from the latest tag: $latest_tag?")) {
+        $this->say("Specify the tag as an argument");
+        exit(1);
+      }
+      $tag = $latest_tag;
+    }
+
+    $log = $this->taskExec("git log --merges --pretty=format:'%s¬¬|¬¬%b' $tag..")->printOutput(FALSE)->run()->getMessage();
+    $lines = explode("\n", $log);
+
+    $this->say('Copy release notes below');
+    echo "Changelog:\n";
+
+    foreach ($lines as $line) {
+      $log_messages = explode("¬¬|¬¬", $line);
+      $pr_matches = [];
+      preg_match_all('/Merge pull request #([0-9]+)/', $line, $pr_matches);
+
+      if (count($log_messages) < 2) {
+        // No log message at all, not meaningful for changelog.
+        continue;
+      }
+
+      if (!isset($pr_matches[1][0])) {
+        // Could not detect PR number.
+        continue;
+      }
+
+      $log_messages[1] = trim($log_messages[1]);
+      if (empty($log_messages[1])) {
+        // Whitespace-only log message, not meaningful for changelog.
+        continue;
+      }
+
+      // The issue number is a required part of the branch name
+      // So usually we can grab it from the log too, but that's optional
+      // If we cannot detect it, we still print a less verbose changelog line.
+      $issue_matches = [];
+      preg_match_all('!from Gizra/([0-9]+)!', $line, $issue_matches);
+
+      if (isset($issue_matches[1][0])) {
+        print "- Issue #{$issue_matches[1][0]} :{$log_messages[1]} (#{$pr_matches[1][0]})\n";
+      }
+      else {
+        print "- {$log_messages[1]} (#{$pr_matches[1][0]})\n";
+      }
+    }
   }
 
 }
