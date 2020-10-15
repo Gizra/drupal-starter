@@ -340,6 +340,9 @@ class RoboFile extends Tasks {
 
   /**
    * Compress SVG files in specific directories.
+   *
+   * This function is being called as part of `theme:compile`.
+   * @see compileTheme_()
    */
   public function themeCompressSvg() {
     $directories = [
