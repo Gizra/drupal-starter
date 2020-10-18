@@ -13,7 +13,7 @@ hooks:
     # On deploy, we purge un-needed CSS.
     - exec-host: ddev robo theme:compile-debug
 
-    # Clear cache, for example for Plugins view builder to take effect.
+    # Clear cache, for example for entity view builder plugins to take effect.
     - exec: drush cr
 
     # Generate one-time login link
