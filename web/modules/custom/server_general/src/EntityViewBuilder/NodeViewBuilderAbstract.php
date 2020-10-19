@@ -56,8 +56,8 @@ abstract class NodeViewBuilderAbstract extends EntityViewBuilderPluginAbstract {
     $element = [];
     // User may create a preview, so it won't have an ID or URL yet.
     $element['#nid'] = !$entity->isNew() ? $entity->id() : 0;
-    $element['#title'] = $entity->label();
     $element['#url'] = !$entity->isNew() ? $entity->toUrl() : Url::fromRoute('<front>');
+    $element['#title'] = $entity->label();
 
     return $element;
   }
