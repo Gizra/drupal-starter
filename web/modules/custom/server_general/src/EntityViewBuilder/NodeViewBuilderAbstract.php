@@ -2,6 +2,7 @@
 
 namespace Drupal\server_general\EntityViewBuilder;
 
+use Drupal\Core\Url;
 use Drupal\node\NodeInterface;
 use Drupal\pluggable_entity_view_builder\ComponentWrapTrait;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
@@ -53,9 +54,10 @@ abstract class NodeViewBuilderAbstract extends EntityViewBuilderPluginAbstract {
    */
   protected function getElementBase(NodeInterface $entity) {
     $element = [];
-    $element['#nid'] = $entity->id();
+    // User may create a preview, so it won't have an ID or URL yet.
+    $element['#nid'] = !$entity->isNew() ? $entity->id() : 0;
     $element['#title'] = $entity->label();
-    $element['#url'] = $entity->toUrl()->toString();
+    $element['#url'] = !$entity->isNew() ? $entity->toUrl() : Url::fromRoute('<front>');
 
     return $element;
   }
@@ -72,7 +74,7 @@ abstract class NodeViewBuilderAbstract extends EntityViewBuilderPluginAbstract {
    *   A render array.
    */
   protected function buildHeroHeader(NodeInterface $entity, $image_field_name = 'field_image') {
-    list($image) = $this->buildImage($entity, $image_field_name);
+    [$image] = $this->buildImage($entity, $image_field_name);
 
     $element = [
       '#theme' => 'server_theme_content__hero_header',
