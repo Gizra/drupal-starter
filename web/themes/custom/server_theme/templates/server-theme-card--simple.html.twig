@@ -1,12 +1,10 @@
 <div class="card-item flex flex-col h-full shadow-lg">
 
-  {% if url %}
+  {% if url and image %}
   <a href="{{ url }}">
-  {% endif %}
     <div class="relative">
       <img class="object-cover w-full h-48" src="{{ image }}" alt="{{ image_alt }}" />
     </div>
-  {% if url %}
   </a>
   {% endif %}
 

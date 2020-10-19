@@ -29,6 +29,7 @@ module:
   page_cache: 0
   path: 0
   path_alias: 0
+  pluggable_entity_view_builder: 0
   quickedit: 0
   rdf: 0
   search_api: 0

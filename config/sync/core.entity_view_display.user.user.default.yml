@@ -27,4 +27,5 @@ content:
       image_link: content
     third_party_settings: {  }
     label: hidden
-hidden: {  }
+hidden:
+  search_api_excerpt: true

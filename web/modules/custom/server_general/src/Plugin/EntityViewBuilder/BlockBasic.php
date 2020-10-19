@@ -3,11 +3,9 @@
 namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\Core\Entity\EntityInterface;
-use Drupal\Core\Plugin\PluginBase;
-use Drupal\server_general\ComponentWrapTrait;
-use Drupal\server_general\EntityViewBuilder\EntityViewBuilderPluginInterface;
+use Drupal\pluggable_entity_view_builder\ComponentWrapTrait;
+use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
 use Drupal\server_general\ProcessedTextBuilderTrait;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * The "Block Basic" plugin.
@@ -18,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   description = "Block content view builder for Basic bundle."
  * )
  */
-class BlockBasic extends PluginBase implements EntityViewBuilderPluginInterface {
+class BlockBasic extends EntityViewBuilderPluginAbstract {
 
   use ComponentWrapTrait;
   use ProcessedTextBuilderTrait;
@@ -26,18 +24,7 @@ class BlockBasic extends PluginBase implements EntityViewBuilderPluginInterface 
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    return new static(
-      $configuration,
-      $plugin_id,
-      $plugin_definition
-    );
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function view(array $build, EntityInterface $entity, $view_mode = 'full', $langcode = NULL) {
+  public function buildFull(array $build, EntityInterface $entity) {
     $build['title'] = $this->buildTitle($entity);
     $build['body'] = $this->buildBody($entity);
     $build['extra'] = $this->buildExtra();
@@ -61,7 +48,7 @@ class BlockBasic extends PluginBase implements EntityViewBuilderPluginInterface 
       '#value' => $entity->label(),
     ];
 
-    return $this->wrapComponentWithContainer($element, 'title-wrapper');
+    return $this->wrapComponentWithContainer($element, 'title-wrapper', 'fluid-container-narrow');
   }
 
   /**
@@ -75,7 +62,7 @@ class BlockBasic extends PluginBase implements EntityViewBuilderPluginInterface 
       '#markup' => $this->t('This is coming from \Drupal\server_general\Plugin\EntityViewBuilder\BlockBasic'),
     ];
 
-    return $this->wrapComponentWithContainer($element, 'extra-wrapper');
+    return $this->wrapComponentWithContainer($element, 'extra-wrapper', 'fluid-container-narrow');
   }
 
 }

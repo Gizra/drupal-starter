@@ -28,8 +28,8 @@ class NodeBasicPage extends NodeViewBuilderAbstract {
    *   A renderable array.
    */
   public function buildFull(array $build, NodeInterface $entity) {
-    $build['server_theme_content__hero_header'] = $this->buildHeroHeader($entity, 'field_basic_page_header_image');
-    $build['server_theme_content__body'] = $this->buildBody($entity);
+    $build['hero_header'] = $this->buildHeroHeader($entity, 'field_basic_page_header_image');
+    $build['body'] = $this->buildBody($entity);
 
     return $build;
   }
