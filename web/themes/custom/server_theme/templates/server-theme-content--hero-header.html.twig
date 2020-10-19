@@ -1,6 +1,6 @@
-<div class="16 bg-auto bg-cover bg-center bg-no-repeat h-hero-header flex flex-col justify-end">
+<div class="h-hero-header flex flex-col justify-end">
   {% if background_image %}
-  <img class="mb-8" src="{{ background_image }}" />
+  <img class="mb-8 w-full h-full object-cover" src="{{ background_image }}" />
   {% endif %}
 
   <div class="fluid-container-{{ title_container|default('narrow') }} w-full">

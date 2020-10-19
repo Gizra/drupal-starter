@@ -35,6 +35,9 @@ class RoboFile extends Tasks {
    *   Indicate whether to optimize during compilation.
    */
   private function compileTheme_($optimize = FALSE) {
+    // Compress all SVGs.
+    $this->themeCompressSvg();
+
     // Notice we don't cleanup the `dist/css` as we'd want parcel, which
     // bundles TailWind and Sass to keep using its cache - for faster builds.
     // We also don't deal with the "fonts" directory, as Parcel already copies
@@ -332,6 +335,31 @@ class RoboFile extends Tasks {
       ->getExitCode();
     if ($result !== 0) {
       throw new Exception('The site could not be fully updated at Pantheon. Try "ddev robo deploy:pantheon-reboot" manually.');
+    }
+  }
+
+  /**
+   * Compress SVG files in specific directories.
+   *
+   * This function is being called as part of `theme:compile`.
+   * @see compileTheme_()
+   */
+  public function themeCompressSvg() {
+    $directories = [
+      './src/images/*.svg',
+    ];
+
+    $error_code = NULL;
+
+    foreach ($directories as $directory) {
+      $result = $this->_exec("cd web/themes/custom/server_theme && ./node_modules/svgo/bin/svgo $directory");
+      if (empty($error_code) && !$result->wasSuccessful()) {
+        $error_code = $result->getExitCode();
+      }
+    }
+
+    if (!empty($error_code)) {
+      return new Robo\ResultData($error_code, '`svgo` failed to run.');
     }
   }
 
