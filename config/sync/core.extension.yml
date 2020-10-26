@@ -32,6 +32,7 @@ module:
   pluggable_entity_view_builder: 0
   quickedit: 0
   rdf: 0
+  redis: 0
   search_api: 0
   server_general: 0
   server_search: 0
