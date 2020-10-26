@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ab72e0177eb3acca3505dcb1a1c958df",
+    "content-hash": "5045c7b0231b71f595e977cb4c4b81bb",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2084,6 +2084,60 @@
                 "issues": "https://gitlab.com/drupalspoons/pluggable_entity_view_builder/-/issues"
             },
             "time": "2020-10-20T18:19:20+00:00"
+        },
+        {
+            "name": "drupal/redis",
+            "version": "dev-1.x",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/redis.git",
+                "reference": "564f88eecb347248dd37c55a0206167ca07ca371"
+            },
+            "require": {
+                "drupal/core": "^8.8 || ^9"
+            },
+            "suggest": {
+                "predis/predis": "^1.1.1"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.4+2-dev",
+                    "datestamp": "1596360751",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Dev releases are not covered by Drupal security advisories."
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Drupal\\redis\\": "src"
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Berdir",
+                    "homepage": "https://www.drupal.org/user/214652"
+                },
+                {
+                    "name": "pounard",
+                    "homepage": "https://www.drupal.org/user/240164"
+                }
+            ],
+            "description": "Integration of Drupal with the Redis key-value store.",
+            "homepage": "https://www.drupal.org/project/redis",
+            "support": {
+                "source": "https://git.drupalcode.org/project/redis"
+            },
+            "time": "2020-09-28T16:21:04+00:00"
         },
         {
             "name": "drupal/search_api",
@@ -8873,7 +8927,8 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "drupal/elasticsearch_connector": 15,
-        "drupal/pluggable_entity_view_builder": 20
+        "drupal/pluggable_entity_view_builder": 20,
+        "drupal/redis": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
