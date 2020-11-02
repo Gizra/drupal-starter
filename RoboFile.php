@@ -257,8 +257,12 @@ class RoboFile extends Tasks {
 
     // We don't want to change Pantheon's git ignore, as we do want to commit
     // vendor and contrib directories.
-    // @todo: Ignore it from rsync, but './.gitignore' didn't work.
     $this->_exec("cd $pantheon_directory && git checkout .gitignore");
+
+    // Also we need to clean up gitignores that are deeper in the tree,
+    // those can be troublemakers too, it also purges various Git helper
+    // files that are irrelevant here.
+    $this->_exec("cd $pantheon_directory && (find . | grep \"\.git\" | grep -v \"^./.git\"  |  xargs rm -rf || true)");
 
     $this->_exec("cd $pantheon_directory && git status");
 
