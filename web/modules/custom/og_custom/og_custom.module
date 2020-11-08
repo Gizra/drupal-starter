@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * @file
+ * Contains og_custom.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\og\Og;
+
+/**
+ * Implements hook_help().
+ */
+function og_custom_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the og_custom module.
+    case 'help.page.og_custom':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Customizations to OG') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+
+/**
+ * Implements hook_install().
+ */
+function og_custom_install() {
+  // Make the my_group bundle a valid Organic Group
+  Og::groupTypeManager()->addGroup('node', 'my_group');
+  drupal_flush_all_caches();
+}

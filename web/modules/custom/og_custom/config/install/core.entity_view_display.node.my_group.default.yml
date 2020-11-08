@@ -1,0 +1,33 @@
+langcode: en
+status: true
+dependencies:
+    config:
+        - field.field.node.my_group.body
+        - node.type.my_group
+    module:
+        - text
+        - user
+id: node.my_group.default
+targetEntityType: node
+bundle: my_group
+mode: default
+content:
+    body:
+        label: hidden
+        type: text_default
+        weight: 101
+        settings: {  }
+        third_party_settings: {  }
+    links:
+        weight: 100
+        settings: {  }
+        third_party_settings: {  }
+    og_group:
+      weight: 0
+      type: custom_subscribe_message
+      region: content
+      label: above
+      settings:
+        subscribe_message: 'Hi %user, click here if you would like to subscribe to this group called %group'
+      third_party_settings: {  }
+hidden: {  }

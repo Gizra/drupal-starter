@@ -1,0 +1,7 @@
+name: 'OG Custom'
+type: module
+description: 'Customizations to OG'
+core: 8.x
+package: 'Custom'
+dependencies:
+  - og
