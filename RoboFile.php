@@ -109,7 +109,7 @@ class RoboFile extends Tasks {
         ->run();
 
       // Compress all SVGs.
-      $this->themeCompressSvg();
+      $this->themeSvgCompress();
     }
 
     $this->_exec('drush cache:rebuild');
@@ -349,7 +349,7 @@ class RoboFile extends Tasks {
    * This function is being called as part of `theme:compile`.
    * @see compileTheme_()
    */
-  public function themeCompressSvg() {
+  public function themeSvgCompress() {
     $directories = [
       './dist/images',
     ];
@@ -359,7 +359,11 @@ class RoboFile extends Tasks {
     foreach ($directories as $directory) {
       // Check if SVG files exists in this directory.
       $finder = new Finder();
-      $finder->in('web/themes/custom/server_theme/' . $directory);
+      $finder
+        ->in('web/themes/custom/server_theme/' . $directory)
+        ->files()
+        ->name('*.svg');
+
       if (!$finder->hasResults()) {
         // No SVG files.
         continue;
