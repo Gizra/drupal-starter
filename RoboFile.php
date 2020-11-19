@@ -36,9 +36,6 @@ class RoboFile extends Tasks {
    *   Indicate whether to optimize during compilation.
    */
   private function compileTheme_($optimize = FALSE) {
-    // Compress all SVGs.
-    $this->themeCompressSvg();
-
     // Notice we don't cleanup the `dist/css` as we'd want parcel, which
     // bundles TailWind and Sass to keep using its cache - for faster builds.
     // We also don't deal with the "fonts" directory, as Parcel already copies
@@ -110,6 +107,9 @@ class RoboFile extends Tasks {
       $this->taskImageMinify($input)
         ->to(self::THEME_BASE . '/dist/images/')
         ->run();
+
+      // Compress all SVGs.
+      $this->themeCompressSvg();
     }
 
     $this->_exec('drush cache:rebuild');
@@ -344,14 +344,14 @@ class RoboFile extends Tasks {
   }
 
   /**
-   * Compress SVG files in specific directories.
+   * Compress SVG files in the "dist" directories.
    *
    * This function is being called as part of `theme:compile`.
    * @see compileTheme_()
    */
   public function themeCompressSvg() {
     $directories = [
-      './src/images',
+      './dist/images',
     ];
 
     $error_code = NULL;
