@@ -4,6 +4,7 @@ use ScssPhp\ScssPhp\Compiler;
 use Lurker\Event\FilesystemEvent;
 use Robo\Tasks;
 use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -350,13 +351,21 @@ class RoboFile extends Tasks {
    */
   public function themeCompressSvg() {
     $directories = [
-      './src/images/*.svg',
+      './src/images',
     ];
 
     $error_code = NULL;
 
     foreach ($directories as $directory) {
-      $result = $this->_exec("cd web/themes/custom/server_theme && ./node_modules/svgo/bin/svgo $directory");
+      // Check if SVG files exists in this directory.
+      $finder = new Finder();
+      $finder->in('web/themes/custom/server_theme/' . $directory);
+      if (!$finder->hasResults()) {
+        // No SVG files.
+        continue;
+      }
+
+      $result = $this->_exec("cd web/themes/custom/server_theme && ./node_modules/svgo/bin/svgo $directory/*.svg");
       if (empty($error_code) && !$result->wasSuccessful()) {
         $error_code = $result->getExitCode();
       }
