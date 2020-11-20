@@ -56,10 +56,9 @@ module.exports = {
     },
   },
   plugins: [
-    require('@tailwindcss/custom-forms'),
+    require('@tailwindcss/forms'),
     require('tailwindcss-fluid-container')({
       componentPrefix: 'fluid-',
     }),
-    require('tailwindcss-typography'),
   ],
 };
