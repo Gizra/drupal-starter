@@ -1,8 +1,10 @@
-@tailwind base;
-@tailwind components;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
 
-@import "typography";
-@import "components/list";
+@import "components/typography.scss";
+@import "components/list.scss";
 
 // Must be last import
-@tailwind utilities;
+@import "tailwindcss/utilities";
+
+
