@@ -58,9 +58,7 @@
         },
         "patches": {
             "drupal/elasticsearch_connector": {
-                "Preserve ES index settings": "https://www.drupal.org/files/issues/2020-01-28/3109361-elasticsearch_connector-preserve-index-settings-1.patch",
-                "SearchBuilder::flattenKeys throws Array offset Notice in PHP 7.4": "https://www.drupal.org/files/issues/2020-04-08/array-offset-notice-php7.4-3125891-2.patch",
-                "bool search": "https://www.drupal.org/files/issues/2019-08-23/elastic_connector-7.x-search_condition_boolean_fields-3008751.patch"
+                "Preserve ES index settings": "https://www.drupal.org/files/issues/2020-01-28/3109361-elasticsearch_connector-preserve-index-settings-1.patch"
             }
         },
         "drupal-scaffold": {
