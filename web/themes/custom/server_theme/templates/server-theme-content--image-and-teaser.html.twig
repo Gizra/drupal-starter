@@ -1,0 +1,8 @@
+<div class="mb-6">
+  {% if image %}
+    <img class="w-full object-cover mb-6" src="{{ image }}" alt="{{ image_alt }}" />
+  {% endif %}
+  {% if teaser %}
+    {{ teaser }}
+  {% endif %}
+</div>
