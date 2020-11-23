@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3fbc929f81076649e8cf52065c18a2fb",
+    "content-hash": "6586fc9240f4c10921a4f59601d13d19",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2039,7 +2039,8 @@
                     }
                 },
                 "patches_applied": {
-                    "Preserve ES index settings": "https://www.drupal.org/files/issues/2020-01-28/3109361-elasticsearch_connector-preserve-index-settings-1.patch"
+                    "Preserve ES index settings": "https://www.drupal.org/files/issues/2020-01-28/3109361-elasticsearch_connector-preserve-index-settings-1.patch",
+                    "d.o #3096887 - Parse data facets from epoch milliseconds format to seconds": "https://www.drupal.org/files/issues/2019-11-26/elasticsearch_connector_-7.x-parse_date_facets.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
