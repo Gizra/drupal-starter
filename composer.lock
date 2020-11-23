@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3fbc929f81076649e8cf52065c18a2fb",
+    "content-hash": "101472505f8fe66850d8833826b30af1",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2039,7 +2039,8 @@
                     }
                 },
                 "patches_applied": {
-                    "Preserve ES index settings": "https://www.drupal.org/files/issues/2020-01-28/3109361-elasticsearch_connector-preserve-index-settings-1.patch"
+                    "Preserve ES index settings": "https://www.drupal.org/files/issues/2020-01-28/3109361-elasticsearch_connector-preserve-index-settings-1.patch",
+                    "date": "https://www.drupal.org/files/issues/2019-11-26/elasticsearch_connector_-7.x-parse_date_facets.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
@@ -2087,10 +2088,10 @@
                 },
                 "drupal": {
                     "version": "1.0.x-dev",
-                    "datestamp": "1603123975",
+                    "datestamp": "1603218825",
                     "security-coverage": {
                         "status": "not-covered",
-                        "message": "Project has not opted into security advisory coverage!"
+                        "message": "Dev releases are not covered by Drupal security advisories."
                     }
                 }
             },
@@ -7824,7 +7825,6 @@
             "keywords": [
                 "tokenizer"
             ],
-            "abandoned": true,
             "time": "2019-09-17T06:23:10+00:00"
         },
         {
