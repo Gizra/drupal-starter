@@ -43,7 +43,7 @@ By default, `ddev restart` compiles the theme using Robo.
 
 On the local development environment, which is using TailWind, execute:
 ```bash
-ddev robo theme:complie-debug
+ddev robo theme:compile-debug
 ```
 
 This will compile TailWind with all the classes, copy any fonts, images, etc.
