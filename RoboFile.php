@@ -919,7 +919,7 @@ END;
       preg_match_all('!from Gizra/([0-9]+)!', $line, $issue_matches);
 
       if (isset($issue_matches[1][0])) {
-        print "- Issue #{$issue_matches[1][0]} :{$log_messages[1]} (#{$pr_matches[1][0]})\n";
+        print "- Issue #{$issue_matches[1][0]}: {$log_messages[1]} (#{$pr_matches[1][0]})\n";
       }
       else {
         print "- {$log_messages[1]} (#{$pr_matches[1][0]})\n";
