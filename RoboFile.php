@@ -67,7 +67,7 @@ class RoboFile extends Tasks {
     // @see tailwind.config.js.
     $purge_prefix = $optimize ? 'PURGE_TAILWIND=1' : '';
     $minify = $optimize ? '' : '--no-minify';
-    $result = $this->_exec("cd $theme_dir && $purge_prefix npx parcel build -d ./dist/css ./src/scss/style.scss $minify --out-dir=./dist/css --out-file=style.css --public-url ./");
+    $result = $this->_exec("cd $theme_dir && $purge_prefix npx postcss ./src/scss/style.scss --output=./dist/css/style.css");
 
     if ($result->getExitCode() !== 0) {
       $this->taskCleanDir(['dist/css']);
