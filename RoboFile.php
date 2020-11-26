@@ -1,6 +1,5 @@
 <?php
 
-use ScssPhp\ScssPhp\Compiler;
 use Lurker\Event\FilesystemEvent;
 use Robo\Tasks;
 use Symfony\Component\EventDispatcher\Event;
@@ -182,14 +181,66 @@ class RoboFile extends Tasks {
   }
 
   /**
+   * Deploy a tag (specific release) to Pantheon.
+   *
+   * @param string $tag
+   *   The tag name in the current repository.
+   * @param string $branch_name
+   *   The branch name from Pantheon repository. Default to master.
+   * @param string $commit_message
+   *   Optional, it is used as a commit message in the artifact repo.
+   *
+   * @throws \Exception
+   */
+  public function deployTagPantheon($tag, $branch_name, $commit_message = NULL) {
+    $result = $this
+      ->taskExec('git status -s')
+      ->printOutput(FALSE)
+      ->run();
+
+    if ($result->getMessage()) {
+      $this->say($result->getMessage());
+      throw new Exception('The working directory is dirty. Please commit or stash the pending changes.');
+    }
+
+    // Getting the current branch of the GitHub repo
+    // in a machine-readable form.
+    $original_branch = $this->taskExec("git rev-parse --abbrev-ref HEAD")
+      ->printOutput(FALSE)
+      ->run()
+      ->getMessage();
+
+    $this->taskExec("git checkout $tag")->run();
+
+    $this->taskExec("rm -rf vendor && composer install")->run();
+
+    if (empty($commit_message)) {
+      $commit_message = 'Release ' . $tag;
+    }
+
+    try {
+      $this->deployPantheon($branch_name, $commit_message);
+    }
+    catch (\Exception $e) {
+      $this->yell('The deployment failed', 22, 'red');
+      $this->say($e->getMessage());
+    }
+    finally {
+      $this->taskExec("git checkout $original_branch")->run();
+    }
+  }
+
+  /**
    * Deploy to Pantheon.
    *
    * @param string $branch_name
    *   The branch name to commit to. Default to master.
+   * @param string $commit_message
+   *   Optional, it is used as a commit message in the artifact repo.
    *
    * @throws \Exception
    */
-  public function deployPantheon($branch_name = 'master') {
+  public function deployPantheon($branch_name = 'master', $commit_message = NULL) {
     if (empty(self::PANTHEON_NAME)) {
       throw new Exception('You need to fill the "PANTHEON_NAME" const in the Robo file. so it will know what is the name of your site.');
     }
@@ -286,7 +337,11 @@ class RoboFile extends Tasks {
       return;
     }
 
-    $result = $this->_exec("cd $pantheon_directory && git pull && git add . && git commit -am 'Site update' && git push")->getExitCode();
+    if (empty($commit_message)) {
+      $commit_message = 'Site update';
+    }
+    $commit_message = escapeshellarg($commit_message);
+    $result = $this->_exec("cd $pantheon_directory && git pull && git add . && git commit -am $commit_message && git push")->getExitCode();
     if ($result !== 0) {
       throw new Exception('Pushing to the remote repository failed');
     }
