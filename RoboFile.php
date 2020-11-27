@@ -909,11 +909,11 @@ END;
         continue;
       }
 
-      // The issue number is a required part of the branch name
+      // The issue number is a required part of the branch name,
       // So usually we can grab it from the log too, but that's optional
       // If we cannot detect it, we still print a less verbose changelog line.
       $issue_matches = [];
-      preg_match_all('!from Gizra/([0-9]+)!', $line, $issue_matches);
+      preg_match_all('!from [a-zA-Z]+/([0-9]+)!', $line, $issue_matches);
 
       if (isset($issue_matches[1][0])) {
         print "- Issue #{$issue_matches[1][0]}: {$log_messages[1]} (#{$pr_matches[1][0]})\n";
