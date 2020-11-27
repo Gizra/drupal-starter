@@ -326,15 +326,12 @@ class RoboFile extends Tasks {
     }
 
     $result = $task
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- cr")
-
-      // A second cache-clear, because Drupal...
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- cr")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- updb -y")
-
-      // A second config import, because Drupal...
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- cr")
+      // A second config import may be needed so run twice.
       ->exec("terminus remote:drush $pantheon_terminus_environment -- cim -y")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- cim -y")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- cr")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- uli")
       ->run()
       ->getExitCode();
