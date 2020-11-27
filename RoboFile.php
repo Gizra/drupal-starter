@@ -338,7 +338,13 @@ class RoboFile extends Tasks {
     }
 
     if (empty($commit_message)) {
-      $commit_message = 'Site update';
+      // Getting the current commit.
+      $commit_hash = $this->taskExec("git rev-parse --short HEAD")
+        ->printOutput(FALSE)
+        ->run()
+        ->getMessage();
+
+      $commit_message = 'Site update from ' . $commit_hash;
     }
     $commit_message = escapeshellarg($commit_message);
     $result = $this->_exec("cd $pantheon_directory && git pull && git add . && git commit -am $commit_message && git push")->getExitCode();
