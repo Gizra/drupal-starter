@@ -22,6 +22,7 @@ deployments. See more under ["Deploy to Pantheon"](#deploy-to-pantheon) section
 ## Requirements
 
 * [DDEV](https://ddev.readthedocs.io/en/stable/)
+* Optional but recommended: follow the "mkcert" [installation notes](https://ddev.readthedocs.io/en/stable/#installation) for local SSL
 
 ## Installation
 
@@ -145,7 +146,7 @@ tags. You can generate a changelog using
 
     ddev robo generate:release-notes
 
-Or alternatively, you can specify a tag that's the base of the comparison.
+Or you can specify a tag that's the base of the comparison.
 
     ddev robo generate:release-notes 0.1.2
 

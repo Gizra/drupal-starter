@@ -133,6 +133,44 @@ class RoboFile extends Tasks {
   }
 
   /**
+   * Compress SVG files in the "dist" directories.
+   *
+   * This function is being called as part of `theme:compile`.
+   * @see compileTheme_()
+   */
+  public function themeSvgCompress() {
+    $directories = [
+      './dist/images',
+    ];
+
+    $error_code = NULL;
+
+    foreach ($directories as $directory) {
+      // Check if SVG files exists in this directory.
+      $finder = new Finder();
+      $finder
+        ->in('web/themes/custom/server_theme/' . $directory)
+        ->files()
+        ->name('*.svg');
+
+      if (!$finder->hasResults()) {
+        // No SVG files.
+        continue;
+      }
+
+      $result = $this->_exec("cd web/themes/custom/server_theme && ./node_modules/svgo/bin/svgo $directory/*.svg");
+      if (empty($error_code) && !$result->wasSuccessful()) {
+        $error_code = $result->getExitCode();
+      }
+    }
+
+    if (!empty($error_code)) {
+      return new Robo\ResultData($error_code, '`svgo` failed to run.');
+    }
+  }
+
+
+  /**
    * Directories that should be watched for the theme.
    *
    * @return array
@@ -398,43 +436,6 @@ class RoboFile extends Tasks {
       ->getExitCode();
     if ($result !== 0) {
       throw new Exception('The site could not be fully updated at Pantheon. Try "ddev robo deploy:pantheon-reboot" manually.');
-    }
-  }
-
-  /**
-   * Compress SVG files in the "dist" directories.
-   *
-   * This function is being called as part of `theme:compile`.
-   * @see compileTheme_()
-   */
-  public function themeSvgCompress() {
-    $directories = [
-      './dist/images',
-    ];
-
-    $error_code = NULL;
-
-    foreach ($directories as $directory) {
-      // Check if SVG files exists in this directory.
-      $finder = new Finder();
-      $finder
-        ->in('web/themes/custom/server_theme/' . $directory)
-        ->files()
-        ->name('*.svg');
-
-      if (!$finder->hasResults()) {
-        // No SVG files.
-        continue;
-      }
-
-      $result = $this->_exec("cd web/themes/custom/server_theme && ./node_modules/svgo/bin/svgo $directory/*.svg");
-      if (empty($error_code) && !$result->wasSuccessful()) {
-        $error_code = $result->getExitCode();
-      }
-    }
-
-    if (!empty($error_code)) {
-      return new Robo\ResultData($error_code, '`svgo` failed to run.');
     }
   }
 
