@@ -28,7 +28,7 @@ class ServerGeneralTest extends KernelTestBase {
    * Dummy test example.
    */
   public function testDummy() {
-    $this->assetTrue(TRUE);
+    $this->assertTrue(TRUE);
   }
 
 }

@@ -20,6 +20,11 @@
     <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
     <!-- Specify the default directory screenshots should be placed. -->
     <env name="DTT_SCREENSHOT_REPORT_DIRECTORY" value="screenshots"/>
+
+    <!-- Example SIMPLETEST_BASE_URL value: http://localhost -->
+    <env name="SIMPLETEST_BASE_URL" value="http://127.0.0.1:32788"/>
+    <!-- Example SIMPLETEST_DB value: mysql://username:password@localhost/databasename#table_prefix -->
+    <env name="SIMPLETEST_DB" value="mysql://db:db@db/db"/>
   </php>
 
   <testsuites>
