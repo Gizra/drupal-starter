@@ -1,0 +1,10 @@
+#!/bin/bash
+
+## Description: Automatically corrects coding standard issues.
+## Usage: auto-phpcs
+## Example: "ddev auto-phpcs".
+
+cd ..
+while inotifywait -r -e modify web/modules/custom; do
+  robo phpcs
+done
