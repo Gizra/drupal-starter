@@ -1,0 +1,33 @@
+{#This is a Dummy twig file, with the sole purpose of holding class names
+we are using, so they will not be purged by TailWind's purge CSS when we deoply.
+
+The way CSS purge works is by going over the twig/theme functions and look for
+the class names. If it will see in twig `bg-{{color}}` it will not pick it up,
+as it doesn't know to what it will comiple.
+
+Below are the custom colors we defined in tailwind.config.js
+#}
+
+black
+gray-3
+gray-6
+gray-9
+gray-c
+white
+
+grid-cols-cards
+sm:grid-cols-cards
+md:grid-cols-cards
+lg:grid-cols-cards
+grid-cols-network-cards
+sm:grid-cols-network-cards
+md:grid-cols-network-cards
+lg:grid-cols-network-cards
+grid-cols-collection
+sm:grid-cols-collection
+md:grid-cols-collection
+lg:grid-cols-collection
+grid-cols-events
+sm:grid-cols-events
+md:grid-cols-events
+lg:grid-cols-events

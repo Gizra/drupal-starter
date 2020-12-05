@@ -4,8 +4,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'purple-primary': '#664493',
-        'turquoise': '#03B3AF',
+        'black': '#000000',
+        'gray-3': '#333333',
+        'gray-6': '#666666',
+        'gray-9': '#999999',
+        'gray-c': '#cccccc',
+        'white' : '#ffffff',
       },
       fluidContainer: {
         'full': {
