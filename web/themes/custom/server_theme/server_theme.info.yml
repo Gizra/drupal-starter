@@ -8,7 +8,7 @@ libraries:
   - server_theme/global-scripts
   - server_theme/font-awesome
   - server_theme/opensans
-  - server_theme/librefranklin
+  - server_theme/roboto
 
 logo: logo.svg
 

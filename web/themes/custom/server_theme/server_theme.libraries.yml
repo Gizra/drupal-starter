@@ -10,10 +10,10 @@ global-scripts:
   dependencies:
     - core/jquery
 
-librefranklin:
+roboto:
   css:
     base:
-      '//fonts.googleapis.com/css?family=Libre+Franklin:400,400i,700': { external: true }
+      '//fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap': { external: true }
 
 opensans:
   css:

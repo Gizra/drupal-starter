@@ -1,16 +1,14 @@
 const plugin = require('tailwindcss/plugin');
+const colors = require('tailwindcss/colors')
 
 module.exports = {
   theme: {
+    colors: {
+      white: '#ffffff',
+      black: '#000000',
+      gray: colors.trueGray,
+    },
     extend: {
-      colors: {
-        'black': '#000000',
-        'gray-3': '#333333',
-        'gray-6': '#666666',
-        'gray-9': '#999999',
-        'gray-c': '#cccccc',
-        'white' : '#ffffff',
-      },
       fluidContainer: {
         'full': {
           width: '100%',
@@ -29,10 +27,10 @@ module.exports = {
           padding: '20px',
         },
       },
-      fontFamily: {
-        'headers': ['Gotham Medium', 'sans-serif'],
-        'body': ['Gotham Bold', 'sans-serif'],
-      },
+    },
+    fontFamily: {
+      'headers': ["Roboto", 'sans-serif'],
+      'body': ["Open Sans", 'sans-serif'],
     },
   },
   variants: {
@@ -50,12 +48,7 @@ module.exports = {
     ],
     options: {
       whitelist: [
-        'bg-purple-primary',
-        'bg-turquoise',
-        'border-purple-primary',
-        'border-turquoise',
-        'text-purple-primary',
-        'text-turquoise',
+        // Add here custom class names.
       ],
     },
   },

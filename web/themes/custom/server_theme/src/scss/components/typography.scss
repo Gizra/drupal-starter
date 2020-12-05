@@ -1,10 +1,9 @@
 body {
-  font-family: 'Open Sans', sans-serif;
+  @apply font-body;
 }
 
 h1, h2, h3, h4 {
-  font-family: 'Libre Franklin', sans-serif;
-  @apply leading-none text-gray-3;
+  @apply font-headers leading-none text-gray-700;
 }
 
 h1 {

@@ -131,14 +131,14 @@ class StyleGuideController extends ControllerBase {
     $element['server_theme_button'] = $this->buildButton(
       $this->t('Register'),
       '#',
-      'gray-3'
+      'gray-700'
     );
     $element['server_theme_button']['#prefix'] = $this->getComponentPrefix('Button - no Icon');
 
     $element['server_theme_button__icon_calendar'] = $this->buildButton(
       $this->t('Add to my calendar'),
       '#',
-      'gray-3',
+      'gray-700',
       'calendar'
     );
     $element['server_theme_button__icon_calendar']['#prefix'] = $this->getComponentPrefix('Button - with Icon');
@@ -146,7 +146,7 @@ class StyleGuideController extends ControllerBase {
     $element['server_theme_button__print'] = $this->buildButton(
       $this->t('Print'),
       'javascript:void(0)',
-      'gray-3',
+      'gray-700',
       'print',
       'window.print()'
     );
