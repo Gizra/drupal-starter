@@ -118,6 +118,13 @@ function server_theme_theme($existing, $type, $theme, $path) {
     'variables' => [],
   ];
 
+  $info['server_theme_page_title'] = [
+    'variables' => [
+      'title' => NULL,
+    ],
+  ];
+
+
   return $info;
 }
 
@@ -140,4 +147,13 @@ function server_theme_preprocess_page_title(&$variables) {
   if ($node) {
     $variables['title'] = '';
   }
+}
+
+/**
+ * Implements hook_theme_suggestions_HHOK_alter().
+ *
+ * Use our own page title theme.
+ */
+function server_theme_theme_suggestions_page_title_alter(array &$suggestions, array $variables) {
+    $suggestions[] = 'server_theme_page_title';
 }

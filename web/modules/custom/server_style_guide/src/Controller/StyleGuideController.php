@@ -219,6 +219,12 @@ class StyleGuideController extends ControllerBase {
       '#theme' => 'server_theme_footer',
     ];
 
+    $element['server_theme_page_title'] = [
+      '#prefix' => $this->getComponentPrefix('Page Title'),
+      '#theme' => 'server_theme_page_title',
+      '#title' => 'The source has extend, but not everyone fears it'
+    ];
+
     $element['server_theme_user_image__photo'] = [
       '#prefix' => $this->getComponentPrefix('User Image - With Photo'),
       '#theme' => 'server_theme_user_image',
