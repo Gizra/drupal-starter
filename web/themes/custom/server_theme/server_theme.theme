@@ -150,7 +150,7 @@ function server_theme_preprocess_page_title(&$variables) {
 }
 
 /**
- * Implements hook_theme_suggestions_HHOK_alter().
+ * Implements hook_theme_suggestions_page_title_alter().
  *
  * Use our own page title theme.
  */
