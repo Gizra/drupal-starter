@@ -3,10 +3,6 @@ const plugin = require('tailwindcss/plugin');
 module.exports = {
   theme: {
     extend: {
-      colors: {
-        'purple-primary': '#664493',
-        'turquoise': '#03B3AF',
-      },
       fluidContainer: {
         'full': {
           width: '100%',
@@ -25,10 +21,10 @@ module.exports = {
           padding: '20px',
         },
       },
-      fontFamily: {
-        'headers': ['Gotham Medium', 'sans-serif'],
-        'body': ['Gotham Bold', 'sans-serif'],
-      },
+    },
+    fontFamily: {
+      'headers': ["Roboto", 'sans-serif'],
+      'body': ["Open Sans", 'sans-serif'],
     },
   },
   variants: {
@@ -46,12 +42,7 @@ module.exports = {
     ],
     options: {
       whitelist: [
-        'bg-purple-primary',
-        'bg-turquoise',
-        'border-purple-primary',
-        'border-turquoise',
-        'text-purple-primary',
-        'text-turquoise',
+        // Add here custom class names.
       ],
     },
   },

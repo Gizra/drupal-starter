@@ -31,6 +31,9 @@ pantheon_config.sh
 .pantheon
 travis-key
 
+# Elasticsearch
+server.es.secrets.json
+
 #SASS
 .sass-cache
 .editorconfig

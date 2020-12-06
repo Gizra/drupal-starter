@@ -10,6 +10,16 @@ global-scripts:
   dependencies:
     - core/jquery
 
+roboto:
+  css:
+    base:
+      '//fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap': { external: true }
+
+opensans:
+  css:
+    base:
+      '//fonts.googleapis.com/css?family=Open+Sans:400,400i,700': { external: true }
+
 font-awesome:
   remote: https://fortawesome.github.io/Font-Awesome/
   version: 4.7.0
