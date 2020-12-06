@@ -222,7 +222,7 @@ class StyleGuideController extends ControllerBase {
     $element['server_theme_page_title'] = [
       '#prefix' => $this->getComponentPrefix('Page Title'),
       '#theme' => 'server_theme_page_title',
-      '#title' => 'The source has extend, but not everyone fears it'
+      '#title' => 'The source has extend, but not everyone fears it',
     ];
 
     $element['server_theme_user_image__photo'] = [
