@@ -1,13 +1,7 @@
 const plugin = require('tailwindcss/plugin');
-const colors = require('tailwindcss/colors')
 
 module.exports = {
   theme: {
-    colors: {
-      white: '#ffffff',
-      black: '#000000',
-      gray: colors.trueGray,
-    },
     extend: {
       fluidContainer: {
         'full': {
