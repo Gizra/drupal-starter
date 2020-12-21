@@ -40,12 +40,12 @@ if (file_exists($base_private_dir . '/' . $site_id . '.es.secrets.json')) {
     }
     $_ENV['es_env'] = $env;
 
-    $config['elasticsearch_connector.cluster.jep']['url'] = 'https://e8d1a830b3aa484d9fd21ff50c531f57.us-central1.gcp.cloud.es.io:9243';
-    $config['elasticsearch_connector.cluster.jep']['options']['use_authentication'] = TRUE;
+    $config['elasticsearch_connector.cluster.elastic']['url'] = 'https://aaa0001111.us-central1.gcp.cloud.es.io:9243';
+    $config['elasticsearch_connector.cluster.elastic']['options']['use_authentication'] = TRUE;
 
     if (isset($es_credentials[$env])) {
-      $config['elasticsearch_connector.cluster.jep']['options']['username'] = $site_id . '_' . $env;
-      $config['elasticsearch_connector.cluster.jep']['options']['password'] = $es_credentials[$env];
+      $config['elasticsearch_connector.cluster.elastic']['options']['username'] = $site_id . '_' . $env;
+      $config['elasticsearch_connector.cluster.elastic']['options']['password'] = $es_credentials[$env];
     }
   }
 }
