@@ -40,7 +40,7 @@ if (file_exists($base_private_dir . '/' . $site_id . '.es.secrets.json')) {
     }
     $_ENV['es_env'] = $env;
 
-    $config['elasticsearch_connector.cluster.elastic']['url'] = 'https://aaa0001111.us-central1.gcp.cloud.es.io:9243';
+    $config['elasticsearch_connector.cluster.elastic']['url'] = 'https://REPLACE-WITH-REAL-URL.us-central1.gcp.cloud.es.io:9243';
     $config['elasticsearch_connector.cluster.elastic']['options']['use_authentication'] = TRUE;
 
     if (isset($es_credentials[$env])) {
