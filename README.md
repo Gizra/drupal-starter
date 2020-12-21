@@ -129,6 +129,13 @@ After first deploy, you will want to install the site:
 This command is also useful if a deployment got stuck due to non-deployable
 config changes, so it can reboot the environment from scratch.
 
+### Tailor the Pantheon environment
+
+During the deployments, `web/sites/default/settings.pantheon.php` gets copied
+to `web/sites/default/settings.php` into the Pantheon repository, so any kind
+of configuration override (SMTP credentials, dev mode alterations) can be
+injected to that file.
+
 ## Deploy Environments
 
 To Deploy to a Pantheon environment (e.g. TEST or LIVE) you can use
