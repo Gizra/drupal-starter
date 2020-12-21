@@ -345,6 +345,10 @@ class RoboFile extends Tasks {
       throw new Exception('File sync failed');
     }
 
+    // The settings.pantheon.php is managed by Pantheon, there can be updates, site-specific modifications
+    // belong to settings.php.
+    $this->_exec("cp web/sites/default/settings.pantheon.php $pantheon_directory/web/sites/default/settings.php");
+
     // We don't want to change Pantheon's git ignore, as we do want to commit
     // vendor and contrib directories.
     $this->_exec("cd $pantheon_directory && git checkout .gitignore");
