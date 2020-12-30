@@ -31,7 +31,6 @@ module.exports = {
     display: ['responsive', 'hover', 'focus', 'active', 'group-hover', 'group-focus'],
   },
   purge: {
-    enabled: !!process.env.PURGE_TAILWIND,
     content: [
       // Look in the twig files.
       './templates/**/*.html.twig',
