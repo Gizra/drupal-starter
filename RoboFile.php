@@ -35,19 +35,10 @@ class RoboFile extends Tasks {
    *   Indicate whether to optimize during compilation.
    */
   private function compileTheme_($optimize = FALSE) {
-    // Notice we don't cleanup the `dist/css` as we'd want parcel, which
-    // bundles TailWind and Sass to keep using its cache - for faster builds.
-    // We also don't deal with the "fonts" directory, as Parcel already copies
-    // the fonts as part of compiling the css file.
     $directories = [
       'js',
       'images',
     ];
-
-    // Delete Parcel's cache directory. Caching will occur while robo is
-    // running, but otherwise we remove it, since seems caching is sometimes too
-    // aggressive.
-    $this->_deleteDir(self::THEME_BASE . '/.cache');
 
     // Cleanup and create directories.
     $this->_deleteDir(self::THEME_BASE . '/dist');
@@ -62,10 +53,8 @@ class RoboFile extends Tasks {
     $this->_exec("cd $theme_dir && npm install");
 
     // If we are asked to optimize, we make sure to purge tailwind's css, by
-    // passing the `PURGE_TAILWIND` env variable.
-    // @see tailwind.config.js.
-    $purge_prefix = $optimize ? 'PURGE_TAILWIND=1' : '';
-    $minify = $optimize ? '' : '--no-minify';
+    // @link https://tailwindcss.com/docs/optimizing-for-production#removing-unused-css
+    $purge_prefix = $optimize ? 'NODE_ENV=production' : '';
     $result = $this->_exec("cd $theme_dir && $purge_prefix npx postcss ./src/scss/style.scss --output=./dist/css/style.css");
 
     if ($result->getExitCode() !== 0) {
