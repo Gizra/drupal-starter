@@ -61,7 +61,6 @@
                 "Preserve ES index settings": "https://www.drupal.org/files/issues/2020-01-28/3109361-elasticsearch_connector-preserve-index-settings-1.patch",
                 "d.o #3096887 - Parse data facets from epoch milliseconds format to seconds": "https://www.drupal.org/files/issues/2019-11-26/elasticsearch_connector_-7.x-parse_date_facets.patch",
                 "d.o #3190496 - item deletion on ES side": "https://www.drupal.org/files/issues/2021-01-04/3190496-es-deletion.patch"
-
             }
         },
         "drupal-scaffold": {
