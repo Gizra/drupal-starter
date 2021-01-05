@@ -1,4 +1,4 @@
-<div class="flex flex-col flex-grow-0 flex-shrink-0 h-full rounded-lg shadow-lg mb-4">
+<div class="flex flex-col h-full rounded-lg shadow-lg mb-4">
 
   {% if url and image %}
   <a href="{{ url }}">
@@ -7,7 +7,7 @@
   {% endif %}
 
   <div class="flex flex-col justify-between py-4 px-6 h-full">
-      <div class="overflow-hidden text-lg leading-5 font-bold text-turquoise overflow-ellipsis clamp-3 hover:text-gray-800">
+      <div class="overflow-hidden text-base md:text-lg leading-5 md:leading-7 font-bold text-turquoise overflow-ellipsis clamp-3 hover:text-gray-800">
         {% if url %}
         <a href="{{ url }}">
         {% endif %}
@@ -18,12 +18,12 @@
       </div>
 
       {% if body %}
-        <div class="overflow-hidden mt-4 h-24 text-black">
+        <div class="overflow-hidden mt-1 md:mt-4 h-24 text-black text-sm md:text-base">
           {{ body }}
         </div>
       {% endif %}
 
-    <div class="flex overflow-hidden flex-row flex-wrap justify-start pt-2 mt-4 h-12 text-sm border-t border-gray-300 tags-wrapper">
+    <div class="flex overflow-hidden flex-row flex-wrap justify-start pt-2 h-12 text-sm border-t border-gray-300 tags-wrapper">
     {% if tags %}
       {% for tag in tags %}
         {{ tag }}
