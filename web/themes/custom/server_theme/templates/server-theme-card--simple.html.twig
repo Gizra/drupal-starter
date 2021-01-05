@@ -2,12 +2,12 @@
 
   {% if url and image %}
   <a href="{{ url }}">
-    <img class="object-cover w-full h-36 rounded-tl-md rounded-tr-md border-b border-gray-300" src="{{ image }}" alt="{{ image_alt }}" />
+    <img class="object-cover w-full h-32 rounded-tl-md rounded-tr-md border-b border-gray-300" src="{{ image }}" alt="{{ image_alt }}" />
   </a>
   {% endif %}
 
   <div class="flex flex-col justify-between px-4 md:px-6 py-2 md:py-4 h-full">
-      <div class="overflow-hidden text-base md:text-lg leading-6 md:leading-7 font-bold text-turquoise overflow-ellipsis clamp-2 md:clamp-3 hover:text-gray-800">
+      <div class="overflow-hidden text-base md:text-lg leading-6 md:leading-7 font-bold text-turquoise overflow-ellipsis clamp-2 hover:text-gray-800">
         {% if url %}
         <a href="{{ url }}">
         {% endif %}
