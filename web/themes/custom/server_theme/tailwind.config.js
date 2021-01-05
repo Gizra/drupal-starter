@@ -3,11 +3,18 @@ const plugin = require('tailwindcss/plugin');
 module.exports = {
   theme: {
     extend: {
+      gridTemplateColumns: {
+        'fill-56': 'repeat(auto-fill, 14rem)',
+        'fill-64': 'repeat(auto-fill, 16rem)',
+      },
     },
     fontFamily: {
       'headers': ["Roboto", 'sans-serif'],
       'body': ["Open Sans", 'sans-serif'],
     },
+    lineClamp: {
+      '3': '3',
+    }
   },
   variants: {
     display: ['responsive', 'hover', 'focus', 'active', 'group-hover', 'group-focus'],
@@ -29,5 +36,6 @@ module.exports = {
   },
   plugins: [
     require('@tailwindcss/forms'),
+    require('tailwindcss-line-clamp')
   ],
 };
