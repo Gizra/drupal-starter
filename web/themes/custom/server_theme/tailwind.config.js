@@ -13,11 +13,13 @@ module.exports = {
       'body': ["Open Sans", 'sans-serif'],
     },
     lineClamp: {
+      '2': '2',
       '3': '3',
     }
   },
   variants: {
     display: ['responsive', 'hover', 'focus', 'active', 'group-hover', 'group-focus'],
+    lineClamp: ['responsive'],
   },
   purge: {
     content: [

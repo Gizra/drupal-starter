@@ -6,8 +6,8 @@
   </a>
   {% endif %}
 
-  <div class="flex flex-col justify-between py-4 px-6 h-full">
-      <div class="overflow-hidden text-base md:text-lg leading-5 md:leading-7 font-bold text-turquoise overflow-ellipsis clamp-3 hover:text-gray-800">
+  <div class="flex flex-col justify-between px-4 md:px-6 py-2 md:py-4 h-full">
+      <div class="overflow-hidden text-base md:text-lg leading-6 md:leading-7 font-bold text-turquoise overflow-ellipsis clamp-2 md:clamp-3 hover:text-gray-800">
         {% if url %}
         <a href="{{ url }}">
         {% endif %}
@@ -18,7 +18,7 @@
       </div>
 
       {% if body %}
-        <div class="overflow-hidden mt-1 md:mt-4 h-24 text-black text-sm md:text-base">
+        <div class="overflow-hidden mt-1 md:mt-2 h-20 md:h-24 text-black text-sm md:text-base">
           {{ body }}
         </div>
       {% endif %}
