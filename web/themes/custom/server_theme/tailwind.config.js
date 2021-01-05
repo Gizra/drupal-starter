@@ -3,24 +3,6 @@ const plugin = require('tailwindcss/plugin');
 module.exports = {
   theme: {
     extend: {
-      fluidContainer: {
-        'full': {
-          width: '100%',
-          padding: '0',
-        },
-        'wider': {
-          maxWidth: '1280px',
-          padding: '20px',
-        },
-        'wide': {
-          maxWidth: '1200px',
-          padding: '20px',
-        },
-        'narrow': {
-          maxWidth: '980px',
-          padding: '20px',
-        },
-      },
     },
     fontFamily: {
       'headers': ["Roboto", 'sans-serif'],
@@ -47,8 +29,5 @@ module.exports = {
   },
   plugins: [
     require('@tailwindcss/forms'),
-    require('tailwindcss-fluid-container')({
-      componentPrefix: 'fluid-',
-    }),
   ],
 };

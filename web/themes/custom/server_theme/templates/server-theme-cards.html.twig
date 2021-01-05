@@ -5,7 +5,7 @@
     </h2>
   {% endif %}
 
-  <div class="sm:grid sm:grid-cols-2 md:grid-cols-3 gap-8">
+  <div class="flex flex-row flex-wrap space-x-4 md:space-x-8">
     {% for row in rows %}
       <div{{ row.attributes }}>
         {{- row.content -}}

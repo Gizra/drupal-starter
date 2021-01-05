@@ -1,15 +1,13 @@
-<div class="card-item flex flex-col h-full shadow-lg">
+<div class="flex flex-col flex-grow-0 flex-shrink-0 w-56 rounded-lg shadow-lg sm:w-64">
 
   {% if url and image %}
   <a href="{{ url }}">
-    <div class="relative">
-      <img class="object-cover w-full h-48" src="{{ image }}" alt="{{ image_alt }}" />
-    </div>
+    <img class="object-cover w-full h-36 rounded-tl-md rounded-tr-md border-b border-gray-300" src="{{ image }}" alt="{{ image_alt }}" />
   </a>
   {% endif %}
 
-  <div class="flex flex-col justify-between h-full px-6 py-4">
-      <div class="text-xl font-bold text-turquoise overflow-hidden leading-tight">
+  <div class="flex flex-col justify-between py-4 px-6 h-full">
+      <div class="overflow-hidden h-20 text-lg font-bold leading-tight md:text-xl text-turquoise overflow-ellipsis hover:text-gray-800">
         {% if url %}
         <a href="{{ url }}">
         {% endif %}
@@ -20,17 +18,18 @@
       </div>
 
       {% if body %}
-        <div class="text-black overflow-hidden">
+        <div class="overflow-hidden mt-4 h-24 text-black">
           {{ body }}
         </div>
       {% endif %}
 
+    <div class="flex overflow-hidden flex-row flex-wrap justify-start pt-2 mt-4 h-12 text-sm border-t border-gray-500 tags-wrapper">
     {% if tags %}
-      <div class="flex flex-row flex-wrap justify-start pt-2 mt-4 text-sm border-t border-gray-500 tags-wrapper">
-        {% for tag in tags %}
-            {{ tag }}
-        {% endfor %}
-      </div>
+      {% for tag in tags %}
+        {{ tag }}
+      {% endfor %}
     {% endif %}
+    </div>
+
   </div>
 </div>
