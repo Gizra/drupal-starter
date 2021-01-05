@@ -1,0 +1,6 @@
+"_id","_username","_email","_pass","_role","_picture"
+1,"JoeDoe","joe@example.com",1234,,"af721767-76b2-4832-a38d-1713b1ba25e8"
+2,"JaneDoe","jane@example.com",1234,,"1ee08c9f-ecd4-4351-a24d-e59412f669b4"
+5,"AdminOne","admin_1@example.com",1234,"administrator",
+6,"AdminTwo","admin_2@example.com",1234,"administrator",
+7,"<script>alert('XSS attack!');</script>","attacker@example.com",1234,,
