@@ -124,7 +124,6 @@ function server_theme_theme($existing, $type, $theme, $path) {
     ],
   ];
 
-
   return $info;
 }
 
@@ -155,5 +154,5 @@ function server_theme_preprocess_page_title(&$variables) {
  * Use our own page title theme.
  */
 function server_theme_theme_suggestions_page_title_alter(array &$suggestions, array $variables) {
-    $suggestions[] = 'server_theme_page_title';
+  $suggestions[] = 'server_theme_page_title';
 }
