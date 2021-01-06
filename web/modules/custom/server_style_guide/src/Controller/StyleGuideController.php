@@ -282,12 +282,14 @@ class StyleGuideController extends ControllerBase {
    *   The width of the image.
    * @param int $height
    *   The height of the image.
+   * @param string|null $text
+   *   Text to render image with.
    *
    * @return string
    *   URL with placeholder.
    */
-  protected function getPlaceholderImage(int $width, int $height) {
-    return "https://via.placeholder.com/{$width}x{$height}.png";
+  protected function getPlaceholderImage(int $width, int $height, string $text = NULL) {
+    return "https://via.placeholder.com/{$width}x{$height}.png" . (!empty($text) ? '?text=' . $text : NULL);
   }
 
   /**
