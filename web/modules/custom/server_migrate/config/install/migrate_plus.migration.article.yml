@@ -31,10 +31,11 @@ process:
       method: process
     - plugin: migration_lookup
       migration: tags
-  field_image:
+  field_image/target_id:
     plugin: migration_lookup
     migration: images
     source: _image
+  field_image/alt: _image_alt
 
 dependencies:
   enforced:
