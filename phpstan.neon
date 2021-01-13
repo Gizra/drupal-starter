@@ -1,0 +1,8 @@
+includes:
+	- vendor/mglaman/phpstan-drupal/extension.neon
+parameters:
+  level: 6
+  paths:
+    - web
+  excludePaths:
+    - web/core
