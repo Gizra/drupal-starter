@@ -3,29 +3,18 @@ const plugin = require('tailwindcss/plugin');
 module.exports = {
   theme: {
     extend: {
-      fluidContainer: {
-        'full': {
-          width: '100%',
-          padding: '0',
-        },
-        'wider': {
-          maxWidth: '1280px',
-          padding: '20px',
-        },
-        'wide': {
-          maxWidth: '1200px',
-          padding: '20px',
-        },
-        'narrow': {
-          maxWidth: '980px',
-          padding: '20px',
-        },
+      gridTemplateColumns: {
+        'fill-56': 'repeat(auto-fill, 14rem)',
+        'fill-64': 'repeat(auto-fill, 16rem)',
       },
     },
     fontFamily: {
       'headers': ["Roboto", 'sans-serif'],
       'body': ["Open Sans", 'sans-serif'],
     },
+    lineClamp: {
+      '2': '2',
+    }
   },
   variants: {
     display: ['responsive', 'hover', 'focus', 'active', 'group-hover', 'group-focus'],
@@ -47,8 +36,6 @@ module.exports = {
   },
   plugins: [
     require('@tailwindcss/forms'),
-    require('tailwindcss-fluid-container')({
-      componentPrefix: 'fluid-',
-    }),
+    require('tailwindcss-line-clamp')
   ],
 };

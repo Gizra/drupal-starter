@@ -1,0 +1,33 @@
+id: tags
+label: 'Tags'
+migration_group: server
+migration_tags:
+  - tags
+  - taxonomy_term
+  - taxonomy
+source:
+  plugin: csv
+  path: modules/custom/server_migrate/csv_files/tags.csv
+  ids: ['_id']
+  header_offset: 0
+  fields:
+    -
+      name: _id
+      label: ID
+    -
+      name: _title
+      label: Title
+    -
+      name: _description
+      label: Description
+destination:
+  plugin: 'entity:taxonomy_term'
+  default_bundle: tags
+process:
+  name: _title
+  description: _description
+
+dependencies:
+  enforced:
+    module:
+      - server_migrate
