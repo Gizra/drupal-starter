@@ -1,0 +1,13 @@
+type: module
+name: Server Migrate
+description: 'Migrates content and users into the site'
+package: Server
+core: 8.x
+dependencies:
+  - drupal:migrate
+  - drupal:migrate_drupal
+  - drupal:migrate_source_csv
+  - drupal:migrate_tools
+  - drupal:migrate_file
+  - drupal:path
+  - migrate_plus:migrate_plus

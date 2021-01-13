@@ -13,6 +13,11 @@ hooks:
     # On deploy, we purge un-needed CSS.
     - exec-host: ddev robo theme:compile-debug
 
+    # Execute the migrations
+    - exec: drush pm-enable server_migrate -y
+    - exec: drush migrate:import --group server
+    - exec: drush pm-uninstall migrate -y
+
     # Clear cache, for example for entity view builder plugins to take effect.
     - exec: drush cr
 

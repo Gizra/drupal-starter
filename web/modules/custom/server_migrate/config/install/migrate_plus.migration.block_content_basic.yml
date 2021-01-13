@@ -1,0 +1,26 @@
+id: block_content_basic
+label: 'Block Content: Basic'
+migration_group: server
+migration_tags:
+  - block_content_basic
+  - block_content
+  - block
+source:
+  plugin: csv
+  path: modules/custom/server_migrate/csv_files/block_content_basic.csv
+  header_offset: 0
+  ids: ['_uuid']
+destination:
+  plugin: entity:block_content
+  default_bundle: basic
+  no_stub: true
+process:
+  info: _title
+  body/value: _body
+  body/format:
+    plugin: default_value
+    default_value: basic_html
+dependencies:
+  enforced:
+    module:
+      - server_migrate

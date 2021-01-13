@@ -1,0 +1,33 @@
+id: basic_page
+label: 'Basic Page'
+migration_group: server
+migration_tags:
+  - basic_page
+  - basic_pages
+  - page
+  - node
+source:
+  plugin: csv
+  path: modules/custom/server_migrate/csv_files/basic_page.csv
+  ids: ['_id']
+  header_offset: 0
+destination:
+  plugin: 'entity:node'
+  default_bundle: page
+process:
+  title: _title
+  uid:
+    plugin: migration_lookup
+    migration: user
+    source: _uid
+  body/value: _body
+  body/format:
+    plugin: default_value
+    default_value: basic_html
+
+dependencies:
+  enforced:
+    module:
+      - server_migrate
+    migration:
+      - user
