@@ -2,6 +2,7 @@ includes:
 	- vendor/mglaman/phpstan-drupal/extension.neon
 parameters:
   level: 6
+  checkMissingIterableValueType: false
   paths:
     - web
   excludes_analyse:
