@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## Description: Run PHPCS inside the container
+## Description: Run PhpStan inside the container
 ## Usage: phpstan
 ## Example: "ddev phpstan"
 
