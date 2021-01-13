@@ -34,7 +34,7 @@ class StyleGuideController extends ControllerBase {
   /**
    * The renderer service.
    *
-   * @var \Drupal\server_style_guide\Controller\Renderer
+   * @var \Drupal\Core\Render\RendererInterface
    */
   protected $renderer;
 
@@ -57,8 +57,8 @@ class StyleGuideController extends ControllerBase {
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container) {
-    return new static(
+  public static function create(ContainerInterface $container): StyleGuideController {
+    return new self(
       $container->get('plugin.manager.block'),
       $container->get('renderer'),
       $container->get('link_generator')

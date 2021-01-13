@@ -17,7 +17,7 @@ class ServerGeneralExampleTest extends ExistingSiteBase {
    * @throws \Drupal\Core\Entity\EntityMalformedException
    * @throws \Behat\Mink\Exception\ExpectationException
    */
-  public function testArticle() {
+  public function testArticle(): void {
     // Creates a user. Will be automatically cleaned up at the end of the test.
     $author = $this->createUser();
 
