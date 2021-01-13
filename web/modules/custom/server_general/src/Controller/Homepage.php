@@ -15,7 +15,7 @@ class Homepage extends ControllerBase {
   /**
    * {@inheritDoc}
    */
-  public function view() {
+  public function view(): array {
     $build['main_content'] = $this->buildMainContent();
     $build['view'] = $this->buildView();
     return $build;
@@ -27,7 +27,7 @@ class Homepage extends ControllerBase {
    * @return array
    *   Render array.
    */
-  protected function buildMainContent() {
+  protected function buildMainContent(): array {
     $element = ['#markup' => $this->t('Add your Homepage elements in \Drupal\server_general\Controller\Homepage')];
     return $this->wrapComponentWithContainer($element, 'content-homepage-main-content-wrapper', 'fluid-container-narrow');
   }
@@ -38,7 +38,7 @@ class Homepage extends ControllerBase {
    * @return array
    *   Render array.
    */
-  protected function buildView() {
+  protected function buildView(): array {
     $element = views_embed_view('frontpage');
     return $this->wrapComponentWithContainer($element, 'view-homepage-wrapper', 'fluid-container-narrow');
   }

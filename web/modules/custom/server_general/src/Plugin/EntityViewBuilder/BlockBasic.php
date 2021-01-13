@@ -24,7 +24,7 @@ class BlockBasic extends EntityViewBuilderPluginAbstract {
   /**
    * {@inheritdoc}
    */
-  public function buildFull(array $build, EntityInterface $entity) {
+  public function buildFull(array $build, EntityInterface $entity): array {
     $build['title'] = $this->buildTitle($entity);
     $build['body'] = $this->buildBody($entity);
     $build['extra'] = $this->buildExtra();
