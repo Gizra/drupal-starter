@@ -4,5 +4,9 @@ parameters:
   level: 6
   paths:
     - web
-  excludePaths:
-    - web/core
+  excludes_analyse:
+    - '*.api.php'
+    - '*/tests/fixtures/*.php'
+    - 'web/core/*'
+    - 'web/sites/default/*'
+    - 'web/modules/contrib/*'
