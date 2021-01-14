@@ -21,13 +21,15 @@ class ServerGeneralSearchTest extends ExistingSiteBase {
     $this->drupalLogin($admin);
     $this->drupalGet('/admin/config/search/elasticsearch-connector/cluster/server');
 
-    $this->assertSession()->pageTextContains('0 Total Documents');
+    // The demo content is indexed.
+    $this->assertSession()->pageTextNotContains('0 Total Documents');
     $this->assertSession()->pageTextContains('1 Nodes');
     $this->assertSession()->pageTextNotContains('red');
 
     $this->drupalGet('/admin/config/search/search-api/index/server_dev/clear');
     $this->submitForm([], 'Confirm');
 
+    // After the purge, we should not have items.
     $this->drupalGet('/admin/config/search/search-api/index/server_dev');
     $this->assertSession()->pageTextContains('There are 0 items indexed on the server for this index.');
 
@@ -46,8 +48,10 @@ class ServerGeneralSearchTest extends ExistingSiteBase {
       $this->drupalGet('/admin/config/search/search-api/index/server_dev');
       usleep(self::ES_WAIT_MICRO_SECONDS);
       try {
-        $this->assertSession()
-          ->pageTextContains('There is 1 item indexed on the server for this index.');
+        $this->assertSession()->pageTextNotContains('There are 0 items indexed on the server for this index.');
+        $this
+          ->assertSession()
+          ->pageTextMatches('/There are [0-9]+ items indexed on the server for this index/');
       }
       catch (\Exception $e) {
         $attempts++;
