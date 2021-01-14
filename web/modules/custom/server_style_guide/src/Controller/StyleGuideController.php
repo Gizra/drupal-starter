@@ -72,6 +72,53 @@ class StyleGuideController extends ControllerBase {
    *   A simple renderable array.
    */
   public function styleGuidePage() {
+    // Initialize the page build render array.
+    $build = [];
+    // Add the full width elements to the build.
+    $build['full_width_elements'] = $this->getFullWidthElements();
+    // Add the elements wrapped in wide container to the build.
+    $build['wide_width_elements'] = $this->getWideWidthElements();
+    // Add the elements wrapped in narrow container to the build.
+    $build['narrow_width_elements'] = $this->getNarrowWidthElements();
+    return $build;
+  }
+
+  /**
+   * Define all elements here that should be 'full' width.
+   *
+   * Elements spanning full-width of the document.
+   *
+   * @return array
+   *   A render array containing the elements.
+   */
+  protected function getFullWidthElements() {
+    $build[] = [
+      '#markup' => $this->getComponentPrefix('Full width elements'),
+    ];
+
+    $element['server_theme_footer'] = [
+      '#prefix' => $this->getComponentPrefix('Footer'),
+      '#theme' => 'server_theme_footer',
+    ];
+
+    // Add container around each element.
+    foreach ($element as $value) {
+      $build[] = $this->wrapComponentWithContainer($value, 'styleguide-full-width-elements', 'fluid-container-full');
+    }
+
+    return $build;
+  }
+
+  /**
+   * Define all elements here that should be 'wide' width.
+   *
+   * @return array
+   *   A render array containing the elements.
+   */
+  protected function getWideWidthElements() {
+    $build[] = [
+      '#markup' => $this->getComponentPrefix('Wide width elements'),
+    ];
     $card_image = $this->getPlaceholderImage(600, 520);
 
     $tags = [
@@ -214,15 +261,29 @@ class StyleGuideController extends ControllerBase {
       '#rows' => $table_rows,
     ];
 
-    $element['server_theme_footer'] = [
-      '#prefix' => $this->getComponentPrefix('Footer'),
-      '#theme' => 'server_theme_footer',
-    ];
-
     $element['server_theme_page_title'] = [
       '#prefix' => $this->getComponentPrefix('Page Title'),
       '#theme' => 'server_theme_page_title',
       '#title' => 'The source has extend, but not everyone fears it',
+    ];
+
+    // Add container around each element.
+    foreach ($element as $value) {
+      $build[] = $this->wrapComponentWithContainer($value, 'styleguide-wide-width-elements', 'fluid-container-wide');
+    }
+
+    return $build;
+  }
+
+  /**
+   * Define all elements here that should be 'narrow' width.
+   *
+   * @return array
+   *   A render array containing the elements.
+   */
+  protected function getNarrowWidthElements() {
+    $build[] = [
+      '#markup' => $this->getComponentPrefix('Narrow width elements'),
     ];
 
     $element['server_theme_user_image__photo'] = [
@@ -241,9 +302,8 @@ class StyleGuideController extends ControllerBase {
     ];
 
     // Add container around each element.
-    $build = [];
     foreach ($element as $value) {
-      $build[] = $this->wrapComponentWithContainer($value, '', 'fluid-container-wide');
+      $build[] = $this->wrapComponentWithContainer($value, 'styleguide-narrow-width-elements', 'fluid-container-narrow');
     }
 
     return $build;
