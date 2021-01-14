@@ -1,0 +1,7 @@
+#!/bin/bash
+
+## Description: Run PhpStan inside the container
+## Usage: phpstan
+## Example: "ddev phpstan"
+
+cd .. && vendor/bin/phpstan analyse -c phpstan.neon

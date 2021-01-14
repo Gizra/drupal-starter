@@ -2,7 +2,7 @@
 
 namespace Drupal\server_general;
 
-use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\FieldableEntityInterface;
 
 /**
  * Trait ProcessedTextBuilderTrait.
@@ -14,7 +14,7 @@ trait ProcessedTextBuilderTrait {
   /**
    * Build the body of node.
    *
-   * @param \Drupal\Core\Entity\EntityInterface $entity
+   * @param \Drupal\Core\Entity\FieldableEntityInterface $entity
    *   The entity.
    * @param string $field
    *   Optional; The name of the field. Defaults to "body".
@@ -22,7 +22,7 @@ trait ProcessedTextBuilderTrait {
    * @return array
    *   Render array.
    */
-  protected function buildBody(EntityInterface $entity, $field = 'body') {
+  protected function buildBody(FieldableEntityInterface $entity, $field = 'body') {
     $element = $this->buildProcessedText($entity, $field);
     return $this->wrapComponentWithContainer($element, 'content-body-wrapper', 'fluid-container-narrow');
   }
@@ -30,7 +30,7 @@ trait ProcessedTextBuilderTrait {
   /**
    * Build a (processed) text of the content.
    *
-   * @param \Drupal\Core\Entity\EntityInterface $entity
+   * @param \Drupal\Core\Entity\FieldableEntityInterface $entity
    *   The entity.
    * @param string $field
    *   Optional; The name of the field. Defaults to "body".
@@ -41,7 +41,7 @@ trait ProcessedTextBuilderTrait {
    * @return array
    *   Render array.
    */
-  protected function buildProcessedText(EntityInterface $entity, $field = 'body', $summary_or_trimmed = FALSE) {
+  protected function buildProcessedText(FieldableEntityInterface $entity, $field = 'body', $summary_or_trimmed = FALSE) {
     if ($entity->get($field)->isEmpty()) {
       return [];
     }

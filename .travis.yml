@@ -23,6 +23,11 @@ before_install:
 jobs:
   include:
     - stage: Lint
+      name: "PhpStan"
+      script:
+        - "composer install"
+        - "vendor/bin/phpstan analyse -c phpstan.neon"
+    - stage: Lint
       name: "Drupal coding standard: phpcs"
       script:
         - "$TRAVIS_BUILD_DIR/ci-scripts/install_coder.sh || travis_terminate 1;"

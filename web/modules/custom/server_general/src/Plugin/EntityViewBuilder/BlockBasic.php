@@ -2,7 +2,7 @@
 
 namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
-use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\pluggable_entity_view_builder\ComponentWrapTrait;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
 use Drupal\server_general\ProcessedTextBuilderTrait;
@@ -24,7 +24,7 @@ class BlockBasic extends EntityViewBuilderPluginAbstract {
   /**
    * {@inheritdoc}
    */
-  public function buildFull(array $build, EntityInterface $entity) {
+  public function buildFull(array $build, FieldableEntityInterface $entity): array {
     $build['title'] = $this->buildTitle($entity);
     $build['body'] = $this->buildBody($entity);
     $build['extra'] = $this->buildExtra();
@@ -35,13 +35,13 @@ class BlockBasic extends EntityViewBuilderPluginAbstract {
   /**
    * Get the Block's title.
    *
-   * @param \Drupal\Core\Entity\EntityInterface $entity
+   * @param \Drupal\Core\Entity\FieldableEntityInterface $entity
    *   The entity.
    *
    * @return array
    *   Render array.
    */
-  protected function buildTitle(EntityInterface $entity) {
+  protected function buildTitle(FieldableEntityInterface $entity) {
     $element = [
       '#type' => 'html_tag',
       '#tag' => 'h2',

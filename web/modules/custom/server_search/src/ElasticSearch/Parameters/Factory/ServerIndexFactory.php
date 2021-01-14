@@ -27,7 +27,7 @@ class ServerIndexFactory extends IndexFactory {
     $options = \Drupal::database()->getConnectionOptions();
     $site_database = $options['database'];
 
-    $index_machine_name = is_string($index) ? $index : $index->id();
+    $index_machine_name = $index->id();
 
     // The structure of the index name is the following:
     // - elasticsearch_index_pantheon_server_dev
