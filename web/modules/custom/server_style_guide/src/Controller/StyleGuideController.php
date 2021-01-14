@@ -57,7 +57,7 @@ class StyleGuideController extends ControllerBase {
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container): StyleGuideController {
+  public static function create(ContainerInterface $container) {
     return new self(
       $container->get('plugin.manager.block'),
       $container->get('renderer'),

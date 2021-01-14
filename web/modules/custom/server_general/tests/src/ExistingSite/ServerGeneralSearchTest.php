@@ -16,7 +16,7 @@ class ServerGeneralSearchTest extends ExistingSiteBase {
   /**
    * Test basic indexing.
    */
-  public function testBasicIndexing(): void {
+  public function testBasicIndexing() {
     $admin = $this->createUser([], NULL, TRUE);
     $this->drupalLogin($admin);
     $this->drupalGet('/admin/config/search/elasticsearch-connector/cluster/server');

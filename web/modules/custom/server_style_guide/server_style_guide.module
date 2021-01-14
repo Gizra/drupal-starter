@@ -8,7 +8,7 @@
 /**
  * Implements hook_theme().
  */
-function server_style_guide_theme(): array {
+function server_style_guide_theme() {
   $info = [];
 
   $info['server_style_guide_header'] = [

@@ -3,6 +3,8 @@ includes:
 parameters:
   level: 6
   checkMissingIterableValueType: false
+  ignoreErrors:
+    - '#has no return typehint specified.#'
   paths:
     - web
   excludes_analyse:

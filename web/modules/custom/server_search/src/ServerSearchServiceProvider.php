@@ -13,7 +13,7 @@ class ServerSearchServiceProvider extends ServiceProviderBase {
   /**
    * {@inheritdoc}
    */
-  public function alter(ContainerBuilder $container): void {
+  public function alter(ContainerBuilder $container) {
     // Replaces IndexFactory in order to modify index name on the fly per env.
     try {
       $definition = $container->getDefinition('elasticsearch_connector.index_factory');
