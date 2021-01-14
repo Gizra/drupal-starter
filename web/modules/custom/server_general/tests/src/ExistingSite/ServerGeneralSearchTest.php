@@ -48,8 +48,10 @@ class ServerGeneralSearchTest extends ExistingSiteBase {
       $this->drupalGet('/admin/config/search/search-api/index/server_dev');
       usleep(self::ES_WAIT_MICRO_SECONDS);
       try {
-        $this->assertSession()
-          ->pageTextContains('There is 1 item indexed on the server for this index.');
+        $this->assertSession()->pageTextNotContains('There are 0 items indexed on the server for this index.');
+        $this
+          ->assertSession()
+          ->pageTextMatches('/There are [0-9]+ items indexed on the server for this index/');
       }
       catch (\Exception $e) {
         $attempts++;
