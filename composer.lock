@@ -2400,17 +2400,17 @@
         },
         {
             "name": "drupal/pluggable_entity_view_builder",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/pluggable_entity_view_builder.git",
-                "reference": "1.1.1"
+                "reference": "1.1.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/pluggable_entity_view_builder-1.1.1.zip",
-                "reference": "1.1.1",
-                "shasum": "9a0210e86c5182bb7d321fced21c0a7536e8c1b2"
+                "url": "https://ftp.drupal.org/files/projects/pluggable_entity_view_builder-1.1.2.zip",
+                "reference": "1.1.2",
+                "shasum": "17901611c76628504b6b23e026ab87cc501e12c3"
             },
             "require": {
                 "drupal/core": "^8 || ^9"
@@ -2418,8 +2418,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "1.1.1",
-                    "datestamp": "1611054050",
+                    "version": "1.1.2",
+                    "datestamp": "1611054789",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
