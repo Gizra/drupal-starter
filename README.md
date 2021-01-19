@@ -179,9 +179,6 @@ Optionally you can specify which target branch you'd like to push on Pantheon, b
 
 To set the Pantheon environment to be pulled from to `LIVE`, execute
 
-Follow https://pantheon.io/docs/machine-tokens to get a token if you don't have
-one already.
-
     ddev auth pantheon [token]
     ddev config pantheon --pantheon-environment=live
 
