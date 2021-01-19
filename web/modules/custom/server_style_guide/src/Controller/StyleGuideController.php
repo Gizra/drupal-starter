@@ -127,6 +127,54 @@ class StyleGuideController extends ControllerBase {
       '#rows' => $rows,
     ];
 
+    $single_card_image_random = $single_card_simple;
+    $single_card_image_random['#url'] = Url::fromUri('https://www.example.com/test')->toString();
+    $single_card_image_random['#image_alt'] = $this->t('Image alt');
+    // Get a random photographic image.
+    $single_card_image_random['#image'] = $this->getPlaceholderPhotoImage(256, 128);
+
+    $single_card_image_id = $single_card_no_body;
+    $single_card_image_id['#url'] = Url::fromUri('https://www.example.com/test')->toString();
+    $single_card_image_id['#image_alt'] = $this->t('Image alt');
+    // Get a static photographic image with ID 1043.
+    // See list of all images at: https://picsum.photos/images.
+    $single_card_image_id['#image'] = $this->getPlaceholderPhotoImage(256, 128, '1043');
+
+    $single_card_image_seed = $single_card_long_title;
+    $single_card_image_seed['#url'] = Url::fromUri('https://www.example.com/test')->toString();
+    $single_card_image_seed['#image_alt'] = $this->t('Image alt');
+    // When you use a seed a random image is generated for a certain string,
+    // and if the same string is used again the same image will always be
+    // returned. Hence it's 'random' but also 'static'.
+    $single_card_image_seed['#image'] = $this->getPlaceholderPhotoImage(256, 128, 'drupal-starter', 'seed');
+
+    $single_card_image_seed_author_name = $single_card_long_author_name;
+    $single_card_image_seed_author_name['#url'] = Url::fromUri('https://www.example.com/test')->toString();
+    $single_card_image_seed_author_name['#image_alt'] = $this->t('Image alt');
+    $single_card_image_seed_author_name['#image'] = $this->getPlaceholderPhotoImage(256, 128, 'single_card_long_author_name', 'seed');
+
+    $cards = [
+      $single_card_image_random,
+      $single_card_image_id,
+      $single_card_image_seed,
+      $single_card_image_seed_author_name,
+    ];
+
+    $rows = [];
+    foreach ($cards as $card) {
+      $rows[] = [
+        'content' => $card,
+        'attributes' => [],
+      ];
+    }
+
+    $element['server_theme_cards_images'] = [
+      '#prefix' => $this->getComponentPrefix('Multiple Cards - With Title and image'),
+      '#theme' => 'server_theme_cards',
+      '#title' => $this->t('Discover more'),
+      '#rows' => $rows,
+    ];
+
     // Buttons.
     $element['server_theme_button'] = $this->buildButton(
       $this->t('Register'),
@@ -290,6 +338,32 @@ class StyleGuideController extends ControllerBase {
    */
   protected function getPlaceholderImage(int $width, int $height, string $text = NULL) {
     return "https://via.placeholder.com/{$width}x{$height}.png" . (!empty($text) ? '?text=' . $text : NULL);
+  }
+
+  /**
+   * Get a photographic placeholder image.
+   *
+   * Optionally supply an ID or a seed string to always get the same image.
+   * Seeds generate a random image, but ID's can point to a specific image and
+   * should be always numeric.
+   *
+   * @param int $width
+   *   The width of the image.
+   * @param int $height
+   *   The height of the image.
+   * @param string $id
+   *   The ID of the image. Or a seed.
+   * @param string $id_type
+   *   The type of the ID, either 'id' or 'seed'.
+   *
+   * @return string
+   *   URL with placeholder.
+   */
+  protected function getPlaceholderPhotoImage(int $width, int $height, string $id = '', string $id_type = 'id') {
+    if (!empty($id)) {
+      return "https://picsum.photos/{$id_type}/{$id}/{$width}/{$height}.jpg";
+    }
+    return "https://picsum.photos/{$width}/{$height}.jpg";
   }
 
   /**
