@@ -21,5 +21,9 @@ hooks:
     # Clear cache, for example for entity view builder plugins to take effect.
     - exec: drush cr
 
+    # Index content.
+    - exec: drush sapi-c
+    - exec: drush sapi-i
+
     # Generate one-time login link
     - exec: drush uli
