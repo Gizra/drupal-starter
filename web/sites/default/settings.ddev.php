@@ -15,6 +15,20 @@ if (empty(getenv('DDEV_PHP_VERSION') && getenv('IS_DDEV_PROJECT') == 'true')) {
   $port = 32796;
 }
 
+/**
+ * For postgres use the following settings.
+ *
+$databases['default']['default'] = array(
+  'database' => "db",
+  'username' => "db",
+  'password' => "db",
+  'host' => 'postgres',
+  'driver' => "pgsql",
+  'port' => 5432,
+  'prefix' => "",
+);
+*/
+
 $databases['default']['default'] = array(
   'database' => "db",
   'username' => "db",

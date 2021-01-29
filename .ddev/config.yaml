@@ -8,6 +8,7 @@ router_https_port: "4443"
 xdebug_enabled: false
 additional_hostnames: []
 additional_fqdns: []
+webimage_extra_packages: ['postgresql-client']
 mariadb_version: "10.2"
 mysql_version: ""
 provider: default

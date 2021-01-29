@@ -30,6 +30,11 @@ deployments. See more under ["Deploy to Pantheon"](#deploy-to-pantheon) section
     cp .ddev/config.local.yaml.example .ddev/config.local.yaml
     ddev restart
 
+## PostgreSQL support
+
+By default, drupal-starter will install MariaDB and PostgreSQL databases
+MariaDB will be used, unless you change the web/sites/settings.ddev.php
+
 ### Troubleshooting
 
 If you had a previous installation of this repo, and have an error similar to `composer [install] failed, composer command failed: failed to load any docker-compose.*y*l files in /XXX/multi-repo/.ddev: err=<nil>. stderr=`
