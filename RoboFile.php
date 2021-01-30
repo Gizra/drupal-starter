@@ -654,10 +654,12 @@ class RoboFile extends Tasks {
    *   The username of the ES admin user.
    * @param string $password
    *   The password of the ES admin user.
+   * @param string $environment
+   *   The environment ID. To test changes in the index config selectively.
    *
    * @throws \Exception
    */
-  public function elasticsearchProvision($es_url, $username, $password) {
+  public function elasticsearchProvision($es_url, $username, $password, $environment = NULL) {
     $es_url = rtrim($es_url, '/');
     if (strstr($es_url, '//elasticsearch:') !== FALSE) {
       // Detect DDEV.
@@ -667,6 +669,9 @@ class RoboFile extends Tasks {
     $role_creation = $this->taskParallelExec();
     $user_creation = $this->taskParallelExec();
     $credentials = [];
+    if (!empty($environment)) {
+      $environment = [$environment];
+    }
     foreach ($this->environments as $environment) {
       foreach ($this->indices as $index) {
         $index_creation->process("curl -u {$username}:{$password} -X PUT {$es_url}/" . self::$indexPrefix . "{$index}_{$environment}");
