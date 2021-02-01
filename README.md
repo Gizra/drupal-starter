@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/Gizra/drupal-starter.svg?branch=master)](https://travis-ci.com/Gizra/drupal-starter)
+
 # Drupal 8 Starter
 
 Starter repo for Drupal 8 development. This starter is an opinionated approach,
@@ -98,6 +100,7 @@ Then, you can create a new site in Pantheon which can also be done with a
     ddev exec terminus site:create my-site "My Site" "Drupal 8"
 
 #### Change to nested docroot structure
+
 To allow Pantheon to work with composer managed sites and recognize the `web`
 directory, we need to follow the [Pantheon instructions](https://pantheon.io/docs/nested-docroot#disable-one-click-updates)
 
@@ -171,3 +174,22 @@ In order to deploy upon every merge automatically by Travis, you shall:
 
 Optionally you can specify which target branch you'd like to push on Pantheon, by default it's `master`, so the target is the DEV environment, but alternatively you can issue:
 `ddev deploy:config-autodeploy [your new token] [pantheon project name] [gh_branch] [pantheon_branch]`
+
+## Pulling DB & Files From Pantheon
+
+### First Time
+
+To set the Pantheon environment to be pulled from to `LIVE`, execute
+
+    ddev auth pantheon [token]
+    ddev config pantheon --pantheon-environment=live
+
+This will update the `.gitignore`d file in `.ddev/import.yaml`
+
+### Pull
+
+    # Terminus authentication expires every 24 hours.
+    ddev auth pantheon [token]
+
+    # Pull DB & Files
+    ddev pull

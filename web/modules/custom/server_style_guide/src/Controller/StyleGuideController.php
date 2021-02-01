@@ -324,20 +324,29 @@ class StyleGuideController extends ControllerBase {
   }
 
   /**
-   * Get image placeholder.
+   * Get photographic placeholder image.
+   *
+   * Optionally supply an ID or a seed string to always get the same image.
+   * Seeds generate a random image, but ID's can point to a specific image and
+   * should be always numeric.
    *
    * @param int $width
    *   The width of the image.
    * @param int $height
    *   The height of the image.
-   * @param string|null $text
-   *   Text to render image with.
+   * @param string $id
+   *   The ID of the image. Or a seed.
+   * @param string $id_type
+   *   The type of the ID, either 'id' or 'seed'.
    *
    * @return string
    *   URL with placeholder.
    */
-  protected function getPlaceholderImage(int $width, int $height, string $text = NULL) {
-    return "https://via.placeholder.com/{$width}x{$height}.png" . (!empty($text) ? '?text=' . $text : NULL);
+  protected function getPlaceholderImage(int $width, int $height, string $id = '', string $id_type = 'id') {
+    if (!empty($id)) {
+      return "https://picsum.photos/{$id_type}/{$id}/{$width}/{$height}.jpg";
+    }
+    return "https://picsum.photos/{$width}/{$height}.jpg";
   }
 
   /**

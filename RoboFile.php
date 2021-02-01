@@ -654,10 +654,12 @@ class RoboFile extends Tasks {
    *   The username of the ES admin user.
    * @param string $password
    *   The password of the ES admin user.
+   * @param string $environment
+   *   The environment ID. To test changes in the index config selectively.
    *
    * @throws \Exception
    */
-  public function elasticsearchProvision($es_url, $username, $password) {
+  public function elasticsearchProvision($es_url, $username, $password, $environment = NULL) {
     $es_url = rtrim($es_url, '/');
     if (strstr($es_url, '//elasticsearch:') !== FALSE) {
       // Detect DDEV.
@@ -667,6 +669,9 @@ class RoboFile extends Tasks {
     $role_creation = $this->taskParallelExec();
     $user_creation = $this->taskParallelExec();
     $credentials = [];
+    if (!empty($environment)) {
+      $environment = [$environment];
+    }
     foreach ($this->environments as $environment) {
       foreach ($this->indices as $index) {
         $index_creation->process("curl -u {$username}:{$password} -X PUT {$es_url}/" . self::$indexPrefix . "{$index}_{$environment}");
@@ -719,8 +724,6 @@ END;
     $role_creation->run();
     $user_creation->run();
 
-    $this->elasticsearchSynonyms($es_url, $username, $password);
-    $this->elasticsearchStopwords($es_url, $username, $password);
     $this->elasticsearchAnalyzer($es_url, $username, $password);
 
     // We expose the credentials as files on the system.
@@ -731,95 +734,7 @@ END;
   }
 
   /**
-   * Apply / actualize stopwords.
-   *
-   * @param string $es_url
-   *   Fully qualified URL to ES, for example: http://elasticsearch:9200 .
-   * @param string $username
-   *   The username of the ES admin user.
-   * @param string $password
-   *   The password of the ES admin user.
-   * @param string $english_stopword_path
-   *   The path to the English stopword list.
-   *
-   * @throws \Exception
-   */
-  public function elasticsearchStopwords($es_url, $username = '', $password = '', $english_stopword_path = 'config/elasticsearch/stopwords.txt') {
-    if (!file_exists($english_stopword_path)) {
-      throw new Exception("The English stopword file does not exist");
-    }
-
-    $stopword_combined = file($english_stopword_path);
-    if (empty($stopword_combined)) {
-      throw new Exception("The stopword lists would be empty, check the specified files");
-    }
-    $prepared_stopwords = [];
-    foreach ($stopword_combined as $stopword) {
-      $prepared_stopwords[] = '"' . trim($stopword) . '"';
-    }
-    $stopword_list = implode(',', $prepared_stopwords);
-    $stopword_data = <<<END
-{
-  "analysis": {
-    "filter": {
-      "stop": {
-        "type": "stop",
-        "stopwords": [ $stopword_list ]
-      }
-    }
-  }
-}
-END;
-
-    $this->applyIndexSettings($es_url, $username, $password, $stopword_data);
-  }
-
-  /**
-   * Apply / actualize synonyms.
-   *
-   * @param string $es_url
-   *   Fully qualified URL to ES, for example: http://elasticsearch:9200 .
-   * @param string $username
-   *   The username of the ES admin user.
-   * @param string $password
-   *   The password of the ES admin user.
-   * @param string $english_synonym_path
-   *   The path to the English synonym list.
-   *
-   * @throws \Exception
-   */
-  public function elasticsearchSynonyms($es_url, $username = '', $password = '', $english_synonym_path = 'config/elasticsearch/synonyms.txt') {
-    if (!file_exists($english_synonym_path)) {
-      throw new Exception("The English synonym file does not exist");
-    }
-    $synonym_combined = file($english_synonym_path);
-    if (empty($synonym_combined)) {
-      throw new Exception("The synonym lists would be empty, check the specified files");
-    }
-    $prepared_synonyms = [];
-    foreach ($synonym_combined as $synonym) {
-      $prepared_synonyms[] = '"' . trim($synonym) . '"';
-    }
-    $synonym_list = implode(',', $prepared_synonyms);
-    $synonym_data = <<<END
-{
-  "analysis": {
-    "filter": {
-      "synonym": {
-        "type": "synonym_graph",
-        "lenient": true,
-        "synonyms": [ $synonym_list ]
-      }
-    }
-  }
-}
-END;
-
-    $this->applyIndexSettings($es_url, $username, $password, $synonym_data);
-  }
-
-  /**
-   * Apply / actualize synonyms.
+   * Apply / actualize the default analyzer.
    *
    * @param string $es_url
    *   Fully qualified URL to ES, for example: http://elasticsearch:9200 .
@@ -839,7 +754,7 @@ END;
         "type": "custom",
         "char_filter":  [ "html_strip" ],
         "tokenizer": "standard",
-        "filter": [ "lowercase", "stop", "synonym" ]
+        "filter": [ "lowercase" ]
       }
     }
   }

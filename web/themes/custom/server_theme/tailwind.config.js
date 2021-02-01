@@ -29,7 +29,7 @@ module.exports = {
       '../../../modules/custom/**/*.php',
     ],
     options: {
-      whitelist: [
+      safelist: [
         // Add here custom class names.
       ],
     },
