@@ -16,9 +16,9 @@ env:
   global:
     - GIT_HOST="{{ PANTHEON_GIT_HOST }}"
     - PANTHEON_GIT_URL="{{ PANTHEON_GIT_URL }}"
-    -
 before_install:
   - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+  - docker load -i docker_images/images.tar || true
 
 jobs:
   include:
@@ -58,9 +58,7 @@ jobs:
 
 cache:
  - docker_images
-
-before_install:
-  - docker load -i docker_images/images.tar || true
+ - ~/.config/composer/vendor
 
 before_cache:
   - docker save -o docker_images/images.tar $(docker images -a -q)
