@@ -23,7 +23,7 @@ before_install:
 jobs:
   include:
     - stage: Lint
-      name: "PhpStan"
+      name: "PhpStan with DrupalStan"
       script:
         - "composer install"
         - "vendor/bin/phpstan analyse -c phpstan.neon"
