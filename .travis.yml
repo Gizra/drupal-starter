@@ -17,7 +17,7 @@ env:
 
 before_install:
 - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
-- echo "$DOCKER_PASSWORD" | docker login --username arongizra --password-stdin
+- docker login --password "$DOCKER_PASSWORD" --username arongizra
 jobs:
   include:
   - stage: Lint
