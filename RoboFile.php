@@ -324,6 +324,7 @@ class RoboFile extends Tasks {
       'travis-key.enc',
       'travis-key',
       'server.es.secrets.json',
+      'docker_images',
     ];
 
     $rsync_exclude_string = '--exclude=' . implode(' --exclude=', $rsync_exclude);
