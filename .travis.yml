@@ -16,7 +16,7 @@ env:
   global:
     - GIT_HOST="{{ PANTHEON_GIT_HOST }}"
     - PANTHEON_GIT_URL="{{ PANTHEON_GIT_URL }}"
-
+    -
 before_install:
   - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 
