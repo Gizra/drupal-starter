@@ -677,9 +677,9 @@ class RoboFile extends Tasks {
       if (isset($result['error'])) {
         throw new Exception('Cannot connect to ES or security not enabled');
       }
-      foreach (array_keys($result) as $username) {
+      foreach (array_keys($result) as $existing_username) {
         foreach ($this->sites as $site) {
-          if (strstr($username, $site) !== FALSE) {
+          if (strstr($existing_username, $site) !== FALSE) {
             // Users do exist with the site name.
             $needs_users = FALSE;
             break 2;
