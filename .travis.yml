@@ -16,9 +16,14 @@ env:
   global:
     - GIT_HOST="{{ PANTHEON_GIT_HOST }}"
     - PANTHEON_GIT_URL="{{ PANTHEON_GIT_URL }}"
-    -
+
 before_install:
   - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+  - tmpdaemon=$(mktemp)
+  - sudo jq '."registry-mirrors" = ["https://mirror.gcr.io"]' /etc/docker/daemon.json > $tmpdaemon
+  - sudo mv $tmpdaemon /etc/docker/daemon.json
+  - sudo systemctl daemon-reload
+  - sudo systemctl restart docker
 
 jobs:
   include:
