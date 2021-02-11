@@ -17,6 +17,11 @@ env:
 before_install:
 - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 - docker login --password "$DOCKER_PASSWORD" --username amitaibu
+- tmpdaemon=$(mktemp)
+- sudo jq '."registry-mirrors" += ["https://mirror.gcr.io"]' /etc/docker/daemon.json > $tmpdaemon
+- sudo mv $tmpdaemon /etc/docker/daemon.json
+- sudo systemctl daemon-reload
+- sudo systemctl restart docker
 jobs:
   include:
   - stage: Lint
