@@ -19,6 +19,9 @@ env:
 
 before_install:
   - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+  # Here we switch to a Google-powered Docker image mirror.
+  # There were often failures and very long retry loops with
+  # the built-in registry mirror provided by Docker.
   - tmpdaemon=$(mktemp)
   - sudo jq '."registry-mirrors" = ["https://mirror.gcr.io"]' /etc/docker/daemon.json > $tmpdaemon
   - sudo mv $tmpdaemon /etc/docker/daemon.json
