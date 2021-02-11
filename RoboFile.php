@@ -660,23 +660,46 @@ class RoboFile extends Tasks {
    * @throws \Exception
    */
   public function elasticsearchProvision($es_url, $username, $password, $environment = NULL) {
+    $needs_users = TRUE;
+
     $es_url = rtrim($es_url, '/');
     if (strstr($es_url, '//elasticsearch:') !== FALSE) {
       // Detect DDEV.
       self::$indexPrefix = 'elasticsearch_index_db_';
+      $needs_users = FALSE;
     }
+    else {
+      $result = json_decode($this
+        ->taskExec("curl -u {$username}:{$password} {$es_url}/_security/user")
+        ->printOutput(FALSE)
+        ->run()
+        ->getMessage(), TRUE);
+      if (isset($result['error'])) {
+        throw new Exception('Cannot connect to ES or security not enabled');
+      }
+      foreach (array_keys($result) as $existing_username) {
+        foreach ($this->sites as $site) {
+          if (strstr($existing_username, $site) !== FALSE) {
+            // Users do exist with the site name.
+            $needs_users = FALSE;
+            break 2;
+          }
+        }
+
+      }
+    }
+
     $index_creation = $this->taskParallelExec();
     $role_creation = $this->taskParallelExec();
     $user_creation = $this->taskParallelExec();
     $credentials = [];
     if (!empty($environment)) {
-      $environment = [$environment];
+      $this->environments = [$environment];
     }
     foreach ($this->environments as $environment) {
       foreach ($this->indices as $index) {
         $index_creation->process("curl -u {$username}:{$password} -X PUT {$es_url}/" . self::$indexPrefix . "{$index}_{$environment}");
       }
-      $all_roles = [];
       foreach ($this->sites as $site) {
         if (!isset($credentials[$site])) {
           $credentials[$site] = [];
@@ -704,7 +727,6 @@ class RoboFile extends Tasks {
 END;
 
         $role_creation->process("curl -u {$username}:{$password} -X POST {$es_url}/_security/role/${site}_${environment} -H 'Content-Type: application/json' --data '$role_data'");
-        $all_roles[] = '"' . $site . '_' . $environment . '"';
 
         // Generate random password or re-use an existing one from the JSON.
         $existing_password = $this->getUserPassword($site, $environment);
@@ -721,16 +743,18 @@ END;
     }
 
     $index_creation->run();
-    $role_creation->run();
-    $user_creation->run();
+    if ($needs_users) {
+      $role_creation->run();
+      $user_creation->run();
+
+      // We expose the credentials as files on the system.
+      // Should be securely handled and deleted after the execution.
+      foreach ($credentials as $site => $credential_per_environment) {
+        file_put_contents($site . '.es.secrets.json', json_encode($credential_per_environment));
+      }
+    }
 
     $this->elasticsearchAnalyzer($es_url, $username, $password);
-
-    // We expose the credentials as files on the system.
-    // Should be securely handled and deleted after the execution.
-    foreach ($credentials as $site => $credential_per_environment) {
-      file_put_contents($site . '.es.secrets.json', json_encode($credential_per_environment));
-    }
   }
 
   /**
