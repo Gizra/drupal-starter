@@ -37,3 +37,6 @@ cp "ci-scripts/global_config.yaml" ~/.ddev/
 docker network create ddev_default || ddev logs
 
 ddev composer install || ddev logs
+
+echo "Logging into Docker Hub"
+docker login --password "$DOCKER_PASSWORD" --username amitaibu

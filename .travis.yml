@@ -16,7 +16,6 @@ env:
   - secure: bE9Qwgm4OnzsHCtE4WBiQWNYRCoG0pO2wC0tY2bu0RVJ+TJekZ2UBC2XAr6dsoFCAZE1nYN6VnRMYuUqXThRjlaLEY96L2I2XD3m7iZrOlDVVEWP0vnOZD892x4k/S/wpQFXYaQHSyikyyFfL5m3V0bIWjoweyON293q5494WKRnVrD5+uYGMdSLQmwF8lm/L/q3hlLpm8Ju63IM4WHAk0YY8Z/ASjCsKk/QGJTePU5OSjKO+NFLU49LRMPXjbWxWiz9leWNy0NP8St+7ONW/QX9QPRxiOoBGK+gzz3U0zGmAbF3mWNfTC1KRIsiA9vVI36pYAfA2n2Bv4Jz31ktUkTOCt6nvkpL4/4LcYcp8uymM0wW2+coaWlLBxRIrjz80XgtAr3ruy6ArC6BddOefYCxsw13Z2LseG88FmRy4VX/ypIj7h38wdhQZqgj6WsEmQR2tHO3mlXcd+ZL/LdFA181uQhOPuPWn5UYEgC3Rth2N3n2OXguzFizFA/XBbPmDlG/KUPcJX4suUzhawvaMS79XvUIVEYID8InoMzQs3VtqlGeOqYHbz4rjn7inpQgdLw6OdIssk6pp0nwqugiCPrMlLw3G3yiUwNQZ9jXR0UjhOXR40KIGbGwg0xbC/xtdQjM+76VEtnJmpQQcDxZ/ZmEbUK8xdOuss84LFJnVKw=
 before_install:
 - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
-- docker login --password "$DOCKER_PASSWORD" --username amitaibu
 jobs:
   include:
   - stage: Lint
