@@ -19,6 +19,9 @@ sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/u
 sudo apt -q update -y || true
 sudo apt -q install --only-upgrade docker-ce -y
 
+echo "Logging into Docker Hub"
+docker login --password "$DOCKER_PASSWORD" --username amitaibu
+
 echo "Install mkcert."
 wget -nv https://github.com/FiloSottile/mkcert/releases/download/v1.4.0/mkcert-v1.4.0-linux-amd64
 sudo mv mkcert-v1.4.0-linux-amd64 /usr/bin/mkcert
@@ -37,6 +40,3 @@ cp "ci-scripts/global_config.yaml" ~/.ddev/
 docker network create ddev_default || ddev logs
 
 ddev composer install || ddev logs
-
-echo "Logging into Docker Hub"
-docker login --password "$DOCKER_PASSWORD" --username amitaibu
