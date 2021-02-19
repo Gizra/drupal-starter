@@ -428,7 +428,7 @@ class RoboFile extends Tasks {
       ->run()
       ->getExitCode();
     if ($result !== 0) {
-      throw new Exception('The site could not be fully updated at Pantheon. Try "ddev robo deploy:pantheon-reboot" manually.');
+      throw new Exception('The site could not be fully updated at Pantheon. Try "ddev robo deploy:pantheon-install-env" manually.');
     }
   }
 
@@ -454,28 +454,27 @@ class RoboFile extends Tasks {
     $pantheon_name = self::PANTHEON_NAME;
     $pantheon_terminus_environment = $pantheon_name . '.' . $env;
 
-    // This set of commands should work, so expecting no failures.
-    // (tend to invoke the same flow as DDEV's `config.local.yaml`.
+    // This set of commands should work, so expecting no failures
+    // (tend to invoke the same flow as DDEV's `config.local.yaml`).
     $task = $this
       ->taskExecStack()
-      ->stopOnFail();
-
-    $result = $task
+      ->stopOnFail()
       ->exec("terminus remote:drush $pantheon_terminus_environment -- si server -y --existing-config")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- en server_migrate -y")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- migrate:import --group=server")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- pm:uninstall server_migrate")
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- uli")
-      ->run()
-      ->getExitCode();
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- uli");
 
     // For these environments, set the `admin` user's password to `1234`.
     $envs_to_set_admin_simple_password = [
       'qa'
     ];
     if (in_array($env, $envs_to_set_admin_simple_password)) {
-      $task->exec("terminus remote:drush $pantheon_terminus_environment -- user:password admin 1234")->run();
+      $task->exec("terminus remote:drush $pantheon_terminus_environment -- user:password admin 1234");
     }
+
+    $result = $task->run()
+      ->getExitCode();
 
     if ($result !== 0) {
       throw new Exception("The site failed to install on Pantheon's `{$env}` environment.");
