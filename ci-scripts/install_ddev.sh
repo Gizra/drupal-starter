@@ -10,15 +10,6 @@ curl -s -L "https://github.com/docker/compose/releases/download/1.24.1/docker-co
 chmod +x docker-compose
 sudo mv docker-compose /usr/local/bin
 
-echo "Upgrade Docker."
-
-# Allow apt update to fail, potentially only some sources are not accessible.
-sudo apt-get -y remove docker docker-engine docker.io containerd runc || true
-sudo apt-key fingerprint 0EBFCD88
-sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-sudo apt -q update -y || true
-sudo apt -q install --only-upgrade docker-ce -y
-
 echo "Install mkcert."
 wget -nv https://github.com/FiloSottile/mkcert/releases/download/v1.4.0/mkcert-v1.4.0-linux-amd64
 sudo mv mkcert-v1.4.0-linux-amd64 /usr/bin/mkcert
