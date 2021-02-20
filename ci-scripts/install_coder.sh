@@ -3,7 +3,7 @@ set -e
 
 # ---------------------------------------------------------------------------- #
 #
-# Installs The coder library so we can use t for code reviews.
+# Installs the coder library so we can use it for code reviews.
 #
 # ---------------------------------------------------------------------------- #
 
