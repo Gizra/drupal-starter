@@ -6,9 +6,6 @@ RESTORE='\033[0m'
 LBLUE='\033[01;34m'
 RED='\033[00;31m'
 
-source "$NVM_DIR/nvm.sh"
-nvm use v12.13.1
-
 function print_message() {
   echo
   echo -e "${LBLUE} > $1 ${RESTORE}"
