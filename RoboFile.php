@@ -324,6 +324,8 @@ class RoboFile extends Tasks {
       'travis-key.enc',
       'travis-key',
       'server.es.secrets.json',
+      'web/themes/custom/server_theme/node_modules',
+      'web/themes/custom/server_theme/.cache',
     ];
 
     $rsync_exclude_string = '--exclude=' . implode(' --exclude=', $rsync_exclude);
