@@ -52,14 +52,17 @@ jobs:
         - "$TRAVIS_BUILD_DIR/ci-scripts/test_shell.sh || travis_terminate 1;"
     - stage: Test
       name: "Backend tests: Functional tests"
+      if: branch != "master" AND tag IS blank
       script:
         - "$TRAVIS_BUILD_DIR/ci-scripts/install_ddev.sh || travis_terminate 1;"
         - "$TRAVIS_BUILD_DIR/ci-scripts/install_drupal.sh || travis_terminate 1;"
         - "$TRAVIS_BUILD_DIR/ci-scripts/test_phpunit.sh || travis_terminate 1;"
     - stage: Deploy
-      name: "Deploy to Pantheon"
-      if: branch = "{{ GITHUB_DEPLOY_BRANCH }}" AND type = push
+      name: "Backend tests: Functional tests and deploy to Pantheon"
+      if: branch = "master" AND type = push
       script:
         - "$TRAVIS_BUILD_DIR/ci-scripts/install_ddev.sh"
+        - "$TRAVIS_BUILD_DIR/ci-scripts/install_drupal.sh || travis_terminate 1;"
+        - "$TRAVIS_BUILD_DIR/ci-scripts/test_phpunit.sh || travis_terminate 1;"
         - "$TRAVIS_BUILD_DIR/ci-scripts/prepare_deploy.sh"
         - "ddev robo deploy:pantheon --no-interaction {{ PANTHEON_DEPLOY_BRANCH }}"
