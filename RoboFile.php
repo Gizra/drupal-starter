@@ -588,7 +588,7 @@ class RoboFile extends Tasks {
       ->to($pantheon_git_host)
       ->run();
     $this->taskReplaceInFile('.travis.yml')
-      ->from('master')
+      ->from('{{ PANTHEON_DEPLOY_BRANCH }}')
       ->to($pantheon_deploy_branch)
       ->run();
     $this->taskReplaceInFile('.travis.yml')
