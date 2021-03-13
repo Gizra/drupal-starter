@@ -273,9 +273,33 @@ class RoboFile extends Tasks {
     }
 
     $pantheon_directory = '.pantheon';
+    $deployment_version_path = $pantheon_directory . '/.deployment';
 
     if (!file_exists($pantheon_directory) || !is_dir($pantheon_directory)) {
       throw new Exception('Clone the Pantheon artifact repository first into the .pantheon directory');
+    }
+
+    // We deal with versions as commit hashes.
+    // The high-level goal is to prevent the auto-deploy process
+    // to overwrite the code with an older version if the Travis queue
+    // swaps the order of two jobs, so they are not executed in
+    // chronological order.
+    $currently_deployed_version = NULL;
+    if (file_exists($deployment_version_path)) {
+      $currently_deployed_version = trim(file_get_contents($deployment_version_path));
+    }
+
+    if (!empty($currently_deployed_version)) {
+      $result = $this
+        ->taskExec('git cat-file -t ' . $currently_deployed_version)
+        ->printOutput(FALSE)
+        ->run();
+
+      if ($result->getMessage() !== 'commit') {
+        $this->yell('The commit what is deployed is more recent what we have.');
+        $this->yell('Aborting the process to avoid going back in time.');
+        return;
+      }
     }
 
     $result = $this
@@ -337,6 +361,14 @@ class RoboFile extends Tasks {
     // The settings.pantheon.php is managed by Pantheon, there can be updates, site-specific modifications
     // belong to settings.php.
     $this->_exec("cp web/sites/default/settings.pantheon.php $pantheon_directory/web/sites/default/settings.php");
+
+    $result = $this
+        ->taskExec('git rev-parse HEAD')
+        ->printOutput(FALSE)
+        ->run();
+
+    $current_version = trim($result->getMessage());
+    file_put_contents($deployment_version_path, $current_version);
 
     // We don't want to change Pantheon's git ignore, as we do want to commit
     // vendor and contrib directories.
