@@ -289,6 +289,13 @@ class RoboFile extends Tasks {
       $currently_deployed_version = trim(file_get_contents($deployment_version_path));
     }
 
+    $result = $this
+        ->taskExec('git rev-parse HEAD')
+        ->printOutput(FALSE)
+        ->run();
+
+    $current_version = trim($result->getMessage());
+
     if (!empty($currently_deployed_version)) {
       $result = $this
         ->taskExec('git cat-file -t ' . $currently_deployed_version)
@@ -296,7 +303,9 @@ class RoboFile extends Tasks {
         ->run();
 
       if ($result->getMessage() !== 'commit') {
-        $this->yell('The commit what is deployed is more recent what we have.');
+        $this->yell(strtr('This current commit @current-commit cannot be deployed, since new commits have been created since, so we don\'t want to deploy an older version.', [
+          '@current-commit' => $current_version,
+        ]));
         $this->yell('Aborting the process to avoid going back in time.');
         return;
       }
@@ -362,12 +371,7 @@ class RoboFile extends Tasks {
     // belong to settings.php.
     $this->_exec("cp web/sites/default/settings.pantheon.php $pantheon_directory/web/sites/default/settings.php");
 
-    $result = $this
-        ->taskExec('git rev-parse HEAD')
-        ->printOutput(FALSE)
-        ->run();
-
-    $current_version = trim($result->getMessage());
+    // Flag the current version in the artifact repo.
     file_put_contents($deployment_version_path, $current_version);
 
     // We don't want to change Pantheon's git ignore, as we do want to commit
@@ -401,13 +405,7 @@ class RoboFile extends Tasks {
     }
 
     if (empty($commit_message)) {
-      // Getting the current commit.
-      $commit_hash = $this->taskExec("git rev-parse --short HEAD")
-        ->printOutput(FALSE)
-        ->run()
-        ->getMessage();
-
-      $commit_message = 'Site update from ' . $commit_hash;
+      $commit_message = 'Site update from ' . $current_version;
     }
     $commit_message = escapeshellarg($commit_message);
     $result = $this->_exec("cd $pantheon_directory && git pull && git add . && git commit -am $commit_message && git push")->getExitCode();
