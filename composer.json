@@ -65,7 +65,7 @@
         "patches": {
             "drupal/elasticsearch_connector": {
                 "Preserve ES index settings": "https://www.drupal.org/files/issues/2020-01-28/3109361-elasticsearch_connector-preserve-index-settings-1.patch",
-                "d.o #3189051- Correct date handling": "https://www.drupal.org/files/issues/2020-12-18/3189051-epoch-to-formatted-date-1.patch",
+                "d.o #3189051- Correct date handling": "https://www.drupal.org/files/issues/2020-12-18/3189051-epoch-to-formatted-date-2.patch",
                 "d.o #3190496 - Item deletion on ES side": "https://www.drupal.org/files/issues/2021-01-04/3190496-es-deletion.patch",
                 "d.o. #3106003 - Content access fixes": "https://www.drupal.org/files/issues/2021-01-12/missing-special-fields-3106003-8.patch",
                 "d.o. #3194318 - More robust language filtering": "https://www.drupal.org/files/issues/2021-01-25/3194318-hypen-lang-5.patch",
