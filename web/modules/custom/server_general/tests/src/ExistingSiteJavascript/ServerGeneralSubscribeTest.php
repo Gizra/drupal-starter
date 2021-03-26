@@ -3,7 +3,9 @@
 namespace Drupal\Tests\server_general\ExistingSiteJavascript;
 
 use weitzman\DrupalTestTraits\ExistingSiteWebDriverTestBase;
-
+use Drupal\og\OgRoleInterface;
+use Drupal\og\Og;
+use Drupal\og\Entity\OgRole;
 /**
  * A model test case using traits from Drupal Test Traits.
  */
@@ -16,6 +18,17 @@ class ServerGeneralSubscribeTest extends ExistingSiteWebDriverTestBase {
     'node',
     'og',
   ];
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setUp() {
+    parent::setUp();
+
+    $this->htmlOutputEnabled = FALSE;
+    $role = OgRole::getRole('node', 'article', OgRoleInterface::ANONYMOUS);
+    $role->grantPermission('subscribe without approval')->save();
+  }
 
   /**
    * Test OG subscription via front-end link.
