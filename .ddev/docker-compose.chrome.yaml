@@ -1,0 +1,18 @@
+version: '3.1'
+
+# This file may be used for local development of DTT. It is also used by Gitlab CI.
+services:
+  # See https://github.com/previousnext/containers/tree/master/chrome-headless
+  chrome:
+    # Note: chrome 67/68 is giving errors so we pin to 65 for now.
+    image: previousnext/chrome-headless:65
+    container_name: ddev-${DDEV_SITENAME}-chrome
+    labels:
+      com.ddev.site-name: ${DDEV_SITENAME}
+      com.ddev.approot: $DDEV_APPROOT
+      com.ddev.app-url: $DDEV_URL
+    ports:
+      - "9222:9222"
+  web:
+    links:
+      - chrome:$DDEV_HOSTNAME
