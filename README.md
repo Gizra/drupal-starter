@@ -99,7 +99,7 @@ To allow Pantheon to work with composer managed sites and recognize the `web`
 directory, we need to follow the [Pantheon instructions](https://pantheon.io/docs/nested-docroot#disable-one-click-updates)
 
 When following the instructions, clone the pantheon repository in the required
-location with this commmand:
+location with this command:
 
     git clone ssh://codeserver.dev.<long-hash>.drush.in:2222/~/repository.git .pantheon
 
@@ -158,7 +158,7 @@ assembles it from the Git log.
 In order to deploy upon every merge automatically by Travis, you shall:
 
 1. Get a Pantheon machine token (using a dummy new Pantheon user ideally, one user per project for the sake of security): https://pantheon.io/docs/machine-tokens
-1. `ddev robo deploy:config-autodeploy [your new token] [pantheon project name]`
+1. `ddev robo deploy:config-autodeploy [your token]`
 1. `git commit -m "Deployment secrets and configuration"`
 1. Add the public key in `travis-key.pub` to the newly created dummy Pantheon user: https://pantheon.io/docs/ssh-keys
 

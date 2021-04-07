@@ -542,14 +542,15 @@ class RoboFile extends Tasks {
    *
    * @param string $token
    *   Terminus machine token: https://pantheon.io/docs/machine-tokens.
-   * @param string $project_name
-   *   The project machine name on Pantheon, for example: drupal-starter.
    * @param string $github_deploy_branch
    *   The branch that should be pushed automatically to Pantheon.
    * @param string $pantheon_deploy_branch
    *   The branch at the artifact repo that should be the target of the deploy.
    */
-  public function deployConfigAutodeploy(string $token, string $project_name, $github_deploy_branch = 'master', string $pantheon_deploy_branch = 'master') {
+  public function deployConfigAutodeploy(string $token, $github_deploy_branch = 'master', string $pantheon_deploy_branch = 'master') {
+    $pantheon_info = $this->getPantheonNameAndEnv();
+    $project_name = $pantheon_info['name'];
+
     if (empty(shell_exec("which travis"))) {
       // We do not bake it into the Docker image to save on disk space.
       // We rarely need this operation, also not all the developers
