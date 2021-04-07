@@ -4,4 +4,4 @@
 ## Usage: phpstan
 ## Example: "ddev phpstan"
 
-cd .. && vendor/bin/phpstan analyse -c phpstan.neon
+./vendor/bin/phpstan analyse -c phpstan.neon
