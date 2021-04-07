@@ -7,7 +7,7 @@ hooks:
     - exec: drush site-install server -y --existing-config
 
     # Setup Elasticsearch
-    - exec: "cd .. && ./vendor/bin/robo elasticsearch:provision http://elasticsearch:9200 '' ''"
+    - exec: "./vendor/bin/robo elasticsearch:provision http://elasticsearch:9200 '' ''"
 
     # Compile theme in debug, so we can develop with all Tailwinds' classes.
     # On deploy, we purge un-needed CSS.
