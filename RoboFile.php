@@ -16,17 +16,9 @@ class RoboFile extends Tasks {
   /**
    * The wait time between deployment checks in microseconds.
    */
-  const DEPLOYMENT_WAIT_TIME = '500000';
+  const DEPLOYMENT_WAIT_TIME = 500000;
 
   private static $indexPrefix = 'elasticsearch_index_pantheon_';
-
-  /**
-   * The Pantheon name.
-   *
-   * You need to fill this information for Robo to know what's the name of your
-   * site.
-   */
-  const PANTHEON_NAME = '';
 
   /**
    * Compile the app; On success ...
@@ -34,7 +26,7 @@ class RoboFile extends Tasks {
    * @param bool $optimize
    *   Indicate whether to optimize during compilation.
    */
-  private function compileTheme_($optimize = FALSE) {
+  private function doThemeCompile($optimize = FALSE) {
     $directories = [
       'js',
       'images',
@@ -108,7 +100,7 @@ class RoboFile extends Tasks {
    */
   public function themeCompile() {
     $this->say('Compiling (optimized).');
-    $this->compileTheme_(TRUE);
+    $this->doThemeCompile(TRUE);
   }
 
   /**
@@ -118,14 +110,15 @@ class RoboFile extends Tasks {
    */
   public function themeCompileDebug() {
     $this->say('Compiling (non-optimized).');
-    $this->compileTheme_();
+    $this->doThemeCompile();
   }
 
   /**
    * Compress SVG files in the "dist" directories.
    *
    * This function is being called as part of `theme:compile`.
-   * @see compileTheme_()
+   *
+   * @see doThemeCompile()
    */
   public function themeSvgCompress() {
     $directories = [
@@ -176,13 +169,13 @@ class RoboFile extends Tasks {
    */
   public function themeWatch() {
     $this->say('Compiling and watching (optimized).');
-    $this->compileTheme_(TRUE);
+    $this->doThemeCompile(TRUE);
     foreach ($this->monitoredThemeDirectories() as $directory) {
       $this->taskWatch()
         ->monitor(
           $directory,
           function (Event $event) {
-            $this->compileTheme_(TRUE);
+            $this->doThemeCompile(TRUE);
           },
           FilesystemEvent::ALL
         )->run();
@@ -194,13 +187,13 @@ class RoboFile extends Tasks {
    */
   public function themeWatchDebug() {
     $this->say('Compiling and watching (non-optimized).');
-    $this->compileTheme_();
+    $this->doThemeCompile();
     foreach ($this->monitoredThemeDirectories() as $directory) {
       $this->taskWatch()
         ->monitor(
           $directory,
           function (Event $event) {
-            $this->compileTheme_();
+            $this->doThemeCompile();
           },
           FilesystemEvent::ALL
         )->run();
@@ -268,10 +261,6 @@ class RoboFile extends Tasks {
    * @throws \Exception
    */
   public function deployPantheon($branch_name = 'master', $commit_message = NULL) {
-    if (empty(self::PANTHEON_NAME)) {
-      throw new Exception('You need to fill the "PANTHEON_NAME" const in the Robo file. so it will know what is the name of your site.');
-    }
-
     $pantheon_directory = '.pantheon';
 
     if (!file_exists($pantheon_directory) || !is_dir($pantheon_directory)) {
@@ -387,12 +376,39 @@ class RoboFile extends Tasks {
     // This "git push" above is as async operation, so prevent invoking
     // for instance drush cim before the new changes are there.
     usleep(self::DEPLOYMENT_WAIT_TIME);
+    $pantheon_info = $this->getPantheonNameAndEnv();
     $pantheon_env = $branch_name == 'master' ? 'dev' : $branch_name;
+
     do {
-      $code_sync_completed = $this->_exec("terminus workflow:list " . self::PANTHEON_NAME . " --format=csv | grep " . $pantheon_env . " | grep Sync | awk -F',' '{print $5}' | grep running")->getExitCode();
+      $code_sync_completed = $this->_exec("terminus workflow:list " . $pantheon_info['name'] . " --format=csv | grep " . $pantheon_env . " | grep Sync | awk -F',' '{print $5}' | grep running")->getExitCode();
       usleep(self::DEPLOYMENT_WAIT_TIME);
     } while (!$code_sync_completed);
     $this->deployPantheonSync($pantheon_env, FALSE);
+  }
+
+  /**
+   * Get the Pantheon name and environment.
+   *
+   * @return array
+   *   Array keyed by `name` and `env`.
+   * @throws \Exception
+   */
+  protected function getPantheonNameAndEnv() : array {
+    $yaml = Yaml::parseFile('./.ddev/providers/pantheon.yml');
+    if (empty($yaml['environment_variables']['project'])) {
+      throw new Exception("`environment_variables.project` is missing from .ddev/providers/pantheon.yml");
+    }
+
+    $project = explode('.', $yaml['environment_variables']['project'], 2);
+    if (count($project) !== 2) {
+      throw new Exception("`environment_variables.project` should be in the format of `yourproject.dev`");
+    }
+
+    return [
+      'name' => $project[0],
+      'env' => $project[1],
+    ];
+
   }
 
   /**
@@ -407,8 +423,8 @@ class RoboFile extends Tasks {
    * @throws \Robo\Exception\TaskException
    */
   public function deployPantheonSync(string $env = 'test', bool $do_deploy = TRUE) {
-    $pantheon_name = self::PANTHEON_NAME;
-    $pantheon_terminus_environment = $pantheon_name . '.' . $env;
+    $pantheon_info = $this->getPantheonNameAndEnv();
+    $pantheon_terminus_environment = $pantheon_info['name'] . '.' . $pantheon_info['[env'];
 
     $task = $this->taskExecStack()
       ->stopOnFail();
@@ -451,8 +467,8 @@ class RoboFile extends Tasks {
       throw new Exception("Reinstalling the site on `{$env}` environment is forbidden.");
     }
 
-    $pantheon_name = self::PANTHEON_NAME;
-    $pantheon_terminus_environment = $pantheon_name . '.' . $env;
+    $pantheon_info = $this->getPantheonNameAndEnv();
+    $pantheon_terminus_environment = $pantheon_info['name'] . '.' . $pantheon_info['[env'];
 
     // This set of commands should work, so expecting no failures
     // (tend to invoke the same flow as DDEV's `config.local.yaml`).
