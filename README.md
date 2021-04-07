@@ -83,14 +83,8 @@ See the [example](https://github.com/Gizra/drupal8-starter/blob/master/web/modul
 
 ### Pantheon Setup
 
-#### Authenticate with Terminus
-
-First we need to allow DDEV to authenticate with terminus. This is a one time
-action you need to take, and it will apply for all your projects. See docs [here](https://ddev.readthedocs.io/en/latest/users/providers/pantheon/#authentication)
-
-In short, create a [Machine token](https://dashboard.pantheon.io/users/#account/tokens/) and then
-
-    ddev . terminus auth:login <YOUR TOKEN>
+Follow the steps listed in `.ddev/providers/pantheon.yaml`.
+Make sure to add the correct site name under `environment_variables.project`.
 
 #### Create your site
 
@@ -116,13 +110,9 @@ config directory in the `web/sites/default/settings.php` file:
 
 ### Executing
 
-In case you haven't done so before, make the DDEV container aware of your ssh
+In case you haven't done so before, make the DDEV container aware of your ssh.
 
     ddev auth ssh
-
-Then you can deploy with
-
-    ddev robo deploy:pantheon
 
 ### Install the Site with the Profile
 
@@ -160,7 +150,7 @@ Or you can specify a tag that's the base of the comparison.
 
     ddev robo generate:release-notes 0.1.2
 
-One line in the changelog reflects one merged pull requests and the command
+One line in the changelog reflects one merged pull requests, and the command
 assembles it from the Git log.
 
 ## Automatic Deployment to Pantheon
@@ -177,19 +167,8 @@ Optionally you can specify which target branch you'd like to push on Pantheon, b
 
 ## Pulling DB & Files From Pantheon
 
-### First Time
-
-To set the Pantheon environment to be pulled from to `LIVE`, execute
-
-    ddev . terminus auth:login [token]
-    ddev config pantheon --pantheon-environment=live
-
-This will update the `.gitignore`d file in `.ddev/import.yaml`
-
-### Pull
-
     # Terminus authentication expires every 24 hours.
-    ddev . terminus auth:login [token]
+    ddev auth ssh
 
     # Pull DB & Files
     ddev pull
