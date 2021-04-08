@@ -9,7 +9,7 @@ cp travis-key ~/.ssh/id_rsa
 chmod 600 ~/.ssh/id_rsa
 
 # Authenticate with Terminus.
-ddev . terminus auth:login "$TERMINUS_TOKEN"
+ddev . terminus auth:login --machine-token="$TERMINUS_TOKEN"
 
 ssh-keyscan -p 2222 "$GIT_HOST" >> ~/.ssh/known_hosts
 

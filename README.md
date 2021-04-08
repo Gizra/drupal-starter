@@ -90,7 +90,7 @@ action you need to take, and it will apply for all your projects. See docs [here
 
 In short, create a [Machine token](https://dashboard.pantheon.io/users/#account/tokens/) and then
 
-    ddev . terminus auth:login <YOUR TOKEN>
+    ddev . terminus auth:login --machine-token=<YOUR TOKEN>
 
 #### Create your site
 
@@ -181,7 +181,7 @@ Optionally you can specify which target branch you'd like to push on Pantheon, b
 
 To set the Pantheon environment to be pulled from to `LIVE`, execute
 
-    ddev . terminus auth:login [token]
+    ddev . terminus auth:login --machine-token=[token]
     ddev config pantheon --pantheon-environment=live
 
 This will update the `.gitignore`d file in `.ddev/import.yaml`
