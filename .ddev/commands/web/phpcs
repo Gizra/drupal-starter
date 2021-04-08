@@ -4,4 +4,4 @@
 ## Usage: phpcs
 ## Example: "ddev phpcs"
 
-cd .. && ./vendor/bin/robo phpcs
+./vendor/bin/robo phpcs

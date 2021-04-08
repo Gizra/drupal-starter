@@ -4,4 +4,4 @@
 ## Usage: robo
 ## Example: "ddev robo compile:theme" or "ddev robo compile:theme-debug".
 
-cd .. && ./vendor/bin/robo $@
+./vendor/bin/robo $@
