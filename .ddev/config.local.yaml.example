@@ -10,7 +10,7 @@ hooks:
     - exec: timeout 10 bash -c 'until printf "" 2>>/dev/null >>/dev/tcp/$0/$1; do sleep 1; done' elasticsearch 9200
 
     # Setup Elasticsearch
-    - exec: "cd .. && ./vendor/bin/robo elasticsearch:provision http://elasticsearch:9200 '' ''"
+    - exec: "./vendor/bin/robo elasticsearch:provision http://elasticsearch:9200 '' ''"
 
     # Compile theme in debug, so we can develop with all Tailwinds' classes.
     # On deploy, we purge un-needed CSS.
