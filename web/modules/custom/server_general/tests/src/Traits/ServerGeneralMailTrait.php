@@ -14,7 +14,7 @@ trait ServerGeneralMailTrait {
    *   Fully qualified URL of Mailhog.
    */
   public function getMailhogBaseUrl() {
-    return 'https://drupal-starter.ddev.site:8026';
+    return 'https://' . getenv('DDEV_HOSTNAME') . ':8026';
   }
 
   /**
