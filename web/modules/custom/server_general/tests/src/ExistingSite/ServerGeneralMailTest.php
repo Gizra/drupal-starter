@@ -27,7 +27,6 @@ class ServerGeneralMailTest extends ExistingSiteBase {
     $this->getCurrentPage()->pressButton('Submit');
     $this->assertOutgoingMailNumber(1);
     $this->assertOutgoingMailContains('Replacement login information for JoeDoe at Drupal Starter');
-
   }
 
 }
