@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
-use Drupal\Core\Flood\DatabaseBackend;
 use Drupal\Tests\server_general\Traits\ServerGeneralMailTrait;
 use weitzman\DrupalTestTraits\ExistingSiteBase;
 
@@ -23,20 +22,12 @@ class ServerGeneralUserTest extends ExistingSiteBase {
   public function testOneTimeLoginLinkEmail() {
     $this->resetOutgoingMails();
     $this->assertOutgoingMailNumber(0);
-    $this->resetFlood();
     $this->drupalGet('user/password');
     $this->getCurrentPage()->fillField('edit-name', 'joe@example.com');
     $this->getCurrentPage()->pressButton('Submit');
     $this->assertOutgoingMailNumber(1);
     $this->assertOutgoingMailContains('Replacement login information for JoeDoe at Drupal Starter');
 
-  }
-
-  /**
-   * Resets all flood entries.
-   */
-  protected function resetFlood() {
-    $this->container->get('database')->delete(DatabaseBackend::TABLE_NAME)->execute();
   }
 
 }
