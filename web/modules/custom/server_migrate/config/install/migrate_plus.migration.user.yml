@@ -1,0 +1,35 @@
+id: user
+label: 'User'
+migration_group: server
+migration_tags:
+  - users
+source:
+  plugin: csv
+  path: modules/custom/server_migrate/csv_files/users.csv
+  ids: ['_id']
+  header_offset: 0
+destination:
+  plugin: 'entity:user'
+  md5_passwords: true
+process:
+  name: _username
+  mail: _email
+  pass:
+    plugin: callback
+    callable: md5
+    source: _pass
+  roles: _role
+  status:
+    plugin: default_value
+    default_value: true
+  user_picture:
+    - plugin: migration_lookup
+      migration: images
+      source: _picture
+
+dependencies:
+  enforced:
+    module:
+      - server_migrate
+    migration:
+      - images

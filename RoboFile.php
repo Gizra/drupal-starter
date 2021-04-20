@@ -272,127 +272,171 @@ class RoboFile extends Tasks {
       throw new Exception('You need to fill the "PANTHEON_NAME" const in the Robo file. so it will know what is the name of your site.');
     }
 
-    $pantheon_directory = '.pantheon';
+    try {
+      $pantheon_env = $branch_name == 'master' ? 'dev' : $branch_name;
+      $deploy_mode_obtained = $this->_exec("terminus remote:drush " . self::PANTHEON_NAME . "." . $pantheon_env . " server_general:obtain-deploy-mode")->getExitCode();
+      if (!$deploy_mode_obtained) {
+        throw new Exception('Another deployment is in progress, aborting the process');
+      }
 
-    if (!file_exists($pantheon_directory) || !is_dir($pantheon_directory)) {
-      throw new Exception('Clone the Pantheon artifact repository first into the .pantheon directory');
-    }
+      $pantheon_directory = '.pantheon';
+      $deployment_version_path = $pantheon_directory . '/.deployment';
 
-    $result = $this
-      ->taskExec('git status -s')
-      ->printOutput(FALSE)
-      ->run();
+      if (!file_exists($pantheon_directory) || !is_dir($pantheon_directory)) {
+        throw new Exception('Clone the Pantheon artifact repository first into the .pantheon directory');
+      }
 
-    if ($result->getMessage()) {
-      $this->say($result->getMessage());
-      throw new Exception('The working directory is dirty. Please commit the pending changes.');
-    }
+      // We deal with versions as commit hashes.
+      // The high-level goal is to prevent the auto-deploy process
+      // to overwrite the code with an older version if the Travis queue
+      // swaps the order of two jobs, so they are not executed in
+      // chronological order.
+      $currently_deployed_version = NULL;
+      if (file_exists($deployment_version_path)) {
+        $currently_deployed_version = trim(file_get_contents($deployment_version_path));
+      }
 
-    $result = $this
-      ->taskExec("cd $pantheon_directory && git status -s")
-      ->printOutput(FALSE)
-      ->run();
+      $result = $this
+        ->taskExec('git rev-parse HEAD')
+        ->printOutput(FALSE)
+        ->run();
 
-    if ($result->getMessage()) {
-      $this->say($result->getMessage());
-      throw new Exception('The Pantheon directory is dirty. Please commit any pending changes.');
-    }
+      $current_version = trim($result->getMessage());
 
-    // Validate pantheon.yml has web_docroot: true.
-    if (!file_exists($pantheon_directory . '/pantheon.yml')) {
-      throw new Exception("pantheon.yml is missing from the Pantheon directory ($pantheon_directory)");
-    }
+      if (!empty($currently_deployed_version)) {
+        $result = $this
+          ->taskExec('git cat-file -t ' . $currently_deployed_version)
+          ->printOutput(FALSE)
+          ->run();
 
-    $yaml = Yaml::parseFile($pantheon_directory . '/pantheon.yml');
-    if (empty($yaml['web_docroot'])) {
-      throw new Exception("'web_docroot: true' is missing from pantheon.yml in Pantheon directory ($pantheon_directory)");
-    }
+        if ($result->getMessage() !== 'commit') {
+          $this->yell(strtr('This current commit @current-commit cannot be deployed, since new commits have been created since, so we don\'t want to deploy an older version.', [
+            '@current-commit' => $current_version,
+          ]));
+          $this->yell('Aborting the process to avoid going back in time.');
+          return;
+        }
+      }
 
-    $this->_exec("cd $pantheon_directory && git checkout $branch_name");
+      $result = $this
+        ->taskExec('git status -s')
+        ->printOutput(FALSE)
+        ->run();
 
-    // Compile theme.
-    $this->themeCompile();
+      if ($result->getMessage()) {
+        $this->say($result->getMessage());
+        throw new Exception('The working directory is dirty. Please commit the pending changes.');
+      }
 
-    $rsync_exclude = [
-      '.git',
-      '.ddev',
-      '.idea',
-      '.pantheon',
-      'sites/default',
-      'pantheon.yml',
-      'pantheon.upstream.yml',
-      'travis-key.enc',
-      'travis-key',
-      'server.es.secrets.json',
-    ];
+      $result = $this
+        ->taskExec("cd $pantheon_directory && git status -s")
+        ->printOutput(FALSE)
+        ->run();
 
-    $rsync_exclude_string = '--exclude=' . implode(' --exclude=', $rsync_exclude);
+      if ($result->getMessage()) {
+        $this->say($result->getMessage());
+        throw new Exception('The Pantheon directory is dirty. Please commit any pending changes.');
+      }
 
-    // Copy all files and folders.
-    $result = $this->_exec("rsync -az -q --delete $rsync_exclude_string . $pantheon_directory")->getExitCode();
-    if ($result !== 0) {
-      throw new Exception('File sync failed');
-    }
+      // Validate pantheon.yml has web_docroot: true.
+      if (!file_exists($pantheon_directory . '/pantheon.yml')) {
+        throw new Exception("pantheon.yml is missing from the Pantheon directory ($pantheon_directory)");
+      }
 
-    // The settings.pantheon.php is managed by Pantheon, there can be updates, site-specific modifications
-    // belong to settings.php.
-    $this->_exec("cp web/sites/default/settings.pantheon.php $pantheon_directory/web/sites/default/settings.php");
+      $yaml = Yaml::parseFile($pantheon_directory . '/pantheon.yml');
+      if (empty($yaml['web_docroot'])) {
+        throw new Exception("'web_docroot: true' is missing from pantheon.yml in Pantheon directory ($pantheon_directory)");
+      }
 
-    // We don't want to change Pantheon's git ignore, as we do want to commit
-    // vendor and contrib directories.
-    $this->_exec("cd $pantheon_directory && git checkout .gitignore");
+      $this->_exec("cd $pantheon_directory && git checkout $branch_name");
 
-    // Also we need to clean up gitignores that are deeper in the tree,
-    // those can be troublemakers too, it also purges various Git helper
-    // files that are irrelevant here.
-    $this->_exec("cd $pantheon_directory && (find . | grep \"\.git\" | grep -v \"^./.git\"  |  xargs rm -rf || true)");
+      // Compile theme.
+      $this->themeCompile();
 
-    $this->_exec("cd $pantheon_directory && git status");
+      $rsync_exclude = [
+        '.git',
+        '.ddev',
+        '.idea',
+        '.pantheon',
+        'sites/default',
+        'pantheon.yml',
+        'pantheon.upstream.yml',
+        'travis-key.enc',
+        'travis-key',
+        'server.es.secrets.json',
+      ];
 
-    $commit_and_deploy_confirm = $this->confirm('Commit changes and deploy?', TRUE);
-    if (!$commit_and_deploy_confirm) {
-      $this->say('Aborted commit and deploy, you can do it manually');
+      $rsync_exclude_string = '--exclude=' . implode(' --exclude=', $rsync_exclude);
 
-      // The Pantheon repo is dirty, so check if we want to clean it up before
-      // exit.
-      $cleanup_pantheon_directory_confirm = $this->confirm("Revert any changes on $pantheon_directory directory (i.e. `git checkout .`)?");
-      if (!$cleanup_pantheon_directory_confirm) {
-        // Keep folder as is.
+      // Copy all files and folders.
+      $result = $this->_exec("rsync -az -q --delete $rsync_exclude_string . $pantheon_directory")->getExitCode();
+      if ($result !== 0) {
+        throw new Exception('File sync failed');
+      }
+
+      // The settings.pantheon.php is managed by Pantheon, there can be updates, site-specific modifications
+      // belong to settings.php.
+      $this->_exec("cp web/sites/default/settings.pantheon.php $pantheon_directory/web/sites/default/settings.php");
+
+      // Flag the current version in the artifact repo.
+      file_put_contents($deployment_version_path, $current_version);
+
+      // We don't want to change Pantheon's git ignore, as we do want to commit
+      // vendor and contrib directories.
+      $this->_exec("cd $pantheon_directory && git checkout .gitignore");
+
+      // Also we need to clean up gitignores that are deeper in the tree,
+      // those can be troublemakers too, it also purges various Git helper
+      // files that are irrelevant here.
+      $this->_exec("cd $pantheon_directory && (find . | grep \"\.git\" | grep -v \"^./.git\"  |  xargs rm -rf || true)");
+
+      $this->_exec("cd $pantheon_directory && git status");
+
+      $commit_and_deploy_confirm = $this->confirm('Commit changes and deploy?', TRUE);
+      if (!$commit_and_deploy_confirm) {
+        $this->say('Aborted commit and deploy, you can do it manually');
+
+        // The Pantheon repo is dirty, so check if we want to clean it up before
+        // exit.
+        $cleanup_pantheon_directory_confirm = $this->confirm("Revert any changes on $pantheon_directory directory (i.e. `git checkout .`)?");
+        if (!$cleanup_pantheon_directory_confirm) {
+          // Keep folder as is.
+          return;
+        }
+
+        // We repeat "git clean" twice, as sometimes it seems that a single one
+        // doesn't remove all directories.
+        $this->_exec("cd $pantheon_directory && git checkout . && git clean -fd && git clean -fd && git status");
+
         return;
       }
 
-      // We repeat "git clean" twice, as sometimes it seems that a single one
-      // doesn't remove all directories.
-      $this->_exec("cd $pantheon_directory && git checkout . && git clean -fd && git clean -fd && git status");
+      if (empty($commit_message)) {
+        $commit_message = 'Site update from ' . $current_version;
+      }
+      $commit_message = escapeshellarg($commit_message);
+      $result = $this->_exec("cd $pantheon_directory && git pull && git add . && git commit -am $commit_message && git push")->getExitCode();
+      if ($result !== 0) {
+        throw new Exception('Pushing to the remote repository failed');
+      }
 
-      return;
-    }
-
-    if (empty($commit_message)) {
-      // Getting the current commit.
-      $commit_hash = $this->taskExec("git rev-parse --short HEAD")
-        ->printOutput(FALSE)
-        ->run()
-        ->getMessage();
-
-      $commit_message = 'Site update from ' . $commit_hash;
-    }
-    $commit_message = escapeshellarg($commit_message);
-    $result = $this->_exec("cd $pantheon_directory && git pull && git add . && git commit -am $commit_message && git push")->getExitCode();
-    if ($result !== 0) {
-      throw new Exception('Pushing to the remote repository failed');
-    }
-
-    // Let's wait until the code is deployed to the environment.
-    // This "git push" above is as async operation, so prevent invoking
-    // for instance drush cim before the new changes are there.
-    usleep(self::DEPLOYMENT_WAIT_TIME);
-    $pantheon_env = $branch_name == 'master' ? 'dev' : $branch_name;
-    do {
-      $code_sync_completed = $this->_exec("terminus workflow:list " . self::PANTHEON_NAME . " --format=csv | grep " . $pantheon_env . " | grep Sync | awk -F',' '{print $5}' | grep running")->getExitCode();
+      // Let's wait until the code is deployed to the environment.
+      // This "git push" above is as async operation, so prevent invoking
+      // for instance drush cim before the new changes are there.
       usleep(self::DEPLOYMENT_WAIT_TIME);
-    } while (!$code_sync_completed);
-    $this->deployPantheonSync($pantheon_env, FALSE);
+      do {
+        $code_sync_completed = $this->_exec("terminus workflow:list " . self::PANTHEON_NAME . " --format=csv | grep " . $pantheon_env . " | grep Sync | awk -F',' '{print $5}' | grep running")->getExitCode();
+        usleep(self::DEPLOYMENT_WAIT_TIME);
+      } while (!$code_sync_completed);
+      $this->deployPantheonSync($pantheon_env, FALSE);
+    }
+    catch (Exception $e) {
+      throw $e;
+    }
+    finally {
+      $this->_exec("terminus remote:drush " . self::PANTHEON_NAME . "." . $pantheon_env . " server_general:release-deploy-mode")->getExitCode();
+
+    }
   }
 
   /**
@@ -428,7 +472,7 @@ class RoboFile extends Tasks {
       ->run()
       ->getExitCode();
     if ($result !== 0) {
-      throw new Exception('The site could not be fully updated at Pantheon. Try "ddev robo deploy:pantheon-reboot" manually.');
+      throw new Exception('The site could not be fully updated at Pantheon. Try "ddev robo deploy:pantheon-install-env" manually.');
     }
   }
 
@@ -454,28 +498,27 @@ class RoboFile extends Tasks {
     $pantheon_name = self::PANTHEON_NAME;
     $pantheon_terminus_environment = $pantheon_name . '.' . $env;
 
-    // This set of commands should work, so expecting no failures.
-    // (tend to invoke the same flow as DDEV's `config.local.yaml`.
+    // This set of commands should work, so expecting no failures
+    // (tend to invoke the same flow as DDEV's `config.local.yaml`).
     $task = $this
       ->taskExecStack()
-      ->stopOnFail();
-
-    $result = $task
+      ->stopOnFail()
       ->exec("terminus remote:drush $pantheon_terminus_environment -- si server -y --existing-config")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- en server_migrate -y")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- migrate:import --group=server")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- pm:uninstall server_migrate")
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- uli")
-      ->run()
-      ->getExitCode();
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- uli");
 
     // For these environments, set the `admin` user's password to `1234`.
     $envs_to_set_admin_simple_password = [
       'qa'
     ];
     if (in_array($env, $envs_to_set_admin_simple_password)) {
-      $task->exec("terminus remote:drush $pantheon_terminus_environment -- user:password admin 1234")->run();
+      $task->exec("terminus remote:drush $pantheon_terminus_environment -- user:password admin 1234");
     }
+
+    $result = $task->run()
+      ->getExitCode();
 
     if ($result !== 0) {
       throw new Exception("The site failed to install on Pantheon's `{$env}` environment.");
@@ -654,24 +697,52 @@ class RoboFile extends Tasks {
    *   The username of the ES admin user.
    * @param string $password
    *   The password of the ES admin user.
+   * @param string $environment
+   *   The environment ID. To test changes in the index config selectively.
    *
    * @throws \Exception
    */
-  public function elasticsearchProvision($es_url, $username, $password) {
+  public function elasticsearchProvision($es_url, $username, $password, $environment = NULL) {
+    $needs_users = TRUE;
+
     $es_url = rtrim($es_url, '/');
     if (strstr($es_url, '//elasticsearch:') !== FALSE) {
       // Detect DDEV.
       self::$indexPrefix = 'elasticsearch_index_db_';
+      $needs_users = FALSE;
     }
+    else {
+      $result = json_decode($this
+        ->taskExec("curl -u {$username}:{$password} {$es_url}/_security/user")
+        ->printOutput(FALSE)
+        ->run()
+        ->getMessage(), TRUE);
+      if (isset($result['error'])) {
+        throw new Exception('Cannot connect to ES or security not enabled');
+      }
+      foreach (array_keys($result) as $existing_username) {
+        foreach ($this->sites as $site) {
+          if (strstr($existing_username, $site) !== FALSE) {
+            // Users do exist with the site name.
+            $needs_users = FALSE;
+            break 2;
+          }
+        }
+
+      }
+    }
+
     $index_creation = $this->taskParallelExec();
     $role_creation = $this->taskParallelExec();
     $user_creation = $this->taskParallelExec();
     $credentials = [];
+    if (!empty($environment)) {
+      $this->environments = [$environment];
+    }
     foreach ($this->environments as $environment) {
       foreach ($this->indices as $index) {
         $index_creation->process("curl -u {$username}:{$password} -X PUT {$es_url}/" . self::$indexPrefix . "{$index}_{$environment}");
       }
-      $all_roles = [];
       foreach ($this->sites as $site) {
         if (!isset($credentials[$site])) {
           $credentials[$site] = [];
@@ -699,7 +770,6 @@ class RoboFile extends Tasks {
 END;
 
         $role_creation->process("curl -u {$username}:{$password} -X POST {$es_url}/_security/role/${site}_${environment} -H 'Content-Type: application/json' --data '$role_data'");
-        $all_roles[] = '"' . $site . '_' . $environment . '"';
 
         // Generate random password or re-use an existing one from the JSON.
         $existing_password = $this->getUserPassword($site, $environment);
@@ -716,110 +786,22 @@ END;
     }
 
     $index_creation->run();
-    $role_creation->run();
-    $user_creation->run();
+    if ($needs_users) {
+      $role_creation->run();
+      $user_creation->run();
 
-    $this->elasticsearchSynonyms($es_url, $username, $password);
-    $this->elasticsearchStopwords($es_url, $username, $password);
+      // We expose the credentials as files on the system.
+      // Should be securely handled and deleted after the execution.
+      foreach ($credentials as $site => $credential_per_environment) {
+        file_put_contents($site . '.es.secrets.json', json_encode($credential_per_environment));
+      }
+    }
+
     $this->elasticsearchAnalyzer($es_url, $username, $password);
-
-    // We expose the credentials as files on the system.
-    // Should be securely handled and deleted after the execution.
-    foreach ($credentials as $site => $credential_per_environment) {
-      file_put_contents($site . '.es.secrets.json', json_encode($credential_per_environment));
-    }
   }
 
   /**
-   * Apply / actualize stopwords.
-   *
-   * @param string $es_url
-   *   Fully qualified URL to ES, for example: http://elasticsearch:9200 .
-   * @param string $username
-   *   The username of the ES admin user.
-   * @param string $password
-   *   The password of the ES admin user.
-   * @param string $english_stopword_path
-   *   The path to the English stopword list.
-   *
-   * @throws \Exception
-   */
-  public function elasticsearchStopwords($es_url, $username = '', $password = '', $english_stopword_path = 'config/elasticsearch/stopwords.txt') {
-    if (!file_exists($english_stopword_path)) {
-      throw new Exception("The English stopword file does not exist");
-    }
-
-    $stopword_combined = file($english_stopword_path);
-    if (empty($stopword_combined)) {
-      throw new Exception("The stopword lists would be empty, check the specified files");
-    }
-    $prepared_stopwords = [];
-    foreach ($stopword_combined as $stopword) {
-      $prepared_stopwords[] = '"' . trim($stopword) . '"';
-    }
-    $stopword_list = implode(',', $prepared_stopwords);
-    $stopword_data = <<<END
-{
-  "analysis": {
-    "filter": {
-      "stop": {
-        "type": "stop",
-        "stopwords": [ $stopword_list ]
-      }
-    }
-  }
-}
-END;
-
-    $this->applyIndexSettings($es_url, $username, $password, $stopword_data);
-  }
-
-  /**
-   * Apply / actualize synonyms.
-   *
-   * @param string $es_url
-   *   Fully qualified URL to ES, for example: http://elasticsearch:9200 .
-   * @param string $username
-   *   The username of the ES admin user.
-   * @param string $password
-   *   The password of the ES admin user.
-   * @param string $english_synonym_path
-   *   The path to the English synonym list.
-   *
-   * @throws \Exception
-   */
-  public function elasticsearchSynonyms($es_url, $username = '', $password = '', $english_synonym_path = 'config/elasticsearch/synonyms.txt') {
-    if (!file_exists($english_synonym_path)) {
-      throw new Exception("The English synonym file does not exist");
-    }
-    $synonym_combined = file($english_synonym_path);
-    if (empty($synonym_combined)) {
-      throw new Exception("The synonym lists would be empty, check the specified files");
-    }
-    $prepared_synonyms = [];
-    foreach ($synonym_combined as $synonym) {
-      $prepared_synonyms[] = '"' . trim($synonym) . '"';
-    }
-    $synonym_list = implode(',', $prepared_synonyms);
-    $synonym_data = <<<END
-{
-  "analysis": {
-    "filter": {
-      "synonym": {
-        "type": "synonym_graph",
-        "lenient": true,
-        "synonyms": [ $synonym_list ]
-      }
-    }
-  }
-}
-END;
-
-    $this->applyIndexSettings($es_url, $username, $password, $synonym_data);
-  }
-
-  /**
-   * Apply / actualize synonyms.
+   * Apply / actualize the default analyzer.
    *
    * @param string $es_url
    *   Fully qualified URL to ES, for example: http://elasticsearch:9200 .
@@ -839,7 +821,7 @@ END;
         "type": "custom",
         "char_filter":  [ "html_strip" ],
         "tokenizer": "standard",
-        "filter": [ "lowercase", "stop", "synonym" ]
+        "filter": [ "lowercase" ]
       }
     }
   }

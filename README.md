@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/Gizra/drupal-starter.svg?branch=master)](https://travis-ci.com/Gizra/drupal-starter)
+
 # Drupal 8 Starter
 
 Starter repo for Drupal 8 development. This starter is an opinionated approach,
@@ -9,7 +11,7 @@ not ever need to execute commands such as `composer install` from the host
 machine. Instead we have `ddev composer install`. The advantage is that we have
 a consistent, reproducible and shareable environment, so developers don't have
 to lose time over configuration of their host machine.
-1. [Robo](https://robo.li/) is the task manager, and is favored over bash
+1. [Robo](https://robo.li/) is the task manager, and is favored over Bash
 scripts. The reason for this is that it's
 assumed PHP developers are more comfortable with PHP than Bash, and it provides
 us with easier iteration, reading and manipulating yaml files, pre-defined
@@ -88,7 +90,7 @@ action you need to take, and it will apply for all your projects. See docs [here
 
 In short, create a [Machine token](https://dashboard.pantheon.io/users/#account/tokens/) and then
 
-    ddev auth pantheon <YOUR TOKEN>
+    ddev . terminus auth:login --machine-token=<YOUR TOKEN>
 
 #### Create your site
 
@@ -98,6 +100,7 @@ Then, you can create a new site in Pantheon which can also be done with a
     ddev exec terminus site:create my-site "My Site" "Drupal 8"
 
 #### Change to nested docroot structure
+
 To allow Pantheon to work with composer managed sites and recognize the `web`
 directory, we need to follow the [Pantheon instructions](https://pantheon.io/docs/nested-docroot#disable-one-click-updates)
 
@@ -165,9 +168,28 @@ assembles it from the Git log.
 In order to deploy upon every merge automatically by Travis, you shall:
 
 1. Get a Pantheon machine token (using a dummy new Pantheon user ideally, one user per project for the sake of security): https://pantheon.io/docs/machine-tokens
-1. `ddev deploy:config-autodeploy [your new token] [pantheon project name]`
+1. `ddev robo deploy:config-autodeploy [your new token] [pantheon project name]`
 1. `git commit -m "Deployment secrets and configuration"`
 1. Add the public key in `travis-key.pub` to the newly created dummy Pantheon user: https://pantheon.io/docs/ssh-keys
 
 Optionally you can specify which target branch you'd like to push on Pantheon, by default it's `master`, so the target is the DEV environment, but alternatively you can issue:
-`ddev deploy:config-autodeploy [your new token] [pantheon project name] [gh_branch] [pantheon_branch]`
+`ddev robo deploy:config-autodeploy [your new token] [pantheon project name] [gh_branch] [pantheon_branch]`
+
+## Pulling DB & Files From Pantheon
+
+### First Time
+
+To set the Pantheon environment to be pulled from to `LIVE`, execute
+
+    ddev . terminus auth:login --machine-token=[token]
+    ddev config pantheon --pantheon-environment=live
+
+This will update the `.gitignore`d file in `.ddev/import.yaml`
+
+### Pull
+
+    # Terminus authentication expires every 24 hours.
+    ddev . terminus auth:login [token]
+
+    # Pull DB & Files
+    ddev pull

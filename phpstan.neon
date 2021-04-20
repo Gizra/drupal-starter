@@ -1,0 +1,15 @@
+includes:
+	- vendor/mglaman/phpstan-drupal/extension.neon
+parameters:
+  level: 6
+  checkMissingIterableValueType: false
+  ignoreErrors:
+    - '#has no return typehint specified.#'
+  paths:
+    - web
+  excludes_analyse:
+    - '*.api.php'
+    - '*/tests/fixtures/*.php'
+    - 'web/core/*'
+    - 'web/sites/default/*'
+    - 'web/modules/contrib/*'

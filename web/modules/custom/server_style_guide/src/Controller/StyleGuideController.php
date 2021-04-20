@@ -34,7 +34,7 @@ class StyleGuideController extends ControllerBase {
   /**
    * The renderer service.
    *
-   * @var \Drupal\server_style_guide\Controller\Renderer
+   * @var \Drupal\Core\Render\RendererInterface
    */
   protected $renderer;
 
@@ -58,7 +58,7 @@ class StyleGuideController extends ControllerBase {
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    return new static(
+    return new self(
       $container->get('plugin.manager.block'),
       $container->get('renderer'),
       $container->get('link_generator')
@@ -72,6 +72,53 @@ class StyleGuideController extends ControllerBase {
    *   A simple renderable array.
    */
   public function styleGuidePage() {
+    // Initialize the page build render array.
+    $build = [];
+    // Add the full width elements to the build.
+    $build['full_width_elements'] = $this->getFullWidthElements();
+    // Add the elements wrapped in wide container to the build.
+    $build['wide_width_elements'] = $this->getWideWidthElements();
+    // Add the elements wrapped in narrow container to the build.
+    $build['narrow_width_elements'] = $this->getNarrowWidthElements();
+    return $build;
+  }
+
+  /**
+   * Define all elements here that should be 'full' width.
+   *
+   * Elements spanning full-width of the document.
+   *
+   * @return array
+   *   A render array containing the elements.
+   */
+  protected function getFullWidthElements() {
+    $build[] = [
+      '#markup' => $this->getComponentPrefix('Full width elements'),
+    ];
+
+    $element['server_theme_footer'] = [
+      '#prefix' => $this->getComponentPrefix('Footer'),
+      '#theme' => 'server_theme_footer',
+    ];
+
+    // Add container around each element.
+    foreach ($element as $value) {
+      $build[] = $this->wrapComponentWithContainer($value, 'styleguide-full-width-elements', 'fluid-container-full');
+    }
+
+    return $build;
+  }
+
+  /**
+   * Define all elements here that should be 'wide' width.
+   *
+   * @return array
+   *   A render array containing the elements.
+   */
+  protected function getWideWidthElements() {
+    $build[] = [
+      '#markup' => $this->getComponentPrefix('Wide width elements'),
+    ];
     $card_image = $this->getPlaceholderImage(600, 520);
 
     $tags = [
@@ -124,6 +171,54 @@ class StyleGuideController extends ControllerBase {
       '#prefix' => $this->getComponentPrefix('Multiple Cards - With Title'),
       '#theme' => 'server_theme_cards',
       '#title' => $this->t('Related Items'),
+      '#rows' => $rows,
+    ];
+
+    $single_card_image_random = $single_card_simple;
+    $single_card_image_random['#url'] = Url::fromUri('https://www.example.com/test')->toString();
+    $single_card_image_random['#image_alt'] = $this->t('Image alt');
+    // Get a random photographic image.
+    $single_card_image_random['#image'] = $this->getPlaceholderImage(256, 128);
+
+    $single_card_image_id = $single_card_no_body;
+    $single_card_image_id['#url'] = Url::fromUri('https://www.example.com/test')->toString();
+    $single_card_image_id['#image_alt'] = $this->t('Image alt');
+    // Get a static photographic image with ID 1043.
+    // See list of all images at: https://picsum.photos/images.
+    $single_card_image_id['#image'] = $this->getPlaceholderImage(256, 128, '1043');
+
+    $single_card_image_seed = $single_card_long_title;
+    $single_card_image_seed['#url'] = Url::fromUri('https://www.example.com/test')->toString();
+    $single_card_image_seed['#image_alt'] = $this->t('Image alt');
+    // When you use a seed a random image is generated for a certain string,
+    // and if the same string is used again the same image will always be
+    // returned. Hence it's 'random' but also 'static'.
+    $single_card_image_seed['#image'] = $this->getPlaceholderImage(256, 128, 'drupal-starter', 'seed');
+
+    $single_card_image_seed_author_name = $single_card_long_author_name;
+    $single_card_image_seed_author_name['#url'] = Url::fromUri('https://www.example.com/test')->toString();
+    $single_card_image_seed_author_name['#image_alt'] = $this->t('Image alt');
+    $single_card_image_seed_author_name['#image'] = $this->getPlaceholderImage(256, 128, 'single_card_long_author_name', 'seed');
+
+    $cards = [
+      $single_card_image_random,
+      $single_card_image_id,
+      $single_card_image_seed,
+      $single_card_image_seed_author_name,
+    ];
+
+    $rows = [];
+    foreach ($cards as $card) {
+      $rows[] = [
+        'content' => $card,
+        'attributes' => [],
+      ];
+    }
+
+    $element['server_theme_cards_images'] = [
+      '#prefix' => $this->getComponentPrefix('Multiple Cards - With Title and image'),
+      '#theme' => 'server_theme_cards',
+      '#title' => $this->t('Discover more'),
       '#rows' => $rows,
     ];
 
@@ -214,15 +309,29 @@ class StyleGuideController extends ControllerBase {
       '#rows' => $table_rows,
     ];
 
-    $element['server_theme_footer'] = [
-      '#prefix' => $this->getComponentPrefix('Footer'),
-      '#theme' => 'server_theme_footer',
-    ];
-
     $element['server_theme_page_title'] = [
       '#prefix' => $this->getComponentPrefix('Page Title'),
       '#theme' => 'server_theme_page_title',
       '#title' => 'The source has extend, but not everyone fears it',
+    ];
+
+    // Add container around each element.
+    foreach ($element as $value) {
+      $build[] = $this->wrapComponentWithContainer($value, 'styleguide-wide-width-elements', 'fluid-container-wide');
+    }
+
+    return $build;
+  }
+
+  /**
+   * Define all elements here that should be 'narrow' width.
+   *
+   * @return array
+   *   A render array containing the elements.
+   */
+  protected function getNarrowWidthElements() {
+    $build[] = [
+      '#markup' => $this->getComponentPrefix('Narrow width elements'),
     ];
 
     $element['server_theme_user_image__photo'] = [
@@ -241,9 +350,8 @@ class StyleGuideController extends ControllerBase {
     ];
 
     // Add container around each element.
-    $build = [];
     foreach ($element as $value) {
-      $build[] = $this->wrapComponentWithContainer($value, '', 'fluid-container-wide');
+      $build[] = $this->wrapComponentWithContainer($value, 'styleguide-narrow-width-elements', 'fluid-container-narrow');
     }
 
     return $build;
@@ -276,20 +384,29 @@ class StyleGuideController extends ControllerBase {
   }
 
   /**
-   * Get image placeholder.
+   * Get photographic placeholder image.
+   *
+   * Optionally supply an ID or a seed string to always get the same image.
+   * Seeds generate a random image, but ID's can point to a specific image and
+   * should be always numeric.
    *
    * @param int $width
    *   The width of the image.
    * @param int $height
    *   The height of the image.
-   * @param string|null $text
-   *   Text to render image with.
+   * @param string $id
+   *   The ID of the image. Or a seed.
+   * @param string $id_type
+   *   The type of the ID, either 'id' or 'seed'.
    *
    * @return string
    *   URL with placeholder.
    */
-  protected function getPlaceholderImage(int $width, int $height, string $text = NULL) {
-    return "https://via.placeholder.com/{$width}x{$height}.png" . (!empty($text) ? '?text=' . $text : NULL);
+  protected function getPlaceholderImage(int $width, int $height, string $id = '', string $id_type = 'id') {
+    if (!empty($id)) {
+      return "https://picsum.photos/{$id_type}/{$id}/{$width}/{$height}.jpg";
+    }
+    return "https://picsum.photos/{$width}/{$height}.jpg";
   }
 
   /**

@@ -8,7 +8,7 @@
 /**
  * Implements hook_theme().
  */
-function server_theme_theme($existing, $type, $theme, $path) {
+function server_theme_theme() {
   $info = [];
 
   $info['server_theme_tag'] = [
@@ -130,7 +130,7 @@ function server_theme_theme($existing, $type, $theme, $path) {
 /**
  * Implements hook_preprocess_page().
  */
-function server_theme_preprocess_page(&$variables) {
+function server_theme_preprocess_page(array &$variables) {
   $variables['page']['footer'] = ['#theme' => 'server_theme_footer'];
 }
 
@@ -140,7 +140,7 @@ function server_theme_preprocess_page(&$variables) {
  * On node view pages, we'll take care of showing the page title (i.e. the
  * <h1> element).
  */
-function server_theme_preprocess_page_title(&$variables) {
+function server_theme_preprocess_page_title(array &$variables) {
   $node = \Drupal::routeMatch()->getParameter('node');
 
   if ($node) {

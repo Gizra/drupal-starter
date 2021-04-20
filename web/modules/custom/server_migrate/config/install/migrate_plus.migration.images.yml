@@ -1,0 +1,42 @@
+id: images
+label: 'Images'
+migration_group: server
+migration_tags:
+  - images
+source:
+  plugin: csv
+  path: modules/custom/server_migrate/csv_files/images.csv
+  ids: ['_uuid']
+  header_offset: 0
+  constants:
+    DRUPAL_SOURCE_FILE_DIRECTORY: '/var/www/html/web/modules/custom/server_migrate/'
+    DRUPAL_FILE_DIRECTORY: 'public://'
+destination:
+  plugin: 'entity:file'
+process:
+  pseudo_source_path:
+    - plugin: concat
+      source:
+        - constants/DRUPAL_SOURCE_FILE_DIRECTORY
+        - _source
+  pseudo_destination_filename:
+    - plugin: callback
+      callable: basename
+      source: _source
+  pseudo_destination_path:
+    - plugin: concat
+      source:
+        - constants/DRUPAL_FILE_DIRECTORY
+        - '@pseudo_destination_filename'
+  uri:
+    - plugin: file_copy
+      source:
+        - '@pseudo_source_path'
+        - '@pseudo_destination_path'
+      file_exists: rename
+      move: false
+
+dependencies:
+  enforced:
+    module:
+      - server_migrate

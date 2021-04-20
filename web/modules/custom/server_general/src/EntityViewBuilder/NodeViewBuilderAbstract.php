@@ -151,10 +151,12 @@ abstract class NodeViewBuilderAbstract extends EntityViewBuilderPluginAbstract {
       // No field, or it's empty.
       return [NULL, NULL];
     }
-    $url = $this->entityTypeManager
+
+    /** @var \Drupal\image\ImageStyleInterface $image_style */
+    $image_style = $this->entityTypeManager
       ->getStorage('image_style')
-      ->load(self::IMAGE_STYLE_HERO)
-      ->buildUrl($entity->get($field_name)[0]->entity->getFileUri());
+      ->load(self::IMAGE_STYLE_HERO);
+    $url = $image_style->buildUrl($entity->get($field_name)[0]->entity->getFileUri());
 
     $alt = $entity->get($field_name)[0]->alt ?: '';
     return [$url, $alt];

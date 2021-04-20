@@ -7,14 +7,23 @@ hooks:
     - exec: drush site-install server -y --existing-config
 
     # Setup Elasticsearch
-    - exec: "cd .. && ./vendor/bin/robo elasticsearch:provision http://elasticsearch:9200 '' ''"
+    - exec: "./vendor/bin/robo elasticsearch:provision http://elasticsearch:9200 '' ''"
 
     # Compile theme in debug, so we can develop with all Tailwinds' classes.
     # On deploy, we purge un-needed CSS.
     - exec-host: ddev robo theme:compile-debug
 
+    # Execute the migrations
+    - exec: drush pm-enable server_migrate -y
+    - exec: drush migrate:import --group server
+    - exec: drush pm-uninstall migrate -y
+
     # Clear cache, for example for entity view builder plugins to take effect.
     - exec: drush cr
+
+    # Index content.
+    - exec: drush sapi-c
+    - exec: drush sapi-i
 
     # Generate one-time login link
     - exec: drush uli
