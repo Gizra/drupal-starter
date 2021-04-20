@@ -5,7 +5,7 @@ namespace Drupal\Tests\server_general\Traits;
 /**
  * Email testing trait.
  */
-trait ServerGeneralMailTrait {
+trait ServerGeneralMailTestTrait {
 
   /**
    * Mailhog base URL as provided by DDEV.
