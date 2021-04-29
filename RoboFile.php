@@ -318,7 +318,7 @@ class RoboFile extends Tasks {
 
     if ($result->getMessage()) {
       $this->say($result->getMessage());
-      throw new Exception('The working directory is dirty. Please commit the pending changes.');
+      throw new Exception('The Pantheon directory is dirty. Please commit any pending changes.');
     }
 
     $result = $this
@@ -367,6 +367,10 @@ class RoboFile extends Tasks {
     if ($result !== 0) {
       throw new Exception('File sync failed');
     }
+
+    // The settings.pantheon.php is managed by Pantheon, there can be updates, site-specific modifications
+    // belong to settings.php.
+    $this->_exec("cp web/sites/default/settings.pantheon.php $pantheon_directory/web/sites/default/settings.php");
 
     // Flag the current version in the artifact repo.
     file_put_contents($deployment_version_path, $current_version);
