@@ -208,6 +208,56 @@ class RoboFile extends Tasks {
   }
 
   /**
+   * Deploy a tag (specific release) to Pantheon.
+   *
+   * @param string $tag
+   *   The tag name in the current repository.
+   * @param string $branch_name
+   *   The branch name from Pantheon repository. Default to master.
+   * @param string $commit_message
+   *   Optional, it is used as a commit message in the artifact repo.
+   *
+   * @throws \Exception
+   */
+  public function deployTagPantheon($tag, $branch_name, $commit_message = NULL) {
+    $result = $this
+      ->taskExec('git status -s')
+      ->printOutput(FALSE)
+      ->run();
+
+    if ($result->getMessage()) {
+      $this->say($result->getMessage());
+      throw new Exception('The working directory is dirty. Please commit or stash the pending changes.');
+    }
+
+    // Getting the current branch of the GitHub repo
+    // in a machine-readable form.
+    $original_branch = $this->taskExec("git rev-parse --abbrev-ref HEAD")
+      ->printOutput(FALSE)
+      ->run()
+      ->getMessage();
+
+    $this->taskExec("git checkout $tag")->run();
+
+    $this->taskExec("rm -rf vendor && composer install")->run();
+
+    if (empty($commit_message)) {
+      $commit_message = 'Release ' . $tag;
+    }
+
+    try {
+      $this->deployPantheon($branch_name, $commit_message);
+    }
+    catch (\Exception $e) {
+      $this->yell('The deployment failed', 22, 'red');
+      $this->say($e->getMessage());
+    }
+    finally {
+      $this->taskExec("git checkout $original_branch")->run();
+    }
+  }
+
+  /**
    * Deploy to Pantheon.
    *
    * @param string $branch_name
