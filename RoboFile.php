@@ -459,7 +459,7 @@ class RoboFile extends Tasks {
       ->run()
       ->getExitCode();
     if ($result !== 0) {
-      throw new Exception('The site could not be fully updated at Pantheon. Try "ddev robo deploy:pantheon-reboot" manually.');
+      throw new Exception('The site could not be fully updated at Pantheon. Try "ddev robo deploy:pantheon-install-env" manually.');
     }
 
     $result = $this->taskExecStack()
