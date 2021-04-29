@@ -512,22 +512,22 @@ class RoboFile extends Tasks {
       ->taskExecStack()
       ->stopOnFail();
 
-    $result = $task
+    $task
       ->exec("terminus remote:drush $pantheon_terminus_environment -- si server --no-interaction --existing-config")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- en server_migrate --no-interaction")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- migrate:import --group=server")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- pm:uninstall migrate")
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- uli")
-      ->run()
-      ->getExitCode();
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- uli");
 
     // For these environments, set the `admin` user's password to `1234`.
     $envs_to_set_admin_simple_password = [
       'qa'
     ];
     if (in_array($env, $envs_to_set_admin_simple_password)) {
-      $task->exec("terminus remote:drush $pantheon_terminus_environment -- user:password admin 1234")->run();
+      $task->exec("terminus remote:drush $pantheon_terminus_environment -- user:password admin 1234");
     }
+
+    $result = $task->run()->getExitCode();
 
     if ($result !== 0) {
       throw new Exception("The site failed to install on Pantheon's `{$env}` environment.");
