@@ -16,7 +16,7 @@ class RoboFile extends Tasks {
   /**
    * The wait time between deployment checks in microseconds.
    */
-  const DEPLOYMENT_WAIT_TIME = '500000';
+  const DEPLOYMENT_WAIT_TIME = 500000;
 
   private static $indexPrefix = 'elasticsearch_index_pantheon_';
 
@@ -29,7 +29,7 @@ class RoboFile extends Tasks {
   const PANTHEON_NAME = '';
 
   /**
-   * Compile the app; On success ...
+   * Compile the theme; On success ...
    *
    * @param bool $optimize
    *   Indicate whether to optimize during compilation.
@@ -272,172 +272,159 @@ class RoboFile extends Tasks {
       throw new Exception('You need to fill the "PANTHEON_NAME" const in the Robo file. so it will know what is the name of your site.');
     }
 
-    try {
-      $pantheon_env = $branch_name == 'master' ? 'dev' : $branch_name;
-      $deploy_mode_obtained = $this->_exec("terminus remote:drush " . self::PANTHEON_NAME . "." . $pantheon_env . " server_general:obtain-deploy-mode")->getExitCode();
-      if (!$deploy_mode_obtained) {
-        throw new Exception('Another deployment is in progress, aborting the process');
-      }
+    $pantheon_directory = '.pantheon';
+    $deployment_version_path = $pantheon_directory . '/.deployment';
 
-      $pantheon_directory = '.pantheon';
-      $deployment_version_path = $pantheon_directory . '/.deployment';
+    if (!file_exists($pantheon_directory) || !is_dir($pantheon_directory)) {
+      throw new Exception('Clone the Pantheon artifact repository first into the .pantheon directory');
+    }
 
-      if (!file_exists($pantheon_directory) || !is_dir($pantheon_directory)) {
-        throw new Exception('Clone the Pantheon artifact repository first into the .pantheon directory');
-      }
+    // We deal with versions as commit hashes.
+    // The high-level goal is to prevent the auto-deploy process
+    // to overwrite the code with an older version if the Travis queue
+    // swaps the order of two jobs, so they are not executed in
+    // chronological order.
+    $currently_deployed_version = NULL;
+    if (file_exists($deployment_version_path)) {
+      $currently_deployed_version = trim(file_get_contents($deployment_version_path));
+    }
 
-      // We deal with versions as commit hashes.
-      // The high-level goal is to prevent the auto-deploy process
-      // to overwrite the code with an older version if the Travis queue
-      // swaps the order of two jobs, so they are not executed in
-      // chronological order.
-      $currently_deployed_version = NULL;
-      if (file_exists($deployment_version_path)) {
-        $currently_deployed_version = trim(file_get_contents($deployment_version_path));
-      }
-
-      $result = $this
+    $result = $this
         ->taskExec('git rev-parse HEAD')
         ->printOutput(FALSE)
         ->run();
 
-      $current_version = trim($result->getMessage());
+    $current_version = trim($result->getMessage());
 
-      if (!empty($currently_deployed_version)) {
-        $result = $this
-          ->taskExec('git cat-file -t ' . $currently_deployed_version)
-          ->printOutput(FALSE)
-          ->run();
-
-        if ($result->getMessage() !== 'commit') {
-          $this->yell(strtr('This current commit @current-commit cannot be deployed, since new commits have been created since, so we don\'t want to deploy an older version.', [
-            '@current-commit' => $current_version,
-          ]));
-          $this->yell('Aborting the process to avoid going back in time.');
-          return;
-        }
-      }
-
+    if (!empty($currently_deployed_version)) {
       $result = $this
-        ->taskExec('git status -s')
+        ->taskExec('git cat-file -t ' . $currently_deployed_version)
         ->printOutput(FALSE)
         ->run();
 
-      if ($result->getMessage()) {
-        $this->say($result->getMessage());
-        throw new Exception('The working directory is dirty. Please commit the pending changes.');
+      if ($result->getMessage() !== 'commit') {
+        $this->yell(strtr('This current commit @current-commit cannot be deployed, since new commits have been created since, so we don\'t want to deploy an older version.', [
+          '@current-commit' => $current_version,
+        ]));
+        $this->yell('Aborting the process to avoid going back in time.');
+        return;
       }
+    }
 
-      $result = $this
-        ->taskExec("cd $pantheon_directory && git status -s")
-        ->printOutput(FALSE)
-        ->run();
+    $result = $this
+      ->taskExec('git status -s')
+      ->printOutput(FALSE)
+      ->run();
 
-      if ($result->getMessage()) {
-        $this->say($result->getMessage());
-        throw new Exception('The Pantheon directory is dirty. Please commit any pending changes.');
-      }
+    if ($result->getMessage()) {
+      $this->say($result->getMessage());
+      throw new Exception('The Pantheon directory is dirty. Please commit any pending changes.');
+    }
 
-      // Validate pantheon.yml has web_docroot: true.
-      if (!file_exists($pantheon_directory . '/pantheon.yml')) {
-        throw new Exception("pantheon.yml is missing from the Pantheon directory ($pantheon_directory)");
-      }
+    $result = $this
+      ->taskExec("cd $pantheon_directory && git status -s")
+      ->printOutput(FALSE)
+      ->run();
 
-      $yaml = Yaml::parseFile($pantheon_directory . '/pantheon.yml');
-      if (empty($yaml['web_docroot'])) {
-        throw new Exception("'web_docroot: true' is missing from pantheon.yml in Pantheon directory ($pantheon_directory)");
-      }
+    if ($result->getMessage()) {
+      $this->say($result->getMessage());
+      throw new Exception('The Pantheon directory is dirty. Please commit any pending changes.');
+    }
 
-      $this->_exec("cd $pantheon_directory && git checkout $branch_name");
+    // Validate pantheon.yml has web_docroot: true.
+    if (!file_exists($pantheon_directory . '/pantheon.yml')) {
+      throw new Exception("pantheon.yml is missing from the Pantheon directory ($pantheon_directory)");
+    }
 
-      // Compile theme.
-      $this->themeCompile();
+    $yaml = Yaml::parseFile($pantheon_directory . '/pantheon.yml');
+    if (empty($yaml['web_docroot'])) {
+      throw new Exception("'web_docroot: true' is missing from pantheon.yml in Pantheon directory ($pantheon_directory)");
+    }
 
-      $rsync_exclude = [
-        '.git',
-        '.ddev',
-        '.idea',
-        '.pantheon',
-        'sites/default',
-        'pantheon.yml',
-        'pantheon.upstream.yml',
-        'travis-key.enc',
-        'travis-key',
-        'server.es.secrets.json',
-        '.bootstrap-fast.php',
-      ];
+    $this->_exec("cd $pantheon_directory && git checkout $branch_name");
 
-      $rsync_exclude_string = '--exclude=' . implode(' --exclude=', $rsync_exclude);
+    // Compile theme.
+    $this->themeCompile();
 
-      // Copy all files and folders.
-      $result = $this->_exec("rsync -az -q --delete $rsync_exclude_string . $pantheon_directory")->getExitCode();
-      if ($result !== 0) {
-        throw new Exception('File sync failed');
-      }
+    $rsync_exclude = [
+      '.git',
+      '.ddev',
+      '.idea',
+      '.pantheon',
+      'sites/default',
+      'pantheon.yml',
+      'pantheon.upstream.yml',
+      'travis-key.enc',
+      'travis-key',
+      'server.es.secrets.json',
+      '.bootstrap-fast.php',
+    ];
 
-      // The settings.pantheon.php is managed by Pantheon, there can be updates, site-specific modifications
-      // belong to settings.php.
-      $this->_exec("cp web/sites/default/settings.pantheon.php $pantheon_directory/web/sites/default/settings.php");
+    $rsync_exclude_string = '--exclude=' . implode(' --exclude=', $rsync_exclude);
 
-      // Flag the current version in the artifact repo.
-      file_put_contents($deployment_version_path, $current_version);
+    // Copy all files and folders.
+    $result = $this->_exec("rsync -az -q --delete $rsync_exclude_string . $pantheon_directory")->getExitCode();
+    if ($result !== 0) {
+      throw new Exception('File sync failed');
+    }
 
-      // We don't want to change Pantheon's git ignore, as we do want to commit
-      // vendor and contrib directories.
-      $this->_exec("cd $pantheon_directory && git checkout .gitignore");
+    // The settings.pantheon.php is managed by Pantheon, there can be updates, site-specific modifications
+    // belong to settings.php.
+    $this->_exec("cp web/sites/default/settings.pantheon.php $pantheon_directory/web/sites/default/settings.php");
 
-      // Also we need to clean up gitignores that are deeper in the tree,
-      // those can be troublemakers too, it also purges various Git helper
-      // files that are irrelevant here.
-      $this->_exec("cd $pantheon_directory && (find . | grep \"\.git\" | grep -v \"^./.git\"  |  xargs rm -rf || true)");
+    // Flag the current version in the artifact repo.
+    file_put_contents($deployment_version_path, $current_version);
 
-      $this->_exec("cd $pantheon_directory && git status");
+    // We don't want to change Pantheon's git ignore, as we do want to commit
+    // vendor and contrib directories.
+    // @todo: Ignore it from rsync, but './.gitignore' didn't work.
+    $this->_exec("cd $pantheon_directory && git checkout .gitignore");
 
-      $commit_and_deploy_confirm = $this->confirm('Commit changes and deploy?', TRUE);
-      if (!$commit_and_deploy_confirm) {
-        $this->say('Aborted commit and deploy, you can do it manually');
+    // Also we need to clean up gitignores that are deeper in the tree,
+    // those can be troublemakers too, it also purges various Git helper
+    // files that are irrelevant here.
+    $this->_exec("cd $pantheon_directory && (find . | grep \"\.git\" | grep -v \"^./.git\"  |  xargs rm -rf || true)");
 
-        // The Pantheon repo is dirty, so check if we want to clean it up before
-        // exit.
-        $cleanup_pantheon_directory_confirm = $this->confirm("Revert any changes on $pantheon_directory directory (i.e. `git checkout .`)?");
-        if (!$cleanup_pantheon_directory_confirm) {
-          // Keep folder as is.
-          return;
-        }
+    $this->_exec("cd $pantheon_directory && git status");
 
-        // We repeat "git clean" twice, as sometimes it seems that a single one
-        // doesn't remove all directories.
-        $this->_exec("cd $pantheon_directory && git checkout . && git clean -fd && git clean -fd && git status");
+    $commit_and_deploy_confirm = $this->confirm('Commit changes and deploy?', TRUE);
+    if (!$commit_and_deploy_confirm) {
+      $this->say('Aborted commit and deploy, you can do it manually');
 
+      // The Pantheon repo is dirty, so check if we want to clean it up before
+      // exit.
+      $cleanup_pantheon_directory_confirm = $this->confirm("Revert any changes on $pantheon_directory directory (i.e. `git checkout .`)?");
+      if (!$cleanup_pantheon_directory_confirm) {
+        // Keep folder as is.
         return;
       }
 
-      if (empty($commit_message)) {
-        $commit_message = 'Site update from ' . $current_version;
-      }
-      $commit_message = escapeshellarg($commit_message);
-      $result = $this->_exec("cd $pantheon_directory && git pull && git add . && git commit -am $commit_message && git push")->getExitCode();
-      if ($result !== 0) {
-        throw new Exception('Pushing to the remote repository failed');
-      }
+      // We repeat "git clean" twice, as sometimes it seems that a single one
+      // doesn't remove all directories.
+      $this->_exec("cd $pantheon_directory && git checkout . && git clean -fd && git clean -fd && git status");
 
-      // Let's wait until the code is deployed to the environment.
-      // This "git push" above is as async operation, so prevent invoking
-      // for instance drush cim before the new changes are there.
+      return;
+    }
+
+    if (empty($commit_message)) {
+      $commit_message = 'Site update from ' . $current_version;
+    }
+    $commit_message = escapeshellarg($commit_message);
+    $result = $this->_exec("cd $pantheon_directory && git pull && git add . && git commit -am $commit_message && git push")->getExitCode();
+    if ($result !== 0) {
+      throw new Exception('Pushing to the remote repository failed');
+    }
+
+    // Let's wait until the code is deployed to the environment.
+    // This "git push" above is as async operation, so prevent invoking
+    // for instance drush cim before the new changes are there.
+    usleep(self::DEPLOYMENT_WAIT_TIME);
+    do {
+      $code_sync_completed = $this->_exec("terminus workflow:list " . self::PANTHEON_NAME . " --format=csv | grep " . $pantheon_env . " | grep Sync | awk -F',' '{print $5}' | grep running")->getExitCode();
       usleep(self::DEPLOYMENT_WAIT_TIME);
-      do {
-        $code_sync_completed = $this->_exec("terminus workflow:list " . self::PANTHEON_NAME . " --format=csv | grep " . $pantheon_env . " | grep Sync | awk -F',' '{print $5}' | grep running")->getExitCode();
-        usleep(self::DEPLOYMENT_WAIT_TIME);
-      } while (!$code_sync_completed);
-      $this->deployPantheonSync($pantheon_env, FALSE);
     }
-    catch (Exception $e) {
-      throw $e;
-    }
-    finally {
-      $this->_exec("terminus remote:drush " . self::PANTHEON_NAME . "." . $pantheon_env . " server_general:release-deploy-mode")->getExitCode();
-
-    }
+    while (!$code_sync_completed);
+    $this->deployPantheonSync($pantheon_env, FALSE);
   }
 
   /**
@@ -463,17 +450,37 @@ class RoboFile extends Tasks {
     }
 
     $result = $task
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- updb -y")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- updb --no-interaction")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- cr")
-      // A second config import may be needed so run twice.
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- cim -y")
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- cim -y")
+      // A repeat config import may be required. Run it in any case.
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- cim --no-interaction")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- cim --no-interaction")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- cr")
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- uli")
       ->run()
       ->getExitCode();
     if ($result !== 0) {
       throw new Exception('The site could not be fully updated at Pantheon. Try "ddev robo deploy:pantheon-install-env" manually.');
+    }
+
+    $result = $this->taskExecStack()
+      ->stopOnFail()
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- sapi-r")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- sapi-i")
+      ->run()
+      ->getExitCode();
+
+    if ($result !== 0) {
+      throw new Exception('The deployment went well, but the re-indexing to ElasticSearch failed. Try to perform manually later.');
+    }
+
+    $result = $this->taskExecStack()
+      ->stopOnFail()
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- uli")
+      ->run()
+      ->getExitCode();
+
+    if ($result !== 0) {
+      throw new Exception('Could not generate a login link. Try again manually or check earlier errors.');
     }
   }
 
@@ -503,11 +510,13 @@ class RoboFile extends Tasks {
     // (tend to invoke the same flow as DDEV's `config.local.yaml`).
     $task = $this
       ->taskExecStack()
-      ->stopOnFail()
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- si server -y --existing-config")
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- en server_migrate -y")
+      ->stopOnFail();
+
+    $task
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- si server --no-interaction --existing-config")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- en server_migrate --no-interaction")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- migrate:import --group=server")
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- pm:uninstall server_migrate")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- pm:uninstall migrate")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- uli");
 
     // For these environments, set the `admin` user's password to `1234`.
@@ -518,8 +527,7 @@ class RoboFile extends Tasks {
       $task->exec("terminus remote:drush $pantheon_terminus_environment -- user:password admin 1234");
     }
 
-    $result = $task->run()
-      ->getExitCode();
+    $result = $task->run()->getExitCode();
 
     if ($result !== 0) {
       throw new Exception("The site failed to install on Pantheon's `{$env}` environment.");
@@ -651,7 +659,6 @@ class RoboFile extends Tasks {
     $this->say("Add the SSH key to the GitHub project as a deploy key: https://docs.github.com/en/developers/overview/managing-deploy-keys .");
     $this->say("Convert the project to nested docroot: https://pantheon.io/docs/nested-docroot .");
   }
-
 
   private $indices = [
     "server",
