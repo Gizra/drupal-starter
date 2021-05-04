@@ -38,6 +38,7 @@ function server_style_guide_toolbar() {
       '#title' => t('Style Guide'),
       '#url' => Url::fromRoute('server_style_guide.style_guide'),
       '#attributes' => [
+        'class' => ['toolbar-icon', 'toolbar-icon-style-guide'],
         'id' => 'toolbar-tab-style-guide',
       ],
     ],

@@ -4,3 +4,6 @@
 [dir="rtl"] .toolbar .style-guide-toolbar-tab.toolbar-tab {
   float: left;
 }
+.toolbar-icon-style-guide::before {
+  background-image: url(../assets/style_guide.svg);
+}
