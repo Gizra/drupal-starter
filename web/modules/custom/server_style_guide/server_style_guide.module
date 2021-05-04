@@ -5,6 +5,8 @@
  * Functionality for the Style guide module.
  */
 
+use Drupal\Core\Url;
+
 /**
  * Implements hook_theme().
  */
@@ -22,4 +24,32 @@ function server_style_guide_theme() {
   ];
 
   return $info;
+}
+
+/**
+ * Implements hook_toolbar().
+ */
+function server_style_guide_toolbar() {
+  $items = [];
+  $items['style_guide'] = [
+    '#type' => 'toolbar_item',
+    'tab' => [
+      '#type' => 'link',
+      '#title' => t('Style Guide'),
+      '#url' => Url::fromRoute('server_style_guide.style_guide'),
+      '#attributes' => [
+        'id' => 'toolbar-tab-style-guide',
+      ],
+    ],
+    '#wrapper_attributes' => [
+      'class' => ['style-guide-toolbar-tab'],
+    ],
+    '#attached' => [
+      'library' => [
+        'server_style_guide/toolbar',
+      ],
+    ],
+  ];
+
+  return $items;
 }

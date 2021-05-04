@@ -1,0 +1,4 @@
+toolbar:
+  css:
+    component:
+      css/server_style_guide.toolbar.css: {}
