@@ -32,6 +32,18 @@ function server_style_guide_theme() {
 function server_style_guide_toolbar() {
   $items = [];
   $items['style_guide'] = [
+    '#cache' => [
+      'contexts' => [
+        'user.permissions',
+      ],
+    ],
+  ];
+
+  if (!\Drupal::currentUser()->hasPermission('access content')) {
+    return $items;
+  }
+
+  $items['style_guide'] += [
     '#type' => 'toolbar_item',
     'tab' => [
       '#type' => 'link',
