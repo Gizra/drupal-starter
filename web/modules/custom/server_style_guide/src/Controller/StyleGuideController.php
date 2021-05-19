@@ -8,7 +8,7 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Render\Renderer;
 use Drupal\Core\Url;
 use Drupal\Core\Utility\LinkGenerator;
-use Drupal\pluggable_entity_view_builder\ComponentWrapTrait;
+use Drupal\pluggable_entity_view_builder\ElementWrapTrait;
 use Drupal\server_general\ButtonBuilderTrait;
 use Drupal\server_general\TagBuilderTrait;
 use Drupal\taxonomy\Entity\Term;
@@ -20,7 +20,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class StyleGuideController extends ControllerBase {
 
   use ButtonBuilderTrait;
-  use ComponentWrapTrait;
+  use ElementWrapTrait;
   use TagBuilderTrait;
 
   /**

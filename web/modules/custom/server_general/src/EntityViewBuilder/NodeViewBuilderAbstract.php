@@ -4,7 +4,7 @@ namespace Drupal\server_general\EntityViewBuilder;
 
 use Drupal\Core\Url;
 use Drupal\node\NodeInterface;
-use Drupal\pluggable_entity_view_builder\ComponentWrapTrait;
+use Drupal\pluggable_entity_view_builder\ElementWrapTrait;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
 use Drupal\server_general\ProcessedTextBuilderTrait;
 use Drupal\server_general\TagBuilderTrait;
@@ -14,7 +14,7 @@ use Drupal\server_general\TagBuilderTrait;
  */
 abstract class NodeViewBuilderAbstract extends EntityViewBuilderPluginAbstract {
 
-  use ComponentWrapTrait;
+  use ElementWrapTrait;
   use ProcessedTextBuilderTrait;
   use TagBuilderTrait;
 
@@ -82,7 +82,7 @@ abstract class NodeViewBuilderAbstract extends EntityViewBuilderPluginAbstract {
       '#background_image' => $image,
     ];
 
-    return $this->wrapComponentWithContainer($element, 'hero-header-wrapper', 'fluid-container-full');
+    return $this->wrapElementWithContainer($element, 'hero-header-wrapper fluid-container-full');
   }
 
   /**
@@ -107,7 +107,7 @@ abstract class NodeViewBuilderAbstract extends EntityViewBuilderPluginAbstract {
       '#tags' => $tags,
     ];
 
-    return $this->wrapComponentWithContainer($element, 'content-tags-wrapper', 'fluid-container-narrow');
+    return $this->wrapElementWithContainer($element, 'content-tags-wrapper fluid-container-narrow');
   }
 
   /**

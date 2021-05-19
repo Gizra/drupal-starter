@@ -24,7 +24,7 @@ trait ProcessedTextBuilderTrait {
    */
   protected function buildBody(FieldableEntityInterface $entity, $field = 'body') {
     $element = $this->buildProcessedText($entity, $field);
-    return $this->wrapComponentWithContainer($element, 'content-body-wrapper', 'fluid-container-narrow');
+    return $this->wrapElementWithContainer($element, 'content-body-wrapper fluid-container-narrow');
   }
 
   /**
