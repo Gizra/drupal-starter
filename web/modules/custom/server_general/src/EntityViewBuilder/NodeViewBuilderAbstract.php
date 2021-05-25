@@ -52,7 +52,7 @@ abstract class NodeViewBuilderAbstract extends EntityViewBuilderPluginAbstract {
    * @return array
    *   A renderable array.
    */
-  protected function getElementBase(NodeInterface $entity) {
+  protected function getElementBase(NodeInterface $entity): array {
     $element = [];
     // User may create a preview, so it won't have an ID or URL yet.
     $element['#nid'] = !$entity->isNew() ? $entity->id() : 0;
@@ -73,13 +73,13 @@ abstract class NodeViewBuilderAbstract extends EntityViewBuilderPluginAbstract {
    * @return array
    *   A render array.
    */
-  protected function buildHeroHeader(NodeInterface $entity, $image_field_name = 'field_image') {
-    [$image] = $this->buildImage($entity, $image_field_name);
+  protected function buildHeroHeader(NodeInterface $entity, $image_field_name = 'field_image'): array {
+    $image_info = $this->getImageAndAlt($entity, $image_field_name);
 
     $element = [
       '#theme' => 'server_theme_content__hero_header',
       '#title' => $entity->label(),
-      '#background_image' => $image,
+      '#background_image' => $image_info['url'] ?? '',
     ];
 
     return $this->wrapElementWithContainer($element, 'hero-header-wrapper fluid-container-full');
@@ -96,7 +96,7 @@ abstract class NodeViewBuilderAbstract extends EntityViewBuilderPluginAbstract {
    * @return array
    *   A render array.
    */
-  protected function buildContentTags(NodeInterface $entity, $field_name = 'field_tags') {
+  protected function buildContentTags(NodeInterface $entity, $field_name = 'field_tags'): array {
     $tags = $this->buildTags($entity, $field_name);
     if (!$tags) {
       return [];
@@ -121,7 +121,7 @@ abstract class NodeViewBuilderAbstract extends EntityViewBuilderPluginAbstract {
    * @return array
    *   A render array.
    */
-  protected function buildTags(NodeInterface $entity, $field_name = 'field_tags') {
+  protected function buildTags(NodeInterface $entity, $field_name = 'field_tags'): array {
     if ($entity->{$field_name}->isEmpty()) {
       // No terms referenced.
       return [];
@@ -133,33 +133,6 @@ abstract class NodeViewBuilderAbstract extends EntityViewBuilderPluginAbstract {
     }
 
     return $tags;
-  }
-
-  /**
-   * Build an image referenced in the given entity's given field name.
-   *
-   * @param \Drupal\node\NodeInterface $entity
-   *   The entity.
-   * @param string $field_name
-   *   Optional; The field name. Defaults to "field_image".
-   *
-   * @return array
-   *   An array containing url and alt.
-   */
-  protected function buildImage(NodeInterface $entity, $field_name = 'field_image') {
-    if (empty($entity->{$field_name}) || $entity->get($field_name)->isEmpty()) {
-      // No field, or it's empty.
-      return [NULL, NULL];
-    }
-
-    /** @var \Drupal\image\ImageStyleInterface $image_style */
-    $image_style = $this->entityTypeManager
-      ->getStorage('image_style')
-      ->load(self::IMAGE_STYLE_HERO);
-    $url = $image_style->buildUrl($entity->get($field_name)[0]->entity->getFileUri());
-
-    $alt = $entity->get($field_name)[0]->alt ?: '';
-    return [$url, $alt];
   }
 
 }
