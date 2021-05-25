@@ -3,7 +3,7 @@
 namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\Core\Entity\FieldableEntityInterface;
-use Drupal\pluggable_entity_view_builder\ComponentWrapTrait;
+use Drupal\pluggable_entity_view_builder\ElementWrapTrait;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
 use Drupal\server_general\ProcessedTextBuilderTrait;
 
@@ -18,7 +18,7 @@ use Drupal\server_general\ProcessedTextBuilderTrait;
  */
 class BlockBasic extends EntityViewBuilderPluginAbstract {
 
-  use ComponentWrapTrait;
+  use ElementWrapTrait;
   use ProcessedTextBuilderTrait;
 
   /**
@@ -48,7 +48,7 @@ class BlockBasic extends EntityViewBuilderPluginAbstract {
       '#value' => $entity->label(),
     ];
 
-    return $this->wrapComponentWithContainer($element, 'title-wrapper', 'fluid-container-narrow');
+    return $this->wrapElementWithContainer($element, 'title-wrapper fluid-container-narrow');
   }
 
   /**
@@ -62,7 +62,7 @@ class BlockBasic extends EntityViewBuilderPluginAbstract {
       '#markup' => $this->t('This is coming from \Drupal\server_general\Plugin\EntityViewBuilder\BlockBasic'),
     ];
 
-    return $this->wrapComponentWithContainer($element, 'extra-wrapper', 'fluid-container-narrow');
+    return $this->wrapElementWithContainer($element, 'extra-wrapper fluid-container-narrow');
   }
 
 }

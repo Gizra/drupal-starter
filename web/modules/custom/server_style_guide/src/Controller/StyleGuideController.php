@@ -8,7 +8,7 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Render\Renderer;
 use Drupal\Core\Url;
 use Drupal\Core\Utility\LinkGenerator;
-use Drupal\pluggable_entity_view_builder\ComponentWrapTrait;
+use Drupal\pluggable_entity_view_builder\ElementWrapTrait;
 use Drupal\server_general\ButtonBuilderTrait;
 use Drupal\server_general\TagBuilderTrait;
 use Drupal\taxonomy\Entity\Term;
@@ -20,7 +20,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class StyleGuideController extends ControllerBase {
 
   use ButtonBuilderTrait;
-  use ComponentWrapTrait;
+  use ElementWrapTrait;
   use TagBuilderTrait;
 
   /**
@@ -103,7 +103,7 @@ class StyleGuideController extends ControllerBase {
 
     // Add container around each element.
     foreach ($element as $value) {
-      $build[] = $this->wrapComponentWithContainer($value, 'styleguide-full-width-elements', 'fluid-container-full');
+      $build[] = $this->wrapElementWithContainer($value, 'styleguide-full-width-elements fluid-container-full');
     }
 
     return $build;
@@ -317,7 +317,7 @@ class StyleGuideController extends ControllerBase {
 
     // Add container around each element.
     foreach ($element as $value) {
-      $build[] = $this->wrapComponentWithContainer($value, 'styleguide-wide-width-elements', 'fluid-container-wide');
+      $build[] = $this->wrapElementWithContainer($value, 'styleguide-wide-width-elements fluid-container-wide');
     }
 
     return $build;
@@ -351,7 +351,7 @@ class StyleGuideController extends ControllerBase {
 
     // Add container around each element.
     foreach ($element as $value) {
-      $build[] = $this->wrapComponentWithContainer($value, 'styleguide-narrow-width-elements', 'fluid-container-narrow');
+      $build[] = $this->wrapElementWithContainer($value, 'styleguide-narrow-width-elements fluid-container-narrow');
     }
 
     return $build;
