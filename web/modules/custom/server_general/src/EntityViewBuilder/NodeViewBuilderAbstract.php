@@ -74,7 +74,7 @@ abstract class NodeViewBuilderAbstract extends EntityViewBuilderPluginAbstract {
    *   A render array.
    */
   protected function buildHeroHeader(NodeInterface $entity, $image_field_name = 'field_image'): array {
-    $image_info = $this->getImageAndAlt($entity, $image_field_name);
+    $image_info = $this->getImageAndAlt($entity, $image_field_name, 'hero');
 
     $element = [
       '#theme' => 'server_theme_content__hero_header',
