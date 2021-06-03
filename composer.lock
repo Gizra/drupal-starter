@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b248a0ff1cb556bbe17fdd7b3cbd84f7",
+    "content-hash": "9a5b0e6fb894b56dc2b6e81dc495b4cb",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2020,10 +2020,6 @@
                     "name": "Lucas Hedding",
                     "homepage": "https://www.drupal.org/u/heddn",
                     "role": "Maintainer"
-                },
-                {
-                    "name": "heddn",
-                    "homepage": "https://www.drupal.org/user/1463982"
                 }
             ],
             "description": "CSV source migration.",
@@ -2103,26 +2099,30 @@
         },
         {
             "name": "drupal/pluggable_entity_view_builder",
-            "version": "1.1.2",
+            "version": "1.1.4",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/pluggable_entity_view_builder.git",
-                "reference": "1.1.2"
+                "reference": "1.1.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/pluggable_entity_view_builder-1.1.2.zip",
-                "reference": "1.1.2",
-                "shasum": "17901611c76628504b6b23e026ab87cc501e12c3"
+                "url": "https://ftp.drupal.org/files/projects/pluggable_entity_view_builder-1.1.4.zip",
+                "reference": "1.1.4",
+                "shasum": "fa12c59d4e71c1a21f8a7700067c2696d7542df5"
             },
             "require": {
                 "drupal/core": "^8 || ^9"
             },
+            "require-dev": {
+                "drupal/paragraphs": "*",
+                "drupal/pluggable_entity_view_builder_example-pluggable_entity_view_builder_example": "*"
+            },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "1.1.2",
-                    "datestamp": "1611054789",
+                    "version": "1.1.4",
+                    "datestamp": "1621941492",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -2139,8 +2139,8 @@
                     "homepage": "https://www.drupal.org/user/57511"
                 },
                 {
-                    "name": "drupalspoons",
-                    "homepage": "https://www.drupal.org/user/3647684"
+                    "name": "Baysaa",
+                    "homepage": "https://www.drupal.org/user/1358394"
                 }
             ],
             "description": "Define entity view builders as plugins, defined per bundle.",
@@ -4468,7 +4468,8 @@
                 "nyholm/dsn": "^2.0.0",
                 "php": "^7.2 || ^8.0",
                 "psr/log": "^1.0",
-                "symfony/deprecation-contracts": "^2.2"
+                "symfony/deprecation-contracts": "^2.2",
+                "symfony/polyfill-php73": "^1.19"
             },
             "require-dev": {
                 "aws/aws-sdk-php": "^3.155",
@@ -4512,9 +4513,9 @@
             ],
             "support": {
                 "issues": "https://github.com/ruflin/Elastica/issues",
-                "source": "https://github.com/ruflin/Elastica/tree/7.1.1"
+                "source": "https://github.com/ruflin/Elastica/tree/master"
             },
-            "time": "2021-03-24T14:35:48+00:00"
+            "time": "2021-06-02T16:00:20+00:00"
         },
         {
             "name": "stack/builder",
