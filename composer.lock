@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9a5b0e6fb894b56dc2b6e81dc495b4cb",
+    "content-hash": "06803f18dfaf0fe33ff64567b8adfcaa",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -4517,7 +4517,7 @@
                 "issues": "https://github.com/ruflin/Elastica/issues",
                 "source": "https://github.com/ruflin/Elastica/tree/master"
             },
-            "time": "2021-06-02T16:00:20+00:00"
+            "time": "2021-06-07T15:17:59+00:00"
         },
         {
             "name": "stack/builder",
