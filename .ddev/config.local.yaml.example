@@ -7,7 +7,7 @@ hooks:
     - exec: drush site-install server -y --existing-config
 
     # Make sure Elasticsearch can accept connections.
-    - exec: while ! echo exit | nc localhost 9200; do sleep 1; done
+    - exec: while ! echo exit | nc elasticsearch 9200; do sleep 1; done
 
     # Setup Elasticsearch
     - exec: "./vendor/bin/robo elasticsearch:provision http://elasticsearch:9200 '' ''"
