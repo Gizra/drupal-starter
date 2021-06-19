@@ -52,8 +52,7 @@ class RoboFile extends Tasks {
     // Make sure we have all the node packages.
     $this->_exec("cd $theme_dir && npm install");
 
-    $minify = $optimize ? '--minify' : '';
-    $result = $this->_exec("cd $theme_dir && npx postcss ./src/scss/style.pcss --output=./dist/css/style.css $minify");
+    $result = $this->_exec("cd $theme_dir && npx postcss ./src/scss/style.pcss --output=./dist/css/style.css");
 
     if ($result->getExitCode() !== 0) {
       $this->taskCleanDir(['dist/css']);
