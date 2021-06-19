@@ -4,8 +4,6 @@
   "devDependencies": {
     "@tailwindcss/forms": "^0.2.1",
     "autoprefixer": "^10.0.2",
-    "postcss": "^8.2.10",
-    "postcss-cli": "^8.3.0",
     "postcss-import": "^13.0.0",
     "postcss-preset-env": "^6.7.0",
     "postcss-scss": "^3.0.4",
