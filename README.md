@@ -42,16 +42,17 @@ then execute the following, and re-try installation steps.
 
 ## Theme development
 
-By default, `ddev restart` compiles the theme using Robo.
+By default, `ddev restart` compiles the theme using Robo (`ddev robo theme:compile-debug`)
 
-On the local development environment, which is using TailWind, execute:
+On the local development environment, which is using TailWind's [JIT](https://tailwindcss.com/docs/just-in-time-mode) (Just-In-Time), execute:
+
 ```bash
-ddev robo theme:compile-debug
+ddev tw
 ```
 
-This will compile TailWind with all the classes, copy any fonts, images, etc.
+This will compile TailWind and keep watching and changes.
 
-When running `ddev robo theme:complie` it will purge any TailWind's CSS class
+When running `ddev robo theme:compile` it will purge any TailWind's CSS class
 which is not found in the code, twig, or under `tailwind.config.js` `whitelist` property.
 
 The directory structure:
