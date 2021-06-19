@@ -53,7 +53,7 @@ class RoboFile extends Tasks {
     $this->_exec("cd $theme_dir && npm install");
 
     $minify = $optimize ? '--minify' : '';
-    $result = $this->_exec("cd $theme_dir && npx tailwindcss -i ./src/scss/style.pcss -o ./dist/css/style.css $minify");
+    $result = $this->_exec("cd $theme_dir && TAILWIND_MODE=watch npx postcss ./src/scss/style.pcss --output=./dist/css/style.css --watch $minify");
 
     if ($result->getExitCode() !== 0) {
       $this->taskCleanDir(['dist/css']);
