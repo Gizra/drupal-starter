@@ -1,6 +1,7 @@
 const plugin = require('tailwindcss/plugin');
 
 module.exports = {
+  mode: 'jit',
   theme: {
     extend: {
       gridTemplateColumns: {
@@ -16,9 +17,6 @@ module.exports = {
       '2': '2',
     }
   },
-  variants: {
-    display: ['responsive', 'hover', 'focus', 'active', 'group-hover', 'group-focus'],
-  },
   purge: {
     content: [
       // Look in the twig files.
@@ -30,7 +28,8 @@ module.exports = {
     ],
     options: {
       safelist: [
-        // Add here custom class names.
+        // Add here custom class names. Since we're using TW's jit (Just-In-
+        // Time), `safelist` must be full class names, and not regex.
       ],
     },
   },
