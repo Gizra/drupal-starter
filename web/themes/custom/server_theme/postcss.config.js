@@ -3,7 +3,7 @@ module.exports = {
   plugins: [
     require('postcss-import'),
     require('postcss-strip-inline-comments'),
-    require('tailwindcss/nesting'),
+    require('postcss-nested'),
     require('tailwindcss'),
     require('postcss-preset-env')({ stage: 1 }),
   ],

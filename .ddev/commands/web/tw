@@ -4,4 +4,4 @@
 ## Usage: tw
 ## Example: "ddev tw"
 
-cd ./web/themes/custom/server_theme && npx tailwindcss -i ./src/scss/style.pcss -o ./dist/css/style.css --watch
+cd ./web/themes/custom/server_theme && npx postcss ./src/scss/style.pcss --output=./dist/css/style.css
