@@ -52,10 +52,7 @@ class RoboFile extends Tasks {
     // Make sure we have all the node packages.
     $this->_exec("cd $theme_dir && npm install");
 
-    // If we are asked to optimize, we make sure to purge tailwind's css, by
-    // @link https://tailwindcss.com/docs/optimizing-for-production#removing-unused-css
-    $purge_prefix = $optimize ? 'NODE_ENV=production' : '';
-    $result = $this->_exec("cd $theme_dir && $purge_prefix npx postcss ./src/scss/style.pcss --output=./dist/css/style.css");
+    $result = $this->_exec("cd $theme_dir && npx postcss ./src/scss/style.pcss --output=./dist/css/style.css");
 
     if ($result->getExitCode() !== 0) {
       $this->taskCleanDir(['dist/css']);
