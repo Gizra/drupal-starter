@@ -50,7 +50,7 @@ On the local development environment, which is using TailWind's [JIT](https://ta
 ddev tw
 ```
 
-This will compile TailWind and keep watching and changes.
+This will compile Tailwind and keep watching for any changes.
 
 When running `ddev robo theme:compile` it will purge any TailWind's CSS class
 which is not found in the code, twig, or under `tailwind.config.js` `whitelist` property.
