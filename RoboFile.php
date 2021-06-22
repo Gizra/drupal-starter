@@ -276,38 +276,6 @@ class RoboFile extends Tasks {
       throw new Exception('Clone the Pantheon artifact repository first into the .pantheon directory');
     }
 
-    // We deal with versions as commit hashes.
-    // The high-level goal is to prevent the auto-deploy process
-    // to overwrite the code with an older version if the Travis queue
-    // swaps the order of two jobs, so they are not executed in
-    // chronological order.
-    $currently_deployed_version = NULL;
-    if (file_exists($deployment_version_path)) {
-      $currently_deployed_version = trim(file_get_contents($deployment_version_path));
-    }
-
-    $result = $this
-        ->taskExec('git rev-parse HEAD')
-        ->printOutput(FALSE)
-        ->run();
-
-    $current_version = trim($result->getMessage());
-
-    if (!empty($currently_deployed_version)) {
-      $result = $this
-        ->taskExec('git cat-file -t ' . $currently_deployed_version)
-        ->printOutput(FALSE)
-        ->run();
-
-      if ($result->getMessage() !== 'commit') {
-        $this->yell(strtr('This current commit @current-commit cannot be deployed, since new commits have been created since, so we don\'t want to deploy an older version.', [
-          '@current-commit' => $current_version,
-        ]));
-        $this->yell('Aborting the process to avoid going back in time.');
-        return;
-      }
-    }
-
     $result = $this
       ->taskExec('git status -s')
       ->printOutput(FALSE)
@@ -339,6 +307,38 @@ class RoboFile extends Tasks {
     }
 
     $this->_exec("cd $pantheon_directory && git checkout $branch_name");
+
+    // We deal with versions as commit hashes.
+    // The high-level goal is to prevent the auto-deploy process
+    // to overwrite the code with an older version if the Travis queue
+    // swaps the order of two jobs, so they are not executed in
+    // chronological order.
+    $currently_deployed_version = NULL;
+    if (file_exists($deployment_version_path)) {
+      $currently_deployed_version = trim(file_get_contents($deployment_version_path));
+    }
+
+    $result = $this
+      ->taskExec('git rev-parse HEAD')
+      ->printOutput(FALSE)
+      ->run();
+
+    $current_version = trim($result->getMessage());
+
+    if (!empty($currently_deployed_version)) {
+      $result = $this
+        ->taskExec('git cat-file -t ' . $currently_deployed_version)
+        ->printOutput(FALSE)
+        ->run();
+
+      if ($result->getMessage() !== 'commit') {
+        $this->yell(strtr('This current commit @current-commit cannot be deployed, since new commits have been created since, so we don\'t want to deploy an older version.', [
+          '@current-commit' => $current_version,
+        ]));
+        $this->yell('Aborting the process to avoid going back in time.');
+        return;
+      }
+    }
 
     // Compile theme.
     $this->themeCompile();
