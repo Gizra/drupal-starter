@@ -355,6 +355,8 @@ class RoboFile extends Tasks {
       'travis-key',
       'server.es.secrets.json',
       '.bootstrap-fast.php',
+      'ci-scripts',
+      'phpstan.neon',
     ];
 
     $rsync_exclude_string = '--exclude=' . implode(' --exclude=', $rsync_exclude);
