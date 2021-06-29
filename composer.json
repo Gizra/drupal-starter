@@ -23,6 +23,7 @@
         "ext-mbstring": "*",
         "composer/installers": "^1.2",
         "cweagans/composer-patches": "^1.6",
+        "drupal/advagg": "^4.1",
         "drupal/core-composer-scaffold": "^9.0.0",
         "drupal/core-project-message": "^9.0.0",
         "drupal/core-recommended": "^9.0.0",
