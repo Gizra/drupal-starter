@@ -945,7 +945,7 @@ END;
     }
 
     if (!isset($github_org) || !isset($github_project)) {
-      $this->say('No origin remote is configured, not trying to fetch details from GitHub API then');
+      $this->say('No GitHub project or GitHub organization found, so not trying to fetch details from GitHub API.');
     }
 
     $log = $this->taskExec("git log --merges --pretty=format:'%s¬¬|¬¬%b' $tag..")->printOutput(FALSE)->run()->getMessage();
