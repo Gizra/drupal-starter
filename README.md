@@ -153,7 +153,14 @@ To Deploy to a Pantheon environment (e.g. TEST or LIVE) you can use
 ### Release notes
 
 Deployments should imply a release, you can generate a release notes based on
-tags. You can generate a changelog using
+tags.
+In order to provide verbose release notes, it is required to [create a personal
+access token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token).
+Then specify two [new environment variables for DDEV web container](https://ddev.readthedocs.io/en/stable/users/extend/customization-extendibility/#providing-custom-environment-variables-to-a-container):
+ - `GITHUB_USERNAME`
+ - `GITHUB_ACCESS_TOKEN`
+
+Then you can generate a changelog using
 
     ddev robo generate:release-notes
 
