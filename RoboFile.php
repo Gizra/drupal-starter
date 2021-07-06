@@ -18,6 +18,11 @@ class RoboFile extends Tasks {
    */
   const DEPLOYMENT_WAIT_TIME = 500000;
 
+  /**
+   * ElasticSearch index prefix.
+   *
+   * @var string
+   */
   private static $indexPrefix = 'elasticsearch_index_pantheon_';
 
   /**
@@ -122,6 +127,7 @@ class RoboFile extends Tasks {
    * Compress SVG files in the "dist" directories.
    *
    * This function is being called as part of `theme:compile`.
+   *
    * @see compileTheme_()
    */
   public function themeSvgCompress() {
@@ -154,7 +160,6 @@ class RoboFile extends Tasks {
       return new Robo\ResultData($error_code, '`svgo` failed to run.');
     }
   }
-
 
   /**
    * Directories that should be watched for the theme.
@@ -421,8 +426,7 @@ class RoboFile extends Tasks {
     do {
       $code_sync_completed = $this->_exec("terminus workflow:list " . self::PANTHEON_NAME . " --format=csv | grep " . $pantheon_env . " | grep Sync | awk -F',' '{print $5}' | grep running")->getExitCode();
       usleep(self::DEPLOYMENT_WAIT_TIME);
-    }
-    while (!$code_sync_completed);
+    } while (!$code_sync_completed);
     $this->deployPantheonSync($pantheon_env, FALSE);
   }
 
@@ -926,11 +930,41 @@ END;
       $tag = $latest_tag;
     }
 
+    // Detect organization / repository name from git remote.
+    $remote = $this->taskExec("git remote get-url origin")
+      ->printOutput(FALSE)
+      ->run()
+      ->getMessage();
+
+    if (!empty($remote)) {
+      $origin_parts = preg_split('/[:\/]/', str_replace('.git', '', $remote));
+      if (!empty($origin_parts[1]) && !empty($origin_parts[2])) {
+        $github_org = $origin_parts[1];
+        $github_project = $origin_parts[2];
+      }
+    }
+
+    if (!isset($github_org) || !isset($github_project)) {
+      $this->say('No GitHub project or GitHub organization found, so not trying to fetch details from GitHub API.');
+    }
+
+    // This is the heart of the release notes, the git history, we get all the
+    // merge commits since the specified last version and later on we parse
+    // the output. Optionally we enrich it with metadata from GitHub REST API.
     $log = $this->taskExec("git log --merges --pretty=format:'%s¬¬|¬¬%b' $tag..")->printOutput(FALSE)->run()->getMessage();
     $lines = explode("\n", $log);
 
     $this->say('Copy release notes below');
-    echo "Changelog:\n";
+
+    $this->printReleaseNotesTitle('Changelog');
+
+    $pull_requests_per_issue = [];
+    $no_issue_lines = [];
+    $contributors = [];
+    $issue_titles = [];
+    $additions = 0;
+    $deletions = 0;
+    $changed_files = 0;
 
     foreach ($lines as $line) {
       $log_messages = explode("¬¬|¬¬", $line);
@@ -952,6 +986,16 @@ END;
         // Whitespace-only log message, not meaningful for changelog.
         continue;
       }
+      $pr_number = $pr_matches[1][0];
+      if (isset($github_org)) {
+        $pr_details = $this->githubApiGet("repos/$github_org/$github_project/pulls/$pr_number");
+        if (!empty($pr_details->user)) {
+          $contributors[] = '@' . $pr_details->user->login;
+          $additions += $pr_details->additions;
+          $deletions += $pr_details->deletions;
+          $changed_files += $pr_details->changed_files;
+        }
+      }
 
       // The issue number is a required part of the branch name,
       // So usually we can grab it from the log too, but that's optional
@@ -960,12 +1004,115 @@ END;
       preg_match_all('!from [a-zA-Z-_0-9]+/([0-9]+)!', $line, $issue_matches);
 
       if (isset($issue_matches[1][0])) {
-        print "- Issue #{$issue_matches[1][0]}: {$log_messages[1]} (#{$pr_matches[1][0]})\n";
+        $issue_number = $issue_matches[1][0];
+        if (!isset($issue_titles[$issue_number]) && isset($github_org)) {
+          $issue_details = $this->githubApiGet("repos/$github_org/$github_project/issues/$issue_number");
+          if (!empty($issue_details->title)) {
+            $issue_titles[$issue_number] = $issue_details->title;
+            $contributors[] = '@' . $issue_details->user->login;
+          }
+        }
+
+        if (isset($issue_titles[$issue_number])) {
+          $issue_line = "- {$issue_titles[$issue_number]} (#{$issue_number})";
+        }
+        else {
+          $issue_line = "- Issue #{$issue_number}";
+        }
+        if (!isset($pull_requests_per_issue[$issue_line])) {
+          $pull_requests_per_issue[$issue_line] = [];
+        }
+        $pull_requests_per_issue[$issue_line][] = "  - {$log_messages[1]} (#{$pr_matches[1][0]})";
       }
       else {
-        print "- {$log_messages[1]} (#{$pr_matches[1][0]})\n";
+        $no_issue_lines[] = "- {$log_messages[1]} (#$pr_number)";
       }
     }
+
+    foreach ($pull_requests_per_issue as $issue_line => $pr_lines) {
+      print $issue_line . "\n";
+      foreach ($pr_lines as $pr_line) {
+        print $pr_line . "\n";
+      }
+    }
+
+    $this->printReleaseNotesSection('', $no_issue_lines);
+
+    if (isset($github_org)) {
+      $contributors = array_unique($contributors);
+      sort($contributors);
+      $this->printReleaseNotesSection('Contributors', $contributors);
+
+      $this->printReleaseNotesSection('Code statistics', [
+        "Lines added: $additions",
+        "Lines deleted: $deletions",
+        "Files changed: $changed_files",
+      ]);
+    }
+  }
+
+  /**
+   * Print a section for the release notes.
+   *
+   * @param string $title
+   *   Section title.
+   * @param array $lines
+   *   Bulletpoints.
+   */
+  protected function printReleaseNotesSection(string $title, array $lines) {
+    if (!empty($title)) {
+      $this->printReleaseNotesTitle($title);
+    }
+    foreach ($lines as $line) {
+      if (substr($line, 0, 1) == '-') {
+        print "$line\n";
+      }
+      else {
+        print "- $line\n";
+      }
+    }
+  }
+
+  /**
+   * Print a title for the release notes.
+   *
+   * @param string $title
+   *   Section title.
+   */
+  protected function printReleaseNotesTitle($title) {
+    echo "\n\n## $title\n";
+  }
+
+  /**
+   * Performs a GET request towards GitHub API using personal access token.
+   *
+   * @param string $path
+   *   Resource/path to GET.
+   *
+   * @return mixed|null
+   *   Decoded response or NULL.
+   *
+   * @throws \Exception
+   */
+  protected function githubApiGet($path) {
+    $token = getenv('GITHUB_ACCESS_TOKEN');
+    $username = getenv('GITHUB_USERNAME');
+    if (empty($token)) {
+      throw new Exception('Specify the personal access token in GITHUB_ACCESS_TOKEN environment variable before invoking the release notes generator in order to be able to fetch details of issues and pull requests');
+    }
+    if (empty($username)) {
+      throw new Exception('Specify the GitHub username in GITHUB_USERNAME environment variable before invoking the release notes generator in order to be able to fetch details of issues and pull requests');
+    }
+    // We might not have a sane Drupal instance, let's not rely on Drupal API
+    // to generate release notes.
+    $ch = curl_init('https://api.github.com/' . $path);
+    curl_setopt($ch, CURLOPT_USERAGENT, 'Drupal Starter Release Notes Generator');
+    curl_setopt($ch, CURLOPT_USERPWD, $username . ":" . $token);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    $result = curl_exec($ch);
+    curl_close($ch);
+    return empty($result) ? NULL : json_decode($result);
   }
 
 }
