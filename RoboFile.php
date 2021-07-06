@@ -18,6 +18,11 @@ class RoboFile extends Tasks {
    */
   const DEPLOYMENT_WAIT_TIME = 500000;
 
+  /**
+   * ElasticSearch index prefix.
+   *
+   * @var string
+   */
   private static $indexPrefix = 'elasticsearch_index_pantheon_';
 
   /**
@@ -122,6 +127,7 @@ class RoboFile extends Tasks {
    * Compress SVG files in the "dist" directories.
    *
    * This function is being called as part of `theme:compile`.
+   *
    * @see compileTheme_()
    */
   public function themeSvgCompress() {
@@ -154,7 +160,6 @@ class RoboFile extends Tasks {
       return new Robo\ResultData($error_code, '`svgo` failed to run.');
     }
   }
-
 
   /**
    * Directories that should be watched for the theme.
@@ -421,8 +426,7 @@ class RoboFile extends Tasks {
     do {
       $code_sync_completed = $this->_exec("terminus workflow:list " . self::PANTHEON_NAME . " --format=csv | grep " . $pantheon_env . " | grep Sync | awk -F',' '{print $5}' | grep running")->getExitCode();
       usleep(self::DEPLOYMENT_WAIT_TIME);
-    }
-    while (!$code_sync_completed);
+    } while (!$code_sync_completed);
     $this->deployPantheonSync($pantheon_env, FALSE);
   }
 
@@ -932,6 +936,9 @@ END;
     $this->say('Copy release notes below');
     echo "Changelog:\n";
 
+    $pull_requests_per_issue = [];
+    $issue_titles = [];
+
     foreach ($lines as $line) {
       $log_messages = explode("¬¬|¬¬", $line);
       $pr_matches = [];
@@ -960,12 +967,72 @@ END;
       preg_match_all('!from [a-zA-Z-_0-9]+/([0-9]+)!', $line, $issue_matches);
 
       if (isset($issue_matches[1][0])) {
-        print "- Issue #{$issue_matches[1][0]}: {$log_messages[1]} (#{$pr_matches[1][0]})\n";
+        $issue_number = $issue_matches[1][0];
+        if (!isset($issue_titles[$issue_number])) {
+          $issue_details = $this->githubApiGet('repos/Gizra/drupal-starter/issues/' . $issue_number);
+          if (!empty($issue_details->title)) {
+            $issue_titles[$issue_number] = $issue_details->title;
+          }
+        }
+
+        if (isset($issue_titles[$issue_number])) {
+          $issue_line = "- {$issue_titles[$issue_number]} (#{$issue_number})";
+        }
+        else {
+          $issue_line = "- Issue #{$issue_number}";
+        }
+        if (!isset($pull_requests_per_issue[$issue_line])) {
+          $pull_requests_per_issue[$issue_line] = [];
+        }
+        $pull_requests_per_issue[$issue_line][] = "  - {$log_messages[1]} (#{$pr_matches[1][0]})";
       }
       else {
         print "- {$log_messages[1]} (#{$pr_matches[1][0]})\n";
       }
     }
+    if (!empty($pull_requests_per_issue)) {
+      foreach ($pull_requests_per_issue as $issue_line => $pr_lines) {
+        print $issue_line . "\n";
+        foreach ($pr_lines as $pr_line) {
+          print $pr_line . "\n";
+        }
+      }
+    }
+  }
+
+  /**
+   * Performs a GET request towards GitHub API using personal access token.
+   *
+   * @param string $path
+   *   Resource/path to GET.
+   *
+   * @return mixed|null
+   *   Decoded response or NULL.
+   *
+   * @throws \Exception
+   */
+  protected function githubApiGet($path) {
+    $token = getenv('GITHUB_ACCESS_TOKEN');
+    $username = getenv('GITHUB_USERNAME');
+    if (empty($token)) {
+      throw new Exception('Specify the personal access token in GITHUB_ACCESS_TOKEN environment variable before invoking the release notes generator in order to be able to fetch details of issues and pull requests');
+    }
+    if (empty($username)) {
+      throw new Exception('Specify the GitHub username in GITHUB_USERNAME environment variable before invoking the release notes generator in order to be able to fetch details of issues and pull requests');
+    }
+    // We might not have a sane Drupal instance, let's not rely on Drupal API
+    // to generate release notes.
+    $ch = curl_init('https://api.github.com/' . $path);
+    curl_setopt($ch, CURLOPT_USERAGENT, 'Drupal Starter Release Notes Generator');
+    curl_setopt($ch, CURLOPT_USERPWD, $username . ":" . $token);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    $result = curl_exec($ch);
+    curl_close($ch);
+    if (empty($result)) {
+      return NULL;
+    }
+    return json_decode($result);
   }
 
 }
