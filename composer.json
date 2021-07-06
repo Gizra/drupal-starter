@@ -35,7 +35,8 @@
         "drupal/redis": "1.x-dev@dev",
         "drupal/search_api": "^1.18",
         "drush/drush": "^10.2",
-        "oomphinc/composer-installers-extender": "^2.0"
+        "oomphinc/composer-installers-extender": "^2.0",
+        "ext-curl": "*"
     },
     "require-dev": {
         "consolidation/robo": "^1.0.0",

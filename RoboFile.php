@@ -948,6 +948,9 @@ END;
       $this->say('No GitHub project or GitHub organization found, so not trying to fetch details from GitHub API.');
     }
 
+    // This is the heart of the release notes, the git history, we get all the
+    // merge commits since the specified last version and later on we parse
+    // the output. Optionally we enrich it with metadata from GitHub REST API.
     $log = $this->taskExec("git log --merges --pretty=format:'%s¬¬|¬¬%b' $tag..")->printOutput(FALSE)->run()->getMessage();
     $lines = explode("\n", $log);
 
@@ -1109,10 +1112,7 @@ END;
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
     $result = curl_exec($ch);
     curl_close($ch);
-    if (empty($result)) {
-      return NULL;
-    }
-    return json_decode($result);
+    return empty($result) ? NULL : json_decode($result);
   }
 
 }
