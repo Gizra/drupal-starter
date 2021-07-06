@@ -930,11 +930,30 @@ END;
       $tag = $latest_tag;
     }
 
+    // Detect organization / repository name from git remote.
+    $remote = $this->taskExec("git remote get-url origin")
+      ->printOutput(FALSE)
+      ->run()
+      ->getMessage();
+
+    if (!empty($remote)) {
+      $origin_parts = preg_split('/[:\/]/', str_replace('.git', '', $remote));
+      if (!empty($origin_parts[1]) && !empty($origin_parts[2])) {
+        $github_org = $origin_parts[1];
+        $github_project = $origin_parts[2];
+      }
+    }
+
+    if (!isset($github_org) || !isset($github_project)) {
+      $this->say('No origin remote is configured, not trying to fetch details from GitHub API then');
+    }
+
     $log = $this->taskExec("git log --merges --pretty=format:'%s¬¬|¬¬%b' $tag..")->printOutput(FALSE)->run()->getMessage();
     $lines = explode("\n", $log);
 
     $this->say('Copy release notes below');
-    print "## Changelog:\n";
+
+    $this->printReleaseNotesTitle('Changelog');
 
     $pull_requests_per_issue = [];
     $no_issue_lines = [];
@@ -965,12 +984,14 @@ END;
         continue;
       }
       $pr_number = $pr_matches[1][0];
-      $pr_details = $this->githubApiGet('repos/Gizra/drupal-starter/pulls/' . $pr_number);
-      if (!empty($pr_details->user)) {
-        $contributors[] = $pr_details->user->login;
-        $additions += $pr_details->additions;
-        $deletions += $pr_details->deletions;
-        $changed_files += $pr_details->changed_files;
+      if (isset($github_org)) {
+        $pr_details = $this->githubApiGet("repos/$github_org/$github_project/pulls/$pr_number");
+        if (!empty($pr_details->user)) {
+          $contributors[] = '@' . $pr_details->user->login;
+          $additions += $pr_details->additions;
+          $deletions += $pr_details->deletions;
+          $changed_files += $pr_details->changed_files;
+        }
       }
 
       // The issue number is a required part of the branch name,
@@ -981,11 +1002,11 @@ END;
 
       if (isset($issue_matches[1][0])) {
         $issue_number = $issue_matches[1][0];
-        if (!isset($issue_titles[$issue_number])) {
-          $issue_details = $this->githubApiGet('repos/Gizra/drupal-starter/issues/' . $issue_number);
+        if (!isset($issue_titles[$issue_number]) && isset($github_org)) {
+          $issue_details = $this->githubApiGet("repos/$github_org/$github_project/issues/$issue_number");
           if (!empty($issue_details->title)) {
             $issue_titles[$issue_number] = $issue_details->title;
-            $contributors[] = $issue_details->user->login;
+            $contributors[] = '@' . $issue_details->user->login;
           }
         }
 
@@ -1012,21 +1033,51 @@ END;
       }
     }
 
-    foreach ($no_issue_lines as $issue_line) {
-      print $issue_line . "\n";
-    }
+    $this->printReleaseNotesSection('', $no_issue_lines);
 
-    echo "\n\n## Contributors:\n";
-    $contributors = array_unique($contributors);
-    sort($contributors);
-    foreach ($contributors as $username) {
-      print " - @$username\n";
-    }
+    if (isset($github_org)) {
+      $contributors = array_unique($contributors);
+      sort($contributors);
+      $this->printReleaseNotesSection('Contributors', $contributors);
 
-    echo "\n\nCode statistics:\n";
-    print "- Lines added: $additions\n";
-    print "- Lines deleted: $deletions\n";
-    print "- Files changed: $changed_files\n";
+      $this->printReleaseNotesSection('Code statistics', [
+        "Lines added: $additions",
+        "Lines deleted: $deletions",
+        "Files changed: $changed_files",
+      ]);
+    }
+  }
+
+  /**
+   * Print a section for the release notes.
+   *
+   * @param string $title
+   *   Section title.
+   * @param array $lines
+   *   Bulletpoints.
+   */
+  protected function printReleaseNotesSection(string $title, array $lines) {
+    if (!empty($title)) {
+      $this->printReleaseNotesTitle($title);
+    }
+    foreach ($lines as $line) {
+      if (substr($line, 0, 1) == '-') {
+        print "$line\n";
+      }
+      else {
+        print "- $line\n";
+      }
+    }
+  }
+
+  /**
+   * Print a title for the release notes.
+   *
+   * @param string $title
+   *   Section title.
+   */
+  protected function printReleaseNotesTitle($title) {
+    echo "\n\n## $title\n";
   }
 
   /**
