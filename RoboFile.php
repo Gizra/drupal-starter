@@ -934,10 +934,15 @@ END;
     $lines = explode("\n", $log);
 
     $this->say('Copy release notes below');
-    echo "Changelog:\n";
+    print "## Changelog:\n";
 
     $pull_requests_per_issue = [];
+    $no_issue_lines = [];
+    $contributors = [];
     $issue_titles = [];
+    $additions = 0;
+    $deletions = 0;
+    $changed_files = 0;
 
     foreach ($lines as $line) {
       $log_messages = explode("¬¬|¬¬", $line);
@@ -959,6 +964,14 @@ END;
         // Whitespace-only log message, not meaningful for changelog.
         continue;
       }
+      $pr_number = $pr_matches[1][0];
+      $pr_details = $this->githubApiGet('repos/Gizra/drupal-starter/pulls/' . $pr_number);
+      if (!empty($pr_details->user)) {
+        $contributors[] = $pr_details->user->login;
+        $additions += $pr_details->additions;
+        $deletions += $pr_details->deletions;
+        $changed_files += $pr_details->changed_files;
+      }
 
       // The issue number is a required part of the branch name,
       // So usually we can grab it from the log too, but that's optional
@@ -972,6 +985,7 @@ END;
           $issue_details = $this->githubApiGet('repos/Gizra/drupal-starter/issues/' . $issue_number);
           if (!empty($issue_details->title)) {
             $issue_titles[$issue_number] = $issue_details->title;
+            $contributors[] = $issue_details->user->login;
           }
         }
 
@@ -987,17 +1001,32 @@ END;
         $pull_requests_per_issue[$issue_line][] = "  - {$log_messages[1]} (#{$pr_matches[1][0]})";
       }
       else {
-        print "- {$log_messages[1]} (#{$pr_matches[1][0]})\n";
+        $no_issue_lines[] = "- {$log_messages[1]} (#$pr_number)";
       }
     }
-    if (!empty($pull_requests_per_issue)) {
-      foreach ($pull_requests_per_issue as $issue_line => $pr_lines) {
-        print $issue_line . "\n";
-        foreach ($pr_lines as $pr_line) {
-          print $pr_line . "\n";
-        }
+
+    foreach ($pull_requests_per_issue as $issue_line => $pr_lines) {
+      print $issue_line . "\n";
+      foreach ($pr_lines as $pr_line) {
+        print $pr_line . "\n";
       }
     }
+
+    foreach ($no_issue_lines as $issue_line) {
+      print $issue_line . "\n";
+    }
+
+    echo "\n\n## Contributors:\n";
+    $contributors = array_unique($contributors);
+    sort($contributors);
+    foreach ($contributors as $username) {
+      print " - @$username\n";
+    }
+
+    echo "\n\nCode statistics:\n";
+    print "- Lines added: $additions\n";
+    print "- Lines deleted: $deletions\n";
+    print "- Files changed: $changed_files\n";
   }
 
   /**
