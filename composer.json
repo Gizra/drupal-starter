@@ -19,6 +19,7 @@
         }
     ],
     "require": {
+        "ext-curl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
         "composer/installers": "^1.2",
@@ -27,6 +28,7 @@
         "drupal/core-project-message": "^9.0.0",
         "drupal/core-recommended": "^9.0.0",
         "drupal/elasticsearch_connector": "^7.0@alpha",
+        "drupal/jquery_ui_accordion": "^1.1",
         "drupal/migrate_file": "^2.0",
         "drupal/migrate_plus": "^5.1",
         "drupal/migrate_source_csv": "^3.4",
@@ -35,8 +37,7 @@
         "drupal/redis": "1.x-dev@dev",
         "drupal/search_api": "^1.18",
         "drush/drush": "^10.2",
-        "oomphinc/composer-installers-extender": "^2.0",
-        "ext-curl": "*"
+        "oomphinc/composer-installers-extender": "^2.0"
     },
     "require-dev": {
         "consolidation/robo": "^1.0.0",
