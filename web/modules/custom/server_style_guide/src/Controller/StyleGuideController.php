@@ -76,8 +76,6 @@ class StyleGuideController extends ControllerBase {
     return $build;
   }
 
-
-
   /**
    * Define all elements here that should be 'wide' width.
    *
@@ -275,7 +273,6 @@ class StyleGuideController extends ControllerBase {
 
     return $build;
   }
-
 
   /**
    * Get photographic placeholder image.

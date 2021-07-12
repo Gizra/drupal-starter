@@ -15,11 +15,11 @@ trait ElementWrapTrait {
    * @return array
    *   Render array.
    */
-  protected function wrapElementNoContainer(array $element, string $title, string  $link = NULL): array {
+  protected function wrapElementNoContainer(array $element, string $title, string $link = NULL): array {
     return [
       '#theme' => 'server_style_guide_no_container',
       '#title' => $this->getComponentPrefix($title, $link),
-      '#element' => $element
+      '#element' => $element,
     ];
   }
 
@@ -29,11 +29,11 @@ trait ElementWrapTrait {
    * @return array
    *   Render array.
    */
-  protected function wrapElementWideContainer(array $element, string $title, string  $link = NULL): array {
+  protected function wrapElementWideContainer(array $element, string $title, string $link = NULL): array {
     return [
       '#theme' => 'server_style_guide_wide_container',
       '#title' => $this->getComponentPrefix($title, $link),
-      '#element' => $element
+      '#element' => $element,
     ];
   }
 

@@ -44,7 +44,5 @@ function server_style_guide_theme() {
     ],
   ];
 
-
-
   return $info;
 }
