@@ -26,7 +26,7 @@ trait ButtonBuilderTrait {
    * @return array
    *   A render array.
    */
-  protected function buildButton($label, $url, $color = 'purple-primary', $icon = '', $onclick = '') {
+  protected function buildButton(string $label, string $url, string $color = 'blue-500', string $icon = '', string $onclick = '') {
     return [
       '#theme' => 'server_theme_button',
       '#label' => $label,

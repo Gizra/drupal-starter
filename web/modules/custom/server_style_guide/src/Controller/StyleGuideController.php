@@ -102,8 +102,6 @@ class StyleGuideController extends ControllerBase {
    *
    * @return array
    *   A render array containing the elements.
-   *
-   * @throws \Exception
    */
   protected function getFullWidthElements(): array {
     $element[] = [
@@ -124,8 +122,6 @@ class StyleGuideController extends ControllerBase {
    *
    * @return array
    *   A render array containing the elements.
-   *
-   * @throws \Exception
    */
   protected function getWideWidthElements() : array {
     $card_image = $this->getPlaceholderImage(600, 520);
