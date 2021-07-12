@@ -77,7 +77,7 @@ class StyleGuideController extends ControllerBase {
     // In container.
     $element = [
       '#type' => 'details',
-      '#title' => $this->t('Wide elements'),
+      '#title' => $this->t('Container - Wide'),
       '#open' => FALSE,
     ];
     $element[] = $this->getWideWidthElements();
