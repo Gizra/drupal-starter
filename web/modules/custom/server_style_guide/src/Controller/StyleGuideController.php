@@ -167,7 +167,7 @@ class StyleGuideController extends ControllerBase {
       ];
     }
 
-    $element['server_theme_cards'] = [
+    $element[] = [
       '#prefix' => $this->getComponentPrefix('Multiple Cards - With Title'),
       '#theme' => 'server_theme_cards',
       '#title' => $this->t('Related Items'),
@@ -215,7 +215,7 @@ class StyleGuideController extends ControllerBase {
       ];
     }
 
-    $element['server_theme_cards_images'] = [
+    $element[] = [
       '#prefix' => $this->getComponentPrefix('Multiple Cards - With Title and image'),
       '#theme' => 'server_theme_cards',
       '#title' => $this->t('Discover more'),
@@ -223,37 +223,40 @@ class StyleGuideController extends ControllerBase {
     ];
 
     // Buttons.
-    $element['server_theme_button'] = $this->buildButton(
+    $button = $this->buildButton(
       $this->t('Register'),
       '#',
       'gray-700'
     );
-    $element['server_theme_button']['#prefix'] = $this->getComponentPrefix('Button - no Icon');
+    $button['#prefix'] = $this->getComponentPrefix('Button - no Icon');
+    $element[] = $button;
 
-    $element['server_theme_button__icon_calendar'] = $this->buildButton(
+    $button = $this->buildButton(
       $this->t('Add to my calendar'),
       '#',
       'gray-700',
       'calendar'
     );
-    $element['server_theme_button__icon_calendar']['#prefix'] = $this->getComponentPrefix('Button - with Icon');
+    $button['#prefix'] = $this->getComponentPrefix('Button - with Icon');
+    $element[] = $button;
 
-    $element['server_theme_button__print'] = $this->buildButton(
+    $button = $this->buildButton(
       $this->t('Print'),
       'javascript:void(0)',
       'gray-700',
       'print',
       'window.print()'
     );
-    $element['server_theme_button__print']['#prefix'] = $this->getComponentPrefix('Button - Print (OnClick)');
+    $button['#prefix'] = $this->getComponentPrefix('Button - Print (OnClick)');
+    $element[] = $button;
 
-    $element['server_theme_content__tags'] = [
+    $element[] = [
       '#prefix' => $this->getComponentPrefix('Content Tags'),
       '#theme' => 'server_theme_content__tags',
       '#tags' => $many_tags,
     ];
 
-    $element['server_theme_content__image_and_teaser'] = [
+    $element[] = [
       '#prefix' => $this->getComponentPrefix('Content Image and Teaser'),
       '#theme' => 'server_theme_content__image_and_teaser',
       '#image' => $this->getPlaceholderImage(940, 265),
@@ -264,52 +267,22 @@ class StyleGuideController extends ControllerBase {
       ],
     ];
 
-    $table_header = [
-      $this->t('Company Name'),
-      $this->t('Number of Employees'),
-      $this->t('Industry'),
-      $this->t('Address'),
-      $this->t('Main Contact'),
+    $element[] = [
+      '#prefix' => $this->getComponentPrefix('User Image - With Photo'),
+      '#theme' => 'server_theme_user_image',
+      '#image' => $this->getPlaceholderPersonImage(256, 256),
+      '#image_alt' => 'Bill Murray',
+      '#url' => '#',
     ];
 
-    $table_rows = [];
-
-    // 1st row.
-    $row = [
-      'data' => [],
-      'class' => [],
+    $element[] = [
+      '#prefix' => $this->getComponentPrefix('User Image - No Photo'),
+      '#theme' => 'server_theme_user_image',
+      '#initials' => 'BM',
+      '#url' => '#',
     ];
 
-    $row['data'][] = 'AK Steel';
-    $row['data'][] = '289 employees';
-    $row['data'][] = 'Manufacturing';
-    $row['data'][] = "Urban Place - Coworking Space, 9 Ahad Ha'Am St Tel Aviv";
-    $row['data'][] = $this->linkGenerator->generate('Wilson Lukus', Url::fromUri('https://example.com'));
-
-    $table_rows[] = $row;
-
-    // 2nd row.
-    $row = [
-      'data' => [],
-      'class' => [],
-    ];
-
-    $row['data'][] = 'Ruck Candy Company';
-    $row['data'][] = '750000 employees';
-    $row['data'][] = 'Health';
-    $row['data'][] = "Some really really long address here, it's somewhere in the world, but we don't know exactly where";
-    $row['data'][] = $this->linkGenerator->generate('Caroline Wagner Lukus', Url::fromUri('https://example.com'));
-
-    $table_rows[] = $row;
-
-    $element['table'] = [
-      '#prefix' => $this->getComponentPrefix('Table (Responsive)', 'https://tailwindcomponents.com/component/responsive-table'),
-      '#type' => 'table',
-      '#header' => $table_header,
-      '#rows' => $table_rows,
-    ];
-
-    $element['server_theme_page_title'] = [
+    $element[] = [
       '#prefix' => $this->getComponentPrefix('Page Title'),
       '#theme' => 'server_theme_page_title',
       '#title' => 'The source has extend, but not everyone fears it',
@@ -334,20 +307,6 @@ class StyleGuideController extends ControllerBase {
       '#markup' => $this->getComponentPrefix('Narrow width elements'),
     ];
 
-    $element['server_theme_user_image__photo'] = [
-      '#prefix' => $this->getComponentPrefix('User Image - With Photo'),
-      '#theme' => 'server_theme_user_image',
-      '#image' => $this->getPlaceholderPersonImage(256, 256),
-      '#image_alt' => 'Bill Murray',
-      '#url' => '#',
-    ];
-
-    $element['server_theme_user_image__initials'] = [
-      '#prefix' => $this->getComponentPrefix('User Image - No Photo'),
-      '#theme' => 'server_theme_user_image',
-      '#initials' => 'BM',
-      '#url' => '#',
-    ];
 
     // Add container around each element.
     foreach ($element as $value) {
