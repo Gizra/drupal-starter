@@ -34,7 +34,7 @@ class Homepage extends ControllerBase {
    */
   protected function buildMainContent(): array {
     $element = [
-      '#markup' => $this->t('Add your Homepage elements in \Drupal\server_general\Controller\Homepage')
+      '#markup' => $this->t('Add your Homepage elements in \Drupal\server_general\Controller\Homepage'),
     ];
 
     return $this->wrapElementWideContainer($element);
