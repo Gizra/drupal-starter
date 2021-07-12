@@ -25,6 +25,7 @@ module.exports = {
       './server_theme.theme',
       // Custom module and the Style guide may have needed classes.
       '../../../modules/custom/**/*.php',
+      '../../../modules/custom/**/*.html.twig',
     ],
     options: {
       safelist: [
