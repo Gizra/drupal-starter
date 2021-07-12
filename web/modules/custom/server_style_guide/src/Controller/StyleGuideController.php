@@ -119,28 +119,6 @@ class StyleGuideController extends ControllerBase {
     $single_card_long_author_name = $single_card_simple;
     $single_card_long_author_name['#author'] = 'Someone with A. Very long name';
 
-    $cards = [
-      $single_card_simple,
-      $single_card_no_body,
-      $single_card_long_title,
-      $single_card_long_author_name,
-    ];
-
-    $rows = [];
-    foreach ($cards as $card) {
-      $rows[] = [
-        'content' => $card,
-        'attributes' => [],
-      ];
-    }
-
-    $element = [
-      '#theme' => 'server_theme_cards',
-      '#title' => $this->t('Related Items'),
-      '#rows' => $rows,
-    ];
-    $build[] = $this->wrapElementWideContainer($element, 'Multiple Cards - With Title');
-
     $single_card_image_random = $single_card_simple;
     $single_card_image_random['#url'] = Url::fromUri('https://www.example.com/test')->toString();
     $single_card_image_random['#image_alt'] = $this->t('Image alt');
@@ -167,27 +145,22 @@ class StyleGuideController extends ControllerBase {
     $single_card_image_seed_author_name['#image_alt'] = $this->t('Image alt');
     $single_card_image_seed_author_name['#image'] = $this->getPlaceholderImage(256, 128, 'single_card_long_author_name', 'seed');
 
-    $cards = [
+    $items = [
+      $single_card_simple,
+      $single_card_no_body,
+      $single_card_long_title,
+      $single_card_long_author_name,
       $single_card_image_random,
       $single_card_image_id,
       $single_card_image_seed,
       $single_card_image_seed_author_name,
     ];
 
-    $rows = [];
-    foreach ($cards as $card) {
-      $rows[] = [
-        'content' => $card,
-        'attributes' => [],
-      ];
-    }
-
     $element = [
       '#theme' => 'server_theme_cards',
-      '#title' => $this->t('Discover more'),
-      '#rows' => $rows,
+      '#items' => $items,
     ];
-    $build[] = $this->wrapElementWideContainer($element, 'Multiple Cards - With Title and image');
+    $build[] = $this->wrapElementWideContainer($element, 'Cards');
 
     $element = [
       '#theme' => 'server_theme_content__tags',

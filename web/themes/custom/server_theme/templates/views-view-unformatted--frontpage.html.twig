@@ -15,18 +15,14 @@
  * @see template_preprocess_views_view_unformatted()
  */
 #}
-{% for row in rows %}
-  {% set row_classes = [
-    default_row_class ? 'views-row',
-  ]
-  %}
 
-  {% set row = row.attributes.addClass(row_classes) %}
+{% set items = [] %}
+{% for row in rows %}
+  {% set items = items|merge([row.content]) %}
 {% endfor %}
 
-{% set vars = {
-  'title': title,
-  'rows': rows,
-} %}
 
-{% include '@server_theme/server-theme-cards.html.twig' with vars %}
+{% embed '@server_theme/server-theme-cards.html.twig' %}
+  {% set title = title %}
+  {% set items = items %}
+{% endembed %}
