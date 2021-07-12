@@ -124,6 +124,12 @@ function server_theme_theme() {
     ],
   ];
 
+  $info['server_theme_wide_container'] = [
+    'variables' => [
+      'element' => NULL,
+    ],
+  ];
+
   return $info;
 }
 
