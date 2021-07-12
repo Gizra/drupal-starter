@@ -17,7 +17,7 @@ trait ElementWrapTrait {
    */
   protected function wrapElementWideContainer(array $element): array {
     return [
-      '#theme' => 'server_general_wide_container',
+      '#theme' => 'server_theme_wide_container',
       '#element' => $element,
     ];
   }
