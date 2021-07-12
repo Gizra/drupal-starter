@@ -75,10 +75,22 @@ class StyleGuideController extends ControllerBase {
     $build = [];
 
     // In container.
-    $build[] = $this->getWideWidthElements();
+    $element = [
+      '#type' => 'details',
+      '#title' => $this->t('Wide elements'),
+      '#open' => FALSE,
+    ];
+    $element[] = $this->getWideWidthElements();
+    $build[] = $element;
 
-    // Full width.
-    $build[] = $this->getFullWidthElements();
+    // No container.
+    $element = [
+      '#type' => 'details',
+      '#title' => $this->t('No container'),
+      '#open' => FALSE,
+    ];
+    $element[] = $this->getFullWidthElements();
+    $build[] = $element;
 
     return $build;
   }
@@ -90,13 +102,10 @@ class StyleGuideController extends ControllerBase {
    *
    * @return array
    *   A render array containing the elements.
+   * @throws \Exception
    */
-  protected function getFullWidthElements() {
-    $build[] = [
-      '#markup' => $this->getComponentPrefix('Full width elements'),
-    ];
-
-    $element['server_theme_footer'] = [
+  protected function getFullWidthElements(): array {
+    $element[] = [
       '#prefix' => $this->getComponentPrefix('Footer'),
       '#theme' => 'server_theme_footer',
     ];
@@ -114,11 +123,10 @@ class StyleGuideController extends ControllerBase {
    *
    * @return array
    *   A render array containing the elements.
+   *
+   * @throws \Exception
    */
-  protected function getWideWidthElements() {
-    $build[] = [
-      '#markup' => $this->getComponentPrefix('Wide width elements'),
-    ];
+  protected function getWideWidthElements() : array {
     $card_image = $this->getPlaceholderImage(600, 520);
 
     $tags = [
