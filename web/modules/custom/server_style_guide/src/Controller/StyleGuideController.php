@@ -72,14 +72,14 @@ class StyleGuideController extends ControllerBase {
    *   A simple renderable array.
    */
   public function styleGuidePage() {
-    // Initialize the page build render array.
     $build = [];
-    // Add the full width elements to the build.
-    $build['full_width_elements'] = $this->getFullWidthElements();
-    // Add the elements wrapped in wide container to the build.
-    $build['wide_width_elements'] = $this->getWideWidthElements();
-    // Add the elements wrapped in narrow container to the build.
-    $build['narrow_width_elements'] = $this->getNarrowWidthElements();
+
+    // In container.
+    $build[] = $this->getWideWidthElements();
+
+    // Full width.
+    $build[] = $this->getFullWidthElements();
+
     return $build;
   }
 
@@ -291,26 +291,6 @@ class StyleGuideController extends ControllerBase {
     // Add container around each element.
     foreach ($element as $value) {
       $build[] = $this->wrapElementWithContainer($value, 'styleguide-wide-width-elements fluid-container-wide');
-    }
-
-    return $build;
-  }
-
-  /**
-   * Define all elements here that should be 'narrow' width.
-   *
-   * @return array
-   *   A render array containing the elements.
-   */
-  protected function getNarrowWidthElements() {
-    $build[] = [
-      '#markup' => $this->getComponentPrefix('Narrow width elements'),
-    ];
-
-
-    // Add container around each element.
-    foreach ($element as $value) {
-      $build[] = $this->wrapElementWithContainer($value, 'styleguide-narrow-width-elements fluid-container-narrow');
     }
 
     return $build;
