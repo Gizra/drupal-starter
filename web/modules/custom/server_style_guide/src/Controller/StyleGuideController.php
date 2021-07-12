@@ -102,6 +102,7 @@ class StyleGuideController extends ControllerBase {
    *
    * @return array
    *   A render array containing the elements.
+   *
    * @throws \Exception
    */
   protected function getFullWidthElements(): array {
