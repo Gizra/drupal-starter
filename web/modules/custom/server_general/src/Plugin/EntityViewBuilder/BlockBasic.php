@@ -29,7 +29,8 @@ class BlockBasic extends EntityViewBuilderPluginAbstract {
     $build[] = $this->buildTitle($entity);
 
     // Body.
-    $build[] = $this->buildBody($entity);
+    $element = $this->buildProcessedText($entity);
+    $build[] = $this->wrapElementWideContainer($element);
 
     // Extra.
     $build[] = $this->buildExtra();

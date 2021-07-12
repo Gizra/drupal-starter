@@ -12,22 +12,6 @@ use Drupal\Core\Entity\FieldableEntityInterface;
 trait ProcessedTextBuilderTrait {
 
   /**
-   * Build the body of node.
-   *
-   * @param \Drupal\Core\Entity\FieldableEntityInterface $entity
-   *   The entity.
-   * @param string $field
-   *   Optional; The name of the field. Defaults to "body".
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function buildBody(FieldableEntityInterface $entity, $field = 'body') {
-    $element = $this->buildProcessedText($entity, $field);
-    return $this->wrapElementWithContainer($element, 'content-body-wrapper fluid-container-narrow');
-  }
-
-  /**
    * Build a (processed) text of the content.
    *
    * @param \Drupal\Core\Entity\FieldableEntityInterface $entity
