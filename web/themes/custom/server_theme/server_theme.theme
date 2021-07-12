@@ -107,7 +107,7 @@ function server_theme_theme() {
     ],
   ];
 
-  $info['server_theme_wide_container'] = [
+  $info['server_theme_container_wide'] = [
     'variables' => [
       'element' => NULL,
     ],

@@ -37,7 +37,7 @@ function server_style_guide_theme() {
   ];
 
   // A single element wrapper, with a wide container.
-  $info['server_style_guide_wide_container'] = [
+  $info['server_style_guide_container_wide'] = [
     'variables' => [
       'title' => NULL,
       'element' => [],

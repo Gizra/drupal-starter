@@ -31,7 +31,7 @@ trait ElementWrapTrait {
    */
   protected function wrapElementWideContainer(array $element, string $title, string $link = NULL): array {
     return [
-      '#theme' => 'server_style_guide_wide_container',
+      '#theme' => 'server_style_guide_container_wide',
       '#title' => $this->getComponentPrefix($title, $link),
       '#element' => $element,
     ];
