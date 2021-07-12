@@ -63,13 +63,16 @@ class StyleGuideController extends ControllerBase {
   public function styleGuidePage() {
     $build = [];
 
-    // In container.
-    $element = $this->getWideWidthElements();
-    $build[] = $element;
+    // Wide container.
+    $elements = $this->getWideWidthElements();
 
     // No container.
-    $element = $this->getFullWidthElements();
-    $build[] = $element;
+    $elements = array_merge($elements, $this->getFullWidthElements());
+
+    $build[] = [
+      '#theme' => 'server_style_guide_wrapper',
+      '#elements' => $elements,
+    ];
 
     $build['#attached']['library'][] = 'server_style_guide/accordion';
 
