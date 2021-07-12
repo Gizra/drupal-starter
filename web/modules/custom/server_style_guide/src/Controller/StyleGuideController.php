@@ -6,7 +6,6 @@ use Drupal\Core\Block\BlockManager;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
 use Drupal\Core\Utility\LinkGenerator;
-use Drupal\server_general\ButtonBuilderTrait;
 use Drupal\server_general\TagBuilderTrait;
 use Drupal\server_style_guide\ElementWrapTrait;
 use Drupal\taxonomy\Entity\Term;
@@ -17,7 +16,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class StyleGuideController extends ControllerBase {
 
-  use ButtonBuilderTrait;
   use ElementWrapTrait;
   use TagBuilderTrait;
 
@@ -190,31 +188,6 @@ class StyleGuideController extends ControllerBase {
       '#rows' => $rows,
     ];
     $build[] = $this->wrapElementWideContainer($element, 'Multiple Cards - With Title and image');
-
-    // Buttons.
-    $element = $this->buildButton(
-      $this->t('Register'),
-      '#',
-      'gray-700'
-    );
-    $build[] = $this->wrapElementWideContainer($element, 'Button - no Icon');
-
-    $element = $this->buildButton(
-      $this->t('Add to my calendar'),
-      '#',
-      'gray-700',
-      'calendar'
-    );
-    $build[] = $this->wrapElementWideContainer($element, 'Button - with Icon');
-
-    $element = $this->buildButton(
-      $this->t('Print'),
-      'javascript:void(0)',
-      'gray-700',
-      'print',
-      'window.print()'
-    );
-    $build[] = $this->wrapElementWideContainer($element, 'Button - Print (OnClick)');
 
     $element = [
       '#theme' => 'server_theme_content__tags',
