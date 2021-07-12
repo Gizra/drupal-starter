@@ -2,15 +2,13 @@
 
 namespace Drupal\server_style_guide\Controller;
 
-use Drupal\Component\Utility\Html;
 use Drupal\Core\Block\BlockManager;
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\Core\Render\Renderer;
 use Drupal\Core\Url;
 use Drupal\Core\Utility\LinkGenerator;
-use Drupal\pluggable_entity_view_builder\ElementWrapTrait;
 use Drupal\server_general\ButtonBuilderTrait;
 use Drupal\server_general\TagBuilderTrait;
+use Drupal\server_style_guide\ElementWrapTrait;
 use Drupal\taxonomy\Entity\Term;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -32,13 +30,6 @@ class StyleGuideController extends ControllerBase {
 
 
   /**
-   * The renderer service.
-   *
-   * @var \Drupal\Core\Render\RendererInterface
-   */
-  protected $renderer;
-
-  /**
    * The link generator service.
    *
    * @var \Drupal\Core\Utility\LinkGenerator
@@ -48,9 +39,8 @@ class StyleGuideController extends ControllerBase {
   /**
    * Class constructor.
    */
-  public function __construct(BlockManager $block_manager, Renderer $renderer, LinkGenerator $link_generator) {
+  public function __construct(BlockManager $block_manager, LinkGenerator $link_generator) {
     $this->blockManager = $block_manager;
-    $this->renderer = $renderer;
     $this->linkGenerator = $link_generator;
   }
 
@@ -60,7 +50,6 @@ class StyleGuideController extends ControllerBase {
   public static function create(ContainerInterface $container) {
     return new self(
       $container->get('plugin.manager.block'),
-      $container->get('renderer'),
       $container->get('link_generator')
     );
   }
@@ -75,47 +64,19 @@ class StyleGuideController extends ControllerBase {
     $build = [];
 
     // In container.
-    $element = [
-      '#type' => 'details',
-      '#title' => $this->t('Container - Wide'),
-      '#open' => FALSE,
-    ];
-    $element[] = $this->getWideWidthElements();
+    $element = $this->getWideWidthElements();
     $build[] = $element;
 
     // No container.
-    $element = [
-      '#type' => 'details',
-      '#title' => $this->t('No container'),
-      '#open' => FALSE,
-    ];
-    $element[] = $this->getFullWidthElements();
+    $element = $this->getFullWidthElements();
     $build[] = $element;
 
-    return $build;
-  }
-
-  /**
-   * Define all elements here that should be 'full' width.
-   *
-   * Elements spanning full-width of the document.
-   *
-   * @return array
-   *   A render array containing the elements.
-   */
-  protected function getFullWidthElements(): array {
-    $element[] = [
-      '#prefix' => $this->getComponentPrefix('Footer'),
-      '#theme' => 'server_theme_footer',
-    ];
-
-    // Add container around each element.
-    foreach ($element as $value) {
-      $build[] = $this->wrapElementWithContainer($value, 'styleguide-full-width-elements fluid-container-full');
-    }
+    $build['#attached']['library'][] = 'server_style_guide/accordion';
 
     return $build;
   }
+
+
 
   /**
    * Define all elements here that should be 'wide' width.
@@ -124,6 +85,8 @@ class StyleGuideController extends ControllerBase {
    *   A render array containing the elements.
    */
   protected function getWideWidthElements() : array {
+    $build = [];
+
     $card_image = $this->getPlaceholderImage(600, 520);
 
     $tags = [
@@ -172,12 +135,12 @@ class StyleGuideController extends ControllerBase {
       ];
     }
 
-    $element[] = [
-      '#prefix' => $this->getComponentPrefix('Multiple Cards - With Title'),
+    $element = [
       '#theme' => 'server_theme_cards',
       '#title' => $this->t('Related Items'),
       '#rows' => $rows,
     ];
+    $build[] = $this->wrapElementWideContainer($element, 'Multiple Cards - With Title');
 
     $single_card_image_random = $single_card_simple;
     $single_card_image_random['#url'] = Url::fromUri('https://www.example.com/test')->toString();
@@ -220,49 +183,45 @@ class StyleGuideController extends ControllerBase {
       ];
     }
 
-    $element[] = [
-      '#prefix' => $this->getComponentPrefix('Multiple Cards - With Title and image'),
+    $element = [
       '#theme' => 'server_theme_cards',
       '#title' => $this->t('Discover more'),
       '#rows' => $rows,
     ];
+    $build[] = $this->wrapElementWideContainer($element, 'Multiple Cards - With Title and image');
 
     // Buttons.
-    $button = $this->buildButton(
+    $element = $this->buildButton(
       $this->t('Register'),
       '#',
       'gray-700'
     );
-    $button['#prefix'] = $this->getComponentPrefix('Button - no Icon');
-    $element[] = $button;
+    $build[] = $this->wrapElementWideContainer($element, 'Button - no Icon');
 
-    $button = $this->buildButton(
+    $element = $this->buildButton(
       $this->t('Add to my calendar'),
       '#',
       'gray-700',
       'calendar'
     );
-    $button['#prefix'] = $this->getComponentPrefix('Button - with Icon');
-    $element[] = $button;
+    $build[] = $this->wrapElementWideContainer($element, 'Button - with Icon');
 
-    $button = $this->buildButton(
+    $element = $this->buildButton(
       $this->t('Print'),
       'javascript:void(0)',
       'gray-700',
       'print',
       'window.print()'
     );
-    $button['#prefix'] = $this->getComponentPrefix('Button - Print (OnClick)');
-    $element[] = $button;
+    $build[] = $this->wrapElementWideContainer($element, 'Button - Print (OnClick)');
 
-    $element[] = [
-      '#prefix' => $this->getComponentPrefix('Content Tags'),
+    $element = [
       '#theme' => 'server_theme_content__tags',
       '#tags' => $many_tags,
     ];
+    $build[] = $this->wrapElementWideContainer($element, 'Content Tags');
 
-    $element[] = [
-      '#prefix' => $this->getComponentPrefix('Content Image and Teaser'),
+    $element = [
       '#theme' => 'server_theme_content__image_and_teaser',
       '#image' => $this->getPlaceholderImage(940, 265),
       '#teaser' => [
@@ -271,61 +230,52 @@ class StyleGuideController extends ControllerBase {
         '#format' => filter_default_format(),
       ],
     ];
+    $build[] = $this->wrapElementWideContainer($element, 'Content Image and Teaser');
 
-    $element[] = [
-      '#prefix' => $this->getComponentPrefix('User Image - With Photo'),
+    $element = [
       '#theme' => 'server_theme_user_image',
       '#image' => $this->getPlaceholderPersonImage(256, 256),
       '#image_alt' => 'Bill Murray',
       '#url' => '#',
     ];
+    $build[] = $this->wrapElementWideContainer($element, 'User Image - With Photo');
 
-    $element[] = [
-      '#prefix' => $this->getComponentPrefix('User Image - No Photo'),
+    $element = [
       '#theme' => 'server_theme_user_image',
       '#initials' => 'BM',
       '#url' => '#',
     ];
+    $build[] = $this->wrapElementWideContainer($element, 'User Image - No Photo');
 
-    $element[] = [
-      '#prefix' => $this->getComponentPrefix('Page Title'),
+    $element = [
       '#theme' => 'server_theme_page_title',
       '#title' => 'The source has extend, but not everyone fears it',
     ];
-
-    // Add container around each element.
-    foreach ($element as $value) {
-      $build[] = $this->wrapElementWithContainer($value, 'styleguide-wide-width-elements fluid-container-wide');
-    }
+    $build[] = $this->wrapElementWideContainer($element, 'Page Title');
 
     return $build;
   }
 
   /**
-   * Get the prefix to how as the component's title.
+   * Define all elements here that should be 'full' width.
    *
-   * @param string $title
-   *   The component name.
-   * @param string $link
-   *   Optional; Link to the design.
+   * Elements spanning full-width of the document.
    *
-   * @return string
-   *   The Html for the prefix.
-   *
-   * @throws \Exception
+   * @return array
+   *   A render array containing the elements.
    */
-  protected function getComponentPrefix($title, $link = NULL) {
-    $id = Html::getUniqueId($title);
+  protected function getFullWidthElements(): array {
+    $build = [];
 
-    $build = [
-      '#theme' => 'server_style_guide_header',
-      '#title' => $title,
-      '#unique_id' => $id,
-      '#link' => $link,
+    $element = [
+      '#theme' => 'server_theme_footer',
     ];
 
-    return $this->renderer->render($build);
+    $build[] = $this->wrapElementNoContainer($element, 'Footer');
+
+    return $build;
   }
+
 
   /**
    * Get photographic placeholder image.
