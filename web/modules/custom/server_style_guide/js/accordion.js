@@ -2,7 +2,7 @@
 
   const allPanels = $('.accordion > dd').hide();
 
-  $('.accordion > dt > a').click(function() {
+  $('.accordion .title-wrapper').click(function() {
     allPanels.slideUp();
     $(this).parent().next().slideDown();
     return false;
