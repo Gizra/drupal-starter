@@ -38,7 +38,7 @@ trait ElementWrapTrait {
   }
 
   /**
-   * Get the prefix to how as the component's title.
+   * Get the prefix to show as the component's title.
    *
    * @param string $title
    *   The component name.

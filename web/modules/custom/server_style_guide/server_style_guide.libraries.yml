@@ -3,4 +3,3 @@ accordion:
     js/accordion.js: {}
   dependencies:
     - core/jquery
-    - core/drupal
