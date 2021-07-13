@@ -21,5 +21,28 @@ function server_style_guide_theme() {
     ],
   ];
 
+  // Wrap all style guide elements.
+  $info['server_style_guide_wrapper'] = [
+    'variables' => [
+      'elements' => [],
+    ],
+  ];
+
+  // A single element wrapper, with no container.
+  $info['server_style_guide_no_container'] = [
+    'variables' => [
+      'title' => NULL,
+      'element' => [],
+    ],
+  ];
+
+  // A single element wrapper, with a wide container.
+  $info['server_style_guide_container_wide'] = [
+    'variables' => [
+      'title' => NULL,
+      'element' => [],
+    ],
+  ];
+
   return $info;
 }

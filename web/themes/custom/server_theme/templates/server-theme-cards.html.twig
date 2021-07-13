@@ -1,16 +1,4 @@
-<div>
-  {% if title %}
-    <h2 class="text-center mb-6">
-      {{ title }}
-    </h2>
-  {% endif %}
-
-  <div class="grid grid-cols-fill-56 sm:grid-cols-fill-64 auto-rows-fr gap-4 md:gap-5">
-    {% for row in rows %}
-      <div{{ row.attributes }}>
-        {{- row.content -}}
-      </div>
-    {% endfor %}
-  </div>
-
+<div class="grid grid-cols-fill-56 sm:grid-cols-fill-64 auto-rows-fr gap-4 md:gap-5">
+  {{ items }}
 </div>
+

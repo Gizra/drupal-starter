@@ -3,8 +3,8 @@
 namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\Core\Entity\FieldableEntityInterface;
-use Drupal\pluggable_entity_view_builder\ElementWrapTrait;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
+use Drupal\server_general\ElementWrapTrait;
 use Drupal\server_general\ProcessedTextBuilderTrait;
 
 /**
@@ -25,9 +25,15 @@ class BlockBasic extends EntityViewBuilderPluginAbstract {
    * {@inheritdoc}
    */
   public function buildFull(array $build, FieldableEntityInterface $entity): array {
-    $build['title'] = $this->buildTitle($entity);
-    $build['body'] = $this->buildBody($entity);
-    $build['extra'] = $this->buildExtra();
+    // Title.
+    $build[] = $this->buildTitle($entity);
+
+    // Body.
+    $element = $this->buildProcessedText($entity);
+    $build[] = $this->wrapElementWideContainer($element);
+
+    // Extra.
+    $build[] = $this->buildExtra();
 
     return $build;
   }
@@ -41,14 +47,14 @@ class BlockBasic extends EntityViewBuilderPluginAbstract {
    * @return array
    *   Render array.
    */
-  protected function buildTitle(FieldableEntityInterface $entity) {
+  protected function buildTitle(FieldableEntityInterface $entity): array {
     $element = [
       '#type' => 'html_tag',
       '#tag' => 'h2',
       '#value' => $entity->label(),
     ];
 
-    return $this->wrapElementWithContainer($element, 'title-wrapper fluid-container-narrow');
+    return $this->wrapElementWideContainer($element);
   }
 
   /**
@@ -57,12 +63,12 @@ class BlockBasic extends EntityViewBuilderPluginAbstract {
    * @return array
    *   Render array.
    */
-  protected function buildExtra() {
+  protected function buildExtra(): array {
     $element = [
       '#markup' => $this->t('This is coming from \Drupal\server_general\Plugin\EntityViewBuilder\BlockBasic'),
     ];
 
-    return $this->wrapElementWithContainer($element, 'extra-wrapper fluid-container-narrow');
+    return $this->wrapElementWideContainer($element);
   }
 
 }

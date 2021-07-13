@@ -35,7 +35,8 @@ class NodeArticle extends NodeViewBuilderAbstract {
     $build[] = $this->buildContentTags($entity);
 
     // Body.
-    $build[] = $this->buildBody($entity);
+    $element = $this->buildProcessedText($entity);
+    $build[] = $this->wrapElementWideContainer($element);
 
     return $build;
   }
