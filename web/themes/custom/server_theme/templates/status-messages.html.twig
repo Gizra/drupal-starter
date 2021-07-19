@@ -30,7 +30,7 @@
   {% elseif type == 'status' %}
     {% set message_class = 'bg-green-400' %}
   {% endif %}
-  <div role="contentinfo" aria-label="{{ status_headings[type] }}"{{ attributes|without('role', 'aria-label') }} class="{{ message_class }} messages--{{ type }} text-white py-2 px-4 rounded rounded-large text-left">
+  <div role="contentinfo" aria-label="{{ status_headings[type] }}"{{ attributes|without('role', 'aria-label') }} class="{{ message_class }} messages--{{ type }} text-white py-2 px-4 rounded rounded-large text-left mt-4">
     {% if type == 'error' %}
       <div role="alert">
     {% endif %}
