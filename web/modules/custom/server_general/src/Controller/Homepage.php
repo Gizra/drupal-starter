@@ -18,26 +18,11 @@ class Homepage extends ControllerBase {
   public function view() {
     $build = [];
 
-    // Main content.
-    $build[] = $this->buildMainContent();
+    $this->messenger()->addMessage('Add your Homepage elements in \Drupal\server_general\Controller\Homepage');
 
     // Latest content.
     $build[] = $this->buildView();
     return $build;
-  }
-
-  /**
-   * Build the main content.
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function buildMainContent(): array {
-    $element = [
-      '#markup' => $this->t('Add your Homepage elements in \Drupal\server_general\Controller\Homepage'),
-    ];
-
-    return $this->wrapElementWideContainer($element);
   }
 
   /**

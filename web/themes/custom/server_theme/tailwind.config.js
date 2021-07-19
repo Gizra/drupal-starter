@@ -4,10 +4,6 @@ module.exports = {
   mode: 'jit',
   theme: {
     extend: {
-      gridTemplateColumns: {
-        'fill-56': 'repeat(auto-fill, 14rem)',
-        'fill-64': 'repeat(auto-fill, 16rem)',
-      },
     },
     fontFamily: {
       'headers': ["Roboto", 'sans-serif'],
