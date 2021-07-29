@@ -635,15 +635,9 @@ class RoboFile extends Tasks {
       ->printOutput(FALSE)
       ->run();
     $pantheon_git_url = trim($result->getMessage());
-    $host_parts = parse_url($pantheon_git_url);
-    $pantheon_git_host = $host_parts['host'];
     $this->taskReplaceInFile('.travis.yml')
       ->from('{{ PANTHEON_GIT_URL }}')
       ->to($pantheon_git_url)
-      ->run();
-    $this->taskReplaceInFile('.travis.yml')
-      ->from('{{ PANTHEON_GIT_HOST }}')
-      ->to($pantheon_git_host)
       ->run();
     $this->taskReplaceInFile('.travis.yml')
       ->from('{{ PANTHEON_DEPLOY_BRANCH }}')
