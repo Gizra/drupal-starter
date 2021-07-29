@@ -47,7 +47,7 @@ By default, `ddev restart` compiles the theme using Robo (`ddev robo theme:compi
 On the local development environment, which is using TailWind's [JIT](https://tailwindcss.com/docs/just-in-time-mode) (Just-In-Time), execute:
 
 ```bash
-ddev tw
+ddev theme:watch
 ```
 
 This will compile Tailwind and keep watching for any changes.
