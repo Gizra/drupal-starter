@@ -4,4 +4,4 @@
 ## Usage: theme:compile
 ## Example: "ddev theme:compile"
 
-./vendor/bin/robo compile:theme
+./vendor/bin/robo theme:compile
