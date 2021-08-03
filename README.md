@@ -44,10 +44,12 @@ then execute the following, and re-try installation steps.
 
 By default, `ddev restart` compiles the theme using Robo (`ddev robo theme:compile-debug`)
 
+This is used only for watching Tailwind styles, it's not compiling js, images, etc.
+
 On the local development environment, which is using TailWind's [JIT](https://tailwindcss.com/docs/just-in-time-mode) (Just-In-Time), execute:
 
 ```bash
-ddev tw
+ddev theme:watch
 ```
 
 This will compile Tailwind and keep watching for any changes.

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+## Description: Compile the theme.
+## Usage: theme:compile
+## Example: "ddev theme:compile"
+
+./vendor/bin/robo theme:compile
