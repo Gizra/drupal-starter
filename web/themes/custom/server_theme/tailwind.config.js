@@ -8,9 +8,6 @@ module.exports = {
     fontFamily: {
       'headers': ["Roboto", 'sans-serif'],
       'body': ["Open Sans", 'sans-serif'],
-    },
-    lineClamp: {
-      '2': '2',
     }
   },
   purge: {
@@ -32,6 +29,6 @@ module.exports = {
   },
   plugins: [
     require('@tailwindcss/forms'),
-    require('tailwindcss-line-clamp')
+    require('@tailwindcss/line-clamp'),
   ],
 };
