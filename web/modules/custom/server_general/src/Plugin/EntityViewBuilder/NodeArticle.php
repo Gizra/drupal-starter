@@ -28,9 +28,17 @@ class NodeArticle extends NodeViewBuilderAbstract {
    *   Render array.
    */
   public function buildFull(array $build, NodeInterface $entity) {
-    $build['header'] = $this->buildHeroHeader($entity);
-    $build['tags'] = $this->buildContentTags($entity);
-    $build['body'] = $this->buildBody($entity);
+    $this->messenger()->addMessage('Add your Node Article elements in \Drupal\server_general\Plugin\EntityViewBuilder\NodeArticle');
+
+    // Header.
+    $build[] = $this->buildHeroHeader($entity);
+
+    // Tags.
+    $build[] = $this->buildContentTags($entity);
+
+    // Body.
+    $element = $this->buildProcessedText($entity);
+    $build[] = $this->wrapElementWideContainer($element);
 
     return $build;
   }
@@ -49,13 +57,17 @@ class NodeArticle extends NodeViewBuilderAbstract {
    *   Render array.
    */
   public function buildTeaser(array $build, NodeInterface $entity) {
-    $build = parent::buildTeaser($build, $entity);
+    $image_info = $this->getImageAndAlt($entity, 'field_image');
 
-    list($image, $image_alt) = $this->buildImage($entity, 'field_image');
-    $build['#image'] = $image;
-    $build['#image_alt'] = $image_alt;
-    $build['#tags'] = $this->buildTags($entity);
-    $build['#body'] = $this->buildProcessedText($entity, 'body', TRUE);
+    $element = parent::buildTeaser($build, $entity);
+    $element += [
+      '#image' => $image_info['url'],
+      '#image_alt' => $image_info['alt'],
+      '#tags' => $this->buildTags($entity),
+      '#body' => $this->buildProcessedText($entity, 'body', TRUE),
+    ];
+
+    $build[] = $element;
 
     return $build;
   }

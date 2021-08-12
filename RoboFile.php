@@ -2,12 +2,11 @@
 
 use Lurker\Event\FilesystemEvent;
 use Robo\Tasks;
-use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Robo commmands.
+ * Robo commands.
  */
 class RoboFile extends Tasks {
 
@@ -18,7 +17,12 @@ class RoboFile extends Tasks {
    */
   const DEPLOYMENT_WAIT_TIME = 500000;
 
-  private static $indexPrefix = 'elasticsearch_index_pantheon_';
+  /**
+   * ElasticSearch index prefix.
+   *
+   * @var string
+   */
+  private static string $indexPrefix = 'elasticsearch_index_pantheon_';
 
   /**
    * The Pantheon name.
@@ -34,7 +38,7 @@ class RoboFile extends Tasks {
    * @param bool $optimize
    *   Indicate whether to optimize during compilation.
    */
-  private function compileTheme_($optimize = FALSE) {
+  private function compileTheme_(bool $optimize = FALSE) {
     $directories = [
       'js',
       'images',
@@ -52,10 +56,7 @@ class RoboFile extends Tasks {
     // Make sure we have all the node packages.
     $this->_exec("cd $theme_dir && npm install");
 
-    // If we are asked to optimize, we make sure to purge tailwind's css, by
-    // @link https://tailwindcss.com/docs/optimizing-for-production#removing-unused-css
-    $purge_prefix = $optimize ? 'NODE_ENV=production' : '';
-    $result = $this->_exec("cd $theme_dir && $purge_prefix npx postcss ./src/scss/style.pcss --output=./dist/css/style.css");
+    $result = $this->_exec("cd $theme_dir && npx postcss ./src/pcss/style.pcss --output=./dist/css/style.css");
 
     if ($result->getExitCode() !== 0) {
       $this->taskCleanDir(['dist/css']);
@@ -125,6 +126,7 @@ class RoboFile extends Tasks {
    * Compress SVG files in the "dist" directories.
    *
    * This function is being called as part of `theme:compile`.
+   *
    * @see compileTheme_()
    */
   public function themeSvgCompress() {
@@ -158,7 +160,6 @@ class RoboFile extends Tasks {
     }
   }
 
-
   /**
    * Directories that should be watched for the theme.
    *
@@ -181,7 +182,7 @@ class RoboFile extends Tasks {
       $this->taskWatch()
         ->monitor(
           $directory,
-          function (Event $event) {
+          function () {
             $this->compileTheme_(TRUE);
           },
           FilesystemEvent::ALL
@@ -199,7 +200,7 @@ class RoboFile extends Tasks {
       $this->taskWatch()
         ->monitor(
           $directory,
-          function (Event $event) {
+          function () {
             $this->compileTheme_();
           },
           FilesystemEvent::ALL
@@ -214,12 +215,12 @@ class RoboFile extends Tasks {
    *   The tag name in the current repository.
    * @param string $branch_name
    *   The branch name from Pantheon repository. Default to master.
-   * @param string $commit_message
+   * @param string|null $commit_message
    *   Optional, it is used as a commit message in the artifact repo.
    *
    * @throws \Exception
    */
-  public function deployTagPantheon($tag, $branch_name, $commit_message = NULL) {
+  public function deployTagPantheon(string $tag, string $branch_name, string $commit_message = NULL) {
     $result = $this
       ->taskExec('git status -s')
       ->printOutput(FALSE)
@@ -248,7 +249,7 @@ class RoboFile extends Tasks {
     try {
       $this->deployPantheon($branch_name, $commit_message);
     }
-    catch (\Exception $e) {
+    catch (Exception $e) {
       $this->yell('The deployment failed', 22, 'red');
       $this->say($e->getMessage());
     }
@@ -277,38 +278,6 @@ class RoboFile extends Tasks {
 
     if (!file_exists($pantheon_directory) || !is_dir($pantheon_directory)) {
       throw new Exception('Clone the Pantheon artifact repository first into the .pantheon directory');
-    }
-
-    // We deal with versions as commit hashes.
-    // The high-level goal is to prevent the auto-deploy process
-    // to overwrite the code with an older version if the Travis queue
-    // swaps the order of two jobs, so they are not executed in
-    // chronological order.
-    $currently_deployed_version = NULL;
-    if (file_exists($deployment_version_path)) {
-      $currently_deployed_version = trim(file_get_contents($deployment_version_path));
-    }
-
-    $result = $this
-        ->taskExec('git rev-parse HEAD')
-        ->printOutput(FALSE)
-        ->run();
-
-    $current_version = trim($result->getMessage());
-
-    if (!empty($currently_deployed_version)) {
-      $result = $this
-        ->taskExec('git cat-file -t ' . $currently_deployed_version)
-        ->printOutput(FALSE)
-        ->run();
-
-      if ($result->getMessage() !== 'commit') {
-        $this->yell(strtr('This current commit @current-commit cannot be deployed, since new commits have been created since, so we don\'t want to deploy an older version.', [
-          '@current-commit' => $current_version,
-        ]));
-        $this->yell('Aborting the process to avoid going back in time.');
-        return;
-      }
     }
 
     $result = $this
@@ -343,6 +312,38 @@ class RoboFile extends Tasks {
 
     $this->_exec("cd $pantheon_directory && git checkout $branch_name");
 
+    // We deal with versions as commit hashes.
+    // The high-level goal is to prevent the auto-deploy process
+    // to overwrite the code with an older version if the Travis queue
+    // swaps the order of two jobs, so they are not executed in
+    // chronological order.
+    $currently_deployed_version = NULL;
+    if (file_exists($deployment_version_path)) {
+      $currently_deployed_version = trim(file_get_contents($deployment_version_path));
+    }
+
+    $result = $this
+      ->taskExec('git rev-parse HEAD')
+      ->printOutput(FALSE)
+      ->run();
+
+    $current_version = trim($result->getMessage());
+
+    if (!empty($currently_deployed_version)) {
+      $result = $this
+        ->taskExec('git cat-file -t ' . $currently_deployed_version)
+        ->printOutput(FALSE)
+        ->run();
+
+      if ($result->getMessage() !== 'commit') {
+        $this->yell(strtr('This current commit @current-commit cannot be deployed, since new commits have been created since, so we don\'t want to deploy an older version.', [
+          '@current-commit' => $current_version,
+        ]));
+        $this->yell('Aborting the process to avoid going back in time.');
+        return;
+      }
+    }
+
     // Compile theme.
     $this->themeCompile();
 
@@ -358,6 +359,8 @@ class RoboFile extends Tasks {
       'travis-key',
       'server.es.secrets.json',
       '.bootstrap-fast.php',
+      'ci-scripts',
+      'phpstan.neon',
     ];
 
     $rsync_exclude_string = '--exclude=' . implode(' --exclude=', $rsync_exclude);
@@ -419,11 +422,11 @@ class RoboFile extends Tasks {
     // This "git push" above is as async operation, so prevent invoking
     // for instance drush cim before the new changes are there.
     usleep(self::DEPLOYMENT_WAIT_TIME);
+    $pantheon_env = $branch_name == 'master' ? 'dev' : $branch_name;
     do {
       $code_sync_completed = $this->_exec("terminus workflow:list " . self::PANTHEON_NAME . " --format=csv | grep " . $pantheon_env . " | grep Sync | awk -F',' '{print $5}' | grep running")->getExitCode();
       usleep(self::DEPLOYMENT_WAIT_TIME);
-    }
-    while (!$code_sync_completed);
+    } while (!$code_sync_completed);
     $this->deployPantheonSync($pantheon_env, FALSE);
   }
 
@@ -500,7 +503,7 @@ class RoboFile extends Tasks {
       'live',
     ];
     if (in_array($env, $forbidden_envs)) {
-      throw new Exception("Reinstalling the site on `{$env}` environment is forbidden.");
+      throw new Exception("Reinstalling the site on `$env` environment is forbidden.");
     }
 
     $pantheon_name = self::PANTHEON_NAME;
@@ -530,7 +533,7 @@ class RoboFile extends Tasks {
     $result = $task->run()->getExitCode();
 
     if ($result !== 0) {
-      throw new Exception("The site failed to install on Pantheon's `{$env}` environment.");
+      throw new Exception("The site failed to install on Pantheon's `$env` environment.");
     }
   }
 
@@ -585,8 +588,10 @@ class RoboFile extends Tasks {
    *   The branch that should be pushed automatically to Pantheon.
    * @param string $pantheon_deploy_branch
    *   The branch at the artifact repo that should be the target of the deploy.
+   *
+   * @throws \Robo\Exception\TaskException
    */
-  public function deployConfigAutodeploy(string $token, string $project_name, $github_deploy_branch = 'master', string $pantheon_deploy_branch = 'master') {
+  public function deployConfigAutodeploy(string $token, string $project_name, string $github_deploy_branch = 'master', string $pantheon_deploy_branch = 'master') {
     if (empty(shell_exec("which travis"))) {
       // We do not bake it into the Docker image to save on disk space.
       // We rarely need this operation, also not all the developers
@@ -600,45 +605,39 @@ class RoboFile extends Tasks {
         ->getExitCode();
 
       if ($result !== 0) {
-        throw new \Exception('The installation of the dependencies failed.');
+        throw new Exception('The installation of the dependencies failed.');
       }
     }
 
     $result = $this->taskExec('ssh-keygen -f travis-key -P ""')->run();
     if ($result->getExitCode() !== 0) {
-      throw new \Exception('The key generation failed.');
+      throw new Exception('The key generation failed.');
     }
 
     $result = $this->taskExec('travis login --pro')->run();
     if ($result->getExitCode() !== 0) {
-      throw new \Exception('The authentication with GitHub via Travis CLI failed.');
+      throw new Exception('The authentication with GitHub via Travis CLI failed.');
     }
 
     $result = $this->taskExec('travis encrypt-file travis-key --add --no-interactive --pro')
       ->run();
     if ($result->getExitCode() !== 0) {
-      throw new \Exception('The encryption of the private key failed.');
+      throw new Exception('The encryption of the private key failed.');
     }
 
     $result = $this->taskExec('travis encrypt TERMINUS_TOKEN="' . $token . '" --add --no-interactive --pro')
       ->run();
     if ($result->getExitCode() !== 0) {
-      throw new \Exception('The encryption of the Terminus token failed.');
+      throw new Exception('The encryption of the Terminus token failed.');
     }
 
-    $result = $this->taskExec("terminus connection:info {$project_name}.dev --fields='Git Command' --format=string | awk '{print $3}'")
+    $result = $this->taskExec("terminus connection:info $project_name.dev --fields='Git Command' --format=string | awk '{print $3}'")
       ->printOutput(FALSE)
       ->run();
     $pantheon_git_url = trim($result->getMessage());
-    $host_parts = parse_url($pantheon_git_url);
-    $pantheon_git_host = $host_parts['host'];
     $this->taskReplaceInFile('.travis.yml')
       ->from('{{ PANTHEON_GIT_URL }}')
       ->to($pantheon_git_url)
-      ->run();
-    $this->taskReplaceInFile('.travis.yml')
-      ->from('{{ PANTHEON_GIT_HOST }}')
-      ->to($pantheon_git_host)
       ->run();
     $this->taskReplaceInFile('.travis.yml')
       ->from('{{ PANTHEON_DEPLOY_BRANCH }}')
@@ -651,7 +650,7 @@ class RoboFile extends Tasks {
 
     $result = $this->taskExec('git add .travis.yml travis-key.enc')->run();
     if ($result->getExitCode() !== 0) {
-      throw new \Exception("git add failed.");
+      throw new Exception("git add failed.");
     }
     $this->say("The project was prepared for the automatic deployment to Pantheon");
     $this->say("Review the changes and make a commit from the added files.");
@@ -660,13 +659,13 @@ class RoboFile extends Tasks {
     $this->say("Convert the project to nested docroot: https://pantheon.io/docs/nested-docroot .");
   }
 
-  private $indices = [
+  private array $indices = [
     "server",
   ];
 
-  private $environments = ["qa", "dev", "test", "live"];
+  private array $environments = ["qa", "dev", "test", "live"];
 
-  private $sites = ["server"];
+  private array $sites = ["server"];
 
   /**
    * Generates a cryptographically secure random string for the password.
@@ -686,7 +685,7 @@ class RoboFile extends Tasks {
     string $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
   ): string {
     if ($length < 1) {
-      throw new \RangeException("Length must be a positive integer");
+      throw new RangeException("Length must be a positive integer");
     }
     $pieces = [];
     $max = mb_strlen($keyspace, '8bit') - 1;
@@ -710,7 +709,7 @@ class RoboFile extends Tasks {
    *
    * @throws \Exception
    */
-  public function elasticsearchProvision($es_url, $username, $password, $environment = NULL) {
+  public function elasticsearchProvision(string $es_url, string $username, string $password, string $environment = NULL) {
     $needs_users = TRUE;
 
     $es_url = rtrim($es_url, '/');
@@ -721,7 +720,7 @@ class RoboFile extends Tasks {
     }
     else {
       $result = json_decode($this
-        ->taskExec("curl -u {$username}:{$password} {$es_url}/_security/user")
+        ->taskExec("curl -u $username:$password $es_url/_security/user")
         ->printOutput(FALSE)
         ->run()
         ->getMessage(), TRUE);
@@ -749,7 +748,7 @@ class RoboFile extends Tasks {
     }
     foreach ($this->environments as $environment) {
       foreach ($this->indices as $index) {
-        $index_creation->process("curl -u {$username}:{$password} -X PUT {$es_url}/" . self::$indexPrefix . "{$index}_{$environment}");
+        $index_creation->process("curl -u $username:$password -X PUT $es_url/" . self::$indexPrefix . "{$index}_$environment");
       }
       foreach ($this->sites as $site) {
         if (!isset($credentials[$site])) {
@@ -777,18 +776,18 @@ class RoboFile extends Tasks {
 }
 END;
 
-        $role_creation->process("curl -u {$username}:{$password} -X POST {$es_url}/_security/role/${site}_${environment} -H 'Content-Type: application/json' --data '$role_data'");
+        $role_creation->process("curl -u $username:$password -X POST $es_url/_security/role/${site}_$environment -H 'Content-Type: application/json' --data '$role_data'");
 
         // Generate random password or re-use an existing one from the JSON.
         $existing_password = $this->getUserPassword($site, $environment);
         $user_pw = !empty($existing_password) ? $existing_password : $this->randomStr();
         $user_data = <<<END
 { "password" : "$user_pw",
-  "roles": [ "{$site}_{$environment}" ]
+  "roles": [ "{$site}_$environment" ]
 }
 END;
         $credentials[$site][$environment] = $user_pw;
-        $user_creation->process("curl -u {$username}:{$password} -X POST {$es_url}/_security/user/${site}_${environment} -H 'Content-Type: application/json' --data '$user_data'");
+        $user_creation->process("curl -u $username:$password -X POST $es_url/_security/user/{$site}_$environment -H 'Content-Type: application/json' --data '$user_data'");
       }
 
     }
@@ -820,7 +819,7 @@ END;
    *
    * @throws \Exception
    */
-  public function elasticsearchAnalyzer($es_url, $username = '', $password = '') {
+  public function elasticsearchAnalyzer(string $es_url, string $username = '', string $password = '') {
     $analyzer_data = <<<END
 {
   "analysis": {
@@ -851,12 +850,12 @@ END;
    * @param string $data
    *   The JSON snippet to apply.
    */
-  private function applyIndexSettings($es_url, $username, $password, $data) {
+  private function applyIndexSettings(string $es_url, string $username, string $password, string $data) {
     foreach ($this->environments as $environment) {
       foreach ($this->indices as $index) {
-        $this->taskExec("curl -u {$username}:{$password} -X POST {$es_url}/" . self::$indexPrefix . "{$index}_{$environment}/_close")->run();
-        $this->taskExec("curl -u {$username}:{$password} -X PUT {$es_url}/" . self::$indexPrefix . "{$index}_{$environment}/_settings -H 'Content-Type: application/json' --data '$data'")->run();;
-        $this->taskExec("curl -u {$username}:{$password} -X POST {$es_url}/" . self::$indexPrefix . "{$index}_{$environment}/_open")->run();
+        $this->taskExec("curl -u $username:$password -X POST $es_url/" . self::$indexPrefix . "{$index}_$environment/_close")->run();
+        $this->taskExec("curl -u $username:$password -X PUT $es_url/" . self::$indexPrefix . "{$index}_$environment/_settings -H 'Content-Type: application/json' --data '$data'")->run();
+        $this->taskExec("curl -u $username:$password -X POST $es_url/" . self::$indexPrefix . "{$index}_$environment/_open")->run();
       }
     }
   }
@@ -871,7 +870,7 @@ END;
    *
    * @return string|NULL
    */
-  protected function getUserPassword($site, $environment) {
+  protected function getUserPassword(string $site, string $environment) {
     $credentials_file = $site . '.es.secrets.json';
     if (!file_exists($credentials_file)) {
       return NULL;
@@ -900,7 +899,7 @@ END;
    *
    * @throws \Exception
    */
-  public function generateReleaseNotes($tag = NULL) {
+  public function generateReleaseNotes(string $tag = NULL) {
     // Check if the specified tag exists or not.
     if (!empty($tag)) {
       $result = $this->taskExec("git tag | grep \"$tag\"")
@@ -927,11 +926,41 @@ END;
       $tag = $latest_tag;
     }
 
+    // Detect organization / repository name from git remote.
+    $remote = $this->taskExec("git remote get-url origin")
+      ->printOutput(FALSE)
+      ->run()
+      ->getMessage();
+
+    if (!empty($remote)) {
+      $origin_parts = preg_split('/[:\/]/', str_replace('.git', '', $remote));
+      if (!empty($origin_parts[1]) && !empty($origin_parts[2])) {
+        $github_org = $origin_parts[1];
+        $github_project = $origin_parts[2];
+      }
+    }
+
+    if (!isset($github_org) || !isset($github_project)) {
+      $this->say('No GitHub project or GitHub organization found, so not trying to fetch details from GitHub API.');
+    }
+
+    // This is the heart of the release notes, the git history, we get all the
+    // merge commits since the specified last version and later on we parse
+    // the output. Optionally we enrich it with metadata from GitHub REST API.
     $log = $this->taskExec("git log --merges --pretty=format:'%s¬¬|¬¬%b' $tag..")->printOutput(FALSE)->run()->getMessage();
     $lines = explode("\n", $log);
 
     $this->say('Copy release notes below');
-    echo "Changelog:\n";
+
+    $this->printReleaseNotesTitle('Changelog');
+
+    $pull_requests_per_issue = [];
+    $no_issue_lines = [];
+    $contributors = [];
+    $issue_titles = [];
+    $additions = 0;
+    $deletions = 0;
+    $changed_files = 0;
 
     foreach ($lines as $line) {
       $log_messages = explode("¬¬|¬¬", $line);
@@ -953,6 +982,16 @@ END;
         // Whitespace-only log message, not meaningful for changelog.
         continue;
       }
+      $pr_number = $pr_matches[1][0];
+      if (!empty($github_org) && !empty($github_project)) {
+        $pr_details = $this->githubApiGet("repos/$github_org/$github_project/pulls/$pr_number");
+        if (!empty($pr_details->user)) {
+          $contributors[] = '@' . $pr_details->user->login;
+          $additions += $pr_details->additions;
+          $deletions += $pr_details->deletions;
+          $changed_files += $pr_details->changed_files;
+        }
+      }
 
       // The issue number is a required part of the branch name,
       // So usually we can grab it from the log too, but that's optional
@@ -961,12 +1000,115 @@ END;
       preg_match_all('!from [a-zA-Z-_0-9]+/([0-9]+)!', $line, $issue_matches);
 
       if (isset($issue_matches[1][0])) {
-        print "- Issue #{$issue_matches[1][0]}: {$log_messages[1]} (#{$pr_matches[1][0]})\n";
+        $issue_number = $issue_matches[1][0];
+        if (!isset($issue_titles[$issue_number]) && !empty($github_org) && !empty($github_project)) {
+          $issue_details = $this->githubApiGet("repos/$github_org/$github_project/issues/$issue_number");
+          if (!empty($issue_details->title)) {
+            $issue_titles[$issue_number] = $issue_details->title;
+            $contributors[] = '@' . $issue_details->user->login;
+          }
+        }
+
+        if (isset($issue_titles[$issue_number])) {
+          $issue_line = "- $issue_titles[$issue_number] (#$issue_number)";
+        }
+        else {
+          $issue_line = "- Issue #$issue_number";
+        }
+        if (!isset($pull_requests_per_issue[$issue_line])) {
+          $pull_requests_per_issue[$issue_line] = [];
+        }
+        $pull_requests_per_issue[$issue_line][] = "  - $log_messages[1] (#{$pr_matches[1][0]})";
       }
       else {
-        print "- {$log_messages[1]} (#{$pr_matches[1][0]})\n";
+        $no_issue_lines[] = "- $log_messages[1] (#$pr_number)";
       }
     }
+
+    foreach ($pull_requests_per_issue as $issue_line => $pr_lines) {
+      print $issue_line . "\n";
+      foreach ($pr_lines as $pr_line) {
+        print $pr_line . "\n";
+      }
+    }
+
+    $this->printReleaseNotesSection('', $no_issue_lines);
+
+    if (isset($github_org)) {
+      $contributors = array_unique($contributors);
+      sort($contributors);
+      $this->printReleaseNotesSection('Contributors', $contributors);
+
+      $this->printReleaseNotesSection('Code statistics', [
+        "Lines added: $additions",
+        "Lines deleted: $deletions",
+        "Files changed: $changed_files",
+      ]);
+    }
+  }
+
+  /**
+   * Print a section for the release notes.
+   *
+   * @param string $title
+   *   Section title.
+   * @param array $lines
+   *   Bullet points.
+   */
+  protected function printReleaseNotesSection(string $title, array $lines) {
+    if (!empty($title)) {
+      $this->printReleaseNotesTitle($title);
+    }
+    foreach ($lines as $line) {
+      if (substr($line, 0, 1) == '-') {
+        print "$line\n";
+      }
+      else {
+        print "- $line\n";
+      }
+    }
+  }
+
+  /**
+   * Print a title for the release notes.
+   *
+   * @param string $title
+   *   Section title.
+   */
+  protected function printReleaseNotesTitle(string $title) {
+    echo "\n\n## $title\n";
+  }
+
+  /**
+   * Performs a GET request towards GitHub API using personal access token.
+   *
+   * @param string $path
+   *   Resource/path to GET.
+   *
+   * @return mixed|null
+   *   Decoded response or NULL.
+   *
+   * @throws \Exception
+   */
+  protected function githubApiGet(string $path) {
+    $token = getenv('GITHUB_ACCESS_TOKEN');
+    $username = getenv('GITHUB_USERNAME');
+    if (empty($token)) {
+      throw new Exception('Specify the personal access token in GITHUB_ACCESS_TOKEN environment variable before invoking the release notes generator in order to be able to fetch details of issues and pull requests');
+    }
+    if (empty($username)) {
+      throw new Exception('Specify the GitHub username in GITHUB_USERNAME environment variable before invoking the release notes generator in order to be able to fetch details of issues and pull requests');
+    }
+    // We might not have a sane Drupal instance, let's not rely on Drupal API
+    // to generate release notes.
+    $ch = curl_init('https://api.github.com/' . $path);
+    curl_setopt($ch, CURLOPT_USERAGENT, 'Drupal Starter Release Notes Generator');
+    curl_setopt($ch, CURLOPT_USERPWD, $username . ":" . $token);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    $result = curl_exec($ch);
+    curl_close($ch);
+    return empty($result) ? NULL : json_decode($result);
   }
 
 }

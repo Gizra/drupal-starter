@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
+echo "Logging into Docker Hub"
+docker login --password "$DOCKER_PASSWORD" --username amitaibu
+
 echo "Install mkcert."
 wget -nv https://github.com/FiloSottile/mkcert/releases/download/v1.4.0/mkcert-v1.4.0-linux-amd64
 sudo mv mkcert-v1.4.0-linux-amd64 /usr/bin/mkcert

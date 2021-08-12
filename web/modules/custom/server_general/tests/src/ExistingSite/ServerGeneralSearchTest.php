@@ -21,10 +21,9 @@ class ServerGeneralSearchTest extends ExistingSiteBase {
     $this->drupalLogin($admin);
     $this->drupalGet('/admin/config/search/elasticsearch-connector/cluster/server');
 
-    // The demo content is indexed.
-    $this->assertSession()->pageTextNotContains('0 Total Documents');
-    $this->assertSession()->pageTextContains('1 Nodes');
-    $this->assertSession()->pageTextNotContains('red');
+    // The server is available.
+    $this->assertSession()->elementTextContains('css', '.admin-elasticsearch-statistics tr td', '1 Nodes');
+    $this->assertSession()->elementTextNotContains('css', '.admin-elasticsearch-statistics', 'red');
 
     $this->drupalGet('/admin/config/search/search-api/index/server_dev/clear');
     $this->submitForm([], 'Confirm');

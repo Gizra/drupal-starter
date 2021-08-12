@@ -13,3 +13,4 @@ parameters:
     - 'web/core/*'
     - 'web/sites/default/*'
     - 'web/modules/contrib/*'
+    - 'web/sites/simpletest/*'

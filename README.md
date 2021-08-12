@@ -1,8 +1,8 @@
 [![Build Status](https://travis-ci.com/Gizra/drupal-starter.svg?branch=master)](https://travis-ci.com/Gizra/drupal-starter)
 
-# Drupal 8 Starter
+# Drupal 9 Starter
 
-Starter repo for Drupal 8 development. This starter is an opinionated approach,
+Starter repo for Drupal 9 development. This starter is an opinionated approach,
 with the following concepts and tools:
 
 1. [ddev](https://ddev.readthedocs.io/) should be the only requirement, and
@@ -42,16 +42,19 @@ then execute the following, and re-try installation steps.
 
 ## Theme development
 
-By default, `ddev restart` compiles the theme using Robo.
+By default, `ddev restart` compiles the theme using Robo (`ddev robo theme:compile-debug`)
 
-On the local development environment, which is using TailWind, execute:
+This is used only for watching Tailwind styles, it's not compiling js, images, etc.
+
+On the local development environment, which is using TailWind's [JIT](https://tailwindcss.com/docs/just-in-time-mode) (Just-In-Time), execute:
+
 ```bash
-ddev robo theme:compile-debug
+ddev theme:watch
 ```
 
-This will compile TailWind with all the classes, copy any fonts, images, etc.
+This will compile Tailwind and keep watching for any changes.
 
-When running `ddev robo theme:complie` it will purge any TailWind's CSS class
+When running `ddev robo theme:compile` it will purge any TailWind's CSS class
 which is not found in the code, twig, or under `tailwind.config.js` `whitelist` property.
 
 The directory structure:
@@ -152,7 +155,14 @@ To Deploy to a Pantheon environment (e.g. TEST or LIVE) you can use
 ### Release notes
 
 Deployments should imply a release, you can generate a release notes based on
-tags. You can generate a changelog using
+tags.
+In order to provide verbose release notes, it is required to [create a personal
+access token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token).
+Then specify two [new environment variables for DDEV web container](https://ddev.readthedocs.io/en/stable/users/extend/customization-extendibility/#providing-custom-environment-variables-to-a-container):
+ - `GITHUB_USERNAME`
+ - `GITHUB_ACCESS_TOKEN`
+
+Then you can generate a changelog using
 
     ddev robo generate:release-notes
 
