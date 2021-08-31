@@ -63,6 +63,18 @@ The directory structure:
 
 For theme development, it's advisable to entirely turn off caching: https://www.drupal.org/node/2598914
 
+### Important note on breakpoints
+
+_This only applies if the site uses responsive images._
+
+If there are new breakpoints added, or existing breakpoints updated in
+`server_theme/tailwind.config.js`, you must ensure to also update the drupal
+breakpoints configuration file for the theme `server_theme.breakpoints.yml` so
+that the media queries for the responsive images are in sync with tailwind's.
+It is advisable to finalize this configuration before any responsive image
+styles get added, otherwise you will need to ensure the existing responsive
+image styles are also re-configured for the new/updated breakpoints.
+
 ## ElasticSearch
 
 The starter kit comes out of the box with ElasticSearch. Search API is activated and DDEV provides an ElasticSearch instance, already configured to use a [stopwords](https://github.com/Gizra/drupal-starter/blob/master/config/elasticsearch/stopwords.txt) and a [synonyms](https://github.com/Gizra/drupal-starter/blob/master/config/elasticsearch/synonyms.txt) list. Also it creates 4 indices (QA, DEV, TEST and LIVE) to reflect our typical Pantheon setup. The site inside DDEV will use the DEV index.
