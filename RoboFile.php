@@ -1106,6 +1106,7 @@ END;
     curl_setopt($ch, CURLOPT_USERPWD, $username . ":" . $token);
     curl_setopt($ch, CURLOPT_TIMEOUT, 30);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
     $result = curl_exec($ch);
     curl_close($ch);
     return empty($result) ? NULL : json_decode($result);
