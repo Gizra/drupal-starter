@@ -73,7 +73,7 @@ function server_theme_theme() {
   $info['server_theme_content__hero_header'] = [
     'variables' => [
       'title' => NULL,
-      'background_image' => NULL,
+      'image' => NULL,
     ],
   ];
 

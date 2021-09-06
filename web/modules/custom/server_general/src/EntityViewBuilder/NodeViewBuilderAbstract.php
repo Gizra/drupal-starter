@@ -19,9 +19,9 @@ abstract class NodeViewBuilderAbstract extends EntityViewBuilderPluginAbstract {
   use TagBuilderTrait;
 
   /**
-   * The image style to use on Hero images.
+   * The responsive image style to use on Hero images.
    */
-  const IMAGE_STYLE_HERO = 'hero';
+  const RESPONSIVE_IMAGE_STYLE_HERO = 'hero';
 
   /**
    * Default build in "Teaser" view mode.
@@ -74,12 +74,10 @@ abstract class NodeViewBuilderAbstract extends EntityViewBuilderPluginAbstract {
    *   A render array.
    */
   protected function buildHeroHeader(NodeInterface $entity, string $image_field_name = 'field_image'): array {
-    $image_info = $this->getImageAndAlt($entity, $image_field_name, 'hero');
-
     return [
       '#theme' => 'server_theme_content__hero_header',
       '#title' => $entity->label(),
-      '#background_image' => $image_info['url'] ?? '',
+      '#image' => $this->buildMediaResponsiveImage($entity, $image_field_name, self::RESPONSIVE_IMAGE_STYLE_HERO),
     ];
   }
 

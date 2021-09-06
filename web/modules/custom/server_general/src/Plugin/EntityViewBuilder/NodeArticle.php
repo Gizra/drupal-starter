@@ -31,7 +31,7 @@ class NodeArticle extends NodeViewBuilderAbstract {
     $this->messenger()->addMessage('Add your Node Article elements in \Drupal\server_general\Plugin\EntityViewBuilder\NodeArticle');
 
     // Header.
-    $build[] = $this->buildHeroHeader($entity);
+    $build[] = $this->buildHeroHeader($entity, 'field_featured_image');
 
     // Tags.
     $build[] = $this->buildContentTags($entity);
