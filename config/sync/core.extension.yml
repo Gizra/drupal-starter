@@ -23,6 +23,7 @@ module:
   history: 0
   image: 0
   link: 0
+  media: 0
   menu_ui: 0
   node: 0
   options: 0
