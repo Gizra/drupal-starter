@@ -1,0 +1,72 @@
+uuid: d8379bae-43cf-4497-90d6-99c7449b2a4c
+langcode: en
+status: true
+dependencies:
+  config:
+    - image.style.hero_lg_1x
+    - image.style.hero_lg_2x
+    - image.style.hero_md_1x
+    - image.style.hero_md_2x
+    - image.style.hero_mobile_1x
+    - image.style.hero_mobile_2x
+    - image.style.hero_sm_1x
+    - image.style.hero_sm_2x
+    - image.style.hero_xl_1x
+    - image.style.hero_xl_2x
+  theme:
+    - server_theme
+id: hero
+label: Hero
+image_style_mappings:
+  -
+    breakpoint_id: server_theme.xl
+    multiplier: 1x
+    image_mapping_type: image_style
+    image_mapping: hero_xl_1x
+  -
+    breakpoint_id: server_theme.xl
+    multiplier: 2x
+    image_mapping_type: image_style
+    image_mapping: hero_xl_2x
+  -
+    breakpoint_id: server_theme.lg
+    multiplier: 1x
+    image_mapping_type: image_style
+    image_mapping: hero_lg_1x
+  -
+    breakpoint_id: server_theme.lg
+    multiplier: 2x
+    image_mapping_type: image_style
+    image_mapping: hero_lg_2x
+  -
+    breakpoint_id: server_theme.md
+    multiplier: 1x
+    image_mapping_type: image_style
+    image_mapping: hero_md_1x
+  -
+    breakpoint_id: server_theme.md
+    multiplier: 2x
+    image_mapping_type: image_style
+    image_mapping: hero_md_2x
+  -
+    breakpoint_id: server_theme.sm
+    multiplier: 1x
+    image_mapping_type: image_style
+    image_mapping: hero_sm_1x
+  -
+    breakpoint_id: server_theme.sm
+    multiplier: 2x
+    image_mapping_type: image_style
+    image_mapping: hero_sm_2x
+  -
+    breakpoint_id: server_theme.mobile
+    multiplier: 1x
+    image_mapping_type: image_style
+    image_mapping: hero_mobile_1x
+  -
+    breakpoint_id: server_theme.mobile
+    multiplier: 2x
+    image_mapping_type: image_style
+    image_mapping: hero_mobile_2x
+breakpoint_group: server_theme
+fallback_image_style: hero_xl_1x
