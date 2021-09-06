@@ -1,3 +1,30 @@
 .container-wide {
   @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
 }
+
+// Adding this class to parents of image containers we can style images
+// to cover their parents/or contained within the parents without having
+// access to the image HTML.
+// This can be useful when we get pre-rendered image HTML as a string
+// from Drupal.
+.child-object-cover {
+
+  // Set picture to also be 100% of the parent dimensions so the img inside
+  // can scale accordingly as well.
+  > picture,
+    // This should cover responsive images inside a picture tag.
+  > picture img,
+    // This covers normal images without picture wrapper.
+  > img {
+    @apply w-full h-full object-cover;
+  }
+}
+
+.child-object-contain {
+
+  > picture,
+  > picture img,
+  > img {
+    @apply w-full h-full object-contain;
+  }
+}
