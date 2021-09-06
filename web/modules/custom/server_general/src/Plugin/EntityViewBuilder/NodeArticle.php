@@ -57,7 +57,7 @@ class NodeArticle extends NodeViewBuilderAbstract {
    *   Render array.
    */
   public function buildTeaser(array $build, NodeInterface $entity) {
-    $image_info = $this->getImageAndAlt($entity, 'field_image');
+    $image_info = $this->getMediaImageAndAlt($entity, 'field_featured_image');
 
     $element = parent::buildTeaser($build, $entity);
     $element += [
