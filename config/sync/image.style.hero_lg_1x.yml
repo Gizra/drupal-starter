@@ -1,0 +1,15 @@
+uuid: 5f5fe99e-b743-4183-8ae2-8fe599998ad4
+langcode: en
+status: true
+dependencies: {  }
+name: hero_lg_1x
+label: 'Hero lg 1x (1280x400)'
+effects:
+  48c88dc0-be72-47c7-bab1-65aa448b41c7:
+    uuid: 48c88dc0-be72-47c7-bab1-65aa448b41c7
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 1280
+      height: 400
+      anchor: center-center

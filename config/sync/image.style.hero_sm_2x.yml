@@ -1,0 +1,15 @@
+uuid: b3d69294-cb3b-4ee9-b1f1-e2f5d8d6e615
+langcode: en
+status: true
+dependencies: {  }
+name: hero_sm_2x
+label: 'Hero sm 2x (1536x480)'
+effects:
+  edc127f3-3acc-4c47-ae83-29065bfc606d:
+    uuid: edc127f3-3acc-4c47-ae83-29065bfc606d
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 1536
+      height: 480
+      anchor: center-center

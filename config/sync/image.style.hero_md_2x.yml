@@ -1,0 +1,15 @@
+uuid: d8b9c4ce-5986-44a6-a0bb-a8f92fbaa0c8
+langcode: en
+status: true
+dependencies: {  }
+name: hero_md_2x
+label: 'Hero md 2x (2048x640)'
+effects:
+  032b723f-659e-4c7b-a4b8-578e064dd822:
+    uuid: 032b723f-659e-4c7b-a4b8-578e064dd822
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 2048
+      height: 640
+      anchor: center-center

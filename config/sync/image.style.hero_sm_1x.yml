@@ -1,0 +1,15 @@
+uuid: 18e0b01f-b218-469b-a027-3fce68860bd4
+langcode: en
+status: true
+dependencies: {  }
+name: hero_sm_1x
+label: 'Hero sm 1x (768x240)'
+effects:
+  b07c4661-b39a-43a0-84aa-0571c2128b57:
+    uuid: b07c4661-b39a-43a0-84aa-0571c2128b57
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 768
+      height: 240
+      anchor: center-center
