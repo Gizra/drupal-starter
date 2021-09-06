@@ -33,6 +33,7 @@ module:
   quickedit: 0
   rdf: 0
   redis: 0
+  responsive_image: 0
   search_api: 0
   server_general: 0
   server_search: 0
