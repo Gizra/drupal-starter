@@ -65,7 +65,7 @@ For theme development, it's advisable to entirely turn off caching: https://www.
 
 ### Breakpoints and Responsive Images
 
-It is advised to use Drupal's Responsive images.
+It is advised to use Drupal's Responsive image module.
 
 If there are new breakpoints added, or existing breakpoints updated in
 `server_theme/tailwind.config.js`, you must ensure to also update the drupal
