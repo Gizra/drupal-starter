@@ -40,7 +40,7 @@ then execute the following, and re-try installation steps.
 
     ddev rm --unlist
 
-## Theme development
+## Theme Development
 
 By default, `ddev restart` compiles the theme using Robo (`ddev robo theme:compile-debug`)
 
@@ -63,9 +63,9 @@ The directory structure:
 
 For theme development, it's advisable to entirely turn off caching: https://www.drupal.org/node/2598914
 
-### Important note on breakpoints
+### Breakpoints and Responsive Images
 
-_This only applies if the site uses responsive images._
+It is advised to use Drupal's Responsive images.
 
 If there are new breakpoints added, or existing breakpoints updated in
 `server_theme/tailwind.config.js`, you must ensure to also update the drupal
@@ -74,6 +74,9 @@ that the media queries for the responsive images are in sync with tailwind's.
 It is advisable to finalize this configuration before any responsive image
 styles get added, otherwise you will need to ensure the existing responsive
 image styles are also re-configured for the new/updated breakpoints.
+
+Currently, the breakpoints are configured to follow [Tailwind's breakpoints](https://tailwindcss.com/docs/responsive-design)
+for example `sm`, `md`, etc.
 
 ## ElasticSearch
 
