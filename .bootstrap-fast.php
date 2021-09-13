@@ -27,4 +27,5 @@ if (class_exists('Drupal\TestTools\PhpUnitCompatibility\PhpUnit8\ClassWriter')) 
 }
 
 // Register more namespaces, as needed.
-$class_loader->addPsr4('Drupal\Tests\server_general\Traits\\', "$root/modules/custom/server_general/tests/src/Traits");
+$class_loader->addPsr4('Drupal\Tests\search_api\\', "$root/modules/contrib/search_api/tests/src");
+$class_loader->addPsr4('Drupal\Tests\server_general\\', "$root/modules/custom/server_general/tests/src");
