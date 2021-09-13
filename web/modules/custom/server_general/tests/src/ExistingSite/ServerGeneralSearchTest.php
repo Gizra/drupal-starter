@@ -2,14 +2,10 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
-use Drupal\Tests\search_api\Kernel\PostRequestIndexingTrait;
-
 /**
  * A test case to test search integration.
  */
 class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
-
-  use PostRequestIndexingTrait;
 
   const ES_WAIT_MICRO_SECONDS = 200;
 
