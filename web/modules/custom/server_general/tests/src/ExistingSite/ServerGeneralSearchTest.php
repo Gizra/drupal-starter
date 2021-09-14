@@ -2,12 +2,10 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
-use weitzman\DrupalTestTraits\ExistingSiteBase;
-
 /**
  * A test case to test search integration.
  */
-class ServerGeneralSearchTest extends ExistingSiteBase {
+class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
 
   const ES_WAIT_MICRO_SECONDS = 200;
 
@@ -20,6 +18,7 @@ class ServerGeneralSearchTest extends ExistingSiteBase {
     $admin = $this->createUser([], NULL, TRUE);
     $this->drupalLogin($admin);
     $this->drupalGet('/admin/config/search/elasticsearch-connector/cluster/server');
+    $empty_text = 'There are 0 items indexed on the server for this index.';
 
     // The server is available.
     $this->assertSession()->elementTextContains('css', '.admin-elasticsearch-statistics tr td', '1 Nodes');
@@ -30,7 +29,7 @@ class ServerGeneralSearchTest extends ExistingSiteBase {
 
     // After the purge, we should not have items.
     $this->drupalGet('/admin/config/search/search-api/index/server_dev');
-    $this->assertSession()->pageTextContains('There are 0 items indexed on the server for this index.');
+    $this->assertSession()->pageTextContains($empty_text);
 
     $node = $this->createNode([
       'title' => 'Search API + ES test',
@@ -38,30 +37,15 @@ class ServerGeneralSearchTest extends ExistingSiteBase {
       'uid' => $admin->id(),
     ]);
     $node->setPublished()->save();
-    search_api_cron();
+    $this->triggerPostRequestIndexing();
 
-    // ES is relatively slow compared to the execution of the test, we
-    // wait until the item appears in the index.
-    $attempts = 0;
-    do {
+    $this->waitForElasticSearchIndex(function () use ($empty_text) {
       $this->drupalGet('/admin/config/search/search-api/index/server_dev');
-      usleep(self::ES_WAIT_MICRO_SECONDS);
-      try {
-        $this->assertSession()->pageTextNotContains('There are 0 items indexed on the server for this index.');
-        $this
-          ->assertSession()
-          ->pageTextMatches('/There are [0-9]+ items indexed on the server for this index/');
-      }
-      catch (\Exception $e) {
-        $attempts++;
-        if ($attempts > self::ES_RETRY_LIMIT) {
-          throw $e;
-        }
-        continue;
-      }
-      break;
-
-    } while (TRUE);
+      $this->assertSession()->pageTextNotContains($empty_text);
+      $this
+        ->assertSession()
+        ->pageTextMatches('/There (are|is) [0-9]+ item(s)* indexed on the server for this index/');
+    });
   }
 
 }
