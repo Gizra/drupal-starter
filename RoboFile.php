@@ -10,7 +10,9 @@ use Symfony\Component\Yaml\Yaml;
  */
 class RoboFile extends Tasks {
 
-  const THEME_BASE = 'web/themes/custom/server_theme';
+  const THEME_NAME = 'server_theme';
+
+  const THEME_BASE = 'web/themes/custom/' . self::THEME_NAME;
 
   /**
    * The wait time between deployment checks in microseconds.
@@ -140,7 +142,7 @@ class RoboFile extends Tasks {
       // Check if SVG files exists in this directory.
       $finder = new Finder();
       $finder
-        ->in('web/themes/custom/server_theme/' . $directory)
+        ->in(self::THEME_BASE . '/' . $directory)
         ->files()
         ->name('*.svg');
 
@@ -149,7 +151,7 @@ class RoboFile extends Tasks {
         continue;
       }
 
-      $result = $this->_exec("cd web/themes/custom/server_theme && ./node_modules/svgo/bin/svgo $directory/*.svg");
+      $result = $this->_exec("cd " . self::THEME_BASE . " && ./node_modules/svgo/bin/svgo $directory/*.svg");
       if (empty($error_code) && !$result->wasSuccessful()) {
         $error_code = $result->getExitCode();
       }
@@ -553,7 +555,7 @@ class RoboFile extends Tasks {
 
     foreach ($directories as $directory) {
       foreach ($standards as $standard) {
-        $arguments = "--standard=$standard -p --ignore=server_theme/dist,node_modules --colors --extensions=php,module,inc,install,test,profile,theme,js,css,yaml,txt,md";
+        $arguments = "--standard=$standard -p --ignore=" . self::THEME_NAME . "/dist,node_modules --colors --extensions=php,module,inc,install,test,profile,theme,js,css,yaml,txt,md";
 
         foreach ($commands as $command) {
           $result = $this->_exec("cd web && ../vendor/bin/$command $directory $arguments");
