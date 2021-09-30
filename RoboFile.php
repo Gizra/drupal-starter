@@ -132,7 +132,7 @@ class RoboFile extends Tasks {
    *
    * This function is being called as part of `theme:compile`.
    *
-   * @return \Robo\ResultData|void
+   * @return \Robo\ResultData|null
    *   If there was an error a result data object is returned. Or void if
    *   successful.
    *
@@ -167,6 +167,7 @@ class RoboFile extends Tasks {
     if (!empty($error_code)) {
       return new ResultData($error_code, '`svgo` failed to run.');
     }
+    return NULL;
   }
 
   /**
@@ -545,8 +546,8 @@ class RoboFile extends Tasks {
   /**
    * Perform a Code sniffer test, and fix when applicable.
    *
-   * @return ResultData|void
-   *   If there was an error a result data object is returned. Or void if
+   * @return \Robo\ResultData|null
+   *   If there was an error a result data object is returned. Or null if
    *   successful.
    */
   public function phpcs(): ?ResultData {
@@ -582,8 +583,9 @@ class RoboFile extends Tasks {
     }
 
     if (!empty($error_code)) {
-      return new Robo\ResultData($error_code, 'PHPCS found some issues');
+      return new ResultData($error_code, 'PHPCS found some issues');
     }
+    return NULL;
   }
 
   /**
