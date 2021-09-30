@@ -1,6 +1,9 @@
 <?php
 
+declare(strict_types = 1);
+
 use Lurker\Event\FilesystemEvent;
+use Robo\ResultData;
 use Robo\Tasks;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
@@ -35,12 +38,12 @@ class RoboFile extends Tasks {
   const PANTHEON_NAME = '';
 
   /**
-   * Compile the theme; On success ...
+   * Compile the theme.
    *
    * @param bool $optimize
-   *   Indicate whether to optimize during compilation.
+   *   Indicate whether to optimize during compilation. Default: FALSE.
    */
-  private function compileTheme_(bool $optimize = FALSE) {
+  private function compileTheme_(bool $optimize = FALSE): void {
     $directories = [
       'js',
       'images',
@@ -62,7 +65,7 @@ class RoboFile extends Tasks {
 
     if ($result->getExitCode() !== 0) {
       $this->taskCleanDir(['dist/css']);
-      return $result;
+      return;
     }
 
     // Javascript.
@@ -109,7 +112,7 @@ class RoboFile extends Tasks {
   /**
    * Compile the theme (optimized).
    */
-  public function themeCompile() {
+  public function themeCompile(): void {
     $this->say('Compiling (optimized).');
     $this->compileTheme_(TRUE);
   }
@@ -119,7 +122,7 @@ class RoboFile extends Tasks {
    *
    * Non-optimized.
    */
-  public function themeCompileDebug() {
+  public function themeCompileDebug(): void {
     $this->say('Compiling (non-optimized).');
     $this->compileTheme_();
   }
@@ -129,9 +132,13 @@ class RoboFile extends Tasks {
    *
    * This function is being called as part of `theme:compile`.
    *
+   * @return \Robo\ResultData|null
+   *   If there was an error a result data object is returned. Or void if
+   *   successful.
+   *
    * @see compileTheme_()
    */
-  public function themeSvgCompress() {
+  public function themeSvgCompress(): ?ResultData {
     $directories = [
       './dist/images',
     ];
@@ -158,8 +165,9 @@ class RoboFile extends Tasks {
     }
 
     if (!empty($error_code)) {
-      return new Robo\ResultData($error_code, '`svgo` failed to run.');
+      return new ResultData($error_code, '`svgo` failed to run.');
     }
+    return NULL;
   }
 
   /**
@@ -168,7 +176,7 @@ class RoboFile extends Tasks {
    * @return array
    *   List of directories.
    */
-  protected function monitoredThemeDirectories() {
+  protected function monitoredThemeDirectories(): array {
     return [
       self::THEME_BASE . '/src',
     ];
@@ -177,7 +185,7 @@ class RoboFile extends Tasks {
   /**
    * Watch the theme and compile on change (optimized).
    */
-  public function themeWatch() {
+  public function themeWatch(): void {
     $this->say('Compiling and watching (optimized).');
     $this->compileTheme_(TRUE);
     foreach ($this->monitoredThemeDirectories() as $directory) {
@@ -195,7 +203,7 @@ class RoboFile extends Tasks {
   /**
    * Watch the theme path and compile on change (non-optimized).
    */
-  public function themeWatchDebug() {
+  public function themeWatchDebug(): void {
     $this->say('Compiling and watching (non-optimized).');
     $this->compileTheme_();
     foreach ($this->monitoredThemeDirectories() as $directory) {
@@ -216,13 +224,14 @@ class RoboFile extends Tasks {
    * @param string $tag
    *   The tag name in the current repository.
    * @param string $branch_name
-   *   The branch name from Pantheon repository. Default to master.
+   *   The branch name from Pantheon repository. Default: master.
    * @param string|null $commit_message
-   *   Optional, it is used as a commit message in the artifact repo.
+   *   Supply a custom commit message for the pantheon repo.
+   *   Default: "Release [tag]".
    *
    * @throws \Exception
    */
-  public function deployTagPantheon(string $tag, string $branch_name, string $commit_message = NULL) {
+  public function deployTagPantheon(string $tag, string $branch_name = 'master', ?string $commit_message = NULL): void {
     $result = $this
       ->taskExec('git status -s')
       ->printOutput(FALSE)
@@ -242,7 +251,9 @@ class RoboFile extends Tasks {
 
     $this->taskExec("git checkout $tag")->run();
 
-    $this->taskExec("rm -rf vendor && composer install")->run();
+    // Note: Add web/libraries to cleanup list below if the project installs it.
+    // This drupal starter currently doesn't install any.
+    $this->taskExec("rm -rf vendor web/core web/modules/contrib && composer install --no-dev")->run();
 
     if (empty($commit_message)) {
       $commit_message = 'Release ' . $tag;
@@ -264,13 +275,14 @@ class RoboFile extends Tasks {
    * Deploy to Pantheon.
    *
    * @param string $branch_name
-   *   The branch name to commit to. Default to master.
-   * @param string $commit_message
-   *   Optional, it is used as a commit message in the artifact repo.
+   *   The branch name to commit to. Default: master.
+   * @param string|null $commit_message
+   *   Supply a custom commit message for the pantheon repo.
+   *   Default: "Site update from [current_version]".
    *
    * @throws \Exception
    */
-  public function deployPantheon($branch_name = 'master', $commit_message = NULL) {
+  public function deployPantheon(string $branch_name = 'master', ?string $commit_message = NULL): void {
     if (empty(self::PANTHEON_NAME)) {
       throw new Exception('You need to fill the "PANTHEON_NAME" const in the Robo file. so it will know what is the name of your site.');
     }
@@ -436,14 +448,14 @@ class RoboFile extends Tasks {
    * Deploy site from one env to the other on Pantheon.
    *
    * @param string $env
-   *   The environment to update.
+   *   The environment to update. Default: test.
    * @param bool $do_deploy
-   *   Determine if a deploy should be done by terminus. That is, for example
-   *   should TEST environment be updated from DEV.
+   *   Determine if 'terminus env:deploy' should be run on the given env.
+   *   Default: TRUE.
    *
-   * @throws \Robo\Exception\TaskException
+   * @throws \Exception
    */
-  public function deployPantheonSync(string $env = 'test', bool $do_deploy = TRUE) {
+  public function deployPantheonSync(string $env = 'test', bool $do_deploy = TRUE): void {
     $pantheon_name = self::PANTHEON_NAME;
     $pantheon_terminus_environment = $pantheon_name . '.' . $env;
 
@@ -493,14 +505,14 @@ class RoboFile extends Tasks {
    * Install the site on specific env on Pantheon from scratch.
    *
    * Running this command via `ddev` will require terminus login inside ddev:
-   * `ddev auth ssh`
+   * `ddev auth ssh`.
    *
    * @param string $env
-   *   The environment to install (default='qa').
+   *   The environment to install. Default: qa.
    *
-   * @throws \Robo\Exception\TaskException
+   * @throws \Exception
    */
-  public function deployPantheonInstallEnv(string $env = 'qa') {
+  public function deployPantheonInstallEnv(string $env = 'qa'): void {
     $forbidden_envs = [
       'live',
     ];
@@ -533,8 +545,12 @@ class RoboFile extends Tasks {
 
   /**
    * Perform a Code sniffer test, and fix when applicable.
+   *
+   * @return \Robo\ResultData|null
+   *   If there was an error a result data object is returned. Or null if
+   *   successful.
    */
-  public function phpcs() {
+  public function phpcs(): ?ResultData {
     $standards = [
       'Drupal',
       'DrupalPractice',
@@ -567,8 +583,9 @@ class RoboFile extends Tasks {
     }
 
     if (!empty($error_code)) {
-      return new Robo\ResultData($error_code, 'PHPCS found some issues');
+      return new ResultData($error_code, 'PHPCS found some issues');
     }
+    return NULL;
   }
 
   /**
@@ -583,9 +600,9 @@ class RoboFile extends Tasks {
    * @param string $pantheon_deploy_branch
    *   The branch at the artifact repo that should be the target of the deploy.
    *
-   * @throws \Robo\Exception\TaskException
+   * @throws \Exception
    */
-  public function deployConfigAutodeploy(string $token, string $project_name, string $github_deploy_branch = 'master', string $pantheon_deploy_branch = 'master') {
+  public function deployConfigAutodeploy(string $token, string $project_name, string $github_deploy_branch = 'master', string $pantheon_deploy_branch = 'master'): void {
     if (empty(shell_exec("which travis"))) {
       // We do not bake it into the Docker image to save on disk space.
       // We rarely need this operation, also not all the developers
@@ -665,14 +682,15 @@ class RoboFile extends Tasks {
    * Generates a cryptographically secure random string for the password.
    *
    * @param int $length
-   *   Length of the random string.
+   *   Length of the random string. Default: 64.
    * @param string $keyspace
-   *   The set of characters that can be part of the output string.
+   *   The set of characters that can be part of the output string. Default:
+   *   '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.
    *
    * @return string
    *   The random string.
    *
-   * @throws \Exception
+   * @throws \RangeException|\Exception
    */
   protected function randomStr(
     int $length = 64,
@@ -698,12 +716,13 @@ class RoboFile extends Tasks {
    *   The username of the ES admin user.
    * @param string $password
    *   The password of the ES admin user.
-   * @param string $environment
+   * @param string|null $environment
    *   The environment ID. To test changes in the index config selectively.
+   *   Default: NULL.
    *
    * @throws \Exception
    */
-  public function elasticsearchProvision(string $es_url, string $username, string $password, string $environment = NULL) {
+  public function elasticsearchProvision(string $es_url, string $username, string $password, ?string $environment = NULL): void {
     $needs_users = TRUE;
 
     $es_url = rtrim($es_url, '/');
@@ -807,13 +826,13 @@ END;
    * @param string $es_url
    *   Fully qualified URL to ES, for example: http://elasticsearch:9200 .
    * @param string $username
-   *   The username of the ES admin user.
+   *   The username of the ES admin user. Default: empty string.
    * @param string $password
-   *   The password of the ES admin user.
+   *   The password of the ES admin user. Default: empty string.
    *
    * @throws \Exception
    */
-  public function elasticsearchAnalyzer(string $es_url, string $username = '', string $password = '') {
+  public function elasticsearchAnalyzer(string $es_url, string $username = '', string $password = ''): void {
     $analyzer_data = <<<END
 {
   "analysis": {
@@ -844,7 +863,7 @@ END;
    * @param string $data
    *   The JSON snippet to apply.
    */
-  private function applyIndexSettings(string $es_url, string $username, string $password, string $data) {
+  private function applyIndexSettings(string $es_url, string $username, string $password, string $data): void {
     foreach ($this->environments as $environment) {
       foreach ($this->indices as $index) {
         $this->taskExec("curl -u $username:$password -X POST $es_url/" . self::$indexPrefix . "{$index}_$environment/_close")->run();
@@ -862,9 +881,9 @@ END;
    * @param string $environment
    *   The environment ID.
    *
-   * @return string|NULL
+   * @return string|null
    */
-  protected function getUserPassword(string $site, string $environment) {
+  protected function getUserPassword(string $site, string $environment): ?string {
     $credentials_file = $site . '.es.secrets.json';
     if (!file_exists($credentials_file)) {
       return NULL;
@@ -893,7 +912,8 @@ END;
    *
    * @throws \Exception
    */
-  public function generateReleaseNotes(string $tag = NULL) {
+  public function generateReleaseNotes(?string $tag = NULL): void {
+    $result = 0;
     // Check if the specified tag exists or not.
     if (!empty($tag)) {
       $result = $this->taskExec("git tag | grep \"$tag\"")
@@ -1049,7 +1069,7 @@ END;
    * @param array $lines
    *   Bullet points.
    */
-  protected function printReleaseNotesSection(string $title, array $lines) {
+  protected function printReleaseNotesSection(string $title, array $lines): void {
     if (!empty($title)) {
       $this->printReleaseNotesTitle($title);
     }
@@ -1069,7 +1089,7 @@ END;
    * @param string $title
    *   Section title.
    */
-  protected function printReleaseNotesTitle(string $title) {
+  protected function printReleaseNotesTitle(string $title): void {
     echo "\n\n## $title\n";
   }
 
