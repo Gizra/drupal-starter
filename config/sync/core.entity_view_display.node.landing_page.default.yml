@@ -16,7 +16,7 @@ content:
   field_paragraphs:
     type: entity_reference_revisions_entity_view
     weight: 101
-    label: above
+    label: hidden
     settings:
       view_mode: default
       link: ''
@@ -24,8 +24,8 @@ content:
     region: content
   links:
     weight: 100
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
 hidden:
   search_api_excerpt: true
