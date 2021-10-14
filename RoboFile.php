@@ -251,9 +251,9 @@ class RoboFile extends Tasks {
 
     $this->taskExec("git checkout $tag")->run();
 
-    // Note: Add web/libraries to cleanup list below if the project installs it.
-    // This drupal starter currently doesn't install any.
-    $this->taskExec("rm -rf vendor web/core web/modules/contrib && composer install --no-dev")->run();
+    // Full installation with dev dependencies as we need some of them for the
+    // build.
+    $this->taskExec("rm -rf vendor web/core web/libraries web/modules/contrib && composer install")->run();
 
     if (empty($commit_message)) {
       $commit_message = 'Release ' . $tag;
@@ -360,6 +360,9 @@ class RoboFile extends Tasks {
 
     // Compile theme.
     $this->themeCompile();
+
+    // Remove the dev dependencies before pushing up to Pantheon.
+    $this->taskExec("composer install --no-dev")->run();
 
     $rsync_exclude = [
       '.git',
