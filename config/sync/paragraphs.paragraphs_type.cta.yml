@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies: {  }
 id: cta
-label: CTA
+label: 'Call to action'
 icon_uuid: null
 icon_default: null
 description: ''
