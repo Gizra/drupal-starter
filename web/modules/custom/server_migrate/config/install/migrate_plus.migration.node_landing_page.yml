@@ -32,6 +32,7 @@ process:
     - plugin: migration_lookup
       migration:
         - paragraph_views
+        - paragraph_cta
       no_stub: true
     - plugin: sub_process
       process:
@@ -45,3 +46,4 @@ dependencies:
     migration:
       - user
       - paragraph_views
+      - paragraph_cta
