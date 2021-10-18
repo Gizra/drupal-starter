@@ -23,9 +23,10 @@ settings:
     target_bundles: null
     auto_create: 0
   plugin_types:
-    block: block
+    embed: embed
     default: 0
     page: 0
+    block: 0
     feed: 0
   preselect_views:
     frontpage: frontpage

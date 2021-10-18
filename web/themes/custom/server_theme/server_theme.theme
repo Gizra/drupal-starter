@@ -53,6 +53,16 @@ function server_theme_theme() {
     ],
   ];
 
+  // Call to action.
+  $info['server_theme_cta'] = [
+    'variables' => [
+      'title' => NULL,
+      'subtitle' => NULL,
+      'url' => NULL,
+      'url_title' => NULL,
+    ],
+  ];
+
   // Content tags.
   $info['server_theme_content__tags'] = [
     'variables' => [

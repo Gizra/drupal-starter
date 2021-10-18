@@ -302,10 +302,10 @@ display:
         - user.permissions
       max-age: -1
       tags: {  }
-  block:
-    display_plugin: block
-    id: block
-    display_title: Block
+  embed:
+    display_plugin: embed
+    id: embed
+    display_title: Embed
     position: 1
     display_options:
       display_extenders: {  }

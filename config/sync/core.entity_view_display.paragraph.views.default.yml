@@ -17,7 +17,11 @@ content:
     label: hidden
     settings:
       plugin_types:
-        - block
+        embed: embed
+        default: 0
+        page: 0
+        block: 0
+        feed: 0
     third_party_settings: {  }
     type: viewsreference_formatter
     region: content

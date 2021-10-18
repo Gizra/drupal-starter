@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.storage.node.field_paragraphs
     - node.type.landing_page
+    - paragraphs.paragraphs_type.cta
     - paragraphs.paragraphs_type.views
   module:
     - entity_reference_revisions
@@ -24,7 +25,11 @@ settings:
     negate: 0
     target_bundles:
       views: views
+      cta: cta
     target_bundles_drag_drop:
+      cta:
+        enabled: true
+        weight: 3
       views:
         enabled: true
         weight: 2

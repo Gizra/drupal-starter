@@ -33,8 +33,7 @@ class NodeLandingPage extends NodeViewBuilderAbstract {
     /** @var \Drupal\Core\Field\EntityReferenceFieldItemListInterface $paragraphs */
     $paragraphs = $entity->get('field_paragraphs');
     // Paragraphs.
-    $element = $this->buildReferencedEntities($paragraphs);
-    $build[] = $this->wrapElementWideContainer($element);
+    $build[] = $this->buildReferencedEntities($paragraphs);
 
     return $build;
   }

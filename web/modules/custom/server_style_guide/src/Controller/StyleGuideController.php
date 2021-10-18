@@ -220,6 +220,16 @@ class StyleGuideController extends ControllerBase {
 
     $build[] = $this->wrapElementNoContainer($element, 'Footer');
 
+    $element = [
+      '#theme' => 'server_theme_cta',
+      '#title' => $this->t('Lorem ipsum dolor sit amet'),
+      '#subtitle' => $this->t('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'),
+      '#url' => Url::fromRoute('<front>'),
+      '#url_title' => $this->t('Button title'),
+    ];
+
+    $build[] = $this->wrapElementNoContainer($element, 'Call to Action');
+
     return $build;
   }
 
