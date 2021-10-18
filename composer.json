@@ -32,9 +32,11 @@
         "drupal/migrate_plus": "^5.1",
         "drupal/migrate_source_csv": "^3.4",
         "drupal/migrate_tools": "^5.0",
+        "drupal/paragraphs": "^1.12",
         "drupal/pluggable_entity_view_builder": "^1.1",
         "drupal/redis": "1.x-dev@dev",
         "drupal/search_api": "^1.18",
+        "drupal/viewsreference": "^2.0@beta",
         "drush/drush": "^10.2",
         "oomphinc/composer-installers-extender": "^2.0",
         "totten/lurkerlite": "^1"
