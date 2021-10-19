@@ -1,5 +1,6 @@
 enabled_entity_types:
   node: node
+  paragraph: paragraph
   block_content: '0'
   comment: '0'
   term: '0'
