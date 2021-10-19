@@ -1,4 +1,6 @@
 module:
+  advagg: 0
+  advagg_bundler: 0
   automated_cron: 0
   big_pipe: 0
   block: 0
