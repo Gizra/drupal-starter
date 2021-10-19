@@ -12,7 +12,6 @@ custom_links_include_images: false
 excluded_languages: {  }
 enabled_entity_types:
   - node
-  - taxonomy_term
   - menu_link_content
 _core:
   default_config_hash: u7p3NmO6bhU5_RUl10fiH2cmJXfIUSXX40d_Otn_xKc
