@@ -34,9 +34,12 @@
         "drupal/migrate_source_csv": "^3.4",
         "drupal/migrate_tools": "^5.0",
         "drupal/paragraphs": "^1.12",
+        "drupal/pathauto": "^1.8",
         "drupal/pluggable_entity_view_builder": "^1.1",
+        "drupal/redirect": "^1.6",
         "drupal/redis": "1.x-dev@dev",
         "drupal/search_api": "^1.18",
+        "drupal/simple_sitemap": "^4",
         "drupal/viewsreference": "^2.0@beta",
         "drush/drush": "^10.2",
         "oomphinc/composer-installers-extender": "^2.0"
