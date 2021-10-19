@@ -1,0 +1,15 @@
+uuid: 648a4e38-ac88-448c-93d0-d7c8893c0215
+langcode: en
+status: true
+dependencies: {  }
+name: hero_md_1x
+label: 'Hero md 1x (1024x320)'
+effects:
+  c4fdd4b9-e9b5-49f8-9f34-d6dff5c928de:
+    uuid: c4fdd4b9-e9b5-49f8-9f34-d6dff5c928de
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 1024
+      height: 320
+      anchor: center-center

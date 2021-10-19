@@ -1,0 +1,28 @@
+id: media_image
+label: 'Media: Image'
+migration_group: server
+migration_tags:
+  - media_image
+source:
+  plugin: csv
+  path: modules/custom/server_migrate/csv_files/images.csv
+  ids: ['_uuid']
+  header_offset: 0
+destination:
+  plugin: 'entity:media'
+  default_bundle: image
+process:
+  uuid: _uuid
+  name: _title
+  field_media_image/target_id:
+    - plugin: migration_lookup
+      migration: images
+      source: _uuid
+  field_media_image/alt: _title
+
+dependencies:
+  enforced:
+    module:
+      - server_migrate
+    migration:
+      - images
