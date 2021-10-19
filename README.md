@@ -104,11 +104,11 @@ note the width and height.
 3. Create the image styles for each breakpoint.
 
    Now that we have all the needed information, we can create the image styles.
-For naming I use this style, but you're free to figure out your own method as
+For naming we use this style, but you're free to figure out your own method as
 long as it's consistent:
     - Label: `[Component name] [breakpoint] [multiplier] ([width]x[height)`
 
-      The width and height isn't necessary, I simply add it for aesthetics.
+      The width and height isn't necessary, we simply add it for aesthetics.
     - Machine name: `[component_name]_[breakpoint]_[multiplier]`
     - Example:
       - `Hero md 1x (900x600)` - `hero_md_1x` (Scale and Crop)
