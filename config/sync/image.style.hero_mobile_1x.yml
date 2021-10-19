@@ -1,0 +1,15 @@
+uuid: c878eccf-1361-4db6-b785-89b3f5805b74
+langcode: en
+status: true
+dependencies: {  }
+name: hero_mobile_1x
+label: 'Hero mobile 1x (640x200)'
+effects:
+  abb1c492-b52a-4402-8163-f2d0847ed8f5:
+    uuid: abb1c492-b52a-4402-8163-f2d0847ed8f5
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 640
+      height: 200
+      anchor: center-center

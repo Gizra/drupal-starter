@@ -31,11 +31,12 @@ process:
       method: process
     - plugin: migration_lookup
       migration: tags
-  field_image/target_id:
-    plugin: migration_lookup
-    migration: images
-    source: _image
-  field_image/alt: _image_alt
+  field_featured_image:
+    - plugin: skip_on_empty
+      method: process
+      source: _image
+    - plugin: migration_lookup
+      migration: media_image
 
 dependencies:
   enforced:
@@ -44,4 +45,4 @@ dependencies:
     migration:
       - user
       - tags
-      - images
+      - media_image

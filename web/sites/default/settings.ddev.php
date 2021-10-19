@@ -61,3 +61,6 @@ $settings['redis.connection']['interface'] = 'PhpRedis'; // Can be "Predis".
 $settings['redis.connection']['host']      = 'redis';  // Your Redis instance hostname.
 $settings['cache']['default'] = 'cache.backend.redis';
 $settings['container_yamls'][] = 'modules/contrib/redis/redis.services.yml';
+
+$config['system.performance']['css']['preprocess'] = FALSE;
+$config['system.performance']['js']['preprocess'] = FALSE;

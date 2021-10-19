@@ -1,0 +1,7 @@
+#!/bin/bash
+
+## Description: Run Tailwind CSS compile, watch for changes.
+## Usage: theme:watch
+## Example: "ddev theme:watch"
+
+cd ./web/themes/custom/server_theme && TAILWIND_MODE=watch npx postcss ./src/pcss/style.pcss --output=./dist/css/style.css --watch

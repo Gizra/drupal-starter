@@ -40,14 +40,16 @@ then execute the following, and re-try installation steps.
 
     ddev rm --unlist
 
-## Theme development
+## Theme Development
 
 By default, `ddev restart` compiles the theme using Robo (`ddev robo theme:compile-debug`)
+
+This is used only for watching Tailwind styles, it's not compiling js, images, etc.
 
 On the local development environment, which is using TailWind's [JIT](https://tailwindcss.com/docs/just-in-time-mode) (Just-In-Time), execute:
 
 ```bash
-ddev tw
+ddev theme:watch
 ```
 
 This will compile Tailwind and keep watching for any changes.
@@ -60,6 +62,65 @@ The directory structure:
  - `dist/` - `.gitignore`-ed path where the compiled / optimized files live, the theme should refer the assets from that directory.
 
 For theme development, it's advisable to entirely turn off caching: https://www.drupal.org/node/2598914
+
+### Breakpoints and Responsive Images
+
+It is advised to use Drupal's Responsive image module.
+
+If there are new breakpoints added, or existing breakpoints updated in
+`server_theme/tailwind.config.js`, you must ensure to also update the Drupal
+breakpoints configuration file for the theme `server_theme.breakpoints.yml` so
+that the media queries for the responsive images are in sync with tailwind's.
+It is advisable to finalize this configuration before any responsive image
+styles get added, otherwise you will need to ensure the existing responsive
+image styles are also re-configured for the new/updated breakpoints.
+
+Currently, the breakpoints are configured to follow [Tailwind's breakpoints](https://tailwindcss.com/docs/responsive-design)
+for example `sm`, `md`, etc.
+
+### How to get dimensions for, and configure the responsive image styles
+
+This process should be done as a last step of a "wiring" of the frontend
+component with Drupal. This is because we rely on the frontend component for our
+dimensions. These are guidelines to usually follow, but not set in stone, it's
+always a bit of a judgement call:
+
+1. Figure out the rules.
+
+   Each frontend component which outputs a user-uploaded content image is unique
+design-wise, so you should study the design closely or contact the designer for
+any clarifications of how an image should transform at various widths. For
+example whether the image height is static (i.e. always `400px`), or whether
+there is a max width for the full width hero image.
+2. Figure out the biggest dimensions needed for each breakpoint.
+
+   Now that we know the rules, we can figure out the biggest dimension image
+needed for each of our breakpoints. You should always start with mobile. Go to
+the styleguide page (or any output of the component) and set your browser to the
+highest dimension of the breakpoint. For example on Mobile it's `639px`, because
+at 640px the `sm` breakpoint starts, for `md` it's `1023px` as the `lg`
+breakpoint starts at `1024px`. Now just check the image dimension output and
+note the width and height.
+3. Create the image styles for each breakpoint.
+
+   Now that we have all the needed information, we can create the image styles.
+For naming we use this style, but you're free to figure out your own method as
+long as it's consistent:
+    - Label: `[Component name] [breakpoint] [multiplier] ([width]x[height)`
+
+      The width and height isn't necessary, we simply add it for aesthetics.
+    - Machine name: `[component_name]_[breakpoint]_[multiplier]`
+    - Example:
+      - `Hero md 1x (900x600)` - `hero_md_1x` (Scale and Crop)
+      - `Content image md 2x (1800w)` - `content_image_md_2x` (Scale only)
+
+   Note: For the 2x multiplier, simply double the dimensions.
+4. Create the responsive image style.
+
+   Use the `server_theme`'s breakpoints when creating the responsive image style
+and assign the image styles created in step3 to each breakpoint.
+5. Finally use the responsive image style in the wire-up of the component with
+Drupal. With PEVB, see `BuildFieldTrait::buildMediaResponsiveImage()`.
 
 ## ElasticSearch
 
@@ -153,7 +214,14 @@ To Deploy to a Pantheon environment (e.g. TEST or LIVE) you can use
 ### Release notes
 
 Deployments should imply a release, you can generate a release notes based on
-tags. You can generate a changelog using
+tags.
+In order to provide verbose release notes, it is required to [create a personal
+access token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token).
+Then specify two [new environment variables for DDEV web container](https://ddev.readthedocs.io/en/stable/users/extend/customization-extendibility/#providing-custom-environment-variables-to-a-container):
+ - `GITHUB_USERNAME`
+ - `GITHUB_ACCESS_TOKEN`
+
+Then you can generate a changelog using
 
     ddev robo generate:release-notes
 

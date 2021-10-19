@@ -5,6 +5,8 @@
  * Functionality for the Style guide module.
  */
 
+use Drupal\Core\Url;
+
 /**
  * Implements hook_theme().
  */
@@ -21,5 +23,69 @@ function server_style_guide_theme() {
     ],
   ];
 
+  // Wrap all style guide elements.
+  $info['server_style_guide_wrapper'] = [
+    'variables' => [
+      'elements' => [],
+    ],
+  ];
+
+  // A single element wrapper, with no container.
+  $info['server_style_guide_no_container'] = [
+    'variables' => [
+      'title' => NULL,
+      'element' => [],
+    ],
+  ];
+
+  // A single element wrapper, with a wide container.
+  $info['server_style_guide_container_wide'] = [
+    'variables' => [
+      'title' => NULL,
+      'element' => [],
+    ],
+  ];
+
   return $info;
+}
+
+/**
+ * Implements hook_toolbar().
+ */
+function server_style_guide_toolbar() {
+  $items = [];
+  $items['style_guide'] = [
+    '#cache' => [
+      'contexts' => [
+        'user.permissions',
+      ],
+    ],
+  ];
+
+  if (!\Drupal::currentUser()->hasPermission('access content')) {
+    return $items;
+  }
+
+  $items['style_guide'] += [
+    '#type' => 'toolbar_item',
+    'tab' => [
+      '#type' => 'link',
+      '#title' => t('Style Guide'),
+      '#url' => Url::fromRoute('server_style_guide.style_guide'),
+      '#attributes' => [
+        'class' => ['toolbar-icon', 'toolbar-icon-style-guide'],
+        'id' => 'toolbar-tab-style-guide',
+      ],
+    ],
+    '#wrapper_attributes' => [
+      'class' => ['style-guide-toolbar-tab'],
+    ],
+    '#attached' => [
+      'library' => [
+        'server_style_guide/toolbar',
+      ],
+    ],
+  ];
+
+  return $items;
 }

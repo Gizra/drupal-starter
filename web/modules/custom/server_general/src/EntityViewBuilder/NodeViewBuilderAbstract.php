@@ -4,8 +4,8 @@ namespace Drupal\server_general\EntityViewBuilder;
 
 use Drupal\Core\Url;
 use Drupal\node\NodeInterface;
-use Drupal\pluggable_entity_view_builder\ElementWrapTrait;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
+use Drupal\server_general\ElementWrapTrait;
 use Drupal\server_general\ProcessedTextBuilderTrait;
 use Drupal\server_general\TagBuilderTrait;
 
@@ -19,9 +19,9 @@ abstract class NodeViewBuilderAbstract extends EntityViewBuilderPluginAbstract {
   use TagBuilderTrait;
 
   /**
-   * The image style to use on Hero images.
+   * The responsive image style to use on Hero images.
    */
-  const IMAGE_STYLE_HERO = 'hero';
+  const RESPONSIVE_IMAGE_STYLE_HERO = 'hero';
 
   /**
    * Default build in "Teaser" view mode.
@@ -73,16 +73,12 @@ abstract class NodeViewBuilderAbstract extends EntityViewBuilderPluginAbstract {
    * @return array
    *   A render array.
    */
-  protected function buildHeroHeader(NodeInterface $entity, $image_field_name = 'field_image'): array {
-    $image_info = $this->getImageAndAlt($entity, $image_field_name, 'hero');
-
-    $element = [
+  protected function buildHeroHeader(NodeInterface $entity, string $image_field_name = 'field_image'): array {
+    return [
       '#theme' => 'server_theme_content__hero_header',
       '#title' => $entity->label(),
-      '#background_image' => $image_info['url'] ?? '',
+      '#image' => $this->buildMediaResponsiveImage($entity, $image_field_name, self::RESPONSIVE_IMAGE_STYLE_HERO),
     ];
-
-    return $this->wrapElementWithContainer($element, 'hero-header-wrapper fluid-container-full');
   }
 
   /**
@@ -96,7 +92,7 @@ abstract class NodeViewBuilderAbstract extends EntityViewBuilderPluginAbstract {
    * @return array
    *   A render array.
    */
-  protected function buildContentTags(NodeInterface $entity, $field_name = 'field_tags'): array {
+  protected function buildContentTags(NodeInterface $entity, string $field_name = 'field_tags'): array {
     $tags = $this->buildTags($entity, $field_name);
     if (!$tags) {
       return [];
@@ -107,7 +103,7 @@ abstract class NodeViewBuilderAbstract extends EntityViewBuilderPluginAbstract {
       '#tags' => $tags,
     ];
 
-    return $this->wrapElementWithContainer($element, 'content-tags-wrapper fluid-container-narrow');
+    return $this->wrapElementWideContainer($element);
   }
 
   /**
@@ -121,7 +117,7 @@ abstract class NodeViewBuilderAbstract extends EntityViewBuilderPluginAbstract {
    * @return array
    *   A render array.
    */
-  protected function buildTags(NodeInterface $entity, $field_name = 'field_tags'): array {
+  protected function buildTags(NodeInterface $entity, string $field_name = 'field_tags'): array {
     if ($entity->{$field_name}->isEmpty()) {
       // No terms referenced.
       return [];

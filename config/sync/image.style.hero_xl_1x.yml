@@ -1,0 +1,15 @@
+uuid: 422a5bac-ee50-4fdf-8e3b-c6139adb0542
+langcode: en
+status: true
+dependencies: {  }
+name: hero_xl_1x
+label: 'Hero xl 1x (1536x466)'
+effects:
+  82235160-5364-440f-8279-e89171f22f4e:
+    uuid: 82235160-5364-440f-8279-e89171f22f4e
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 1536
+      height: 466
+      anchor: center-center

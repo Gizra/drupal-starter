@@ -1,0 +1,15 @@
+uuid: 2e9ba4ee-cf1c-47e1-8187-6588bcfcc786
+langcode: en
+status: true
+dependencies: {  }
+name: hero_xl_2x
+label: 'Hero xl 2x (3072x932)'
+effects:
+  674d2c07-bf11-4bef-91fe-6558813da8df:
+    uuid: 674d2c07-bf11-4bef-91fe-6558813da8df
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 3072
+      height: 932
+      anchor: center-center

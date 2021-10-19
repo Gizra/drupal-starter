@@ -4,17 +4,10 @@ module.exports = {
   mode: 'jit',
   theme: {
     extend: {
-      gridTemplateColumns: {
-        'fill-56': 'repeat(auto-fill, 14rem)',
-        'fill-64': 'repeat(auto-fill, 16rem)',
-      },
     },
     fontFamily: {
       'headers': ["Roboto", 'sans-serif'],
       'body': ["Open Sans", 'sans-serif'],
-    },
-    lineClamp: {
-      '2': '2',
     }
   },
   purge: {
@@ -25,6 +18,7 @@ module.exports = {
       './server_theme.theme',
       // Custom module and the Style guide may have needed classes.
       '../../../modules/custom/**/*.php',
+      '../../../modules/custom/**/*.html.twig',
     ],
     options: {
       safelist: [
@@ -35,6 +29,6 @@ module.exports = {
   },
   plugins: [
     require('@tailwindcss/forms'),
-    require('tailwindcss-line-clamp')
+    require('@tailwindcss/line-clamp'),
   ],
 };

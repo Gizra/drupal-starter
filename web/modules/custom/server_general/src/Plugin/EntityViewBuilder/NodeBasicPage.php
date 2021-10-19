@@ -28,8 +28,14 @@ class NodeBasicPage extends NodeViewBuilderAbstract {
    *   A renderable array.
    */
   public function buildFull(array $build, NodeInterface $entity) {
-    $build['hero_header'] = $this->buildHeroHeader($entity, 'field_basic_page_header_image');
-    $build['body'] = $this->buildBody($entity);
+    $this->messenger()->addMessage('Add your Node Article elements in \Drupal\server_general\Plugin\EntityViewBuilder\NodeBasicPage');
+
+    // Hero header.
+    $build[] = $this->buildHeroHeader($entity, 'field_basic_page_header_image');
+
+    // Body.
+    $element = $this->buildProcessedText($entity);
+    $build[] = $this->wrapElementWideContainer($element);
 
     return $build;
   }
