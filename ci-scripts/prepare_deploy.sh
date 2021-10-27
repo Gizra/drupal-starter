@@ -8,8 +8,11 @@ cd "$TRAVIS_BUILD_DIR" || exit 1
 cp travis-key ~/.ssh/id_rsa
 chmod 600 ~/.ssh/id_rsa
 
-# Authenticate with Terminus.
-ddev . terminus auth:login --machine-token="$TERMINUS_TOKEN"
+cat << EOF
+
+web_environment:
+  - TERMINUS_MACHINE_TOKEN=$TERMINUS_TOKEN
+EOF > ~/.ddev/global_config.yaml
 
 export GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 
