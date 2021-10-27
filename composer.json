@@ -20,6 +20,7 @@
     ],
     "require": {
         "ext-curl": "*",
+        "ext-yaml": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
         "composer/installers": "^1.9",

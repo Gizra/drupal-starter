@@ -171,7 +171,7 @@ To allow Pantheon to work with composer managed sites and recognize the `web`
 directory, we need to follow the [Pantheon instructions](https://pantheon.io/docs/nested-docroot#disable-one-click-updates)
 
 When following the instructions, clone the pantheon repository in the required
-location with this commmand:
+location with this command:
 
     git clone ssh://codeserver.dev.<long-hash>.drush.in:2222/~/repository.git .pantheon
 
@@ -182,7 +182,7 @@ config directory in the `web/sites/default/settings.php` file:
 
 ### Executing
 
-In case you haven't done so before, make the DDEV container aware of your ssh
+In case you haven't done so before, make the DDEV container aware of your ssh.
 
     ddev auth ssh
 
@@ -233,7 +233,7 @@ Or you can specify a tag that's the base of the comparison.
 
     ddev robo generate:release-notes 0.1.2
 
-One line in the changelog reflects one merged pull requests and the command
+One line in the changelog reflects one merged pull requests, and the command
 assembles it from the Git log.
 
 ## Automatic Deployment to Pantheon
@@ -241,7 +241,7 @@ assembles it from the Git log.
 In order to deploy upon every merge automatically by Travis, you shall:
 
 1. Get a Pantheon machine token (using a dummy new Pantheon user ideally, one user per project for the sake of security): https://pantheon.io/docs/machine-tokens
-1. `ddev robo deploy:config-autodeploy [your new token] [pantheon project name]`
+1. `ddev robo deploy:config-autodeploy [your new token]`
 1. `git commit -m "Deployment secrets and configuration"`
 1. Add the public key in `travis-key.pub` to the newly created dummy Pantheon user: https://pantheon.io/docs/ssh-keys
 
@@ -250,19 +250,9 @@ Optionally you can specify which target branch you'd like to push on Pantheon, b
 
 ## Pulling DB & Files From Pantheon
 
-### First Time
-
-To set the Pantheon environment to be pulled from to `LIVE`, execute
-
-    ddev . terminus auth:login --machine-token=[token]
-    ddev config pantheon --pantheon-environment=live
-
-This will update the `.gitignore`d file in `.ddev/import.yaml`
-
 ### Pull
 
-    # Terminus authentication expires every 24 hours.
-    ddev . terminus auth:login [token]
+    ddev auth ssh
 
     # Pull DB & Files
     ddev pull

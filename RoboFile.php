@@ -30,14 +30,6 @@ class RoboFile extends Tasks {
   private static string $indexPrefix = 'elasticsearch_index_pantheon_';
 
   /**
-   * The Pantheon name.
-   *
-   * You need to fill this information for Robo to know what's the name of your
-   * site.
-   */
-  const PANTHEON_NAME = '';
-
-  /**
    * Compile the theme.
    *
    * @param bool $optimize
@@ -283,10 +275,6 @@ class RoboFile extends Tasks {
    * @throws \Exception
    */
   public function deployPantheon(string $branch_name = 'master', ?string $commit_message = NULL): void {
-    if (empty(self::PANTHEON_NAME)) {
-      throw new Exception('You need to fill the "PANTHEON_NAME" const in the Robo file. so it will know what is the name of your site.');
-    }
-
     $pantheon_directory = '.pantheon';
     $deployment_version_path = $pantheon_directory . '/.deployment';
 
@@ -441,7 +429,7 @@ class RoboFile extends Tasks {
     usleep(self::DEPLOYMENT_WAIT_TIME);
     $pantheon_env = $branch_name == 'master' ? 'dev' : $branch_name;
     do {
-      $code_sync_completed = $this->_exec("terminus workflow:list " . self::PANTHEON_NAME . " --format=csv | grep " . $pantheon_env . " | grep Sync | awk -F',' '{print $5}' | grep running")->getExitCode();
+      $code_sync_completed = $this->_exec("terminus workflow:list " . $this->getPantheonName() . " --format=csv | grep " . $pantheon_env . " | grep Sync | awk -F',' '{print $5}' | grep running")->getExitCode();
       usleep(self::DEPLOYMENT_WAIT_TIME);
     } while (!$code_sync_completed);
     $this->deployPantheonSync($pantheon_env, FALSE);
@@ -459,8 +447,7 @@ class RoboFile extends Tasks {
    * @throws \Exception
    */
   public function deployPantheonSync(string $env = 'test', bool $do_deploy = TRUE): void {
-    $pantheon_name = self::PANTHEON_NAME;
-    $pantheon_terminus_environment = $pantheon_name . '.' . $env;
+    $pantheon_terminus_environment = $this->getPantheonName() . '.' . $env;
 
     $task = $this->taskExecStack()
       ->stopOnFail();
@@ -523,8 +510,7 @@ class RoboFile extends Tasks {
       throw new Exception("Reinstalling the site on `$env` environment is forbidden.");
     }
 
-    $pantheon_name = self::PANTHEON_NAME;
-    $pantheon_terminus_environment = $pantheon_name . '.' . $env;
+    $pantheon_terminus_environment = $this->getPantheonName() . '.' . $env;
 
     // This set of commands should work, so expecting no failures
     // (tend to invoke the same flow as DDEV's `config.local.yaml`).
@@ -1127,6 +1113,22 @@ END;
     $result = curl_exec($ch);
     curl_close($ch);
     return empty($result) ? NULL : json_decode($result);
+  }
+
+  /**
+   * Parses Pantheon project name from DDEV config.
+   *
+   * @return string
+   *   Pantheon project name.
+   *
+   * @throws \Exception
+   */
+  protected function getPantheonName(): string {
+    $pantheon_config = yaml_parse(file_get_contents('.ddev/providers/pantheon.yaml'));
+    if (empty($pantheon_config) || empty($pantheon_config['environment_variables']['project'])) {
+      throw new Exception('You need to specify Pantheon project name in DDEV config. See https://ddev.readthedocs.io/en/stable/users/providers/pantheon');
+    }
+    return $pantheon_config['environment_variables']['project'];
   }
 
 }
