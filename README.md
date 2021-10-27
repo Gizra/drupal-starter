@@ -147,12 +147,14 @@ See the [example](https://github.com/Gizra/drupal8-starter/blob/master/web/modul
 
 #### Authenticate with Terminus
 
-First we need to allow DDEV to authenticate with terminus. This is a one time
-action you need to take, and it will apply for all your projects. See docs [here](https://ddev.readthedocs.io/en/latest/users/providers/pantheon/#authentication)
+Get your Pantheon.io machine token:
+a. Login to your Pantheon Dashboard, and Generate a Machine Token for ddev to use.
+b. Add the API token to the web_environment section in your global ddev configuration at ~/.ddev/global_config.yaml
 
-In short, create a [Machine token](https://dashboard.pantheon.io/users/#account/tokens/) and then
-
-    ddev . terminus auth:login --machine-token=<YOUR TOKEN>
+```
+web_environment:
+- TERMINUS_MACHINE_TOKEN=abcdeyourtoken
+```
 
 #### Create your site
 
@@ -160,6 +162,8 @@ Then, you can create a new site in Pantheon which can also be done with a
 [terminus command](https://pantheon.io/docs/guides/drupal8-commandline):
 
     ddev exec terminus site:create my-site "My Site" "Drupal 8"
+
+Edit `.ddev/providers/pantheon.yaml` and specify the project name under the `environment_variables` part.
 
 #### Change to nested docroot structure
 
