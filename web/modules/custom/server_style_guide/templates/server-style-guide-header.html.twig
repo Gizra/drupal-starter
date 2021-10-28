@@ -1,11 +1,9 @@
-<div class="flex flex-row items-baseline">
-  <h2 class="mb-4 mt-8">
-    <a class="text-gray-6 text-3xl font-bold" href="#{{ unique_id }}" id="{{ unique_id }}">{{ title }}</a>
-  </h2>
+<dt class="container-wide my-6">
+  <a class="title-wrapper text-blue-500 text-2xl hover:underline" href="#{{ unique_id }}" id="{{ unique_id }}">{{ title }}</a>
 
   {% if link %}
     <div class="ml-4">
       <a class="text-sm" href="{{ link }}" target="_blank">{{ 'See design'|t }}</a>
     </div>
   {% endif %}
-</div>
+</dt>

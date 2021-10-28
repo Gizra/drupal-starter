@@ -1,7 +1,7 @@
 name: "Server Style Guide"
 type: module
 description: "Handles the style guide page"
-core: 8.x
+core_version_requirement: ^8 || ^9
 package: "server"
 dependencies:
   - server_general

@@ -5,7 +5,7 @@
 <!-- Using this project's bootstrap file allows tests in `ExistingSite`,
     `ExistingSiteSelenium2DriverTest`, and `ExistingSiteWebDriverTest`
      to run alongside core's test types. -->
-<phpunit bootstrap="vendor/weitzman/drupal-test-traits/src/bootstrap-fast.php">
+<phpunit bootstrap=".bootstrap-fast.php">
   <php>
     <env name="DTT_BASE_URL" value="http://web"/>
     <env name="DTT_API_URL" value="http://localhost:9222"/>

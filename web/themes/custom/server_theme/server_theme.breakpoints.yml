@@ -1,18 +1,55 @@
+# We use Tailwind in this theme so the breakpoints below reflect the tailwind's
+# breakpoint configuration. Check the Tailwind config, and the docs for default
+# configuration. Also, we're going mobile-first - so always write min-width and
+# no max-width.
+# @see tailwind.config.js
+# @see https://tailwindcss.com/docs/breakpoints
+# @see https://drupal.org/docs/theming-drupal/working-with-breakpoints-in-drupal
+# Mobile breakpoint - 0px and up.
 server_theme.mobile:
   label: mobile
   mediaQuery: ''
   weight: 0
   multipliers:
     - 1x
-server_theme.narrow:
-  label: narrow
-  mediaQuery: 'all and (min-width: 560px) and (max-width: 850px)'
+    - 2x
+# sm breakpoint - 640px and up.
+server_theme.sm:
+  label: sm
+  mediaQuery: 'all and (min-width: 640px)'
   weight: 1
   multipliers:
     - 1x
-server_theme.wide:
-  label: wide
-  mediaQuery: 'all and (min-width: 851px)'
+    - 2x
+# md breakpoint - 768px and up.
+server_theme.md:
+  label: md
+  mediaQuery: 'all and (min-width: 768px)'
   weight: 2
   multipliers:
     - 1x
+    - 2x
+# lg breakpoint - 1024px and up.
+server_theme.lg:
+  label: lg
+  mediaQuery: 'all and (min-width: 1024px)'
+  weight: 3
+  multipliers:
+    - 1x
+    - 2x
+# xl breakpoint - 1280px and up.
+server_theme.xl:
+  label: xl
+  mediaQuery: 'all and (min-width: 1280px)'
+  weight: 4
+  multipliers:
+    - 1x
+    - 2x
+# 2xl breakpoint - 1536px and up.
+server_theme.2xl:
+  label: xl
+  mediaQuery: 'all and (min-width: 1536px)'
+  weight: 5
+  multipliers:
+    - 1x
+    - 2x

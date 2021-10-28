@@ -1,8 +1,8 @@
 name: Drupal 8 Starter Theme
 type: theme
-description: 'A foundation for building a theme for Drupal 8 Starter.'
+description: 'A foundation for building a theme for Drupal 9 Starter.'
 package: Server
-core: 8.x
+core_version_requirement: ^8 || ^9
 libraries:
   - server_theme/global-styling
   - server_theme/global-scripts
@@ -21,6 +21,7 @@ regions:
 
 # Remove CSS files
 stylesheets-remove:
+  - core/themes/classy/css/components/details.css
   - core/themes/classy/css/components/file.css
   - core/themes/classy/css/components/links.css
   - core/themes/classy/css/components/messages.css

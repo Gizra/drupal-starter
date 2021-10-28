@@ -1,0 +1,28 @@
+id: paragraph_cta
+label: 'Call to Action Paragraph'
+migration_group: server
+migration_tags:
+  - views
+  - paragraph_cta
+  - paragraph
+source:
+  plugin: csv
+  path: modules/custom/server_migrate/csv_files/paragraph_cta.csv
+  ids: ['_id']
+  header_offset: 0
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+  default_bundle: cta
+process:
+  type:
+    plugin: default_value
+    default_value: cta
+  field_title: _title
+  field_subtitle: _subtitle
+  field_link/uri: _url
+  field_link/title: _url_title
+
+dependencies:
+  enforced:
+    module:
+      - server_migrate

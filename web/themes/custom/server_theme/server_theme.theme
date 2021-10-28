@@ -48,14 +48,18 @@ function server_theme_theme() {
   // Multiple cards.
   $info['server_theme_cards'] = [
     'variables' => [
-      // Optional title.
+      // A list of cards.
+      'items' => [],
+    ],
+  ];
+
+  // Call to action.
+  $info['server_theme_cta'] = [
+    'variables' => [
       'title' => NULL,
-      // A list of the view's row items.
-      // - attributes: The row's HTML attributes.
-      // - content: The row's content.
-      // This is copied from Views, so we could easily have Views list wired to
-      // this theme.
-      'rows' => [],
+      'subtitle' => NULL,
+      'url' => NULL,
+      'url_title' => NULL,
     ],
   ];
 
@@ -79,30 +83,13 @@ function server_theme_theme() {
   $info['server_theme_content__hero_header'] = [
     'variables' => [
       'title' => NULL,
-      'background_image' => NULL,
-      // The container type for the title. Either: wide, narrow, full.
-      'title_container' => NULL,
+      'image' => NULL,
     ],
   ];
 
   $info['server_theme_content__body'] = [
     'variables' => [
       'content' => NULL,
-    ],
-  ];
-
-  // Button.
-  $info['server_theme_button'] = [
-    'variables' => [
-      'label' => NULL,
-      'id' => NULL,
-      'onclick' => NULL,
-      'target' => NULL,
-      'url' => NULL,
-      'color' => NULL,
-      'icon' => NULL,
-      'icon_only' => NULL,
-      'custom_classes' => [],
     ],
   ];
 
@@ -121,6 +108,12 @@ function server_theme_theme() {
   $info['server_theme_page_title'] = [
     'variables' => [
       'title' => NULL,
+    ],
+  ];
+
+  $info['server_theme_container_wide'] = [
+    'variables' => [
+      'element' => NULL,
     ],
   ];
 

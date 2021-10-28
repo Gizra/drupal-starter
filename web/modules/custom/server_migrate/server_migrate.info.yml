@@ -2,7 +2,7 @@ type: module
 name: Server Migrate
 description: 'Migrates content and users into the site'
 package: Server
-core: 8.x
+core_version_requirement: ^8 || ^9
 dependencies:
   - drupal:migrate
   - drupal:migrate_drupal

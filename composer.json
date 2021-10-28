@@ -19,20 +19,28 @@
         }
     ],
     "require": {
+        "ext-curl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "composer/installers": "^1.2",
-        "cweagans/composer-patches": "^1.6",
-        "drupal/core-composer-scaffold": "^8.9",
-        "drupal/core-recommended": "^8.9",
+        "composer/installers": "^1.9",
+        "cweagans/composer-patches": "^1.7",
+        "drupal/advagg": "^4.1",
+        "drupal/core-composer-scaffold": "^9.0.0",
+        "drupal/core-project-message": "^9.0.0",
+        "drupal/core-recommended": "^9.0.0",
         "drupal/elasticsearch_connector": "^7.0@alpha",
         "drupal/migrate_file": "^2.0",
         "drupal/migrate_plus": "^5.1",
         "drupal/migrate_source_csv": "^3.4",
         "drupal/migrate_tools": "^5.0",
-        "drupal/pluggable_entity_view_builder": "^1.0",
+        "drupal/paragraphs": "^1.12",
+        "drupal/pathauto": "^1.8",
+        "drupal/pluggable_entity_view_builder": "^1.1",
+        "drupal/redirect": "^1.6",
         "drupal/redis": "1.x-dev@dev",
         "drupal/search_api": "^1.18",
+        "drupal/simple_sitemap": "^4",
+        "drupal/viewsreference": "^2.0@beta",
         "drush/drush": "^10.2",
         "oomphinc/composer-installers-extender": "^2.0"
     },
@@ -40,7 +48,6 @@
         "consolidation/robo": "^1.0.0",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
         "drupal/coder": "^8.3.1",
-        "henrikbjorn/lurker": "1.*",
         "mglaman/phpstan-drupal": "^0.12.7",
         "natxet/cssmin": "^3.0",
         "patchwork/jsqueeze": "^2.0",
@@ -48,6 +55,7 @@
         "phpunit/phpunit": "^7",
         "scssphp/scssphp": "^1.0.0",
         "symfony/phpunit-bridge": "^5.0",
+        "totten/lurkerlite": "^1",
         "weitzman/drupal-test-traits": "^1.3"
     },
     "conflict": {
@@ -65,7 +73,7 @@
         "patches": {
             "drupal/elasticsearch_connector": {
                 "Preserve ES index settings": "https://www.drupal.org/files/issues/2020-01-28/3109361-elasticsearch_connector-preserve-index-settings-1.patch",
-                "d.o #3189051- Correct date handling": "https://www.drupal.org/files/issues/2020-12-18/3189051-epoch-to-formatted-date-1.patch",
+                "d.o #3189051- Correct date handling": "https://www.drupal.org/files/issues/2021-06-11/3189051-pre-epoch-dates-8.patch",
                 "d.o #3190496 - Item deletion on ES side": "https://www.drupal.org/files/issues/2021-01-04/3190496-es-deletion.patch",
                 "d.o. #3106003 - Content access fixes": "https://www.drupal.org/files/issues/2021-01-12/missing-special-fields-3106003-8.patch",
                 "d.o. #3194318 - More robust language filtering": "https://www.drupal.org/files/issues/2021-01-25/3194318-hypen-lang-5.patch",

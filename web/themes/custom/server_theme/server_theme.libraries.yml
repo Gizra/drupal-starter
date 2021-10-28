@@ -9,6 +9,7 @@ global-scripts:
     dist/js/scripts.js: {}
   dependencies:
     - core/jquery
+    - core/drupal
 
 roboto:
   css:
