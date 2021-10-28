@@ -9,10 +9,10 @@ cp travis-key ~/.ssh/id_rsa
 chmod 600 ~/.ssh/id_rsa
 
 # Authenticate with Terminus.
-cat <<< EOF
+cat >> ~/.ddev/global_config.yaml << EOF
 web_environment:
   - TERMINUS_MACHINE_TOKEN=$TERMINUS_TOKEN
-EOF > ~/.ddev/global_config.yaml
+EOF
 
 export GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 
