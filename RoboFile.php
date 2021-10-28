@@ -35,7 +35,7 @@ class RoboFile extends Tasks {
    * @param bool $optimize
    *   Indicate whether to optimize during compilation. Default: FALSE.
    */
-  private function compileTheme_(bool $optimize = FALSE): void {
+  private function doThemeCompile(bool $optimize = FALSE): void {
     $directories = [
       'js',
       'images',
