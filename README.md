@@ -239,4 +239,4 @@ Optionally you can specify which target branch you'd like to push on Pantheon, b
     ddev auth ssh
 
     # Pull DB & Files
-    ddev pull
+    ddev pull pantheon
