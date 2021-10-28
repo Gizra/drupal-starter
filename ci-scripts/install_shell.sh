@@ -7,4 +7,4 @@ set -e
 #
 # ---------------------------------------------------------------------------- #
 
-docker pull koalaman/shellcheck:v0.4.6
+docker pull koalaman/shellcheck:v0.7.2
