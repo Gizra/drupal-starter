@@ -12,7 +12,7 @@ code_review () {
   echo "${LWHITE}$1${RESTORE}"
   # The exclusions are to ignore errors related to including other shell scripts
   # and allowing "cd dir" without explicit error handling.
-  if ! docker run -v "$TRAVIS_BUILD_DIR":/scripts koalaman/shellcheck:v0.4.6 -e SC1091,SC1090,SC2181,SC2164 /scripts/"$1"; then
+  if ! docker run -v "$TRAVIS_BUILD_DIR":/scripts koalaman/shellcheck:v0.7.2 -e SC1091,SC1090,SC2181,SC2164 /scripts/"$1"; then
     HAS_ERRORS=1
   fi
 }
