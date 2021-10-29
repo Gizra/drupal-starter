@@ -30,20 +30,12 @@ class RoboFile extends Tasks {
   private static string $indexPrefix = 'elasticsearch_index_pantheon_';
 
   /**
-   * The Pantheon name.
-   *
-   * You need to fill this information for Robo to know what's the name of your
-   * site.
-   */
-  const PANTHEON_NAME = '';
-
-  /**
    * Compile the theme.
    *
    * @param bool $optimize
    *   Indicate whether to optimize during compilation. Default: FALSE.
    */
-  private function compileTheme_(bool $optimize = FALSE): void {
+  private function doThemeCompile(bool $optimize = FALSE): void {
     $directories = [
       'js',
       'images',
@@ -114,7 +106,7 @@ class RoboFile extends Tasks {
    */
   public function themeCompile(): void {
     $this->say('Compiling (optimized).');
-    $this->compileTheme_(TRUE);
+    $this->doThemeCompile(TRUE);
   }
 
   /**
@@ -124,7 +116,7 @@ class RoboFile extends Tasks {
    */
   public function themeCompileDebug(): void {
     $this->say('Compiling (non-optimized).');
-    $this->compileTheme_();
+    $this->doThemeCompile();
   }
 
   /**
@@ -136,7 +128,7 @@ class RoboFile extends Tasks {
    *   If there was an error a result data object is returned. Or void if
    *   successful.
    *
-   * @see compileTheme_()
+   * @see doThemeCompile()
    */
   public function themeSvgCompress(): ?ResultData {
     $directories = [
@@ -187,13 +179,13 @@ class RoboFile extends Tasks {
    */
   public function themeWatch(): void {
     $this->say('Compiling and watching (optimized).');
-    $this->compileTheme_(TRUE);
+    $this->doThemeCompile(TRUE);
     foreach ($this->monitoredThemeDirectories() as $directory) {
       $this->taskWatch()
         ->monitor(
           $directory,
-          function () {
-            $this->compileTheme_(TRUE);
+          function (Event $event) {
+            $this->doThemeCompile(TRUE);
           },
           FilesystemEvent::ALL
         )->run();
@@ -205,13 +197,13 @@ class RoboFile extends Tasks {
    */
   public function themeWatchDebug(): void {
     $this->say('Compiling and watching (non-optimized).');
-    $this->compileTheme_();
+    $this->doThemeCompile();
     foreach ($this->monitoredThemeDirectories() as $directory) {
       $this->taskWatch()
         ->monitor(
           $directory,
-          function () {
-            $this->compileTheme_();
+          function (Event $event) {
+            $this->doThemeCompile();
           },
           FilesystemEvent::ALL
         )->run();
@@ -283,10 +275,6 @@ class RoboFile extends Tasks {
    * @throws \Exception
    */
   public function deployPantheon(string $branch_name = 'master', ?string $commit_message = NULL): void {
-    if (empty(self::PANTHEON_NAME)) {
-      throw new Exception('You need to fill the "PANTHEON_NAME" const in the Robo file. so it will know what is the name of your site.');
-    }
-
     $pantheon_directory = '.pantheon';
     $deployment_version_path = $pantheon_directory . '/.deployment';
 
@@ -439,12 +427,39 @@ class RoboFile extends Tasks {
     // This "git push" above is as async operation, so prevent invoking
     // for instance drush cim before the new changes are there.
     usleep(self::DEPLOYMENT_WAIT_TIME);
+    $pantheon_info = $this->getPantheonNameAndEnv();
     $pantheon_env = $branch_name == 'master' ? 'dev' : $branch_name;
+
     do {
-      $code_sync_completed = $this->_exec("terminus workflow:list " . self::PANTHEON_NAME . " --format=csv | grep " . $pantheon_env . " | grep Sync | awk -F',' '{print $5}' | grep running")->getExitCode();
+      $code_sync_completed = $this->_exec("terminus workflow:list " . $pantheon_info['name'] . " --format=csv | grep " . $pantheon_env . " | grep Sync | awk -F',' '{print $5}' | grep running")->getExitCode();
       usleep(self::DEPLOYMENT_WAIT_TIME);
     } while (!$code_sync_completed);
     $this->deployPantheonSync($pantheon_env, FALSE);
+  }
+
+  /**
+   * Get the Pantheon name and environment.
+   *
+   * @return array
+   *   Array keyed by `name` and `env`.
+   * @throws \Exception
+   */
+  protected function getPantheonNameAndEnv() : array {
+    $yaml = Yaml::parseFile('./.ddev/providers/pantheon.yaml');
+    if (empty($yaml['environment_variables']['project'])) {
+      throw new Exception("`environment_variables.project` is missing from .ddev/providers/pantheon.yaml");
+    }
+
+    $project = explode('.', $yaml['environment_variables']['project'], 2);
+    if (count($project) !== 2) {
+      throw new Exception("`environment_variables.project` should be in the format of `yourproject.dev`");
+    }
+
+    return [
+      'name' => $project[0],
+      'env' => $project[1],
+    ];
+
   }
 
   /**
@@ -459,8 +474,8 @@ class RoboFile extends Tasks {
    * @throws \Exception
    */
   public function deployPantheonSync(string $env = 'test', bool $do_deploy = TRUE): void {
-    $pantheon_name = self::PANTHEON_NAME;
-    $pantheon_terminus_environment = $pantheon_name . '.' . $env;
+    $pantheon_info = $this->getPantheonNameAndEnv();
+    $pantheon_terminus_environment = $pantheon_info['name'] . '.' . $pantheon_info['env'];
 
     $task = $this->taskExecStack()
       ->stopOnFail();
@@ -523,8 +538,8 @@ class RoboFile extends Tasks {
       throw new Exception("Reinstalling the site on `$env` environment is forbidden.");
     }
 
-    $pantheon_name = self::PANTHEON_NAME;
-    $pantheon_terminus_environment = $pantheon_name . '.' . $env;
+    $pantheon_info = $this->getPantheonNameAndEnv();
+    $pantheon_terminus_environment = $pantheon_info['name'] . '.' . $pantheon_info['env'];
 
     // This set of commands should work, so expecting no failures
     // (tend to invoke the same flow as DDEV's `config.local.yaml`).
@@ -596,8 +611,6 @@ class RoboFile extends Tasks {
    *
    * @param string $token
    *   Terminus machine token: https://pantheon.io/docs/machine-tokens.
-   * @param string $project_name
-   *   The project machine name on Pantheon, for example: drupal-starter.
    * @param string $github_deploy_branch
    *   The branch that should be pushed automatically to Pantheon.
    * @param string $pantheon_deploy_branch
@@ -606,6 +619,9 @@ class RoboFile extends Tasks {
    * @throws \Exception
    */
   public function deployConfigAutodeploy(string $token, string $project_name, string $github_deploy_branch = 'master', string $pantheon_deploy_branch = 'master'): void {
+    $pantheon_info = $this->getPantheonNameAndEnv();
+    $project_name = $pantheon_info['name'];
+
     if (empty(shell_exec("which travis"))) {
       // We do not bake it into the Docker image to save on disk space.
       // We rarely need this operation, also not all the developers
