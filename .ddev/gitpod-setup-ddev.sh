@@ -39,7 +39,7 @@ services:
     # It goes directly to the web container without
     # ddev-nginx
     ports:
-    - 8080:80
+    - 8080:8880
 COMPOSEEND
 
 # Misc housekeeping before start
