@@ -13,7 +13,7 @@ tasks:
     command: |
       .ddev/gitpod-setup-ddev.sh
       ddev composer install
-      gp await-port 8080 && gp preview $(gp url 8080)
+      gp await-port 8880 && gp preview $(gp url 8880)
 # VScode xdebug extension
 vscode:
   extensions:
@@ -27,7 +27,7 @@ ports:
     onOpen: ignore
     visibility: private
   # Direct-connect ddev-webserver port that is the main port
-  - port: 8080
+  - port: 8880
     onOpen: ignore
     visibility: private
   # Currently un-notified and unsupported mailhog http port
@@ -77,6 +77,6 @@ github:
     # add a "Review in Gitpod" button as a comment to pull requests (defaults to false)
     addComment: true
     # add a "Review in Gitpod" button to the pull request's description (defaults to false)
-    addBadge: true
+    addBadge: false
     # add a label once the prebuild is ready to pull requests (defaults to false)
     addLabel: true
