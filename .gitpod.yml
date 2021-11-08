@@ -9,7 +9,8 @@ tasks:
       export DDEV_NONINTERACTIVE=true
       .ddev/gitpod-setup-ddev.sh
       ddev composer install
-      drush site-install server -y --existing-config
+      cp .ddev/config.local.yaml.example .ddev/config.local.yaml
+      ddev restart
     command: |
       .ddev/gitpod-setup-ddev.sh
       ddev composer install
@@ -29,7 +30,7 @@ ports:
   # Direct-connect ddev-webserver port that is the main port
   - port: 8880
     onOpen: ignore
-    visibility: private
+    visibility: public
   # Currently un-notified and unsupported mailhog http port
   - port: 8025
     onOpen: ignore
