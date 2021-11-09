@@ -150,7 +150,7 @@ class RoboFile extends Tasks {
         continue;
       }
 
-      $result = $this->_exec("cd " . self::THEME_BASE . " && ./node_modules/svgo/bin/svgo $directory/*.svg");
+      $result = $this->_exec("cd " . self::THEME_BASE . " && npx svgo $directory/*.svg");
       if (empty($error_code) && !$result->wasSuccessful()) {
         $error_code = $result->getExitCode();
       }
