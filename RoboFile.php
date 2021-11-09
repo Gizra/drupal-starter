@@ -150,7 +150,7 @@ class RoboFile extends Tasks {
         continue;
       }
 
-      $result = $this->_exec("cd " . self::THEME_BASE . " && ./node_modules/svgo/bin/svgo $directory/*.svg");
+      $result = $this->_exec("cd " . self::THEME_BASE . " && npx svgo $directory/*.svg");
       if (empty($error_code) && !$result->wasSuccessful()) {
         $error_code = $result->getExitCode();
       }
@@ -353,19 +353,21 @@ class RoboFile extends Tasks {
     $this->taskExec("composer install --no-dev")->run();
 
     $rsync_exclude = [
-      '.git',
+      '.bootstrap-fast.php',
       '.ddev',
+      '.git',
       '.idea',
       '.pantheon',
-      'sites/default',
+      '.phpunit.result.cache',
+      'ci-scripts',
+      'drush',
       'pantheon.yml',
       'pantheon.upstream.yml',
+      'phpstan.neon',
+      'server.es.secrets.json',
+      'sites/default',
       'travis-key.enc',
       'travis-key',
-      'server.es.secrets.json',
-      '.bootstrap-fast.php',
-      'ci-scripts',
-      'phpstan.neon',
     ];
 
     $rsync_exclude_string = '--exclude=' . implode(' --exclude=', $rsync_exclude);
@@ -1143,6 +1145,18 @@ END;
     $result = curl_exec($ch);
     curl_close($ch);
     return empty($result) ? NULL : json_decode($result);
+  }
+
+  /**
+   * Update the caniuse-lite browserslist db.
+   *
+   * Any changes made as a result of this command should be committed.
+   *
+   * @return \Robo\ResultData
+   *   The result.
+   */
+  public function caniuseUpdatedb(): ResultData {
+    return $this->_exec('cd ' . self::THEME_BASE . ' && npx browserslist@latest --update-db');
   }
 
 }
