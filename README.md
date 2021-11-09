@@ -23,6 +23,14 @@ us with easier iteration, reading and manipulating yaml files, pre-defined
 1. We use Pantheon for hosting. A `ddev robo deploy:pantheon` will take care of
 deployments. See more under ["Deploy to Pantheon"](#deploy-to-pantheon) section.
 
+## GitPod
+
+The project is integrated with [GitPod](https://www.gitpod.io/docs/).
+Click on the badge above to try it out the project in action and start editing
+the source code! By default Drupal is accessible publicly and you can access other
+DDEV services like Mailhog using the non-HTTPS port, for instance `8025-` should work for
+checking the outgoing mails.
+
 ## Requirements
 
 * [DDEV](https://ddev.readthedocs.io/en/stable/)
