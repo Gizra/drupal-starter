@@ -245,7 +245,3 @@ Optionally you can specify which target branch you'd like to push on Pantheon, b
 If you don't want to copy production files locally, you can enable stage_file_proxy module.
 It saves you time and disk space by sending requests to your development environment's files directory
 to the production environment and making a copy of the production file in your development site.
-
-This module shouldn't be enabled on live, to exclude it from configuration, put code below to your settings file.
-
-    $settings['config_exclude_modules'] = [ 'stage_file_proxy'];
