@@ -24,6 +24,12 @@ additional_fqdns:
 - 8036-${shortgpurl}
 CONFIGEND
 
+# Forces proper external base URL.
+DRUPAL_BASE=$(gp url 8888)
+cat <<DRUSH_CMD > ~/.ddev/commands/web/drush
+  ./vendor/bin/drush --uri="$DRUPAL_BASE" $@
+DRUSH_CMD
+
 # We need host.docker.internal inside the container,
 # So add it via docker-compose.host-docker-internal.yaml
 hostip=$(awk "\$2 == \"$HOSTNAME\" { print \$1; }" /etc/hosts)
