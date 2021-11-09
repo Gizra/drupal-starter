@@ -28,20 +28,6 @@ CONFIGEND
 # So add it via docker-compose.host-docker-internal.yaml
 hostip=$(awk "\$2 == \"$HOSTNAME\" { print \$1; }" /etc/hosts)
 
-cat <<COMPOSEEND >${MYDIR}/docker-compose.host-docker-internal.yaml
-#ddev-gitpod-generated
-version: "3.6"
-services:
-  web:
-    extra_hosts:
-    - "host.docker.internal:${hostip}"
-    # This adds 8080 on the host (bound on all interfaces)
-    # It goes directly to the web container without
-    # ddev-nginx
-    ports:
-    - 8080:8880
-COMPOSEEND
-
 # Misc housekeeping before start
 ddev config global --router-bind-all-interfaces
 

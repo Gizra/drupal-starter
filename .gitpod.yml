@@ -30,7 +30,7 @@ ports:
   # Direct-connect ddev-webserver port that is the main port
   - port: 8080
     onOpen: ignore
-    visibility: public
+    visibility: private
   # Currently un-notified and unsupported mailhog http port
   - port: 8025
     onOpen: ignore
@@ -50,7 +50,7 @@ ports:
   # router http port that we're ignoring.
   - port: 8888
     onOpen: ignore
-    visibility: private
+    visibility: public
   # router https port that we're ignoring.
   - port: 8889
     onOpen: ignore
@@ -62,7 +62,14 @@ ports:
   # projector port
   - port: 9999
     visibility: private
-
+  # Elasticsearch
+  - port: 9200
+    onOpen: ignore
+    visibility: public
+  # Elasticsearch HTTPS
+  - port: 9201
+    onOpen: ignore
+    visibility: private
 github:
   prebuilds:
     # enable for the master/default branch (defaults to true)
