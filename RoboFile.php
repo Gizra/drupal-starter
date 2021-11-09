@@ -353,19 +353,21 @@ class RoboFile extends Tasks {
     $this->taskExec("composer install --no-dev")->run();
 
     $rsync_exclude = [
-      '.git',
+      '.bootstrap-fast.php',
       '.ddev',
+      '.git',
       '.idea',
       '.pantheon',
-      'sites/default',
+      '.phpunit.result.cache',
+      'ci-scripts',
+      'drush',
       'pantheon.yml',
       'pantheon.upstream.yml',
+      'phpstan.neon',
+      'server.es.secrets.json',
+      'sites/default',
       'travis-key.enc',
       'travis-key',
-      'server.es.secrets.json',
-      '.bootstrap-fast.php',
-      'ci-scripts',
-      'phpstan.neon',
     ];
 
     $rsync_exclude_string = '--exclude=' . implode(' --exclude=', $rsync_exclude);
