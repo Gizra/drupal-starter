@@ -1147,4 +1147,16 @@ END;
     return empty($result) ? NULL : json_decode($result);
   }
 
+  /**
+   * Update the caniuse-lite browserslist db.
+   *
+   * Any changes made as a result of this command should be committed.
+   *
+   * @return \Robo\ResultData
+   *   The result.
+   */
+  public function caniuseUpdatedb(): ResultData {
+    return $this->_exec('cd ' . self::THEME_BASE . ' && npx browserslist@latest --update-db');
+  }
+
 }
