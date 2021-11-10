@@ -163,7 +163,7 @@ Make sure to add the correct site name under `environment_variables.project`.
 Then, you can create a new site in Pantheon which can also be done with a
 [terminus command](https://pantheon.io/docs/guides/drupal8-commandline):
 
-    ddev exec terminus site:create my-site "My Site" "Drupal 8"
+    ddev exec terminus site:create my-site "My Site" "Drupal 9"
 
 #### Change to nested docroot structure
 
