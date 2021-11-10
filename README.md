@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.com/Gizra/drupal-starter.svg?branch=master)](https://travis-ci.com/Gizra/drupal-starter)
 
+<a href="https://gitpod.io/#https://github.com/Gizra/drupal-starter/tree/main"><img src="https://gitpod.io/button/open-in-gitpod.svg"/></a>
+
 # Drupal 9 Starter
 
 Starter repo for Drupal 9 development. This starter is an opinionated approach,
@@ -20,6 +22,14 @@ us with easier iteration, reading and manipulating yaml files, pre-defined
 `.travis.yaml` is part of this repo.
 1. We use Pantheon for hosting. A `ddev robo deploy:pantheon` will take care of
 deployments. See more under ["Deploy to Pantheon"](#deploy-to-pantheon) section.
+
+## GitPod
+
+The project is integrated with [GitPod](https://www.gitpod.io/docs/).
+Click on the badge above to try it out the project in action and start editing
+the source code! By default Drupal is accessible publicly and you can access other
+DDEV services like Mailhog using the non-HTTPS port, for instance `8025-` should work for
+checking the outgoing mails.
 
 ## Requirements
 
