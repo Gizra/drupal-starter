@@ -26,9 +26,11 @@ CONFIGEND
 
 # Forces proper external base URL.
 DRUPAL_BASE=$(gp url 8888)
-cat <<DRUSH_CMD > ~/.ddev/commands/web/drush
-  ./vendor/bin/drush --uri="$DRUPAL_BASE" $@
-DRUSH_CMD
+mkdir -p web/sites/all/drush
+cat <<DRUSH_CFG > web/sites/all/drush/drush.yml
+options:
+  uri: "$DRUPAL_BASE"
+DRUSH_CFG
 
 # We need host.docker.internal inside the container,
 # So add it via docker-compose.host-docker-internal.yaml
