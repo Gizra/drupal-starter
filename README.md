@@ -27,7 +27,7 @@ deployments. See more under ["Deploy to Pantheon"](#deploy-to-pantheon) section
 
 The project is integrated with [GitPod](https://www.gitpod.io/docs/).
 Click on the badge above to try it out the project in action and start editing
-the source code! By default Drupal is accessible publicly and you can access other
+the source code! By default Drupal is accessible publicly at `8888-` and you can access other
 DDEV services like Mailhog using the non-HTTPS port, for instance `8025-` should work for
 checking the outgoing mails.
 
