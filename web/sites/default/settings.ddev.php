@@ -64,3 +64,7 @@ $settings['container_yamls'][] = 'modules/contrib/redis/redis.services.yml';
 
 $config['system.performance']['css']['preprocess'] = FALSE;
 $config['system.performance']['js']['preprocess'] = FALSE;
+
+// Excludes stage_file_proxy module from configuration export,
+// as it should not be enabled on production.
+$settings['config_exclude_modules'] = ['stage_file_proxy'];
