@@ -7,13 +7,13 @@ tasks:
   - name: Terminal
     init: |
       export DDEV_NONINTERACTIVE=true
-      .ddev/gitpod-setup-ddev.sh
-      ddev composer install
-    command: |
-      .ddev/gitpod-setup-ddev.sh
       ddev composer install
       cp .ddev/config.local.yaml.example .ddev/config.local.yaml
       ddev restart
+    command: |
+      rm .ddev/config.local.yaml
+      export DDEV_NONINTERACTIVE=true
+      .ddev/gitpod-setup-ddev.sh
       gp await-port 8888 && gp preview $(gp url 8888)
 # VScode xdebug extension
 vscode:
