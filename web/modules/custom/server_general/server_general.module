@@ -7,6 +7,11 @@
 
 /**
  * Implements hook_theme_suggestions_alter().
+ *
+ * For instance for a form with an ID "server_general_moo_form", you can use
+ * form--server-general-moo-form.html.twig
+ *
+ * That can be based on form.html.twig.
  */
 function server_general_theme_suggestions_alter(array &$suggestions, array $variables) {
   if (isset($variables['element']) && isset($variables['element']['#type']) && $variables['element']['#type'] == 'form') {
