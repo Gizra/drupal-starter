@@ -10,8 +10,8 @@
  *
  * Adds fine-grained overrides for form templates.
  *
- * For instance for a form with an ID "server_general_moo_form", you can use
- * form--server-general-moo-form.html.twig
+ * For instance for a form with an ID "server_general_foo_form", you can use
+ * form--server-general-foo-form.html.twig
  *
  * That can be based on form.html.twig.
  */
