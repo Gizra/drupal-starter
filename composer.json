@@ -79,6 +79,9 @@
                 "d.o. #3106003 - Content access fixes": "https://www.drupal.org/files/issues/2021-01-12/missing-special-fields-3106003-8.patch",
                 "d.o. #3194318 - More robust language filtering": "https://www.drupal.org/files/issues/2021-01-25/3194318-hypen-lang-5.patch",
                 "d.o. #3014805 - Views filtering with facets": "https://www.drupal.org/files/issues/2019-12-20/elasticsearch_connector-facet_OR_global_aggregation_does_not_take_views_filter_into_account-3014805-15.patch"
+            },
+            "drupal/core": {
+              "d.o #3224254": "https://www.drupal.org/files/issues/2021-07-19/drupal-claro_dropdown-3224254-2.patch"
             }
         },
         "drupal-scaffold": {
