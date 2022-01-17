@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1ec5d2b9d1b61e75d272ad508ae88bbe",
+    "content-hash": "5d7c1aed90d9a837b67ff21ae48c3616",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2206,6 +2206,10 @@
                     "name": "Lucas Hedding",
                     "homepage": "https://www.drupal.org/u/heddn",
                     "role": "Maintainer"
+                },
+                {
+                    "name": "mikeryan",
+                    "homepage": "https://www.drupal.org/user/4420"
                 }
             ],
             "description": "Enhancements to core migration support.",
@@ -5225,7 +5229,7 @@
                 "nyholm/dsn": "^2.0.0",
                 "php": "^7.2 || ^8.0",
                 "psr/log": "^1.0 || ^2.0 || ^3.0",
-                "symfony/deprecation-contracts": "^2.2",
+                "symfony/deprecation-contracts": "^2.2 || ^3.0",
                 "symfony/polyfill-php73": "^1.19"
             },
             "require-dev": {
@@ -8160,6 +8164,7 @@
                 "issues": "https://github.com/webmozart/path-util/issues",
                 "source": "https://github.com/webmozart/path-util/tree/2.3.0"
             },
+            "abandoned": "symfony/filesystem",
             "time": "2015-12-17T08:42:14+00:00"
         }
     ],
@@ -10460,7 +10465,6 @@
                     "type": "github"
                 }
             ],
-            "abandoned": true,
             "time": "2020-11-30T07:30:19+00:00"
         },
         {
