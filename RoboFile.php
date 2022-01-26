@@ -1161,8 +1161,12 @@ END;
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
     $result = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
-    return empty($result) ? NULL : json_decode($result);
+    $result = empty($result) ? NULL : json_decode($result);
+    if (substr((string) $http_code, 0, 1) != 2) {
+      throw new Exception("Failed to request the API:\n" . print_r($result, TRUE));
+    }
   }
 
   /**
