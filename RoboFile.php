@@ -1167,6 +1167,7 @@ END;
     if (substr((string) $http_code, 0, 1) != 2) {
       throw new Exception("Failed to request the API:\n" . print_r($result, TRUE));
     }
+    return $result;
   }
 
   /**
