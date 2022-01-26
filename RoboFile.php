@@ -1089,7 +1089,7 @@ END;
 
     if (isset($github_org)) {
       $contributors = array_count_values($contributors);
-      asort($contributors);
+      arsort($contributors);
       $this->printReleaseNotesSection('Contributors', $contributors, TRUE);
 
       $this->printReleaseNotesSection('Code statistics', [
