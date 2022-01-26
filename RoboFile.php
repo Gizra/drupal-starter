@@ -1088,9 +1088,9 @@ END;
     $this->printReleaseNotesSection('', $no_issue_lines);
 
     if (isset($github_org)) {
-      $contributors = array_unique($contributors);
-      sort($contributors);
-      $this->printReleaseNotesSection('Contributors', $contributors);
+      $contributors = array_count_values($contributors);
+      arsort($contributors);
+      $this->printReleaseNotesSection('Contributors', $contributors, TRUE);
 
       $this->printReleaseNotesSection('Code statistics', [
         "Lines added: $additions",
@@ -1108,12 +1108,15 @@ END;
    * @param array $lines
    *   Bullet points.
    */
-  protected function printReleaseNotesSection(string $title, array $lines): void {
+  protected function printReleaseNotesSection(string $title, array $lines, bool $print_key = FALSE): void {
     if (!empty($title)) {
       $this->printReleaseNotesTitle($title);
     }
-    foreach ($lines as $line) {
-      if (substr($line, 0, 1) == '-') {
+    foreach ($lines as $key => $line) {
+      if ($print_key) {
+        print "- $key ($line)\n";
+      }
+      elseif (substr($line, 0, 1) == '-') {
         print "$line\n";
       }
       else {
@@ -1161,8 +1164,13 @@ END;
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
     $result = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
-    return empty($result) ? NULL : json_decode($result);
+    $result = empty($result) ? NULL : json_decode($result);
+    if (substr((string) $http_code, 0, 1) != 2) {
+      throw new Exception("Failed to request the API:\n" . print_r($result, TRUE));
+    }
+    return $result;
   }
 
   /**
