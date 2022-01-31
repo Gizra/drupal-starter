@@ -10,6 +10,7 @@ HAS_ERRORS=0
 LOCAL_MODE=0
 FIX_MODE=0
 STD="$1"
+
 while getopts "f" opt
 do
     case $opt in
