@@ -495,7 +495,7 @@ class RoboFile extends Tasks {
    */
   public function deployPantheonSync(string $env = 'test', bool $do_deploy = TRUE): void {
     $pantheon_info = $this->getPantheonNameAndEnv();
-    $pantheon_terminus_environment = $pantheon_info['name'] . '.' . $pantheon_info['env'];
+    $pantheon_terminus_environment = $pantheon_info['name'] . '.' . $env;
 
     $task = $this->taskExecStack()
       ->stopOnFail();
@@ -559,7 +559,7 @@ class RoboFile extends Tasks {
     }
 
     $pantheon_info = $this->getPantheonNameAndEnv();
-    $pantheon_terminus_environment = $pantheon_info['name'] . '.' . $pantheon_info['env'];
+    $pantheon_terminus_environment = $pantheon_info['name'] . '.' . $env;
 
     // This set of commands should work, so expecting no failures
     // (tend to invoke the same flow as DDEV's `config.local.yaml`).
