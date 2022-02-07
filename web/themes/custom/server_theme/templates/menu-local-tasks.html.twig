@@ -13,14 +13,22 @@
 #}
 
 {% if primary %}
-<div class="container-wide">
-  <h2 class="visually-hidden">{{ 'Primary tabs'|t }}</h2>
-  <ul class="tabs primary">{{ primary }}</ul>
-</div>
+  <div class="container-wide">
+    <h2 class="visually-hidden">
+      {{ 'Primary tabs'|t }}
+    </h2>
+    <ul class="tabs primary">
+      {{ primary }}
+    </ul>
+  </div>
 {% endif %}
 {% if secondary %}
-<div class="container-wide">
-  <h2 class="visually-hidden">{{ 'Secondary tabs'|t }}</h2>
-  <ul class="tabs secondary">{{ secondary }}</ul>
-</div>
+  <div class="container-wide">
+    <h2 class="visually-hidden">
+      {{ 'Secondary tabs'|t }}
+    </h2>
+    <ul class="tabs secondary">
+      {{ secondary }}
+    </ul>
+  </div>
 {% endif %}
