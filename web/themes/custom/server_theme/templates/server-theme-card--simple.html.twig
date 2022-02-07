@@ -9,11 +9,9 @@
   <div class="w-full sm:w-3/5 flex flex-col justify-between px-0 sm:px-6">
       <div class="overflow-hidden text-base md:text-lg leading-6 md:leading-7 font-bold text-turquoise overflow-ellipsis clamp-2 hover:text-gray-800">
         {% if url %}
-        <a href="{{ url }}">
-        {% endif %}
+          <a href="{{ url }}"> {{ title }} </a>
+        {% else %}
           {{ title }}
-        {% if url %}
-        </a>
         {% endif %}
       </div>
 
