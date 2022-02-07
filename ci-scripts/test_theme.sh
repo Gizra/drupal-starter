@@ -1,5 +1,5 @@
 #!/bin/bash
 
 cd ./web/themes/custom/server_theme
-node install
+npm install
 npx prettier --check .
