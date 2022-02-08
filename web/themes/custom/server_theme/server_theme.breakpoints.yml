@@ -8,7 +8,7 @@
 # Mobile breakpoint - 0px and up.
 server_theme.mobile:
   label: mobile
-  mediaQuery: ''
+  mediaQuery: ""
   weight: 0
   multipliers:
     - 1x
@@ -16,7 +16,7 @@ server_theme.mobile:
 # sm breakpoint - 640px and up.
 server_theme.sm:
   label: sm
-  mediaQuery: 'all and (min-width: 640px)'
+  mediaQuery: "all and (min-width: 640px)"
   weight: 1
   multipliers:
     - 1x
@@ -24,7 +24,7 @@ server_theme.sm:
 # md breakpoint - 768px and up.
 server_theme.md:
   label: md
-  mediaQuery: 'all and (min-width: 768px)'
+  mediaQuery: "all and (min-width: 768px)"
   weight: 2
   multipliers:
     - 1x
@@ -32,7 +32,7 @@ server_theme.md:
 # lg breakpoint - 1024px and up.
 server_theme.lg:
   label: lg
-  mediaQuery: 'all and (min-width: 1024px)'
+  mediaQuery: "all and (min-width: 1024px)"
   weight: 3
   multipliers:
     - 1x
@@ -40,7 +40,7 @@ server_theme.lg:
 # xl breakpoint - 1280px and up.
 server_theme.xl:
   label: xl
-  mediaQuery: 'all and (min-width: 1280px)'
+  mediaQuery: "all and (min-width: 1280px)"
   weight: 4
   multipliers:
     - 1x
@@ -48,7 +48,7 @@ server_theme.xl:
 # 2xl breakpoint - 1536px and up.
 server_theme.2xl:
   label: xl
-  mediaQuery: 'all and (min-width: 1536px)'
+  mediaQuery: "all and (min-width: 1536px)"
   weight: 5
   multipliers:
     - 1x

@@ -1,4 +1,4 @@
-{% extends "block.html.twig" %}
+{% extends 'block.html.twig' %}
 {#
 /**
  * @file
@@ -15,20 +15,22 @@
 #}
 {% block content %}
   <div class="flex items-center">
-
-  {% if site_logo %}
-    <a href="{{ path('<front>') }}" rel="home" class="site-logo mr-4">
-      <img src="{{ site_logo }}" alt="{{ 'Home'|t }}" />
-    </a>
-  {% endif %}
-  {% if site_name %}
-    <div class="site-name text-white text-3xl">
-      <a href="{{ path('<front>') }}" title="{{ 'Home'|t }}" rel="home">{{ site_name }}</a>
-    </div>
-  {% endif %}
-  {% if site_slogan %}
-    <div class="site-slogan">{{ site_slogan }}</div>
-  {% endif %}
-</div>
-
+    {% if site_logo %}
+      <a href="{{ path('<front>') }}" rel="home" class="site-logo mr-4">
+        <img src="{{ site_logo }}" alt="{{ 'Home'|t }}" />
+      </a>
+    {% endif %}
+    {% if site_name %}
+      <div class="site-name text-white text-3xl">
+        <a href="{{ path('<front>') }}" title="{{ 'Home'|t }}" rel="home">
+          {{ site_name }}
+        </a>
+      </div>
+    {% endif %}
+    {% if site_slogan %}
+      <div class="site-slogan">
+        {{ site_slogan }}
+      </div>
+    {% endif %}
+  </div>
 {% endblock %}

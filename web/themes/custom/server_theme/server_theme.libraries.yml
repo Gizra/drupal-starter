@@ -14,12 +14,14 @@ global-scripts:
 roboto:
   css:
     base:
-      '//fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap': { external: true }
+      "//fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap":
+        { external: true }
 
 opensans:
   css:
     base:
-      '//fonts.googleapis.com/css?family=Open+Sans:400,400i,700': { external: true }
+      "//fonts.googleapis.com/css?family=Open+Sans:400,400i,700":
+        { external: true }
 
 font-awesome:
   remote: https://fortawesome.github.io/Font-Awesome/
@@ -30,4 +32,5 @@ font-awesome:
     gpl-compatible: true
   css:
     theme:
-      https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css: { type: external, minified: true }
+      https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css:
+        { type: external, minified: true }

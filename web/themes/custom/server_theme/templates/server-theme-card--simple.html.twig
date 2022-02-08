@@ -1,35 +1,33 @@
 <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0">
-
   {% if url and image %}
-  <a class="w-full sm:w-1/5" href="{{ url }}">
-    <img class="object-cover rounded-md border-gray-300" src="{{ image }}" alt="{{ image_alt }}" />
-  </a>
+    <a class="w-full sm:w-1/5" href="{{ url }}">
+      <img class="object-cover rounded-md border-gray-300"
+        src="{{ image }}"
+        alt="{{ image_alt }}" />
+    </a>
   {% endif %}
 
   <div class="w-full sm:w-3/5 flex flex-col justify-between px-0 sm:px-6">
-      <div class="overflow-hidden text-base md:text-lg leading-6 md:leading-7 font-bold text-turquoise overflow-ellipsis clamp-2 hover:text-gray-800">
-        {% if url %}
-        <a href="{{ url }}">
-        {% endif %}
-          {{ title }}
-        {% if url %}
-        </a>
-        {% endif %}
-      </div>
-
-      {% if body %}
-        <div class="overflow-hidden mt-1 md:mt-2 h-20 md:h-24 text-black text-sm md:text-base">
-          {{ body }}
-        </div>
+    <div class="overflow-hidden text-base md:text-lg leading-6 md:leading-7 font-bold text-turquoise overflow-ellipsis clamp-2 hover:text-gray-800">
+      {% if url %}
+        <a href="{{ url }}">{{ title }}</a>
+      {% else %}
+        {{ title }}
       {% endif %}
-
-    <div class="flex overflow-hidden flex-row flex-wrap justify-start pt-2 h-12 text-sm tags-wrapper">
-    {% if tags %}
-      {% for tag in tags %}
-        {{ tag }}
-      {% endfor %}
-    {% endif %}
     </div>
 
+    {% if body %}
+      <div class="overflow-hidden mt-1 md:mt-2 h-20 md:h-24 text-black text-sm md:text-base">
+        {{ body }}
+      </div>
+    {% endif %}
+
+    <div class="flex overflow-hidden flex-row flex-wrap justify-start pt-2 h-12 text-sm tags-wrapper">
+      {% if tags %}
+        {% for tag in tags %}
+          {{ tag }}
+        {% endfor %}
+      {% endif %}
+    </div>
   </div>
 </div>
