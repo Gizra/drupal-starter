@@ -3,11 +3,14 @@ includes:
 parameters:
   level: 6
   checkMissingIterableValueType: false
+  reportUnmatchedIgnoredErrors: false
   ignoreErrors:
     - '#has no return typehint specified.#'
+    - '#Access to an undefined property Drupal\\Core\\Field\\FieldItemListInterface::\$value.#'
+    - '#Access to an undefined property Drupal\\Core\\Field\\FieldItemInterface::\$value.#'
   paths:
     - web
-  excludes_analyse:
+  excludePaths:
     - '*.api.php'
     - '*/tests/fixtures/*.php'
     - 'web/core/*'

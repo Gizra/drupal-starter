@@ -22,7 +22,7 @@ trait ServerGeneralMailTestTrait {
    */
   public function assertOutgoingMailContains(string $needle) {
     $messages = \Drupal::httpClient()->get($this->getMailhogBaseUrl() . '/api/v2/messages')->getBody()->getContents();
-    $this->assertContains($needle, $messages);
+    $this->assertStringContainsString($needle, $messages);
   }
 
   /**
@@ -30,7 +30,7 @@ trait ServerGeneralMailTestTrait {
    */
   public function assertOutgoingMailNotContains(string $needle) {
     $messages = \Drupal::httpClient()->get($this->getMailhogBaseUrl() . '/api/v2/messages')->getBody()->getContents();
-    $this->assertNotContains($needle, $messages);
+    $this->assertStringNotContainsString($needle, $messages);
   }
 
   /**
