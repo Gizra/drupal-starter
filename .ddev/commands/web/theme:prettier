@@ -1,7 +1,0 @@
-#!/bin/bash
-
-## Description: Run Prettier on the theme directory.
-## Usage: theme:prettier
-## Example: "ddev theme:prettier"
-
-cd ./web/themes/custom/server_theme && npx prettier --write .

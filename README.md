@@ -144,12 +144,6 @@ To take a look, you can check these first:
 
     ddev phpcs
 
-## Prettier
-
-We're using [prettier](https://prettier.io/) to format our theme code.
-
-    ddev theme:prettier
-
 ## Tests
 
 For testing we use [Drupal Test Traits](https://medium.com/massgovdigital/introducing-drupal-test-traits-9fe09e84384c) (DTT), as it allows a very fast and convinent way of testing existing installation profiles.

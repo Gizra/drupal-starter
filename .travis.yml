@@ -43,10 +43,6 @@ jobs:
       script:
         - "$TRAVIS_BUILD_DIR/ci-scripts/install_shell.sh || travis_terminate 1;"
         - "$TRAVIS_BUILD_DIR/ci-scripts/test_shell.sh || travis_terminate 1;"
-    - stage: Lint
-      name: "Tailwind Prettier"
-      script:
-        - "$TRAVIS_BUILD_DIR/ci-scripts/test_theme.sh || travis_terminate 1;"
     - stage: Test
       name: "Backend tests: Functional tests"
       # Before auto-deploy gets configured, this will execute the tests always.
