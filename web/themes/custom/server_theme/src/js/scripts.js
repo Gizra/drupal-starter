@@ -9,6 +9,6 @@
    * General behaviours.
    */
   Drupal.behaviors.themeServerGeneral = {
-    attach: function (context, settings) {},
+    attach: function (context, settings) {  },
   };
 })(jQuery, Drupal);
