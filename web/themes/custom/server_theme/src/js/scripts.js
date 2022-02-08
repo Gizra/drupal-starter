@@ -3,12 +3,14 @@
  */
 
 (function ($, Drupal) {
-  "use strict";
+  'use strict';
 
   /**
    * General behaviours.
    */
   Drupal.behaviors.themeServerGeneral = {
-    attach: function (context, settings) {},
+    attach: function (context, settings) {
+    },
   };
+
 })(jQuery, Drupal);

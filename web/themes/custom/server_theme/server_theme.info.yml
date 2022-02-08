@@ -1,6 +1,6 @@
 name: Drupal 8 Starter Theme
 type: theme
-description: "A foundation for building a theme for Drupal 9 Starter."
+description: 'A foundation for building a theme for Drupal 9 Starter.'
 package: Server
 core_version_requirement: ^8 || ^9
 libraries:

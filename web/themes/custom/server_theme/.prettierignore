@@ -1,5 +1,0 @@
-dist
-node_modules
-# Drupal core twig structure causes an error, so we ignore it.
-templates/html.html.twig
-templates/status-messages.html.twig
