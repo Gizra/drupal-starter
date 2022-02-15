@@ -4,4 +4,4 @@
 ## Usage: phpstan
 ## Example: "ddev phpstan"
 
-./vendor/bin/phpstan analyse -c phpstan.neon
+./vendor/bin/phpstan --no-progress analyse -c phpstan.neon

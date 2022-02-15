@@ -2,7 +2,6 @@
 
 namespace Drupal\server_style_guide\Controller;
 
-use Drupal\Core\Block\BlockManager;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
 use Drupal\Core\Utility\LinkGenerator;
@@ -20,14 +19,6 @@ class StyleGuideController extends ControllerBase {
   use TagBuilderTrait;
 
   /**
-   * The block manager service.
-   *
-   * @var \Drupal\Core\Block\BlockManager
-   */
-  private $blockManager;
-
-
-  /**
    * The link generator service.
    *
    * @var \Drupal\Core\Utility\LinkGenerator
@@ -37,8 +28,7 @@ class StyleGuideController extends ControllerBase {
   /**
    * Class constructor.
    */
-  public function __construct(BlockManager $block_manager, LinkGenerator $link_generator) {
-    $this->blockManager = $block_manager;
+  public function __construct(LinkGenerator $link_generator) {
     $this->linkGenerator = $link_generator;
   }
 
@@ -47,7 +37,6 @@ class StyleGuideController extends ControllerBase {
    */
   public static function create(ContainerInterface $container) {
     return new self(
-      $container->get('plugin.manager.block'),
       $container->get('link_generator')
     );
   }
