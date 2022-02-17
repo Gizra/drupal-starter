@@ -216,7 +216,7 @@ class RoboFile extends Tasks {
    * @param string $tag
    *   The tag name in the current repository.
    * @param string $branch_name
-   *   The branch name from Pantheon repository. Default: master.
+   *   The branch name from Pantheon repository. Default: master
    * @param string|null $commit_message
    *   Supply a custom commit message for the pantheon repo.
    *   Default: "Release [tag]".
