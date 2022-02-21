@@ -3,6 +3,9 @@ const plugin = require('tailwindcss/plugin');
 module.exports = {
   theme: {
     extend: {
+      maxWidth: {
+        '8xl': '90rem',
+      },
     },
     fontFamily: {
       'headers': ["Roboto", 'sans-serif'],
