@@ -1,10 +1,16 @@
 (function ($) {
 
-  const allPanels = $('.accordion > dd').hide();
-
-  $('.accordion a.title-wrapper').click(function () {
-    allPanels.slideUp();
-    $(this).parent().next().slideDown();
+  $('.accordion a.title-wrapper').click(function (event) {
+    event.preventDefault();
+    $(this).parent().next().slideToggle(400, function () {
+      // Re-position any slick sliders in this panel.
+      const $slick = $(this).find('.slick-initialized');
+      if (!$slick.length) {
+        // No slick sliders.
+        return;
+      }
+      $slick.slick('setPosition');
+    });
   });
 
   // Check if hash exist, and if so try to open its pane.
