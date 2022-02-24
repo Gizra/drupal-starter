@@ -5,7 +5,10 @@
 
   $('.accordion a.title-wrapper').click(function (event) {
     event.preventDefault();
-    $(this).parent().next().slideToggle(400, function () {
+    const $this = $(this);
+    // Update the URL hash.
+    window.location.hash = $this.attr('href');
+    $this.parent().next().slideToggle(400, function () {
       if (typeof $.fn.slick != 'function') {
         // No slick installed.
         return;
