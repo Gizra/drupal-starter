@@ -3,6 +3,10 @@
   $('.accordion a.title-wrapper').click(function (event) {
     event.preventDefault();
     $(this).parent().next().slideToggle(400, function () {
+      if (typeof $.fn.slick != 'function') {
+        // No slick installed.
+        return;
+      }
       // Re-position any slick sliders in this panel.
       const $slick = $(this).find('.slick-initialized');
       if (!$slick.length) {
