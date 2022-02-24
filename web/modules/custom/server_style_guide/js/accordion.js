@@ -1,5 +1,8 @@
 (function ($) {
 
+  // Hide all panels on load.
+  $('.accordion > dd').hide();
+
   $('.accordion a.title-wrapper').click(function (event) {
     event.preventDefault();
     $(this).parent().next().slideToggle(400, function () {
