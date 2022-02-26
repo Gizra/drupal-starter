@@ -25,6 +25,11 @@ $databases['default']['default'] = array(
   'prefix' => "",
 );
 
+// Fake migrate default source to eliminate a warning about missing
+// database connection.
+// @todo: replace it with real, external credentials in case.
+$databases['migrate']['default'] = $databases['default']['default'];
+
 $settings['hash_salt'] = 'ETXSRhodvuWLJsBUnpgkRpTXOLqbuozKXwjwZkuGiHSCpdEQLHXgdgGUHeCVHnXv';
 
 // This will prevent Drupal from setting read-only permissions on sites/default.
@@ -68,3 +73,5 @@ $config['system.performance']['js']['preprocess'] = FALSE;
 // Excludes stage_file_proxy module from configuration export,
 // as it should not be enabled on production.
 $settings['config_exclude_modules'] = ['stage_file_proxy'];
+
+
