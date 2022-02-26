@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/Gizra/drupal-starter.svg?branch=master)](https://travis-ci.com/Gizra/drupal-starter)
+[![Build Status](https://app.travis-ci.com/Gizra/drupal-starter.svg?branch=main)](https://app.travis-ci.com/Gizra/drupal-starter)
 
 <a href="https://gitpod.io/#https://github.com/Gizra/drupal-starter"><img src="https://gitpod.io/button/open-in-gitpod.svg"/></a>
 
