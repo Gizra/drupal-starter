@@ -27,7 +27,7 @@ $databases['default']['default'] = array(
 
 // Fake migrate default source to eliminate a warning about missing
 // database connection.
-// @todo: replace it with real, external credentials in case.
+// @todo: replace it with real, external credentials if needed.
 $databases['migrate']['default'] = $databases['default']['default'];
 
 $settings['hash_salt'] = 'ETXSRhodvuWLJsBUnpgkRpTXOLqbuozKXwjwZkuGiHSCpdEQLHXgdgGUHeCVHnXv';
