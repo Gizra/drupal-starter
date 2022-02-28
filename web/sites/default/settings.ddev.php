@@ -25,6 +25,11 @@ $databases['default']['default'] = array(
   'prefix' => "",
 );
 
+// Fake migrate default source to eliminate a warning about missing
+// database connection.
+// @todo: replace it with real, external credentials if needed.
+$databases['migrate']['default'] = $databases['default']['default'];
+
 $settings['hash_salt'] = 'ETXSRhodvuWLJsBUnpgkRpTXOLqbuozKXwjwZkuGiHSCpdEQLHXgdgGUHeCVHnXv';
 
 // This will prevent Drupal from setting read-only permissions on sites/default.
