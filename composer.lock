@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4d640e5bee509841ef3369fa2950d5cb",
+    "content-hash": "74d762c7d033aa56d4a767310c0d3efd",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -8752,6 +8752,58 @@
             "time": "2022-01-26T21:36:53+00:00"
         },
         {
+            "name": "mpyw/phpunit-patch-serializable-comparison",
+            "version": "v0.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mpyw/phpunit-patch-serializable-comparison.git",
+                "reference": "262180fb1fc529b3735f147f754d5ba1f05e541b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mpyw/phpunit-patch-serializable-comparison/zipball/262180fb1fc529b3735f147f754d5ba1f05e541b",
+                "reference": "262180fb1fc529b3735f147f754d5ba1f05e541b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3",
+                "sebastian/comparator": "^1.0 || ^2.0 || ^3.0 || ^4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "./files/ComparisonFailure.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "mpyw",
+                    "email": "ryosuke_i_628@yahoo.co.jp"
+                }
+            ],
+            "description": "Fixes assertSame/assertEquals serialization errors running in separate processes.",
+            "keywords": [
+                "bug",
+                "fix",
+                "isolation",
+                "patch",
+                "phpunit",
+                "process",
+                "processes",
+                "separate",
+                "serialization"
+            ],
+            "support": {
+                "issues": "https://github.com/mpyw/phpunit-patch-serializable-comparison/issues",
+                "source": "https://github.com/mpyw/phpunit-patch-serializable-comparison/tree/v0.0.2"
+            },
+            "time": "2021-07-04T05:15:38+00:00"
+        },
+        {
             "name": "myclabs/deep-copy",
             "version": "1.10.2",
             "source": {
@@ -11430,5 +11482,5 @@
         "ext-mbstring": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }
