@@ -50,6 +50,7 @@
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
         "drupal/coder": "^8.3.1",
         "mglaman/phpstan-drupal": "1.1.10",
+        "mpyw/phpunit-patch-serializable-comparison": "^0.0.2",
         "natxet/cssmin": "^3.0",
         "patchwork/jsqueeze": "^2.0",
         "phpspec/prophecy-phpunit": "^2",
