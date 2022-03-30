@@ -9,7 +9,7 @@ source:
   ids: ['_uuid']
   header_offset: 0
   constants:
-    DRUPAL_SOURCE_FILE_DIRECTORY: '/var/www/html/web/modules/custom/server_migrate/'
+    DRUPAL_SOURCE_FILE_DIRECTORY: './modules/custom/server_migrate/'
     DRUPAL_FILE_DIRECTORY: 'public://'
 destination:
   plugin: 'entity:file'
