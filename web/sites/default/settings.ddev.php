@@ -75,3 +75,5 @@ $config['advagg.settings']['enabled'] = FALSE;
 // Excludes stage_file_proxy module from configuration export,
 // as it should not be enabled on production.
 $settings['config_exclude_modules'] = ['stage_file_proxy'];
+
+$settings['config_exclude_modules'] = ['devel', 'webprofiler', 'stage_file_proxy'];
