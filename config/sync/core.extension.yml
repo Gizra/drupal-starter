@@ -17,7 +17,6 @@ module:
   ctools: 0
   datetime: 0
   dblog: 0
-  devel: 0
   dynamic_page_cache: 0
   editor: 0
   elasticsearch_connector: 0
@@ -58,7 +57,6 @@ module:
   user: 0
   views_ui: 0
   viewsreference: 0
-  webprofiler: 0
   menu_link_content: 1
   pathauto: 1
   views: 10
