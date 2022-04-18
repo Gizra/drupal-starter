@@ -28,5 +28,8 @@ hooks:
     - exec: drush sapi-c
     - exec: drush sapi-i
 
+    # Enable Devel and Webprofiler
+    - exec: drush pm-enable webprofiler -y
+
     # Generate one-time login link
     - exec: drush uli

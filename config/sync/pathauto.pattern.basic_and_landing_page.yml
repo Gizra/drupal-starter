@@ -11,13 +11,13 @@ pattern: '[node:title]'
 selection_criteria:
   44e331a4-8bbc-40a7-8144-edf45a74b674:
     id: node_type
+    negate: false
+    uuid: 44e331a4-8bbc-40a7-8144-edf45a74b674
+    context_mapping:
+      node: node
     bundles:
       landing_page: landing_page
       page: page
-    negate: false
-    context_mapping:
-      node: node
-    uuid: 44e331a4-8bbc-40a7-8144-edf45a74b674
 selection_logic: and
 weight: -5
 relationships: {  }

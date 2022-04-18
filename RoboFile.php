@@ -184,7 +184,7 @@ class RoboFile extends Tasks {
       $this->taskWatch()
         ->monitor(
           $directory,
-          function (Event $event) {
+          function () {
             $this->doThemeCompile(TRUE);
           },
           FilesystemEvent::ALL
@@ -202,7 +202,7 @@ class RoboFile extends Tasks {
       $this->taskWatch()
         ->monitor(
           $directory,
-          function (Event $event) {
+          function () {
             $this->doThemeCompile();
           },
           FilesystemEvent::ALL
@@ -634,11 +634,11 @@ class RoboFile extends Tasks {
    * @param string $github_deploy_branch
    *   The branch that should be pushed automatically to Pantheon.
    * @param string $pantheon_deploy_branch
-   *   The branch at the artifact repo that should be the target of the deploy.
+   *   The branch at the artifact repo that should be the target of the deployment.
    *
    * @throws \Exception
    */
-  public function deployConfigAutodeploy(string $token, string $project_name, string $github_deploy_branch = 'master', string $pantheon_deploy_branch = 'master'): void {
+  public function deployConfigAutodeploy(string $token, string $github_deploy_branch = 'master', string $pantheon_deploy_branch = 'master'): void {
     $pantheon_info = $this->getPantheonNameAndEnv();
     $project_name = $pantheon_info['name'];
 
