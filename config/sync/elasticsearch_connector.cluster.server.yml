@@ -7,8 +7,13 @@ name: server
 url: 'http://elasticsearch:9200'
 options:
   multiple_nodes_connection: false
-  use_authentication: 0
+  use_authentication: 1
   authentication_type: Basic
-  username: ''
-  password: ''
+  username: elastic
+  password: '1234567890123456789'
   timeout: '3'
+  rewrite:
+    rewrite_index: 0
+    index:
+      prefix: ''
+      suffix: ''

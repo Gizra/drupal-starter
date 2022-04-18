@@ -16,6 +16,8 @@ services:
       - HTTP_EXPOSE=9200:9200
       - HTTPS_EXPOSE=9201:9200
       - ELASTIC_PASSWORD=1234567890123456789
+      - ES_PORT=9200
+      - LICENSE=basic
     labels:
       com.ddev.site-name: ${DDEV_SITENAME}
       com.ddev.approot: $DDEV_APPROOT
