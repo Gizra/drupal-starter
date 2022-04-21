@@ -384,6 +384,7 @@ class RoboFile extends Tasks {
       'web/README.md',
       'web/README.txt',
       'web/sites/default',
+      'web/sites/simpletest',
       'web/sites/README.txt',
       'web/themes/README.txt',
     ];
