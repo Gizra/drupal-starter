@@ -384,6 +384,7 @@ class RoboFile extends Tasks {
       'web/README.md',
       'web/README.txt',
       'web/sites/default',
+      'web/sites/simpletest',
       'web/sites/README.txt',
       'web/themes/README.txt',
     ];
@@ -972,11 +973,9 @@ END;
       if (empty($latest_tag)) {
         throw new Exception('There are no tags in this repository.');
       }
-      if (!$this->confirm("Would you like to compare from the latest tag: $latest_tag?")) {
-        $this->say("Specify the tag as an argument");
-        exit(1);
+      if ($this->confirm("Would you like to compare from the latest tag: $latest_tag?")) {
+        $tag = $latest_tag;
       }
-      $tag = $latest_tag;
     }
 
     // Detect organization / repository name from git remote.
@@ -1000,7 +999,11 @@ END;
     // This is the heart of the release notes, the git history, we get all the
     // merge commits since the specified last version and later on we parse
     // the output. Optionally we enrich it with metadata from GitHub REST API.
-    $log = $this->taskExec("git log --merges --pretty=format:'%s¬¬|¬¬%b' $tag..")->printOutput(FALSE)->run()->getMessage();
+    $git_command = "git log --merges --pretty=format:'%s¬¬|¬¬%b'";
+    if (!empty($tag)) {
+      $git_command .= " $tag..";
+    }
+    $log = $this->taskExec($git_command)->printOutput(FALSE)->run()->getMessage();
     $lines = explode("\n", $log);
 
     $this->say('Copy release notes below');
