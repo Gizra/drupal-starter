@@ -28,6 +28,7 @@
         "drupal/core-composer-scaffold": "^9.0.0",
         "drupal/core-project-message": "^9.0.0",
         "drupal/core-recommended": "^9.0.0",
+        "drupal/devel": "^4.1",
         "drupal/elasticsearch_connector": "^7.0@alpha",
         "drupal/migrate_file": "^2.0",
         "drupal/migrate_plus": "^5.1",
@@ -49,11 +50,12 @@
         "consolidation/robo": "^1.0.0",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
         "drupal/coder": "^8.3.1",
-        "mglaman/phpstan-drupal": "^0.12.7",
+        "mglaman/phpstan-drupal": "1.1.10",
+        "mpyw/phpunit-patch-serializable-comparison": "^0.0.2",
         "natxet/cssmin": "^3.0",
         "patchwork/jsqueeze": "^2.0",
-        "phpstan/phpstan": "^0.12.66",
-        "phpunit/phpunit": "^7",
+        "phpspec/prophecy-phpunit": "^2",
+        "phpstan/phpstan": "1.4.6",
         "scssphp/scssphp": "^1.0.0",
         "symfony/phpunit-bridge": "^5.0",
         "totten/lurkerlite": "^1",
@@ -65,7 +67,15 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/installers": true,
+            "cweagans/composer-patches": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "drupal/core-composer-scaffold": true,
+            "drupal/core-project-message": true,
+            "oomphinc/composer-installers-extender": true
+        }
     },
     "extra": {
         "patchLevel": {
@@ -79,6 +89,9 @@
                 "d.o. #3106003 - Content access fixes": "https://www.drupal.org/files/issues/2021-01-12/missing-special-fields-3106003-8.patch",
                 "d.o. #3194318 - More robust language filtering": "https://www.drupal.org/files/issues/2021-01-25/3194318-hypen-lang-5.patch",
                 "d.o. #3014805 - Views filtering with facets": "https://www.drupal.org/files/issues/2019-12-20/elasticsearch_connector-facet_OR_global_aggregation_does_not_take_views_filter_into_account-3014805-15.patch"
+            },
+            "drupal/core": {
+              "d.o #3224254": "https://www.drupal.org/files/issues/2021-07-19/drupal-claro_dropdown-3224254-2.patch"
             }
         },
         "drupal-scaffold": {

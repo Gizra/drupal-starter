@@ -2,13 +2,13 @@ uuid: 02b6a869-0780-4b77-b5fc-8f306f42607e
 langcode: en
 status: true
 dependencies:
-  module:
-    - node
-    - search_api
   config:
     - field.storage.node.body
     - field.storage.node.field_tags
     - search_api.server.server
+  module:
+    - node
+    - search_api
 id: server_dev
 name: server_dev
 description: ''
@@ -83,6 +83,6 @@ tracker_settings:
   default:
     indexing_order: fifo
 options:
-  index_directly: true
   cron_limit: 50
+  index_directly: true
 server: server

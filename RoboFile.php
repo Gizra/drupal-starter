@@ -184,7 +184,7 @@ class RoboFile extends Tasks {
       $this->taskWatch()
         ->monitor(
           $directory,
-          function (Event $event) {
+          function () {
             $this->doThemeCompile(TRUE);
           },
           FilesystemEvent::ALL
@@ -202,7 +202,7 @@ class RoboFile extends Tasks {
       $this->taskWatch()
         ->monitor(
           $directory,
-          function (Event $event) {
+          function () {
             $this->doThemeCompile();
           },
           FilesystemEvent::ALL
@@ -216,7 +216,7 @@ class RoboFile extends Tasks {
    * @param string $tag
    *   The tag name in the current repository.
    * @param string $branch_name
-   *   The branch name from Pantheon repository. Default: master.
+   *   The branch name from Pantheon repository. Default: master
    * @param string|null $commit_message
    *   Supply a custom commit message for the pantheon repo.
    *   Default: "Release [tag]".
@@ -355,19 +355,38 @@ class RoboFile extends Tasks {
     $rsync_exclude = [
       '.bootstrap-fast.php',
       '.ddev',
+      '.editorconfig',
       '.git',
+      '.gitpod.Dockerfile',
+      '.gitpod.yml',
       '.idea',
       '.pantheon',
       '.phpunit.result.cache',
+      '.travis.yml',
       'ci-scripts',
       'drush',
       'pantheon.yml',
       'pantheon.upstream.yml',
       'phpstan.neon',
+      'phpunit.xml.dist',
+      'README.md',
+      'RoboFile.php',
       'server.es.secrets.json',
-      'sites/default',
       'travis-key.enc',
       'travis-key',
+      'web/.csslintrc',
+      'web/.eslintignore',
+      'web/.eslintrc.json',
+      'web/example.gitignore',
+      'web/INSTALL.txt',
+      'web/modules/README.txt',
+      'web/profiles/README.txt',
+      'web/README.md',
+      'web/README.txt',
+      'web/sites/default',
+      'web/sites/simpletest',
+      'web/sites/README.txt',
+      'web/themes/README.txt',
     ];
 
     $rsync_exclude_string = '--exclude=' . implode(' --exclude=', $rsync_exclude);
@@ -477,7 +496,7 @@ class RoboFile extends Tasks {
    */
   public function deployPantheonSync(string $env = 'test', bool $do_deploy = TRUE): void {
     $pantheon_info = $this->getPantheonNameAndEnv();
-    $pantheon_terminus_environment = $pantheon_info['name'] . '.' . $pantheon_info['env'];
+    $pantheon_terminus_environment = $pantheon_info['name'] . '.' . $env;
 
     $task = $this->taskExecStack()
       ->stopOnFail();
@@ -541,7 +560,7 @@ class RoboFile extends Tasks {
     }
 
     $pantheon_info = $this->getPantheonNameAndEnv();
-    $pantheon_terminus_environment = $pantheon_info['name'] . '.' . $pantheon_info['env'];
+    $pantheon_terminus_environment = $pantheon_info['name'] . '.' . $env;
 
     // This set of commands should work, so expecting no failures
     // (tend to invoke the same flow as DDEV's `config.local.yaml`).
@@ -616,11 +635,11 @@ class RoboFile extends Tasks {
    * @param string $github_deploy_branch
    *   The branch that should be pushed automatically to Pantheon.
    * @param string $pantheon_deploy_branch
-   *   The branch at the artifact repo that should be the target of the deploy.
+   *   The branch at the artifact repo that should be the target of the deployment.
    *
    * @throws \Exception
    */
-  public function deployConfigAutodeploy(string $token, string $project_name, string $github_deploy_branch = 'master', string $pantheon_deploy_branch = 'master'): void {
+  public function deployConfigAutodeploy(string $token, string $github_deploy_branch = 'master', string $pantheon_deploy_branch = 'master'): void {
     $pantheon_info = $this->getPantheonNameAndEnv();
     $project_name = $pantheon_info['name'];
 
@@ -954,11 +973,9 @@ END;
       if (empty($latest_tag)) {
         throw new Exception('There are no tags in this repository.');
       }
-      if (!$this->confirm("Would you like to compare from the latest tag: $latest_tag?")) {
-        $this->say("Specify the tag as an argument");
-        exit(1);
+      if ($this->confirm("Would you like to compare from the latest tag: $latest_tag?")) {
+        $tag = $latest_tag;
       }
-      $tag = $latest_tag;
     }
 
     // Detect organization / repository name from git remote.
@@ -982,7 +999,11 @@ END;
     // This is the heart of the release notes, the git history, we get all the
     // merge commits since the specified last version and later on we parse
     // the output. Optionally we enrich it with metadata from GitHub REST API.
-    $log = $this->taskExec("git log --merges --pretty=format:'%s¬¬|¬¬%b' $tag..")->printOutput(FALSE)->run()->getMessage();
+    $git_command = "git log --merges --pretty=format:'%s¬¬|¬¬%b'";
+    if (!empty($tag)) {
+      $git_command .= " $tag..";
+    }
+    $log = $this->taskExec($git_command)->printOutput(FALSE)->run()->getMessage();
     $lines = explode("\n", $log);
 
     $this->say('Copy release notes below');
@@ -1070,9 +1091,9 @@ END;
     $this->printReleaseNotesSection('', $no_issue_lines);
 
     if (isset($github_org)) {
-      $contributors = array_unique($contributors);
-      sort($contributors);
-      $this->printReleaseNotesSection('Contributors', $contributors);
+      $contributors = array_count_values($contributors);
+      arsort($contributors);
+      $this->printReleaseNotesSection('Contributors', $contributors, TRUE);
 
       $this->printReleaseNotesSection('Code statistics', [
         "Lines added: $additions",
@@ -1090,12 +1111,15 @@ END;
    * @param array $lines
    *   Bullet points.
    */
-  protected function printReleaseNotesSection(string $title, array $lines): void {
+  protected function printReleaseNotesSection(string $title, array $lines, bool $print_key = FALSE): void {
     if (!empty($title)) {
       $this->printReleaseNotesTitle($title);
     }
-    foreach ($lines as $line) {
-      if (substr($line, 0, 1) == '-') {
+    foreach ($lines as $key => $line) {
+      if ($print_key) {
+        print "- $key ($line)\n";
+      }
+      elseif (substr($line, 0, 1) == '-') {
         print "$line\n";
       }
       else {
@@ -1143,8 +1167,13 @@ END;
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
     $result = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
-    return empty($result) ? NULL : json_decode($result);
+    $result = empty($result) ? NULL : json_decode($result);
+    if (substr((string) $http_code, 0, 1) != 2) {
+      throw new Exception("Failed to request the API:\n" . print_r($result, TRUE));
+    }
+    return $result;
   }
 
   /**
