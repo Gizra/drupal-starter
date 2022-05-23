@@ -42,7 +42,7 @@ checking the outgoing mails.
     cp .ddev/config.local.yaml.example .ddev/config.local.yaml
     ddev restart
 
-**NOTE:** Once the Drupal installation is complete you can use `ddev login` to
+Once the Drupal installation is complete you can use `ddev login` to
 log in to the site as user 1 using your default browser.
 
 ### Troubleshooting
