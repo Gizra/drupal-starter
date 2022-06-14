@@ -29,7 +29,7 @@
         "drupal/core-project-message": "^9.0.0",
         "drupal/core-recommended": "^9.0.0",
         "drupal/devel": "^4.1",
-        "drupal/elasticsearch_connector": "^7.0@alpha",
+        "drupal/elasticsearch_connector": "^8.0.x-dev",
         "drupal/migrate_file": "^2.0",
         "drupal/migrate_plus": "^5.1",
         "drupal/migrate_source_csv": "^3.4",
@@ -83,12 +83,7 @@
         },
         "patches": {
             "drupal/elasticsearch_connector": {
-                "Preserve ES index settings": "https://www.drupal.org/files/issues/2020-01-28/3109361-elasticsearch_connector-preserve-index-settings-1.patch",
-                "d.o #3189051- Correct date handling": "https://www.drupal.org/files/issues/2021-06-11/3189051-pre-epoch-dates-8.patch",
-                "d.o #3190496 - Item deletion on ES side": "https://www.drupal.org/files/issues/2021-01-04/3190496-es-deletion.patch",
-                "d.o. #3106003 - Content access fixes": "https://www.drupal.org/files/issues/2021-01-12/missing-special-fields-3106003-8.patch",
-                "d.o. #3194318 - More robust language filtering": "https://www.drupal.org/files/issues/2021-01-25/3194318-hypen-lang-5.patch",
-                "d.o. #3014805 - Views filtering with facets": "https://www.drupal.org/files/issues/2019-12-20/elasticsearch_connector-facet_OR_global_aggregation_does_not_take_views_filter_into_account-3014805-15.patch"
+                "d.o #3189051- Correct date handling": "https://www.drupal.org/files/issues/2021-06-11/3189051-pre-epoch-dates-8.patch"
             },
             "drupal/core": {
               "d.o #3224254": "https://www.drupal.org/files/issues/2021-07-19/drupal-claro_dropdown-3224254-2.patch"
