@@ -10,7 +10,7 @@ hooks:
     - exec: while ! echo exit | nc elasticsearch 9200; do sleep 1; done
 
     # Setup Elasticsearch
-    - exec: "./vendor/bin/robo elasticsearch:provision http://elasticsearch:9200 '' ''"
+    - exec: "./vendor/bin/robo elasticsearch:provision http://elasticsearch:9200 '' '' dev"
 
     # Compile theme in debug, so we can develop with all Tailwinds' classes.
     # On deploy, we purge un-needed CSS.
