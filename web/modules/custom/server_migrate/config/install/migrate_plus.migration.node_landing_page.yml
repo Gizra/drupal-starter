@@ -16,6 +16,9 @@ destination:
 process:
   title: _title
   path/alias: _alias
+  path/pathauto:
+    plugin: default_value
+    default_value: false
   uid:
     plugin: migration_lookup
     migration: user
