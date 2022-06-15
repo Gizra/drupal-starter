@@ -12,7 +12,7 @@ class ServerGeneralHomepageTest extends ExistingSiteBase {
   /**
    * The homepage is cache-able.
    */
-  public function testHomepageCache(string $url) {
+  public function testHomepageCache() {
     $this->drupalGet('/');
     $this->assertSession()->responseHeaderEquals('Cache-Control', 'max-age=1800, public');
     $this->drupalGet($url);
