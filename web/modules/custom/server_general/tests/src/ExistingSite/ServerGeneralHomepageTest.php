@@ -15,7 +15,7 @@ class ServerGeneralHomepageTest extends ExistingSiteBase {
   public function testHomepageCache() {
     $this->drupalGet('/');
     $this->assertSession()->responseHeaderEquals('Cache-Control', 'max-age=1800, public');
-    $this->drupalGet($url);
+    $this->drupalGet('/');
     $this->assertSession()->responseHeaderExists('X-Drupal-Cache', 'HIT');
   }
 
