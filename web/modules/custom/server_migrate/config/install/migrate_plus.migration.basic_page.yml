@@ -25,9 +25,6 @@ process:
     plugin: default_value
     default_value: basic_html
 
-dependencies:
-  enforced:
-    module:
-      - server_migrate
-    migration:
-      - user
+migration_dependencies:
+  required:
+    - user

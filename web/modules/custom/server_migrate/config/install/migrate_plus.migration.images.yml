@@ -35,8 +35,3 @@ process:
         - '@pseudo_destination_path'
       file_exists: rename
       move: false
-
-dependencies:
-  enforced:
-    module:
-      - server_migrate

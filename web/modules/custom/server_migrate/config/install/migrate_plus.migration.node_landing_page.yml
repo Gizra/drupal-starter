@@ -42,11 +42,8 @@ process:
         target_id: '0'
         target_revision_id: '1'
 
-dependencies:
-  enforced:
-    module:
-      - server_migrate
-    migration:
-      - user
-      - paragraph_views
-      - paragraph_cta
+migration_dependencies:
+  required:
+    - user
+    - paragraph_views
+    - paragraph_cta
