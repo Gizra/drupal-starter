@@ -27,9 +27,6 @@ process:
       migration: images
       source: _picture
 
-dependencies:
-  enforced:
-    module:
-      - server_migrate
-    migration:
-      - images
+migration_dependencies:
+  required:
+    - images
