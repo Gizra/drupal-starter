@@ -364,7 +364,7 @@ class RoboFile extends Tasks {
       '.phpunit.result.cache',
       '.travis.yml',
       'ci-scripts',
-      './drush/drush.yml',
+      'drush/drush.yml',
       'pantheon.yml',
       'pantheon.upstream.yml',
       'phpstan.neon',
