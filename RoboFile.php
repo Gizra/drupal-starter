@@ -364,7 +364,6 @@ class RoboFile extends Tasks {
       '.phpunit.result.cache',
       '.travis.yml',
       'ci-scripts',
-      'drush',
       'pantheon.yml',
       'pantheon.upstream.yml',
       'phpstan.neon',
@@ -387,6 +386,12 @@ class RoboFile extends Tasks {
       'web/sites/simpletest',
       'web/sites/README.txt',
       'web/themes/README.txt',
+      'web/themes/custom/server_theme/src',
+      'web/themes/custom/server_theme/node_modules',
+      'web/themes/custom/server_theme/package.json',
+      'web/themes/custom/server_theme/package-lock.json',
+      'web/themes/custom/server_theme/tailwind.config.js',
+      'web/themes/custom/server_theme/postcss.config.js',
     ];
 
     $rsync_exclude_string = '--exclude=' . implode(' --exclude=', $rsync_exclude);
