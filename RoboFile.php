@@ -257,6 +257,10 @@ class RoboFile extends Tasks {
     catch (Exception $e) {
       $this->yell('The deployment failed', 22, 'red');
       $this->say($e->getMessage());
+      // Ensure we exit with error as we're catching this exception.
+      $this->taskExec("git checkout $original_branch && exit 1")->run();
+      // Don't run the "finally {}" block as it will exit with code 0.
+      exit();
     }
     finally {
       $this->taskExec("git checkout $original_branch")->run();
