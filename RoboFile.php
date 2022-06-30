@@ -632,6 +632,9 @@ class RoboFile extends Tasks {
    *
    * @param string $token
    *   Terminus machine token: https://pantheon.io/docs/machine-tokens.
+   * @param string $github_token
+   *   Personal GitHub token (Travis auth):
+   *   https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
    * @param string $github_deploy_branch
    *   The branch that should be pushed automatically to Pantheon.
    * @param string $pantheon_deploy_branch
@@ -639,7 +642,7 @@ class RoboFile extends Tasks {
    *
    * @throws \Exception
    */
-  public function deployConfigAutodeploy(string $token, string $github_deploy_branch = 'master', string $pantheon_deploy_branch = 'master'): void {
+  public function deployConfigAutodeploy(string $token, string $github_token, string $github_deploy_branch = 'master', string $pantheon_deploy_branch = 'master'): void {
     $pantheon_info = $this->getPantheonNameAndEnv();
     $project_name = $pantheon_info['name'];
 
@@ -665,7 +668,7 @@ class RoboFile extends Tasks {
       throw new Exception('The key generation failed.');
     }
 
-    $result = $this->taskExec('travis login --pro')->run();
+    $result = $this->taskExec('travis login --pro --github-token="' . $github_token . '"')->run();
     if ($result->getExitCode() !== 0) {
       throw new Exception('The authentication with GitHub via Travis CLI failed.');
     }
