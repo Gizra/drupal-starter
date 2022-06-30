@@ -239,6 +239,7 @@ assembles it from the Git log.
 
 In order to deploy upon every merge automatically by Travis, you shall:
 
+1. Initiate QA (`qa` branch) multidev environment for the given project.
 1. Double-check if `./.ddev/providers/pantheon.yaml` contains the proper Pantheon project name.
 1. Get a Pantheon machine token (using a dummy new Pantheon user ideally, one user per project for the sake of security): https://pantheon.io/docs/machine-tokens
 1. Get a GitHub Personal access token, it is needed for Travis CLI to authenticate: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token

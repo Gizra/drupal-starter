@@ -636,9 +636,9 @@ class RoboFile extends Tasks {
    *   Personal GitHub token (Travis auth):
    *   https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
    * @param string $github_deploy_branch
-   *   The branch that should be pushed automatically to Pantheon.
+   *   The branch that should be pushed automatically to Pantheon. By default, it's 'main', the default GitHub branch for any new project.
    * @param string $pantheon_deploy_branch
-   *   The branch at the artifact repo that should be the target of the deployment.
+   *   The branch at the artifact repo that should be the target of the deployment. As we typically deploy to QA, the default value here is 'qa', that multi-dev environment should be created by hand beforehand.
    *
    * @throws \Exception
    */
