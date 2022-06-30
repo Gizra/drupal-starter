@@ -239,14 +239,15 @@ assembles it from the Git log.
 
 In order to deploy upon every merge automatically by Travis, you shall:
 
+1. Double-check if `./.ddev/providers/pantheon.yaml` contains the proper Pantheon project name.
 1. Get a Pantheon machine token (using a dummy new Pantheon user ideally, one user per project for the sake of security): https://pantheon.io/docs/machine-tokens
 1. Get a GitHub Personal access token, it is needed for Travis CLI to authenticate: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
-1. `ddev robo deploy:config-autodeploy [your token]`
+1. `ddev robo deploy:config-autodeploy [your terminus token] [your github token]`
 1. `git commit -m "Deployment secrets and configuration"`
 1. Add the public key in `travis-key.pub` to the newly created dummy Pantheon user: https://pantheon.io/docs/ssh-keys
 
 Optionally you can specify which target branch you'd like to push on Pantheon, by default it's `master`, so the target is the DEV environment, but alternatively you can issue:
-`ddev robo deploy:config-autodeploy [your new token] [pantheon project name] [gh_branch] [pantheon_branch]`
+`ddev robo deploy:config-autodeploy [your terminus token] [your github token] [pantheon project name] [gh_branch] [pantheon_branch]`
 
 ## Pulling DB & Files From Pantheon
 
