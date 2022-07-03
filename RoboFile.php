@@ -645,7 +645,7 @@ class RoboFile extends Tasks {
    *
    * @throws \Exception
    */
-  public function deployConfigAutoDeploy(string $token, string $github_token, string $github_deploy_branch = 'main', string $pantheon_deploy_branch = 'qa'): void {
+  public function deployConfigAutodeploy(string $token, string $github_token, string $github_deploy_branch = 'main', string $pantheon_deploy_branch = 'qa'): void {
     $pantheon_info = $this->getPantheonNameAndEnv();
     $project_name = $pantheon_info['name'];
 
