@@ -234,13 +234,6 @@ class RoboFile extends Tasks {
       throw new Exception('The working directory is dirty. Please commit or stash the pending changes.');
     }
 
-    // Getting the current branch of the GitHub repo
-    // in a machine-readable form.
-    $original_branch = $this->taskExec("git rev-parse --abbrev-ref HEAD")
-      ->printOutput(FALSE)
-      ->run()
-      ->getMessage();
-
     $this->taskExec("git checkout $tag")->run();
 
     // Full installation with dev dependencies as we need some of them for the
