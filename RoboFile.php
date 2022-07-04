@@ -251,20 +251,21 @@ class RoboFile extends Tasks {
       $commit_message = 'Release ' . $tag;
     }
 
+    // Set default exit code to 0 (success).
+    $exit = 0;
     try {
       $this->deployPantheon($branch_name, $commit_message);
     }
     catch (Exception $e) {
       $this->yell('The deployment failed', 22, 'red');
       $this->say($e->getMessage());
-      // Ensure we exit with error as we're catching this exception.
-      $this->taskExec("git checkout $original_branch && exit 1")->run();
-      // Don't run the "finally {}" block as it will exit with code 0.
-      exit();
+      // Set exit code to 1 (error).
+      $exit = 1;
     }
-    finally {
-      $this->taskExec("git checkout $original_branch")->run();
-    }
+    // Check out the original branch regardless of success or failure.
+    $this->taskExec("git checkout -")->run();
+    // Exit.
+    $this->taskExec("exit $exit")->run();
   }
 
   /**
