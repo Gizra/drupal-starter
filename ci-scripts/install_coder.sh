@@ -8,4 +8,5 @@ set -e
 # ---------------------------------------------------------------------------- #
 
 cd "$TRAVIS_BUILD_DIR"
+composer config allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
 COMPOSER_MEMORY_LIMIT=-1 composer global require drupal/coder:^8.3.14
