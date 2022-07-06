@@ -636,14 +636,20 @@ class RoboFile extends Tasks {
    *
    * @param string $token
    *   Terminus machine token: https://pantheon.io/docs/machine-tokens.
+   * @param string $github_token
+   *   Personal GitHub token (Travis auth):
+   *   https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
    * @param string $github_deploy_branch
-   *   The branch that should be pushed automatically to Pantheon.
+   *   The branch that should be pushed automatically to Pantheon. By default,
+   *   it's 'main', the default GitHub branch for any new project.
    * @param string $pantheon_deploy_branch
-   *   The branch at the artifact repo that should be the target of the deployment.
+   *   The branch at the artifact repo that should be the target of the
+   *   deployment. As we typically deploy to QA, the default value here is 'qa',
+   *   that multi-dev environment should be created by hand beforehand.
    *
    * @throws \Exception
    */
-  public function deployConfigAutodeploy(string $token, string $github_deploy_branch = 'master', string $pantheon_deploy_branch = 'master'): void {
+  public function deployConfigAutodeploy(string $token, string $github_token, string $github_deploy_branch = 'main', string $pantheon_deploy_branch = 'qa'): void {
     $pantheon_info = $this->getPantheonNameAndEnv();
     $project_name = $pantheon_info['name'];
 
@@ -669,7 +675,7 @@ class RoboFile extends Tasks {
       throw new Exception('The key generation failed.');
     }
 
-    $result = $this->taskExec('travis login --pro')->run();
+    $result = $this->taskExec('travis login --pro --github-token="' . $github_token . '"')->run();
     if ($result->getExitCode() !== 0) {
       throw new Exception('The authentication with GitHub via Travis CLI failed.');
     }
