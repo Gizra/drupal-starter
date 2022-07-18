@@ -234,13 +234,6 @@ class RoboFile extends Tasks {
       throw new Exception('The working directory is dirty. Please commit or stash the pending changes.');
     }
 
-    // Getting the current branch of the GitHub repo
-    // in a machine-readable form.
-    $original_branch = $this->taskExec("git rev-parse --abbrev-ref HEAD")
-      ->printOutput(FALSE)
-      ->run()
-      ->getMessage();
-
     $this->taskExec("git checkout $tag")->run();
 
     // Full installation with dev dependencies as we need some of them for the
@@ -251,16 +244,21 @@ class RoboFile extends Tasks {
       $commit_message = 'Release ' . $tag;
     }
 
+    // Set default exit code to 0 (success).
+    $exit = 0;
     try {
       $this->deployPantheon($branch_name, $commit_message);
     }
     catch (Exception $e) {
       $this->yell('The deployment failed', 22, 'red');
       $this->say($e->getMessage());
+      // Set exit code to 1 (error).
+      $exit = 1;
     }
-    finally {
-      $this->taskExec("git checkout $original_branch")->run();
-    }
+    // Check out the original branch regardless of success or failure.
+    $this->taskExec("git checkout -")->run();
+    // Exit.
+    $this->taskExec("exit $exit")->run();
   }
 
   /**
