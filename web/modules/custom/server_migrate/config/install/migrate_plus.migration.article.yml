@@ -38,11 +38,8 @@ process:
     - plugin: migration_lookup
       migration: media_image
 
-dependencies:
-  enforced:
-    module:
-      - server_migrate
-    migration:
-      - user
-      - tags
-      - media_image
+migration_dependencies:
+  required:
+    - user
+    - tags
+    - media_image

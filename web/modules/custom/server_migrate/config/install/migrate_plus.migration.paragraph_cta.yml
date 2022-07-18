@@ -21,8 +21,3 @@ process:
   field_subtitle: _subtitle
   field_link/uri: _url
   field_link/title: _url_title
-
-dependencies:
-  enforced:
-    module:
-      - server_migrate

@@ -47,7 +47,7 @@
         "oomphinc/composer-installers-extender": "^2.0"
     },
     "require-dev": {
-        "consolidation/robo": "^1.0.0",
+        "consolidation/robo": "^3",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
         "drupal/coder": "^8.3.1",
         "mglaman/phpstan-drupal": "1.1.10",

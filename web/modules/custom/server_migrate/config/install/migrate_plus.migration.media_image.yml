@@ -20,9 +20,6 @@ process:
       source: _uuid
   field_media_image/alt: _title
 
-dependencies:
-  enforced:
-    module:
-      - server_migrate
-    migration:
-      - images
+migration_dependencies:
+  required:
+    - images
