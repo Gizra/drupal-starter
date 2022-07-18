@@ -22,7 +22,7 @@ us with easier iteration, reading and manipulating yaml files, pre-defined
 `.travis.yaml` is part of this repo.
 1. We use Pantheon for hosting. A `ddev robo deploy:pantheon` will take care of
 deployments. See more under ["Deploy to Pantheon"](#deploy-to-pantheon) section.
-1. We use [Pluggable Entity View Builder](https://www.drupal.org/project/pluggable_entity_view_builder) to define how an entity should look like. See `\Drupal\server_general\Plugin\EntityViewBuilder\NodeLandingPage` for an example.
+1. We use [Pluggable Entity View Builder](https://www.drupal.org/project/pluggable_entity_view_builder) to define how an entity should look like. See [`\Drupal\server_general\Plugin\EntityViewBuilder\NodeLandingPage`](https://github.com/Gizra/drupal-starter/blob/main/web/modules/custom/server_general/src/Plugin/EntityViewBuilder/NodeLandingPage.php) for an example.
 
 ## GitPod
 
