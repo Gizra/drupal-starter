@@ -28,8 +28,6 @@ class NodeLandingPage extends NodeViewBuilderAbstract {
    *   Render array.
    */
   public function buildFull(array $build, NodeInterface $entity) {
-    $this->messenger()->addMessage('Add your Node Landing Page elements in \Drupal\server_general\Plugin\EntityViewBuilder\NodeLandingPage');
-
     /** @var \Drupal\Core\Field\EntityReferenceFieldItemListInterface $paragraphs */
     $paragraphs = $entity->get('field_paragraphs');
     // Paragraphs.
