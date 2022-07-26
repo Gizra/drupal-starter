@@ -294,7 +294,7 @@ abstract class MediaEmbedProcessPluginBase extends ProcessPluginBase {
       try {
         $plugin_value = NULL;
         // Try local copy if present.
-        $local_bases = ['public://oistmedia-files/', 'public://'];
+        $local_bases = ['public://'];
         foreach ($local_bases as $local_base) {
           $local_copy = $local_base . $source_path;
           if (file_exists($local_copy)) {
