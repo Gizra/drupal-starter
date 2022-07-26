@@ -143,7 +143,7 @@ class IframeToMedia extends MediaEmbedProcessPluginBase implements ContainerFact
    */
   protected function loadOrCreateVideoMediaByUrl(string $url): MediaInterface {
     // Remove querystrings and anything that follows them.
-    $url = preg_replace('/\?.*$/', '', $url);
+    $url = preg_replace('/\?.*$/', '', trim($url));
     // Replace 'youtube.com/embed/[id]' urls with 'youtube.com/watch?v=[id]'.
     $embed_pattern = '/youtube[^\.]*\.com\/embed\//ui';
     $url = preg_replace($embed_pattern, 'youtube.com/watch?v=', $url);
