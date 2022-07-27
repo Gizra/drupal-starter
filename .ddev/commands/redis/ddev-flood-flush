@@ -1,0 +1,10 @@
+#!/bin/bash
+set -e
+
+IP=${1}
+
+REDIS_CMD="redis-cli -h redis -p 6379"
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+export REDIS_CMD
+export IP
+source "$SCRIPT_DIR/../web/flood-flush"
