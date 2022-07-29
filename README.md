@@ -265,28 +265,27 @@ to the production environment and making a copy of the production file in your d
 
 Configure the origin path at `/admin/config/system/stage_file_proxy`.
 
-### Flood control
+### Flood Control
 
 As the project uses Redis, it is not possible to use the SQL console to reset flood table.
-There's a custom DDEV command to help with that.
-Usages:
+There's a custom DDEV command to help with that. Usages:
 
 ```bash
 ddev pantheon-flood-flush
 ddev ddev-flood-flush
 ```
 
-It purges all the entries from `live` environment, or from DDEV's own Redis.
+Purges all the entries from Pantehon's `live` environment or DDEV's own Redis.
 
 ```bash
 ddev pantheon-flood-flush test
 ```
 
-It purges all the entries from `test` environment.
+Purges all the entries from Pantheon's `test` environment.
 
 ```bash
 ddev pantheon-flood-flush test 193.165.2.3
 ddev ddev-flood-flush 193.165.2.3
 ```
 
-It purges entries related to `193.165.2.3` from `test` environment, or alternatively from DDEV's own Redis.
+Purges entries related to IP `193.165.2.3` from Pantheon's `test` environment, or alternatively from DDEV's own Redis.
