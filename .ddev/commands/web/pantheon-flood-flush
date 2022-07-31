@@ -1,0 +1,18 @@
+#!/bin/bash
+set -e
+
+SITE=pantheonproject
+ENV=${1:-live}
+IP=${2}
+
+if ! command -v redis-cli &> /dev/null
+then
+  sudo apt-get update
+  sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -o Dpkg::Options::="--force-confold" --no-install-recommends --no-install-suggests redis-tools
+fi
+
+REDIS_CMD=$(terminus connection:info "$SITE.$ENV" --fields=redis_command --format=string)
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+export REDIS_CMD
+export IP
+source "$SCRIPT_DIR/flood-flush"
