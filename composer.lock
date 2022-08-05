@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0548ae63a0706628c63fef26bcbd4764",
+    "content-hash": "1a1cde962092d3eaada323ab34b78234",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1891,12 +1891,8 @@
                     "role": "Contributors"
                 },
                 {
-                    "name": "iamcarrico",
-                    "homepage": "https://www.drupal.org/user/1300542"
-                },
-                {
-                    "name": "mikeytown2",
-                    "homepage": "https://www.drupal.org/user/282446"
+                    "name": "NickDickinsonWilde",
+                    "homepage": "https://www.drupal.org/user/3094661"
                 },
                 {
                     "name": "rupl",
@@ -1905,6 +1901,10 @@
                 {
                     "name": "thalles",
                     "homepage": "https://www.drupal.org/user/3589086"
+                },
+                {
+                    "name": "Wim Leers",
+                    "homepage": "https://www.drupal.org/user/99777"
                 }
             ],
             "description": "Improved aggregation of CSS/JS files to speed up page load times.",
@@ -3134,7 +3134,7 @@
                 "reference": "bc2314e94b5ffecfe70d4957ef477bae8ae8df6d"
             },
             "require": {
-                "drupal/core": "^8.8 || ^9"
+                "drupal/core": "^9.3 || ^10"
             },
             "suggest": {
                 "predis/predis": "^1.1.1"
@@ -3145,8 +3145,8 @@
                     "dev-1.x": "1.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-1.4+8-dev",
-                    "datestamp": "1609972119",
+                    "version": "8.x-1.5+1-dev",
+                    "datestamp": "1659550215",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Dev releases are not covered by Drupal security advisories."
@@ -3304,8 +3304,8 @@
                     "role": "Maintainer"
                 },
                 {
-                    "name": "gbyte",
-                    "homepage": "https://www.drupal.org/user/2381352"
+                    "name": "WalkingDexter",
+                    "homepage": "https://www.drupal.org/user/3251330"
                 }
             ],
             "description": "Creates a standard conform hreflang XML sitemap of the site content and provides a framework for developing other sitemap types.",
@@ -3498,16 +3498,16 @@
             ],
             "authors": [
                 {
-                    "name": "New Zeal",
-                    "homepage": "https://www.drupal.org/user/93571"
-                },
-                {
                     "name": "jasonawant",
                     "homepage": "https://www.drupal.org/user/589890"
                 },
                 {
                     "name": "joekers",
                     "homepage": "https://www.drupal.org/user/2229066"
+                },
+                {
+                    "name": "kent@passingphase.nz",
+                    "homepage": "https://www.drupal.org/user/93571"
                 },
                 {
                     "name": "seanB",
@@ -5045,11 +5045,11 @@
                 "shasum": ""
             },
             "require": {
-                "php": "^7.0",
+                "php": "^7.2 || ^8.0",
                 "ruflin/elastica": "dev-master"
             },
             "require-dev": {
-                "phpunit/phpunit": "^6.3"
+                "phpunit/phpunit": "^8.4.1 || ^9"
             },
             "type": "library",
             "autoload": {
@@ -5955,7 +5955,7 @@
             ],
             "support": {
                 "issues": "https://github.com/ruflin/Elastica/issues",
-                "source": "https://github.com/ruflin/Elastica/tree/master"
+                "source": "https://github.com/ruflin/Elastica/tree/7.2.0"
             },
             "time": "2022-06-08T11:57:28+00:00"
         },
