@@ -1,6 +1,6 @@
 {
-    "name": "drupal/recommended-project",
-    "description": "Project template for Drupal 8 projects with a relocated document root",
+    "name": "gizra/drupal-starter",
+    "description": "Project template for Drupal 9 projects at Gizra",
     "type": "project",
     "license": "GPL-2.0-or-later",
     "homepage": "https://www.drupal.org/project/drupal",
@@ -88,7 +88,8 @@
                 "d.o #3190496 - Item deletion on ES side": "https://www.drupal.org/files/issues/2021-01-04/3190496-es-deletion.patch",
                 "d.o. #3106003 - Content access fixes": "https://www.drupal.org/files/issues/2021-01-12/missing-special-fields-3106003-8.patch",
                 "d.o. #3194318 - More robust language filtering": "https://www.drupal.org/files/issues/2021-01-25/3194318-hypen-lang-5.patch",
-                "d.o. #3014805 - Views filtering with facets": "https://www.drupal.org/files/issues/2019-12-20/elasticsearch_connector-facet_OR_global_aggregation_does_not_take_views_filter_into_account-3014805-15.patch"
+                "d.o. #3014805 - Views filtering with facets": "https://www.drupal.org/files/issues/2019-12-20/elasticsearch_connector-facet_OR_global_aggregation_does_not_take_views_filter_into_account-3014805-15.patch",
+                "d.o. #2952301": "https://www.drupal.org/files/issues/2021-03-11/elasticsearch_connector_luceneFlattenKeys--2952301-14.patch"
             },
             "drupal/core": {
               "d.o #3224254": "https://www.drupal.org/files/issues/2021-07-19/drupal-claro_dropdown-3224254-2.patch"
