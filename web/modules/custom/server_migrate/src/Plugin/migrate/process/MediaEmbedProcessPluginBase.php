@@ -292,6 +292,10 @@ abstract class MediaEmbedProcessPluginBase extends ProcessPluginBase {
     }
 
     $source_path = $url_parts['path'];
+    if (strpos($source_path, 'sites/default/files/styles/') !== FALSE) {
+      // Remove the path to the image style, and download the original.
+      $source_path = preg_replace('#/styles/[^\/]+/public/#ui', '/', $source_path);
+    }
 
     $remote_file_url = $remote_domain . $source_path;
 
