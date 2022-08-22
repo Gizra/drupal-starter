@@ -3,5 +3,6 @@ enabled_entity_types:
   paragraph: paragraph
   block_content: '0'
   comment: '0'
-  term: '0'
+  taxonomy_term: '0'
   user: '0'
+  media: '0'
