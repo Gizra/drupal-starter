@@ -20,18 +20,18 @@ class ServerGeneralInputFormatTest extends ExistingSiteBase {
 
     $this->drupalLogin($user);
 
-    $this->drupalGet('/node/add/article');
+    $this->drupalGet('/node/add/page');
     $this->assertSession()->statusCodeEquals(Response::HTTP_OK);
-    $this->getSession()->getPage()->fillField('edit-title-0-value', 'Test Article' . time());
+    $this->getSession()->getPage()->fillField('edit-title-0-value', 'Test Page' . time());
     $this->getSession()->getPage()->fillField('edit-body-0-value', 'I can have a form: <form class="fun">, but not a script: <script></script>, as that would be way too dangerous. See https://owasp.org/www-community/attacks/xss/. <div class="danger-danger" onmouseover="javascript: whatafunction()">abc</div>');
     $this->getSession()->getPage()->selectFieldOption('edit-body-0-format--2', 'full_html');
     $this->click('#edit-submit');
     // <form> tag can be used.
-    $this->assertSession()->elementExists('css', '.node--type-article form');
+    $this->assertSession()->elementExists('css', '.node--type-page form');
     // The class attribute is preserved.
-    $this->assertSession()->elementExists('css', '.node--type-article form.fun');
+    $this->assertSession()->elementExists('css', '.node--type-page form.fun');
     // <script> tag is eliminated.
-    $this->assertSession()->elementNotExists('css', '.node--type-article script');
+    $this->assertSession()->elementNotExists('css', '.node--type-page script');
     // The onmouseover attribute is completely droppped.
     $this->assertSession()->elementExists('css', '.danger-danger');
     $this->assertStringNotContainsString('onmouseover', $this->getCurrentPage()->getOuterHtml());
