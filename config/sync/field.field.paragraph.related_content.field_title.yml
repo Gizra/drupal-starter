@@ -1,0 +1,21 @@
+uuid: 0d14001c-5375-4ee5-872b-c9e053af2de4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_title
+    - paragraphs.paragraphs_type.related_content
+id: paragraph.related_content.field_title
+field_name: field_title
+entity_type: paragraph
+bundle: related_content
+label: Title
+description: ''
+required: true
+translatable: true
+default_value:
+  -
+    value: 'Related content'
+default_value_callback: ''
+settings: {  }
+field_type: string

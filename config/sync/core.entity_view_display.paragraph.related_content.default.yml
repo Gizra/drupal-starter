@@ -1,0 +1,46 @@
+uuid: 823f3b22-0222-4ed2-8024-ed51f3f8670e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.related_content.field_link
+    - field.field.paragraph.related_content.field_related_content
+    - field.field.paragraph.related_content.field_title
+    - paragraphs.paragraphs_type.related_content
+  module:
+    - link
+id: paragraph.related_content.default
+targetEntityType: paragraph
+bundle: related_content
+mode: default
+content:
+  field_link:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_related_content:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true
