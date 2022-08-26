@@ -117,6 +117,23 @@ function server_theme_theme() {
     ],
   ];
 
+  $info['server_theme_hero_image'] = [
+    'variables' => [
+      'image' => NULL,
+      'title' => NULL,
+      'subtitle' => NULL,
+      'url' => NULL,
+      'url_title' => NULL,
+    ],
+  ];
+
+  $info['server_theme_button'] = [
+    'variables' => [
+      'url' => NULL,
+      'url_title' => NULL,
+    ],
+  ];
+
   return $info;
 }
 

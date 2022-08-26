@@ -204,6 +204,17 @@ class StyleGuideController extends ControllerBase {
     $build = [];
 
     $element = [
+      '#theme' => 'server_theme_hero_image',
+      '#image' => $this->buildImage($this->getPlaceholderImage(1600, 900, '1048'), 'Hero image alt'),
+      '#title' => $this->t('Drupal Starter'),
+      '#subtitle' => $this->t('Drupal 9 starter kit for efficient and streamlined development featuring TailwindCSS!'),
+      '#url' => $this->getSampleUrl(),
+      '#url_title' => $this->t('Learn more'),
+    ];
+
+    $build[] = $this->wrapElementNoContainer($element, 'Hero image');
+
+    $element = [
       '#theme' => 'server_theme_footer',
     ];
 
@@ -220,6 +231,25 @@ class StyleGuideController extends ControllerBase {
     $build[] = $this->wrapElementNoContainer($element, 'Call to Action');
 
     return $build;
+  }
+
+  /**
+   * Build an image render array with given image URL.
+   *
+   * @param string $url
+   *   The url of the image, internal or external.
+   * @param string $alt
+   *   Alt text.
+   *
+   * @return array
+   *   An image render array.
+   */
+  protected function buildImage(string $url, string $alt) {
+    return [
+      '#theme' => 'image',
+      '#uri' => $url,
+      '#alt' => $alt,
+    ];
   }
 
   /**
@@ -281,6 +311,16 @@ class StyleGuideController extends ControllerBase {
     ]);
 
     return $this->buildTag($dummy_term);
+  }
+
+  /**
+   * Get a sample URL object.
+   *
+   * @return \Drupal\Core\Url
+   *   The sample generated URL object.
+   */
+  protected function getSampleUrl() {
+    return Url::fromUri('https://www.example.com');
   }
 
 }
