@@ -6,6 +6,7 @@ dependencies:
     - field.storage.node.field_paragraphs
     - node.type.landing_page
     - paragraphs.paragraphs_type.cta
+    - paragraphs.paragraphs_type.hero_image
     - paragraphs.paragraphs_type.views
   module:
     - entity_reference_revisions
@@ -25,10 +26,14 @@ settings:
     target_bundles:
       views: views
       cta: cta
+      hero_image: hero_image
     negate: 0
     target_bundles_drag_drop:
       cta:
         weight: 3
+        enabled: true
+      hero_image:
+        weight: 5
         enabled: true
       views:
         weight: 2
