@@ -73,7 +73,17 @@ class NodeArticle extends NodeViewBuilderAbstract {
     return $build;
   }
 
-
+  /**
+   * Build card view mode.
+   *
+   * @param array $build
+   *   The existing build.
+   * @param \Drupal\node\NodeInterface $entity
+   *   The entity.
+   *
+   * @return array
+   *   Render array.
+   */
   public function buildCard(array $build, NodeInterface $entity) {
     $media = $this->getReferencedEntityFromField($entity, 'field_featured_image');
     $element = [

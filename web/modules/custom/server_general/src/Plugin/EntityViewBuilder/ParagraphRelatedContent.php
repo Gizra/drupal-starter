@@ -2,10 +2,8 @@
 
 namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
-use Drupal\Core\Url;
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
-use Drupal\server_general\ElementWrapTrait;
 
 /**
  * The "Related content" paragraph plugin.

@@ -325,11 +325,17 @@ class StyleGuideController extends ControllerBase {
    * @return \Drupal\Core\Url
    *   The sample generated URL object.
    */
-  protected function getSampleUrl() {
+  protected function getSampleUrl(): Url {
     return Url::fromUri('https://www.example.com');
   }
 
-  protected function getRandomTitle() {
+  /**
+   * Get a random title.
+   *
+   * @return string
+   *   A random title.
+   */
+  protected function getRandomTitle(): string {
     $titles = [
       'Never Changing Will Eventually Destroy You',
       'Sick And Tired Of Doing DRUPAL The Old Way? Read This',
@@ -345,7 +351,16 @@ class StyleGuideController extends ControllerBase {
     return $titles[array_rand($titles)];
   }
 
-  protected function getRelatedContent($num = 5) {
+  /**
+   * Generate related content.
+   *
+   * @param int $num
+   *   Number of items to create. Default 5.
+   *
+   * @return array
+   *   Array of render arrays.
+   */
+  protected function getRelatedContent(int $num = 5): array {
     $element_base = [
       '#theme' => 'server_theme_card',
       '#body' => 'Decorate one package of cauliflower in six teaspoons of plain vinegar. Try flavoring the crême fraîche gingers with clammy rum and fish sauce, simmered.',
