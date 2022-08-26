@@ -1,0 +1,21 @@
+{{ attach_library('server_theme/slick') }}
+{% if items is not empty %}
+  <div class="carousel-wrapper"
+       data-carousel-dots="{{ dots|default('false') }}"
+       data-carousel-arrows="{{ arrows|default('false') }}"
+       data-carousel-fixed-width-on-mobile="{{ fixed_width_on_mobile|default('false') }}"
+       data-carousel-center-mode-mobile="{{ center_mode_mobile|default('false') }}"
+       data-carousel-responsive="{{ responsive|default('true') }}"
+       data-carousel-single-slide="{{ single_slide|default('false') }}"
+       data-slides-to-scroll="{{ slides_to_scroll|default('1') }}"
+       {% if slides_tablet %}data-slides-tablet="{{ slides_tablet }}"{% endif %}
+       {% if slides_laptop %}data-slides-laptop="{{ slides_laptop }}"{% endif %}
+       {% if slides_desktop %}data-slides-desktop="{{ slides_desktop }}"{% endif %}
+  >
+    {% for item in items %}
+      <div class="carousel-slide mx-4">
+        {{- item -}}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}

@@ -211,13 +211,20 @@ class StyleGuideController extends ControllerBase {
       '#url' => $this->getSampleUrl(),
       '#url_title' => $this->t('Learn more'),
     ];
-
     $build[] = $this->wrapElementNoContainer($element, 'Hero image');
+
+    $element = [
+      '#theme' => 'server_theme_related_content',
+      '#title' => $this->t('Related content'),
+      '#items' => $this->getRelatedContent(10),
+      '#url' => $this->getSampleUrl(),
+      '#url_title' => $this->t('View more'),
+    ];
+    $build[] = $this->wrapElementNoContainer($element, 'Related content');
 
     $element = [
       '#theme' => 'server_theme_footer',
     ];
-
     $build[] = $this->wrapElementNoContainer($element, 'Footer');
 
     $element = [
@@ -227,7 +234,6 @@ class StyleGuideController extends ControllerBase {
       '#url' => Url::fromRoute('<front>'),
       '#url_title' => $this->t('Button title'),
     ];
-
     $build[] = $this->wrapElementNoContainer($element, 'Call to Action');
 
     return $build;
@@ -321,6 +327,39 @@ class StyleGuideController extends ControllerBase {
    */
   protected function getSampleUrl() {
     return Url::fromUri('https://www.example.com');
+  }
+
+  protected function getRandomTitle() {
+    $titles = [
+      'Never Changing Will Eventually Destroy You',
+      'Sick And Tired Of Doing DRUPAL The Old Way? Read This',
+      '5 Brilliant Ways To Teach Your Audience About DRUPAL',
+      'How To Become Better With DRUPAL In 10 Minutes',
+      'Doing Drupal the Gizra way',
+      'CODING And The Chuck Norris Effect',
+      'The Philosophy Of CODING',
+      'The Anthony Robins Guide To CODING',
+      'The A - Z Guide Of CODING',
+      'How To Turn CODING Into Success',
+    ];
+    return $titles[array_rand($titles)];
+  }
+
+  protected function getRelatedContent($num = 5) {
+    $element_base = [
+      '#theme' => 'server_theme_card',
+      '#body' => 'Decorate one package of cauliflower in six teaspoons of plain vinegar. Try flavoring the crême fraîche gingers with clammy rum and fish sauce, simmered.',
+      '#url' => $this->getSampleUrl(),
+    ];
+
+    $elements = [];
+    for ($i = 0; $i < $num; $i++) {
+      $elements[] = [
+        '#image' => $this->buildImage($this->getPlaceholderImage(300, 200, "card_image_$i", 'seed'), "Card image $i"),
+        '#title' => $this->getRandomTitle(),
+      ] + $element_base;
+    }
+    return $elements;
   }
 
 }

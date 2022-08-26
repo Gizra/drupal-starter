@@ -28,6 +28,9 @@ class NodeLandingPage extends NodeViewBuilderAbstract {
    *   Render array.
    */
   public function buildFull(array $build, NodeInterface $entity) {
+    $element = $this->buildConditionalPageTitle($entity);
+    $build[] = $this->wrapElementWideContainer($element);
+
     /** @var \Drupal\Core\Field\EntityReferenceFieldItemListInterface $paragraphs */
     $paragraphs = $entity->get('field_paragraphs');
     // Paragraphs.
