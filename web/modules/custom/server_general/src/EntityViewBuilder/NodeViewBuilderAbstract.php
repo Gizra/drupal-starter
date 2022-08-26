@@ -43,6 +43,7 @@ abstract class NodeViewBuilderAbstract extends EntityViewBuilderPluginAbstract {
     return $build;
   }
 
+
   /**
    * Get common elements for the view modes.
    *

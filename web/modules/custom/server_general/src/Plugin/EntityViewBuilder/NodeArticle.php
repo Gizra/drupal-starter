@@ -2,6 +2,7 @@
 
 namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
+use Drupal\media\MediaInterface;
 use Drupal\node\NodeInterface;
 use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
 
@@ -69,6 +70,20 @@ class NodeArticle extends NodeViewBuilderAbstract {
 
     $build[] = $element;
 
+    return $build;
+  }
+
+
+  public function buildCard(array $build, NodeInterface $entity) {
+    $media = $this->getReferencedEntityFromField($entity, 'field_featured_image');
+    $element = [
+      '#theme' => 'server_theme_card',
+      '#title' => $entity->label(),
+      '#image' => $media instanceof MediaInterface ? $this->buildImageStyle($media, 'large', 'field_media_image') : NULL,
+      '#url' => $entity->toUrl(),
+      '#text' => $this->buildProcessedText($entity, 'body', TRUE),
+    ];
+    $build[] = $element;
     return $build;
   }
 
