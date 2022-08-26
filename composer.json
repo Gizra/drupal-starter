@@ -46,6 +46,7 @@
         "drupal/stage_file_proxy": "^1.1",
         "drupal/viewsreference": "^2.0@beta",
         "drush/drush": "^10.2",
+        "npm-asset/slick-carousel": "^1.8",
         "oomphinc/composer-installers-extender": "^2.0"
     },
     "require-dev": {

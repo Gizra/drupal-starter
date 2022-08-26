@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9e72b41896b9df3e4e5fbcf30491f328",
+    "content-hash": "b9addc8de934ef4994a1ba8a85be40b1",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -5401,6 +5401,18 @@
                 "source": "https://github.com/nodespark/des-connector"
             },
             "time": "2019-08-06T06:19:40+00:00"
+        },
+        {
+            "name": "npm-asset/slick-carousel",
+            "version": "1.8.1",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/slick-carousel/-/slick-carousel-1.8.1.tgz"
+            },
+            "type": "npm-asset",
+            "license": [
+                "MIT"
+            ]
         },
         {
             "name": "nyholm/dsn",
