@@ -3,14 +3,11 @@ langcode: en
 status: true
 dependencies:
   config:
-    - core.entity_view_display.comment.comment.default
     - field.field.node.news.body
-    - field.field.node.news.comment
     - field.field.node.news.field_featured_image
     - field.field.node.news.field_tags
     - node.type.news
   module:
-    - comment
     - text
     - user
 id: node.news.default
@@ -24,15 +21,6 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 101
-    region: content
-  comment:
-    type: comment_default
-    label: above
-    settings:
-      view_mode: default
-      pager_id: 0
-    third_party_settings: {  }
-    weight: 102
     region: content
   field_featured_image:
     type: entity_reference_label

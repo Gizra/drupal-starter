@@ -5,7 +5,6 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.news.body
-    - field.field.node.news.comment
     - field.field.node.news.field_featured_image
     - field.field.node.news.field_tags
     - node.type.news
@@ -31,7 +30,6 @@ content:
     weight: 100
     region: content
 hidden:
-  comment: true
   field_featured_image: true
   field_tags: true
   search_api_excerpt: true
