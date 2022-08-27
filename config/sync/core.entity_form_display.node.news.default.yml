@@ -10,7 +10,7 @@ dependencies:
     - node.type.news
   module:
     - comment
-    - entity_browser
+    - media_library
     - path
     - select2
     - text
@@ -42,18 +42,11 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_featured_image:
-    type: entity_browser_entity_reference
+    type: media_library_widget
     weight: 1
     region: content
     settings:
-      entity_browser: null
-      field_widget_display: label
-      field_widget_edit: true
-      field_widget_remove: true
-      field_widget_replace: false
-      open: false
-      field_widget_display_settings: {  }
-      selection_mode: selection_append
+      media_types: {  }
     third_party_settings: {  }
   field_tags:
     type: select2_entity_reference
