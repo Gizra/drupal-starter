@@ -12,7 +12,7 @@ entity_type: node
 bundle: news
 label: 'Featured image'
 description: ''
-required: true
+required: false
 translatable: true
 default_value: {  }
 default_value_callback: ''

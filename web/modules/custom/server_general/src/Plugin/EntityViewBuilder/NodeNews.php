@@ -62,8 +62,8 @@ class NodeNews extends NodeViewBuilderAbstract {
 
     $element = parent::buildTeaser($build, $entity);
     $element += [
-      '#image' => $image_info['url'],
-      '#image_alt' => $image_info['alt'],
+      '#image' => $image_info['url'] ?? NULL,
+      '#image_alt' => $image_info['alt'] ?? NULL,
       '#tags' => $this->buildTags($entity),
       '#body' => $this->buildProcessedText($entity),
     ];
