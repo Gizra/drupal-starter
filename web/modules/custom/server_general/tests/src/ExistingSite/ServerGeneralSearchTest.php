@@ -33,7 +33,7 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
 
     $node = $this->createNode([
       'title' => 'Search API + ES test',
-      'type' => 'page',
+      'type' => 'landing_page',
       'uid' => $admin->id(),
     ]);
     $node->setPublished()->save();
