@@ -9,6 +9,7 @@ dependencies:
     - paragraphs.paragraphs_type.related_content
   module:
     - link
+    - select2
 id: paragraph.related_content.default
 targetEntityType: paragraph
 bundle: related_content
@@ -23,14 +24,14 @@ content:
       placeholder_title: ''
     third_party_settings: {  }
   field_related_content:
-    type: entity_reference_autocomplete
+    type: select2_entity_reference
     weight: 1
     region: content
     settings:
+      width: 100%
+      autocomplete: true
       match_operator: CONTAINS
       match_limit: 10
-      size: 60
-      placeholder: ''
     third_party_settings: {  }
   field_title:
     type: string_textfield

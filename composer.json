@@ -42,10 +42,12 @@
         "drupal/redirect": "^1.6",
         "drupal/redis": "1.x-dev@dev",
         "drupal/search_api": "^1.18",
+        "drupal/select2": "^1.13",
         "drupal/simple_sitemap": "^4",
         "drupal/stage_file_proxy": "^1.1",
         "drupal/viewsreference": "^2.0@beta",
         "drush/drush": "^10.2",
+        "npm-asset/select2": "^4.0",
         "npm-asset/slick-carousel": "^1.8",
         "oomphinc/composer-installers-extender": "^2.0"
     },

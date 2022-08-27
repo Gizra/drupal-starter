@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b9addc8de934ef4994a1ba8a85be40b1",
+    "content-hash": "8e7ef73f59b70a4ac4a42e14147a79ae",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3578,6 +3578,61 @@
             }
         },
         {
+            "name": "drupal/select2",
+            "version": "1.13.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/select2.git",
+                "reference": "8.x-1.13"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/select2-8.x-1.13.zip",
+                "reference": "8.x-1.13",
+                "shasum": "c02f8591104310a6395788c33e44dfab5ec6a2c1"
+            },
+            "require": {
+                "drupal/core": "^8.8 || ^9"
+            },
+            "require-dev": {
+                "drupal/better_exposed_filters": "^5.0",
+                "drupal/facets": "^1.5",
+                "drupal/form_options_attributes": "^1.2",
+                "drupal/search_api": "^1.17"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.13",
+                    "datestamp": "1614609946",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Christian Fritsch",
+                    "homepage": "https://www.drupal.org/user/2103716",
+                    "email": "christian.fritsch@burda.com"
+                },
+                {
+                    "name": "thunderbot",
+                    "homepage": "https://www.drupal.org/user/3511180"
+                }
+            ],
+            "description": "Integration with the select2 JavaScript library.",
+            "homepage": "https://www.drupal.org/project/select2",
+            "support": {
+                "source": "https://git.drupalcode.org/project/select2"
+            }
+        },
+        {
             "name": "drupal/simple_sitemap",
             "version": "4.1.2",
             "source": {
@@ -5401,6 +5456,18 @@
                 "source": "https://github.com/nodespark/des-connector"
             },
             "time": "2019-08-06T06:19:40+00:00"
+        },
+        {
+            "name": "npm-asset/select2",
+            "version": "4.0.13",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/select2/-/select2-4.0.13.tgz"
+            },
+            "type": "npm-asset",
+            "license": [
+                "MIT"
+            ]
         },
         {
             "name": "npm-asset/slick-carousel",
