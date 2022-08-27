@@ -14,6 +14,11 @@ trait ElementWrapTrait {
    *   Render array.
    */
   protected function wrapElementWideContainer(array $element): array {
+    if (!$element) {
+      // Element is empty, so no need to wrap it.
+      return [];
+    }
+
     return [
       '#theme' => 'server_theme_container_wide',
       '#element' => $element,

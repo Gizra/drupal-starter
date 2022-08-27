@@ -105,7 +105,6 @@ function server_theme_theme() {
   $info['server_theme_page_title'] = [
     'variables' => [
       'title' => NULL,
-      'is_title_hidden' => NULL,
     ],
   ];
 

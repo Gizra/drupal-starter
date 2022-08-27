@@ -144,10 +144,14 @@ abstract class NodeViewBuilderAbstract extends EntityViewBuilderPluginAbstract {
    *   A renderable array of the page title.
    */
   protected function buildConditionalPageTitle(NodeInterface $entity): array {
+    if ($entity->hasField('field_is_title_hidden') && $this->getBooleanFieldValue($entity, 'field_is_title_hidden')) {
+      // Title should be hidden.
+      return [];
+    }
+
     return [
       '#theme' => 'server_theme_page_title',
       '#title' => $entity->label(),
-      '#is_title_hidden' => $entity->hasField('field_is_title_hidden') && $this->getBooleanFieldValue($entity, 'field_is_title_hidden'),
     ];
   }
 
