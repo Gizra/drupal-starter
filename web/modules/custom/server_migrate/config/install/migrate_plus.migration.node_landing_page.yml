@@ -34,8 +34,9 @@ process:
       delimiter: '|'
     - plugin: migration_lookup
       migration:
-        - paragraph_views
         - paragraph_cta
+        - paragraph_related_content
+        - paragraph_views
       no_stub: true
     - plugin: sub_process
       process:
@@ -44,6 +45,7 @@ process:
 
 migration_dependencies:
   required:
-    - user
-    - paragraph_views
     - paragraph_cta
+    - paragraph_related_content
+    - paragraph_views
+    - user
