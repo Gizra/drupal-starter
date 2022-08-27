@@ -46,7 +46,7 @@ content:
     region: content
     settings:
       width: 100%
-      autocomplete: false
+      autocomplete: true
       match_operator: CONTAINS
       match_limit: 10
     third_party_settings: {  }
