@@ -11,7 +11,7 @@ field_name: field_tags
 entity_type: node
 bundle: news
 label: Tags
-description: 'Enter a comma-separated list. For example: Amsterdam, Mexico City, "Cleveland, Ohio"'
+description: ''
 required: false
 translatable: true
 default_value: {  }
