@@ -25,7 +25,7 @@ process:
       delimiter: '|'
     - plugin: migration_lookup
       migration:
-        - article
+        - news
       no_stub: true
   field_link/uri: _url
   field_link/title: _url_title
@@ -33,4 +33,4 @@ process:
 
 migration_dependencies:
   required:
-    - article
+    - news
