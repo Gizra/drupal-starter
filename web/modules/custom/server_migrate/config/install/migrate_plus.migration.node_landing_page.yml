@@ -15,6 +15,7 @@ destination:
   default_bundle: landing_page
 process:
   title: _title
+  field_is_title_hidden: _is_title_hidden
   path/alias: _alias
   path/pathauto:
     plugin: default_value
