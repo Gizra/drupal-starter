@@ -4,7 +4,6 @@ status: true
 dependencies:
   config:
     - field.storage.paragraph.field_related_content
-    - node.type.article
     - paragraphs.paragraphs_type.related_content
 id: paragraph.related_content.field_related_content
 field_name: field_related_content
@@ -19,11 +18,10 @@ default_value_callback: ''
 settings:
   handler: 'default:node'
   handler_settings:
-    target_bundles:
-      article: article
+    target_bundles: {  }
     sort:
       field: _none
       direction: ASC
     auto_create: false
-    auto_create_bundle: article
+    auto_create_bundle: null
 field_type: entity_reference
