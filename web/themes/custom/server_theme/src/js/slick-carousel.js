@@ -88,10 +88,10 @@
         }
 
         const config = {
-          infinite: TRUE,
-          focusOnSelect: FALSE,
+          infinite: true,
+          focusOnSelect: false,
           arrows: showArrows,
-          mobileFirst: TRUE,
+          mobileFirst: true,
           slidesToShow: slidesToShow,
           slidesToScroll: slidesToScroll || slidesToShow,
           dots: showDots,
