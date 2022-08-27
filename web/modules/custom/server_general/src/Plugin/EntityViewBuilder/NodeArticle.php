@@ -91,7 +91,7 @@ class NodeArticle extends NodeViewBuilderAbstract {
       '#title' => $entity->label(),
       '#image' => $media instanceof MediaInterface ? $this->buildImageStyle($media, 'large', 'field_media_image') : NULL,
       '#url' => $entity->toUrl(),
-      '#text' => $this->buildProcessedText($entity, 'body', TRUE),
+      '#body' => $this->buildProcessedText($entity, 'body', TRUE),
     ];
     $build[] = $element;
     return $build;

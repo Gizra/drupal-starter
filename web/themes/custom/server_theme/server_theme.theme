@@ -23,8 +23,8 @@ function server_theme_theme() {
     'variables' => [
       'image' => NULL,
       'title' => NULL,
-      'text' => NULL,
       'url' => NULL,
+      'body' => NULL,
     ],
   ];
 

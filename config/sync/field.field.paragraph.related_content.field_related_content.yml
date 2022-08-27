@@ -5,7 +5,6 @@ dependencies:
   config:
     - field.storage.paragraph.field_related_content
     - node.type.article
-    - node.type.page
     - paragraphs.paragraphs_type.related_content
 id: paragraph.related_content.field_related_content
 field_name: field_related_content
@@ -22,7 +21,6 @@ settings:
   handler_settings:
     target_bundles:
       article: article
-      page: page
     sort:
       field: _none
       direction: ASC
