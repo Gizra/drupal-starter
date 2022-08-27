@@ -47,7 +47,7 @@ class ServerGeneralLandingPageTest extends ExistingSiteBase {
   public function testViews() {
     $views = Paragraph::create(['type' => 'views']);
     $views->set('field_views', [
-      'target_id' => 'frontpage',
+      'target_id' => 'news',
       'display_id' => 'embed',
     ]);
     $views->save();
@@ -84,7 +84,7 @@ class ServerGeneralLandingPageTest extends ExistingSiteBase {
 
     $this->drupalGet($node->toUrl());
     $this->assertSession()->statusCodeEquals(Response::HTTP_OK);
-    $this->assertSession()->elementExists('css', '.view-frontpage');
+    $this->assertSession()->elementExists('css', '.view-news');
 
     $this->assertSession()->elementTextContains('css', '.cta', 'Lorem ipsum dolor sit amet');
     $this->assertSession()->elementTextContains('css', '.cta', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.');

@@ -1,18 +1,16 @@
-uuid: 599b7008-4616-4edc-9ad4-2d06a0a65659
+uuid: 51e08745-d514-4537-b590-b83f4dc68b1a
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.node.body
-    - node.type.article
+    - node.type.news
   module:
     - text
-_core:
-  default_config_hash: IjZnOLWk1Pjq3WRg2pLSA1ERh7Po7izCq_p6UztZr2c
-id: node.article.body
+id: node.news.body
 field_name: body
 entity_type: node
-bundle: article
+bundle: news
 label: Body
 description: ''
 required: false

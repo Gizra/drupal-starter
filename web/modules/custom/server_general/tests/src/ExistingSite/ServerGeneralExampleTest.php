@@ -17,7 +17,7 @@ class ServerGeneralExampleTest extends ExistingSiteBase {
    * @throws \Drupal\Core\Entity\EntityMalformedException
    * @throws \Behat\Mink\Exception\ExpectationException
    */
-  public function testArticle() {
+  public function testNews() {
     // Creates a user. Will be automatically cleaned up at the end of the test.
     $author = $this->createUser();
 
@@ -30,7 +30,7 @@ class ServerGeneralExampleTest extends ExistingSiteBase {
     // test.
     $node = $this->createNode([
       'title' => 'Llama',
-      'type' => 'article',
+      'type' => 'news',
       'field_tags' => [
         'target_id' => $term->id(),
       ],

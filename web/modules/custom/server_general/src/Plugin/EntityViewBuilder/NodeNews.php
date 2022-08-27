@@ -7,15 +7,15 @@ use Drupal\node\NodeInterface;
 use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
 
 /**
- * The "Node Article" plugin.
+ * The "Node News" plugin.
  *
  * @EntityViewBuilder(
- *   id = "node.article",
- *   label = @Translation("Node - Article"),
- *   description = "Node view builder for Article bundle."
+ *   id = "node.news",
+ *   label = @Translation("Node - News"),
+ *   description = "Node view builder for News bundle."
  * )
  */
-class NodeArticle extends NodeViewBuilderAbstract {
+class NodeNews extends NodeViewBuilderAbstract {
 
   /**
    * Build full view mode.
@@ -29,7 +29,7 @@ class NodeArticle extends NodeViewBuilderAbstract {
    *   Render array.
    */
   public function buildFull(array $build, NodeInterface $entity) {
-    $this->messenger()->addMessage('Add your Node Article elements in \Drupal\server_general\Plugin\EntityViewBuilder\NodeArticle');
+    $this->messenger()->addMessage('Add your Node News elements in \Drupal\server_general\Plugin\EntityViewBuilder\NodeNews');
 
     // Header.
     $build[] = $this->buildHeroHeader($entity, 'field_featured_image');

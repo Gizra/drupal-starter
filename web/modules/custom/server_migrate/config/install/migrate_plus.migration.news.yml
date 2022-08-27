@@ -1,18 +1,17 @@
-id: article
-label: 'Article'
+id: news
+label: 'News'
 migration_group: server
 migration_tags:
-  - article
-  - articles
+  - news
   - node
 source:
   plugin: csv
-  path: modules/custom/server_migrate/csv_files/article.csv
+  path: modules/custom/server_migrate/csv_files/news.csv
   ids: ['_id']
   header_offset: 0
 destination:
   plugin: 'entity:node'
-  default_bundle: article
+  default_bundle: news
 process:
   title: _title
   uid:
