@@ -614,7 +614,7 @@ class RoboFile extends Tasks {
 
     foreach ($directories as $directory) {
       foreach ($standards as $standard) {
-        $arguments = "--standard=$standard -p --ignore=" . self::THEME_NAME . "/dist,node_modules --colors --extensions=php,module,inc,install,test,profile,theme,js,css,yaml,txt,md";
+        $arguments = "--standard=$standard -p --ignore=" . self::THEME_NAME . "/dist,node_modules --colors --extensions=php,module,inc,install,test,profile,theme,css,yaml,txt,md";
 
         foreach ($commands as $command) {
           $result = $this->_exec("cd web && ../vendor/bin/$command $directory $arguments");

@@ -1,0 +1,18 @@
+uuid: 8a14c903-cff3-4759-a874-429956a57802
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_is_title_hidden
+field_name: field_is_title_hidden
+entity_type: node
+type: boolean
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,51 @@
+// Slick carousel.
+
+.slick-slide:focus {
+  outline: none;
+}
+
+// Disabled state of an arrow.
+.slick-arrow.slick-disabled {
+  @apply opacity-60;
+}
+
+.slick-dotted.slick-slider {
+  @apply mb-8 lg:mb-14;
+}
+
+.slick-dots  {
+  @apply pt-4 lg:pt-6 flex flex-row justify-center space-x-4 bottom-0 transform translate-y-full;
+
+  li {
+    @apply m-0 w-auto h-auto;
+
+    button {
+      @apply w-auto h-auto p-0;
+
+      &::before {
+        @apply static rounded-full h-4 w-4 lg:h-6 lg:w-6 inline-block border-2 lg:border-4 border-gray-200 bg-gray-200 opacity-100;
+        content: '';
+      }
+
+      &:hover::before {
+        @apply bg-neutral-600;
+      }
+    }
+  }
+
+  li.slick-active button:before {
+    @apply bg-neutral-600 border-white opacity-100;
+  }
+}
+
+.slick-list {
+  @apply mt-0 lg:-mx-5 w-full lg:w-auto;
+}
+
+.slick-track {
+  @apply flex;
+
+  .slick-slide {
+    @apply flex h-auto float-none;
+  }
+}

@@ -15,6 +15,7 @@ destination:
   default_bundle: landing_page
 process:
   title: _title
+  field_is_title_hidden: _is_title_hidden
   path/alias: _alias
   path/pathauto:
     plugin: default_value
@@ -34,8 +35,9 @@ process:
       delimiter: '|'
     - plugin: migration_lookup
       migration:
-        - paragraph_views
         - paragraph_cta
+        - paragraph_related_content
+        - paragraph_views
       no_stub: true
     - plugin: sub_process
       process:
@@ -44,6 +46,7 @@ process:
 
 migration_dependencies:
   required:
-    - user
-    - paragraph_views
     - paragraph_cta
+    - paragraph_related_content
+    - paragraph_views
+    - user

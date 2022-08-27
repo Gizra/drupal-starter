@@ -31,3 +31,16 @@ font-awesome:
   css:
     theme:
       https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css: { type: external, minified: true }
+
+slick:
+  js:
+    /libraries/slick-carousel/slick/slick.js: {}
+    dist/js/slick-carousel.js: {}
+  css:
+    theme:
+      # Lower weight, as we'd want our custom css to be able to override slick's
+      # default CSS.
+      /libraries/slick-carousel/slick/slick.css: { weight: -10 }
+      /libraries/slick-carousel/slick/slick-theme.css: { weight: -9 }
+  dependencies:
+    - core/jquery

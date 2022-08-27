@@ -18,16 +18,13 @@ function server_theme_theme() {
     ],
   ];
 
-  // Simple card - Hero.
-  $info['server_theme_card__hero'] = [
+  // Simple card - vertical.
+  $info['server_theme_card'] = [
     'variables' => [
       'image' => NULL,
-      'image_alt' => NULL,
       'title' => NULL,
       'url' => NULL,
       'body' => NULL,
-      'author' => NULL,
-      'date' => NULL,
     ],
   ];
 
@@ -114,6 +111,32 @@ function server_theme_theme() {
   $info['server_theme_container_wide'] = [
     'variables' => [
       'element' => NULL,
+    ],
+  ];
+
+  $info['server_theme_hero_image'] = [
+    'variables' => [
+      'image' => NULL,
+      'title' => NULL,
+      'subtitle' => NULL,
+      'url' => NULL,
+      'url_title' => NULL,
+    ],
+  ];
+
+  $info['server_theme_button'] = [
+    'variables' => [
+      'url' => NULL,
+      'url_title' => NULL,
+    ],
+  ];
+
+  $info['server_theme_related_content'] = [
+    'variables' => [
+      'title' => NULL,
+      'items' => [],
+      'url' => NULL,
+      'url_title' => NULL,
     ],
   ];
 

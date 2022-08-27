@@ -204,9 +204,27 @@ class StyleGuideController extends ControllerBase {
     $build = [];
 
     $element = [
+      '#theme' => 'server_theme_hero_image',
+      '#image' => $this->buildImage($this->getPlaceholderImage(1600, 900, '1048'), 'Hero image alt'),
+      '#title' => $this->t('Drupal Starter'),
+      '#subtitle' => $this->t('Drupal 9 starter kit for efficient and streamlined development featuring TailwindCSS!'),
+      '#url' => $this->getSampleUrl(),
+      '#url_title' => $this->t('Learn more'),
+    ];
+    $build[] = $this->wrapElementNoContainer($element, 'Hero image');
+
+    $element = [
+      '#theme' => 'server_theme_related_content',
+      '#title' => $this->t('Related content'),
+      '#items' => $this->getRelatedContent(10),
+      '#url' => $this->getSampleUrl(),
+      '#url_title' => $this->t('View more'),
+    ];
+    $build[] = $this->wrapElementNoContainer($element, 'Related content');
+
+    $element = [
       '#theme' => 'server_theme_footer',
     ];
-
     $build[] = $this->wrapElementNoContainer($element, 'Footer');
 
     $element = [
@@ -216,10 +234,28 @@ class StyleGuideController extends ControllerBase {
       '#url' => Url::fromRoute('<front>'),
       '#url_title' => $this->t('Button title'),
     ];
-
     $build[] = $this->wrapElementNoContainer($element, 'Call to Action');
 
     return $build;
+  }
+
+  /**
+   * Build an image render array with given image URL.
+   *
+   * @param string $url
+   *   The url of the image, internal or external.
+   * @param string $alt
+   *   Alt text.
+   *
+   * @return array
+   *   An image render array.
+   */
+  protected function buildImage(string $url, string $alt) {
+    return [
+      '#theme' => 'image',
+      '#uri' => $url,
+      '#alt' => $alt,
+    ];
   }
 
   /**
@@ -281,6 +317,64 @@ class StyleGuideController extends ControllerBase {
     ]);
 
     return $this->buildTag($dummy_term);
+  }
+
+  /**
+   * Get a sample URL object.
+   *
+   * @return \Drupal\Core\Url
+   *   The sample generated URL object.
+   */
+  protected function getSampleUrl(): Url {
+    return Url::fromUri('https://www.example.com');
+  }
+
+  /**
+   * Get a random title.
+   *
+   * @return string
+   *   A random title.
+   */
+  protected function getRandomTitle(): string {
+    $titles = [
+      'Never Changing Will Eventually Destroy You',
+      'Sick And Tired Of Doing DRUPAL The Old Way? Read This',
+      '5 Brilliant Ways To Teach Your Audience About DRUPAL',
+      'How To Become Better With DRUPAL In 10 Minutes',
+      'Doing Drupal the Gizra way',
+      'CODING And The Chuck Norris Effect',
+      'The Philosophy Of CODING',
+      'The Anthony Robins Guide To CODING',
+      'The A - Z Guide Of CODING',
+      'How To Turn CODING Into Success',
+    ];
+    return $titles[array_rand($titles)];
+  }
+
+  /**
+   * Generate related content.
+   *
+   * @param int $num
+   *   Number of items to create. Default 5.
+   *
+   * @return array
+   *   Array of render arrays.
+   */
+  protected function getRelatedContent(int $num = 5): array {
+    $element_base = [
+      '#theme' => 'server_theme_card',
+      '#body' => 'Decorate one package of cauliflower in six teaspoons of plain vinegar. Try flavoring the crême fraîche gingers with clammy rum and fish sauce, simmered.',
+      '#url' => $this->getSampleUrl(),
+    ];
+
+    $elements = [];
+    for ($i = 0; $i < $num; $i++) {
+      $elements[] = [
+        '#image' => $this->buildImage($this->getPlaceholderImage(300, 200, "card_image_$i", 'seed'), "Card image $i"),
+        '#title' => $this->getRandomTitle(),
+      ] + $element_base;
+    }
+    return $elements;
   }
 
 }

@@ -1,0 +1,23 @@
+uuid: 434947f5-add6-40cd-92e6-04776e77aac3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_is_title_hidden
+    - node.type.landing_page
+id: node.landing_page.field_is_title_hidden
+field_name: field_is_title_hidden
+entity_type: node
+bundle: landing_page
+label: 'Hide title'
+description: 'Check to hide the title on the page.'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean
