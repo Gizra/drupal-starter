@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.news.body
+    - field.field.node.news.field_body
     - field.field.node.news.field_featured_image
     - field.field.node.news.field_tags
     - node.type.news
@@ -15,12 +15,12 @@ targetEntityType: node
 bundle: news
 mode: default
 content:
-  body:
+  field_body:
     type: text_default
-    label: hidden
+    label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 101
+    weight: 105
     region: content
   field_featured_image:
     type: entity_reference_label

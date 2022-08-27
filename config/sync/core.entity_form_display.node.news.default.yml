@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.news.body
+    - field.field.node.news.field_body
     - field.field.node.news.field_featured_image
     - field.field.node.news.field_tags
     - node.type.news
@@ -17,21 +17,19 @@ targetEntityType: node
 bundle: news
 mode: default
 content:
-  body:
-    type: text_textarea_with_summary
-    weight: 2
-    region: content
-    settings:
-      rows: 9
-      summary_rows: 3
-      placeholder: ''
-      show_summary: false
-    third_party_settings: {  }
   created:
     type: datetime_timestamp
     weight: 5
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_body:
+    type: text_textarea
+    weight: 2
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
     third_party_settings: {  }
   field_featured_image:
     type: media_library_widget
