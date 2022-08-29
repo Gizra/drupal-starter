@@ -31,5 +31,9 @@ hooks:
     # Enable Devel and Webprofiler
     - exec: drush pm-enable webprofiler -y
 
+    # Add administrator role to admin. Some role-only checks would choke
+    # for super admin otherwise.
+    - exec: drush user-add-role "administrator" admin
+
     # Generate one-time login link
     - exec: drush uli
