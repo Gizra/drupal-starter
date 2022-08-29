@@ -62,10 +62,10 @@ class NodeNews extends NodeViewBuilderAbstract {
 
     $element = parent::buildTeaser($build, $entity);
     $element += [
-      '#image' => $image_info['url'],
-      '#image_alt' => $image_info['alt'],
+      '#image' => $image_info['url'] ?? NULL,
+      '#image_alt' => $image_info['alt'] ?? NULL,
       '#tags' => $this->buildTags($entity),
-      '#body' => $this->buildProcessedText($entity, 'body', TRUE),
+      '#body' => $this->buildProcessedText($entity),
     ];
 
     $build[] = $element;
@@ -91,7 +91,7 @@ class NodeNews extends NodeViewBuilderAbstract {
       '#title' => $entity->label(),
       '#image' => $media instanceof MediaInterface ? $this->buildImageStyle($media, 'large', 'field_media_image') : NULL,
       '#url' => $entity->toUrl(),
-      '#body' => $this->buildProcessedText($entity, 'body', TRUE),
+      '#body' => $this->buildProcessedText($entity),
     ];
     $build[] = $element;
     return $build;

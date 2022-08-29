@@ -25,11 +25,13 @@ trait ProcessedTextBuilderTrait {
    * @return array
    *   Render array.
    */
-  protected function buildProcessedText(FieldableEntityInterface $entity, $field = 'body', $summary_or_trimmed = FALSE) {
-    if ($entity->get($field)->isEmpty()) {
+  protected function buildProcessedText(FieldableEntityInterface $entity, string $field = 'field_body', bool $summary_or_trimmed = FALSE) : array {
+    if (!$entity->hasField($field) || $entity->get($field)->isEmpty()) {
+      // Field is empty or doesn't exist.
       return [];
     }
 
+    // Hide the label.
     $options = ['label' => 'hidden'];
 
     if ($summary_or_trimmed) {

@@ -16,7 +16,7 @@ destination:
   no_stub: true
 process:
   info: _title
-  body/value: _body
-  body/format:
+  field_body/value: _body
+  field_body/format:
     plugin: default_value
     default_value: basic_html

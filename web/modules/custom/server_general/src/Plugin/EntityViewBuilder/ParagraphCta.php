@@ -16,7 +16,7 @@ use Drupal\server_general\ElementWrapTrait;
  *   description = "Paragraph view builder for 'Call to Action' bundle."
  * )
  */
-class ParagraphCTA extends EntityViewBuilderPluginAbstract {
+class ParagraphCta extends EntityViewBuilderPluginAbstract {
 
   use ElementWrapTrait;
 

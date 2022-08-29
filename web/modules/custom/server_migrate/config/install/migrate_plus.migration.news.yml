@@ -18,8 +18,8 @@ process:
     plugin: migration_lookup
     migration: user
     source: _uid
-  body/value: _body
-  body/format:
+  field_body/value: _body
+  field_body/format:
     plugin: default_value
     default_value: basic_html
   field_tags:
