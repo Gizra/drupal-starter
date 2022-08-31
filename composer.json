@@ -55,6 +55,7 @@
         "consolidation/robo": "^3",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
         "drupal/coder": "^8.3.1",
+        "drupal/drupal_test_assertions": "1.0.x-dev",
         "mglaman/phpstan-drupal": "1.1.10",
         "mpyw/phpunit-patch-serializable-comparison": "^0.0.2",
         "natxet/cssmin": "^3.0",
