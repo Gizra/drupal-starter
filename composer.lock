@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8e7ef73f59b70a4ac4a42e14147a79ae",
+    "content-hash": "7937ecc6a7a2bcfc4c72367bce21fcd5",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -9648,6 +9648,47 @@
             "time": "2022-04-02T17:56:30+00:00"
         },
         {
+            "name": "drupal/drupal_test_assertions",
+            "version": "dev-1.0.x",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/drupal_test_assertions.git",
+                "reference": "414ca87f4aba8714953035a4216b9f30aaf0a2e6"
+            },
+            "require": {
+                "drupal/core": "^8 || ^9"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.0.x": "1.0.x-dev"
+                },
+                "drupal": {
+                    "version": "1.0.x-dev",
+                    "datestamp": "1648237701",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Project has not opted into security advisory coverage!"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "dagmar",
+                    "homepage": "https://www.drupal.org/user/154086"
+                }
+            ],
+            "description": "Drupal assertions.",
+            "homepage": "https://www.drupal.org/project/drupal_test_assertions",
+            "support": {
+                "source": "https://git.drupalcode.org/project/drupal_test_assertions"
+            }
+        },
+        {
             "name": "fabpot/goutte",
             "version": "v3.3.1",
             "source": {
@@ -12635,7 +12676,8 @@
     "stability-flags": {
         "drupal/elasticsearch_connector": 15,
         "drupal/redis": 20,
-        "drupal/viewsreference": 10
+        "drupal/viewsreference": 10,
+        "drupal/drupal_test_assertions": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
