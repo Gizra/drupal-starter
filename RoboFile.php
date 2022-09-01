@@ -768,7 +768,6 @@ class RoboFile extends Tasks {
    *   The password of the ES admin user.
    * @param string|null $environment
    *   The environment ID. To test changes in the index config selectively.
-   *   Default: NULL.
    *
    * @throws \Exception
    */
