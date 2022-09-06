@@ -146,5 +146,8 @@
                 "      composer remove drupal/core-project-message"
             ]
         }
+    },
+    "replace": {
+        "drupal/ctools": "*"
     }
 }
