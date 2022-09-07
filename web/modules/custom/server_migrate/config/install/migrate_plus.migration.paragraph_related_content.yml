@@ -1,0 +1,36 @@
+id: paragraph_related_content
+label: 'Related content Paragraph'
+migration_group: server
+migration_tags:
+  - paragraph_related_content
+  - paragraph
+source:
+  plugin: csv
+  path: modules/custom/server_migrate/csv_files/paragraph_related_content.csv
+  ids: ['_id']
+  header_offset: 0
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+  default_bundle: related_content
+process:
+  type:
+    plugin: default_value
+    default_value: related_content
+  field_title: _title
+  field_related_content:
+    - plugin: skip_on_empty
+      method: process
+      source: _items
+    - plugin: explode
+      delimiter: '|'
+    - plugin: migration_lookup
+      migration:
+        - news
+      no_stub: true
+  field_link/uri: _url
+  field_link/title: _url_title
+
+
+migration_dependencies:
+  required:
+    - news

@@ -1,0 +1,14 @@
+<div class="bg-gray-100 py-4 lg:py-6">
+  <div class="container-wide flex flex-col gap-6 md:gap-8 lg:gap-10">
+    <h2>{{ title }}</h2>
+
+    {% embed '@server_theme/server-theme-carousel-base.html.twig' %}
+      {% set dots = 'true' %}
+    {% endembed %}
+
+    <div class="flex justify-center">
+      {% embed '@server_theme/server-theme-button.html.twig' %}
+      {% endembed %}
+    </div>
+  </div>
+</div>

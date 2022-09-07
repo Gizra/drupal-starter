@@ -1,9 +1,10 @@
-<div class="cta p-10 lg:p-24 bg-gray-100">
-  <div class="container-wide">
-    <div class="text-5xl pb-7">
+<div class="cta p-4 lg:p-6 bg-gray-100">
+  <div class="container-wide text-center border-b border-white pb-4">
+    <div class="text-5xl pb-3">
       {{ title }}
     </div>
-    <div class="text-xl pb-10 lg:pb-20">{{ subtitle }}</div>
-    <a class="border-gray-500 bg-gray-300 text-gray-900 hover:text-gray-700 text-xl px-10 py-2.5 rounded-lg" href="{{ url }}">{{ url_title }}</a>
+    <div class="text-xl pb-4 lg:pb-6">{{ subtitle }}</div>
+    {% embed '@server_theme/server-theme-button.html.twig' %}
+    {% endembed %}
   </div>
 </div>

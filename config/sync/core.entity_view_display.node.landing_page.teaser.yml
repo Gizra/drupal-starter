@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
+    - field.field.node.landing_page.field_is_title_hidden
     - field.field.node.landing_page.field_paragraphs
     - node.type.landing_page
   module:
@@ -19,5 +20,6 @@ content:
     weight: 100
     region: content
 hidden:
+  field_is_title_hidden: true
   field_paragraphs: true
   search_api_excerpt: true

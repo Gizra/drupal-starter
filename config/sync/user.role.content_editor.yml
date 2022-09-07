@@ -1,0 +1,14 @@
+uuid: 13ca0114-0815-46bb-8b22-086f079bfc9f
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: content_editor
+label: 'Content Editor'
+weight: -8
+is_admin: null
+permissions:
+  - 'access content overview'
+  - 'administer nodes'
+  - 'view own unpublished content'

@@ -14,12 +14,13 @@ module:
   config: 0
   contact: 0
   contextual: 0
-  ctools: 0
   datetime: 0
   dblog: 0
   dynamic_page_cache: 0
   editor: 0
   elasticsearch_connector: 0
+  entity_browser: 0
+  entity_browser_entity_form: 0
   entity_reference_revisions: 0
   field: 0
   field_ui: 0
@@ -28,14 +29,19 @@ module:
   help: 0
   history: 0
   image: 0
+  inline_entity_form: 0
   link: 0
   media: 0
+  media_entity_browser: 0
+  media_library: 0
   menu_ui: 0
+  mysql: 0
   node: 0
   options: 0
   page_cache: 0
   path: 0
   path_alias: 0
+  permissions_filter: 0
   pluggable_entity_view_builder: 0
   quickedit: 0
   rdf: 0
@@ -43,6 +49,7 @@ module:
   redis: 0
   responsive_image: 0
   search_api: 0
+  select2: 0
   server_general: 0
   server_search: 0
   server_style_guide: 0

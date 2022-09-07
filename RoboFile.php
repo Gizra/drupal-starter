@@ -234,13 +234,6 @@ class RoboFile extends Tasks {
       throw new Exception('The working directory is dirty. Please commit or stash the pending changes.');
     }
 
-    // Getting the current branch of the GitHub repo
-    // in a machine-readable form.
-    $original_branch = $this->taskExec("git rev-parse --abbrev-ref HEAD")
-      ->printOutput(FALSE)
-      ->run()
-      ->getMessage();
-
     $this->taskExec("git checkout $tag")->run();
 
     // Full installation with dev dependencies as we need some of them for the
@@ -251,16 +244,21 @@ class RoboFile extends Tasks {
       $commit_message = 'Release ' . $tag;
     }
 
+    // Set default exit code to 0 (success).
+    $exit = 0;
     try {
       $this->deployPantheon($branch_name, $commit_message);
     }
     catch (Exception $e) {
       $this->yell('The deployment failed', 22, 'red');
       $this->say($e->getMessage());
+      // Set exit code to 1 (error).
+      $exit = 1;
     }
-    finally {
-      $this->taskExec("git checkout $original_branch")->run();
-    }
+    // Check out the original branch regardless of success or failure.
+    $this->taskExec("git checkout -")->run();
+    // Exit.
+    $this->taskExec("exit $exit")->run();
   }
 
   /**
@@ -364,7 +362,7 @@ class RoboFile extends Tasks {
       '.phpunit.result.cache',
       '.travis.yml',
       'ci-scripts',
-      'drush',
+      'drush/drush.yml',
       'pantheon.yml',
       'pantheon.upstream.yml',
       'phpstan.neon',
@@ -387,6 +385,12 @@ class RoboFile extends Tasks {
       'web/sites/simpletest',
       'web/sites/README.txt',
       'web/themes/README.txt',
+      'web/themes/custom/server_theme/src',
+      'web/themes/custom/server_theme/node_modules',
+      'web/themes/custom/server_theme/package.json',
+      'web/themes/custom/server_theme/package-lock.json',
+      'web/themes/custom/server_theme/tailwind.config.js',
+      'web/themes/custom/server_theme/postcss.config.js',
     ];
 
     $rsync_exclude_string = '--exclude=' . implode(' --exclude=', $rsync_exclude);
@@ -610,7 +614,7 @@ class RoboFile extends Tasks {
 
     foreach ($directories as $directory) {
       foreach ($standards as $standard) {
-        $arguments = "--standard=$standard -p --ignore=" . self::THEME_NAME . "/dist,node_modules --colors --extensions=php,module,inc,install,test,profile,theme,js,css,yaml,txt,md";
+        $arguments = "--standard=$standard -p --ignore=" . self::THEME_NAME . "/dist,node_modules --colors --extensions=php,module,inc,install,test,profile,theme,css,yaml,txt,md";
 
         foreach ($commands as $command) {
           $result = $this->_exec("cd web && ../vendor/bin/$command $directory $arguments");
@@ -632,14 +636,20 @@ class RoboFile extends Tasks {
    *
    * @param string $token
    *   Terminus machine token: https://pantheon.io/docs/machine-tokens.
+   * @param string $github_token
+   *   Personal GitHub token (Travis auth):
+   *   https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
    * @param string $github_deploy_branch
-   *   The branch that should be pushed automatically to Pantheon.
+   *   The branch that should be pushed automatically to Pantheon. By default,
+   *   it's 'main', the default GitHub branch for any new project.
    * @param string $pantheon_deploy_branch
-   *   The branch at the artifact repo that should be the target of the deployment.
+   *   The branch at the artifact repo that should be the target of the
+   *   deployment. As we typically deploy to QA, the default value here is 'qa',
+   *   that multi-dev environment should be created by hand beforehand.
    *
    * @throws \Exception
    */
-  public function deployConfigAutodeploy(string $token, string $github_deploy_branch = 'master', string $pantheon_deploy_branch = 'master'): void {
+  public function deployConfigAutodeploy(string $token, string $github_token, string $github_deploy_branch = 'main', string $pantheon_deploy_branch = 'qa'): void {
     $pantheon_info = $this->getPantheonNameAndEnv();
     $project_name = $pantheon_info['name'];
 
@@ -665,7 +675,7 @@ class RoboFile extends Tasks {
       throw new Exception('The key generation failed.');
     }
 
-    $result = $this->taskExec('travis login --pro')->run();
+    $result = $this->taskExec('travis login --pro --github-token="' . $github_token . '"')->run();
     if ($result->getExitCode() !== 0) {
       throw new Exception('The authentication with GitHub via Travis CLI failed.');
     }
@@ -758,7 +768,6 @@ class RoboFile extends Tasks {
    *   The password of the ES admin user.
    * @param string|null $environment
    *   The environment ID. To test changes in the index config selectively.
-   *   Default: NULL.
    *
    * @throws \Exception
    */

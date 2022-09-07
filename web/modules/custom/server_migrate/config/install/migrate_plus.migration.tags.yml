@@ -26,8 +26,3 @@ destination:
 process:
   name: _title
   description: _description
-
-dependencies:
-  enforced:
-    module:
-      - server_migrate

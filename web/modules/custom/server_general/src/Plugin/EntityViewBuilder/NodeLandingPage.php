@@ -28,7 +28,9 @@ class NodeLandingPage extends NodeViewBuilderAbstract {
    *   Render array.
    */
   public function buildFull(array $build, NodeInterface $entity) {
-    $this->messenger()->addMessage('Add your Node Landing Page elements in \Drupal\server_general\Plugin\EntityViewBuilder\NodeLandingPage');
+    // Show teh page title, unless it was set to be hidden.
+    $element = $this->buildConditionalPageTitle($entity);
+    $build[] = $this->wrapElementWideContainer($element);
 
     /** @var \Drupal\Core\Field\EntityReferenceFieldItemListInterface $paragraphs */
     $paragraphs = $entity->get('field_paragraphs');

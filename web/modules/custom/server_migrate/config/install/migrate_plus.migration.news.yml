@@ -1,0 +1,44 @@
+id: news
+label: 'News'
+migration_group: server
+migration_tags:
+  - news
+  - node
+source:
+  plugin: csv
+  path: modules/custom/server_migrate/csv_files/news.csv
+  ids: ['_id']
+  header_offset: 0
+destination:
+  plugin: 'entity:node'
+  default_bundle: news
+process:
+  title: _title
+  uid:
+    plugin: migration_lookup
+    migration: user
+    source: _uid
+  field_body/value: _body
+  field_body/format:
+    plugin: default_value
+    default_value: basic_html
+  field_tags:
+    - plugin: explode
+      source: _tags
+      delimiter: '|'
+    - plugin: skip_on_empty
+      method: process
+    - plugin: migration_lookup
+      migration: tags
+  field_featured_image:
+    - plugin: skip_on_empty
+      method: process
+      source: _image
+    - plugin: migration_lookup
+      migration: media_image
+
+migration_dependencies:
+  required:
+    - user
+    - tags
+    - media_image

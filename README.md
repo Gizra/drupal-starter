@@ -1,7 +1,5 @@
 [![Build Status](https://app.travis-ci.com/Gizra/drupal-starter.svg?branch=main)](https://app.travis-ci.com/Gizra/drupal-starter)
 
-<a href="https://gitpod.io/#https://github.com/Gizra/drupal-starter"><img src="https://gitpod.io/button/open-in-gitpod.svg"/></a>
-
 # Drupal 9 Starter
 
 Starter repo for Drupal 9 development. This starter is an opinionated approach,
@@ -22,6 +20,7 @@ us with easier iteration, reading and manipulating yaml files, pre-defined
 `.travis.yaml` is part of this repo.
 1. We use Pantheon for hosting. A `ddev robo deploy:pantheon` will take care of
 deployments. See more under ["Deploy to Pantheon"](#deploy-to-pantheon) section.
+1. We use [Pluggable Entity View Builder](https://www.drupal.org/project/pluggable_entity_view_builder) to define how an entity should look like. See [example](https://github.com/Gizra/drupal-starter/blob/main/web/modules/custom/server_general/src/Plugin/EntityViewBuilder/NodeLandingPage.php).
 
 ## GitPod
 
@@ -239,13 +238,16 @@ assembles it from the Git log.
 
 In order to deploy upon every merge automatically by Travis, you shall:
 
-1. Get a Pantheon machine token (using a dummy new Pantheon user ideally, one user per project for the sake of security): https://pantheon.io/docs/machine-tokens
-1. `ddev robo deploy:config-autodeploy [your token]`
+1. Initiate QA (`qa` branch) multidev environment for the given project.
+1. Double-check if `./.ddev/providers/pantheon.yaml` contains the proper Pantheon project name.
+1. Get a [Pantheon machine token](https://pantheon.io/docs/machine-tokens) (using a dummy new Pantheon user ideally, one user per project for the sake of security)
+1. Get a GitHub Personal access token, it is needed for [Travis CLI to authenticate](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token). It will be used like this: `travis login --pro --github-token=`.
+1. `ddev robo deploy:config-autodeploy [your terminus token] [your github token]`
 1. `git commit -m "Deployment secrets and configuration"`
-1. Add the public key in `travis-key.pub` to the newly created dummy Pantheon user: https://pantheon.io/docs/ssh-keys
+1. Add the public key in `travis-key.pub` to the newly created dummy [Pantheon user](https://pantheon.io/docs/ssh-keys)
 
 Optionally you can specify which target branch you'd like to push on Pantheon, by default it's `master`, so the target is the DEV environment, but alternatively you can issue:
-`ddev robo deploy:config-autodeploy [your new token] [pantheon project name] [gh_branch] [pantheon_branch]`
+`ddev robo deploy:config-autodeploy [your terminus token] [your github token] [pantheon project name] [gh_branch] [pantheon_branch]`
 
 ## Pulling DB & Files From Pantheon
 
@@ -260,3 +262,28 @@ It saves you time and disk space by sending requests to your development environ
 to the production environment and making a copy of the production file in your development site.
 
 Configure the origin path at `/admin/config/system/stage_file_proxy`.
+
+### Flood Control
+
+As the project uses Redis, it is not possible to use the SQL console to reset flood table.
+There's a custom DDEV command to help with that. Usages:
+
+```bash
+ddev pantheon-flood-flush
+ddev ddev-flood-flush
+```
+
+Purges all the entries from Pantehon's `live` environment or DDEV's own Redis.
+
+```bash
+ddev pantheon-flood-flush test
+```
+
+Purges all the entries from Pantheon's `test` environment.
+
+```bash
+ddev pantheon-flood-flush test 193.165.2.3
+ddev ddev-flood-flush 193.165.2.3
+```
+
+Purges entries related to IP `193.165.2.3` from Pantheon's `test` environment, or alternatively from DDEV's own Redis.

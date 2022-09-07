@@ -16,7 +16,7 @@ EOF
 
 export GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 
-git clone "$PANTHEON_GIT_URL" .pantheon
+git clone "$PANTHEON_GIT_URL" -b master .pantheon
 
 # Make the DDEV container aware of your SSH keys.
 ddev auth ssh

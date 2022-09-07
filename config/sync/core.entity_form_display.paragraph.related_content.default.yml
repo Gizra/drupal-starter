@@ -1,0 +1,46 @@
+uuid: 757280c0-eb3b-4071-934a-998a20c2a406
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.related_content.field_link
+    - field.field.paragraph.related_content.field_related_content
+    - field.field.paragraph.related_content.field_title
+    - paragraphs.paragraphs_type.related_content
+  module:
+    - link
+    - select2
+id: paragraph.related_content.default
+targetEntityType: paragraph
+bundle: related_content
+mode: default
+content:
+  field_link:
+    type: link_default
+    weight: 2
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_related_content:
+    type: select2_entity_reference
+    weight: 1
+    region: content
+    settings:
+      width: 100%
+      autocomplete: true
+      match_operator: CONTAINS
+      match_limit: 10
+    third_party_settings: {  }
+  field_title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
