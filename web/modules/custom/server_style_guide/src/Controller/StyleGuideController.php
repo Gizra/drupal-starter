@@ -160,11 +160,7 @@ class StyleGuideController extends ControllerBase {
     $element = [
       '#theme' => 'server_theme_content__image_and_teaser',
       '#image' => $this->getPlaceholderImage(940, 265),
-      '#teaser' => [
-        '#type' => 'processed_text',
-        '#text' => 'Diatrias favere! Sunt tataes <strong>visum superbus</strong>, clemens mineralises. Who can need the acceptance and afterlife of a doer if he has the abstruse issue of the self?',
-        '#format' => filter_default_format(),
-      ],
+      '#teaser' => $this->buildProcessedText('Diatrias favere! Sunt tataes <strong>visum superbus</strong>, clemens mineralises. Who can need the acceptance and afterlife of a doer if he has the abstruse issue of the self?'),
     ];
     $build[] = $this->wrapElementWideContainer($element, 'Content Image and Teaser');
 
@@ -255,6 +251,23 @@ class StyleGuideController extends ControllerBase {
       '#theme' => 'image',
       '#uri' => $url,
       '#alt' => $alt,
+    ];
+  }
+
+  /**
+   * Build text with HTML.
+   *
+   * @param string $text
+   *   The text.
+   *
+   * @return array
+   *   A render array.
+   */
+  protected function buildProcessedText(string $text) {
+    return [
+      '#type' => 'processed_text',
+      '#text' => $text,
+      '#format' => filter_default_format(),
     ];
   }
 
