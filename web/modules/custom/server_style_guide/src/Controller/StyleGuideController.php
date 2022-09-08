@@ -78,16 +78,16 @@ class StyleGuideController extends ControllerBase {
     $card_image = $this->getPlaceholderImage(600, 520);
 
     $tags = [
-      $this->getMockedTag('The transporter'),
-      $this->getMockedTag('Is more girl'),
+      $this->buildMockedTag('The transporter'),
+      $this->buildMockedTag('Is more girl'),
     ];
 
     $many_tags = $tags + [
-      $this->getMockedTag('The flight'),
-      $this->getMockedTag('bare klingon'),
-      $this->getMockedTag('Dogma doesn’t balanced understand'),
-      $this->getMockedTag('The plank hails with courage'),
-      $this->getMockedTag('burn the freighter until it rises'),
+      $this->buildMockedTag('The flight'),
+      $this->buildMockedTag('bare klingon'),
+      $this->buildMockedTag('Dogma doesn’t balanced understand'),
+      $this->buildMockedTag('The plank hails with courage'),
+      $this->buildMockedTag('burn the freighter until it rises'),
     ];
 
     $single_card_simple = [
@@ -323,7 +323,7 @@ class StyleGuideController extends ControllerBase {
    * @return array
    *   The renderable array.
    */
-  public function getMockedTag($title) {
+  public function buildMockedTag($title) {
     $dummy_term = Term::create([
       'vid' => 'example_vocabulary_machine_name',
       'name' => $title,
