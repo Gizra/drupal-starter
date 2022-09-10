@@ -78,16 +78,16 @@ class StyleGuideController extends ControllerBase {
     $card_image = $this->getPlaceholderImage(600, 520);
 
     $tags = [
-      $this->getMockedTag('The transporter'),
-      $this->getMockedTag('Is more girl'),
+      $this->buildMockedTag('The transporter'),
+      $this->buildMockedTag('Is more girl'),
     ];
 
     $many_tags = $tags + [
-      $this->getMockedTag('The flight'),
-      $this->getMockedTag('bare klingon'),
-      $this->getMockedTag('Dogma doesn’t balanced understand'),
-      $this->getMockedTag('The plank hails with courage'),
-      $this->getMockedTag('burn the freighter until it rises'),
+      $this->buildMockedTag('The flight'),
+      $this->buildMockedTag('bare klingon'),
+      $this->buildMockedTag('Dogma doesn’t balanced understand'),
+      $this->buildMockedTag('The plank hails with courage'),
+      $this->buildMockedTag('burn the freighter until it rises'),
     ];
 
     $single_card_simple = [
@@ -160,11 +160,7 @@ class StyleGuideController extends ControllerBase {
     $element = [
       '#theme' => 'server_theme_content__image_and_teaser',
       '#image' => $this->getPlaceholderImage(940, 265),
-      '#teaser' => [
-        '#type' => 'processed_text',
-        '#text' => 'Diatrias favere! Sunt tataes <strong>visum superbus</strong>, clemens mineralises. Who can need the acceptance and afterlife of a doer if he has the abstruse issue of the self?',
-        '#format' => filter_default_format(),
-      ],
+      '#teaser' => $this->buildProcessedText('Diatrias favere! Sunt tataes <strong>visum superbus</strong>, clemens mineralises. Who can need the acceptance and afterlife of a doer if he has the abstruse issue of the self?'),
     ];
     $build[] = $this->wrapElementWideContainer($element, 'Content Image and Teaser');
 
@@ -259,6 +255,23 @@ class StyleGuideController extends ControllerBase {
   }
 
   /**
+   * Build text with HTML.
+   *
+   * @param string $text
+   *   The text.
+   *
+   * @return array
+   *   A render array.
+   */
+  protected function buildProcessedText(string $text) {
+    return [
+      '#type' => 'processed_text',
+      '#text' => $text,
+      '#format' => filter_default_format(),
+    ];
+  }
+
+  /**
    * Get photographic placeholder image.
    *
    * Optionally supply an ID or a seed string to always get the same image.
@@ -310,7 +323,7 @@ class StyleGuideController extends ControllerBase {
    * @return array
    *   The renderable array.
    */
-  public function getMockedTag($title) {
+  public function buildMockedTag($title) {
     $dummy_term = Term::create([
       'vid' => 'example_vocabulary_machine_name',
       'name' => $title,
