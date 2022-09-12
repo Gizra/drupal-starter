@@ -135,7 +135,13 @@ function server_theme_theme() {
   $info['server_theme_button'] = [
     'variables' => [
       'url' => NULL,
-      'url_title' => NULL,
+      'url_title'  => NULL,
+      // Indicate if button should be primary or secondary.
+      'is_primary' => NULL,
+      // If TRUE, it will open the link in a new tab.
+      'open_new_tab' => NULL,
+      // Specify an icon.
+      'icon' => NULL,
     ],
   ];
 

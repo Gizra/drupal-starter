@@ -1,3 +1,28 @@
-{% if url and url_title %}
-  <a class="inline-block border-gray-500 bg-gray-300 text-gray-900 hover:text-gray-700 text-xl px-10 py-2.5 rounded-lg text-center w-full sm:w-auto" href="{{ url }}">{{ url_title }}</a>
-{% endif %}
+{% set classes = [
+  'flex flex-row items-center space-x-6 rounded-lg px-6 py-3 text-xl border-2 border-blue hover:bg-blue-800',
+  is_primary ? 'bg-blue-800 text-white hover:bg-white hover:text-gray-900' : 'text-gray-900 bg-white hover:text-white',
+] | join(' ') | trim %}
+
+{% set icon_classes = [
+  'w-5 h-5',
+] | join(' ') | trim %}
+
+{% set target = open_new_tab ? '_blank' : '_self' %}
+
+{% macro getIconPath(icon) %}
+  {% if icon == 'download' %}
+    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+  {% endif %}
+{% endmacro %}
+
+<div class="inline-block">
+  <a class="{{ classes }}" href="{{ url }}" target="{{ target }}">
+    {% if icon %}
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+        {{ _self.getIconPath(icon) }}
+      </svg>
+    {% endif %}
+    <div>{{ url_title }}</div>
+
+  </a>
+</div>

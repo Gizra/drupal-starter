@@ -75,6 +75,43 @@ class StyleGuideController extends ControllerBase {
   protected function getWideWidthElements() : array {
     $build = [];
 
+    // Buttons.
+    $button_base = [
+      '#theme' => 'server_theme_button',
+      '#url' => $this->getSampleUrl(),
+      '#url_title' => 'Discover more',
+    ];
+    // Primary style button.
+    $element = [
+      '#is_primary' => TRUE,
+    ] + $button_base;
+    $build[] = $this->wrapElementWideContainer($element, 'Primary button');
+    // Primary button with icon.
+    $element = [
+      '#is_primary' => TRUE,
+      '#icon' => 'download',
+    ] + $button_base;
+    $build[] = $this->wrapElementWideContainer($element, 'Primary button with icon');
+
+    // Secondary style button.
+    $element = [
+        '#is_primary' => FALSE,
+    ] + $button_base;
+    $build[] = $this->wrapElementWideContainer($element, 'Secondary button');
+    // Primary button with icon.
+    $element = [
+      '#is_primary' => FALSE,
+      '#icon' => 'download',
+    ] + $button_base;
+    $build[] = $this->wrapElementWideContainer($element, 'Secondary button with icon');
+
+    // Button opening in new window.
+    $element = [
+      '#is_primary' => TRUE,
+      '#open_new_tab' => TRUE,
+    ] + $button_base;
+    $build[] = $this->wrapElementWideContainer($element, 'Primary button opening new window/tab');
+
     $card_image = $this->getPlaceholderImage(600, 520);
 
     $tags = [
