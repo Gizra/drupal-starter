@@ -22,14 +22,6 @@ us with easier iteration, reading and manipulating yaml files, pre-defined
 deployments. See more under ["Deploy to Pantheon"](#deploy-to-pantheon) section.
 1. We use [Pluggable Entity View Builder](https://www.drupal.org/project/pluggable_entity_view_builder) to define how an entity should look like. See [example](https://github.com/Gizra/drupal-starter/blob/main/web/modules/custom/server_general/src/Plugin/EntityViewBuilder/NodeLandingPage.php).
 
-## GitPod
-
-The project is integrated with [GitPod](https://www.gitpod.io/docs/).
-Click on the badge above to try it out the project in action and start editing
-the source code! By default Drupal is accessible publicly at `8888-` and you can access other
-DDEV services like Mailhog using the non-HTTPS port, for instance `8025-` should work for
-checking the outgoing mails.
-
 ## Requirements
 
 * [DDEV](https://ddev.readthedocs.io/en/stable/)
