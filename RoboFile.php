@@ -355,8 +355,6 @@ class RoboFile extends Tasks {
       '.ddev',
       '.editorconfig',
       '.git',
-      '.gitpod.Dockerfile',
-      '.gitpod.yml',
       '.idea',
       '.pantheon',
       '.phpunit.result.cache',
