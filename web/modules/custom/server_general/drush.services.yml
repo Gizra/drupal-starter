@@ -1,0 +1,5 @@
+services:
+  server_general.commands:
+    class: Drupal\server_general\Commands\ServerGeneralCommands
+    tags:
+      - { name: drush.command }
