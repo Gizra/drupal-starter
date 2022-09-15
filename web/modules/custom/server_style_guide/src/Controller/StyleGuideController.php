@@ -95,7 +95,7 @@ class StyleGuideController extends ControllerBase {
 
     // Secondary style button.
     $element = [
-        '#is_primary' => FALSE,
+      '#is_primary' => FALSE,
     ] + $button_base;
     $build[] = $this->wrapElementWideContainer($element, 'Secondary button');
     // Primary button with icon.
