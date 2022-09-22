@@ -21,6 +21,9 @@ hooks:
     - exec: drush migrate:import --group server
     - exec: drush pm-uninstall migrate -y
 
+    # Set the homepage
+    - exec: drush set-homepage
+
     # Clear cache, for example for entity view builder plugins to take effect.
     - exec: drush cr
 
