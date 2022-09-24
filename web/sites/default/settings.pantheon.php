@@ -49,3 +49,23 @@ if (file_exists($base_private_dir . '/' . $site_id . '.es.secrets.json')) {
     }
   }
 }
+
+$pantheon_env = getenv('PANTHEON_ENVIRONMENT');
+if (!empty($pantheon_env)) {
+  switch ($pantheon_env) {
+    case 'test':
+      $config['environment_indicator.indicator']['bg_color'] = '#ffcc6b';
+      $config['environment_indicator.indicator']['fg_color'] = '#222222';
+      break;
+
+    case 'live':
+      $config['environment_indicator.indicator']['bg_color'] = '#c81300';
+      $config['environment_indicator.indicator']['fg_color'] = '#ffffff';
+      break;
+
+    default:
+      $config['environment_indicator.indicator']['bg_color'] = '#6e00ac';
+      $config['environment_indicator.indicator']['fg_color'] = '#ffffff';
+      break;
+  }
+}
