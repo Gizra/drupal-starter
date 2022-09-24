@@ -39,8 +39,8 @@ trait ProcessedTextBuilderTrait {
     }
 
     return [
-      '#theme' => 'server_theme_content__body',
-      '#content' => $entity->get($field)->view($options),
+      '#theme' => 'server_theme_prose_text',
+      '#text' => $entity->get($field)->view($options),
     ];
   }
 

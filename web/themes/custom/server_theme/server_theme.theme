@@ -92,9 +92,10 @@ function server_theme_theme() {
     ],
   ];
 
-  $info['server_theme_content__body'] = [
+  // Text that should have `prose` classes applied to it.
+  $info['server_theme_prose_text'] = [
     'variables' => [
-      'content' => NULL,
+      'text' => NULL,
     ],
   ];
 

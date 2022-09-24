@@ -3,6 +3,7 @@
   "devDependencies": {
     "@tailwindcss/forms": "^0.4.0",
     "@tailwindcss/line-clamp": "^0.3.0",
+    "@tailwindcss/typography": "^0.5.7",
     "autoprefixer": "^10.0.2",
     "cssnano": "^5.0.6",
     "postcss": "^8.3.5",
