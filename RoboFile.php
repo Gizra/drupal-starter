@@ -807,6 +807,7 @@ class RoboFile extends Tasks {
       $this->environments = [$environment];
     }
     foreach ($this->environments as $environment) {
+      $environment = str_replace('-', '_', $environment);
       foreach ($this->indices as $index) {
         $index_creation->process("curl -u $username:$password -X PUT $es_url/" . self::$indexPrefix . "{$index}_$environment");
       }
@@ -912,6 +913,7 @@ END;
    */
   private function applyIndexSettings(string $es_url, string $username, string $password, string $data): void {
     foreach ($this->environments as $environment) {
+      $environment = str_replace('-', '_', $environment);
       foreach ($this->indices as $index) {
         $this->taskExec("curl -u $username:$password -X POST $es_url/" . self::$indexPrefix . "{$index}_$environment/_close")->run();
         $this->taskExec("curl -u $username:$password -X PUT $es_url/" . self::$indexPrefix . "{$index}_$environment/_settings -H 'Content-Type: application/json' --data '$data'")->run();

@@ -33,7 +33,7 @@ if (file_exists($base_private_dir . '/' . $site_id . '.es.secrets.json')) {
   if (is_array($es_credentials)) {
     $fallback = 'dev';
     $pantheon_env = getenv('PANTHEON_ENVIRONMENT');
-    $env = !empty($pantheon_env) ? $pantheon_env : $fallback;
+    $env = str_replace('-', '_', !empty($pantheon_env) ? $pantheon_env : $fallback);
 
     if (!isset($es_credentials[$env])) {
       $env = $fallback;
