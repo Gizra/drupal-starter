@@ -98,12 +98,10 @@ abstract class NodeViewBuilderAbstract extends EntityViewBuilderPluginAbstract {
       return [];
     }
 
-    $element = [
+    return [
       '#theme' => 'server_theme_content__tags',
       '#tags' => $tags,
     ];
-
-    return $this->wrapElementWideContainer($element);
   }
 
   /**

@@ -35,7 +35,8 @@ class NodeNews extends NodeViewBuilderAbstract {
     $build[] = $this->buildHeroHeader($entity, 'field_featured_image');
 
     // Tags.
-    $build[] = $this->buildContentTags($entity);
+    $element = $this->buildContentTags($entity);
+    $build[] = $this->wrapElementWideContainer($element);
 
     // Body.
     $element = $this->buildProcessedText($entity);
