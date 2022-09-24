@@ -33,6 +33,7 @@
         "drupal/elasticsearch_connector": "^7.0@alpha",
         "drupal/entity_browser": "^2.8",
         "drupal/environment_indicator": "^4",
+        "drupal/filter_empty_tags": "^1.0",
         "drupal/media_entity_browser": "^2",
         "drupal/migrate_file": "^2.0",
         "drupal/migrate_plus": "^5.1",

@@ -29,6 +29,7 @@ module:
   field_ui: 0
   file: 0
   filter: 0
+  filter_empty_tags: 0
   help: 0
   history: 0
   image: 0
