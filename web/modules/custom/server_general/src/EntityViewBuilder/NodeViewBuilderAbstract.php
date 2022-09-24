@@ -38,7 +38,7 @@ abstract class NodeViewBuilderAbstract extends EntityViewBuilderPluginAbstract {
    */
   public function buildTeaser(array $build, NodeInterface $entity) {
     $build += $this->getElementBase($entity);
-    $build['#theme'] = 'server_theme_card__simple';
+    $build['#theme'] = 'server_theme_card__vertical';
 
     return $build;
   }

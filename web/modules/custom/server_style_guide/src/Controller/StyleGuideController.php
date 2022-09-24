@@ -91,7 +91,7 @@ class StyleGuideController extends ControllerBase {
     ];
 
     $single_card_simple = [
-      '#theme' => 'server_theme_card__simple',
+      '#theme' => 'server_theme_card__vertical',
       '#image' => $card_image,
       '#title' => 'The source has extend, but not everyone fears it.',
       '#body' => 'Decorate one package of cauliflower in six teaspoons of plain vinegar. Try flavoring the crême fraîche gingers with clammy rum and fish sauce, simmered.',

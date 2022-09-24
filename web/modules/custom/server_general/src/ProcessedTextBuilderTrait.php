@@ -38,10 +38,7 @@ trait ProcessedTextBuilderTrait {
       $options['type'] = 'text_summary_or_trimmed';
     }
 
-    return [
-      '#theme' => 'server_theme_prose_text',
-      '#text' => $entity->get($field)->view($options),
-    ];
+    return $entity->get($field)->view($options);
   }
 
 }
