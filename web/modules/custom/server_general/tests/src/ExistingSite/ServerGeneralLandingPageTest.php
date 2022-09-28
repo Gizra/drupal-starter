@@ -37,12 +37,7 @@ class ServerGeneralLandingPageTest extends ExistingSiteBase {
   }
 
   /**
-   * Tests 'Landing page' CT and Views paragraph type.
-   *
-   * @throws \Behat\Mink\Exception\ElementNotFoundException
-   * @throws \Behat\Mink\Exception\ExpectationException
-   * @throws \Drupal\Core\Entity\EntityMalformedException
-   * @throws \Drupal\Core\Entity\EntityStorageException
+   * Tests The Views paragraph type.
    */
   public function testViews() {
     $views = Paragraph::create(['type' => 'views']);
@@ -53,6 +48,30 @@ class ServerGeneralLandingPageTest extends ExistingSiteBase {
     $views->save();
     $this->markEntityForCleanup($views);
 
+    $user = $this->createUser();
+    $node = $this->createNode([
+      'title' => 'Landing Page',
+      'type' => 'landing_page',
+      'uid' => $user->id(),
+      'field_paragraphs' => [
+        [
+          'target_id' => $views->id(),
+          'target_revision_id' => $views->getRevisionId(),
+        ],
+      ],
+    ]);
+    $node->setPublished()->save();
+    $this->assertEquals($user->id(), $node->getOwnerId());
+
+    $this->drupalGet($node->toUrl());
+    $this->assertSession()->statusCodeEquals(Response::HTTP_OK);
+    $this->assertSession()->elementExists('css', '.view-news');
+  }
+
+  /**
+   * Tests The CTA paragraph type.
+   */
+  public function testCta() {
     $cta = Paragraph::create(['type' => 'cta']);
     $cta->set('field_title', 'Lorem ipsum dolor sit amet');
     $cta->set('field_subtitle', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
@@ -73,10 +92,6 @@ class ServerGeneralLandingPageTest extends ExistingSiteBase {
           'target_id' => $cta->id(),
           'target_revision_id' => $cta->getRevisionId(),
         ],
-        [
-          'target_id' => $views->id(),
-          'target_revision_id' => $views->getRevisionId(),
-        ],
       ],
     ]);
     $node->setPublished()->save();
@@ -84,7 +99,6 @@ class ServerGeneralLandingPageTest extends ExistingSiteBase {
 
     $this->drupalGet($node->toUrl());
     $this->assertSession()->statusCodeEquals(Response::HTTP_OK);
-    $this->assertSession()->elementExists('css', '.view-news');
 
     $this->assertSession()->elementTextContains('css', '.cta', 'Lorem ipsum dolor sit amet');
     $this->assertSession()->elementTextContains('css', '.cta', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.');

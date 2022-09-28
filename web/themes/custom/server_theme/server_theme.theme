@@ -40,8 +40,8 @@ function server_theme_theme() {
     'variables' => [
       'title' => NULL,
       'subtitle' => NULL,
-      'url' => NULL,
-      'url_title' => NULL,
+      // The render array of `server_theme_button`.
+      'button' => NULL,
     ],
   ];
 
