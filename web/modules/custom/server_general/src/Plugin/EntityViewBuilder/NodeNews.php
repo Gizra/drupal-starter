@@ -37,8 +37,8 @@ class NodeNews extends NodeViewBuilderAbstract {
     $build[] = $element;
 
     // Tags.
-    $element=   $this->buildTags($entity);
-    $build[] =  $this->wrapElementWideContainer($element);
+    $element = $this->buildTags($entity);
+    $build[] = $this->wrapElementWideContainer($element);
 
     // Get the body text, wrap it with `prose` so it's styled.
     $element = $this->buildProcessedText($entity);
