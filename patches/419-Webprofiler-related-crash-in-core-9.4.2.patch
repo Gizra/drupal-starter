@@ -1,0 +1,15 @@
+diff --git a/webprofiler/src/Entity/EntityManagerWrapper.php b/webprofiler/src/Entity/EntityManagerWrapper.php
+index cefdbea..d9d3b7a 100644
+--- a/webprofiler/src/Entity/EntityManagerWrapper.php
++++ b/webprofiler/src/Entity/EntityManagerWrapper.php
+@@ -174,7 +174,9 @@ class EntityManagerWrapper extends DefaultPluginManager implements EntityTypeMan
+    * {@inheritdoc}
+    */
+   public function getFormObject($entity_type, $operation) {
+-    return $this->entityTypeManager->getFormObject($entity_type, $operation);
++    $formObject = $this->entityTypeManager->getFormObject($entity_type, $operation);
++    $formObject->setEntityTypeManager($this);
++    return $formObject;
+   }
+
+   /**

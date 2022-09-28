@@ -103,6 +103,9 @@
             },
             "drupal/core": {
               "d.o #3224254": "https://www.drupal.org/files/issues/2021-07-19/drupal-claro_dropdown-3224254-2.patch"
+            },
+            "drupal/devel": {
+              "d.o #43": "patches/419-Webprofiler-related-crash-in-core-9.4.2.patch"
             }
         },
         "drupal-scaffold": {
