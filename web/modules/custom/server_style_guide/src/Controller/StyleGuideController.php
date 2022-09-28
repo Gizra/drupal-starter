@@ -106,44 +106,23 @@ class StyleGuideController extends ControllerBase {
   protected function getFullWidthElements(): array {
     $build = [];
 
-    $element = [
-      '#theme' => 'server_theme_hero_image',
-      '#image' => $this->buildImage($this->getPlaceholderImage(1600, 900, '1048'), 'Hero image alt'),
-      '#title' => $this->t('Drupal Starter'),
-      '#subtitle' => $this->t('Drupal 9 starter kit for efficient and streamlined development featuring TailwindCSS!'),
-      '#url' => $this->getSampleUrl(),
-      '#url_title' => $this->t('Learn more'),
-    ];
+    $element = $this->getHeroImage();
     $build[] = $this->wrapElementNoContainer($element, 'Hero image');
 
-    $element = [
-      '#theme' => 'server_theme_related_content',
-      '#title' => $this->t('Related content'),
-      '#items' => $this->getRelatedContent(10),
-      '#url' => $this->getSampleUrl(),
-      '#url_title' => $this->t('View more'),
-    ];
+    $element = $this->getRelatedContentCarousel();
     $build[] = $this->wrapElementNoContainer($element, 'Related content');
 
-    $element = [
-      '#theme' => 'server_theme_footer',
-    ];
+    $element = $this->getFooter();
     $build[] = $this->wrapElementNoContainer($element, 'Footer');
 
-    $element = [
-      '#theme' => 'server_theme_cta',
-      '#title' => $this->t('Lorem ipsum dolor sit amet'),
-      '#subtitle' => $this->t('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'),
-      '#url' => Url::fromRoute('<front>'),
-      '#url_title' => $this->t('Button title'),
-    ];
+    $element = $this->getCta();
     $build[] = $this->wrapElementNoContainer($element, 'Call to Action');
 
     return $build;
   }
 
   /**
-   * Get the pag title.
+   * Get the page title.
    *
    * @return array
    *   Render array.
@@ -227,6 +206,74 @@ class StyleGuideController extends ControllerBase {
 
     return $build;
   }
+
+  /**
+   * Get the Related content carousel.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getHeroImage(): array {
+    $url = Url::fromRoute('<front>')->toString();
+    $button = $this->buildButton($url, 'Lean more');
+
+    return [
+      '#theme' => 'server_theme_hero_image',
+      '#image' => $this->buildImage($this->getPlaceholderImage(1600, 900, '1048'), 'Hero image alt'),
+      '#title' => $this->t('Drupal Starter'),
+      '#subtitle' => $this->t('Drupal 9 starter kit for efficient and streamlined development featuring TailwindCSS!'),
+      '#button' => $button,
+    ];
+  }
+
+  /**
+   * Get the Related content carousel.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getRelatedContentCarousel(): array {
+    $url = Url::fromRoute('<front>')->toString();
+    $button = $this->buildButton($url, 'View more');
+
+    return [
+      '#theme' => 'server_theme_related_content',
+      '#title' => $this->t('Related content'),
+      '#items' => $this->getRelatedContent(10),
+      '#button' => $button,
+    ];
+  }
+
+  /**
+   * Get the footer.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getFooter(): array {
+    return [
+      '#theme' => 'server_theme_footer',
+    ];
+  }
+
+  /**
+   * Get CTA (Call to action).
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getCta(): array {
+    $url = Url::fromRoute('<front>')->toString();
+    $button = $this->buildButton($url, 'View more');
+
+    return [
+      '#theme' => 'server_theme_cta',
+      '#title' => $this->t('Lorem ipsum dolor sit amet'),
+      '#subtitle' => $this->t('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'),
+      '#button' => $button,
+    ];
+  }
+
 
   /**
    * Build an image render array with given image URL.
@@ -368,16 +415,6 @@ class StyleGuideController extends ControllerBase {
   }
 
   /**
-   * Get a sample URL object.
-   *
-   * @return \Drupal\Core\Url
-   *   The sample generated URL object.
-   */
-  protected function getSampleUrl(): Url {
-    return Url::fromUri('https://www.example.com');
-  }
-
-  /**
    * Get a random title.
    *
    * @return string
@@ -412,7 +449,7 @@ class StyleGuideController extends ControllerBase {
     $element_base = [
       '#theme' => 'server_theme_card',
       '#body' => 'Decorate one package of cauliflower in six teaspoons of plain vinegar. Try flavoring the crême fraîche gingers with clammy rum and fish sauce, simmered.',
-      '#url' => $this->getSampleUrl(),
+      '#url' => Url::fromRoute('<front>'),
     ];
 
     $elements = [];
