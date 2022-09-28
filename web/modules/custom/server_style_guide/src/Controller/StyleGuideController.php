@@ -176,25 +176,12 @@ class StyleGuideController extends ControllerBase {
   protected function getCards(): array {
     $card_image = $this->getPlaceholderImage(600, 520);
 
-    $tags = [
-      $this->buildMockedTag('The transporter'),
-      $this->buildMockedTag('Is more girl'),
-    ];
-
-    $many_tags = $tags + [
-        $this->buildMockedTag('The flight'),
-        $this->buildMockedTag('bare klingon'),
-        $this->buildMockedTag('Dogma doesn’t balanced understand'),
-        $this->buildMockedTag('The plank hails with courage'),
-        $this->buildMockedTag('burn the freighter until it rises'),
-      ];
-
     $single_card_simple = [
       '#theme' => 'server_theme_card',
       '#image' => $card_image,
       '#title' => 'The source has extend, but not everyone fears it.',
+      '#url' => Url::fromRoute('<front>'),
       '#body' => 'Decorate one package of cauliflower in six teaspoons of plain vinegar. Try flavoring the crême fraîche gingers with clammy rum and fish sauce, simmered.',
-      '#tags' => $tags,
     ];
 
     $single_card_no_body = $single_card_simple;
@@ -202,7 +189,6 @@ class StyleGuideController extends ControllerBase {
 
     $single_card_long_title = $single_card_simple;
     $single_card_long_title['#title'] = 'How Professional Learning Networks Are Helping Educators Get Through Coronavirus';
-    $single_card_long_title['#tags'] = $many_tags;
 
     $single_card_long_author_name = $single_card_simple;
     $single_card_long_author_name['#author'] = 'Someone with A. Very long name';

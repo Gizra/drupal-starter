@@ -1,13 +1,17 @@
-<a class="flex flex-col gap-4 w-full" href="{{ url }}">
+<div class="rounded-lg border border-gray-500" >
 
-  <figure class="child-object-cover">
-    {{ image }}
+  <figure class="child-object-cover h-60">
+    <a href="{{ url }}" class="inline-block">
+      <img src="{{ image }}"/>
+    </a>
   </figure>
 
-  <div class="font-bold">{{ title }}</div>
+  <a href="{{ url }}">
+    <h3 class="font-bold">{{ title }}</h3>
+  </a>
 
   <div class="line-clamp-3 text-gray-500">
     {{ body }}
   </div>
 
-</a>
+</div>
