@@ -344,7 +344,7 @@ class StyleGuideController extends ControllerBase {
     /** @var \Drupal\media\MediaInterface $media */
     $media = $media_storage->load($media_id);
 
-    /** @var \Drupal\file\FileInterface $image */
+    /** @var ?\Drupal\file\FileInterface $image */
     $image = $this->getReferencedEntityFromField($media, 'field_media_image');
     if (empty($image)) {
       // Image doesn't exist, or no access to it.
