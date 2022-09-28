@@ -80,11 +80,15 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getPageTitle();
     $build[] = $this->wrapElementWideContainer($element, 'Page Title');
 
+    $build[] = $this->getButtons();
+
     $element = $this->getCards();
     $build[] = $this->wrapElementWideContainer($element, 'Cards');
 
     $element = $this->getTags();
     $build[] = $this->wrapElementWideContainer($element, 'Tags');
+
+
 
     return $build;
   }
@@ -197,6 +201,38 @@ class StyleGuideController extends ControllerBase {
       '#theme' => 'server_theme_cards',
       '#items' => $items,
     ];
+  }
+
+  /**
+   * Define a set of buttons.
+   *
+   * @return array
+   *   A render array containing the elements.
+   */
+  protected function getButtons(): array {
+    $build = [];
+
+    // Primary button with icon.
+    $element = [
+      '#theme' => 'server_theme_button',
+      '#url' => '<front>',
+      '#button_text' => 'Download file',
+      '#is_primary' => FALSE,
+      // Icon.
+      '#icon' => 'download',
+    ];
+    $build[] = $this->wrapElementWideContainer($element, 'Primary button');
+
+    // Secondary button.
+    $element = [
+      '#theme' => 'server_theme_button',
+      '#url' => '<front>',
+      '#button_text' => 'Register',
+      '#is_primary' => TRUE,
+    ];
+    $build[] = $this->wrapElementWideContainer($element, 'Secondary button');
+
+    return $build;
   }
 
   /**

@@ -82,24 +82,32 @@ function server_theme_theme() {
       'image' => NULL,
       'title' => NULL,
       'subtitle' => NULL,
-      'url' => NULL,
-      'url_title' => NULL,
+      // The render array of `server_theme_button`
+      'button' => NULL,
     ],
   ];
 
+  // Buttons.
   $info['server_theme_button'] = [
     'variables' => [
       'url' => NULL,
-      'url_title' => NULL,
+      'button_text' => NULL,
+      // Indicate if button should be primary or secondary.
+      'is_primary' => TRUE,
+      // If TRUE, it will open the link in a new tab.
+      'open_new_tab' => FALSE,
+      // Icon.
+      'icon' => NULL,
     ],
   ];
+
 
   $info['server_theme_related_content'] = [
     'variables' => [
       'title' => NULL,
       'items' => [],
-      'url' => NULL,
-      'url_title' => NULL,
+      // The render array of `server_theme_button`
+      'button' => NULL,
     ],
   ];
 

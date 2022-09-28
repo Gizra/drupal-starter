@@ -36,12 +36,15 @@ class ParagraphRelatedContent extends EntityViewBuilderPluginAbstract {
     /** @var \Drupal\Core\Field\EntityReferenceFieldItemListInterface $related_content */
     $related_content = $entity->get('field_related_content');
 
+    $button = [];
+    if (!empty($link['url']) && !empty($link['title'])) {
+    }
+
     $build[] = [
       '#theme' => 'server_theme_related_content',
       '#title' => $this->getTextFieldValue($entity, 'field_title'),
       '#items' => $this->buildReferencedEntities($related_content, 'teaser'),
-      '#url' => $link['url'] ?? NULL,
-      '#url_title' => $link['title'] ?? NULL,
+      '#button' => $button,
     ];
 
     return $build;
