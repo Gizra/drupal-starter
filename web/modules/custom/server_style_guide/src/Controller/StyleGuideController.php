@@ -77,6 +77,103 @@ class StyleGuideController extends ControllerBase {
   protected function getWideWidthElements() : array {
     $build = [];
 
+    $element = $this->getPageTitle();
+    $build[] = $this->wrapElementWideContainer($element, 'Page Title');
+
+    $element = $this->getCards();
+    $build[] = $this->wrapElementWideContainer($element, 'Cards');
+
+    $element = $this->getTags();
+    $build[] = $this->wrapElementWideContainer($element, 'Tags');
+
+    return $build;
+  }
+
+  /**
+   * Define all elements here that should be 'full' width.
+   *
+   * Elements spanning full-width of the document.
+   *
+   * @return array
+   *   A render array containing the elements.
+   */
+  protected function getFullWidthElements(): array {
+    $build = [];
+
+    $element = [
+      '#theme' => 'server_theme_hero_image',
+      '#image' => $this->buildImage($this->getPlaceholderImage(1600, 900, '1048'), 'Hero image alt'),
+      '#title' => $this->t('Drupal Starter'),
+      '#subtitle' => $this->t('Drupal 9 starter kit for efficient and streamlined development featuring TailwindCSS!'),
+      '#url' => $this->getSampleUrl(),
+      '#url_title' => $this->t('Learn more'),
+    ];
+    $build[] = $this->wrapElementNoContainer($element, 'Hero image');
+
+    $element = [
+      '#theme' => 'server_theme_related_content',
+      '#title' => $this->t('Related content'),
+      '#items' => $this->getRelatedContent(10),
+      '#url' => $this->getSampleUrl(),
+      '#url_title' => $this->t('View more'),
+    ];
+    $build[] = $this->wrapElementNoContainer($element, 'Related content');
+
+    $element = [
+      '#theme' => 'server_theme_footer',
+    ];
+    $build[] = $this->wrapElementNoContainer($element, 'Footer');
+
+    $element = [
+      '#theme' => 'server_theme_cta',
+      '#title' => $this->t('Lorem ipsum dolor sit amet'),
+      '#subtitle' => $this->t('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'),
+      '#url' => Url::fromRoute('<front>'),
+      '#url_title' => $this->t('Button title'),
+    ];
+    $build[] = $this->wrapElementNoContainer($element, 'Call to Action');
+
+    return $build;
+  }
+
+  /**
+   * Get the pag title.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getPageTitle(): array {
+    return [
+      '#theme' => 'server_theme_page_title',
+      '#title' => 'The source has extend, but not everyone fears it',
+    ];
+  }
+
+  /**
+   * Get tags.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getTags(): array {
+    $items = [
+      $this->buildMockedTag('The transporter'),
+      $this->buildMockedTag('Is more girl'),
+    ];
+
+    return [
+      '#theme' => 'server_theme_tags',
+      '#items' => $items,
+    ];
+  }
+
+  /**
+   * Get cards.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getCards(): array {
     $card_image = $this->getPlaceholderImage(600, 520);
 
     $tags = [
@@ -85,15 +182,15 @@ class StyleGuideController extends ControllerBase {
     ];
 
     $many_tags = $tags + [
-      $this->buildMockedTag('The flight'),
-      $this->buildMockedTag('bare klingon'),
-      $this->buildMockedTag('Dogma doesn’t balanced understand'),
-      $this->buildMockedTag('The plank hails with courage'),
-      $this->buildMockedTag('burn the freighter until it rises'),
-    ];
+        $this->buildMockedTag('The flight'),
+        $this->buildMockedTag('bare klingon'),
+        $this->buildMockedTag('Dogma doesn’t balanced understand'),
+        $this->buildMockedTag('The plank hails with courage'),
+        $this->buildMockedTag('burn the freighter until it rises'),
+      ];
 
     $single_card_simple = [
-      '#theme' => 'server_theme_card__simple',
+      '#theme' => 'server_theme_card',
       '#image' => $card_image,
       '#title' => 'The source has extend, but not everyone fears it.',
       '#body' => 'Decorate one package of cauliflower in six teaspoons of plain vinegar. Try flavoring the crême fraîche gingers with clammy rum and fish sauce, simmered.',
@@ -147,94 +244,10 @@ class StyleGuideController extends ControllerBase {
       $single_card_image_seed_author_name,
     ];
 
-    $element = [
+    return [
       '#theme' => 'server_theme_cards',
       '#items' => $items,
     ];
-    $build[] = $this->wrapElementWideContainer($element, 'Cards');
-
-    $element = [
-      '#theme' => 'server_theme_content__tags',
-      '#tags' => $many_tags,
-    ];
-    $build[] = $this->wrapElementWideContainer($element, 'Content Tags');
-
-    $element = [
-      '#theme' => 'server_theme_content__image_and_teaser',
-      '#image' => $this->getPlaceholderImage(940, 265),
-      '#teaser' => $this->buildProcessedText('Diatrias favere! Sunt tataes <strong>visum superbus</strong>, clemens mineralises. Who can need the acceptance and afterlife of a doer if he has the abstruse issue of the self?'),
-    ];
-    $build[] = $this->wrapElementWideContainer($element, 'Content Image and Teaser');
-
-    $element = [
-      '#theme' => 'server_theme_user_image',
-      '#image' => $this->getPlaceholderPersonImage(256, 256),
-      '#image_alt' => 'Bill Murray',
-      '#url' => '#',
-    ];
-    $build[] = $this->wrapElementWideContainer($element, 'User Image - With Photo');
-
-    $element = [
-      '#theme' => 'server_theme_user_image',
-      '#initials' => 'BM',
-      '#url' => '#',
-    ];
-    $build[] = $this->wrapElementWideContainer($element, 'User Image - No Photo');
-
-    $element = [
-      '#theme' => 'server_theme_page_title',
-      '#title' => 'The source has extend, but not everyone fears it',
-    ];
-    $build[] = $this->wrapElementWideContainer($element, 'Page Title');
-
-    return $build;
-  }
-
-  /**
-   * Define all elements here that should be 'full' width.
-   *
-   * Elements spanning full-width of the document.
-   *
-   * @return array
-   *   A render array containing the elements.
-   */
-  protected function getFullWidthElements(): array {
-    $build = [];
-
-    $element = [
-      '#theme' => 'server_theme_hero_image',
-      '#image' => $this->buildImage($this->getPlaceholderImage(1600, 900, '1048'), 'Hero image alt'),
-      '#title' => $this->t('Drupal Starter'),
-      '#subtitle' => $this->t('Drupal 9 starter kit for efficient and streamlined development featuring TailwindCSS!'),
-      '#url' => $this->getSampleUrl(),
-      '#url_title' => $this->t('Learn more'),
-    ];
-    $build[] = $this->wrapElementNoContainer($element, 'Hero image');
-
-    $element = [
-      '#theme' => 'server_theme_related_content',
-      '#title' => $this->t('Related content'),
-      '#items' => $this->getRelatedContent(10),
-      '#url' => $this->getSampleUrl(),
-      '#url_title' => $this->t('View more'),
-    ];
-    $build[] = $this->wrapElementNoContainer($element, 'Related content');
-
-    $element = [
-      '#theme' => 'server_theme_footer',
-    ];
-    $build[] = $this->wrapElementNoContainer($element, 'Footer');
-
-    $element = [
-      '#theme' => 'server_theme_cta',
-      '#title' => $this->t('Lorem ipsum dolor sit amet'),
-      '#subtitle' => $this->t('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'),
-      '#url' => Url::fromRoute('<front>'),
-      '#url_title' => $this->t('Button title'),
-    ];
-    $build[] = $this->wrapElementNoContainer($element, 'Call to Action');
-
-    return $build;
   }
 
   /**

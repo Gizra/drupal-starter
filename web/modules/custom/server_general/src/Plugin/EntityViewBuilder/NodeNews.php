@@ -32,10 +32,13 @@ class NodeNews extends NodeViewBuilderAbstract {
     $this->messenger()->addMessage('Add your Node News elements in \Drupal\server_general\Plugin\EntityViewBuilder\NodeNews');
 
     // Header.
-    $build[] = $this->buildHeroHeader($entity, 'field_featured_image');
+    $element = $this->buildHeroImageAndTitle($entity, 'field_featured_image');
+    // No wrapper, as the hero image takes the full width.
+    $build[] = $element;
 
     // Tags.
-    $build[] = $this->buildContentTags($entity);
+    $element=   $this->buildTags($entity);
+    $build[] =  $this->wrapElementWideContainer($element);
 
     // Body.
     $element = $this->buildProcessedText($entity);
