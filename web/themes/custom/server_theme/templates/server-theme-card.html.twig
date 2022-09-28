@@ -1,17 +1,16 @@
-<div class="rounded-lg border border-gray-500" >
+<div class="rounded-lg border border-gray-300" >
 
-  <figure class="child-object-cover h-60">
+  <figure class="child-object-cover overflow-hidden h-48">
     <a href="{{ url }}" class="inline-block">
-      <img src="{{ image }}"/>
+      {{ image }}
     </a>
   </figure>
 
-  <a href="{{ url }}">
-    <h3 class="font-bold">{{ title }}</h3>
-  </a>
+  <div class="flex flex-col space-y-4 p-4 h-28">
 
-  <div class="line-clamp-3 text-gray-500">
-    {{ body }}
+    <a href="{{ url }}">
+      <h3 class="line-clamp-3 font-gray-600 hover:font-gray-700">{{ title }}</h3>
+    </a>
   </div>
 
 </div>

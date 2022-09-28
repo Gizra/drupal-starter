@@ -49,9 +49,7 @@ class NodeNews extends NodeViewBuilderAbstract {
   }
 
   /**
-   * Default build in "Teaser" view mode.
-   *
-   * Show nodes as "cards".
+   * Build Teaser view mode.
    *
    * @param array $build
    *   The existing build.
@@ -62,46 +60,16 @@ class NodeNews extends NodeViewBuilderAbstract {
    *   Render array.
    */
   public function buildTeaser(array $build, NodeInterface $entity) {
-    $image_info = $this->getMediaImageAndAlt($entity, 'field_featured_image');
-
-    $element = parent::buildTeaser($build, $entity);
-    $element += [
-      '#image' => $image_info['url'] ?? NULL,
-      '#image_alt' => $image_info['alt'] ?? NULL,
-      '#tags' => $this->buildTags($entity),
-      '#body' => $this->buildProcessedText($entity),
-    ];
-
-    $build[] = $element;
-
-    return $build;
-  }
-
-  /**
-   * Build card view mode.
-   *
-   * @param array $build
-   *   The existing build.
-   * @param \Drupal\node\NodeInterface $entity
-   *   The entity.
-   *
-   * @return array
-   *   Render array.
-   */
-  public function buildCard(array $build, NodeInterface $entity) {
     $media = $this->getReferencedEntityFromField($entity, 'field_featured_image');
-
-    $body = $this->buildProcessedText($entity);
-    $body = $this->wrapElementProseText($body);
 
     $element = [
       '#theme' => 'server_theme_card',
       '#title' => $entity->label(),
       '#image' => $media instanceof MediaInterface ? $this->buildImageStyle($media, 'large', 'field_media_image') : NULL,
       '#url' => $entity->toUrl(),
-      '#body' => $body,
     ];
     $build[] = $element;
+
     return $build;
   }
 
