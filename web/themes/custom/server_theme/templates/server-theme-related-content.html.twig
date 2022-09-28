@@ -6,9 +6,10 @@
       {% set dots = 'true' %}
     {% endembed %}
 
+    {% if button %}
     <div class="flex justify-center">
-      {% embed '@server_theme/server-theme-button.html.twig' %}
-      {% endembed %}
+      {{ button }}
     </div>
+    {% endif %}
   </div>
 </div>
