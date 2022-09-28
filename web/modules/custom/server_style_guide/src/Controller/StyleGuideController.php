@@ -174,60 +174,23 @@ class StyleGuideController extends ControllerBase {
    *   Render array.
    */
   protected function getCards(): array {
-    $card_image = $this->getPlaceholderImage(600, 520);
+    $image = $this->buildImage($this->getPlaceholderImage(300, 200), 'Card image');
 
-    $single_card_simple = [
+    $card = [
       '#theme' => 'server_theme_card',
-      '#image' => $card_image,
+      '#image' => $image,
       '#title' => 'The source has extend, but not everyone fears it.',
       '#url' => Url::fromRoute('<front>'),
-      '#body' => 'Decorate one package of cauliflower in six teaspoons of plain vinegar. Try flavoring the crême fraîche gingers with clammy rum and fish sauce, simmered.',
     ];
 
-    $single_card_no_body = $single_card_simple;
-    unset($single_card_no_body['#body']);
-
-    $single_card_long_title = $single_card_simple;
-    $single_card_long_title['#title'] = 'How Professional Learning Networks Are Helping Educators Get Through Coronavirus';
-
-    $single_card_long_author_name = $single_card_simple;
-    $single_card_long_author_name['#author'] = 'Someone with A. Very long name';
-
-    $single_card_image_random = $single_card_simple;
-    $single_card_image_random['#url'] = Url::fromUri('https://www.example.com/test')->toString();
-    $single_card_image_random['#image_alt'] = $this->t('Image alt');
-    // Get a random photographic image.
-    $single_card_image_random['#image'] = $this->getPlaceholderImage(256, 128);
-
-    $single_card_image_id = $single_card_no_body;
-    $single_card_image_id['#url'] = Url::fromUri('https://www.example.com/test')->toString();
-    $single_card_image_id['#image_alt'] = $this->t('Image alt');
-    // Get a static photographic image with ID 1043.
-    // See list of all images at: https://picsum.photos/images.
-    $single_card_image_id['#image'] = $this->getPlaceholderImage(256, 128, '1043');
-
-    $single_card_image_seed = $single_card_long_title;
-    $single_card_image_seed['#url'] = Url::fromUri('https://www.example.com/test')->toString();
-    $single_card_image_seed['#image_alt'] = $this->t('Image alt');
-    // When you use a seed a random image is generated for a certain string,
-    // and if the same string is used again the same image will always be
-    // returned. Hence it's 'random' but also 'static'.
-    $single_card_image_seed['#image'] = $this->getPlaceholderImage(256, 128, 'drupal-starter', 'seed');
-
-    $single_card_image_seed_author_name = $single_card_long_author_name;
-    $single_card_image_seed_author_name['#url'] = Url::fromUri('https://www.example.com/test')->toString();
-    $single_card_image_seed_author_name['#image_alt'] = $this->t('Image alt');
-    $single_card_image_seed_author_name['#image'] = $this->getPlaceholderImage(256, 128, 'single_card_long_author_name', 'seed');
+    $single_card_long_title = $card;
+    $single_card_long_title['#title'] = 'How Professional Learning Networks Are Helping Educators Get Through Coronavirus, well they need to really learn a lot!';
 
     $items = [
-      $single_card_simple,
-      $single_card_no_body,
+      $card,
       $single_card_long_title,
-      $single_card_long_author_name,
-      $single_card_image_random,
-      $single_card_image_id,
-      $single_card_image_seed,
-      $single_card_image_seed_author_name,
+      $card,
+      $card,
     ];
 
     return [
