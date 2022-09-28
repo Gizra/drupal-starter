@@ -4,6 +4,7 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
+use Drupal\server_general\ButtonTrait;
 
 /**
  * The "Hero image" paragraph plugin.
@@ -15,6 +16,8 @@ use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
  * )
  */
 class ParagraphHeroImage extends EntityViewBuilderPluginAbstract {
+
+  use ButtonTrait;
 
   const RESPONSIVE_IMAGE_STYLE_ID = 'hero';
 
@@ -35,7 +38,7 @@ class ParagraphHeroImage extends EntityViewBuilderPluginAbstract {
       '#image' => $this->buildMediaResponsiveImage($entity, 'field_image', self::RESPONSIVE_IMAGE_STYLE_ID),
       '#title' => $this->getTextFieldValue($entity, 'field_title'),
       '#subtitle' => $this->getTextFieldValue($entity, 'field_subtitle'),
-      '#button' => $this->buildLinkButton(),
+      '#button' => $this->buildLinkButton($entity),
     ];
 
     return $build;
