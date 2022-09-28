@@ -7,14 +7,9 @@
   {% endif %}
 {% endmacro %}
 
-
 {% set classes = [
   'flex flex-row items-center space-x-6 rounded-lg px-6 py-3 text-xl border-2 border-blue-500 hover:bg-blue-600',
   is_primary ? 'bg-blue-500 text-white' : 'text-blue-900 bg-white hover:text-white',
-] | join(' ') | trim %}
-
-{% set icon_classes = [
-  'w-5 h-5',
 ] | join(' ') | trim %}
 
 {% set target = open_new_tab ? '_blank' : '_self' %}
@@ -26,7 +21,6 @@
         {{ _self.getIconPath(icon) }}
       </svg>
     {% endif %}
-    <div>{{ button_text }}</div>
-
+    <div>{{ title }}</div>
   </a>
 </div>

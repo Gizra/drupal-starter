@@ -6,6 +6,7 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
 use Drupal\Core\Utility\LinkGenerator;
 use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
+use Drupal\server_general\ButtonTrait;
 use Drupal\server_general\TagBuilderTrait;
 use Drupal\server_style_guide\ElementWrapTrait;
 use Drupal\taxonomy\Entity\Term;
@@ -17,6 +18,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class StyleGuideController extends ControllerBase {
 
   use BuildFieldTrait;
+  use ButtonTrait;
   use ElementWrapTrait;
   use TagBuilderTrait;
 
@@ -212,24 +214,15 @@ class StyleGuideController extends ControllerBase {
   protected function getButtons(): array {
     $build = [];
 
+    $url = Url::fromRoute('<front>')->toString();
+
     // Primary button with icon.
-    $element = [
-      '#theme' => 'server_theme_button',
-      '#url' => '<front>',
-      '#button_text' => 'Download file',
-      '#is_primary' => FALSE,
-      // Icon.
-      '#icon' => 'download',
-    ];
+    $element = $this->buildButton($url, 'Download file', TRUE);
+    $element['#icon'] = 'download';
     $build[] = $this->wrapElementWideContainer($element, 'Primary button');
 
     // Secondary button.
-    $element = [
-      '#theme' => 'server_theme_button',
-      '#url' => '<front>',
-      '#button_text' => 'Register',
-      '#is_primary' => TRUE,
-    ];
+    $element = $this->buildButton($url, 'Register', FALSE);
     $build[] = $this->wrapElementWideContainer($element, 'Secondary button');
 
     return $build;
