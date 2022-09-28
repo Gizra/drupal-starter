@@ -25,7 +25,8 @@
         "composer/installers": "^1.9",
         "cweagans/composer-patches": "^1.7",
         "drupal/advagg": "^4.1",
-        "drupal/config_ignore": "^2.3",
+        "drupal/config_filter": "^2.4",
+        "drupal/config_ignore": "^3.0@beta",
         "drupal/core-composer-scaffold": "^9.0.0",
         "drupal/core-project-message": "^9.0.0",
         "drupal/core-recommended": "^9.0.0",
@@ -102,6 +103,9 @@
             },
             "drupal/core": {
               "d.o #3224254": "https://www.drupal.org/files/issues/2021-07-19/drupal-claro_dropdown-3224254-2.patch"
+            },
+            "drupal/devel": {
+              "d.o #43": "https://gitlab.com/drupalspoons/webprofiler/uploads/db847be51e1679e7c852ffae0f101e12/419-Webprofiler-related-crash-in-core-9.4.2.patch"
             }
         },
         "drupal-scaffold": {
