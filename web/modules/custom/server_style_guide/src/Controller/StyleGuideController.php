@@ -90,8 +90,6 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getTags();
     $build[] = $this->wrapElementWideContainer($element, 'Tags');
 
-
-
     return $build;
   }
 
@@ -273,7 +271,6 @@ class StyleGuideController extends ControllerBase {
       '#button' => $button,
     ];
   }
-
 
   /**
    * Build an image render array with given image URL.

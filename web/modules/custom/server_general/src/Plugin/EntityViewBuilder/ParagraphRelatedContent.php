@@ -35,7 +35,6 @@ class ParagraphRelatedContent extends EntityViewBuilderPluginAbstract {
       return $build;
     }
 
-    $link = $this->getLinkFieldValue($entity, 'field_link');
     /** @var \Drupal\Core\Field\EntityReferenceFieldItemListInterface $related_content */
     $related_content = $entity->get('field_related_content');
 

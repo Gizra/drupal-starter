@@ -82,7 +82,7 @@ function server_theme_theme() {
       'image' => NULL,
       'title' => NULL,
       'subtitle' => NULL,
-      // The render array of `server_theme_button`
+      // The render array of `server_theme_button`.
       'button' => NULL,
     ],
   ];
@@ -103,12 +103,11 @@ function server_theme_theme() {
     ],
   ];
 
-
   $info['server_theme_related_content'] = [
     'variables' => [
       'title' => NULL,
       'items' => [],
-      // The render array of `server_theme_button`
+      // The render array of `server_theme_button`.
       'button' => NULL,
     ],
   ];
