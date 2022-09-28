@@ -25,4 +25,22 @@ trait ElementWrapTrait {
     ];
   }
 
+  /**
+   * Wrap an element, with Prose text.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapElementProseText(array $element): array {
+    if (!$element) {
+      // Element is empty, so no need to wrap it.
+      return [];
+    }
+
+    return [
+      '#theme' => 'server_theme_prose_text',
+      '#text' => $element,
+    ];
+  }
+
 }

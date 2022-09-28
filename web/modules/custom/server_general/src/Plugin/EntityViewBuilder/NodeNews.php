@@ -40,8 +40,9 @@ class NodeNews extends NodeViewBuilderAbstract {
     $element=   $this->buildTags($entity);
     $build[] =  $this->wrapElementWideContainer($element);
 
-    // Body.
+    // Get the body text, wrap it with `prose` so it's styled.
     $element = $this->buildProcessedText($entity);
+    $element = $this->wrapElementProseText($element);
     $build[] = $this->wrapElementWideContainer($element);
 
     return $build;
@@ -89,12 +90,16 @@ class NodeNews extends NodeViewBuilderAbstract {
    */
   public function buildCard(array $build, NodeInterface $entity) {
     $media = $this->getReferencedEntityFromField($entity, 'field_featured_image');
+
+    $body = $this->buildProcessedText($entity);
+    $body = $this->wrapElementProseText($body);
+
     $element = [
       '#theme' => 'server_theme_card',
       '#title' => $entity->label(),
       '#image' => $media instanceof MediaInterface ? $this->buildImageStyle($media, 'large', 'field_media_image') : NULL,
       '#url' => $entity->toUrl(),
-      '#body' => $this->buildProcessedText($entity),
+      '#body' => $body,
     ];
     $build[] = $element;
     return $build;
