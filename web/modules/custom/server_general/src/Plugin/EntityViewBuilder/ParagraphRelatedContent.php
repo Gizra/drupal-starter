@@ -43,7 +43,7 @@ class ParagraphRelatedContent extends EntityViewBuilderPluginAbstract {
       '#theme' => 'server_theme_related_content',
       '#title' => $this->getTextFieldValue($entity, 'field_title'),
       '#items' => $this->buildReferencedEntities($related_content, 'teaser'),
-      '#button' => $this->buildLinkButton(),
+      '#button' => $this->buildLinkButton($entity),
     ];
 
     return $build;
