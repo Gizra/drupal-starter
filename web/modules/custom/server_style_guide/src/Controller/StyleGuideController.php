@@ -5,6 +5,7 @@ namespace Drupal\server_style_guide\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
 use Drupal\Core\Utility\LinkGenerator;
+use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
 use Drupal\server_general\TagBuilderTrait;
 use Drupal\server_style_guide\ElementWrapTrait;
 use Drupal\taxonomy\Entity\Term;
@@ -15,6 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class StyleGuideController extends ControllerBase {
 
+  use BuildFieldTrait;
   use ElementWrapTrait;
   use TagBuilderTrait;
 
@@ -312,6 +314,48 @@ class StyleGuideController extends ControllerBase {
    */
   protected function getPlaceholderPersonImage(int $width, int $height, string $text = NULL) {
     return "https://www.fillmurray.com/{$width}/{$height}" . (!empty($text) ? '?text=' . $text : NULL);
+  }
+
+  /**
+   * Get placeholder responsive image.
+   *
+   * @param string $responsive_image_style_id
+   *   The responsive image style ID.
+   *
+   * @return array
+   *   Render array
+   */
+  protected function getPlaceholderResponsiveImageStyle(string $responsive_image_style_id = 'hero'): array {
+    // Load the first media image on the site.
+    /** @var \Drupal\media\MediaStorage $media_storage */
+    $media_storage = $this->entityTypeManager()->getStorage('media');
+    $media_ids = $media_storage->getQuery()
+      ->condition('bundle', 'image')
+      // Get a single image.
+      ->range(0, 1)
+      ->execute();
+
+    if (empty($media_ids)) {
+      // No Image media.
+      return [];
+    }
+
+    $media_id = key($media_ids);
+    /** @var \Drupal\media\MediaInterface $media */
+    $media = $media_storage->load($media_id);
+
+    /** @var \Drupal\file\FileInterface $image */
+    $image = $this->getReferencedEntityFromField($media, 'field_media_image');
+    if (empty($image)) {
+      // Image doesn't exist, or no access to it.
+      return [];
+    }
+
+    return [
+      '#theme' => 'responsive_image',
+      '#uri' => $image->getFileUri(),
+      '#responsive_image_style_id' => $responsive_image_style_id,
+    ];
   }
 
   /**
