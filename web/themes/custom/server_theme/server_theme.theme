@@ -18,7 +18,7 @@ function server_theme_theme() {
     ],
   ];
 
-  // Simple card
+  // Simple card.
   $info['server_theme_card'] = [
     'variables' => [
       'image' => NULL,
