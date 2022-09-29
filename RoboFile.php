@@ -163,56 +163,6 @@ class RoboFile extends Tasks {
   }
 
   /**
-   * Directories that should be watched for the theme.
-   *
-   * @return array
-   *   List of directories.
-   */
-  protected function monitoredThemeDirectories(): array {
-    return [
-      self::THEME_BASE . '/src',
-      self::THEME_BASE . '/templates',
-    ];
-  }
-
-  /**
-   * Watch the theme and compile on change (optimized).
-   */
-  public function themeWatch(): void {
-    $this->say('Compiling and watching (optimized).');
-    $this->doThemeCompile(TRUE);
-    $watch = $this->taskWatch();
-    foreach ($this->monitoredThemeDirectories() as $directory) {
-      $watch->monitor(
-        $directory,
-        function () {
-          $this->doThemeCompile(TRUE);
-        },
-        FilesystemEvent::ALL
-      );
-    }
-    $watch->run();
-  }
-
-  /**
-   * Watch the theme path and compile on change (non-optimized).
-   */
-  public function themeWatchDebug(): void {
-    $this->say('Compiling and watching (non-optimized).');
-    $this->doThemeCompile();
-    foreach ($this->monitoredThemeDirectories() as $directory) {
-      $this->taskWatch()
-        ->monitor(
-          $directory,
-          function () {
-            $this->doThemeCompile();
-          },
-          FilesystemEvent::ALL
-        )->run();
-    }
-  }
-
-  /**
    * Deploy a tag (specific release) to Pantheon.
    *
    * @param string $tag
