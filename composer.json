@@ -30,7 +30,6 @@
         "drupal/core-composer-scaffold": "^9.0.0",
         "drupal/core-project-message": "^9.0.0",
         "drupal/core-recommended": "^9.0.0",
-        "drupal/devel": "^4.1",
         "drupal/elasticsearch_connector": "^7.0@alpha",
         "drupal/emptyparagraphkiller": "^1.0@alpha",
         "drupal/entity_browser": "^2.8",
@@ -60,7 +59,9 @@
         "consolidation/robo": "^3",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
         "drupal/coder": "^8.3.1",
+        "drupal/devel": "^4",
         "drupal/drupal_test_assertions": "1.0.x-dev",
+        "drupal/webprofiler": "^9.0",
         "mglaman/phpstan-drupal": "1.1.10",
         "mpyw/phpunit-patch-serializable-comparison": "^0.0.2",
         "natxet/cssmin": "^3.0",
@@ -105,7 +106,7 @@
             "drupal/core": {
               "d.o #3224254": "https://www.drupal.org/files/issues/2021-07-19/drupal-claro_dropdown-3224254-2.patch"
             },
-            "drupal/devel": {
+            "drupal/webprofiler": {
               "d.o #43": "https://gitlab.com/drupalspoons/webprofiler/uploads/db847be51e1679e7c852ffae0f101e12/419-Webprofiler-related-crash-in-core-9.4.2.patch"
             }
         },
