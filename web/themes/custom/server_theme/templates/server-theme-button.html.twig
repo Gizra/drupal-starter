@@ -1,19 +1,18 @@
-{% set classes = [
-  'flex flex-row items-center space-x-6 rounded-lg px-6 py-3 text-xl border-2 border-blue hover:bg-blue-800',
-  is_primary ? 'bg-blue-800 text-white hover:bg-white hover:text-gray-900' : 'text-gray-900 bg-white hover:text-white',
-] | join(' ') | trim %}
-
-{% set icon_classes = [
-  'w-5 h-5',
-] | join(' ') | trim %}
-
-{% set target = open_new_tab ? '_blank' : '_self' %}
-
+{# If we want to add an icon, we have to get the SVG here. We don't use <img>
+   As we can't apply color to svg loaded through the img tag.
+#}
 {% macro getIconPath(icon) %}
   {% if icon == 'download' %}
     <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
   {% endif %}
 {% endmacro %}
+
+{% set classes = [
+  'flex flex-row items-center space-x-6 rounded-lg px-6 py-3 text-xl border-2 border-blue-500 hover:bg-blue-600',
+  is_primary ? 'bg-blue-500 text-white' : 'text-blue-900 bg-white hover:text-white',
+] | join(' ') | trim %}
+
+{% set target = open_new_tab ? '_blank' : '_self' %}
 
 <div class="inline-block">
   <a class="{{ classes }}" href="{{ url }}" target="{{ target }}">
@@ -22,7 +21,6 @@
         {{ _self.getIconPath(icon) }}
       </svg>
     {% endif %}
-    <div>{{ url_title }}</div>
-
+    <div>{{ title }}</div>
   </a>
 </div>

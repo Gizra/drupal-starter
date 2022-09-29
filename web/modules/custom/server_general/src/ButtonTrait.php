@@ -33,7 +33,7 @@ trait ButtonTrait {
     return [
       '#theme' => 'server_theme_button',
       '#url' => $url,
-      '#button_text'  => $title,
+      '#title'  => $title,
       '#is_primary' => $is_primary,
       '#open_new_tab' => $open_new_tab,
     ];

@@ -5,6 +5,8 @@ namespace Drupal\server_style_guide\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
 use Drupal\Core\Utility\LinkGenerator;
+use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
+use Drupal\server_general\ButtonTrait;
 use Drupal\server_general\TagBuilderTrait;
 use Drupal\server_style_guide\ElementWrapTrait;
 use Drupal\taxonomy\Entity\Term;
@@ -15,6 +17,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class StyleGuideController extends ControllerBase {
 
+  use BuildFieldTrait;
+  use ButtonTrait;
   use ElementWrapTrait;
   use TagBuilderTrait;
 
@@ -75,152 +79,16 @@ class StyleGuideController extends ControllerBase {
   protected function getWideWidthElements() : array {
     $build = [];
 
-    // Buttons.
-    $button_base = [
-      '#theme' => 'server_theme_button',
-      '#url' => $this->getSampleUrl(),
-      '#url_title' => 'Discover more',
-    ];
-    // Primary style button.
-    $element = [
-      '#is_primary' => TRUE,
-    ] + $button_base;
-    $build[] = $this->wrapElementWideContainer($element, 'Primary button');
-    // Primary button with icon.
-    $element = [
-      '#is_primary' => TRUE,
-      '#icon' => 'download',
-    ] + $button_base;
-    $build[] = $this->wrapElementWideContainer($element, 'Primary button with icon');
+    $element = $this->getPageTitle();
+    $build[] = $this->wrapElementWideContainer($element, 'Page Title');
 
-    // Secondary style button.
-    $element = [
-      '#is_primary' => FALSE,
-    ] + $button_base;
-    $build[] = $this->wrapElementWideContainer($element, 'Secondary button');
-    // Primary button with icon.
-    $element = [
-      '#is_primary' => FALSE,
-      '#icon' => 'download',
-    ] + $button_base;
-    $build[] = $this->wrapElementWideContainer($element, 'Secondary button with icon');
+    $build[] = $this->getButtons();
 
-    // Button opening in new window.
-    $element = [
-      '#is_primary' => TRUE,
-      '#open_new_tab' => TRUE,
-    ] + $button_base;
-    $build[] = $this->wrapElementWideContainer($element, 'Primary button opening new window/tab');
-
-    $card_image = $this->getPlaceholderImage(600, 520);
-
-    $tags = [
-      $this->buildMockedTag('The transporter'),
-      $this->buildMockedTag('Is more girl'),
-    ];
-
-    $many_tags = $tags + [
-      $this->buildMockedTag('The flight'),
-      $this->buildMockedTag('bare klingon'),
-      $this->buildMockedTag('Dogma doesn’t balanced understand'),
-      $this->buildMockedTag('The plank hails with courage'),
-      $this->buildMockedTag('burn the freighter until it rises'),
-    ];
-
-    $single_card_simple = [
-      '#theme' => 'server_theme_card__simple',
-      '#image' => $card_image,
-      '#title' => 'The source has extend, but not everyone fears it.',
-      '#body' => 'Decorate one package of cauliflower in six teaspoons of plain vinegar. Try flavoring the crême fraîche gingers with clammy rum and fish sauce, simmered.',
-      '#tags' => $tags,
-    ];
-
-    $single_card_no_body = $single_card_simple;
-    unset($single_card_no_body['#body']);
-
-    $single_card_long_title = $single_card_simple;
-    $single_card_long_title['#title'] = 'How Professional Learning Networks Are Helping Educators Get Through Coronavirus';
-    $single_card_long_title['#tags'] = $many_tags;
-
-    $single_card_long_author_name = $single_card_simple;
-    $single_card_long_author_name['#author'] = 'Someone with A. Very long name';
-
-    $single_card_image_random = $single_card_simple;
-    $single_card_image_random['#url'] = Url::fromUri('https://www.example.com/test')->toString();
-    $single_card_image_random['#image_alt'] = $this->t('Image alt');
-    // Get a random photographic image.
-    $single_card_image_random['#image'] = $this->getPlaceholderImage(256, 128);
-
-    $single_card_image_id = $single_card_no_body;
-    $single_card_image_id['#url'] = Url::fromUri('https://www.example.com/test')->toString();
-    $single_card_image_id['#image_alt'] = $this->t('Image alt');
-    // Get a static photographic image with ID 1043.
-    // See list of all images at: https://picsum.photos/images.
-    $single_card_image_id['#image'] = $this->getPlaceholderImage(256, 128, '1043');
-
-    $single_card_image_seed = $single_card_long_title;
-    $single_card_image_seed['#url'] = Url::fromUri('https://www.example.com/test')->toString();
-    $single_card_image_seed['#image_alt'] = $this->t('Image alt');
-    // When you use a seed a random image is generated for a certain string,
-    // and if the same string is used again the same image will always be
-    // returned. Hence it's 'random' but also 'static'.
-    $single_card_image_seed['#image'] = $this->getPlaceholderImage(256, 128, 'drupal-starter', 'seed');
-
-    $single_card_image_seed_author_name = $single_card_long_author_name;
-    $single_card_image_seed_author_name['#url'] = Url::fromUri('https://www.example.com/test')->toString();
-    $single_card_image_seed_author_name['#image_alt'] = $this->t('Image alt');
-    $single_card_image_seed_author_name['#image'] = $this->getPlaceholderImage(256, 128, 'single_card_long_author_name', 'seed');
-
-    $items = [
-      $single_card_simple,
-      $single_card_no_body,
-      $single_card_long_title,
-      $single_card_long_author_name,
-      $single_card_image_random,
-      $single_card_image_id,
-      $single_card_image_seed,
-      $single_card_image_seed_author_name,
-    ];
-
-    $element = [
-      '#theme' => 'server_theme_cards',
-      '#items' => $items,
-    ];
+    $element = $this->getCards();
     $build[] = $this->wrapElementWideContainer($element, 'Cards');
 
-    $element = [
-      '#theme' => 'server_theme_content__tags',
-      '#tags' => $many_tags,
-    ];
-    $build[] = $this->wrapElementWideContainer($element, 'Content Tags');
-
-    $element = [
-      '#theme' => 'server_theme_content__image_and_teaser',
-      '#image' => $this->getPlaceholderImage(940, 265),
-      '#teaser' => $this->buildProcessedText('Diatrias favere! Sunt tataes <strong>visum superbus</strong>, clemens mineralises. Who can need the acceptance and afterlife of a doer if he has the abstruse issue of the self?'),
-    ];
-    $build[] = $this->wrapElementWideContainer($element, 'Content Image and Teaser');
-
-    $element = [
-      '#theme' => 'server_theme_user_image',
-      '#image' => $this->getPlaceholderPersonImage(256, 256),
-      '#image_alt' => 'Bill Murray',
-      '#url' => '#',
-    ];
-    $build[] = $this->wrapElementWideContainer($element, 'User Image - With Photo');
-
-    $element = [
-      '#theme' => 'server_theme_user_image',
-      '#initials' => 'BM',
-      '#url' => '#',
-    ];
-    $build[] = $this->wrapElementWideContainer($element, 'User Image - No Photo');
-
-    $element = [
-      '#theme' => 'server_theme_page_title',
-      '#title' => 'The source has extend, but not everyone fears it',
-    ];
-    $build[] = $this->wrapElementWideContainer($element, 'Page Title');
+    $element = $this->getTags();
+    $build[] = $this->wrapElementWideContainer($element, 'Tags');
 
     return $build;
   }
@@ -236,40 +104,172 @@ class StyleGuideController extends ControllerBase {
   protected function getFullWidthElements(): array {
     $build = [];
 
-    $element = [
+    $element = $this->getHeroImage();
+    $build[] = $this->wrapElementNoContainer($element, 'Hero image');
+
+    $element = $this->getRelatedContentCarousel();
+    $build[] = $this->wrapElementNoContainer($element, 'Related content');
+
+    $element = $this->getFooter();
+    $build[] = $this->wrapElementNoContainer($element, 'Footer');
+
+    $element = $this->getCta();
+    $build[] = $this->wrapElementNoContainer($element, 'Call to Action');
+
+    return $build;
+  }
+
+  /**
+   * Get the page title.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getPageTitle(): array {
+    return [
+      '#theme' => 'server_theme_page_title',
+      '#title' => 'The source has extend, but not everyone fears it',
+    ];
+  }
+
+  /**
+   * Get tags.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getTags(): array {
+    $items = [
+      $this->buildMockedTag('The transporter'),
+      $this->buildMockedTag('Is more girl'),
+    ];
+
+    return [
+      '#theme' => 'server_theme_tags',
+      '#items' => $items,
+    ];
+  }
+
+  /**
+   * Get cards.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getCards(): array {
+    $image = $this->buildImage($this->getPlaceholderImage(300, 200), 'Card image');
+
+    $card = [
+      '#theme' => 'server_theme_card',
+      '#image' => $image,
+      '#title' => 'The source has extend, but not everyone fears it.',
+      '#url' => Url::fromRoute('<front>'),
+    ];
+
+    $single_card_long_title = $card;
+    $single_card_long_title['#title'] = 'How Professional Learning Networks Are Helping Educators Get Through Coronavirus, well they need to really learn a lot!';
+
+    $items = [
+      $card,
+      $single_card_long_title,
+      $card,
+      $card,
+    ];
+
+    return [
+      '#theme' => 'server_theme_cards',
+      '#items' => $items,
+    ];
+  }
+
+  /**
+   * Define a set of buttons.
+   *
+   * @return array
+   *   A render array containing the elements.
+   */
+  protected function getButtons(): array {
+    $build = [];
+
+    $url = Url::fromRoute('<front>')->toString();
+
+    // Primary button with icon.
+    $element = $this->buildButton($url, 'Download file', TRUE);
+    $element['#icon'] = 'download';
+    $build[] = $this->wrapElementWideContainer($element, 'Primary button');
+
+    // Secondary button.
+    $element = $this->buildButton($url, 'Register', FALSE);
+    $build[] = $this->wrapElementWideContainer($element, 'Secondary button');
+
+    return $build;
+  }
+
+  /**
+   * Get the Related content carousel.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getHeroImage(): array {
+    $url = Url::fromRoute('<front>')->toString();
+    $button = $this->buildButton($url, 'Lean more');
+
+    return [
       '#theme' => 'server_theme_hero_image',
       '#image' => $this->buildImage($this->getPlaceholderImage(1600, 900, '1048'), 'Hero image alt'),
       '#title' => $this->t('Drupal Starter'),
       '#subtitle' => $this->t('Drupal 9 starter kit for efficient and streamlined development featuring TailwindCSS!'),
-      '#url' => $this->getSampleUrl(),
-      '#url_title' => $this->t('Learn more'),
+      '#button' => $button,
     ];
-    $build[] = $this->wrapElementNoContainer($element, 'Hero image');
+  }
 
-    $element = [
+  /**
+   * Get the Related content carousel.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getRelatedContentCarousel(): array {
+    $url = Url::fromRoute('<front>')->toString();
+    $button = $this->buildButton($url, 'View more');
+
+    return [
       '#theme' => 'server_theme_related_content',
       '#title' => $this->t('Related content'),
       '#items' => $this->getRelatedContent(10),
-      '#url' => $this->getSampleUrl(),
-      '#url_title' => $this->t('View more'),
+      '#button' => $button,
     ];
-    $build[] = $this->wrapElementNoContainer($element, 'Related content');
+  }
 
-    $element = [
+  /**
+   * Get the footer.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getFooter(): array {
+    return [
       '#theme' => 'server_theme_footer',
     ];
-    $build[] = $this->wrapElementNoContainer($element, 'Footer');
+  }
 
-    $element = [
+  /**
+   * Get CTA (Call to action).
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getCta(): array {
+    $url = Url::fromRoute('<front>')->toString();
+    $button = $this->buildButton($url, 'View more');
+
+    return [
       '#theme' => 'server_theme_cta',
       '#title' => $this->t('Lorem ipsum dolor sit amet'),
       '#subtitle' => $this->t('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'),
-      '#url' => Url::fromRoute('<front>'),
-      '#url_title' => $this->t('Button title'),
+      '#button' => $button,
     ];
-    $build[] = $this->wrapElementNoContainer($element, 'Call to Action');
-
-    return $build;
   }
 
   /**
@@ -352,6 +352,48 @@ class StyleGuideController extends ControllerBase {
   }
 
   /**
+   * Get placeholder responsive image.
+   *
+   * @param string $responsive_image_style_id
+   *   The responsive image style ID.
+   *
+   * @return array
+   *   Render array
+   */
+  protected function getPlaceholderResponsiveImageStyle(string $responsive_image_style_id = 'hero'): array {
+    // Load the first media image on the site.
+    /** @var \Drupal\media\MediaStorage $media_storage */
+    $media_storage = $this->entityTypeManager()->getStorage('media');
+    $media_ids = $media_storage->getQuery()
+      ->condition('bundle', 'image')
+      // Get a single image.
+      ->range(0, 1)
+      ->execute();
+
+    if (empty($media_ids)) {
+      // No Image media.
+      return [];
+    }
+
+    $media_id = key($media_ids);
+    /** @var \Drupal\media\MediaInterface $media */
+    $media = $media_storage->load($media_id);
+
+    /** @var ?\Drupal\file\FileInterface $image */
+    $image = $this->getReferencedEntityFromField($media, 'field_media_image');
+    if (empty($image)) {
+      // Image doesn't exist, or no access to it.
+      return [];
+    }
+
+    return [
+      '#theme' => 'responsive_image',
+      '#uri' => $image->getFileUri(),
+      '#responsive_image_style_id' => $responsive_image_style_id,
+    ];
+  }
+
+  /**
    * Get a tag.
    *
    * @param string $title
@@ -367,16 +409,6 @@ class StyleGuideController extends ControllerBase {
     ]);
 
     return $this->buildTag($dummy_term);
-  }
-
-  /**
-   * Get a sample URL object.
-   *
-   * @return \Drupal\Core\Url
-   *   The sample generated URL object.
-   */
-  protected function getSampleUrl(): Url {
-    return Url::fromUri('https://www.example.com');
   }
 
   /**
@@ -414,7 +446,7 @@ class StyleGuideController extends ControllerBase {
     $element_base = [
       '#theme' => 'server_theme_card',
       '#body' => 'Decorate one package of cauliflower in six teaspoons of plain vinegar. Try flavoring the crême fraîche gingers with clammy rum and fish sauce, simmered.',
-      '#url' => $this->getSampleUrl(),
+      '#url' => Url::fromRoute('<front>'),
     ];
 
     $elements = [];

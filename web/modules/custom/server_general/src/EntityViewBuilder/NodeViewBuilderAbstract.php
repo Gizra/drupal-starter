@@ -38,7 +38,7 @@ abstract class NodeViewBuilderAbstract extends EntityViewBuilderPluginAbstract {
    */
   public function buildTeaser(array $build, NodeInterface $entity) {
     $build += $this->getElementBase($entity);
-    $build['#theme'] = 'server_theme_card__simple';
+    $build['#theme'] = 'server_theme_card__vertical';
 
     return $build;
   }
@@ -73,37 +73,12 @@ abstract class NodeViewBuilderAbstract extends EntityViewBuilderPluginAbstract {
    * @return array
    *   A render array.
    */
-  protected function buildHeroHeader(NodeInterface $entity, string $image_field_name = 'field_image'): array {
+  protected function buildHeroImageAndTitle(NodeInterface $entity, string $image_field_name = 'field_image'): array {
     return [
-      '#theme' => 'server_theme_content__hero_header',
+      '#theme' => 'server_theme_hero_image',
       '#title' => $entity->label(),
       '#image' => $this->buildMediaResponsiveImage($entity, $image_field_name, self::RESPONSIVE_IMAGE_STYLE_HERO),
     ];
-  }
-
-  /**
-   * Build the content tags section.
-   *
-   * @param \Drupal\node\NodeInterface $entity
-   *   The entity.
-   * @param string $field_name
-   *   Optional; The term reference field name. Defaults to "field_tags".
-   *
-   * @return array
-   *   A render array.
-   */
-  protected function buildContentTags(NodeInterface $entity, string $field_name = 'field_tags'): array {
-    $tags = $this->buildTags($entity, $field_name);
-    if (!$tags) {
-      return [];
-    }
-
-    $element = [
-      '#theme' => 'server_theme_content__tags',
-      '#tags' => $tags,
-    ];
-
-    return $this->wrapElementWideContainer($element);
   }
 
   /**
@@ -123,12 +98,15 @@ abstract class NodeViewBuilderAbstract extends EntityViewBuilderPluginAbstract {
       return [];
     }
 
-    $tags = [];
+    $items = [];
     foreach ($entity->{$field_name}->referencedEntities() as $term) {
-      $tags[] = $this->buildTag($term);
+      $items[] = $this->buildTag($term);
     }
 
-    return $tags;
+    return [
+      '#theme' => 'server_theme_tags',
+      '#items' => $items,
+    ];
   }
 
   /**

@@ -18,27 +18,12 @@ function server_theme_theme() {
     ],
   ];
 
-  // Simple card - vertical.
+  // Simple card.
   $info['server_theme_card'] = [
     'variables' => [
       'image' => NULL,
       'title' => NULL,
       'url' => NULL,
-      'body' => NULL,
-    ],
-  ];
-
-  // Simple card.
-  $info['server_theme_card__simple'] = [
-    'variables' => [
-      'image' => NULL,
-      'image_alt' => NULL,
-      'title' => NULL,
-      'url' => NULL,
-      'body' => NULL,
-      // A list of links.
-      'tags' => [],
-      'author' => NULL,
     ],
   ];
 
@@ -55,8 +40,8 @@ function server_theme_theme() {
     'variables' => [
       'title' => NULL,
       'subtitle' => NULL,
-      'url' => NULL,
-      'url_title' => NULL,
+      // The render array of `server_theme_button`.
+      'button' => NULL,
     ],
   ];
 
@@ -68,41 +53,11 @@ function server_theme_theme() {
     ],
   ];
 
-  // Content tags.
-  $info['server_theme_content__tags'] = [
+  // Tags.
+  $info['server_theme_tags'] = [
     'variables' => [
       // A list of links.
-      'tags' => [],
-    ],
-  ];
-
-  $info['server_theme_content__image_and_teaser'] = [
-    'variables' => [
-      'image' => NULL,
-      'image_alt' => NULL,
-      'teaser' => NULL,
-    ],
-  ];
-
-  // Content header (node's title and background image).
-  $info['server_theme_content__hero_header'] = [
-    'variables' => [
-      'title' => NULL,
-      'image' => NULL,
-    ],
-  ];
-
-  $info['server_theme_content__body'] = [
-    'variables' => [
-      'content' => NULL,
-    ],
-  ];
-
-  $info['server_theme_user_image'] = [
-    'variables' => [
-      'image' => NULL,
-      'image_alt' => NULL,
-      'initials' => NULL,
+      'items' => [],
     ],
   ];
 
@@ -127,20 +82,23 @@ function server_theme_theme() {
       'image' => NULL,
       'title' => NULL,
       'subtitle' => NULL,
-      'url' => NULL,
-      'url_title' => NULL,
+      // The render array of `server_theme_button`.
+      'button' => NULL,
     ],
   ];
 
+  // Buttons.
   $info['server_theme_button'] = [
     'variables' => [
       'url' => NULL,
-      'url_title'  => NULL,
+      // The button's text.
+      'title'  => NULL,
       // Indicate if button should be primary or secondary.
       'is_primary' => NULL,
       // If TRUE, it will open the link in a new tab.
       'open_new_tab' => NULL,
-      // Specify an icon.
+      // Specify an icon. Any icon should be added as SVG in
+      // `server-theme-button`.
       'icon' => NULL,
     ],
   ];
@@ -149,8 +107,15 @@ function server_theme_theme() {
     'variables' => [
       'title' => NULL,
       'items' => [],
-      'url' => NULL,
-      'url_title' => NULL,
+      // The render array of `server_theme_button`.
+      'button' => NULL,
+    ],
+  ];
+
+  // Text that should have `prose` classes applied to it.
+  $info['server_theme_prose_text'] = [
+    'variables' => [
+      'text' => NULL,
     ],
   ];
 
