@@ -171,6 +171,7 @@ class RoboFile extends Tasks {
   protected function monitoredThemeDirectories(): array {
     return [
       self::THEME_BASE . '/src',
+      self::THEME_BASE . '/templates',
     ];
   }
 
@@ -180,16 +181,17 @@ class RoboFile extends Tasks {
   public function themeWatch(): void {
     $this->say('Compiling and watching (optimized).');
     $this->doThemeCompile(TRUE);
+    $watch = $this->taskWatch();
     foreach ($this->monitoredThemeDirectories() as $directory) {
-      $this->taskWatch()
-        ->monitor(
-          $directory,
-          function () {
-            $this->doThemeCompile(TRUE);
-          },
-          FilesystemEvent::ALL
-        )->run();
+      $watch->monitor(
+        $directory,
+        function () {
+          $this->doThemeCompile(TRUE);
+        },
+        FilesystemEvent::ALL
+      );
     }
+    $watch->run();
   }
 
   /**
