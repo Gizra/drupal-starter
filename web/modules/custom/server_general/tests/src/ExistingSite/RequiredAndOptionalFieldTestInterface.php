@@ -26,7 +26,7 @@ interface RequiredAndOptionalFieldTestInterface {
   /**
    * The required fields for entity bundle.
    *
-   * @return array
+   * @return string[]
    *   Array of required field names.
    */
   public function getRequiredFields() : array;
@@ -34,7 +34,7 @@ interface RequiredAndOptionalFieldTestInterface {
   /**
    * The optional fields for entity bundle.
    *
-   * @return array
+   * @return string[]
    *   Array of optional field names.
    */
   public function getOptionalFields() : array;
