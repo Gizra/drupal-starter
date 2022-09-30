@@ -7,13 +7,30 @@ namespace Drupal\Tests\server_general\ExistingSite;
  */
 class ServerGeneralParagraphTypeRelatedContentTest extends ServerGeneralParagraphTypeTestBase {
 
-  const ENTITY_BUNDLE = 'related_content';
-  const REQUIRED_FIELDS = [
-    'field_title',
-    'field_related_content',
-  ];
-  const OPTIONAL_FIELDS = [
-    'field_link',
-  ];
+  /**
+   * {@inheritdoc}
+   */
+  public function getEntityBundle(): string {
+    return 'related_content';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getRequiredFields(): array {
+    return [
+      'field_title',
+      'field_related_content',
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getOptionalFields(): array {
+    return [
+      'field_link',
+    ];
+  }
 
 }

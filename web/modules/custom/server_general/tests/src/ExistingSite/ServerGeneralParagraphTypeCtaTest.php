@@ -7,11 +7,29 @@ namespace Drupal\Tests\server_general\ExistingSite;
  */
 class ServerGeneralParagraphTypeCtaTest extends ServerGeneralParagraphTypeTestBase {
 
-  const ENTITY_BUNDLE = 'cta';
-  const REQUIRED_FIELDS = [
-    'field_link',
-    'field_subtitle',
-    'field_title',
-  ];
+  /**
+   * {@inheritdoc}
+   */
+  public function getEntityBundle(): string {
+    return 'cta';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getRequiredFields(): array {
+    return [
+      'field_link',
+      'field_subtitle',
+      'field_title',
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getOptionalFields(): array {
+    return [];
+  }
 
 }

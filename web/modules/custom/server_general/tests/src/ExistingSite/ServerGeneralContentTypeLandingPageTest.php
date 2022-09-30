@@ -10,11 +10,29 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ServerGeneralContentTypeLandingPageTest extends ServerGeneralContentTypeTestBase {
 
-  const ENTITY_BUNDLE = 'landing_page';
-  const OPTIONAL_FIELDS = [
-    'field_is_title_hidden',
-    'field_paragraphs',
-  ];
+  /**
+   * {@inheritdoc}
+   */
+  public function getEntityBundle(): string {
+    return 'landing_page';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getRequiredFields(): array {
+    return [];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getOptionalFields(): array {
+    return [
+      'field_is_title_hidden',
+      'field_paragraphs',
+    ];
+  }
 
   /**
    * Test the permissions and available paragraphs.

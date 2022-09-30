@@ -7,9 +7,27 @@ namespace Drupal\Tests\server_general\ExistingSite;
  */
 class ServerGeneralParagraphTypeViewsTest extends ServerGeneralParagraphTypeTestBase {
 
-  const ENTITY_BUNDLE = 'views';
-  const OPTIONAL_FIELDS = [
-    'field_views',
-  ];
+  /**
+   * {@inheritdoc}
+   */
+  public function getEntityBundle(): string {
+    return 'views';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getRequiredFields(): array {
+    return [];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getOptionalFields(): array {
+    return [
+      'field_views',
+    ];
+  }
 
 }

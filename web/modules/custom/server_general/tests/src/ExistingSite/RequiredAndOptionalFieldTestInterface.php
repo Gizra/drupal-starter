@@ -1,0 +1,38 @@
+<?php
+
+namespace Drupal\Tests\server_general\ExistingSite;
+
+interface RequiredAndOptionalFieldTestInterface {
+
+  /**
+   *  The entity type to assert it exists.
+   *
+   * @return string
+   *   An entity type name.
+   */
+  public function getEntityType() : string;
+
+  /**
+   *  The entity bundle to assert it exists.
+   *
+   * @return string
+   *   A bundle name.
+   */
+  public function getEntityBundle() : string;
+
+  /**
+   *  The required fields for entity bundle.
+   *
+   * @return array
+   *   Array of required field names.
+   */
+  public function getRequiredFields() : array;
+
+  /**
+   *  The optional fields for entity bundle.
+   *
+   * @return array
+   *   Array of optional field names.
+   */
+  public function getOptionalFields() : array;
+}

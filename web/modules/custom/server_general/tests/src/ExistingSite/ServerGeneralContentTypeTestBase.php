@@ -7,6 +7,11 @@ namespace Drupal\Tests\server_general\ExistingSite;
  */
 abstract class ServerGeneralContentTypeTestBase extends ServerGeneralEntityTypeTestBase {
 
-  const ENTITY_TYPE = 'node';
+  /**
+   * {@inheritdoc}
+   */
+  public function getEntityType(): string {
+    return 'node';
+  }
 
 }

@@ -7,12 +7,29 @@ namespace Drupal\Tests\server_general\ExistingSite;
  */
 class ServerGeneralParagraphTypeTextTest extends ServerGeneralParagraphTypeTestBase {
 
-  const ENTITY_BUNDLE = 'text';
-  const REQUIRED_FIELDS = [
-    'field_body',
-  ];
-  const OPTIONAL_FIELDS = [
-    'field_title',
-  ];
+  /**
+   * {@inheritdoc}
+   */
+  public function getEntityBundle(): string {
+    return 'text';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getRequiredFields(): array {
+    return [
+      'field_body',
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getOptionalFields(): array {
+    return [
+      'field_title',
+    ];
+  }
 
 }

@@ -9,30 +9,25 @@ use weitzman\DrupalTestTraits\ExistingSiteBase;
 /**
  * Abstract class to hold shared logic to check various content-types.
  */
-abstract class ServerGeneralEntityTypeTestBase extends ExistingSiteBase {
+abstract class ServerGeneralEntityTypeTestBase extends ExistingSiteBase implements RequiredAndOptionalFieldTestInterface{
 
   use EntityTrait;
   use FieldsTrait;
-
-  const ENTITY_TYPE = '';
-  const ENTITY_BUNDLE = '';
-  const REQUIRED_FIELDS = [];
-  const OPTIONAL_FIELDS = [];
 
   /**
    * Test Required and Not requierd fields for this entity bundle.
    */
   public function testFields() {
-    $entity_type = static::ENTITY_TYPE;
-    $entity_bundle = static::ENTITY_BUNDLE;
+    $entity_type = $this->getEntityType();
+    $entity_bundle = $this->getEntityBundle();
 
     $this->assertEntityExists($entity_type, $entity_bundle);
 
-    foreach (static::REQUIRED_FIELDS as $field_name) {
+    foreach ($this->getRequiredFields() as $field_name) {
       $this->assertFieldIsRequired($field_name, $entity_type, $entity_bundle);
     }
 
-    foreach (static::OPTIONAL_FIELDS as $field_name) {
+    foreach ($this->getOptionalFields() as $field_name) {
       $this->assertFieldIsNotRequired($field_name, $entity_type, $entity_bundle);
     }
   }

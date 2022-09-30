@@ -7,6 +7,11 @@ namespace Drupal\Tests\server_general\ExistingSite;
  */
 abstract class ServerGeneralParagraphTypeTestBase extends ServerGeneralEntityTypeTestBase {
 
-  const ENTITY_TYPE = 'paragraph';
+  /**
+   * {@inheritdoc}
+   */
+  public function getEntityType(): string {
+    return 'paragraph';
+  }
 
 }

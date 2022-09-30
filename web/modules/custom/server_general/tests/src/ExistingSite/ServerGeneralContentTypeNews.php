@@ -7,13 +7,30 @@ namespace Drupal\Tests\server_general\ExistingSite;
  */
 class ServerGeneralContentTypeNews extends ServerGeneralContentTypeTestBase {
 
-  const ENTITY_BUNDLE = 'news';
-  const REQUIRED_FIELDS = [
-    'field_body',
-  ];
-  const OPTIONAL_FIELDS = [
-    'field_featured_image',
-    'field_tags',
-  ];
+  /**
+   * {@inheritdoc}
+   */
+  public function getEntityBundle(): string {
+    return 'news';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getRequiredFields(): array {
+    return [
+      'field_body',
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getOptionalFields(): array {
+    return [
+      'field_featured_image',
+      'field_tags',
+    ];
+  }
 
 }
