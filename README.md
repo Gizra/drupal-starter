@@ -46,26 +46,29 @@ then execute the following, and re-try installation steps.
 
 ## Theme Development
 
-By default, `ddev restart` compiles the theme using Robo (`ddev robo theme:compile-debug`)
-
-This is used only for watching Tailwind styles, it's not compiling js, images, etc.
-
-On the local development environment, which is using TailWind's [JIT](https://tailwindcss.com/docs/just-in-time-mode) (Just-In-Time), execute:
-
-```bash
-ddev theme:watch
-```
-
-This will compile Tailwind and keep watching for any changes.
-
-When running `ddev robo theme:compile` it will purge any TailWind's CSS class
-which is not found in the code, twig, or under `tailwind.config.js` `whitelist` property.
-
-The directory structure:
+### The directory structure
  - `src/` - put all source stylesheets images, fonts, etc here.
  - `dist/` - `.gitignore`-ed path where the compiled / optimized files live, the theme should refer the assets from that directory.
 
 For theme development, it's advisable to entirely turn off caching: https://www.drupal.org/node/2598914
+
+### Compiling assests
+All assets are compiled at DDEV startup using `ddev robo theme:compile-debug`.
+
+To compile CSS during development run:
+```bash
+ddev theme:watch
+```
+This will compile Tailwind and keep watching for any changes.
+
+To compile JS & Images during development run:
+```bash
+ddev robo theme:compile
+```
+There is no watch task at the moment for js & images.
+
+To learn in more details about compilation process, see
+[./web/themes/custom/server_theme/README.md](./web/themes/custom/server_theme/README.md)
 
 ### Breakpoints and Responsive Images
 
