@@ -4,6 +4,6 @@ set -e
 # -------------------------------------------------- #
 # Run PHPUnit tests
 # -------------------------------------------------- #
-ddev phpunit --testdox
+ddev phpunit --do-not-cache-result --testdox
 
 exit 0
