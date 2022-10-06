@@ -24,6 +24,7 @@ function server_theme_theme() {
       'image' => NULL,
       'title' => NULL,
       'url' => NULL,
+      'date' => NULL,
     ],
   ];
 
