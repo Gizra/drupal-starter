@@ -4,12 +4,35 @@ namespace Drupal\Tests\server_general\ExistingSite;
 
 use Drupal\paragraphs\Entity\Paragraph;
 use Symfony\Component\HttpFoundation\Response;
-use weitzman\DrupalTestTraits\ExistingSiteBase;
 
 /**
- * Test Landing page functionality.
+ * Test 'landing_page' content type.
  */
-class ServerGeneralLandingPageTest extends ExistingSiteBase {
+class ServerGeneralContentTypeLandingPageTest extends ServerGeneralContentTypeTestBase {
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getEntityBundle(): string {
+    return 'landing_page';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getRequiredFields(): array {
+    return [];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getOptionalFields(): array {
+    return [
+      'field_is_title_hidden',
+      'field_paragraphs',
+    ];
+  }
 
   /**
    * Test the permissions and available paragraphs.
