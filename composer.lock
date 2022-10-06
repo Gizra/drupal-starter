@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aa1bd0ebdf15ed913ac0afaefc85b4fe",
+    "content-hash": "da1863a840ecbb94fd39482ec5c2da5d",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2419,6 +2419,50 @@
             "homepage": "https://www.drupal.org/project/inline_entity_form",
             "support": {
                 "source": "https://git.drupalcode.org/project/inline_entity_form"
+            }
+        },
+        {
+            "name": "drupal/intl_date",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/intl_date.git",
+                "reference": "1.1.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/intl_date-1.1.0.zip",
+                "reference": "1.1.0",
+                "shasum": "e3d2d33d177d89eb12e709c190ac1ef4edd970c3"
+            },
+            "require": {
+                "drupal/core": "^9 || ^10"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "1.1.0",
+                    "datestamp": "1658289888",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Aron Novak",
+                    "homepage": "https://www.drupal.org/user/61864"
+                }
+            ],
+            "description": "Fine-grained localized date formatting.",
+            "homepage": "https://www.drupal.org/project/intl_date",
+            "support": {
+                "source": "https://git.drupalcode.org/project/intl_date"
             }
         },
         {
@@ -12988,6 +13032,7 @@
     "prefer-lowest": false,
     "platform": {
         "ext-curl": "*",
+        "ext-intl": "*",
         "ext-json": "*",
         "ext-mbstring": "*"
     },

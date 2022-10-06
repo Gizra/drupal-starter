@@ -5,6 +5,8 @@
  * Module file.
  */
 
+use Drupal\server_general\ArabicNumberConverter;
+
 /**
  * Implements hook_theme_suggestions_alter().
  *
@@ -21,4 +23,21 @@ function server_general_theme_suggestions_alter(array &$suggestions, array $vari
     $suggestions[] = $original_theme_hook . '__' . str_replace('-', '_', $variables['element']['#id']);
   }
   return $suggestions;
+}
+
+/**
+ * Implements hook_intl_date_formatted_date_alter().
+ */
+function server_general_intl_date_formatted_date_alter(string &$formatted_date, array $context) {
+  switch ($context['langcode']) {
+    case 'ar':
+      // Change Arabic numbers to Latin numbers.
+      $formatted_date = ArabicNumberConverter::arToEn($formatted_date);
+      break;
+
+    case 'ru':
+      // Uppercase the text parts of the date in Russian.
+      $formatted_date = mb_convert_case($formatted_date, MB_CASE_TITLE, 'UTF-8');
+      break;
+  }
 }
