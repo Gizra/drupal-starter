@@ -2,9 +2,9 @@
 
 namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
-use Drupal\Core\Url;
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
+use Drupal\server_general\ButtonTrait;
 use Drupal\server_general\ElementWrapTrait;
 
 /**
@@ -18,6 +18,7 @@ use Drupal\server_general\ElementWrapTrait;
  */
 class ParagraphCta extends EntityViewBuilderPluginAbstract {
 
+  use ButtonTrait;
   use ElementWrapTrait;
 
   /**
@@ -32,15 +33,13 @@ class ParagraphCta extends EntityViewBuilderPluginAbstract {
    *   Render array.
    */
   public function buildFull(array $build, ParagraphInterface $entity): array {
-    $link = $this->getLink($entity);
-
-    $build[] = [
+    $element = [
       '#theme' => 'server_theme_cta',
       '#title' => $this->getTextFieldValue($entity, 'field_title'),
       '#subtitle' => $this->getTextFieldValue($entity, 'field_subtitle'),
-      '#url' => Url::fromUri($link['uri']),
-      '#url_title' => $link['title'],
+      '#button' => $this->buildLinkButton($entity),
     ];
+    $build[] = $element;
 
     return $build;
   }

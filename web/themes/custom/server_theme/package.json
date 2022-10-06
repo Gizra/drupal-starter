@@ -1,18 +1,19 @@
 {
   "scripts": {},
   "devDependencies": {
-    "@tailwindcss/forms": "^0.4.0",
-    "@tailwindcss/line-clamp": "^0.3.0",
-    "autoprefixer": "^10.0.2",
-    "cssnano": "^5.0.6",
-    "postcss": "^8.3.5",
-    "postcss-cli": "^8.3.1",
-    "postcss-import": "^13.0.0",
-    "postcss-nested": "^5.0.5",
-    "postcss-preset-env": "^6.7.0",
-    "postcss-scss": "^3.0.4",
+    "@tailwindcss/forms": "^0.5.3",
+    "@tailwindcss/line-clamp": "^0.4.2",
+    "@tailwindcss/typography": "^0.5.7",
+    "autoprefixer": "^10.4.12",
+    "cssnano": "^5.1.13",
+    "postcss": "^8.4.16",
+    "postcss-cli": "^10.0.0",
+    "postcss-import": "^15.0.0",
+    "postcss-nested": "^5.0.6",
+    "postcss-preset-env": "^7.8.2",
+    "postcss-scss": "^4.0.5",
     "postcss-strip-inline-comments": "^0.1.5",
-    "svgo": "^1.3.2",
-    "tailwindcss": "^3.0.5"
+    "svgo": "^2.8.0",
+    "tailwindcss": "^3.1.8"
   }
 }
