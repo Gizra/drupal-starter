@@ -5,22 +5,24 @@ dependencies:
   config:
     - core.entity_form_mode.media.media_library
     - field.field.media.image.field_media_image
-    - image.style.thumbnail
+    - image.style.large
     - media.type.image
   module:
-    - image
+    - focal_point
 id: media.image.media_library
 targetEntityType: media
 bundle: image
 mode: media_library
 content:
   field_media_image:
-    type: image_image
+    type: image_focal_point
     weight: 5
     region: content
     settings:
       progress_indicator: throbber
-      preview_image_style: thumbnail
+      preview_image_style: large
+      preview_link: true
+      offsets: '50,50'
     third_party_settings: {  }
   name:
     type: string_textfield
