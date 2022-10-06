@@ -1,0 +1,9 @@
+uuid: b0b59549-8913-4ef5-8a75-2c97c09d6470
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: VwSf5C7xdtACtJ6N6zupEn7CI8U0UceU-Wku1fEn438
+id: html_datetime
+label: 'HTML Datetime'
+pattern: 'yyyy-MM-d''T''HH:mm:ssxx'

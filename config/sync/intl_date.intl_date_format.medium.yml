@@ -1,0 +1,9 @@
+uuid: 3b509a21-2f78-4c14-9207-a36b0b4d017a
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: 1azoz0O5odBhBX4numYXFc1ubzYtZ_GIwbCUrL67IjM
+id: medium
+label: 'Default medium date'
+pattern: 'eee, MM/dd/yyyy - HH:mm'

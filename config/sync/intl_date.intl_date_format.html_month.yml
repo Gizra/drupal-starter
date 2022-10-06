@@ -1,0 +1,9 @@
+uuid: aa005283-02a7-4a25-8152-46d7caa0084b
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: g2MMBfdP6rUSEi0yh0xmmcDVre1VrRz9uuZcLDsQlkM
+id: html_month
+label: 'HTML Month'
+pattern: yyyy-MM
