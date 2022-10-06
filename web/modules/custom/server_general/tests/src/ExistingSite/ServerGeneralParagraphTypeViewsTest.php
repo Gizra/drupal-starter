@@ -18,16 +18,16 @@ class ServerGeneralParagraphTypeViewsTest extends ServerGeneralParagraphTypeTest
    * {@inheritdoc}
    */
   public function getRequiredFields(): array {
-    return [];
+    return [
+      'field_views',
+    ];
   }
 
   /**
    * {@inheritdoc}
    */
   public function getOptionalFields(): array {
-    return [
-      'field_views',
-    ];
+    return [];
   }
 
 }
