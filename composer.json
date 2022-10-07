@@ -107,10 +107,14 @@
                 "d.o. #2952301": "https://www.drupal.org/files/issues/2021-03-11/elasticsearch_connector_luceneFlattenKeys--2952301-14.patch"
             },
             "drupal/core": {
-              "d.o #3224254": "https://www.drupal.org/files/issues/2021-07-19/drupal-claro_dropdown-3224254-2.patch"
+              "d.o #3224254": "https://www.drupal.org/files/issues/2021-07-19/drupal-claro_dropdown-3224254-2.patch",
+              "d.o. 2719797": "https://www.drupal.org/files/issues/2022-09-20/2719797-144.patch"
             },
             "drupal/webprofiler": {
               "d.o #43": "https://gitlab.com/drupalspoons/webprofiler/uploads/db847be51e1679e7c852ffae0f101e12/419-Webprofiler-related-crash-in-core-9.4.2.patch"
+            },
+            "drupal/entity_reference_revisions": {
+              "d.o. 2799479": "https://www.drupal.org/files/issues/2022-06-01/entity_reference_revisions-relationship_host_id-2799479-176.patch"
             }
         },
         "drupal-scaffold": {
