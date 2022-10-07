@@ -5,9 +5,11 @@ dependencies:
   config:
     - field.field.node.news.field_body
     - field.field.node.news.field_featured_image
+    - field.field.node.news.field_publish_date
     - field.field.node.news.field_tags
     - node.type.news
   module:
+    - datetime
     - text
     - user
 id: node.news.default
@@ -29,6 +31,15 @@ content:
       link: true
     third_party_settings: {  }
     weight: 103
+    region: content
+  field_publish_date:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 106
     region: content
   field_tags:
     type: entity_reference_label

@@ -20,6 +20,7 @@
     ],
     "require": {
         "ext-curl": "*",
+        "ext-intl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
         "composer/installers": "^1.9",
@@ -35,6 +36,7 @@
         "drupal/entity_browser": "^2.8",
         "drupal/environment_indicator": "^4.0",
         "drupal/focal_point": "^1.5",
+        "drupal/intl_date": "^1.1",
         "drupal/media_entity_browser": "^2",
         "drupal/migrate_file": "^2.0",
         "drupal/migrate_plus": "^5.1",

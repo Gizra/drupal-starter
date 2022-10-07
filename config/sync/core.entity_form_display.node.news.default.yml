@@ -5,9 +5,11 @@ dependencies:
   config:
     - field.field.node.news.field_body
     - field.field.node.news.field_featured_image
+    - field.field.node.news.field_publish_date
     - field.field.node.news.field_tags
     - node.type.news
   module:
+    - datetime
     - media_library
     - path
     - select2
@@ -37,6 +39,12 @@ content:
     region: content
     settings:
       media_types: {  }
+    third_party_settings: {  }
+  field_publish_date:
+    type: datetime_default
+    weight: 26
+    region: content
+    settings: {  }
     third_party_settings: {  }
   field_tags:
     type: select2_entity_reference

@@ -13,7 +13,7 @@ entity_type: paragraph
 bundle: views
 label: Views
 description: ''
-required: false
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''
@@ -27,24 +27,29 @@ settings:
     default: 0
     page: 0
     block: 0
+    entity_browser: 0
     feed: 0
   preselect_views:
-    frontpage: frontpage
+    news: news
     block_content: 0
     comment: 0
     comments_recent: 0
     content: 0
     content_recent: 0
     files: 0
+    media: 0
+    media_entity_browser: 0
+    media_library: 0
+    redirect: 0
     taxonomy_term: 0
     user_admin_people: 0
     watchdog: 0
     who_s_new: 0
     who_s_online: 0
   enabled_settings:
-    limit: 0
     argument: 0
+    limit: 0
     pager: 0
-    title: 0
     offset: 0
+    title: 0
 field_type: viewsreference

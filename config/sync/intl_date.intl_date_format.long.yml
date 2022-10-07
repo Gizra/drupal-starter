@@ -1,0 +1,9 @@
+uuid: 346d9646-55a2-45d0-9fea-c1492abd63da
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: O34JSnnDjuo_YuohO6yVeZ49JeHVwISvutNRaK0e9Ug
+id: long
+label: 'Default long date'
+pattern: 'eeee, MMMM dd, yyyy - HH:mm'
