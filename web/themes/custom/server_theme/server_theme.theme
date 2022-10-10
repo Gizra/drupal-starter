@@ -128,6 +128,11 @@ function server_theme_theme() {
  */
 function server_theme_preprocess_page(array &$variables) {
   $variables['page']['footer'] = ['#theme' => 'server_theme_footer'];
+
+  // Pass language settings to JS. This is used for example by the Slick
+  // carousel to make sure we present carousels in the correct direction.
+  $language = \Drupal::languageManager()->getCurrentLanguage();
+  $variables['#attached']['drupalSettings']['language']['direction'] = $language->getDirection();
 }
 
 /**
