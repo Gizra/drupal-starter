@@ -56,6 +56,13 @@ content:
       match_operator: CONTAINS
       match_limit: 10
     third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
   path:
     type: path
     weight: 9
