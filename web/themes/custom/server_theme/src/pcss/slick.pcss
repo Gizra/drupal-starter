@@ -1,4 +1,7 @@
-// Slick carousel.
+// Prevent slides starting as a long column, before turning into a carousel.
+.carousel-wrapper:not(.slick-initialized) {
+  @apply hidden;
+}
 
 .slick-slide:focus {
   outline: none;
@@ -48,9 +51,4 @@
   .slick-slide {
     @apply flex h-auto float-none;
   }
-}
-
-// Prevent slides starting as a long column, before turning into a carousel.
-.carousel-wrapper:not(.slick-initialized) {
-  @apply hidden;
 }
