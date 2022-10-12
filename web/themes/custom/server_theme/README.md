@@ -1,5 +1,7 @@
 # Theme Development
 
+To learn about theme directory structure and commands to compile and watch
+changes, see the "Theme Development" section of the [project README.md](../../../../README.md)
 ## The directory structure
  - `src/` - put all source stylesheets images, fonts, etc here.
  - `dist/` - `.gitignore`-ed path where the compiled / optimized files live,

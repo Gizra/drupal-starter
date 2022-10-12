@@ -63,8 +63,8 @@ This will compile Tailwind styles, JS & Images and keep watching for any changes
 
 If you just want to compile & watch tailwind, run `ddev theme:watch-css`. This will be much faster.
 
-To learn in more details about compilation process, see
-[./web/themes/custom/server_theme/README.md](./web/themes/custom/server_theme/README.md)
+To learn in more details about compilation process, see the
+[theme README.md](./web/themes/custom/server_theme/README.md)
 
 ### Breakpoints and Responsive Images
 
