@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Test 'landing_page' content type.
  */
-class ServerGeneralContentTypeLandingPageTest extends ServerGeneralContentTypeTestBase {
+class ServerGeneralNodeLandingPageTest extends ServerGeneralNodeTestBase {
 
   /**
    * {@inheritdoc}

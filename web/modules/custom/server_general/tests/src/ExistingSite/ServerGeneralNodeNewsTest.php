@@ -5,7 +5,7 @@ namespace Drupal\Tests\server_general\ExistingSite;
 /**
  * Test 'news' content type.
  */
-class ServerGeneralContentTypeNewsTest extends ServerGeneralContentTypeTestBase {
+class ServerGeneralNodeNewsTest extends ServerGeneralNodeTestBase {
 
   /**
    * {@inheritdoc}
