@@ -25,6 +25,21 @@ $databases['default']['default'] = array(
   'prefix' => "",
 );
 
+// Migrate source database.
+$ddev_migrate_remote_source = getenv('DDEV_MIGRATE_REMOTE_SOURCE');
+if (!empty($ddev_migrate_remote_source) && gethostbyname($ddev_migrate_remote_source) !== $ddev_migrate_remote_source) {
+  $databases['migrate']['default'] = [
+    'database' => 'db',
+    'username' => 'db',
+    'password' => 'db',
+    'prefix' => '',
+    'host' => $ddev_migrate_remote_source,
+    'port' => '3306',
+    'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
+    'driver' => 'mysql',
+  ];
+}
+
 // Fake migrate default source to eliminate a warning about missing
 // database connection.
 // @todo: replace it with real, external credentials if needed.
