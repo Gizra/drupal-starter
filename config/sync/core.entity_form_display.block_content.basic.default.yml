@@ -37,6 +37,6 @@ content:
     weight: 2
     region: content
     settings:
-      include_locked: true
+      include_locked: false
     third_party_settings: {  }
 hidden: {  }
