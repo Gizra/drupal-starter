@@ -3,15 +3,15 @@
 namespace Drupal\Tests\server_general\ExistingSite;
 
 /**
- * Test 'views' paragraph type.
+ * Test 'hero_image' paragraph type.
  */
-class ServerGeneralParagraphTypeViewsTest extends ServerGeneralParagraphTypeTestBase {
+class ServerGeneralParagraphHeroImageTest extends ServerGeneralParagraphTestBase {
 
   /**
    * {@inheritdoc}
    */
   public function getEntityBundle(): string {
-    return 'views';
+    return 'hero_image';
   }
 
   /**
@@ -19,7 +19,8 @@ class ServerGeneralParagraphTypeViewsTest extends ServerGeneralParagraphTypeTest
    */
   public function getRequiredFields(): array {
     return [
-      'field_views',
+      'field_title',
+      'field_image',
     ];
   }
 
@@ -27,7 +28,10 @@ class ServerGeneralParagraphTypeViewsTest extends ServerGeneralParagraphTypeTest
    * {@inheritdoc}
    */
   public function getOptionalFields(): array {
-    return [];
+    return [
+      'field_link',
+      'field_subtitle',
+    ];
   }
 
 }

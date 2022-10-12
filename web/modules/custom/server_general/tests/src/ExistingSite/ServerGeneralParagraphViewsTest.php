@@ -3,15 +3,15 @@
 namespace Drupal\Tests\server_general\ExistingSite;
 
 /**
- * Test 'text' paragraph type.
+ * Test 'views' paragraph type.
  */
-class ServerGeneralParagraphTypeTextTest extends ServerGeneralParagraphTypeTestBase {
+class ServerGeneralParagraphViewsTest extends ServerGeneralParagraphTestBase {
 
   /**
    * {@inheritdoc}
    */
   public function getEntityBundle(): string {
-    return 'text';
+    return 'views';
   }
 
   /**
@@ -19,7 +19,7 @@ class ServerGeneralParagraphTypeTextTest extends ServerGeneralParagraphTypeTestB
    */
   public function getRequiredFields(): array {
     return [
-      'field_body',
+      'field_views',
     ];
   }
 
@@ -27,9 +27,7 @@ class ServerGeneralParagraphTypeTextTest extends ServerGeneralParagraphTypeTestB
    * {@inheritdoc}
    */
   public function getOptionalFields(): array {
-    return [
-      'field_title',
-    ];
+    return [];
   }
 
 }

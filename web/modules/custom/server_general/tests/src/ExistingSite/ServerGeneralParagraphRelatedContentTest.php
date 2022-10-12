@@ -3,15 +3,15 @@
 namespace Drupal\Tests\server_general\ExistingSite;
 
 /**
- * Test 'cta' paragraph type.
+ * Test 'related_content' paragraph type.
  */
-class ServerGeneralParagraphTypeCtaTest extends ServerGeneralParagraphTypeTestBase {
+class ServerGeneralParagraphRelatedContentTest extends ServerGeneralParagraphTestBase {
 
   /**
    * {@inheritdoc}
    */
   public function getEntityBundle(): string {
-    return 'cta';
+    return 'related_content';
   }
 
   /**
@@ -19,9 +19,8 @@ class ServerGeneralParagraphTypeCtaTest extends ServerGeneralParagraphTypeTestBa
    */
   public function getRequiredFields(): array {
     return [
-      'field_link',
-      'field_subtitle',
       'field_title',
+      'field_related_content',
     ];
   }
 
@@ -29,7 +28,9 @@ class ServerGeneralParagraphTypeCtaTest extends ServerGeneralParagraphTypeTestBa
    * {@inheritdoc}
    */
   public function getOptionalFields(): array {
-    return [];
+    return [
+      'field_link',
+    ];
   }
 
 }

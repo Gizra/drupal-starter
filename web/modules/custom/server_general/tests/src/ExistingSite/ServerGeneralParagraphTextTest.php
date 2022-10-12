@@ -3,15 +3,15 @@
 namespace Drupal\Tests\server_general\ExistingSite;
 
 /**
- * Test 'related_content' paragraph type.
+ * Test 'text' paragraph type.
  */
-class ServerGeneralParagraphTypeRelatedContentTest extends ServerGeneralParagraphTypeTestBase {
+class ServerGeneralParagraphTextTest extends ServerGeneralParagraphTestBase {
 
   /**
    * {@inheritdoc}
    */
   public function getEntityBundle(): string {
-    return 'related_content';
+    return 'text';
   }
 
   /**
@@ -19,8 +19,7 @@ class ServerGeneralParagraphTypeRelatedContentTest extends ServerGeneralParagrap
    */
   public function getRequiredFields(): array {
     return [
-      'field_title',
-      'field_related_content',
+      'field_body',
     ];
   }
 
@@ -29,7 +28,7 @@ class ServerGeneralParagraphTypeRelatedContentTest extends ServerGeneralParagrap
    */
   public function getOptionalFields(): array {
     return [
-      'field_link',
+      'field_title',
     ];
   }
 

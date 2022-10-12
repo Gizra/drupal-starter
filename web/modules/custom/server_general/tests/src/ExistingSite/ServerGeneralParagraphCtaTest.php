@@ -3,15 +3,15 @@
 namespace Drupal\Tests\server_general\ExistingSite;
 
 /**
- * Test 'hero_image' paragraph type.
+ * Test 'cta' paragraph type.
  */
-class ServerGeneralParagraphTypeHeroImageTest extends ServerGeneralParagraphTypeTestBase {
+class ServerGeneralParagraphCtaTest extends ServerGeneralParagraphTestBase {
 
   /**
    * {@inheritdoc}
    */
   public function getEntityBundle(): string {
-    return 'hero_image';
+    return 'cta';
   }
 
   /**
@@ -19,8 +19,9 @@ class ServerGeneralParagraphTypeHeroImageTest extends ServerGeneralParagraphType
    */
   public function getRequiredFields(): array {
     return [
+      'field_link',
+      'field_subtitle',
       'field_title',
-      'field_image',
     ];
   }
 
@@ -28,10 +29,7 @@ class ServerGeneralParagraphTypeHeroImageTest extends ServerGeneralParagraphType
    * {@inheritdoc}
    */
   public function getOptionalFields(): array {
-    return [
-      'field_link',
-      'field_subtitle',
-    ];
+    return [];
   }
 
 }
