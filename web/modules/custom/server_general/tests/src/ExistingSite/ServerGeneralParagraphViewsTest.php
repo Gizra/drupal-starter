@@ -3,15 +3,15 @@
 namespace Drupal\Tests\server_general\ExistingSite;
 
 /**
- * Test 'news' content type.
+ * Test 'views' paragraph type.
  */
-class ServerGeneralContentTypeNewsTest extends ServerGeneralContentTypeTestBase {
+class ServerGeneralParagraphViewsTest extends ServerGeneralParagraphTestBase {
 
   /**
    * {@inheritdoc}
    */
   public function getEntityBundle(): string {
-    return 'news';
+    return 'views';
   }
 
   /**
@@ -19,7 +19,7 @@ class ServerGeneralContentTypeNewsTest extends ServerGeneralContentTypeTestBase 
    */
   public function getRequiredFields(): array {
     return [
-      'field_body',
+      'field_views',
     ];
   }
 
@@ -27,10 +27,7 @@ class ServerGeneralContentTypeNewsTest extends ServerGeneralContentTypeTestBase 
    * {@inheritdoc}
    */
   public function getOptionalFields(): array {
-    return [
-      'field_featured_image',
-      'field_tags',
-    ];
+    return [];
   }
 
 }

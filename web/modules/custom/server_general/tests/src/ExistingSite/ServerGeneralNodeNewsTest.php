@@ -3,15 +3,15 @@
 namespace Drupal\Tests\server_general\ExistingSite;
 
 /**
- * Test 'text' paragraph type.
+ * Test 'news' content type.
  */
-class ServerGeneralParagraphTypeTextTest extends ServerGeneralParagraphTypeTestBase {
+class ServerGeneralNodeNewsTest extends ServerGeneralNodeTestBase {
 
   /**
    * {@inheritdoc}
    */
   public function getEntityBundle(): string {
-    return 'text';
+    return 'news';
   }
 
   /**
@@ -28,7 +28,8 @@ class ServerGeneralParagraphTypeTextTest extends ServerGeneralParagraphTypeTestB
    */
   public function getOptionalFields(): array {
     return [
-      'field_title',
+      'field_featured_image',
+      'field_tags',
     ];
   }
 
