@@ -49,7 +49,7 @@ function server_general_intl_date_formatted_date_alter(string &$formatted_date, 
  *
  * Set default widgets.
  */
-function server_general_field_info_alter(&$info) {
+function server_general_field_info_alter(array &$info) {
   // Select2 for entity reference.
   if (isset($info['entity_reference'])) {
     $info['entity_reference']['default_widget'] = 'select2_entity_reference';
