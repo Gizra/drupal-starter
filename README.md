@@ -284,7 +284,17 @@ to the production environment and making a copy of the production file in your d
 
 Configure the origin path at `/admin/config/system/stage_file_proxy`.
 
-### Flood Control
+## Migrate
+
+There are existing migrations that help setup a typical site, and act as an
+example. Whenever working on the migration, and changing their configuration
+you will need to re-sync the config, and re-run the migrations.
+
+    ddev drush config-import --partial --source=modules/custom/server_migrate/config/install/ -y
+    ddev drush migrate:rollback --all
+    ddev drush migrate:import --group server
+
+## Flood Control
 
 As the project uses Redis, it is not possible to use the SQL console to reset flood table.
 There's a custom DDEV command to help with that. Usages:
