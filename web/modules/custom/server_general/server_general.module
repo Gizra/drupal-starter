@@ -5,6 +5,8 @@
  * Module file.
  */
 
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Language\LanguageInterface;
 use Drupal\server_general\ArabicNumberConverter;
 
 /**
@@ -40,4 +42,28 @@ function server_general_intl_date_formatted_date_alter(string &$formatted_date, 
       $formatted_date = mb_convert_case($formatted_date, MB_CASE_TITLE, 'UTF-8');
       break;
   }
+}
+
+/**
+ * Implements hook_field_info_alter().
+ *
+ * Set default widgets.
+ */
+function server_general_field_info_alter(array &$info) {
+  // Select2 for entity reference.
+  if (isset($info['entity_reference'])) {
+    $info['entity_reference']['default_widget'] = 'select2_entity_reference';
+  }
+}
+
+/**
+ * Implements hook_field_widget_single_element_WIDGET_TYPE_form_alter().
+ *
+ * Language selection should be without the not defined and not applicable
+ * options.
+ *
+ * @see \Drupal\Core\Field\Plugin\Field\FieldWidget\LanguageSelectWidget::formElement()
+ */
+function server_general_field_widget_single_element_language_select_form_alter(array &$element, FormStateInterface $form_state, array $context) {
+  $element['value']['#languages'] = LanguageInterface::STATE_CONFIGURABLE;
 }
