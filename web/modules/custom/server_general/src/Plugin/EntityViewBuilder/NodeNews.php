@@ -75,10 +75,9 @@ class NodeNews extends NodeViewBuilderAbstract {
 
     // Date.
     $timestamp = $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date');
-    $elements[] = [
-      '#theme' => 'server_theme_text_large',
-      '#text' => IntlDate::formatPattern($timestamp, 'long'),
-    ];
+    $element = ['#markup' => IntlDate::formatPattern($timestamp, 'long')];
+    // Make text bigger.
+    $elements[] = $this->wrapTextDecorations($element, FALSE, FALSE, 'lg');
 
     $elements = $this->wrapContainerVerticalSpacing($elements);
     return $this->wrapContainerNarrow($elements);

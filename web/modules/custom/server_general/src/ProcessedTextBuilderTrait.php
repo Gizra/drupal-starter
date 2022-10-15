@@ -35,7 +35,7 @@ trait ProcessedTextBuilderTrait {
     $options = ['label' => 'hidden'];
 
     $element = $entity->get($field)->view($options);
-    return $wrap_prose ? $this->wrapElementProseText($element) : $element;
+    return $wrap_prose ? $this->wrapProseText($element) : $element;
   }
 
 }

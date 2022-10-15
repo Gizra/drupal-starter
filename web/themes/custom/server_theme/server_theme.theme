@@ -169,11 +169,19 @@ function server_theme_theme() {
     ],
   ];
 
-  // Wrapper for a text, making it large. Often used with "regular" elements
-  // that don't require a special design, apart from the text size.
-  $info['server_theme_text_large'] = [
+  // Wrapper for a text, allowing adding some simple attributes, such as bold,
+  // underline, or settings the font size (`sm`, `lg`). Often used with
+  // "regular" elements that don't require a special design, apart from the
+  // those simple text decorations.
+  $info['server_theme_text_decorations'] = [
     'variables' => [
-      'text' => NULL,
+      // The element to wrap.
+      'element' => [],
+      'is_bold' => NULL,
+      'is_underline' => NULL,
+      // Can either be `sm` or `lg`. Defaults to NULL, which will not change the
+      // font size.
+      'font_size' => NULL,
     ],
   ];
 
