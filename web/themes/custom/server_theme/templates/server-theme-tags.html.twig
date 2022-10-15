@@ -1,6 +1,10 @@
-<div class="flex flex-row gap-x-3">
-  {{ title }}
-  {% for item in items %}
-    {{ item }}
-  {% endfor %}
+<div class="flex flex-row gap-x-2">
+  <div class="font-bold">{{ title }}:</div>
+
+  <div class="flex flex-row flex-wrap gap-x-2">
+    {% for item in items %}
+      {{ item }}
+    {% endfor %}
+  </div>
+
 </div>

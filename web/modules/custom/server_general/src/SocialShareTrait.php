@@ -41,7 +41,7 @@ trait SocialShareTrait {
     }
 
     return [
-      '#theme' => 'server_theme_social_share',
+      '#theme' => 'server_theme_social_share_buttons',
       '#items' => $items,
     ];
   }

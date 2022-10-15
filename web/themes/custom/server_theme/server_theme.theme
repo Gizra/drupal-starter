@@ -169,6 +169,25 @@ function server_theme_theme() {
     ],
   ];
 
+  $info['server_theme_social_share_button'] = [
+    'variables' => [
+      'url' => NULL,
+      // Types can be:
+      // `twitter`, `linkedin`, `facebook`, and `email`.
+      'service' => NULL,
+      // Will be used as the subject for sharing by email (e.g. the node
+      // title).
+      'email_subject' => NULL,
+    ],
+  ];
+
+  // List of social share buttons.
+  $info['server_theme_social_share_buttons'] = [
+    'variables' => [
+      'items' => NULL,
+    ],
+  ];
+
   return $info;
 }
 

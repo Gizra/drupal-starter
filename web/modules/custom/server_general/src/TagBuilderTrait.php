@@ -54,7 +54,7 @@ trait TagBuilderTrait {
       $items[] = $this->buildTag($term);
     }
 
-    $title = $entity->{$field_name}->getName();
+    $title = $entity->{$field_name}->getFieldDefinition()->getLabel();
 
     return [
       '#theme' => 'server_theme_tags',
