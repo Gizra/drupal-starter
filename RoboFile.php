@@ -168,15 +168,9 @@ class RoboFile extends Tasks {
    * @return array
    *   List of directories.
    */
-  protected function monitoredDirectories(): array {
+  protected function monitoredThemeDirectories(): array {
     return [
       self::THEME_BASE . '/src',
-      // Look in the twig files.
-      self::THEME_BASE . '/templates',
-      // A preprocess function might inject a class.
-      self::THEME_BASE . '/server_theme.theme',
-      // Custom module and the Style guide may have needed classes.
-      'web/modules/custom/',
     ];
   }
 
@@ -186,7 +180,7 @@ class RoboFile extends Tasks {
   public function themeWatch(): void {
     $this->say('Compiling and watching (optimized).');
     $this->doThemeCompile(TRUE);
-    foreach ($this->monitoredDirectories() as $directory) {
+    foreach ($this->monitoredThemeDirectories() as $directory) {
       $this->taskWatch()
         ->monitor(
           $directory,
@@ -204,7 +198,7 @@ class RoboFile extends Tasks {
   public function themeWatchDebug(): void {
     $this->say('Compiling and watching (non-optimized).');
     $this->doThemeCompile();
-    foreach ($this->monitoredDirectories() as $directory) {
+    foreach ($this->monitoredThemeDirectories() as $directory) {
       $this->taskWatch()
         ->monitor(
           $directory,
