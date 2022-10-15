@@ -1,7 +1,0 @@
-#!/bin/bash
-
-## Description: Run theme compile, watch for changes.
-## Usage: theme:watch-css
-## Example: "ddev theme:watch-css"
-
-cd ./web/themes/custom/server_theme && npm install && npx postcss ./src/pcss/style.pcss --output=./dist/css/style.css --watch --verbose
