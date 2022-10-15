@@ -12,10 +12,6 @@
   {% set title = 'Share on Twitter'|t %}
 {% endif %}
 
-<a href="{{ shareUrl }}" target="_blank" title="{{ title }}" class="block w-8 h-8 text-gray-600 hover:text-gray-800 focus:text-gray-800">
-  {{ _self.getIcon(service) }}
-</a>
-
 {% macro getIcon(service) %}
   {% if service == 'email' %}
     <svg width="32" height="33" viewBox="0 0.14 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -51,3 +47,7 @@
     </svg>
   {% endif %}
 {% endmacro %}
+
+<a href="{{ shareUrl }}" target="_blank" title="{{ title }}" class="block w-8 h-8 text-gray-600 hover:text-gray-800 focus:text-gray-800">
+  {{ _self.getIcon(service) }}
+</a>

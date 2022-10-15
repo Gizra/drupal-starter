@@ -25,17 +25,17 @@ trait SocialShareTrait {
     $url = $entity->isNew() ? '' : $entity->toUrl('canonical', ['absolute' => TRUE])->toString();
 
     $items = [];
-    $types = [
+    $services = [
       'twitter',
       'linkedin',
       'facebook',
       'email',
     ];
-    foreach ($types as $type) {
+    foreach ($services as $service) {
       $items[] = [
         '#theme' => 'server_theme_social_share_button',
         '#url' => $url,
-        '#type' => $type,
+        '#service' => $service,
         '#email_subject' => $entity->label(),
       ];
     }
