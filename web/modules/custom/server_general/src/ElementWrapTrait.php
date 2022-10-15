@@ -13,7 +13,7 @@ trait ElementWrapTrait {
    * @return array
    *   Render array.
    */
-  protected function wrapElementWideContainer(array $element): array {
+  protected function wrapContainerWide(array $element): array {
     if (!$element) {
       // Element is empty, so no need to wrap it.
       return [];
@@ -22,6 +22,27 @@ trait ElementWrapTrait {
     return [
       '#theme' => 'server_theme_container_wide',
       '#element' => $element,
+    ];
+  }
+
+  /**
+   * Wrap an element with a regular vertical spacing.
+   *
+   * @param array $element
+   *   Render array.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapContainerVerticalSpacing(array $element): array {
+    if (empty($element)) {
+      // Element is empty, so no need to wrap it.
+      return [];
+    }
+
+    return [
+      '#theme' => 'server_theme_container_vertical_spacing',
+      '#items' => $element,
     ];
   }
 

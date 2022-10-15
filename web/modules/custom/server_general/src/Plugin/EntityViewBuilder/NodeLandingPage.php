@@ -28,14 +28,18 @@ class NodeLandingPage extends NodeViewBuilderAbstract {
    *   Render array.
    */
   public function buildFull(array $build, NodeInterface $entity) {
+    $elements = [];
     // Show the page title, unless it was set to be hidden.
     $element = $this->buildConditionalPageTitle($entity);
-    $build[] = $this->wrapElementWideContainer($element);
+    $elements[] = $this->wrapContainerWide($element);
 
     /** @var \Drupal\Core\Field\EntityReferenceFieldItemListInterface $paragraphs */
     $paragraphs = $entity->get('field_paragraphs');
     // Paragraphs.
-    $build[] = $this->buildReferencedEntities($paragraphs);
+    $element = $this->buildReferencedEntities($paragraphs);
+    $elements[] = $this->wrapContainerVerticalSpacing($element);
+
+    $build[] = $this->wrapContainerVerticalSpacing($elements);
 
     return $build;
   }

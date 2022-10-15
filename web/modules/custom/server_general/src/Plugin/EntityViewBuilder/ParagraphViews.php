@@ -35,7 +35,7 @@ class ParagraphViews extends EntityViewBuilderPluginAbstract {
     $views_field = $entity->get('field_views');
     // Views.
     $element = $views_field->view(['label' => 'hidden']);
-    $build[] = $this->wrapElementWideContainer($element);
+    $build[] = $this->wrapContainerWide($element);
 
     return $build;
   }

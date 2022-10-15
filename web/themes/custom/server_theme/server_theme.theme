@@ -78,6 +78,16 @@ function server_theme_theme() {
     ],
   ];
 
+  // A wrapper that has a `gap-y-5` between all elements. All elements on a
+  // typical PEVB need to be wrapped by this one, so it keeps a consistent
+  // vertical distance between all the elements. Each element can still add
+  // their own padding.
+  $info['server_theme_container_vertical_spacing'] = [
+    'variables' => [
+      'items' => NULL,
+    ],
+  ];
+
   $info['server_theme_hero_image'] = [
     'variables' => [
       'image' => NULL,

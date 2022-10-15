@@ -39,7 +39,7 @@ class ParagraphText extends EntityViewBuilderPluginAbstract {
       '#body' => $this->buildProcessedText($entity, 'field_body'),
     ];
 
-    $build[] = $this->wrapElementWideContainer($element);
+    $build[] = $this->wrapContainerWide($element);
 
     return $build;
   }
