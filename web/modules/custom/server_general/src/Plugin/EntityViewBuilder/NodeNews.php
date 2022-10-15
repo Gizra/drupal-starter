@@ -87,10 +87,11 @@ class NodeNews extends NodeViewBuilderAbstract {
    *
    * @return array
    *   Render array
+   *
    * @throws \IntlException
    */
   protected function buildHeader(NodeInterface $entity): array {
-    $elements= [];
+    $elements = [];
 
     // Show the node type as a label.
     $node_type = NodeType::load($entity->bundle());
@@ -117,6 +118,7 @@ class NodeNews extends NodeViewBuilderAbstract {
    *
    * @return array
    *   Render array
+   *
    * @throws \IntlException
    */
   protected function buildMainAndSidebar(NodeInterface $entity): array {
@@ -137,9 +139,5 @@ class NodeNews extends NodeViewBuilderAbstract {
     ];
 
   }
-
-
-
-
 
 }

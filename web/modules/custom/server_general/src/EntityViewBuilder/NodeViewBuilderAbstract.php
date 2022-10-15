@@ -2,7 +2,6 @@
 
 namespace Drupal\server_general\EntityViewBuilder;
 
-use Drupal\Core\Url;
 use Drupal\node\NodeInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
 use Drupal\server_general\ElementWrapTrait;

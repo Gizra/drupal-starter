@@ -36,7 +36,6 @@ trait TitleAndLabelsTrait {
     ];
   }
 
-
   /**
    * Build the page title and the labels from text.
    *
@@ -81,6 +80,5 @@ trait TitleAndLabelsTrait {
       '#items' => $items,
     ];
   }
-
 
 }

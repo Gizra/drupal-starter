@@ -126,7 +126,6 @@ function server_theme_theme() {
     'variables' => [],
   ];
 
-
   $info['server_theme_hero_image'] = [
     'variables' => [
       'image' => NULL,

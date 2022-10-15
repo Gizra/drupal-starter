@@ -49,7 +49,7 @@ trait TagBuilderTrait {
     }
 
     $items = [];
-    /** @var TermInterface $term */
+    /** @var \Drupal\taxonomy\TermInterface $term */
     foreach ($entity->{$field_name}->referencedEntities() as $term) {
       $items[] = $this->buildTag($term);
     }
