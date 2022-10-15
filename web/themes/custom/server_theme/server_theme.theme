@@ -11,12 +11,6 @@
 function server_theme_theme() {
   $info = [];
 
-  $info['server_theme_page_title'] = [
-    'variables' => [
-      'title' => NULL,
-    ],
-  ];
-
   $info['server_theme_container_wide'] = [
     'variables' => [
       'element' => NULL,
@@ -47,10 +41,23 @@ function server_theme_theme() {
     ],
   ];
 
+  $info['server_theme_page_title'] = [
+    'variables' => [
+      'title' => NULL,
+    ],
+  ];
+
+  $info['server_theme_title_and_labels'] = [
+    'variables' => [
+      'title' => NULL,
+      'labels' => NULL,
+    ],
+  ];
+
   // Content labels (e.g. showing the content type name on a card).
   $info['server_theme_label'] = [
     'variables' => [
-      'title' => NULL,
+      'label' => NULL,
     ],
   ];
 
@@ -58,6 +65,23 @@ function server_theme_theme() {
   $info['server_theme_labels'] = [
     'variables' => [
       // A list of links.
+      'items' => [],
+    ],
+  ];
+
+  // A single referenced tag.
+  $info['server_theme_tag'] = [
+    'variables' => [
+      'title' => NULL,
+      'url' => NULL,
+    ],
+  ];
+
+  // A list of tags.
+  $info['server_theme_tags'] = [
+    'variables' => [
+      // The name of the field that holds the tags.
+      'title' => NULL,
       'items' => [],
     ],
   ];
@@ -145,8 +169,8 @@ function server_theme_theme() {
     ],
   ];
 
-  // Wrapper from text, making it large. Often used with "regular" elements that
-  // don't require a special design, apart from the text size.
+  // Wrapper for a text, making it large. Often used with "regular" elements
+  // that don't require a special design, apart from the text size.
   $info['server_theme_text_large'] = [
     'variables' => [
       'text' => NULL,
