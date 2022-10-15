@@ -129,7 +129,7 @@ function server_theme_theme() {
     ],
   ];
 
-  // Buttons.
+  // A single Button.
   $info['server_theme_button'] = [
     'variables' => [
       'url' => NULL,

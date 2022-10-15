@@ -146,6 +146,7 @@ class StyleGuideController extends ControllerBase {
 
     return [
       '#theme' => 'server_theme_tags',
+      '#title' => 'Tags',
       '#items' => $items,
     ];
   }
