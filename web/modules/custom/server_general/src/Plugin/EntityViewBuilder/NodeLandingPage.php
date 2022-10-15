@@ -40,9 +40,9 @@ class NodeLandingPage extends NodeViewBuilderAbstract {
     $paragraphs = $entity->get('field_paragraphs');
     // Paragraphs.
     $element = $this->buildReferencedEntities($paragraphs);
-    $elements[] = $this->wrapContainerVerticalSpacing($element);
+    $elements[] = $this->wrapContainerVerticalSpacingBig($element);
 
-    $build[] = $this->wrapContainerVerticalSpacing($elements);
+    $build[] = $this->wrapContainerVerticalSpacingBig($elements);
 
     return $build;
   }
