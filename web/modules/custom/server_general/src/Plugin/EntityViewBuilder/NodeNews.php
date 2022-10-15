@@ -4,9 +4,11 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\intl_date\IntlDate;
 use Drupal\media\MediaInterface;
+use Drupal\node\Entity\NodeType;
 use Drupal\node\NodeInterface;
 use Drupal\server_general\EntityDateTrait;
 use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
+use Drupal\server_general\TitleAndLabelsTrait;
 
 /**
  * The "Node News" plugin.
@@ -20,6 +22,7 @@ use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
 class NodeNews extends NodeViewBuilderAbstract {
 
   use EntityDateTrait;
+  use TitleAndLabelsTrait;
 
   /**
    * Build full view mode.
@@ -40,9 +43,7 @@ class NodeNews extends NodeViewBuilderAbstract {
     // No wrapper, as the hero image takes the full width.
     $elements[] = $element;
 
-    // Tags.
-    $element = $this->buildTags($entity);
-    $elements[] = $this->wrapContainerWide($element);
+
 
     // Get the body text, wrap it with `prose` so it's styled.
     $element = $this->buildProcessedText($entity);
@@ -79,5 +80,30 @@ class NodeNews extends NodeViewBuilderAbstract {
 
     return $build;
   }
+
+  protected function buildHeader(NodeInterface $entity): array {
+    $main_elements = [];
+    $sidebar_elements= [];
+
+    $elements= [];
+
+    // Show the node type as a label.
+    $node_type = NodeType::load($entity->bundle());
+
+    // Labels.
+    $elements[] = $this->buildTitleAndLabelsFromText($entity, [$node_type->label()]);
+
+    // Date.
+    $timestamp = $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date');
+    $elements[] = [
+      '#theme' => 'server_theme_text_large',
+      '#text' => IntlDate::formatPattern($timestamp, 'long'),
+    ];
+
+
+
+
+  }
+
 
 }

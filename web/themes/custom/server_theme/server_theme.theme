@@ -11,10 +11,54 @@
 function server_theme_theme() {
   $info = [];
 
-  $info['server_theme_tag'] = [
+  $info['server_theme_page_title'] = [
     'variables' => [
-      'url' => NULL,
       'title' => NULL,
+    ],
+  ];
+
+  $info['server_theme_container_wide'] = [
+    'variables' => [
+      'element' => NULL,
+    ],
+  ];
+
+  $info['server_theme_container_narrow'] = [
+    'variables' => [
+      'element' => NULL,
+    ],
+  ];
+
+  // A wrapper that has a `gap-y-5` between all elements. All elements on a
+  // typical PEVB need to be wrapped by this one, so it keeps a consistent
+  // vertical distance between all the elements. Each element can still add
+  // their own padding.
+  $info['server_theme_container_vertical_spacing'] = [
+    'variables' => [
+      'items' => NULL,
+    ],
+  ];
+
+  // Used to place elements inside a main area, and other elements in a sidebar.
+  $info['server_theme_main_and_sidebar'] = [
+    'variables' => [
+      'main' => NULL,
+      'sidebar' => NULL,
+    ],
+  ];
+
+  // Content labels (e.g. showing the content type name on a card).
+  $info['server_theme_label'] = [
+    'variables' => [
+      'title' => NULL,
+    ],
+  ];
+
+  // A list of labels.
+  $info['server_theme_labels'] = [
+    'variables' => [
+      // A list of links.
+      'items' => [],
     ],
   ];
 
@@ -37,7 +81,7 @@ function server_theme_theme() {
   ];
 
   // "Call to action" paragraph type.
-  $info['server_theme_cta'] = [
+  $info['server_theme_paragraph__cta'] = [
     'variables' => [
       'title' => NULL,
       'subtitle' => NULL,
@@ -47,18 +91,10 @@ function server_theme_theme() {
   ];
 
   // "Text" paragraph type.
-  $info['server_theme_text'] = [
+  $info['server_theme_paragraph__text'] = [
     'variables' => [
       'title' => NULL,
       'body' => NULL,
-    ],
-  ];
-
-  // Tags.
-  $info['server_theme_tags'] = [
-    'variables' => [
-      // A list of links.
-      'items' => [],
     ],
   ];
 
@@ -66,27 +102,6 @@ function server_theme_theme() {
     'variables' => [],
   ];
 
-  $info['server_theme_page_title'] = [
-    'variables' => [
-      'title' => NULL,
-    ],
-  ];
-
-  $info['server_theme_container_wide'] = [
-    'variables' => [
-      'element' => NULL,
-    ],
-  ];
-
-  // A wrapper that has a `gap-y-5` between all elements. All elements on a
-  // typical PEVB need to be wrapped by this one, so it keeps a consistent
-  // vertical distance between all the elements. Each element can still add
-  // their own padding.
-  $info['server_theme_container_vertical_spacing'] = [
-    'variables' => [
-      'items' => NULL,
-    ],
-  ];
 
   $info['server_theme_hero_image'] = [
     'variables' => [
@@ -125,6 +140,14 @@ function server_theme_theme() {
 
   // Text that should have `prose` classes applied to it.
   $info['server_theme_prose_text'] = [
+    'variables' => [
+      'text' => NULL,
+    ],
+  ];
+
+  // Wrapper from text, making it large. Often used with "regular" elements that
+  // don't require a special design, apart from the text size.
+  $info['server_theme_text_large'] = [
     'variables' => [
       'text' => NULL,
     ],

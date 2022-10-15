@@ -34,7 +34,7 @@ class ParagraphCta extends EntityViewBuilderPluginAbstract {
    */
   public function buildFull(array $build, ParagraphInterface $entity): array {
     $element = [
-      '#theme' => 'server_theme_cta',
+      '#theme' => 'server_theme_paragraph__cta',
       '#title' => $this->getTextFieldValue($entity, 'field_title'),
       '#subtitle' => $this->getTextFieldValue($entity, 'field_subtitle'),
       '#button' => $this->buildLinkButton($entity),

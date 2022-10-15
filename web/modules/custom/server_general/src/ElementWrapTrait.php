@@ -8,7 +8,7 @@ namespace Drupal\server_general;
 trait ElementWrapTrait {
 
   /**
-   * Wrap an element, with wide container.
+   * Wrap an element with a wide container.
    *
    * @return array
    *   Render array.
@@ -21,6 +21,24 @@ trait ElementWrapTrait {
 
     return [
       '#theme' => 'server_theme_container_wide',
+      '#element' => $element,
+    ];
+  }
+
+  /**
+   * Wrap an element with a narrow container.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapContainerNarrow(array $element): array {
+    if (!$element) {
+      // Element is empty, so no need to wrap it.
+      return [];
+    }
+
+    return [
+      '#theme' => 'server_theme_container_narrow',
       '#element' => $element,
     ];
   }

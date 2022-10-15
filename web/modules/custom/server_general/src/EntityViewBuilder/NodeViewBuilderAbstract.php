@@ -24,45 +24,6 @@ abstract class NodeViewBuilderAbstract extends EntityViewBuilderPluginAbstract {
   const RESPONSIVE_IMAGE_STYLE_HERO = 'hero';
 
   /**
-   * Default build in "Teaser" view mode.
-   *
-   * Show nodes as "cards".
-   *
-   * @param array $build
-   *   The existing build.
-   * @param \Drupal\node\NodeInterface $entity
-   *   The entity.
-   *
-   * @return mixed[]
-   *   An array of elements for output on the page.
-   */
-  public function buildTeaser(array $build, NodeInterface $entity) {
-    $build += $this->getElementBase($entity);
-    $build['#theme'] = 'server_theme_card__vertical';
-
-    return $build;
-  }
-
-  /**
-   * Get common elements for the view modes.
-   *
-   * @param \Drupal\node\NodeInterface $entity
-   *   The entity.
-   *
-   * @return array
-   *   A renderable array.
-   */
-  protected function getElementBase(NodeInterface $entity): array {
-    $element = [];
-    // User may create a preview, so it won't have an ID or URL yet.
-    $element['#nid'] = !$entity->isNew() ? $entity->id() : 0;
-    $element['#url'] = !$entity->isNew() ? $entity->toUrl() : Url::fromRoute('<front>');
-    $element['#title'] = $entity->label();
-
-    return $element;
-  }
-
-  /**
    * Build the Hero Header section, with Title, and Background Image.
    *
    * @param \Drupal\node\NodeInterface $entity
@@ -78,58 +39,6 @@ abstract class NodeViewBuilderAbstract extends EntityViewBuilderPluginAbstract {
       '#theme' => 'server_theme_hero_image',
       '#title' => $entity->label(),
       '#image' => $this->buildMediaResponsiveImage($entity, $image_field_name, self::RESPONSIVE_IMAGE_STYLE_HERO),
-    ];
-  }
-
-  /**
-   * Build a list of tags.
-   *
-   * @param \Drupal\node\NodeInterface $entity
-   *   The entity.
-   * @param string $field_name
-   *   Optional; The term reference field name. Defaults to "field_tags".
-   *
-   * @return array
-   *   A render array.
-   */
-  protected function buildTags(NodeInterface $entity, string $field_name = 'field_tags'): array {
-    if ($entity->{$field_name}->isEmpty()) {
-      // No terms referenced.
-      return [];
-    }
-
-    $items = [];
-    foreach ($entity->{$field_name}->referencedEntities() as $term) {
-      $items[] = $this->buildTag($term);
-    }
-
-    return [
-      '#theme' => 'server_theme_tags',
-      '#items' => $items,
-    ];
-  }
-
-  /**
-   * Build the page title and hide it if it's set to be hidden.
-   *
-   * The decision whether to hide it or not depends on the value of
-   * field_is_title_hidden field on the entity.
-   *
-   * @param \Drupal\node\NodeInterface $entity
-   *   The entity that's being built.
-   *
-   * @return array
-   *   A renderable array of the page title.
-   */
-  protected function buildConditionalPageTitle(NodeInterface $entity): array {
-    if ($entity->hasField('field_is_title_hidden') && $this->getBooleanFieldValue($entity, 'field_is_title_hidden')) {
-      // Title should be hidden.
-      return [];
-    }
-
-    return [
-      '#theme' => 'server_theme_page_title',
-      '#title' => $entity->label(),
     ];
   }
 

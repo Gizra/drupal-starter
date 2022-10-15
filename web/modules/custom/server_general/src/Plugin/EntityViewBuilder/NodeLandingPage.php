@@ -4,6 +4,7 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\node\NodeInterface;
 use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
+use Drupal\server_general\TitleAndLabelsTrait;
 
 /**
  * The "Node Landing Page" plugin.
@@ -15,6 +16,8 @@ use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
  * )
  */
 class NodeLandingPage extends NodeViewBuilderAbstract {
+
+  use TitleAndLabelsTrait;
 
   /**
    * Build full view mode.
