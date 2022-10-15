@@ -38,7 +38,7 @@ trait ProcessedTextBuilderTrait {
       $options['type'] = 'text_summary_or_trimmed';
     }
 
-    $element =  $entity->get($field)->view($options);
+    $element = $entity->get($field)->view($options);
     return $this->wrapElementProseText($element);
   }
 

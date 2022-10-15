@@ -67,7 +67,6 @@ trait ElementWrapTrait {
     ];
   }
 
-
   /**
    * Wrap an element, with Prose text.
    *

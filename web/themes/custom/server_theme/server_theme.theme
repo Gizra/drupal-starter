@@ -88,15 +88,6 @@ function server_theme_theme() {
     ],
   ];
 
-  // A wrapper that has a `gap-y-5` between all elements. Usually used for
-  // Landing page pages, where a bigger gap is required.
-  $info['server_theme_container_vertical_spacing_big'] = [
-    'variables' => [
-      'items' => NULL,
-    ],
-  ];
-
-
   $info['server_theme_hero_image'] = [
     'variables' => [
       'image' => NULL,
