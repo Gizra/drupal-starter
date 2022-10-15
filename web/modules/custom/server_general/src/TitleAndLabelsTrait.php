@@ -37,25 +37,6 @@ trait TitleAndLabelsTrait {
   }
 
   /**
-   * Build the page title and the labels from text.
-   *
-   * @param \Drupal\node\NodeInterface $entity
-   *   The entity.
-   * @param array $labels
-   *   The Labels to show.
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function buildTitleAndLabelsFromText(NodeInterface $entity, array $labels): array {
-    return [
-      '#theme' => 'server_theme_title_and_labels',
-      '#title' => $this->buildConditionalPageTitle($entity),
-      '#labels' => $this->buildLabelsFromText($labels),
-    ];
-  }
-
-  /**
    * Build the labels from text.
    *
    * @param array $labels

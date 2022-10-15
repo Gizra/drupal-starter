@@ -45,7 +45,8 @@ class NodeNews extends NodeViewBuilderAbstract {
     $elements[] = $this->wrapContainerWide($element);
 
     // Main content and sidebar.
-    $elements[] = $this->buildMainAndSidebar($entity);
+    $element = $this->buildMainAndSidebar($entity);
+    $elements[] = $this->wrapContainerWide($element);
 
     $build[] = $this->wrapContainerVerticalSpacing($elements);
 
@@ -93,11 +94,11 @@ class NodeNews extends NodeViewBuilderAbstract {
   protected function buildHeader(NodeInterface $entity): array {
     $elements = [];
 
+    $elements[] = $this->buildConditionalPageTitle($entity);
+
     // Show the node type as a label.
     $node_type = NodeType::load($entity->bundle());
-
-    // Labels.
-    $elements[] = $this->buildTitleAndLabelsFromText($entity, [$node_type->label()]);
+    $elements[] = $this->buildLabelsFromText([$node_type->label()]);
 
     // Date.
     $timestamp = $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date');
@@ -106,8 +107,8 @@ class NodeNews extends NodeViewBuilderAbstract {
       '#text' => IntlDate::formatPattern($timestamp, 'long'),
     ];
 
-    $elements = $this->wrapContainerNarrow($elements);
-    return $this->wrapContainerVerticalSpacing($elements);
+    $elements = $this->wrapContainerVerticalSpacing($elements);
+    return $this->wrapContainerNarrow($elements);
   }
 
   /**

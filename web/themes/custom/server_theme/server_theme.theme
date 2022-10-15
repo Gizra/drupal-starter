@@ -47,13 +47,6 @@ function server_theme_theme() {
     ],
   ];
 
-  $info['server_theme_title_and_labels'] = [
-    'variables' => [
-      'title' => NULL,
-      'labels' => NULL,
-    ],
-  ];
-
   // Content labels (e.g. showing the content type name on a card).
   $info['server_theme_label'] = [
     'variables' => [
