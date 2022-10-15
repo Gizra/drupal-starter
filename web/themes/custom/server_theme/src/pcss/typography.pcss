@@ -31,3 +31,8 @@ label {
 body {
   @apply text-gray-900;
 }
+
+// Remove the top margin from the first element of a prose.
+.prose .text-formatted > :first-child {
+  @apply mt-0;
+}

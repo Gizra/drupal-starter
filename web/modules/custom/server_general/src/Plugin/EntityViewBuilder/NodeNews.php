@@ -54,33 +54,6 @@ class NodeNews extends NodeViewBuilderAbstract {
   }
 
   /**
-   * Build Teaser view mode.
-   *
-   * @param array $build
-   *   The existing build.
-   * @param \Drupal\node\NodeInterface $entity
-   *   The entity.
-   *
-   * @return array
-   *   Render array.
-   */
-  public function buildTeaser(array $build, NodeInterface $entity) {
-    $media = $this->getReferencedEntityFromField($entity, 'field_featured_image');
-    $timestamp = $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date');
-
-    $element = [
-      '#theme' => 'server_theme_card',
-      '#title' => $entity->label(),
-      '#image' => $media instanceof MediaInterface ? $this->buildImageStyle($media, 'card', 'field_media_image') : NULL,
-      '#date' => IntlDate::formatPattern($timestamp, 'long'),
-      '#url' => $entity->toUrl(),
-    ];
-    $build[] = $element;
-
-    return $build;
-  }
-
-  /**
    * Build the header.
    *
    * @param \Drupal\node\NodeInterface $entity
@@ -126,6 +99,7 @@ class NodeNews extends NodeViewBuilderAbstract {
     $main_elements = [];
     $sidebar_elements = [];
 
+    $main_elements[] = $this->buildMediaResponsiveImage($entity, 'field_featured_image', self::RESPONSIVE_IMAGE_STYLE_HERO);
     // Get the body text, wrap it with `prose` so it's styled.
     $main_elements[] = $this->buildProcessedText($entity);
 
@@ -135,10 +109,37 @@ class NodeNews extends NodeViewBuilderAbstract {
 
     return [
       '#theme' => 'server_theme_main_and_sidebar',
-      '#main' => $main_elements,
+      '#main' => $this->wrapContainerVerticalSpacing($main_elements),
       '#sidebar' => $this->wrapContainerVerticalSpacing($sidebar_elements),
     ];
 
+  }
+
+  /**
+   * Build Teaser view mode.
+   *
+   * @param array $build
+   *   The existing build.
+   * @param \Drupal\node\NodeInterface $entity
+   *   The entity.
+   *
+   * @return array
+   *   Render array.
+   */
+  public function buildTeaser(array $build, NodeInterface $entity) {
+    $media = $this->getReferencedEntityFromField($entity, 'field_featured_image');
+    $timestamp = $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date');
+
+    $element = [
+      '#theme' => 'server_theme_card',
+      '#title' => $entity->label(),
+      '#image' => $media instanceof MediaInterface ? $this->buildImageStyle($media, 'card', 'field_media_image') : NULL,
+      '#date' => IntlDate::formatPattern($timestamp, 'long'),
+      '#url' => $entity->toUrl(),
+    ];
+    $build[] = $element;
+
+    return $build;
   }
 
 }
