@@ -18,14 +18,14 @@ trait ProcessedTextBuilderTrait {
    *   The entity.
    * @param string $field
    *   Optional; The name of the field. Defaults to "body".
-   * @param bool $summary_or_trimmed
-   *   Optional; If TRUE then the "summary or trimmed" formatter will be used.
-   *   Defaults to FALSE.
+   * @param bool $wrap_prose
+   *   Optional; If TRUE then wrap the text with the `prose` classes.
+   *   Defaults to TRUE.
    *
    * @return array
    *   Render array.
    */
-  protected function buildProcessedText(FieldableEntityInterface $entity, string $field = 'field_body', bool $summary_or_trimmed = FALSE) : array {
+  protected function buildProcessedText(FieldableEntityInterface $entity, string $field = 'field_body', bool $wrap_prose = TRUE) : array {
     if (!$entity->hasField($field) || $entity->get($field)->isEmpty()) {
       // Field is empty or doesn't exist.
       return [];
@@ -34,12 +34,8 @@ trait ProcessedTextBuilderTrait {
     // Hide the label.
     $options = ['label' => 'hidden'];
 
-    if ($summary_or_trimmed) {
-      $options['type'] = 'text_summary_or_trimmed';
-    }
-
     $element = $entity->get($field)->view($options);
-    return $this->wrapElementProseText($element);
+    return $wrap_prose ? $this->wrapElementProseText($element) : $element;
   }
 
 }
