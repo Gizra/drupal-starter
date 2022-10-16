@@ -79,7 +79,8 @@ class NodeNews extends NodeViewBuilderAbstract {
     // Make text bigger.
     $elements[] = $this->wrapTextDecorations($element, FALSE, FALSE, 'lg');
 
-    $elements = $this->wrapContainerVerticalSpacing($elements);
+    $element = $this->wrapContainerVerticalSpacing($elements);
+    $elements = $this->wrapContainerBottomPadding($element);
     return $this->wrapContainerNarrow($elements);
   }
 

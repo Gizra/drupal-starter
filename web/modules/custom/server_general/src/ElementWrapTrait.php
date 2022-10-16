@@ -107,6 +107,27 @@ trait ElementWrapTrait {
   }
 
   /**
+   * Wrap an element with a bottom padding.
+   *
+   * @param array $element
+   *   Render array.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapContainerBottomPadding(array $element): array {
+    if (empty($element)) {
+      // Element is empty, so no need to wrap it.
+      return [];
+    }
+
+    return [
+      '#theme' => 'server_theme_container_bottom_padding',
+      '#items' => $element,
+    ];
+  }
+
+  /**
    * Wrap an element, with Prose text.
    *
    * @return array
