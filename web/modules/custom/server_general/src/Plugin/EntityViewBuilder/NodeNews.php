@@ -48,7 +48,8 @@ class NodeNews extends NodeViewBuilderAbstract {
     $element = $this->buildMainAndSidebar($entity);
     $elements[] = $this->wrapContainerWide($element);
 
-    $build[] = $this->wrapContainerVerticalSpacing($elements);
+    $elements = $this->wrapContainerVerticalSpacing($elements);
+    $build[] = $this->wrapContainerBottomPadding($elements);
 
     return $build;
   }
@@ -79,8 +80,7 @@ class NodeNews extends NodeViewBuilderAbstract {
     // Make text bigger.
     $elements[] = $this->wrapTextDecorations($element, FALSE, FALSE, 'lg');
 
-    $element = $this->wrapContainerVerticalSpacing($elements);
-    $elements = $this->wrapContainerBottomPadding($element);
+    $elements = $this->wrapContainerVerticalSpacing($elements);
     return $this->wrapContainerNarrow($elements);
   }
 
