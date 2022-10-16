@@ -65,6 +65,27 @@ trait ElementWrapTrait {
   }
 
   /**
+   * Wrap an element with a tiny vertical spacing (8px).
+   *
+   * @param array $element
+   *   Render array.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapContainerVerticalSpacingTiny(array $element): array {
+    if (empty($element)) {
+      // Element is empty, so no need to wrap it.
+      return [];
+    }
+
+    return [
+      '#theme' => 'server_theme_container_vertical_spacing_tiny',
+      '#items' => $element,
+    ];
+  }
+
+  /**
    * Wrap an element with a big vertical spacing.
    *
    * @param array $element
@@ -103,7 +124,6 @@ trait ElementWrapTrait {
     ];
   }
 
-
   /**
    * Wrap an element with text decorations.
    *
@@ -134,6 +154,5 @@ trait ElementWrapTrait {
       '#font_size' => $font_size,
     ];
   }
-
 
 }
