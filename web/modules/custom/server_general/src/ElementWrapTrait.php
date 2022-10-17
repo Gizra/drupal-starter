@@ -107,6 +107,27 @@ trait ElementWrapTrait {
   }
 
   /**
+   * Wrap an element with a huge vertical spacing.
+   *
+   * @param array $element
+   *   Render array.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapContainerVerticalSpacingHuge(array $element): array {
+    if (empty($element)) {
+      // Element is empty, so no need to wrap it.
+      return [];
+    }
+
+    return [
+      '#theme' => 'server_theme_container_vertical_spacing_huge',
+      '#items' => $element,
+    ];
+  }
+
+  /**
    * Wrap an element with a bottom padding.
    *
    * @param array $element
