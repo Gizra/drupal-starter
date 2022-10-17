@@ -31,3 +31,12 @@ label {
 body {
   @apply text-gray-900;
 }
+
+// Remove the top/ bottom margin from the first/ last element of a prose.
+.prose .text-formatted > :first-child {
+  @apply mt-0;
+}
+
+.prose .text-formatted > :last-child {
+  @apply mb-0;
+}

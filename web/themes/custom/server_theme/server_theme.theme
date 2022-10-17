@@ -11,10 +11,98 @@
 function server_theme_theme() {
   $info = [];
 
+  $info['server_theme_container_wide'] = [
+    'variables' => [
+      'element' => NULL,
+    ],
+  ];
+
+  $info['server_theme_container_narrow'] = [
+    'variables' => [
+      'element' => NULL,
+    ],
+  ];
+
+  // A wrapper that has a `gap-y-5` between all elements. All elements on a
+  // typical PEVB need to be wrapped by this one, so it keeps a consistent
+  // vertical distance between all the elements. Each element can still add
+  // their own padding.
+  $info['server_theme_container_vertical_spacing'] = [
+    'variables' => [
+      'items' => NULL,
+    ],
+  ];
+
+  // A wrapper that has a `gap-y-2` between all elements. Often used for
+  // smaller elements that need to be composed.
+  $info['server_theme_container_vertical_spacing_tiny'] = [
+    'variables' => [
+      'items' => NULL,
+    ],
+  ];
+
+  // A wrapper that has a `gap-y-10` between all elements. Often used for
+  // Landing page PEVB.
+  $info['server_theme_container_vertical_spacing_big'] = [
+    'variables' => [
+      'items' => NULL,
+    ],
+  ];
+
+  // A wrapper that adds a bottom padding `pb-10`. This is likely used on non
+  // Landing page PEVB wrapping all the elements, so they have a bottom padding
+  // before the footer. For Landing page elements, it's likely not going to be
+  // used, as there we expect each element to have a fixed set of top and bottom
+  // paddings.
+  $info['server_theme_container_bottom_padding'] = [
+    'variables' => [
+      'items' => NULL,
+    ],
+  ];
+
+  // Used to place elements inside a main area, and other elements in a sidebar.
+  $info['server_theme_main_and_sidebar'] = [
+    'variables' => [
+      'main' => NULL,
+      'sidebar' => NULL,
+    ],
+  ];
+
+  $info['server_theme_page_title'] = [
+    'variables' => [
+      'title' => NULL,
+    ],
+  ];
+
+  // Content labels (e.g. showing the content type name on a card).
+  $info['server_theme_label'] = [
+    'variables' => [
+      'label' => NULL,
+    ],
+  ];
+
+  // A list of labels.
+  $info['server_theme_labels'] = [
+    'variables' => [
+      // A list of links.
+      'items' => [],
+    ],
+  ];
+
+  // A single referenced tag.
   $info['server_theme_tag'] = [
     'variables' => [
-      'url' => NULL,
       'title' => NULL,
+      'url' => NULL,
+    ],
+  ];
+
+  // A list of tags.
+  $info['server_theme_tags'] = [
+    'variables' => [
+      // The name of the field that holds the tags.
+      'title' => NULL,
+      'items' => [],
     ],
   ];
 
@@ -37,7 +125,7 @@ function server_theme_theme() {
   ];
 
   // "Call to action" paragraph type.
-  $info['server_theme_cta'] = [
+  $info['server_theme_paragraph__cta'] = [
     'variables' => [
       'title' => NULL,
       'subtitle' => NULL,
@@ -47,35 +135,15 @@ function server_theme_theme() {
   ];
 
   // "Text" paragraph type.
-  $info['server_theme_text'] = [
+  $info['server_theme_paragraph__text'] = [
     'variables' => [
       'title' => NULL,
       'body' => NULL,
     ],
   ];
 
-  // Tags.
-  $info['server_theme_tags'] = [
-    'variables' => [
-      // A list of links.
-      'items' => [],
-    ],
-  ];
-
   $info['server_theme_footer'] = [
     'variables' => [],
-  ];
-
-  $info['server_theme_page_title'] = [
-    'variables' => [
-      'title' => NULL,
-    ],
-  ];
-
-  $info['server_theme_container_wide'] = [
-    'variables' => [
-      'element' => NULL,
-    ],
   ];
 
   $info['server_theme_hero_image'] = [
@@ -88,7 +156,7 @@ function server_theme_theme() {
     ],
   ];
 
-  // Buttons.
+  // A single Button.
   $info['server_theme_button'] = [
     'variables' => [
       'url' => NULL,
@@ -117,6 +185,41 @@ function server_theme_theme() {
   $info['server_theme_prose_text'] = [
     'variables' => [
       'text' => NULL,
+    ],
+  ];
+
+  // Wrapper for a text, allowing adding some simple attributes, such as bold,
+  // underline, or settings the font size (`sm`, `lg`). Often used with
+  // "regular" elements that don't require a special design, apart from the
+  // those simple text decorations.
+  $info['server_theme_text_decorations'] = [
+    'variables' => [
+      // The element to wrap.
+      'element' => [],
+      'is_bold' => NULL,
+      'is_underline' => NULL,
+      // Can either be `sm`, `lg` or `xl`. Defaults to NULL, which will not
+      // change the font size.
+      'font_size' => NULL,
+    ],
+  ];
+
+  $info['server_theme_social_share_button'] = [
+    'variables' => [
+      'url' => NULL,
+      // Types can be:
+      // `twitter`, `linkedin`, `facebook`, and `email`.
+      'service' => NULL,
+      // Will be used as the subject for sharing by email (e.g. the node
+      // title).
+      'email_subject' => NULL,
+    ],
+  ];
+
+  // List of social share buttons.
+  $info['server_theme_social_share_buttons'] = [
+    'variables' => [
+      'items' => NULL,
     ],
   ];
 

@@ -4,9 +4,12 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\intl_date\IntlDate;
 use Drupal\media\MediaInterface;
+use Drupal\node\Entity\NodeType;
 use Drupal\node\NodeInterface;
 use Drupal\server_general\EntityDateTrait;
 use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
+use Drupal\server_general\SocialShareTrait;
+use Drupal\server_general\TitleAndLabelsTrait;
 
 /**
  * The "Node News" plugin.
@@ -20,6 +23,8 @@ use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
 class NodeNews extends NodeViewBuilderAbstract {
 
   use EntityDateTrait;
+  use SocialShareTrait;
+  use TitleAndLabelsTrait;
 
   /**
    * Build full view mode.
@@ -33,23 +38,81 @@ class NodeNews extends NodeViewBuilderAbstract {
    *   Render array.
    */
   public function buildFull(array $build, NodeInterface $entity) {
-    $this->messenger()->addMessage('Add your Node News elements in \Drupal\server_general\Plugin\EntityViewBuilder\NodeNews');
+    $elements = [];
 
     // Header.
-    $element = $this->buildHeroImageAndTitle($entity, 'field_featured_image');
-    // No wrapper, as the hero image takes the full width.
-    $build[] = $element;
+    $element = $this->buildHeader($entity);
+    $elements[] = $this->wrapContainerWide($element);
 
-    // Tags.
-    $element = $this->buildTags($entity);
-    $build[] = $this->wrapElementWideContainer($element);
+    // Main content and sidebar.
+    $element = $this->buildMainAndSidebar($entity);
+    $elements[] = $this->wrapContainerWide($element);
 
-    // Get the body text, wrap it with `prose` so it's styled.
-    $element = $this->buildProcessedText($entity);
-    $element = $this->wrapElementProseText($element);
-    $build[] = $this->wrapElementWideContainer($element);
+    $elements = $this->wrapContainerVerticalSpacing($elements);
+    $build[] = $this->wrapContainerBottomPadding($elements);
 
     return $build;
+  }
+
+  /**
+   * Build the header.
+   *
+   * @param \Drupal\node\NodeInterface $entity
+   *   The entity.
+   *
+   * @return array
+   *   Render array
+   *
+   * @throws \IntlException
+   */
+  protected function buildHeader(NodeInterface $entity): array {
+    $elements = [];
+
+    $elements[] = $this->buildConditionalPageTitle($entity);
+
+    // Show the node type as a label.
+    $node_type = NodeType::load($entity->bundle());
+    $elements[] = $this->buildLabelsFromText([$node_type->label()]);
+
+    // Date.
+    $timestamp = $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date');
+    $element = ['#markup' => IntlDate::formatPattern($timestamp, 'long')];
+    // Make text bigger.
+    $elements[] = $this->wrapTextDecorations($element, FALSE, FALSE, 'lg');
+
+    $elements = $this->wrapContainerVerticalSpacing($elements);
+    return $this->wrapContainerNarrow($elements);
+  }
+
+  /**
+   * Build the Main content and the sidebar.
+   *
+   * @param \Drupal\node\NodeInterface $entity
+   *   The entity.
+   *
+   * @return array
+   *   Render array
+   *
+   * @throws \IntlException
+   */
+  protected function buildMainAndSidebar(NodeInterface $entity): array {
+    $main_elements = [];
+    $sidebar_elements = [];
+
+    $main_elements[] = $this->buildMediaResponsiveImage($entity, 'field_featured_image', self::RESPONSIVE_IMAGE_STYLE_HERO);
+    // Get the body text, wrap it with `prose` so it's styled.
+    $main_elements[] = $this->buildProcessedText($entity);
+
+    // Get the tags, and social share.
+    $sidebar_elements[] = $this->buildTags($entity);
+    $sidebar_elements[] = $this->buildSocialShare($entity);
+
+    return [
+      '#theme' => 'server_theme_main_and_sidebar',
+      '#main' => $this->wrapContainerVerticalSpacing($main_elements),
+      '#sidebar' => $this->wrapContainerVerticalSpacing($sidebar_elements),
+    ];
+
   }
 
   /**

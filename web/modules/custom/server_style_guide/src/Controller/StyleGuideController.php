@@ -146,6 +146,7 @@ class StyleGuideController extends ControllerBase {
 
     return [
       '#theme' => 'server_theme_tags',
+      '#title' => 'Tags',
       '#items' => $items,
     ];
   }
@@ -265,7 +266,7 @@ class StyleGuideController extends ControllerBase {
     $button = $this->buildButton($url, 'View more');
 
     return [
-      '#theme' => 'server_theme_cta',
+      '#theme' => 'server_theme_paragraph__cta',
       '#title' => $this->t('Lorem ipsum dolor sit amet'),
       '#subtitle' => $this->t('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'),
       '#button' => $button,
