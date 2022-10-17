@@ -26,14 +26,15 @@ function server_theme_theme() {
   // A wrapper that has a `gap-y-5` between all elements. All elements on a
   // typical PEVB need to be wrapped by this one, so it keeps a consistent
   // vertical distance between all the elements. Each element can still add
-  // their own padding.
+  // their own top or bottom padding if they really need, but likely they
+  // won't need.
   $info['server_theme_container_vertical_spacing'] = [
     'variables' => [
       'items' => NULL,
     ],
   ];
 
-  // A wrapper that has a `gap-y-2` between all elements. Often used for
+  // A wrapper that has a `gap-y-2` (8px) between all elements. Often used for
   // smaller elements that need to be composed.
   $info['server_theme_container_vertical_spacing_tiny'] = [
     'variables' => [
@@ -41,13 +42,20 @@ function server_theme_theme() {
     ],
   ];
 
-  // A wrapper that has a `gap-y-10` between all elements. Often used for
-  // Landing page PEVB.
+  // A wrapper that has a `gap-y-10` (40px) between all elements.
   $info['server_theme_container_vertical_spacing_big'] = [
     'variables' => [
       'items' => NULL,
     ],
   ];
+
+  // A wrapper that has a `gap-y-16` (60px) between all elements.
+  $info['server_theme_container_vertical_spacing_huge'] = [
+    'variables' => [
+      'items' => NULL,
+    ],
+  ];
+
 
   // A wrapper that adds a bottom padding `pb-10`. This is likely used on non
   // Landing page PEVB wrapping all the elements, so they have a bottom padding
