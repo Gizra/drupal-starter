@@ -48,3 +48,7 @@ web/sites/all/drush
 
 # PHPunit cache file
 .phpunit.result.cache
+
+# Patching leftover.
+*.orig
+*.rej
