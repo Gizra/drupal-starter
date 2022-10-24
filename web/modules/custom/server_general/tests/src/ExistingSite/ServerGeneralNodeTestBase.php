@@ -16,21 +16,4 @@ abstract class ServerGeneralNodeTestBase extends ServerGeneralFieldableEntityTes
     return 'node';
   }
 
-  /**
-   * Extract the reference values for a paragraph.
-   *
-   * @param \Drupal\paragraphs\ParagraphInterface $paragraph
-   *   The paragraph.
-   *
-   * @return array
-   *   Reference values of the given paragraph containing target_id and
-   *   target_revision_id keys.
-   */
-  protected function getParagraphReferenceValues(ParagraphInterface $paragraph) {
-    return [
-      'target_id' => $paragraph->id(),
-      'target_revision_id' => $paragraph->getRevisionId(),
-    ];
-  }
-
 }
