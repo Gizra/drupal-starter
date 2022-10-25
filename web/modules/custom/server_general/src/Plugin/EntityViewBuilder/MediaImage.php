@@ -38,8 +38,7 @@ class MediaImage extends EntityViewBuilderPluginAbstract {
    *   The render array.
    */
   public function buildFull(array $build, MediaInterface $media): array {
-    $elements = [];
-    $elements[] = $media->get('thumbnail')->view([
+    $image = $media->get('thumbnail')->view([
       'label' => 'hidden',
       'type' => 'responsive_image',
       'settings' => [
@@ -48,10 +47,13 @@ class MediaImage extends EntityViewBuilderPluginAbstract {
       ],
     ]);
 
-    $caption = $this->getTextFieldValue($media, 'field_caption');
-    $elements[] = $this->wrapTextDecorations($caption, FALSE, FALSE, 'sm');
+    $element = [
+      '#theme' => 'server_theme_image_and_caption',
+      '#image' => $image,
+      '#caption' => $this->getTextFieldValue($media, 'field_caption'),
+    ];
 
-    $build[] = $this->wrapContainerVerticalSpacing($elements);
+    $build[] = $element;
     return $build;
   }
 

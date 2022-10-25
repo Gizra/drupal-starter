@@ -170,7 +170,7 @@ trait ElementWrapTrait {
    * Wrap an element with text decorations.
    *
    * @param array|string $element
-   *   The render array.
+   *   The render array or string.
    * @param bool $is_bold
    *   TRUE to make it text bold.
    * @param bool $is_underline
