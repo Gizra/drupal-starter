@@ -99,7 +99,6 @@ class NodeNews extends NodeViewBuilderAbstract {
     $main_elements = [];
     $sidebar_elements = [];
 
-
     $medias = $entity->get('field_featured_image')->referencedEntities();
     $main_elements[] = $this->buildEntities($medias);
     // Get the body text, wrap it with `prose` so it's styled.

@@ -4,22 +4,9 @@ declare(strict_types=1);
 
 namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
-use Drupal\Core\Cache\CacheableMetadata;
-use Drupal\Core\Entity\ContentEntityInterface;
-use Drupal\intl_date\IntlDate;
 use Drupal\media\MediaInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
-use Drupal\server_general\ElasticSearchQuery;
 use Drupal\server_general\ElementWrapTrait;
-use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
-use Drupal\server_general\EntityDateTrait;
-use Drupal\server_general\MediaLicenseBuilderTrait;
-use Drupal\server_general\ProcessedTextBuilderTrait;
-use Drupal\server_general\RelatedContentTrait;
-use Drupal\server_general\SidebarBuilderTrait;
-use Drupal\server_general\SocialShareTrait;
-use Drupal\server_general\TagBuilderTrait;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * The "Media: Image" plugin.
@@ -38,7 +25,6 @@ class MediaImage extends EntityViewBuilderPluginAbstract {
    * The responsive image style to use on Hero images.
    */
   const RESPONSIVE_IMAGE_STYLE_HERO = 'hero';
-
 
   /**
    * Build 'Card' view mode.
@@ -68,6 +54,5 @@ class MediaImage extends EntityViewBuilderPluginAbstract {
     $build[] = $this->wrapContainerVerticalSpacing($elements);
     return $build;
   }
-
 
 }

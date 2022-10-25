@@ -1,8 +1,8 @@
 enabled_entity_types:
+  media: media
   node: node
   paragraph: paragraph
   block_content: '0'
   comment: '0'
   taxonomy_term: '0'
   user: '0'
-  media: '0'
