@@ -5,6 +5,8 @@
  * Theme custom logic.
  */
 
+use Drupal\Core\Url;
+
 /**
  * Implements hook_theme().
  */
@@ -56,7 +58,6 @@ function server_theme_theme() {
     ],
   ];
 
-
   // A wrapper that adds a bottom padding `pb-10`. This is likely used on non
   // Landing page PEVB wrapping all the elements, so they have a bottom padding
   // before the footer. For Landing page elements, it's likely not going to be
@@ -65,6 +66,33 @@ function server_theme_theme() {
   $info['server_theme_container_bottom_padding'] = [
     'variables' => [
       'items' => NULL,
+    ],
+  ];
+
+  // The page's header.
+  $info['server_theme_header'] = [
+    'variables' => [
+      'search_block' => NULL,
+      'language_block_dropdown' => NULL,
+      'language_block_links' => NULL,
+      'menu' => NULL,
+      // Site name from the config.
+      'site_name' => NULL,
+    ],
+  ];
+
+  // @todo: Add doc.
+  $info['server_theme_header_menu'] = [
+    'variables' => [
+      'items' => [],
+    ],
+  ];
+
+  // The Search form on the header.
+  $info['server_theme_search'] = [
+    'variables' => [
+      'search_term' => NULL,
+      'search_url' => NULL,
     ],
   ];
 
@@ -238,7 +266,40 @@ function server_theme_theme() {
  * Implements hook_preprocess_page().
  */
 function server_theme_preprocess_page(array &$variables) {
-  $variables['page']['footer'] = ['#theme' => 'server_theme_footer'];
+  $language_block_config = [
+    'widget' => LANGDROPDOWN_SIMPLE_SELECT,
+    'hide_only_one' => FALSE,
+    'showall' => TRUE,
+    'width' => 'auto',
+    'display' => LANGDROPDOWN_DISPLAY_LANGCODE,
+  ];
+
+  $variables['page']['header'] = [
+    '#theme' => 'server_theme_header',
+    '#search_block' => [
+      '#theme' => 'server_theme_search',
+      // Pass the search term, in case one was entered.
+      '#search_term' => \Drupal::request()->query->get('key'),
+      '#search_url' => Url::fromUserInput('/search'),
+    ],
+    '#language_block_dropdown' => server_theme_prepare_block('language_dropdown_block:language_interface', $language_block_config),
+    '#language_block_links' => server_theme_prepare_block('language_switcher_langcode_block:language_interface', $language_block_config),
+    '#menu' => [
+      '#theme' => 'server_theme_header_menu',
+      '#items' => server_theme_prepare_menu_links('main'),
+    ],
+    '#site_name' => \Drupal::config('system.site')->get('name'),
+  ];
+
+
+  $variables['page']['footer'] = [
+    '#theme' => 'server_theme_footer',
+    '#cache' => [
+      'tags' => [
+        'config:system.menu.footer',
+      ],
+    ],
+  ];
 
   // Pass language settings to JS. This is used for example by the Slick
   // carousel to make sure we present carousels in the correct direction.
@@ -267,4 +328,61 @@ function server_theme_preprocess_page_title(array &$variables) {
  */
 function server_theme_theme_suggestions_page_title_alter(array &$suggestions, array $variables) {
   $suggestions[] = 'server_theme_page_title';
+}
+
+/**
+ * Render block by block id.
+ *
+ * @param string $bid
+ *   Block id.
+ *
+ * @return array
+ *   Render array.
+ */
+function server_theme_prepare_block(string $bid, array $config): array {
+  $block_manager = \Drupal::service('plugin.manager.block');
+  $plugin_block = $block_manager->createInstance($bid, $config);
+  $render = $plugin_block->build();
+  \Drupal::service('renderer')->addCacheableDependency($render, $plugin_block);
+
+  return $render;
+}
+
+/**
+ * Prepare menu links.
+ *
+ * @param string $menu_name
+ *   Menu name.
+ *
+ * @return array
+ *   Menu links array.
+ */
+function server_theme_prepare_menu_links(string $menu_name) {
+  $menu_tree = \Drupal::service('menu.link_tree');
+  // Build the typical default set of menu tree parameters.
+  $parameters = $menu_tree->getCurrentRouteMenuTreeParameters($menu_name);
+  // Load the tree based on this set of parameters.
+  $tree = $menu_tree->load($menu_name, $parameters);
+  $menu = [];
+  foreach ($tree as $element) {
+    $menu_link = $element->link;
+    if (!$menu_link->isEnabled()) {
+      continue;
+    }
+    $url = $menu_link->getUrlObject();
+    if (!$url->access()) {
+      continue;
+    }
+    $weight = $menu_link->getWeight();
+    if (!empty($menu[$weight])) {
+      $weight = count($menu) + 1;
+    }
+    $menu[$weight] = [
+      'title' => $menu_link->getTitle(),
+      'href' => $url->toString(),
+    ];
+  }
+  ksort($menu);
+
+  return $menu;
 }

@@ -37,6 +37,7 @@
         "drupal/environment_indicator": "^4.0",
         "drupal/focal_point": "^1.5",
         "drupal/intl_date": "^1.1",
+        "drupal/lang_dropdown": "^2.0",
         "drupal/media_entity_browser": "^2",
         "drupal/migrate_file": "^2.0",
         "drupal/migrate_plus": "^5.1",
