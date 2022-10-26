@@ -78,7 +78,7 @@ class NodeNews extends NodeViewBuilderAbstract {
 
     // Date.
     $timestamp = $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date');
-    $element = ['#markup' => IntlDate::formatPattern($timestamp, 'long')];
+    $element = IntlDate::formatPattern($timestamp, 'long');
     // Make text bigger.
     $elements[] = $this->wrapTextDecorations($element, FALSE, FALSE, 'lg');
 
@@ -102,7 +102,8 @@ class NodeNews extends NodeViewBuilderAbstract {
     $sidebar_elements = [];
     $social_share_elements = [];
 
-    $main_elements[] = $this->buildMediaResponsiveImage($entity, 'field_featured_image', self::RESPONSIVE_IMAGE_STYLE_HERO);
+    $medias = $entity->get('field_featured_image')->referencedEntities();
+    $main_elements[] = $this->buildEntities($medias);
     // Get the body text, wrap it with `prose` so it's styled.
     $main_elements[] = $this->buildProcessedText($entity);
 
