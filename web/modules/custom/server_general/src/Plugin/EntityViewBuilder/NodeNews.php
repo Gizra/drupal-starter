@@ -8,6 +8,7 @@ use Drupal\node\Entity\NodeType;
 use Drupal\node\NodeInterface;
 use Drupal\server_general\EntityDateTrait;
 use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
+use Drupal\server_general\LineSeparatorTrait;
 use Drupal\server_general\SocialShareTrait;
 use Drupal\server_general\TitleAndLabelsTrait;
 
@@ -23,6 +24,7 @@ use Drupal\server_general\TitleAndLabelsTrait;
 class NodeNews extends NodeViewBuilderAbstract {
 
   use EntityDateTrait;
+  use LineSeparatorTrait;
   use SocialShareTrait;
   use TitleAndLabelsTrait;
 
@@ -48,7 +50,7 @@ class NodeNews extends NodeViewBuilderAbstract {
     $element = $this->buildMainAndSidebar($entity);
     $elements[] = $this->wrapContainerWide($element);
 
-    $elements = $this->wrapContainerVerticalSpacing($elements);
+    $elements = $this->wrapContainerVerticalSpacingBig($elements);
     $build[] = $this->wrapContainerBottomPadding($elements);
 
     return $build;
@@ -98,6 +100,7 @@ class NodeNews extends NodeViewBuilderAbstract {
   protected function buildMainAndSidebar(NodeInterface $entity): array {
     $main_elements = [];
     $sidebar_elements = [];
+    $social_share_elements = [];
 
     $main_elements[] = $this->buildMediaResponsiveImage($entity, 'field_featured_image', self::RESPONSIVE_IMAGE_STYLE_HERO);
     // Get the body text, wrap it with `prose` so it's styled.
@@ -105,12 +108,17 @@ class NodeNews extends NodeViewBuilderAbstract {
 
     // Get the tags, and social share.
     $sidebar_elements[] = $this->buildTags($entity);
-    $sidebar_elements[] = $this->buildSocialShare($entity);
+
+    // Add a line separator above the social share buttons.
+    $social_share_elements[] = $this->buildLineSeparator();
+    $social_share_elements[] = $this->buildSocialShare($entity);
+
+    $sidebar_elements[] = $this->wrapContainerVerticalSpacing($social_share_elements);
 
     return [
       '#theme' => 'server_theme_main_and_sidebar',
-      '#main' => $this->wrapContainerVerticalSpacing($main_elements),
-      '#sidebar' => $this->wrapContainerVerticalSpacing($sidebar_elements),
+      '#main' => $this->wrapContainerVerticalSpacingBig($main_elements),
+      '#sidebar' => $this->wrapContainerVerticalSpacingBig($sidebar_elements),
     ];
 
   }
