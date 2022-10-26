@@ -240,6 +240,11 @@ function server_theme_theme() {
     ],
   ];
 
+  // A simple horizontal line separator.
+  $info['server_theme_line_separator'] = [
+    'variables' => [],
+  ];
+
   return $info;
 }
 
