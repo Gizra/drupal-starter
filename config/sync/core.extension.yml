@@ -37,6 +37,7 @@ module:
   image: 0
   inline_entity_form: 0
   intl_date: 0
+  lang_dropdown: 0
   language: 0
   link: 0
   media: 0
