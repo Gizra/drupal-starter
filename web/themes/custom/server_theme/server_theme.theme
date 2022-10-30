@@ -283,7 +283,7 @@ function server_theme_preprocess_page(array &$variables) {
       '#search_url' => Url::fromUserInput('/search'),
     ],
     '#language_block_dropdown' => server_theme_prepare_block('language_dropdown_block:language_interface', $language_block_config),
-    '#language_block_links' => server_theme_prepare_block('language_switcher_langcode_block:language_interface', $language_block_config),
+    '#language_block_links' => server_theme_prepare_block('language_block:language_interface', $language_block_config),
     '#menu' => [
       '#theme' => 'server_theme_header_menu',
       '#items' => server_theme_prepare_menu_links('main'),
