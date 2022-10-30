@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "99c64a83ce04ca6569c612bf08483516",
+    "content-hash": "e98b3922294dff5bc7939c26ec4bc662",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2766,6 +2766,106 @@
                 "source": "https://git.drupalcode.org/project/migrate_tools",
                 "issues": "https://www.drupal.org/project/issues/migrate_tools",
                 "slack": "#migrate"
+            }
+        },
+        {
+            "name": "drupal/og",
+            "version": "1.0.0-alpha9",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/og.git",
+                "reference": "8.x-1.0-alpha9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/og-8.x-1.0-alpha9.zip",
+                "reference": "8.x-1.0-alpha9",
+                "shasum": "968a8d4316e09b745d2e02248ce0a72b839e1ffa"
+            },
+            "require": {
+                "drupal/core": "^9.3",
+                "php": "^7.4 || ^8"
+            },
+            "require-dev": {
+                "drupal/coder": "^8.3.16",
+                "phpunit/phpunit": "^7 || ^8"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.0-alpha9",
+                    "datestamp": "1664950090",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Alpha releases are not covered by Drupal security advisories."
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "amitaibu",
+                    "homepage": "https://www.drupal.org/u/amitaibu"
+                },
+                {
+                    "name": "mpp",
+                    "homepage": "https://www.drupal.org/u/mpp"
+                },
+                {
+                    "name": "pfrenssen",
+                    "homepage": "https://www.drupal.org/u/pfrenssen"
+                },
+                {
+                    "name": "dww",
+                    "homepage": "https://www.drupal.org/user/46549"
+                },
+                {
+                    "name": "Grayside",
+                    "homepage": "https://www.drupal.org/user/346868"
+                },
+                {
+                    "name": "joelpittet",
+                    "homepage": "https://www.drupal.org/user/160302"
+                },
+                {
+                    "name": "merlinofchaos",
+                    "homepage": "https://www.drupal.org/user/26979"
+                },
+                {
+                    "name": "moshe weitzman",
+                    "homepage": "https://www.drupal.org/user/23"
+                },
+                {
+                    "name": "mpp",
+                    "homepage": "https://www.drupal.org/user/359881"
+                },
+                {
+                    "name": "pfrenssen",
+                    "homepage": "https://www.drupal.org/user/382067"
+                },
+                {
+                    "name": "RoySegall",
+                    "homepage": "https://www.drupal.org/user/1812910"
+                },
+                {
+                    "name": "sethcohn",
+                    "homepage": "https://www.drupal.org/user/14944"
+                },
+                {
+                    "name": "Zen",
+                    "homepage": "https://www.drupal.org/user/21209"
+                }
+            ],
+            "description": "API to allow associating content with groups.",
+            "homepage": "https://drupal.org/project/og",
+            "support": {
+                "source": "https://git.drupalcode.org/project/og",
+                "issues": "https://drupal.org/project/issues/og",
+                "irc": "irc://irc.freenode.org/drupal-og",
+                "slack": "https://drupal.slack.com/messages/CELR48EA0"
             }
         },
         {
@@ -13024,6 +13124,7 @@
         "drupal/config_ignore": 10,
         "drupal/elasticsearch_connector": 15,
         "drupal/emptyparagraphkiller": 15,
+        "drupal/og": 15,
         "drupal/redis": 20,
         "drupal/viewsreference": 10,
         "drupal/drupal_test_assertions": 20
