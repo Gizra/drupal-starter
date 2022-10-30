@@ -12,19 +12,18 @@
     </div>
   </div>
 
-  <div class="flex justify-between">
+  <div class="flex flex-row-reverse sm:flex-row justify-between items-center">
 
-    {{ menu }}
+    <div>
+      {{ menu }}
 
-    {{ search_block }}
-
-
-    {# The hamburger icon and menu that would appear on mobile devices #}
-    <div class="flex">
+      {# The hamburger icon and menu that would appear on mobile devices #}
       <button class="block sm:hidden w-7">
         <img src="/{{ directory }}/dist/images/menu.svg" alt="{{ 'Menu'|t }}">
       </button>
     </div>
+
+    {{ search_block }}
 
 
   </div>
