@@ -81,7 +81,7 @@ function server_theme_theme() {
     ],
   ];
 
-  // @todo: Add doc.
+  // @todo Add doc.
   $info['server_theme_header_menu'] = [
     'variables' => [
       'items' => [],
@@ -271,7 +271,7 @@ function server_theme_preprocess_page(array &$variables) {
     'hide_only_one' => FALSE,
     'showall' => TRUE,
     'width' => 'auto',
-    'display' => LANGDROPDOWN_DISPLAY_LANGCODE,
+    'display' => LANGDROPDOWN_DISPLAY_NATIVE,
   ];
 
   $variables['page']['header'] = [
@@ -290,7 +290,6 @@ function server_theme_preprocess_page(array &$variables) {
     ],
     '#site_name' => \Drupal::config('system.site')->get('name'),
   ];
-
 
   $variables['page']['footer'] = [
     '#theme' => 'server_theme_footer',

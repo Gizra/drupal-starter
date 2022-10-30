@@ -1,8 +1,8 @@
-<form action="{{ search_url }}" method="get" id="main-search-form" accept-charset="UTF-8" class="flex flex-row gap-x-5">
+<form action="{{ search_url }}" method="get" id="main-search-form" accept-charset="UTF-8" class="flex flex-row gap-x-3 md:gap-x-5">
 
   <div>
     <label class="sr-only" for="search-input">{{ 'Search'|t }}</label>
-    <input class="text-ellipsis text-sm lg:text-base lg:text-lg w-full text-gray-900 h-10 pr-10 rounded-lg" id="search-input" placeholder="{{ 'Search' | t }}" type="text" name="key" value="{{ search_term }}">
+    <input class="text-ellipsis w-full text-gray-900 h-10 border-t-0 border-l-0 border-r-0" id="search-input" placeholder="{{ 'Search' | t }}" type="text" name="key" value="{{ search_term }}">
   </div>
 
   <button>
