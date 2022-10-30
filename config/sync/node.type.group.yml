@@ -1,0 +1,18 @@
+uuid: b81d3b79-3e65-431f-a930-7f679895d8ae
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+name: Group
+type: group
+description: 'Group for OG members.'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: true
