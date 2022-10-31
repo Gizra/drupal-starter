@@ -2,8 +2,6 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
-use Drupal\paragraphs\ParagraphInterface;
-
 /**
  * Abstract class to hold shared logic to check various content types.
  */

@@ -56,7 +56,6 @@ function server_theme_theme() {
     ],
   ];
 
-
   // A wrapper that adds a bottom padding `pb-10`. This is likely used on non
   // Landing page PEVB wrapping all the elements, so they have a bottom padding
   // before the footer. For Landing page elements, it's likely not going to be
