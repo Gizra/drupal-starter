@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
+use Drupal\paragraphs\ParagraphInterface;
 use Drupal\Tests\drupal_test_assertions\Assertions\EntityTrait;
 use Drupal\Tests\drupal_test_assertions\Assertions\FieldsTrait;
 use weitzman\DrupalTestTraits\ExistingSiteBase;
@@ -30,6 +31,23 @@ abstract class ServerGeneralFieldableEntityTestBase extends ExistingSiteBase imp
     foreach ($this->getOptionalFields() as $field_name) {
       $this->assertFieldIsNotRequired($field_name, $entity_type, $entity_bundle);
     }
+  }
+
+  /**
+   * Extract the reference values for a paragraph.
+   *
+   * @param \Drupal\paragraphs\ParagraphInterface $paragraph
+   *   The paragraph.
+   *
+   * @return array
+   *   Reference values of the given paragraph containing target_id and
+   *   target_revision_id keys.
+   */
+  protected function getParagraphReferenceValues(ParagraphInterface $paragraph) {
+    return [
+      'target_id' => $paragraph->id(),
+      'target_revision_id' => $paragraph->getRevisionId(),
+    ];
   }
 
 }
