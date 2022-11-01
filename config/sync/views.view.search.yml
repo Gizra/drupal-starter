@@ -228,8 +228,8 @@ display:
         options:
           view_modes:
             'entity:node':
-              landing_page: teaser
-              news: teaser
+              landing_page: default
+              news: search_index
       query:
         type: search_api_query
         options:
