@@ -1,0 +1,7 @@
+{% if type == 'subscribe' %}
+  <a href="{{ url }}" target="_blank" title="{{ title }}">
+    {% trans %}
+      Hi {{ name }}, click here if you would like to subscribe to this group called {{ label }}
+    {% endtrans %}
+  </a>
+{% endif %}

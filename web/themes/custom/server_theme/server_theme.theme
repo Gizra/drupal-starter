@@ -245,6 +245,20 @@ function server_theme_theme() {
     'variables' => [],
   ];
 
+  // Group Subscribe.
+  $info['server_theme_group_subscribe'] = [
+    'variables' => [
+      // Types can be: subscribe, unsubscribe and group_manager.
+      'type' => NULL,
+      'url' => NULL,
+      'title' => NULL,
+      // The  current User Name.
+      'name' => NULL,
+      // The group Label.
+      'label' => NULL,
+    ],
+  ];
+
   return $info;
 }
 
