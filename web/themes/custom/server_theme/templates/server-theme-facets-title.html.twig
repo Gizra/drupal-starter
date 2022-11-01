@@ -1,5 +1,5 @@
-<div class="flex flex-row space-s-4 items-baseline">
-  <h3 class="filters-title flex flex-row pb-4 sm:pb-0 space-s-4 sm:hidden">
+<div class="flex flex-row gap-x-4 items-center">
+  <h3 class="filters-title flex flex-row gap-x-4 sm:hidden">
     <div>
       <i class="fas fa-filter"></i>
       {{ 'Filters'|t }}
@@ -8,9 +8,8 @@
   </h3>
 
   {% if has_filters %}
-    <div class="clear-filters rounded flex flex-row space-s-4 px-4 py-2 items-baseline sm:hidden cursor-pointer">
-      <div>{{ 'Clear filters' | t }}</div>
-      <i class="fas fa-times"></i>
+    <div class="clear-filters underline text-sm sm:hidden cursor-pointer">
+      {{ 'Clear filters' | t }}
     </div>
   {% endif %}
 
