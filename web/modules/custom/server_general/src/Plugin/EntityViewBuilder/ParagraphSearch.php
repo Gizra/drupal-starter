@@ -63,7 +63,6 @@ class ParagraphSearch extends EntityViewBuilderPluginAbstract {
    *   Render array.
    */
   public function buildFull(array $build, ParagraphInterface $entity): array {
-
     // Facets.
     $element = [
       '#theme' => 'server_theme_facets__search',
