@@ -45,4 +45,5 @@ trait EmbedBlockTrait {
 
     return $plugin_block->build();
   }
+
 }

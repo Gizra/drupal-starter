@@ -49,7 +49,7 @@ class ParagraphSearch extends EntityViewBuilderPluginAbstract {
     $build->request = $container->get('request_stack')->getCurrentRequest();
 
     return $build;
-   }
+  }
 
   /**
    * Build full view mode.
@@ -97,6 +97,5 @@ class ParagraphSearch extends EntityViewBuilderPluginAbstract {
       $this->request->query->filter('f') ||
       $this->request->query->filter('page');
   }
-
 
 }
