@@ -208,6 +208,11 @@ function server_theme_theme() {
     ],
   ];
 
+  // A simple horizontal line separator.
+  $info['server_theme_line_separator'] = [
+    'variables' => [],
+  ];
+
   $info['server_theme_related_content'] = [
     'variables' => [
       'title' => NULL,
@@ -256,6 +261,16 @@ function server_theme_theme() {
   $info['server_theme_social_share_buttons'] = [
     'variables' => [
       'items' => NULL,
+    ],
+  ];
+
+  // An image and caption. Used for the Image media.
+  $info['server_theme_image_and_caption'] = [
+    'variables' => [
+      // The responsive image render array.
+      'image' => [],
+      // An optional caption.
+      'caption' => NULL,
     ],
   ];
 

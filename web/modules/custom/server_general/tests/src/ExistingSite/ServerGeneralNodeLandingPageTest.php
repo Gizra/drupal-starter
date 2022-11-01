@@ -77,10 +77,7 @@ class ServerGeneralNodeLandingPageTest extends ServerGeneralNodeTestBase {
       'type' => 'landing_page',
       'uid' => $user->id(),
       'field_paragraphs' => [
-        [
-          'target_id' => $views->id(),
-          'target_revision_id' => $views->getRevisionId(),
-        ],
+        $this->getParagraphReferenceValues($views),
       ],
     ]);
     $node->setPublished()->save();
@@ -111,10 +108,7 @@ class ServerGeneralNodeLandingPageTest extends ServerGeneralNodeTestBase {
       'type' => 'landing_page',
       'uid' => $user->id(),
       'field_paragraphs' => [
-        [
-          'target_id' => $cta->id(),
-          'target_revision_id' => $cta->getRevisionId(),
-        ],
+        $this->getParagraphReferenceValues($cta),
       ],
     ]);
     $node->setPublished()->save();
