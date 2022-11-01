@@ -169,8 +169,8 @@ trait ElementWrapTrait {
   /**
    * Wrap an element with text decorations.
    *
-   * @param array $element
-   *   The render array.
+   * @param array|string $element
+   *   The render array or string.
    * @param bool $is_bold
    *   TRUE to make it text bold.
    * @param bool $is_underline
@@ -182,7 +182,7 @@ trait ElementWrapTrait {
    * @return array
    *   Render array.
    */
-  protected function wrapTextDecorations(array $element, bool $is_bold, bool $is_underline, string $font_size = NULL): array {
+  protected function wrapTextDecorations(array|string $element, bool $is_bold, bool $is_underline, string $font_size = NULL): array {
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
       return [];
