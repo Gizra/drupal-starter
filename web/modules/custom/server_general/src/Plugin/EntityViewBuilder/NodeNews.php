@@ -76,7 +76,7 @@ class NodeNews extends NodeViewBuilderAbstract {
 
     // Date.
     $timestamp = $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date');
-    $element = ['#markup' => IntlDate::formatPattern($timestamp, 'long')];
+    $element = IntlDate::formatPattern($timestamp, 'long');
     // Make text bigger.
     $elements[] = $this->wrapTextDecorations($element, FALSE, FALSE, 'lg');
 
@@ -137,6 +137,34 @@ class NodeNews extends NodeViewBuilderAbstract {
       '#date' => IntlDate::formatPattern($timestamp, 'long'),
       '#url' => $entity->toUrl(),
     ];
+    $build[] = $element;
+
+    return $build;
+  }
+
+  /**
+   * Build "Search index" view mode.
+   *
+   * @param array $build
+   *   The existing build.
+   * @param \Drupal\node\NodeInterface $entity
+   *   The entity.
+   *
+   * @return array
+   *   Render array.
+   */
+  public function buildSearchIndex(array $build, NodeInterface $entity) {
+    $timestamp = $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date');
+
+    $element = [
+      '#theme' => 'server_theme_search_result',
+      '#labels' => $this->buildLabelsFromText(['News']),
+      '#title' => $entity->label(),
+      '#summary' => 'Drupal 9 starter kit for efficient and streamlined development featuring TailwindCSS!',
+      '#date' => IntlDate::formatPattern($timestamp, 'short'),
+      '#url' => $entity->toUrl(),
+    ];
+
     $build[] = $element;
 
     return $build;

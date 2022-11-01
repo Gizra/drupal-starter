@@ -259,6 +259,26 @@ function server_theme_theme() {
     ],
   ];
 
+  // Facets wrapper on Search page.
+  $info['server_theme_facets__search'] = [
+    'variables' => [
+      'items' => [],
+      'has_filters' => FALSE,
+    ],
+  ];
+
+  // A single content showing as a result in the search page.
+  $info['server_theme_search_result'] = [
+    'variables' => [
+      // Render array from `server_theme_labels`.
+      'labels' => [],
+      'title' => NULL,
+      'summary' => NULL,
+      'date' => NULL,
+      'url' => NULL,
+    ],
+  ];
+
   return $info;
 }
 
