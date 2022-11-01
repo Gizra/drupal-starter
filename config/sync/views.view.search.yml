@@ -128,47 +128,6 @@ display:
       sorts: {  }
       arguments: {  }
       filters:
-        type:
-          id: type
-          table: search_api_index_server_dev
-          field: type
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: search_api_options
-          operator: not
-          value:
-            landing_page: landing_page
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-            reduce: false
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          reduce_duplicates: false
         search_api_fulltext:
           id: search_api_fulltext
           table: search_api_index_server_dev
@@ -228,7 +187,7 @@ display:
         options:
           view_modes:
             'entity:node':
-              landing_page: default
+              landing_page: teaser
               news: teaser
       query:
         type: search_api_query
