@@ -23,6 +23,7 @@ regions:
 stylesheets-remove:
   - core/themes/classy/css/components/details.css
   - core/themes/classy/css/components/file.css
+  - core/themes/classy/css/components/form.css
   - core/themes/classy/css/components/links.css
   - core/themes/classy/css/components/messages.css
   - core/themes/stable/css/system/components/ajax-progress.module.css
