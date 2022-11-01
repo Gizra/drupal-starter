@@ -63,6 +63,13 @@ class ParagraphSearch extends EntityViewBuilderPluginAbstract {
    *   Render array.
    */
   public function buildFull(array $build, ParagraphInterface $entity): array {
+    // The name of the facets to show.
+    // When adding or editing facets for example
+    // `/admin/config/search/facets/content_type/edit` make sure to uncheck
+    // "Hide facet when facet source is not rendered", otherwise it will not
+    // appear.
+    // You will also likely want to check the "List item label" option, for the
+    // label to appear instead of the key.
     $facet_names = [
       'content_type',
     ];
