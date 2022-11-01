@@ -2,7 +2,6 @@
 
 namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
-use Drupal\Core\Url;
 use Drupal\intl_date\IntlDate;
 use Drupal\media\MediaInterface;
 use Drupal\node\Entity\NodeType;
