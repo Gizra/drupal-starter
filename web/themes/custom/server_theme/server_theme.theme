@@ -282,6 +282,12 @@ function server_theme_theme() {
     ],
   ];
 
+  $info['server_theme_search_term'] = [
+    'variables' => [
+      'search_term' => '',
+    ],
+  ];
+
   // A single content showing as a result in the search page.
   $info['server_theme_search_result'] = [
     'variables' => [

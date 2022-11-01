@@ -27,6 +27,22 @@ class ParagraphSearch extends EntityViewBuilderPluginAbstract {
   use ElementWrapTrait;
 
   /**
+   * The machine name of the facets to show.
+   *
+   * When adding or editing facets for example
+   * `/admin/config/search/facets/content_type/edit` make sure to uncheck
+   * "Hide facet when facet source is not rendered", otherwise it will not
+   * appear.
+   * You will also likely want to check the "List item label" option, for the
+   * label to appear instead of the key.
+   *
+   * @var array
+   */
+  protected array $facetNames = [
+    'content_type',
+  ];
+
+  /**
    * The block manager service.
    *
    * @var \Drupal\Core\Block\BlockManagerInterface
@@ -63,19 +79,18 @@ class ParagraphSearch extends EntityViewBuilderPluginAbstract {
    *   Render array.
    */
   public function buildFull(array $build, ParagraphInterface $entity): array {
-    // The name of the facets to show.
-    // When adding or editing facets for example
-    // `/admin/config/search/facets/content_type/edit` make sure to uncheck
-    // "Hide facet when facet source is not rendered", otherwise it will not
-    // appear.
-    // You will also likely want to check the "List item label" option, for the
-    // label to appear instead of the key.
-    $facet_names = [
-      'content_type',
-    ];
+    $elements = [];
+    $search_term = $this->request->query->get('key');
+    if ($search_term) {
+      $element = [
+        '#theme' => 'server_theme_search_term',
+        '#search_term' => $search_term,
+      ];
+      $elements[] = $this->wrapContainerWide($element);
+    }
 
     $items = [];
-    foreach ($facet_names as $facet_name) {
+    foreach ($this->facetNames as $facet_name) {
       $items[] = $this->embedBlock('facet_block:' . $facet_name);
     }
 
@@ -85,11 +100,13 @@ class ParagraphSearch extends EntityViewBuilderPluginAbstract {
       '#items' => $items,
       '#has_filters' => $this->hasFilters('key'),
     ];
-    $build[] = $this->wrapContainerWide($element);
+    $elements[] = $this->wrapContainerWide($element);
 
     // Add Main view.
     $element = views_embed_view('search', 'embed_1');
-    $build[] = $this->wrapContainerWide($element);
+    $elements[] = $this->wrapContainerWide($element);
+
+    $build[] = $this->wrapContainerVerticalSpacingBig($elements);
 
     return $build;
   }
