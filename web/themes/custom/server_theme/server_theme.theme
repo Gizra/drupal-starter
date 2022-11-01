@@ -259,6 +259,14 @@ function server_theme_theme() {
     ],
   ];
 
+  // Facets wrapper on Search page.
+  $info['server_theme_facets__search'] = [
+    'variables' => [
+      'items' => [],
+      'has_filters' => FALSE,
+    ],
+  ];
+
   return $info;
 }
 
