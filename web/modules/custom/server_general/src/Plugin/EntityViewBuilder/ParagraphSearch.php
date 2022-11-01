@@ -63,12 +63,19 @@ class ParagraphSearch extends EntityViewBuilderPluginAbstract {
    *   Render array.
    */
   public function buildFull(array $build, ParagraphInterface $entity): array {
+    $facet_names = [
+      'content_type',
+    ];
+
+    $items = [];
+    foreach ($facet_names as $facet_name) {
+      $items[] = $this->embedBlock('facet_block:' . $facet_name);
+    }
+
     // Facets.
     $element = [
       '#theme' => 'server_theme_facets__search',
-      '#items' => [
-        $this->embedBlock('facet_block:content_type'),
-      ],
+      '#items' => $items,
       '#has_filters' => $this->hasFilters('key'),
     ];
     $build[] = $this->wrapContainerWide($element);
