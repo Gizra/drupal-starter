@@ -106,7 +106,8 @@ class ParagraphSearch extends EntityViewBuilderPluginAbstract {
     $element = views_embed_view('search', 'embed_1');
     $elements[] = $this->wrapContainerWide($element);
 
-    $build[] = $this->wrapContainerVerticalSpacingBig($elements);
+    $element = $this->wrapContainerVerticalSpacingBig($elements);
+    $build[] = $this->wrapContainerBottomPadding($element);
 
     return $build;
   }
