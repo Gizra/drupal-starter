@@ -142,4 +142,19 @@ class NodeNews extends NodeViewBuilderAbstract {
     return $build;
   }
 
+  /**
+   * Build "Search index" view mode.
+   *
+   * @param array $build
+   *   The existing build.
+   * @param \Drupal\node\NodeInterface $entity
+   *   The entity.
+   *
+   * @return array
+   *   Render array.
+   */
+  public function buildSearchIndex(array $build, NodeInterface $entity) {
+    return $build;
+  }
+
 }
