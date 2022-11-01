@@ -35,6 +35,7 @@
         "drupal/emptyparagraphkiller": "^1.0@alpha",
         "drupal/entity_browser": "^2.8",
         "drupal/environment_indicator": "^4.0",
+        "drupal/facets": "^2.0",
         "drupal/focal_point": "^1.5",
         "drupal/intl_date": "^1.1",
         "drupal/lang_dropdown": "^2.0",
