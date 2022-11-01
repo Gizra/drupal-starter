@@ -28,7 +28,7 @@ content:
     region: content
   og_group:
     type: og_group_subscribe
-    label: above
+    label: hidden
     settings: {  }
     third_party_settings: {  }
     weight: 0
