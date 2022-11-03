@@ -1,4 +1,4 @@
-id: menu_footer
+id: menu_main
 label: 'Main menu'
 migration_group: server
 source:
