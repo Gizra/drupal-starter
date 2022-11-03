@@ -307,6 +307,8 @@ function server_theme_theme() {
  * Implements hook_preprocess_page().
  */
 function server_theme_preprocess_page(array &$variables) {
+  $language = \Drupal::languageManager()->getCurrentLanguage();
+
   $language_block_config = [
     'widget' => LANGDROPDOWN_SIMPLE_SELECT,
     'hide_only_one' => FALSE,
@@ -321,7 +323,10 @@ function server_theme_preprocess_page(array &$variables) {
       '#theme' => 'server_theme_search',
       // Pass the search term, in case one was entered.
       '#search_term' => \Drupal::request()->query->get('key'),
-      '#search_url' => Url::fromUserInput('/search'),
+      // @todo: Fix search on non-English.
+      '#search_url' => Url::fromUserInput('/search', [
+        'language' => $language,
+      ]),
     ],
     '#language_block_dropdown' => server_theme_prepare_block('language_dropdown_block:language_interface', $language_block_config),
     '#language_block_links' => server_theme_prepare_block('language_block:language_interface', $language_block_config),
@@ -343,7 +348,6 @@ function server_theme_preprocess_page(array &$variables) {
 
   // Pass language settings to JS. This is used for example by the Slick
   // carousel to make sure we present carousels in the correct direction.
-  $language = \Drupal::languageManager()->getCurrentLanguage();
   $variables['#attached']['drupalSettings']['language']['direction'] = $language->getDirection();
 }
 
