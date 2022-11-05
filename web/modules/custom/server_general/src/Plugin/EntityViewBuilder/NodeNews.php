@@ -143,7 +143,7 @@ class NodeNews extends NodeViewBuilderAbstract {
       '#theme' => 'server_theme_card',
       '#title' => $entity->label(),
       '#image' => $media instanceof MediaInterface ? $this->buildImageStyle($media, 'card', 'field_media_image') : NULL,
-      '#date' => IntlDate::formatPattern($timestamp, 'long'),
+      '#date' => IntlDate::formatPattern($timestamp, 'short'),
       '#url' => $entity->toUrl(),
     ];
     $build[] = $element;
