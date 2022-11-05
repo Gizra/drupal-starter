@@ -1,18 +1,18 @@
-uuid: 21556c52-b297-4bc9-8b5e-46c0f0329564
+uuid: 71700cc7-5441-4775-b425-e1a4d67d0941
 langcode: en
 status: true
 dependencies:
   config:
-    - node.type.landing_page
+    - shortcut.set.default
   module:
     - content_translation
 third_party_settings:
   content_translation:
-    enabled: true
+    enabled: false
     bundle_settings:
       untranslatable_fields_hide: '0'
-id: node.landing_page
-target_entity_type_id: node
-target_bundle: landing_page
+id: shortcut.default
+target_entity_type_id: shortcut
+target_bundle: default
 default_langcode: site_default
-language_alterable: true
+language_alterable: false

@@ -1,18 +1,18 @@
-uuid: 21556c52-b297-4bc9-8b5e-46c0f0329564
+uuid: 0b346f18-6b5b-4139-aef3-379dac04a8f7
 langcode: en
 status: true
 dependencies:
   config:
-    - node.type.landing_page
+    - taxonomy.vocabulary.tags
   module:
     - content_translation
 third_party_settings:
   content_translation:
-    enabled: true
+    enabled: false
     bundle_settings:
       untranslatable_fields_hide: '0'
-id: node.landing_page
-target_entity_type_id: node
-target_bundle: landing_page
+id: taxonomy_term.tags
+target_entity_type_id: taxonomy_term
+target_bundle: tags
 default_langcode: site_default
-language_alterable: true
+language_alterable: false
