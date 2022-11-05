@@ -323,7 +323,7 @@ function server_theme_preprocess_page(array &$variables) {
       '#theme' => 'server_theme_search',
       // Pass the search term, in case one was entered.
       '#search_term' => \Drupal::request()->query->get('key'),
-      // @todo: Fix search on non-English.
+      // @todo Fix search on non-English.
       '#search_url' => Url::fromUserInput('/search', [
         'language' => $language,
       ]),
