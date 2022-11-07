@@ -62,7 +62,7 @@
         "consolidation/robo": "^3",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
         "drupal/coder": "^8.3.1",
-        "drupal/devel": "^4",
+        "drupal/devel": "^5.0",
         "drupal/drupal_test_assertions": "1.0.x-dev",
         "drupal/webprofiler": "^9.0",
         "mglaman/phpstan-drupal": "1.1.10",
