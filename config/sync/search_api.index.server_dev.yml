@@ -38,6 +38,10 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_tags
+  language_with_fallback:
+    label: 'Language (with fallback)'
+    property_path: language_with_fallback
+    type: string
   nid:
     label: ID
     datasource_id: 'entity:node'
@@ -54,7 +58,7 @@ field_settings:
     type_locked: true
     hidden: true
   status:
-    label: null
+    label: status
     datasource_id: 'entity:node'
     property_path: status
     type: boolean
@@ -80,7 +84,7 @@ field_settings:
       module:
         - node
   uid:
-    label: null
+    label: uid
     datasource_id: 'entity:node'
     property_path: uid
     type: integer

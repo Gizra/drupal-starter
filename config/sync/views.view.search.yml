@@ -229,10 +229,10 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        search_api_language:
-          id: search_api_language
+        language_with_fallback:
+          id: language_with_fallback
           table: search_api_index_server_dev
-          field: search_api_language
+          field: language_with_fallback
           relationship: none
           group_type: group
           admin_label: ''
