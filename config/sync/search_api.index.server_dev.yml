@@ -107,6 +107,7 @@ processor_settings:
   content_access:
     weights:
       preprocess_query: -30
+  entity_status: {  }
   entity_type: {  }
   language_with_fallback: {  }
   rendered_item: {  }
