@@ -52,7 +52,10 @@
     </div>
   {% endif %}
   {% if exposed %}
-    <div class="view-filters">
+    {# We hide the filters. We use `contents` class so it won't be taken into
+       account in the vertical spacing
+    #}
+    <div class="view-filters contents hidden">
       {{ exposed }}
     </div>
   {% endif %}
