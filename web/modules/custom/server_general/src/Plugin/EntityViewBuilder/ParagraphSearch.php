@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\Core\Block\BlockManagerInterface;
@@ -80,27 +82,9 @@ class ParagraphSearch extends EntityViewBuilderPluginAbstract {
    */
   public function buildFull(array $build, ParagraphInterface $entity): array {
     $elements = [];
-    $search_term = $this->request->query->get('key');
-    if ($search_term) {
-      $element = [
-        '#theme' => 'server_theme_search_term',
-        '#search_term' => $search_term,
-      ];
-      $elements[] = $this->wrapContainerWide($element);
-    }
 
-    // Facets.
-    $items = [];
-    foreach ($this->facetNames as $facet_name) {
-      $items[] = $this->embedBlock('facet_block:' . $facet_name);
-    }
-
-    $element = [
-      '#theme' => 'server_theme_facets__search',
-      '#items' => $items,
-      '#has_filters' => $this->hasFilters('key'),
-    ];
-    $elements[] = $this->wrapContainerWide($element);
+    // Search term and facets.
+    $elements[] = $this->buildSearchTermAndFacets();
 
     // Add Main view.
     $element = views_embed_view('search', 'embed_1');
@@ -123,10 +107,43 @@ class ParagraphSearch extends EntityViewBuilderPluginAbstract {
    * @return bool
    *   True, if filters are used.
    */
-  protected function hasFilters($key = 'search_api_fulltext') : bool {
+  protected function hasFilters($key = 'search_api_fulltext'): bool {
     return $this->request->query->filter($key) ||
       $this->request->query->filter('f') ||
       $this->request->query->filter('page');
+  }
+
+  /**
+   * Build the Search term and facets.
+   *
+   * @return array
+   *   Render array
+   */
+  protected function buildSearchTermAndFacets(): array {
+    $elements = [];
+    $search_term = $this->request->query->get('key');
+    if ($search_term) {
+      $element = [
+        '#theme' => 'server_theme_search_term',
+        '#search_term' => $search_term,
+      ];
+      $elements[] = $this->wrapContainerWide($element);
+    }
+
+    // Facets.
+    $items = [];
+    foreach ($this->facetNames as $facet_name) {
+      $items[] = $this->embedBlock('facet_block:' . $facet_name);
+    }
+
+    $element = [
+      '#theme' => 'server_theme_facets__search',
+      '#items' => $items,
+      '#has_filters' => $this->hasFilters('key'),
+    ];
+    $elements[] = $this->wrapContainerWide($element);
+
+    return $this->wrapContainerVerticalSpacing($elements);
   }
 
 }
