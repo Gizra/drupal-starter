@@ -29,7 +29,6 @@
    */
   Drupal.behaviors.themeServerClearFilters = {
     attach: function (context) {
-      console.log('foo');
       $('.clear-filters', context).once('clear-filters-once').each(function () {
         $(this).click(function() {
           // Reload page without the query params.
