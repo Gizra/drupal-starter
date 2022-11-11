@@ -1,6 +1,7 @@
 _core:
   default_config_hash: R4IF-ClDHXxblLcG0L7MgsLvfBIMAvi_skumNFQwkDc
 module:
+  admin_toolbar: 0
   advagg: 0
   advagg_bundler: 0
   automated_cron: 0
@@ -14,6 +15,7 @@ module:
   config: 0
   config_filter: 0
   config_ignore: 0
+  config_pages: 0
   contact: 0
   contextual: 0
   crop: 0
