@@ -440,8 +440,16 @@ class RoboFile extends Tasks {
       $commit_message = 'Site update from ' . $current_version;
     }
     $commit_message = escapeshellarg($commit_message);
-    $result = $this->_exec("cd $pantheon_directory && git pull && git add . && git commit -am $commit_message && git push")->getExitCode();
-    if ($result !== 0) {
+    $result = $this->taskExec("cd $pantheon_directory && git pull && git add . && git commit -am $commit_message && git push")
+      ->printOutput(FALSE)
+      ->run();
+    if (str_contains($result->getMessage(), 'nothing to commit, working tree clean')) {
+      $this->say('Nothing to commit, working tree clean');
+      return;
+    }
+    print $result->getMessage();
+
+    if ($result->getExitCode() !== 0) {
       throw new Exception('Pushing to the remote repository failed');
     }
 
