@@ -268,7 +268,7 @@ class RoboFile extends Tasks {
    *   The branch name to commit to. Default: master.
    * @param string|null $commit_message
    *   Supply a custom commit message for the pantheon repo.
-   *   Default: "Site update from [current_version]".
+   *   Falls back to: "Site update from [current_version]".
    *
    * @throws \Exception
    */
