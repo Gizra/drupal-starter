@@ -437,7 +437,16 @@ class RoboFile extends Tasks {
     }
 
     if (empty($commit_message)) {
-      $commit_message = 'Site update from ' . $current_version;
+      $tag = $this->taskExec("git tag --points-at HEAD")
+        ->printOutput(FALSE)
+        ->run()
+        ->getMessage();
+      if (empty($tag)) {
+        $commit_message = 'Site update from ' . $current_version;
+      }
+      else {
+        $commit_message = "Site update from $tag ($current_version)";
+      }
     }
     $commit_message = escapeshellarg($commit_message);
     $result = $this->taskExec("cd $pantheon_directory && git pull && git add . && git commit -am $commit_message && git push")
