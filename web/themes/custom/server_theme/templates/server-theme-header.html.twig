@@ -12,22 +12,16 @@
     </div>
   </div>
 
-  <div class="grid grid-cols-2">
+  <div class="flex flex-row-reverse sm:flex-row justify-between items-center">
 
-    <div class="col-start-1 row-start-2 col-span-2 sm:col-span-1 sm:row-start-1">
-      {{ menu }}
-    </div>
+    {{ menu }}
 
-    <div class="col-start-2">
-      {# The hamburger icon and menu that would appear on mobile devices #}
-      <button class="block sm:hidden w-7 js-mobile-menu-button js-hide-mobile-menu-trigger">
-        <img src="/{{ directory }}/dist/images/menu.svg" alt="{{ 'Menu'|t }}">
-      </button>
-    </div>
+    {# The hamburger icon and menu that would appear on mobile devices #}
+    <button class="block sm:hidden w-7 js-mobile-menu-button js-hide-mobile-menu-trigger">
+      <img src="/{{ directory }}/dist/images/menu.svg" alt="{{ 'Menu'|t }}">
+    </button>
 
-    <div class="col-start-1 sm:col-start-2 row-start-1">
-      {{ search_block }}
-    </div>
+    {{ search_block }}
 
   </div>
 
