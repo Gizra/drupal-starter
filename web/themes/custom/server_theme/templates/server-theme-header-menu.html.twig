@@ -8,7 +8,7 @@
   when viewing on mobile. We still have `sm:flex` to make sure menu is visible
   on wider devices.
 #}
-<div class="absolute right-0 w-full self-start mt-12 px-4 z-10 sm:static sm:mt-0 sm:px-0 sm:z-0 js-hide-mobile-menu hidden sm:flex flex-col sm:flex-row gap-x-8 w-full bg-gray-100 sm:bg-transparent">
+<div class="absolute right-0 w-full self-start mt-10 px-4 z-10 sm:static sm:mt-0 sm:px-0 sm:z-0 js-hide-mobile-menu hidden sm:flex flex-col gap-y-4 sm:flex-row gap-x-8 text-white sm:text-gray-700 bg-gray-700 sm:bg-transparent py-4 sm:py-0">
   {% for item in items %}
     {{ _self.internalLink(item.title, item.href, loop.last) }}
   {% endfor %}
