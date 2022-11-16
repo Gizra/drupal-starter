@@ -37,6 +37,7 @@ process:
       migration:
         - paragraph_cta
         - paragraph_related_content
+        - paragraph_search
         - paragraph_views
       no_stub: true
     - plugin: sub_process
@@ -48,5 +49,6 @@ migration_dependencies:
   required:
     - paragraph_cta
     - paragraph_related_content
+    - paragraph_search
     - paragraph_views
     - user

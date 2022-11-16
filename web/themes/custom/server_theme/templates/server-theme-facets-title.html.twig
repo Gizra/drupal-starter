@@ -1,0 +1,16 @@
+<div class="flex flex-row gap-x-4 items-center">
+  <h3 class="filters-title flex flex-row gap-x-4 sm:hidden">
+    <div>
+      <i class="fas fa-filter"></i>
+      {{ 'Filters'|t }}
+    </div>
+
+  </h3>
+
+  {% if has_filters %}
+    <div class="clear-filters underline text-sm sm:hidden cursor-pointer">
+      {{ 'Clear filters'| t }}
+    </div>
+  {% endif %}
+
+</div>

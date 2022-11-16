@@ -1,0 +1,29 @@
+<div class="container-wide flex flex-col gap-y-5">
+
+  <div class="flex items-center justify-between">
+
+    <a href="{{ path('<front>') }}" rel="home" class="flex gap-x-2 items-center">
+      <img class="h-16 w-16" src="/{{ directory }}/dist/images/logo.svg" alt="{{ site_name }}">
+    </a>
+
+    <div class="w-1/2 text-right">
+      <div class="language-block-dropdown block sm:hidden">{{ language_block_dropdown }}</div>
+      <div class="language-block-links hidden sm:block">{{ language_block_links }}</div>
+    </div>
+  </div>
+
+  <div class="flex flex-row-reverse sm:flex-row justify-between items-center">
+
+    {{ menu }}
+
+    {# The hamburger icon and menu that would appear on mobile devices #}
+    <button class="block sm:hidden w-7 js-mobile-menu-button js-hide-mobile-menu-trigger">
+      <img src="/{{ directory }}/dist/images/menu.svg" alt="{{ 'Menu'|t }}">
+    </button>
+
+    {{ search_block }}
+
+  </div>
+
+
+</div>

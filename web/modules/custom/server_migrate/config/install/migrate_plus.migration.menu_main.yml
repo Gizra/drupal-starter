@@ -1,0 +1,28 @@
+id: menu_main
+label: 'Main menu'
+migration_group: server
+source:
+  plugin: csv
+  path: modules/custom/server_migrate/csv_files/menu_main.csv
+  ids: ['_id']
+  header_offset: 0
+destination:
+  plugin: 'entity:menu_link_content'
+  default_bundle: menu_link_content
+process:
+  title: _title
+  weight: _id
+  expanded:
+    plugin: default_value
+    default_value: 1
+  enabled:
+    plugin: default_value
+    default_value: 1
+  'link/uri': _link
+  menu_name:
+    plugin: default_value
+    default_value: main
+dependencies:
+  enforced:
+    module:
+      - server_migrate
