@@ -1,0 +1,11 @@
+<form action="{{ search_url }}" method="get" id="main-search-form" accept-charset="UTF-8" class="flex flex-row gap-x-3 md:gap-x-5 shrink-0">
+
+  <div>
+    <label class="sr-only" for="search-input">{{ 'Search'|t }}</label>
+    <input class="text-ellipsis w-full text-gray-900 border-t-0 border-l-0 border-r-0" id="search-input" placeholder="{{ 'Search'| t }}" type="text" name="key" value="{{ search_term }}">
+  </div>
+
+  <button>
+    <img class="h-5 w-5 cursor-pointer" src="/{{ directory }}/dist/images/search-icon.svg" alt="{{ 'Search icon'|t }}">
+  </button>
+</form>

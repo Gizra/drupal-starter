@@ -27,6 +27,7 @@ module:
   entity_browser_entity_form: 0
   entity_reference_revisions: 0
   environment_indicator: 0
+  facets: 0
   field: 0
   field_ui: 0
   file: 0
@@ -37,6 +38,7 @@ module:
   image: 0
   inline_entity_form: 0
   intl_date: 0
+  lang_dropdown: 0
   language: 0
   link: 0
   media: 0
@@ -75,6 +77,7 @@ module:
   viewsreference: 0
   menu_link_content: 1
   pathauto: 1
+  content_translation: 10
   views: 10
   paragraphs: 11
   server: 1000

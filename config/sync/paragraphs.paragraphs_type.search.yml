@@ -1,0 +1,10 @@
+uuid: 3202357d-1197-4511-9b9d-1467cc03f166
+langcode: en
+status: true
+dependencies: {  }
+id: search
+label: Search
+icon_uuid: null
+icon_default: null
+description: 'Show the search filters and results widget.'
+behavior_plugins: {  }

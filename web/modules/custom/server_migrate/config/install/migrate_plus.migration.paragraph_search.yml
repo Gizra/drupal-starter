@@ -1,0 +1,17 @@
+id: paragraph_search
+label: 'Search Paragraph'
+migration_group: server
+migration_tags:
+  - paragraph
+source:
+  plugin: csv
+  path: modules/custom/server_migrate/csv_files/paragraph_search.csv
+  ids: ['_id']
+  header_offset: 0
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+  default_bundle: search
+process:
+  type:
+    plugin: default_value
+    default_value: search
