@@ -8,6 +8,8 @@ global-scripts:
   js:
     # General JS
     dist/js/scripts.js: {}
+    # Header menu
+    dist/js/header-menu.js: {}
     # Search
     dist/js/search.js: {}
   dependencies:

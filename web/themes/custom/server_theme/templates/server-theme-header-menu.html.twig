@@ -4,7 +4,11 @@
   </a>
 {% endmacro %}
 
-<div class="hidden sm:flex gap-x-8">
+{# We will add the `flex` class via JS, when toggling the `hidden` class,
+  when viewing on mobile. We still have `sm:flex` to make sure menu is visible
+  on wider devices.
+#}
+<div class="js-hide-mobile-menu hidden sm:flex flex-col sm:flex-row gap-x-8 w-full bg-gray-100 sm:bg-transparent">
   {% for item in items %}
     {{ _self.internalLink(item.title, item.href, loop.last) }}
   {% endfor %}
