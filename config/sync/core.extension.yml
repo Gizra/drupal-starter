@@ -49,6 +49,7 @@ module:
   node: 0
   options: 0
   page_cache: 0
+  pantheon_advanced_page_cache: 0
   path: 0
   path_alias: 0
   permissions_filter: 0
