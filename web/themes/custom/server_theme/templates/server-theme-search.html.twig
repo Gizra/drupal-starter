@@ -1,4 +1,4 @@
-<form action="{{ search_url }}" method="get" id="main-search-form" accept-charset="UTF-8" class="flex flex-row gap-x-3 md:gap-x-5">
+<form action="{{ search_url }}" method="get" id="main-search-form" accept-charset="UTF-8" class="flex flex-row gap-x-3 md:gap-x-5 shrink-0">
 
   <div>
     <label class="sr-only" for="search-input">{{ 'Search'|t }}</label>
@@ -6,6 +6,6 @@
   </div>
 
   <button>
-    <img class="h-5 w-5 lg:h-6 lg:w-6 cursor-pointer" src="/{{ directory }}/dist/images/search-icon.svg" alt="{{ 'Search icon'|t }}">
+    <img class="h-5 w-5 cursor-pointer" src="/{{ directory }}/dist/images/search-icon.svg" alt="{{ 'Search icon'|t }}">
   </button>
 </form>
