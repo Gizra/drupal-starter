@@ -77,7 +77,7 @@ function server_theme_theme() {
       'language_block_links' => NULL,
       'menu' => NULL,
       // Site name from the config.
-      'site_name' => NULL,
+      'site_name' => \Drupal::config('system.site')->get('name'),
     ],
   ];
 
@@ -323,7 +323,6 @@ function server_theme_preprocess_page(array &$variables) {
       '#theme' => 'server_theme_search',
       // Pass the search term, in case one was entered.
       '#search_term' => \Drupal::request()->query->get('key'),
-      // @todo Fix search on non-English.
       '#search_url' => Url::fromUserInput('/search', [
         'language' => $language,
       ]),
@@ -334,7 +333,6 @@ function server_theme_preprocess_page(array &$variables) {
       '#theme' => 'server_theme_header_menu',
       '#items' => server_theme_prepare_menu_links('main'),
     ],
-    '#site_name' => \Drupal::config('system.site')->get('name'),
   ];
 
   $variables['page']['footer'] = [
