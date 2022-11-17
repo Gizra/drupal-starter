@@ -22,12 +22,12 @@ hooks:
     # On deploy, we purge un-needed CSS.
     - exec-host: ddev robo theme:compile-debug
 
-    # Execute the migrations
+    # Execute the migrations.
     - exec: drush pm-enable server_migrate -y
     - exec: drush migrate:import --group server
     - exec: drush pm-uninstall migrate -y
 
-    # Set the homepage
+    # Set the homepage.
     - exec: drush set-homepage
 
     # Clear cache, for example for entity view builder plugins to take effect.
@@ -37,8 +37,8 @@ hooks:
     - exec: drush sapi-c
     - exec: drush sapi-i
 
-    # Enable Devel and Webprofiler
-    - exec: drush pm-enable webprofiler -y
+    # Enable Devel.
+    - exec: drush pm-enable devel -y
 
-    # Generate one-time login link
+    # Generate one-time login link.
     - exec: drush uli
