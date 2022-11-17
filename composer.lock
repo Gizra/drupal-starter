@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1b0b788fc0a965b9bf9eded24f45f7dc",
+    "content-hash": "7a3948c938324501dfc94e695c8e4bee",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -10203,60 +10203,6 @@
             "homepage": "https://www.drupal.org/project/drupal_test_assertions",
             "support": {
                 "source": "https://git.drupalcode.org/project/drupal_test_assertions"
-            }
-        },
-        {
-            "name": "drupal/webprofiler",
-            "version": "9.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/webprofiler.git",
-                "reference": "9.0.2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/webprofiler-9.0.2.zip",
-                "reference": "9.0.2",
-                "shasum": "b9f168af37090e8435fb8134c694f7d0f511ff61"
-            },
-            "require": {
-                "doctrine/common": "^2.7",
-                "drupal/core": "^8.8 || ^9",
-                "drupal/devel": "*",
-                "symfony/var-dumper": "^4 || ^5"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "9.0.2",
-                    "datestamp": "1665128594",
-                    "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Luca Lusso",
-                    "homepage": "https://github.com/lussoluca",
-                    "email": "lussoluca@gmail.com",
-                    "role": "Maintainer"
-                },
-                {
-                    "name": "lussoluca",
-                    "homepage": "https://www.drupal.org/user/138068"
-                }
-            ],
-            "description": "Drupal Webprofiler.",
-            "homepage": "https://www.drupal.org/project/webprofiler",
-            "support": {
-                "source": "https://gitlab.com/drupalspoons/webprofiler",
-                "issues": "https://gitlab.com/drupalspoons/webprofiler/-/issues"
             }
         },
         {
