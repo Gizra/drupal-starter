@@ -1,0 +1,4 @@
+tailwind:
+  css:
+    theme:
+      https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css: {type: external, minified: true}

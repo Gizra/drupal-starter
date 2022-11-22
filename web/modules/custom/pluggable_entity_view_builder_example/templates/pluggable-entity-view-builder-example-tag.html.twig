@@ -1,0 +1,7 @@
+{% set color = color ? color : 'blue-500' %}
+
+<a
+  class="hover:text-white hover:bg-{{ color }} overflow-hidden my-1 mr-3 py-3 px-4 rounded-full border-solid border-2 border-{{ color }}"
+  href="{{ url }}">
+  {{ title }}
+</a>

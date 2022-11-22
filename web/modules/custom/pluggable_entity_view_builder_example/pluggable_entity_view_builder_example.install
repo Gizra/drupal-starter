@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * @file
+ * Install functionality.
+ */
+
+/**
+ * Implements hook_install().
+ *
+ * Enable Node integration for Pluggable Entity View Builder module.
+ */
+function pluggable_entity_view_builder_example_install() {
+  $config = \Drupal::configFactory()->getEditable('pluggable_entity_view_builder.settings');
+  $config->set('enabled_entity_types.node', 'node');
+  $config->save();
+}

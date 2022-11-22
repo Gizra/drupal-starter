@@ -1,0 +1,78 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for Pluggable entity view builder example module.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function pluggable_entity_view_builder_example_theme($existing, $type, $theme, $path) {
+  $info = [];
+$info['your_fancy_page_title'] = [
+    'variables' => [
+      'title' => NULL,
+    ],
+  ];
+  $info['pluggable_entity_view_builder_example_tag'] = [
+    'variables' => [
+      'url' => NULL,
+      'title' => NULL,
+      'border' => FALSE,
+      'color' => NULL,
+    ],
+  ];
+
+  // Content tags.
+  $info['pluggable_entity_view_builder_example_tags'] = [
+    'variables' => [
+      // A list of links.
+      'tags' => [],
+    ],
+  ];
+
+  $info['pluggable_entity_view_builder_example_body'] = [
+    'variables' => [
+      'content' => NULL,
+      'attributes' => NULL,
+    ],
+  ];
+
+  // Content header (node's title and background image).
+  $info['pluggable_entity_view_builder_example_hero_header'] = [
+    'variables' => [
+      'title' => NULL,
+      'background_image' => NULL,
+    ],
+  ];
+
+  $info['pluggable_entity_view_builder_example_card'] = [
+    'variables' => [
+      'image' => NULL,
+      'image_alt' => NULL,
+      'title' => NULL,
+      'url' => NULL,
+      'body' => NULL,
+      // A list of links.
+      'tags' => [],
+      'author' => NULL,
+    ],
+  ];
+
+  // A grid of cards.
+  $info['pluggable_entity_view_builder_example_cards'] = [
+    'variables' => [
+      'items' => '',
+    ],
+  ];
+
+  // Wrap element with a container classes.
+  $info['pluggable_entity_view_builder_example_container'] = [
+    'variables' => [
+      'content' => NULL,
+    ],
+  ];
+
+  return $info;
+}

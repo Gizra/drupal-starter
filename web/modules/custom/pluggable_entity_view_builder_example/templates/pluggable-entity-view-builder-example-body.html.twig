@@ -1,0 +1,11 @@
+{%
+  set classes = [
+    'text-gray-dark',
+    'mb-8',
+    'text-lg',
+    'md:text-xl',
+  ]
+%}
+<div{{ attributes.addClass(classes) }}>
+  {{ content }}
+</div>

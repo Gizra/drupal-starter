@@ -1,0 +1,13 @@
+name: Pluggable entity view builder example
+type: module
+description: Example module, showcasing the user of pluggable entity view builders.
+package: Pluggable entity view builder
+core: 8.x
+core_version_requirement: ^8 || ^9
+dependencies:
+  - pluggable_entity_view_builder:pluggable_entity_view_builder
+
+# Information added by Drupal.org packaging script on 2022-05-07
+version: '1.1.12'
+project: 'pluggable_entity_view_builder'
+datestamp: 1651948944

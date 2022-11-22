@@ -1,0 +1,32 @@
+<div class="card-item flex flex-col h-full shadow-lg">
+
+  {% if url and image %}
+  <a href="{{ url }}">
+    <div class="relative">
+      <img class="object-cover w-full h-48" src="{{ image }}" alt="{{ image_alt }}" />
+    </div>
+  </a>
+  {% endif %}
+
+  <div class="flex flex-col justify-between h-full px-6 py-4">
+      <div class="text-xl font-bold text-turquoise overflow-hidden leading-tight">
+        <a href="{{ url }}">
+          {{ title }}
+        </a>
+      </div>
+
+      {% if body %}
+        <div class="text-black overflow-hidden">
+          {{ body }}
+        </div>
+      {% endif %}
+
+    {% if tags %}
+      <div class="flex flex-row flex-wrap justify-start pt-2 mt-4 text-sm border-t border-gray-500 tags-wrapper">
+        {% for tag in tags %}
+            {{ tag }}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</div>
