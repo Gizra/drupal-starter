@@ -169,7 +169,7 @@ class NodeNews extends NodeViewBuilderAbstract {
       '#theme' => 'server_theme_search_result',
       '#labels' => $this->buildLabelsFromText(['News']),
       '#title' => $entity->label(),
-      '#summary' => 'Drupal 9 starter kit for efficient and streamlined development featuring TailwindCSS!',
+      '#summary' => $this->buildProcessedText($entity),
       '#date' => IntlDate::formatPattern($timestamp, 'short'),
       '#url' => $entity->toUrl(),
     ];
