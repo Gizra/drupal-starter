@@ -169,7 +169,7 @@ class NodeNews extends NodeViewBuilderAbstract {
       '#theme' => 'server_theme_search_result',
       '#labels' => $this->buildLabelsFromText(['News']),
       '#title' => $entity->label(),
-      '#summary' => $this->buildProcessedText($entity),
+      '#summary' => $this->buildProcessedText($entity, 'field_body', FALSE),
       '#date' => IntlDate::formatPattern($timestamp, 'short'),
       '#url' => $entity->toUrl(),
     ];
