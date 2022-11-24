@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - core.entity_view_mode.media.full
     - entity_browser.browser.media_entity_browser
   module:
     - entity_embed
@@ -16,9 +17,9 @@ type_settings:
   entity_type: media
   bundles: {  }
   display_plugins:
-    - 'entity_reference:entity_reference_entity_view'
+    - 'view_mode:media.full'
   entity_browser: media_entity_browser
   entity_browser_settings:
-    display_review: false
+    display_review: true
 icon: {  }
 icon_uuid: null

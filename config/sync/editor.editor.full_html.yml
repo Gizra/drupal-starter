@@ -41,6 +41,7 @@ settings:
             - DrupalImage
             - Table
             - HorizontalRule
+            - media_entity_embed
         -
           name: 'Block Formatting'
           items:
