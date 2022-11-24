@@ -22,7 +22,6 @@ module:
   dynamic_page_cache: 0
   editor: 0
   elasticsearch_connector: 0
-  embed: 0
   emptyparagraphkiller: 0
   entity_browser: 0
   entity_browser_entity_form: 0
