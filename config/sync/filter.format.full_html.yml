@@ -21,7 +21,7 @@ filters:
   filter_caption:
     id: filter_caption
     provider: filter
-    status: true
+    status: false
     weight: 9
     settings: {  }
   filter_htmlcorrector:
