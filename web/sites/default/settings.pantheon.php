@@ -80,8 +80,8 @@ if (!empty($pantheon_env) && !empty($_ENV['CACHE_HOST'])) {
   // phpredis is built into the Pantheon application container.
   $settings['redis.connection']['interface'] = 'PhpRedis';
   // These are dynamic variables handled by Pantheon.
-  $settings['redis.connection']['host']      = $_ENV['CACHE_HOST'];
-  $settings['redis.connection']['port']      = $_ENV['CACHE_PORT'];
+  $settings['redis.connection']['host'] = $_ENV['CACHE_HOST'];
+  $settings['redis.connection']['port'] = $_ENV['CACHE_PORT'];
   $settings['redis.connection']['password']  = $_ENV['CACHE_PASSWORD'];
 
   $settings['redis_compress_length'] = 100;
