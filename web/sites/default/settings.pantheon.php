@@ -40,6 +40,9 @@ if (file_exists($base_private_dir . '/' . $site_id . '.es.secrets.json')) {
     }
     $_ENV['es_env'] = $env;
 
+    // The port number is MANDATORY, even if it's the default one.
+    // Elastic.co these days put instances on default port, include :443
+    // nevertheless at the end of the URL.
     $config['elasticsearch_connector.cluster.server']['url'] = 'https://REPLACE-WITH-REAL-URL.us-central1.gcp.cloud.es.io:9243';
     $config['elasticsearch_connector.cluster.server']['options']['use_authentication'] = TRUE;
 
@@ -68,4 +71,27 @@ if (!empty($pantheon_env)) {
       $config['environment_indicator.indicator']['fg_color'] = '#ffffff';
       break;
   }
+}
+
+if (!empty($pantheon_env) && !empty($_ENV['CACHE_HOST'])) {
+  // Include the Redis services.yml file. Adjust the path if you installed to a contrib or other subdirectory.
+  $settings['container_yamls'][] = 'modules/contrib/redis/redis.services.yml';
+  $settings['container_yamls'][] = 'modules/contrib/redis/example.services.yml';
+
+  // phpredis is built into the Pantheon application container.
+  $settings['redis.connection']['interface'] = 'PhpRedis';
+  // These are dynamic variables handled by Pantheon.
+  $settings['redis.connection']['host']      = $_ENV['CACHE_HOST'];
+  $settings['redis.connection']['port']      = $_ENV['CACHE_PORT'];
+  $settings['redis.connection']['password']  = $_ENV['CACHE_PASSWORD'];
+
+  $settings['redis_compress_length'] = 100;
+  $settings['redis_compress_level'] = 1;
+
+  // Use Redis as the default cache.
+  $settings['cache']['default'] = 'cache.backend.redis';
+  $settings['cache_prefix']['default'] = 'pantheon-redis';
+
+  // Use the database for forms.
+  $settings['cache']['bins']['form'] = 'cache.backend.database';
 }

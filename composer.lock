@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7a3948c938324501dfc94e695c8e4bee",
+    "content-hash": "5d14086f53087ded6eefe2df8e4b1bcf",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3294,11 +3294,17 @@
         },
         {
             "name": "drupal/redis",
-            "version": "dev-1.x",
+            "version": "1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/redis.git",
-                "reference": "51c5417f877b5bcefd8e318bbd831c7a9e63bf42"
+                "reference": "8.x-1.6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/redis-8.x-1.6.zip",
+                "reference": "8.x-1.6",
+                "shasum": "9e21a03743030e09a8b98da49c4549bd4b83251a"
             },
             "require": {
                 "drupal/core": "^9.3 || ^10"
@@ -3308,15 +3314,12 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
                 "drupal": {
-                    "version": "8.x-1.5+3-dev",
-                    "datestamp": "1667512127",
+                    "version": "8.x-1.6",
+                    "datestamp": "1667512839",
                     "security-coverage": {
-                        "status": "not-covered",
-                        "message": "Dev releases are not covered by Drupal security advisories."
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
                     }
                 }
             },
@@ -13207,7 +13210,6 @@
         "drupal/config_ignore": 10,
         "drupal/elasticsearch_connector": 15,
         "drupal/emptyparagraphkiller": 15,
-        "drupal/redis": 20,
         "drupal/viewsreference": 10,
         "drupal/drupal_test_assertions": 20
     },
