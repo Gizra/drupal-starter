@@ -67,6 +67,7 @@ class ServerGeneralNodeLandingPageTest extends ServerGeneralNodeTestBase {
     $views->set('field_views', [
       'target_id' => 'news',
       'display_id' => 'embed',
+      'data' => '',
     ]);
     $views->save();
     $this->markEntityForCleanup($views);
