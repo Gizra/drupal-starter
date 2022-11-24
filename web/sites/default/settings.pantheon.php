@@ -43,7 +43,7 @@ if (file_exists($base_private_dir . '/' . $site_id . '.es.secrets.json')) {
     // The port number is MANDATORY, even if it's the default one.
     // Elastic.co these days put instances on default port, include :443
     // nevertheless at the end of the URL.
-    $config['elasticsearch_connector.cluster.server']['url'] = 'https://REPLACE-WITH-REAL-URL.us-central1.gcp.cloud.es.io:9243';
+    $config['elasticsearch_connector.cluster.server']['url'] = 'https://REPLACE-WITH-REAL-URL.us-central1.gcp.cloud.es.io:443';
     $config['elasticsearch_connector.cluster.server']['options']['use_authentication'] = TRUE;
 
     if (isset($es_credentials[$env])) {
