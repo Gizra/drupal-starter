@@ -31,14 +31,14 @@ class MediaImage extends EntityViewBuilderPluginAbstract {
    *
    * @param array $build
    *   The build array.
-   * @param \Drupal\media\MediaInterface $media
-   *   The media entity.
+   * @param \Drupal\media\MediaInterface $entity
+   *   The entity.
    *
    * @return array
    *   The render array.
    */
-  public function buildFull(array $build, MediaInterface $media): array {
-    $image = $media->get('thumbnail')->view([
+  public function buildFull(array $build, MediaInterface $entity): array {
+    $image = $entity->get('thumbnail')->view([
       'label' => 'hidden',
       'type' => 'responsive_image',
       'settings' => [
@@ -50,7 +50,7 @@ class MediaImage extends EntityViewBuilderPluginAbstract {
     $element = [
       '#theme' => 'server_theme_image_and_caption',
       '#image' => $image,
-      '#caption' => $this->getTextFieldValue($media, 'field_caption'),
+      '#caption' => $this->getTextFieldValue($entity, 'field_caption'),
     ];
 
     $build[] = $element;
