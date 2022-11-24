@@ -35,14 +35,6 @@ deployments. See more under ["Deploy to Pantheon"](#deploy-to-pantheon) section
 Once the Drupal installation is complete you can use `ddev login` to
 log in to the site as user 1 using your default browser.
 
-### Troubleshooting
-
-If you had a previous installation of this repo, and have an error similar to `composer [install] failed, composer command failed: failed to load any docker-compose.*y*l files in /XXX/multi-repo/.ddev: err=<nil>. stderr=`
-
-then execute the following, and re-try installation steps.
-
-    ddev rm --unlist
-
 ## Theme Development
 
 By default, `ddev restart` compiles the theme using Robo (`ddev robo theme:compile-debug`)
