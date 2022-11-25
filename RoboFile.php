@@ -268,7 +268,7 @@ class RoboFile extends Tasks {
    *   The branch name to commit to. Default: master.
    * @param string|null $commit_message
    *   Supply a custom commit message for the pantheon repo.
-   *   Default: "Site update from [current_version]".
+   *   Falls back to: "Site update from [current_version]".
    *
    * @throws \Exception
    */
@@ -437,11 +437,28 @@ class RoboFile extends Tasks {
     }
 
     if (empty($commit_message)) {
-      $commit_message = 'Site update from ' . $current_version;
+      $tag = $this->taskExec("git tag --points-at HEAD")
+        ->printOutput(FALSE)
+        ->run()
+        ->getMessage();
+      if (empty($tag)) {
+        $commit_message = 'Site update from ' . $current_version;
+      }
+      else {
+        $commit_message = "Site update from $tag ($current_version)";
+      }
     }
     $commit_message = escapeshellarg($commit_message);
-    $result = $this->_exec("cd $pantheon_directory && git pull && git add . && git commit -am $commit_message && git push")->getExitCode();
-    if ($result !== 0) {
+    $result = $this->taskExec("cd $pantheon_directory && git pull && git add . && git commit -am $commit_message && git push")
+      ->printOutput(FALSE)
+      ->run();
+    if (str_contains($result->getMessage(), 'nothing to commit, working tree clean')) {
+      $this->say('Nothing to commit, working tree clean');
+      return;
+    }
+    print $result->getMessage();
+
+    if ($result->getExitCode() !== 0) {
       throw new Exception('Pushing to the remote repository failed');
     }
 

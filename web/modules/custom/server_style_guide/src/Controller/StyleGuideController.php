@@ -5,9 +5,11 @@ namespace Drupal\server_style_guide\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
 use Drupal\Core\Utility\LinkGenerator;
+use Drupal\intl_date\IntlDate;
 use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
 use Drupal\server_general\ButtonTrait;
 use Drupal\server_general\TagBuilderTrait;
+use Drupal\server_general\TitleAndLabelsTrait;
 use Drupal\server_style_guide\ElementWrapTrait;
 use Drupal\taxonomy\Entity\Term;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -21,6 +23,7 @@ class StyleGuideController extends ControllerBase {
   use ButtonTrait;
   use ElementWrapTrait;
   use TagBuilderTrait;
+  use TitleAndLabelsTrait;
 
   /**
    * The link generator service.
@@ -80,7 +83,7 @@ class StyleGuideController extends ControllerBase {
     $build = [];
 
     $element = $this->getPageTitle();
-    $build[] = $this->wrapElementWideContainer($element, 'Page Title');
+    $build[] = $this->wrapElementWideContainer($element, 'Page title');
 
     $build[] = $this->getButtons();
 
@@ -89,6 +92,9 @@ class StyleGuideController extends ControllerBase {
 
     $element = $this->getTags();
     $build[] = $this->wrapElementWideContainer($element, 'Tags');
+
+    $element = $this->getSearchResult();
+    $build[] = $this->wrapElementWideContainer($element, 'Search result');
 
     return $build;
   }
@@ -148,6 +154,23 @@ class StyleGuideController extends ControllerBase {
       '#theme' => 'server_theme_tags',
       '#title' => 'Tags',
       '#items' => $items,
+    ];
+  }
+
+  /**
+   * Get A single Search result.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getSearchResult(): array {
+    return [
+      '#theme' => 'server_theme_search_result',
+      '#labels' => $this->buildLabelsFromText(['News']),
+      '#title' => $this->getRandomTitle(),
+      '#summary' => 'Drupal 9 starter kit for efficient and streamlined development featuring TailwindCSS!',
+      '#date' => IntlDate::formatPattern(time(), 'short'),
+      '#url' => Url::fromRoute('<front>'),
     ];
   }
 

@@ -35,14 +35,6 @@ deployments. See more under ["Deploy to Pantheon"](#deploy-to-pantheon) section
 Once the Drupal installation is complete you can use `ddev login` to
 log in to the site as user 1 using your default browser.
 
-### Troubleshooting
-
-If you had a previous installation of this repo, and have an error similar to `composer [install] failed, composer command failed: failed to load any docker-compose.*y*l files in /XXX/multi-repo/.ddev: err=<nil>. stderr=`
-
-then execute the following, and re-try installation steps.
-
-    ddev rm --unlist
-
 ## Theme Development
 
 By default, `ddev restart` compiles the theme using Robo (`ddev robo theme:compile-debug`)
@@ -142,7 +134,14 @@ To take a look, you can check these first:
 For testing we use [Drupal Test Traits](https://medium.com/massgovdigital/introducing-drupal-test-traits-9fe09e84384c) (DTT), as it allows a very fast and convinent way of testing existing installation profiles.
 See the [example](https://github.com/Gizra/drupal8-starter/blob/master/web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralExampleTest.php) test.
 
+    # Run all tests
     ddev phpunit
+
+    # Run a single test file
+    ddev phpunit --filter ServerGeneralHomepageTest
+
+    # Run a single method from a test file.
+    ddev phpunit --filter testHomepageCache web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralHomepageTest.php
 
 ## Deploy to Pantheon
 

@@ -6,7 +6,12 @@ global-styling:
 
 global-scripts:
   js:
+    # General JS
     dist/js/scripts.js: {}
+    # Header menu
+    dist/js/header-menu.js: {}
+    # Search
+    dist/js/search.js: {}
   dependencies:
     - core/jquery
     - core/drupal
@@ -23,14 +28,14 @@ opensans:
 
 font-awesome:
   remote: https://fortawesome.github.io/Font-Awesome/
-  version: 4.7.0
+  version: 6.2.0
   license:
     name: MIT
     url: https://fortawesome.github.io/Font-Awesome/license/
     gpl-compatible: true
   css:
     theme:
-      https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css: { type: external, minified: true }
+      https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css: { type: external, minified: true }
 
 slick:
   js:
