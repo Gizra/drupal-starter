@@ -27,7 +27,9 @@ process:
       method: process
     - plugin: migration_lookup
       migration: node_landing_page
-  context: _context
+  context:
+    - plugin: default_value
+      default_value: "a:0:{}"
 
 migration_dependencies:
   required:
