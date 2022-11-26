@@ -15,7 +15,7 @@ filters:
   filter_align:
     id: filter_align
     provider: filter
-    status: true
+    status: false
     weight: 8
     settings: {  }
   filter_caption:
