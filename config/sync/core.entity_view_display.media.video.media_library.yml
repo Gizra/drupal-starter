@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.media.media_library
+    - field.field.media.video.field_caption
     - field.field.media.video.field_media_oembed_video
     - image.style.medium
     - media.type.video
@@ -27,6 +28,7 @@ content:
     region: content
 hidden:
   created: true
+  field_caption: true
   field_media_oembed_video: true
   langcode: true
   name: true
