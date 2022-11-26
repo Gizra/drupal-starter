@@ -81,7 +81,7 @@ class MediaImage extends EntityViewBuilderPluginAbstract {
       'label' => 'hidden',
       'type' => 'responsive_image',
       'settings' => [
-        'responsive_image_style' => self::RESPONSIVE_IMAGE_STYLE_HERO,
+        'responsive_image_style' => $responsive_image_style,
         'image_link' => '',
       ],
     ]);
