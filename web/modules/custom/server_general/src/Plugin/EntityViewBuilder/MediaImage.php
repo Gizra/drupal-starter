@@ -24,9 +24,9 @@ class MediaImage extends EntityViewBuilderPluginAbstract {
   use MediaCaptionTrait;
 
   /**
-   * The responsive image style to use on Hero images.
+   * The responsive image style to use.
    */
-  const RESPONSIVE_IMAGE_STYLE_HERO = 'hero';
+  const RESPONSIVE_IMAGE_STYLE = 'prose_image';
 
   /**
    * Build 'Card' view mode.
@@ -44,7 +44,7 @@ class MediaImage extends EntityViewBuilderPluginAbstract {
       'label' => 'hidden',
       'type' => 'responsive_image',
       'settings' => [
-        'responsive_image_style' => self::RESPONSIVE_IMAGE_STYLE_HERO,
+        'responsive_image_style' => self::RESPONSIVE_IMAGE_STYLE,
         'image_link' => '',
       ],
     ]);
