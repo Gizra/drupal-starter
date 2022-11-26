@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
-use Drupal\Core\Url;
 use Drupal\media\MediaInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
 use Drupal\server_general\MediaCaptionTrait;
+use Drupal\server_general\MediaVideoTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -22,6 +22,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class MediaVideo extends EntityViewBuilderPluginAbstract {
 
   use MediaCaptionTrait;
+  use MediaVideoTrait;
 
   // Update from design as needed.
   const VIDEO_FULL_MAX_WIDTH = 1920;
@@ -67,54 +68,6 @@ class MediaVideo extends EntityViewBuilderPluginAbstract {
     ];
     $build[] = $element;
     return $build;
-  }
-
-  /**
-   * Prepare video render array.
-   *
-   * @param string $url
-   *   Video url.
-   * @param int $width
-   *   Iframe width.
-   * @param int $height
-   *   Iframe height.
-   * @param bool $iframe_full_width
-   *   Defines if iframe has 100% width/height.
-   *
-   * @return array
-   *   The render array.
-   */
-  protected function buildVideo(string $url, int $width, int $height, bool $iframe_full_width = FALSE): array {
-    $url = Url::fromRoute('media.oembed_iframe', [], [
-      'query' => [
-        'url' => $url,
-        'max_width' => $width,
-        'max_height' => $height,
-        'hash' => $this->iFrameUrlHelper->getHash($url, $width, $height),
-      ],
-    ]);
-
-    return [
-      '#type' => 'html_tag',
-      '#tag' => 'iframe',
-      '#attributes' => [
-        'src' => $url->toString(),
-        'frameborder' => 0,
-        'scrolling' => FALSE,
-        'width' => $iframe_full_width ? '100%' : $width,
-        'height' => $iframe_full_width ? '100%' : $height,
-        'allowtransparency' => TRUE,
-        'class' => ['media-oembed-content'],
-        'title' => $this->t('Video frame for @url', [
-          '@url' => $url->toString(),
-        ]),
-      ],
-      '#attached' => [
-        'library' => [
-          'media/oembed.formatter',
-        ],
-      ],
-    ];
   }
 
 }

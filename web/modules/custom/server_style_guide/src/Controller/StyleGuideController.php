@@ -6,8 +6,10 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
 use Drupal\Core\Utility\LinkGenerator;
 use Drupal\intl_date\IntlDate;
+use Drupal\media\IFrameUrlHelper;
 use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
 use Drupal\server_general\ButtonTrait;
+use Drupal\server_general\MediaVideoTrait;
 use Drupal\server_general\TagBuilderTrait;
 use Drupal\server_general\TitleAndLabelsTrait;
 use Drupal\server_style_guide\ElementWrapTrait;
@@ -22,6 +24,7 @@ class StyleGuideController extends ControllerBase {
   use BuildFieldTrait;
   use ButtonTrait;
   use ElementWrapTrait;
+  use MediaVideoTrait;
   use TagBuilderTrait;
   use TitleAndLabelsTrait;
 
@@ -33,10 +36,18 @@ class StyleGuideController extends ControllerBase {
   protected $linkGenerator;
 
   /**
+   * The iFrame URL helper service, used for embedding videos.
+   *
+   * @var \Drupal\media\IFrameUrlHelper
+   */
+  protected $iFrameUrlHelper;
+
+  /**
    * Class constructor.
    */
-  public function __construct(LinkGenerator $link_generator) {
+  public function __construct(LinkGenerator $link_generator, IFrameUrlHelper $iframe_url_helper) {
     $this->linkGenerator = $link_generator;
+    $this->iFrameUrlHelper = $iframe_url_helper;
   }
 
   /**
@@ -44,7 +55,8 @@ class StyleGuideController extends ControllerBase {
    */
   public static function create(ContainerInterface $container) {
     return new self(
-      $container->get('link_generator')
+      $container->get('link_generator'),
+      $container->get('media.oembed.iframe_url_helper'),
     );
   }
 
@@ -98,6 +110,9 @@ class StyleGuideController extends ControllerBase {
 
     $element = $this->getMediaImage();
     $build[] = $this->wrapElementWideContainer($element, 'Media: Image');
+
+    $element = $this->getMediaVideo();
+    $build[] = $this->wrapElementWideContainer($element, 'Media: Video');
 
     return $build;
   }
@@ -178,7 +193,7 @@ class StyleGuideController extends ControllerBase {
   }
 
   /**
-   * Get A single Search result.
+   * Get Media image.
    *
    * @return array
    *   Render array.
@@ -194,6 +209,25 @@ class StyleGuideController extends ControllerBase {
     return [
       '#theme' => 'server_theme_media__image',
       '#image' => $image,
+      '#caption' => $caption,
+    ];
+  }
+
+  /**
+   * Get Media video.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getMediaVideo(): array {
+    $caption = [
+      '#theme' => 'server_theme_media_caption',
+      '#caption' => 'This is the caption of the video',
+    ];
+
+    return [
+      '#theme' => 'server_theme_media__video',
+      '#image' => $this->buildVideo('https://www.youtube.com/watch?v=dSZQNOvpszQ', 650, 400),
       '#caption' => $caption,
     ];
   }
