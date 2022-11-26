@@ -7,6 +7,7 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 use Drupal\media\MediaInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
 use Drupal\server_general\ElementWrapTrait;
+use Drupal\server_general\MediaCaptionTrait;
 
 /**
  * The "Media: Image" plugin.
@@ -20,6 +21,7 @@ use Drupal\server_general\ElementWrapTrait;
 class MediaImage extends EntityViewBuilderPluginAbstract {
 
   use ElementWrapTrait;
+  use MediaCaptionTrait;
 
   /**
    * The responsive image style to use on Hero images.
@@ -48,9 +50,9 @@ class MediaImage extends EntityViewBuilderPluginAbstract {
     ]);
 
     $element = [
-      '#theme' => 'server_theme_image_and_caption',
+      '#theme' => 'server_theme_media__image',
       '#image' => $image,
-      '#caption' => $this->getTextFieldValue($entity, 'field_caption'),
+      '#caption' => $this->buildCaption($entity),
     ];
 
     $build[] = $element;

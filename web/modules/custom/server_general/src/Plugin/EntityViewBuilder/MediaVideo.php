@@ -7,6 +7,7 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 use Drupal\Core\Url;
 use Drupal\media\MediaInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
+use Drupal\server_general\MediaCaptionTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -19,6 +20,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * )
  */
 class MediaVideo extends EntityViewBuilderPluginAbstract {
+
+  use MediaCaptionTrait;
 
   // Update from design as needed.
   const VIDEO_FULL_MAX_WIDTH = 1920;
@@ -51,7 +54,7 @@ class MediaVideo extends EntityViewBuilderPluginAbstract {
    * @return array
    *   The render array.
    */
-  public function buildEmbed(array $build, MediaInterface $entity): array {
+  public function buildFull(array $build, MediaInterface $entity): array {
     $url = $entity->get('field_media_oembed_video')->getString();
     if (empty($url)) {
       return $build;
@@ -60,7 +63,7 @@ class MediaVideo extends EntityViewBuilderPluginAbstract {
     $element = [
       '#theme' => 'server_theme_video',
       '#video' => $this->buildVideo($url, self::VIDEO_FULL_MAX_WIDTH, self::VIDEO_FULL_MAX_HEIGHT, TRUE),
-      '#caption' => $this->getTextFieldValue($entity, 'field_caption'),
+      '#caption' => $this->buildCaption($entity),
     ];
     $build[] = $element;
     return $build;
