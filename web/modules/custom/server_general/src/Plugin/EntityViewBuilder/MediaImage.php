@@ -24,12 +24,17 @@ class MediaImage extends EntityViewBuilderPluginAbstract {
   use MediaCaptionTrait;
 
   /**
-   * The responsive image style to use.
+   * The responsive image style to use on Hero.
    */
-  const RESPONSIVE_IMAGE_STYLE = 'prose_image';
+  const RESPONSIVE_IMAGE_STYLE_HERO = 'hero';
 
   /**
-   * Build 'Card' view mode.
+   * The responsive image style to use on Prose.
+   */
+  const RESPONSIVE_IMAGE_STYLE_PROSE = 'prose_image';
+
+  /**
+   * Build 'Full' view mode.
    *
    * @param array $build
    *   The build array.
@@ -40,11 +45,43 @@ class MediaImage extends EntityViewBuilderPluginAbstract {
    *   The render array.
    */
   public function buildFull(array $build, MediaInterface $entity): array {
+    return $this->doBuild($build, $entity, self::RESPONSIVE_IMAGE_STYLE_PROSE);
+  }
+
+  /**
+   * Build 'Hero' view mode.
+   *
+   * @param array $build
+   *   The build array.
+   * @param \Drupal\media\MediaInterface $entity
+   *   The entity.
+   *
+   * @return array
+   *   The render array.
+   */
+  public function buildHero(array $build, MediaInterface $entity): array {
+    return $this->doBuild($build, $entity, self::RESPONSIVE_IMAGE_STYLE_HERO);
+  }
+
+  /**
+   * Helper; Build the image, taking the responsive image style as argument.
+   *
+   * @param array $build
+   *   The build array.
+   * @param \Drupal\media\MediaInterface $entity
+   *   The entity.
+   * @param string $responsive_image_style
+   *   The responsive image style.
+   *
+   * @return array
+   *   The render array.
+   */
+  public function doBuild(array $build, MediaInterface $entity, string $responsive_image_style): array {
     $image = $entity->get('thumbnail')->view([
       'label' => 'hidden',
       'type' => 'responsive_image',
       'settings' => [
-        'responsive_image_style' => self::RESPONSIVE_IMAGE_STYLE,
+        'responsive_image_style' => self::RESPONSIVE_IMAGE_STYLE_HERO,
         'image_link' => '',
       ],
     ]);
