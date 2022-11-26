@@ -61,3 +61,10 @@ filters:
       allowed_view_modes:
         default: default
       allowed_media_types: {  }
+  filter_url:
+    id: filter_url
+    provider: filter
+    status: true
+    weight: 0
+    settings:
+      filter_url_length: 72
