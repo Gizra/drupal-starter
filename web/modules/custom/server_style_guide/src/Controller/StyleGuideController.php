@@ -227,7 +227,7 @@ class StyleGuideController extends ControllerBase {
 
     return [
       '#theme' => 'server_theme_media__video',
-      '#image' => $this->buildVideo('https://www.youtube.com/watch?v=dSZQNOvpszQ', 650, 400),
+      '#video' => $this->buildVideo('https://www.youtube.com/watch?v=dSZQNOvpszQ', 650, 400),
       '#caption' => $caption,
     ];
   }
