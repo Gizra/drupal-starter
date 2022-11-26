@@ -62,7 +62,7 @@ class MediaVideo extends EntityViewBuilderPluginAbstract {
     }
 
     $element = [
-      '#theme' => 'server_theme_video',
+      '#theme' => 'server_theme_media__video',
       '#video' => $this->buildVideo($url, self::VIDEO_FULL_MAX_WIDTH, self::VIDEO_FULL_MAX_HEIGHT, TRUE),
       '#caption' => $this->buildCaption($entity),
     ];
