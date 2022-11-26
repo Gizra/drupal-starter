@@ -26,7 +26,7 @@ trait MediaCaptionTrait {
    *   Render array.
    */
   public function buildCaption(MediaInterface $entity, string $field_name = 'field_caption'): array {
-    $caption = $this->getTextFieldValue($entity, 'field_caption');
+    $caption = $this->getTextFieldValue($entity, $field_name);
     if (empty($caption)) {
       return [];
     }
