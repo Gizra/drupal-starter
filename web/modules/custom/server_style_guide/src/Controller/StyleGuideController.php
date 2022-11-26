@@ -96,6 +96,9 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getSearchResult();
     $build[] = $this->wrapElementWideContainer($element, 'Search result');
 
+    $element = $this->getMediaImage();
+    $build[] = $this->wrapElementWideContainer($element, 'Media: Image');
+
     return $build;
   }
 
@@ -171,6 +174,27 @@ class StyleGuideController extends ControllerBase {
       '#summary' => 'Drupal 9 starter kit for efficient and streamlined development featuring TailwindCSS!',
       '#date' => IntlDate::formatPattern(time(), 'short'),
       '#url' => Url::fromRoute('<front>'),
+    ];
+  }
+
+  /**
+   * Get A single Search result.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getMediaImage(): array {
+    $image = $this->buildImage($this->getPlaceholderImage(300, 200), 'Image');
+
+    $caption = [
+      '#theme' => 'server_theme_media_caption',
+      '#caption' => 'This is the caption of the image',
+    ];
+
+    return [
+      '#theme' => 'server_theme_media__image',
+      '#image' => $image,
+      '#caption' => $caption,
     ];
   }
 
