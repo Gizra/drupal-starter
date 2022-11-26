@@ -1,0 +1,13 @@
+uuid: 5dd7d403-d3a4-4bbe-bf74-9a0067c0c633
+langcode: en
+status: true
+dependencies:
+  config:
+    - image.style.prose_image
+  theme:
+    - server_theme
+id: prose_image
+label: 'Prose image'
+image_style_mappings: {  }
+breakpoint_group: server_theme
+fallback_image_style: prose_image
