@@ -45,7 +45,10 @@ class MediaImage extends EntityViewBuilderPluginAbstract {
    *   The render array.
    */
   public function buildFull(array $build, MediaInterface $entity): array {
-    return $this->doBuild($build, $entity, self::RESPONSIVE_IMAGE_STYLE_PROSE);
+    $element = $this->getElement($entity, self::RESPONSIVE_IMAGE_STYLE_PROSE);
+    $build[] = $element;
+
+    return $build;
   }
 
   /**
@@ -60,14 +63,19 @@ class MediaImage extends EntityViewBuilderPluginAbstract {
    *   The render array.
    */
   public function buildHero(array $build, MediaInterface $entity): array {
-    return $this->doBuild($build, $entity, self::RESPONSIVE_IMAGE_STYLE_HERO);
+    $element = $this->getElement($entity, self::RESPONSIVE_IMAGE_STYLE_HERO);
+
+    // Wrap the image with rounded corners.
+    $element['#image'] = $this->wrapRoundedCornersBig($element['#image']);
+    $build[] = $element;
+
+    return $build;
+
   }
 
   /**
    * Helper; Build the image, taking the responsive image style as argument.
    *
-   * @param array $build
-   *   The build array.
    * @param \Drupal\media\MediaInterface $entity
    *   The entity.
    * @param string $responsive_image_style
@@ -76,8 +84,8 @@ class MediaImage extends EntityViewBuilderPluginAbstract {
    * @return array
    *   The render array.
    */
-  public function doBuild(array $build, MediaInterface $entity, string $responsive_image_style): array {
-    $image = $entity->get('thumbnail')->view([
+  protected function getElement(MediaInterface $entity, string $responsive_image_style): array {
+    $image = $entity->get('field_media_image')->view([
       'label' => 'hidden',
       'type' => 'responsive_image',
       'settings' => [
@@ -86,14 +94,11 @@ class MediaImage extends EntityViewBuilderPluginAbstract {
       ],
     ]);
 
-    $element = [
+    return [
       '#theme' => 'server_theme_media__image',
       '#image' => $image,
       '#caption' => $this->buildCaption($entity),
     ];
-
-    $build[] = $element;
-    return $build;
   }
 
 }
