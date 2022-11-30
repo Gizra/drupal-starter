@@ -180,7 +180,7 @@ trait ElementWrapTrait {
    * @param bool $is_italic
    *   TRUE to make the text italic.
    * @param string|null $font_size
-   *   The font size. Can be `sm`, `lg` or xl. Defaults to NULL, which will
+   *   The font size. Can be `sm`, `lg` or `xl`. Defaults to NULL, which will
    *   not change the font size.
    *
    * @return array
