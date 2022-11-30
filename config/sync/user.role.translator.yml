@@ -4,10 +4,6 @@ status: true
 dependencies:
   config:
     - media.type.image
-    - taxonomy.vocabulary.office_type
-    - taxonomy.vocabulary.partner
-    - taxonomy.vocabulary.region
-    - taxonomy.vocabulary.sub_office_type
     - taxonomy.vocabulary.tags
   module:
     - config_translation
@@ -31,9 +27,5 @@ permissions:
   - 'translate configuration'
   - 'translate image media'
   - 'translate interface'
-  - 'translate office_type taxonomy_term'
-  - 'translate partner taxonomy_term'
-  - 'translate region taxonomy_term'
-  - 'translate sub_office_type taxonomy_term'
   - 'translate tags taxonomy_term'
   - 'update content translations'
