@@ -81,7 +81,6 @@ function server_theme_theme() {
     ],
   ];
 
-  // @todo Add doc.
   $info['server_theme_header_menu'] = [
     'variables' => [
       'items' => [],
