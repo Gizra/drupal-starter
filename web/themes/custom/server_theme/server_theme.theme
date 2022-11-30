@@ -239,8 +239,9 @@ function server_theme_theme() {
       'element' => [],
       'is_bold' => NULL,
       'is_underline' => NULL,
-      // Can either be `sm`, `lg` or `xl`. Defaults to NULL, which will not
-      // change the font size.
+      'is_italic' => NULL,
+      // Can either be `sm` or `lg`. Defaults to NULL, which will not change the
+      // font size.
       'font_size' => NULL,
     ],
   ];
