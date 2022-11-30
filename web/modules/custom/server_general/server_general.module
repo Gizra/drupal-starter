@@ -20,7 +20,7 @@ use Drupal\server_general\ArabicNumberConverter;
  * That can be based on form.html.twig.
  */
 function server_general_theme_suggestions_alter(array &$suggestions, array $variables) {
-  if (isset($variables['element']) && isset($variables['element']['#type']) && $variables['element']['#type'] == 'form') {
+  if (isset($variables['element']) && is_array($variables['element']) && isset($variables['element']['#type']) && $variables['element']['#type'] == 'form') {
     $original_theme_hook = $variables['theme_hook_original'];
     $suggestions[] = $original_theme_hook . '__' . str_replace('-', '_', $variables['element']['#id']);
   }
