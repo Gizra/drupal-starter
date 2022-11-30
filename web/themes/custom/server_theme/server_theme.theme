@@ -236,7 +236,7 @@ function server_theme_theme() {
   $info['server_theme_text_decorations'] = [
     'variables' => [
       // The element to wrap.
-      'element' => [],
+      'element' => NULL,
       'is_bold' => NULL,
       'is_underline' => NULL,
       'is_italic' => NULL,
