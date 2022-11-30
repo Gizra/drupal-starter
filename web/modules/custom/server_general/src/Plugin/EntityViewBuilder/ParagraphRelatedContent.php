@@ -4,6 +4,7 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
+use Drupal\server_general\ButtonTrait;
 
 /**
  * The "Related content" paragraph plugin.
@@ -15,6 +16,8 @@ use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
  * )
  */
 class ParagraphRelatedContent extends EntityViewBuilderPluginAbstract {
+
+  use ButtonTrait;
 
   /**
    * Build full view mode.
@@ -32,16 +35,14 @@ class ParagraphRelatedContent extends EntityViewBuilderPluginAbstract {
       return $build;
     }
 
-    $link = $this->getLinkFieldValue($entity, 'field_link');
     /** @var \Drupal\Core\Field\EntityReferenceFieldItemListInterface $related_content */
     $related_content = $entity->get('field_related_content');
 
     $build[] = [
       '#theme' => 'server_theme_related_content',
       '#title' => $this->getTextFieldValue($entity, 'field_title'),
-      '#items' => $this->buildReferencedEntities($related_content, 'card'),
-      '#url' => $link['url'] ?? NULL,
-      '#url_title' => $link['title'] ?? NULL,
+      '#items' => $this->buildReferencedEntities($related_content, 'teaser'),
+      '#button' => $this->buildLinkButton($entity),
     ];
 
     return $build;

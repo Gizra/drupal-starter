@@ -1,0 +1,17 @@
+{% if font_size == 'sm' %}
+  {% set font_size_class = 'text-sm' %}
+{% elseif font_size == 'lg' %}
+  {% set font_size_class = 'text-lg' %}
+{% elseif font_size == 'xl' %}
+  {% set font_size_class = 'text-xl' %}
+{% endif %}
+
+{% set classes = [
+  is_bold ? 'font-bold',
+  is_underline ? 'underline',
+  font_size_class,
+] | join(' ') | trim %}
+
+<div class="{{ classes }}">
+  {{ element }}
+</div>

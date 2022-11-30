@@ -89,6 +89,8 @@
 
         const config = {
           infinite: true,
+          // Set the direction based on the current language.
+          rtl: drupalSettings.language.direction === 'rtl',
           focusOnSelect: false,
           arrows: showArrows,
           mobileFirst: true,

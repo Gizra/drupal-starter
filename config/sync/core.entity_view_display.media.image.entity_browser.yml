@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.media.entity_browser
+    - field.field.media.image.field_caption
     - field.field.media.image.field_media_image
     - image.style.media_entity_browser_thumbnail
     - media.type.image
@@ -35,6 +36,8 @@ content:
     region: content
 hidden:
   created: true
+  field_caption: true
+  langcode: true
   search_api_excerpt: true
   thumbnail: true
   uid: true

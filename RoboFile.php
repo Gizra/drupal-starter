@@ -268,7 +268,7 @@ class RoboFile extends Tasks {
    *   The branch name to commit to. Default: master.
    * @param string|null $commit_message
    *   Supply a custom commit message for the pantheon repo.
-   *   Default: "Site update from [current_version]".
+   *   Falls back to: "Site update from [current_version]".
    *
    * @throws \Exception
    */
@@ -355,15 +355,12 @@ class RoboFile extends Tasks {
       '.ddev',
       '.editorconfig',
       '.git',
-      '.gitpod.Dockerfile',
-      '.gitpod.yml',
       '.idea',
       '.pantheon',
       '.phpunit.result.cache',
       '.travis.yml',
       'ci-scripts',
       'drush/drush.yml',
-      'pantheon.yml',
       'pantheon.upstream.yml',
       'phpstan.neon',
       'phpunit.xml.dist',
@@ -440,11 +437,28 @@ class RoboFile extends Tasks {
     }
 
     if (empty($commit_message)) {
-      $commit_message = 'Site update from ' . $current_version;
+      $tag = $this->taskExec("git tag --points-at HEAD")
+        ->printOutput(FALSE)
+        ->run()
+        ->getMessage();
+      if (empty($tag)) {
+        $commit_message = 'Site update from ' . $current_version;
+      }
+      else {
+        $commit_message = "Site update from $tag ($current_version)";
+      }
     }
     $commit_message = escapeshellarg($commit_message);
-    $result = $this->_exec("cd $pantheon_directory && git pull && git add . && git commit -am $commit_message && git push")->getExitCode();
-    if ($result !== 0) {
+    $result = $this->taskExec("cd $pantheon_directory && git pull && git add . && git commit -am $commit_message && git push")
+      ->printOutput(FALSE)
+      ->run();
+    if (str_contains($result->getMessage(), 'nothing to commit, working tree clean')) {
+      $this->say('Nothing to commit, working tree clean');
+      return;
+    }
+    print $result->getMessage();
+
+    if ($result->getExitCode() !== 0) {
       throw new Exception('Pushing to the remote repository failed');
     }
 
@@ -614,7 +628,7 @@ class RoboFile extends Tasks {
 
     foreach ($directories as $directory) {
       foreach ($standards as $standard) {
-        $arguments = "--standard=$standard -p --ignore=" . self::THEME_NAME . "/dist,node_modules --colors --extensions=php,module,inc,install,test,profile,theme,css,yaml,txt,md";
+        $arguments = "--parallel=8 --standard=$standard -p --ignore=" . self::THEME_NAME . "/dist,node_modules --colors --extensions=php,module,inc,install,test,profile,theme,css,yaml,txt,md";
 
         foreach ($commands as $command) {
           $result = $this->_exec("cd web && ../vendor/bin/$command $directory $arguments");
@@ -809,6 +823,7 @@ class RoboFile extends Tasks {
       $this->environments = [$environment];
     }
     foreach ($this->environments as $environment) {
+      $environment = str_replace('-', '_', $environment);
       foreach ($this->indices as $index) {
         $index_creation->process("curl -u $username:$password -X PUT $es_url/" . self::$indexPrefix . "{$index}_$environment");
       }
@@ -914,6 +929,7 @@ END;
    */
   private function applyIndexSettings(string $es_url, string $username, string $password, string $data): void {
     foreach ($this->environments as $environment) {
+      $environment = str_replace('-', '_', $environment);
       foreach ($this->indices as $index) {
         $this->taskExec("curl -u $username:$password -X POST $es_url/" . self::$indexPrefix . "{$index}_$environment/_close")->run();
         $this->taskExec("curl -u $username:$password -X PUT $es_url/" . self::$indexPrefix . "{$index}_$environment/_settings -H 'Content-Type: application/json' --data '$data'")->run();

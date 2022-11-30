@@ -1,0 +1,6 @@
+services:
+  server_general.commands:
+    class: Drupal\server_general\Commands\ServerGeneralCommands
+    arguments: ['@entity_type.manager', '@config.factory']
+    tags:
+      - { name: drush.command }

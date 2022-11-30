@@ -1,0 +1,11 @@
+{
+    "name": "server_general/server_general",
+    "type": "drupal-drush",
+    "extra": {
+        "drush": {
+            "services": {
+                "drush.services.yml": "^10"
+            }
+        }
+    }
+}

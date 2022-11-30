@@ -42,9 +42,9 @@
  * @see html.html.twig
  */
 #}
-<div class="layout-container text-black flex-1">
+<div class="layout-container text-black flex-1 flex flex-col gap-y-8 md:gap-y-10">
 
-  <header role="banner" class="w-full z-50 bg-gray-500 py-6">
+  <header role="banner" class="w-full z-50 pt-5">
       {{ page.header }}
   </header>
 
@@ -58,23 +58,9 @@
 
   {{ page.help }}
 
-  <main role="main" class="mt-2">
+  <main role="main">
     <a id="main-content" tabindex="-1"></a>{# link is in html.html.twig #}
-    <div class="py-4">
-      {{ page.content }}
-    </div>
-
-    {% if page.sidebar_first %}
-      <aside class="layout-sidebar-first" role="complementary">
-        {{ page.sidebar_first }}
-      </aside>
-    {% endif %}
-
-    {% if page.sidebar_second %}
-      <aside class="layout-sidebar-second" role="complementary">
-        {{ page.sidebar_second }}
-      </aside>
-    {% endif %}
+    {{ page.content }}
 
   </main>
 

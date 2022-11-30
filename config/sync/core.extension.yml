@@ -12,24 +12,34 @@ module:
   color: 0
   comment: 0
   config: 0
+  config_filter: 0
+  config_ignore: 0
   contact: 0
   contextual: 0
+  crop: 0
   datetime: 0
   dblog: 0
   dynamic_page_cache: 0
   editor: 0
   elasticsearch_connector: 0
+  emptyparagraphkiller: 0
   entity_browser: 0
   entity_browser_entity_form: 0
   entity_reference_revisions: 0
+  environment_indicator: 0
+  facets: 0
   field: 0
   field_ui: 0
   file: 0
   filter: 0
+  focal_point: 0
   help: 0
   history: 0
   image: 0
   inline_entity_form: 0
+  intl_date: 0
+  lang_dropdown: 0
+  language: 0
   link: 0
   media: 0
   media_entity_browser: 0
@@ -39,8 +49,10 @@ module:
   node: 0
   options: 0
   page_cache: 0
+  pantheon_advanced_page_cache: 0
   path: 0
   path_alias: 0
+  permissions_filter: 0
   pluggable_entity_view_builder: 0
   quickedit: 0
   rdf: 0
@@ -65,6 +77,7 @@ module:
   viewsreference: 0
   menu_link_content: 1
   pathauto: 1
+  content_translation: 10
   views: 10
   paragraphs: 11
   server: 1000

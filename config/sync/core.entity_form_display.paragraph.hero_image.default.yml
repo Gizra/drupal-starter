@@ -3,34 +3,25 @@ langcode: en
 status: true
 dependencies:
   config:
-    - entity_browser.browser.media_entity_browser_modal
     - field.field.paragraph.hero_image.field_image
     - field.field.paragraph.hero_image.field_link
     - field.field.paragraph.hero_image.field_subtitle
     - field.field.paragraph.hero_image.field_title
     - paragraphs.paragraphs_type.hero_image
   module:
-    - entity_browser
     - link
+    - media_library
 id: paragraph.hero_image.default
 targetEntityType: paragraph
 bundle: hero_image
 mode: default
 content:
   field_image:
-    type: entity_browser_entity_reference
+    type: media_library_widget
     weight: 2
     region: content
     settings:
-      entity_browser: media_entity_browser_modal
-      field_widget_display: rendered_entity
-      field_widget_edit: true
-      field_widget_remove: true
-      field_widget_replace: false
-      open: true
-      field_widget_display_settings:
-        view_mode: entity_browser
-      selection_mode: selection_append
+      media_types: {  }
     third_party_settings: {  }
   field_link:
     type: link_default

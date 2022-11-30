@@ -1,7 +1,5 @@
 [![Build Status](https://app.travis-ci.com/Gizra/drupal-starter.svg?branch=main)](https://app.travis-ci.com/Gizra/drupal-starter)
 
-<a href="https://gitpod.io/#https://github.com/Gizra/drupal-starter"><img src="https://gitpod.io/button/open-in-gitpod.svg"/></a>
-
 # Drupal 9 Starter
 
 Starter repo for Drupal 9 development. This starter is an opinionated approach,
@@ -24,18 +22,9 @@ us with easier iteration, reading and manipulating yaml files, pre-defined
 deployments. See more under ["Deploy to Pantheon"](#deploy-to-pantheon) section.
 1. We use [Pluggable Entity View Builder](https://www.drupal.org/project/pluggable_entity_view_builder) to define how an entity should look like. See [example](https://github.com/Gizra/drupal-starter/blob/main/web/modules/custom/server_general/src/Plugin/EntityViewBuilder/NodeLandingPage.php).
 
-## GitPod
-
-The project is integrated with [GitPod](https://www.gitpod.io/docs/).
-Click on the badge above to try it out the project in action and start editing
-the source code! By default Drupal is accessible publicly at `8888-` and you can access other
-DDEV services like Mailhog using the non-HTTPS port, for instance `8025-` should work for
-checking the outgoing mails.
-
 ## Requirements
 
 * [DDEV](https://ddev.readthedocs.io/en/stable/)
-* Optional but recommended: follow the "mkcert" [installation notes](https://ddev.readthedocs.io/en/stable/#installation) for local SSL
 
 ## Installation
 
@@ -45,14 +34,6 @@ checking the outgoing mails.
 
 Once the Drupal installation is complete you can use `ddev login` to
 log in to the site as user 1 using your default browser.
-
-### Troubleshooting
-
-If you had a previous installation of this repo, and have an error similar to `composer [install] failed, composer command failed: failed to load any docker-compose.*y*l files in /XXX/multi-repo/.ddev: err=<nil>. stderr=`
-
-then execute the following, and re-try installation steps.
-
-    ddev rm --unlist
 
 ## Theme Development
 
@@ -153,7 +134,14 @@ To take a look, you can check these first:
 For testing we use [Drupal Test Traits](https://medium.com/massgovdigital/introducing-drupal-test-traits-9fe09e84384c) (DTT), as it allows a very fast and convinent way of testing existing installation profiles.
 See the [example](https://github.com/Gizra/drupal8-starter/blob/master/web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralExampleTest.php) test.
 
+    # Run all tests
     ddev phpunit
+
+    # Run a single test file
+    ddev phpunit --filter ServerGeneralHomepageTest
+
+    # Run a single method from a test file.
+    ddev phpunit --filter testHomepageCache web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralHomepageTest.php
 
 ## Deploy to Pantheon
 
@@ -265,7 +253,17 @@ to the production environment and making a copy of the production file in your d
 
 Configure the origin path at `/admin/config/system/stage_file_proxy`.
 
-### Flood Control
+## Migrate
+
+There are existing migrations that help setup a typical site, and act as an
+example. Whenever working on the migration, and changing their configuration
+you will need to re-sync the config, and re-run the migrations.
+
+    ddev drush config-import --partial --source=modules/custom/server_migrate/config/install/ -y
+    ddev drush migrate:rollback --all
+    ddev drush migrate:import --group server
+
+## Flood Control
 
 As the project uses Redis, it is not possible to use the SQL console to reset flood table.
 There's a custom DDEV command to help with that. Usages:

@@ -34,12 +34,12 @@ class ParagraphText extends EntityViewBuilderPluginAbstract {
    */
   public function buildFull(array $build, ParagraphInterface $entity): array {
     $element[] = [
-      '#theme' => 'server_theme_text',
+      '#theme' => 'server_theme_paragraph__text',
       '#title' => $this->getTextFieldValue($entity, 'field_title'),
       '#body' => $this->buildProcessedText($entity, 'field_body'),
     ];
 
-    $build[] = $this->wrapElementWideContainer($element);
+    $build[] = $this->wrapContainerWide($element);
 
     return $build;
   }

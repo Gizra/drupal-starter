@@ -1,14 +1,24 @@
-<div class="relative max-h-screen overflow-hidden">
-  <figure class="child-object-cover relative">
+<div class="grid grid-rows-1">
+
+  {#
+    We use grid and row/col start to position both the image and the text on
+    the same cell.
+  #}
+  <figure class="row-start-1 col-start-1 child-object-cover">
     {{ image }}
   </figure>
-  <div class="sm:absolute sm:inset-0 sm:z-10 flex flex-col justify-center">
+
+  <div class="row-start-1 col-start-1 z-10 flex flex-col justify-center">
     <div class="container-wide w-full">
       <div class="max-w-prose p-6 md:p-8 lg:p-10 bg-white/40 flex flex-col gap-3 md:gap-4 lg:gap-5">
         <h1>{{ title }}</h1>
-        {% if subtitle %}<p class="text-lg md:text-xl lg:text-2xl">{{ subtitle }}</p>{% endif %}
-        {% embed '@server_theme/server-theme-button.html.twig' %}
-        {% endembed %}
+
+        {% if subtitle %}
+          <p class="text-lg md:text-xl lg:text-2xl">{{ subtitle }}</p>
+        {% endif %}
+
+        {{ button }}
+
       </div>
     </div>
   </div>

@@ -1,0 +1,9 @@
+uuid: 3fb78e1c-930c-4d5a-aca2-7483ff02895d
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: POpMOetWv4m4z-vxjyk6TWndzjJ94l7VlGKWtwCOIRg
+id: short
+label: 'Default short date'
+pattern: 'MM/dd/yyyy - HH:mm'

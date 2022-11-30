@@ -3,11 +3,12 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.media.image.field_caption
     - field.field.media.image.field_media_image
-    - image.style.thumbnail
+    - image.style.large
     - media.type.image
   module:
-    - image
+    - focal_point
     - path
 id: media.image.default
 targetEntityType: media
@@ -16,21 +17,38 @@ mode: default
 content:
   created:
     type: datetime_timestamp
-    weight: 10
+    weight: 5
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_caption:
+    type: string_textarea
+    weight: 2
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
   field_media_image:
-    type: image_image
-    weight: 0
+    type: image_focal_point
+    weight: 1
     region: content
     settings:
       progress_indicator: throbber
-      preview_image_style: thumbnail
+      preview_image_style: large
+      preview_link: true
+      offsets: '50,50'
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 3
+    region: content
+    settings:
+      include_locked: true
     third_party_settings: {  }
   name:
     type: string_textfield
-    weight: -5
+    weight: 0
     region: content
     settings:
       size: 60
@@ -38,20 +56,20 @@ content:
     third_party_settings: {  }
   path:
     type: path
-    weight: 30
+    weight: 6
     region: content
     settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 100
+    weight: 7
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 5
+    weight: 4
     region: content
     settings:
       match_operator: CONTAINS

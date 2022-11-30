@@ -8,6 +8,7 @@ dependencies:
     - paragraphs.paragraphs_type.cta
     - paragraphs.paragraphs_type.hero_image
     - paragraphs.paragraphs_type.related_content
+    - paragraphs.paragraphs_type.search
     - paragraphs.paragraphs_type.text
     - paragraphs.paragraphs_type.views
   module:
@@ -29,23 +30,27 @@ settings:
       cta: cta
       hero_image: hero_image
       related_content: related_content
+      search: search
       text: text
       views: views
     negate: 0
     target_bundles_drag_drop:
       cta:
-        weight: -11
+        weight: -13
         enabled: true
       hero_image:
-        weight: -10
+        weight: -12
         enabled: true
       related_content:
-        weight: -9
+        weight: -11
+        enabled: true
+      search:
+        weight: -10
         enabled: true
       text:
-        weight: -8
+        weight: -9
         enabled: true
       views:
-        weight: -7
+        weight: -8
         enabled: true
 field_type: entity_reference_revisions

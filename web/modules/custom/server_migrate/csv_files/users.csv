@@ -3,4 +3,5 @@
 2,"JaneDoe","jane@example.com",1234,,"1ee08c9f-ecd4-4351-a24d-e59412f669b4"
 5,"AdminOne","admin_1@example.com",1234,"administrator",
 6,"AdminTwo","admin_2@example.com",1234,"administrator",
-7,"<script>alert('XSS attack!');</script>","attacker@example.com",1234,,
+7,"Editor","editor@example.com",1234,"content_editor",
+8,"<script>alert('XSS attack!');</script>","attacker@example.com",1234,,

@@ -5,40 +5,149 @@
  * Theme custom logic.
  */
 
+use Drupal\Core\Url;
+
 /**
  * Implements hook_theme().
  */
 function server_theme_theme() {
   $info = [];
 
-  $info['server_theme_tag'] = [
+  $info['server_theme_container_wide'] = [
     'variables' => [
-      'url' => NULL,
+      'element' => NULL,
+    ],
+  ];
+
+  $info['server_theme_container_narrow'] = [
+    'variables' => [
+      'element' => NULL,
+    ],
+  ];
+
+  // A wrapper that has a `gap-y-5` between all elements. All elements on a
+  // typical PEVB need to be wrapped by this one, so it keeps a consistent
+  // vertical distance between all the elements. Each element can still add
+  // their own top or bottom padding if they really need, but likely they
+  // won't need.
+  $info['server_theme_container_vertical_spacing'] = [
+    'variables' => [
+      'items' => NULL,
+    ],
+  ];
+
+  // A wrapper that has a `gap-y-2` (8px) between all elements. Often used for
+  // smaller elements that need to be composed.
+  $info['server_theme_container_vertical_spacing_tiny'] = [
+    'variables' => [
+      'items' => NULL,
+    ],
+  ];
+
+  // A wrapper that has a `gap-y-10` (40px) between all elements.
+  $info['server_theme_container_vertical_spacing_big'] = [
+    'variables' => [
+      'items' => NULL,
+    ],
+  ];
+
+  // A wrapper that has a `gap-y-16` (60px) between all elements.
+  $info['server_theme_container_vertical_spacing_huge'] = [
+    'variables' => [
+      'items' => NULL,
+    ],
+  ];
+
+  // A wrapper that adds a bottom padding `pb-10`. This is likely used on non
+  // Landing page PEVB wrapping all the elements, so they have a bottom padding
+  // before the footer. For Landing page elements, it's likely not going to be
+  // used, as there we expect each element to have a fixed set of top and bottom
+  // paddings.
+  $info['server_theme_container_bottom_padding'] = [
+    'variables' => [
+      'items' => NULL,
+    ],
+  ];
+
+  // The page's header.
+  $info['server_theme_header'] = [
+    'variables' => [
+      'search_block' => NULL,
+      'language_block_dropdown' => NULL,
+      'language_block_links' => NULL,
+      'menu' => NULL,
+      // Site name from the config.
+      'site_name' => \Drupal::config('system.site')->get('name'),
+    ],
+  ];
+
+  $info['server_theme_header_menu'] = [
+    'variables' => [
+      'items' => [],
+    ],
+  ];
+
+  // The Search form on the header.
+  $info['server_theme_search'] = [
+    'variables' => [
+      'search_term' => NULL,
+      'search_url' => NULL,
+    ],
+  ];
+
+  // Used to place elements inside a main area, and other elements in a sidebar.
+  $info['server_theme_main_and_sidebar'] = [
+    'variables' => [
+      'main' => NULL,
+      'sidebar' => NULL,
+    ],
+  ];
+
+  $info['server_theme_page_title'] = [
+    'variables' => [
       'title' => NULL,
     ],
   ];
 
-  // Simple card - vertical.
+  // Content labels (e.g. showing the content type name on a card).
+  $info['server_theme_label'] = [
+    'variables' => [
+      'label' => NULL,
+    ],
+  ];
+
+  // A list of labels.
+  $info['server_theme_labels'] = [
+    'variables' => [
+      // A list of links.
+      'items' => [],
+    ],
+  ];
+
+  // A single referenced tag.
+  $info['server_theme_tag'] = [
+    'variables' => [
+      'title' => NULL,
+      'url' => NULL,
+    ],
+  ];
+
+  // A list of tags.
+  $info['server_theme_tags'] = [
+    'variables' => [
+      // The name of the field that holds the tags.
+      'title' => NULL,
+      'items' => [],
+    ],
+  ];
+
+  // Simple card.
   $info['server_theme_card'] = [
     'variables' => [
       'image' => NULL,
       'title' => NULL,
       'url' => NULL,
-      'body' => NULL,
-    ],
-  ];
-
-  // Simple card.
-  $info['server_theme_card__simple'] = [
-    'variables' => [
-      'image' => NULL,
-      'image_alt' => NULL,
-      'title' => NULL,
-      'url' => NULL,
-      'body' => NULL,
-      // A list of links.
-      'tags' => [],
-      'author' => NULL,
+      'date' => NULL,
     ],
   ];
 
@@ -51,58 +160,20 @@ function server_theme_theme() {
   ];
 
   // "Call to action" paragraph type.
-  $info['server_theme_cta'] = [
+  $info['server_theme_paragraph__cta'] = [
     'variables' => [
       'title' => NULL,
       'subtitle' => NULL,
-      'url' => NULL,
-      'url_title' => NULL,
+      // The render array of `server_theme_button`.
+      'button' => NULL,
     ],
   ];
 
   // "Text" paragraph type.
-  $info['server_theme_text'] = [
+  $info['server_theme_paragraph__text'] = [
     'variables' => [
       'title' => NULL,
       'body' => NULL,
-    ],
-  ];
-
-  // Content tags.
-  $info['server_theme_content__tags'] = [
-    'variables' => [
-      // A list of links.
-      'tags' => [],
-    ],
-  ];
-
-  $info['server_theme_content__image_and_teaser'] = [
-    'variables' => [
-      'image' => NULL,
-      'image_alt' => NULL,
-      'teaser' => NULL,
-    ],
-  ];
-
-  // Content header (node's title and background image).
-  $info['server_theme_content__hero_header'] = [
-    'variables' => [
-      'title' => NULL,
-      'image' => NULL,
-    ],
-  ];
-
-  $info['server_theme_content__body'] = [
-    'variables' => [
-      'content' => NULL,
-    ],
-  ];
-
-  $info['server_theme_user_image'] = [
-    'variables' => [
-      'image' => NULL,
-      'image_alt' => NULL,
-      'initials' => NULL,
     ],
   ];
 
@@ -110,41 +181,121 @@ function server_theme_theme() {
     'variables' => [],
   ];
 
-  $info['server_theme_page_title'] = [
-    'variables' => [
-      'title' => NULL,
-    ],
-  ];
-
-  $info['server_theme_container_wide'] = [
-    'variables' => [
-      'element' => NULL,
-    ],
-  ];
-
   $info['server_theme_hero_image'] = [
     'variables' => [
       'image' => NULL,
       'title' => NULL,
       'subtitle' => NULL,
-      'url' => NULL,
-      'url_title' => NULL,
+      // The render array of `server_theme_button`.
+      'button' => NULL,
     ],
   ];
 
+  // A single Button.
   $info['server_theme_button'] = [
     'variables' => [
       'url' => NULL,
-      'url_title' => NULL,
+      // The button's text.
+      'title'  => NULL,
+      // Indicate if button should be primary or secondary.
+      'is_primary' => NULL,
+      // If TRUE, it will open the link in a new tab.
+      'open_new_tab' => NULL,
+      // Specify an icon. Any icon should be added as SVG in
+      // `server-theme-button`.
+      'icon' => NULL,
     ],
+  ];
+
+  // A simple horizontal line separator.
+  $info['server_theme_line_separator'] = [
+    'variables' => [],
   ];
 
   $info['server_theme_related_content'] = [
     'variables' => [
       'title' => NULL,
       'items' => [],
+      // The render array of `server_theme_button`.
+      'button' => NULL,
+    ],
+  ];
+
+  // Text that should have `prose` classes applied to it.
+  $info['server_theme_prose_text'] = [
+    'variables' => [
+      'text' => NULL,
+    ],
+  ];
+
+  // Wrapper for a text, allowing adding some simple attributes, such as bold,
+  // underline, or settings the font size (`sm`, `lg`). Often used with
+  // "regular" elements that don't require a special design, apart from the
+  // those simple text decorations.
+  $info['server_theme_text_decorations'] = [
+    'variables' => [
+      // The element to wrap.
+      'element' => [],
+      'is_bold' => NULL,
+      'is_underline' => NULL,
+      // Can either be `sm`, `lg` or `xl`. Defaults to NULL, which will not
+      // change the font size.
+      'font_size' => NULL,
+    ],
+  ];
+
+  $info['server_theme_social_share_button'] = [
+    'variables' => [
       'url' => NULL,
-      'url_title' => NULL,
+      // Types can be:
+      // `twitter`, `linkedin`, `facebook`, and `email`.
+      'service' => NULL,
+      // Will be used as the subject for sharing by email (e.g. the node
+      // title).
+      'email_subject' => NULL,
+    ],
+  ];
+
+  // List of social share buttons.
+  $info['server_theme_social_share_buttons'] = [
+    'variables' => [
+      'items' => NULL,
+    ],
+  ];
+
+  // An image and caption. Used for the Image media.
+  $info['server_theme_image_and_caption'] = [
+    'variables' => [
+      // The responsive image render array.
+      'image' => [],
+      // An optional caption.
+      'caption' => NULL,
+    ],
+  ];
+
+  // Facets wrapper on Search page.
+  $info['server_theme_facets__search'] = [
+    'variables' => [
+      'items' => [],
+      'has_filters' => FALSE,
+    ],
+  ];
+
+  $info['server_theme_search_term'] = [
+    'variables' => [
+      'search_term' => '',
+    ],
+  ];
+
+  // A single content showing as a result in the search page.
+  $info['server_theme_search_result'] = [
+    'variables' => [
+      // Render array from `server_theme_labels`.
+      'labels' => [],
+      'title' => NULL,
+      'summary' => NULL,
+      'date' => NULL,
+      'url' => NULL,
     ],
   ];
 
@@ -155,7 +306,46 @@ function server_theme_theme() {
  * Implements hook_preprocess_page().
  */
 function server_theme_preprocess_page(array &$variables) {
-  $variables['page']['footer'] = ['#theme' => 'server_theme_footer'];
+  $language = \Drupal::languageManager()->getCurrentLanguage();
+
+  $language_block_config = [
+    'widget' => LANGDROPDOWN_SIMPLE_SELECT,
+    'hide_only_one' => FALSE,
+    'showall' => TRUE,
+    'width' => 'auto',
+    'display' => LANGDROPDOWN_DISPLAY_NATIVE,
+  ];
+
+  $variables['page']['header'] = [
+    '#theme' => 'server_theme_header',
+    '#search_block' => [
+      '#theme' => 'server_theme_search',
+      // Pass the search term, in case one was entered.
+      '#search_term' => \Drupal::request()->query->get('key'),
+      '#search_url' => Url::fromUserInput('/search', [
+        'language' => $language,
+      ]),
+    ],
+    '#language_block_dropdown' => server_theme_prepare_block('language_dropdown_block:language_interface', $language_block_config),
+    '#language_block_links' => server_theme_prepare_block('language_block:language_interface', $language_block_config),
+    '#menu' => [
+      '#theme' => 'server_theme_header_menu',
+      '#items' => server_theme_prepare_menu_links('main'),
+    ],
+  ];
+
+  $variables['page']['footer'] = [
+    '#theme' => 'server_theme_footer',
+    '#cache' => [
+      'tags' => [
+        'config:system.menu.footer',
+      ],
+    ],
+  ];
+
+  // Pass language settings to JS. This is used for example by the Slick
+  // carousel to make sure we present carousels in the correct direction.
+  $variables['#attached']['drupalSettings']['language']['direction'] = $language->getDirection();
 }
 
 /**
@@ -179,4 +369,61 @@ function server_theme_preprocess_page_title(array &$variables) {
  */
 function server_theme_theme_suggestions_page_title_alter(array &$suggestions, array $variables) {
   $suggestions[] = 'server_theme_page_title';
+}
+
+/**
+ * Render block by block id.
+ *
+ * @param string $bid
+ *   Block id.
+ *
+ * @return array
+ *   Render array.
+ */
+function server_theme_prepare_block(string $bid, array $config): array {
+  $block_manager = \Drupal::service('plugin.manager.block');
+  $plugin_block = $block_manager->createInstance($bid, $config);
+  $render = $plugin_block->build();
+  \Drupal::service('renderer')->addCacheableDependency($render, $plugin_block);
+
+  return $render;
+}
+
+/**
+ * Prepare menu links.
+ *
+ * @param string $menu_name
+ *   Menu name.
+ *
+ * @return array
+ *   Menu links array.
+ */
+function server_theme_prepare_menu_links(string $menu_name) {
+  $menu_tree = \Drupal::service('menu.link_tree');
+  // Build the typical default set of menu tree parameters.
+  $parameters = $menu_tree->getCurrentRouteMenuTreeParameters($menu_name);
+  // Load the tree based on this set of parameters.
+  $tree = $menu_tree->load($menu_name, $parameters);
+  $menu = [];
+  foreach ($tree as $element) {
+    $menu_link = $element->link;
+    if (!$menu_link->isEnabled()) {
+      continue;
+    }
+    $url = $menu_link->getUrlObject();
+    if (!$url->access()) {
+      continue;
+    }
+    $weight = $menu_link->getWeight();
+    if (!empty($menu[$weight])) {
+      $weight = count($menu) + 1;
+    }
+    $menu[$weight] = [
+      'title' => $menu_link->getTitle(),
+      'href' => $url->toString(),
+    ];
+  }
+  ksort($menu);
+
+  return $menu;
 }

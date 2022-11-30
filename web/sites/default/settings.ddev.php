@@ -5,6 +5,8 @@
  * Custom settings for DDEV. This file is not managed by DDEV.
  */
 
+$settings['container_yamls'][] = DRUPAL_ROOT . '/sites/default/services.yml';
+
 $host = "db";
 $port = 3306;
 
@@ -24,6 +26,21 @@ $databases['default']['default'] = array(
   'port' => $port,
   'prefix' => "",
 );
+
+// Migrate source database.
+$ddev_migrate_remote_source = getenv('DDEV_MIGRATE_REMOTE_SOURCE');
+if (!empty($ddev_migrate_remote_source) && gethostbyname($ddev_migrate_remote_source) !== $ddev_migrate_remote_source) {
+  $databases['migrate']['default'] = [
+    'database' => 'db',
+    'username' => 'db',
+    'password' => 'db',
+    'prefix' => '',
+    'host' => $ddev_migrate_remote_source,
+    'port' => '3306',
+    'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
+    'driver' => 'mysql',
+  ];
+}
 
 // Fake migrate default source to eliminate a warning about missing
 // database connection.
@@ -52,7 +69,7 @@ if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
 $settings['file_private_path'] = '/var/www/private';
 $settings['config_sync_directory'] = '../config/sync';
 $config['config_split.config_split.dev']['status'] = TRUE;
-$config['environment_indicator.indicator']['bg_color'] = '#006600';
+$config['environment_indicator.indicator']['bg_color'] = '#00a073';
 $config['environment_indicator.indicator']['fg_color'] = '#ffffff';
 
 // SMTP settings. Use Mail Hog (`ddev describe` to get the URL) to see the sent

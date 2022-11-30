@@ -1,0 +1,13 @@
+<div class="flex flex-col gap-y-3 md:gap-y-5">
+  <figure class="child-object-cover rounded-lg overflow-hidden">
+    {{ image }}
+  </figure>
+
+
+  {% if caption %}
+    <figcaption class="text-gray-600 text-sm">
+      {{ caption }}
+    </figcaption>
+  {% endif %}
+
+</div>
