@@ -2,6 +2,8 @@
 
 namespace Drupal\server_general;
 
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+
 /**
  * Helper method for wrapping an element.
  */
@@ -169,20 +171,22 @@ trait ElementWrapTrait {
   /**
    * Wrap an element with text decorations.
    *
-   * @param array|string $element
-   *   The render array or string.
+   * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
+   *   The render array.
    * @param bool $is_bold
    *   TRUE to make it text bold.
    * @param bool $is_underline
    *   TRUE to make it text underlined.
+   * @param bool $is_italic
+   *   TRUE to make the text italic.
    * @param string|null $font_size
-   *   The font size. Can be `sm`, `lg` or `xl`. Defaults to NULL, which will
-   *   not change the font size.
+   *   The font size. Can be `sm` or `lg`. Defaults to NULL, which will not
+   *   change the font size.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapTextDecorations(array|string $element, bool $is_bold, bool $is_underline, string $font_size = NULL): array {
+  protected function wrapTextDecorations(array|string|TranslatableMarkup $element, bool $is_bold = FALSE, bool $is_underline = FALSE, bool $is_italic = FALSE, string $font_size = NULL): array {
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
       return [];
@@ -193,6 +197,7 @@ trait ElementWrapTrait {
       '#element' => $element,
       '#is_bold' => $is_bold,
       '#is_underline' => $is_underline,
+      '#is_italic' => $is_italic,
       '#font_size' => $font_size,
     ];
   }
