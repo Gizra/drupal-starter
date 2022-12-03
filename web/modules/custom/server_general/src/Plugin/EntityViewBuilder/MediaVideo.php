@@ -55,7 +55,7 @@ class MediaVideo extends EntityViewBuilderPluginAbstract {
    * @return array
    *   The render array.
    */
-  public function buildFull(array $build, MediaInterface $entity): array {
+  public function buildEmbed(array $build, MediaInterface $entity): array {
     $url = $entity->get('field_media_oembed_video')->getString();
     if (empty($url)) {
       return $build;

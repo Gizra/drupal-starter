@@ -1,0 +1,13 @@
+label: 'أحدث التعليقات'
+display:
+  default:
+    display_title: الافتراضي
+    display_options:
+      title: 'أحدث التعليقات'
+      empty:
+        area_text_custom:
+          content: 'لا تعليقات.'
+  block_1:
+    display_title: الصندوق
+    display_options:
+      block_description: 'أحدث التعليقات'

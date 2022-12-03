@@ -34,7 +34,7 @@ class MediaImage extends EntityViewBuilderPluginAbstract {
   const RESPONSIVE_IMAGE_STYLE_PROSE = 'prose_image';
 
   /**
-   * Build 'Full' view mode.
+   * Build 'Embed' view mode.
    *
    * @param array $build
    *   The build array.
@@ -44,7 +44,7 @@ class MediaImage extends EntityViewBuilderPluginAbstract {
    * @return array
    *   The render array.
    */
-  public function buildFull(array $build, MediaInterface $entity): array {
+  public function buildEmbed(array $build, MediaInterface $entity): array {
     $element = $this->getElement($entity, self::RESPONSIVE_IMAGE_STYLE_PROSE);
     $build[] = $element;
 
