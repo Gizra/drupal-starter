@@ -14,7 +14,8 @@ trait ElementWrapTrait {
    *   Render array.
    */
   protected function wrapContainerWide(array $element): array {
-    if (!$element) {
+    $element = array_filter($element);
+    if (empty($element)) {
       // Element is empty, so no need to wrap it.
       return [];
     }
@@ -32,7 +33,8 @@ trait ElementWrapTrait {
    *   Render array.
    */
   protected function wrapContainerNarrow(array $element): array {
-    if (!$element) {
+    $element = array_filter($element);
+    if (empty($element)) {
       // Element is empty, so no need to wrap it.
       return [];
     }
@@ -53,6 +55,7 @@ trait ElementWrapTrait {
    *   Render array.
    */
   protected function wrapContainerVerticalSpacing(array $element): array {
+    $element = array_filter($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
       return [];
@@ -74,6 +77,7 @@ trait ElementWrapTrait {
    *   Render array.
    */
   protected function wrapContainerVerticalSpacingTiny(array $element): array {
+    $element = array_filter($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
       return [];
@@ -95,6 +99,7 @@ trait ElementWrapTrait {
    *   Render array.
    */
   protected function wrapContainerVerticalSpacingBig(array $element): array {
+    $element = array_filter($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
       return [];
@@ -116,6 +121,7 @@ trait ElementWrapTrait {
    *   Render array.
    */
   protected function wrapContainerVerticalSpacingHuge(array $element): array {
+    $element = array_filter($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
       return [];
@@ -137,6 +143,7 @@ trait ElementWrapTrait {
    *   Render array.
    */
   protected function wrapContainerBottomPadding(array $element): array {
+    $element = array_filter($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
       return [];
@@ -155,7 +162,8 @@ trait ElementWrapTrait {
    *   Render array.
    */
   protected function wrapProseText(array $element): array {
-    if (!$element) {
+    $element = array_filter($element);
+    if (empty($element)) {
       // Element is empty, so no need to wrap it.
       return [];
     }
