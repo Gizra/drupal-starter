@@ -4,10 +4,21 @@ status: true
 dependencies:
   config:
     - image.style.prose_image
+    - image.style.prose_image_x2
   theme:
     - server_theme
 id: prose_image
 label: 'Prose image'
-image_style_mappings: {  }
+image_style_mappings:
+  -
+    image_mapping_type: image_style
+    image_mapping: prose_image
+    breakpoint_id: server_theme.md
+    multiplier: 1x
+  -
+    image_mapping_type: image_style
+    image_mapping: prose_image_x2
+    breakpoint_id: server_theme.md
+    multiplier: 2x
 breakpoint_group: server_theme
 fallback_image_style: prose_image
