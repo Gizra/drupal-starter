@@ -3,7 +3,7 @@
 /**
  * Load services definition file.
  */
-$settings['container_yamls'][] = __DIR__ . '/services.yml';
+$settings['container_yamls'][] = __DIR__ . '/services.pantheon.yml';
 
 /**
  * Include the Pantheon-specific settings file.

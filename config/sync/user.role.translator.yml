@@ -1,0 +1,31 @@
+uuid: 28fb3e3e-cc59-4dde-84f9-c332ee12c6b9
+langcode: en
+status: true
+dependencies:
+  config:
+    - media.type.image
+    - taxonomy.vocabulary.tags
+  module:
+    - config_translation
+    - content_translation
+    - entity_browser
+    - locale
+    - media
+    - node
+id: translator
+label: Translator
+weight: -7
+is_admin: null
+permissions:
+  - 'access content overview'
+  - 'access media overview'
+  - 'access media_entity_browser entity browser pages'
+  - 'access media_entity_browser_modal entity browser pages'
+  - 'create content translations'
+  - 'delete content translations'
+  - 'translate any entity'
+  - 'translate configuration'
+  - 'translate image media'
+  - 'translate interface'
+  - 'translate tags taxonomy_term'
+  - 'update content translations'
