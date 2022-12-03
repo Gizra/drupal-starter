@@ -2,6 +2,8 @@ uuid: d0655264-810f-487e-8e20-cf2a8c9470a0
 langcode: en
 status: true
 dependencies:
+  config:
+    - core.entity_view_mode.media.embed
   module:
     - editor
     - emptyparagraphkiller
@@ -57,9 +59,9 @@ filters:
     status: true
     weight: 100
     settings:
-      default_view_mode: default
+      default_view_mode: embed
       allowed_view_modes:
-        default: default
+        embed: embed
       allowed_media_types: {  }
   filter_url:
     id: filter_url
