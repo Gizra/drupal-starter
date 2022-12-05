@@ -239,8 +239,9 @@ trait ElementWrapTrait {
    *   The filtered render array.
    */
   protected function filterEmptyElements(array $element): array {
-    if (count($element) <= 1) {
-      // No change.
+    if (count(\Drupal\Core\Render\Element::properties($element))) {
+      // Element has top level properties beginning with #.
+      // Do not filter.
       return $element;
     }
 
