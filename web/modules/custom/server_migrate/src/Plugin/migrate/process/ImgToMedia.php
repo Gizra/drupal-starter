@@ -23,11 +23,10 @@ use Symfony\Component\Mime\MimeTypeGuesserInterface;
  * <img src="/sites/default/files/path/to/file.ext" />
  *
  * # To this
- * <drupal-entity
- *   data-embed-button="media"
- *   data-entity-embed-display="view_mode:media.full"
+ * <drupal-media
+ *   data-align="center"
  *   data-entity-type="media"
- *   data-entity-id="1234"></drupal-entity>
+ *   data-entity-uuid="1234"></drupal-media>
  * @endcode
  *
  * @MigrateProcessPlugin(
