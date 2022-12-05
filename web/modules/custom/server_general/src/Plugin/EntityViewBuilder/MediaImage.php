@@ -7,6 +7,7 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 use Drupal\media\MediaInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
 use Drupal\server_general\ElementWrapTrait;
+use Drupal\server_general\MediaCaptionTrait;
 
 /**
  * The "Media: Image" plugin.
@@ -20,41 +21,84 @@ use Drupal\server_general\ElementWrapTrait;
 class MediaImage extends EntityViewBuilderPluginAbstract {
 
   use ElementWrapTrait;
+  use MediaCaptionTrait;
 
   /**
-   * The responsive image style to use on Hero images.
+   * The responsive image style to use on Hero.
    */
   const RESPONSIVE_IMAGE_STYLE_HERO = 'hero';
 
   /**
-   * Build 'Card' view mode.
+   * The responsive image style to use on Prose.
+   */
+  const RESPONSIVE_IMAGE_STYLE_PROSE = 'prose_image';
+
+  /**
+   * Build 'Embed' view mode.
    *
    * @param array $build
    *   The build array.
-   * @param \Drupal\media\MediaInterface $media
-   *   The media entity.
+   * @param \Drupal\media\MediaInterface $entity
+   *   The entity.
    *
    * @return array
    *   The render array.
    */
-  public function buildFull(array $build, MediaInterface $media): array {
-    $image = $media->get('thumbnail')->view([
+  public function buildEmbed(array $build, MediaInterface $entity): array {
+    $element = $this->getElement($entity, self::RESPONSIVE_IMAGE_STYLE_PROSE);
+    $build[] = $element;
+
+    return $build;
+  }
+
+  /**
+   * Build 'Hero' view mode.
+   *
+   * @param array $build
+   *   The build array.
+   * @param \Drupal\media\MediaInterface $entity
+   *   The entity.
+   *
+   * @return array
+   *   The render array.
+   */
+  public function buildHero(array $build, MediaInterface $entity): array {
+    $element = $this->getElement($entity, self::RESPONSIVE_IMAGE_STYLE_HERO);
+
+    // Wrap the image with rounded corners.
+    $element['#image'] = $this->wrapRoundedCornersBig($element['#image']);
+    $build[] = $element;
+
+    return $build;
+
+  }
+
+  /**
+   * Helper; Build the image, taking the responsive image style as argument.
+   *
+   * @param \Drupal\media\MediaInterface $entity
+   *   The entity.
+   * @param string $responsive_image_style
+   *   The responsive image style.
+   *
+   * @return array
+   *   The render array.
+   */
+  protected function getElement(MediaInterface $entity, string $responsive_image_style): array {
+    $image = $entity->get('field_media_image')->view([
       'label' => 'hidden',
       'type' => 'responsive_image',
       'settings' => [
-        'responsive_image_style' => self::RESPONSIVE_IMAGE_STYLE_HERO,
+        'responsive_image_style' => $responsive_image_style,
         'image_link' => '',
       ],
     ]);
 
-    $element = [
-      '#theme' => 'server_theme_image_and_caption',
+    return [
+      '#theme' => 'server_theme_media__image',
       '#image' => $image,
-      '#caption' => $this->getTextFieldValue($media, 'field_caption'),
+      '#caption' => $this->buildCaption($entity),
     ];
-
-    $build[] = $element;
-    return $build;
   }
 
 }

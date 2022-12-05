@@ -41,6 +41,7 @@ settings:
             - DrupalImage
             - Table
             - HorizontalRule
+            - DrupalMediaLibrary
         -
           name: 'Block Formatting'
           items:

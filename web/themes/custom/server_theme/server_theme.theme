@@ -15,13 +15,13 @@ function server_theme_theme() {
 
   $info['server_theme_container_wide'] = [
     'variables' => [
-      'element' => NULL,
+      'element' => [],
     ],
   ];
 
   $info['server_theme_container_narrow'] = [
     'variables' => [
-      'element' => NULL,
+      'element' => [],
     ],
   ];
 
@@ -32,7 +32,7 @@ function server_theme_theme() {
   // won't need.
   $info['server_theme_container_vertical_spacing'] = [
     'variables' => [
-      'items' => NULL,
+      'items' => [],
     ],
   ];
 
@@ -40,21 +40,21 @@ function server_theme_theme() {
   // smaller elements that need to be composed.
   $info['server_theme_container_vertical_spacing_tiny'] = [
     'variables' => [
-      'items' => NULL,
+      'items' => [],
     ],
   ];
 
   // A wrapper that has a `gap-y-10` (40px) between all elements.
   $info['server_theme_container_vertical_spacing_big'] = [
     'variables' => [
-      'items' => NULL,
+      'items' => [],
     ],
   ];
 
   // A wrapper that has a `gap-y-16` (60px) between all elements.
   $info['server_theme_container_vertical_spacing_huge'] = [
     'variables' => [
-      'items' => NULL,
+      'items' => [],
     ],
   ];
 
@@ -65,7 +65,14 @@ function server_theme_theme() {
   // paddings.
   $info['server_theme_container_bottom_padding'] = [
     'variables' => [
-      'items' => NULL,
+      'items' => [],
+    ],
+  ];
+
+  // Wrap with `lg` rounded corners.
+  $info['server_theme_container_rounded_corners_big'] = [
+    'variables' => [
+      'items' => [],
     ],
   ];
 
@@ -263,13 +270,29 @@ function server_theme_theme() {
     ],
   ];
 
-  // An image and caption. Used for the Image media.
-  $info['server_theme_image_and_caption'] = [
+  // The caption of a Media entity.
+  $info['server_theme_media_caption'] = [
+    'variables' => [
+      'caption' => NULL,
+    ],
+  ];
+
+  // Media image.
+  $info['server_theme_media__image'] = [
     'variables' => [
       // The responsive image render array.
       'image' => [],
-      // An optional caption.
-      'caption' => NULL,
+      // An optional caption, render array of `server_theme_media_caption`.
+      'caption' => [],
+    ],
+  ];
+
+  // Media video.
+  $info['server_theme_media__video'] = [
+    'variables' => [
+      'video' => NULL,
+      // An optional caption, render array of `server_theme_media_caption`.
+      'caption' => [],
     ],
   ];
 

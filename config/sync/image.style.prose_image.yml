@@ -1,0 +1,15 @@
+uuid: 5ec6c563-1086-4f17-a498-fb3d09d4dffd
+langcode: en
+status: true
+dependencies: {  }
+name: prose_image
+label: 'Prose image'
+effects:
+  88ff116d-d93d-4b48-8d16-24773fe7becc:
+    uuid: 88ff116d-d93d-4b48-8d16-24773fe7becc
+    id: image_scale
+    weight: 1
+    data:
+      width: 768
+      height: null
+      upscale: false

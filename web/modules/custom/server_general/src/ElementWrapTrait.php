@@ -205,4 +205,25 @@ trait ElementWrapTrait {
     ];
   }
 
+  /**
+   * Wrap an element with `lg` rounded corners.
+   *
+   * @param array $element
+   *   The render array.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapRoundedCornersBig(array $element): array {
+    if (empty($element)) {
+      // Element is empty, so no need to wrap it.
+      return [];
+    }
+
+    return [
+      '#theme' => 'server_theme_container_rounded_corners_big',
+      '#items' => $element,
+    ];
+  }
+
 }

@@ -102,8 +102,11 @@ class NodeNews extends NodeViewBuilderAbstract {
     $sidebar_elements = [];
     $social_share_elements = [];
 
+    // Show the featured image using the `hero` view mode.
+    // See MediaImage::buildHero.
     $medias = $entity->get('field_featured_image')->referencedEntities();
-    $main_elements[] = $this->buildEntities($medias);
+    $main_elements[] = $this->buildEntities($medias, 'hero');
+
     // Get the body text, wrap it with `prose` so it's styled.
     $main_elements[] = $this->buildProcessedText($entity);
 
