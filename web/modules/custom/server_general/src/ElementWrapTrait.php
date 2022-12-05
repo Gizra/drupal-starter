@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\server_general;
+
+use Drupal\Core\Render\Element;
 
 /**
  * Helper method for wrapping an element.
@@ -239,7 +243,7 @@ trait ElementWrapTrait {
    *   The filtered render array.
    */
   protected function filterEmptyElements(array $element): array {
-    if (count(\Drupal\Core\Render\Element::properties($element))) {
+    if (count(Element::properties($element))) {
       // Element has top level properties beginning with #.
       // Do not filter.
       return $element;
