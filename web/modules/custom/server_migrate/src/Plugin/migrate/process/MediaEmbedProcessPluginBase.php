@@ -47,7 +47,6 @@ abstract class MediaEmbedProcessPluginBase extends ProcessPluginBase {
     $element = $dom->createElement('drupal-media');
     $element->setAttribute('data-entity-type', 'media');
     $element->setAttribute('data-entity-uuid', $media_uuid);
-    $element->setAttribute('data-align', 'center');
 
     return $element;
   }
@@ -62,7 +61,7 @@ abstract class MediaEmbedProcessPluginBase extends ProcessPluginBase {
    *   The new embed tag.
    */
   protected function createEmbedElementString(string $media_uuid): string {
-    return "<drupal-media data-entity-type=\"media\" data-entity-uuid=\"{$media_uuid}\" data-align=\"center\"></drupal-media>";
+    return "<drupal-media data-entity-type=\"media\" data-entity-uuid=\"{$media_uuid}\"></drupal-media>";
   }
 
   /**

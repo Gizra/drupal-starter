@@ -24,7 +24,6 @@ use Symfony\Component\Mime\MimeTypeGuesserInterface;
  *
  * # To this
  * <drupal-media
- *   data-align="center"
  *   data-entity-type="media"
  *   data-entity-uuid="1234"></drupal-media>
  * @endcode
