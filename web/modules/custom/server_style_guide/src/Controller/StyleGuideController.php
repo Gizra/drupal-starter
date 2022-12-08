@@ -430,7 +430,7 @@ class StyleGuideController extends ControllerBase {
    *   URL with placeholder.
    */
   protected function getPlaceholderPersonImage(int $width, int $height, string $text = NULL) {
-    return "https://www.fillmurray.com/{$width}/{$height}" . (!empty($text) ? '?text=' . $text : NULL);
+    return "https://placebeard.it/{$width}/{$height}" .  (!empty($text) ? '?text=' . $text : NULL);
   }
 
   /**
