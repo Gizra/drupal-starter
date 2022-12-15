@@ -243,7 +243,7 @@ function server_theme_theme() {
     'variables' => [
       // The element to wrap.
       'element' => [],
-      'is_bold' => NULL,
+      'font_weight' => NULL,
       'is_underline' => NULL,
       // Can either be `sm`, `lg` or `xl`. Defaults to NULL, which will not
       // change the font size.
