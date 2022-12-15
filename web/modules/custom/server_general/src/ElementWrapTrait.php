@@ -181,7 +181,7 @@ trait ElementWrapTrait {
   /**
    * Wrap an element with text decorations.
    *
-   * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
+   * @param array|string $element
    *   The render array, string or a TranslatableMarkup object.
    * @param string $font_weight
    *   Font weight of the text. Can be 'normal', 'medium', 'semibold', 'bold'.
@@ -196,7 +196,7 @@ trait ElementWrapTrait {
    * @return array
    *   Render array.
    */
-  protected function wrapTextDecorations(array|string|TranslatableMarkup $element, string $font_weight = 'normal', bool $is_underline = FALSE, bool $is_italic = FALSE, string $mobile_font_size = NULL): array {
+  protected function wrapTextDecorations(array|string $element, string $font_weight = 'normal', bool $is_underline = FALSE, bool $is_italic = FALSE, string $mobile_font_size = NULL): array {
     if (is_array($element)) {
       $element = $this->filterEmptyElements($element);
     }
