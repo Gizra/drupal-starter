@@ -190,7 +190,7 @@ trait ElementWrapTrait {
    * @param bool $is_italic
    *   TRUE to make the text italic.
    * @param string|null $mobile_font_size
-   *   The font size for mobile. Can be 'xs', 'sm' or 'lg'. On 
+   *   The font size for mobile. Can be 'xs', 'sm' or 'lg'. On
    *   Twig, we'll take care of making the font size responsive.
    *   Defaults to NULL, which will not change the font size.
    *
