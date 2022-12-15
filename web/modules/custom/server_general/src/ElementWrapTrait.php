@@ -196,7 +196,7 @@ trait ElementWrapTrait {
    * @return array
    *   Render array.
    */
-  protected function wrapTextDecorations(array|string $element, string $font_weight = 'normal', bool $is_underline = FALSE, bool $is_italic = FALSE, string $mobile_font_size = NULL): array {
+  protected function wrapTextDecorations(array|string $element, string $font_weight = NULL, bool $is_underline = FALSE, bool $is_italic = FALSE, string $mobile_font_size = NULL): array {
     if (is_array($element)) {
       $element = $this->filterEmptyElements($element);
     }
