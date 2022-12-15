@@ -184,8 +184,7 @@ trait ElementWrapTrait {
    * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
    *   The render array, string or a TranslatableMarkup object.
    * @param string $font_weight
-   *   Font weight of the text. Can be 'thin', 'extralight', 'light',
-   *   'normal', 'medium', 'semibold', 'bold', 'extrabold' or 'black'.
+   *   Font weight of the text. Can be 'normal', 'medium', 'semibold', 'bold'.
    * @param bool $is_underline
    *   TRUE to make it text underlined.
    * @param bool $is_italic
