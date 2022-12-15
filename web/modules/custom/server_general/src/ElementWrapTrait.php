@@ -181,20 +181,26 @@ trait ElementWrapTrait {
   /**
    * Wrap an element with text decorations.
    *
-   * @param array|string $element
-   *   The render array or string.
-   * @param bool $is_bold
-   *   TRUE to make it text bold.
+   * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
+   *   The render array, string or a TranslatableMarkup object.
+   * @param string $font_weight
+   *   Font weight of the text. Can be 'thin', 'extralight', 'light',
+   *   'normal', 'medium', 'semibold', 'bold', 'extrabold' or 'black'.
    * @param bool $is_underline
    *   TRUE to make it text underlined.
-   * @param string|null $font_size
-   *   The font size. Can be `sm`, `lg` or `xl`. Defaults to NULL, which will
-   *   not change the font size.
+   * @param bool $is_italic
+   *   TRUE to make the text italic.
+   * @param string|null $mobile_font_size
+   *   The font size for mobile. Can be 'xs', 'sm' or 'lg'.
+   *   Defaults to NULL, which will not change the font size.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapTextDecorations(array|string $element, bool $is_bold, bool $is_underline, string $font_size = NULL): array {
+  protected function wrapTextDecorations(array|string|TranslatableMarkup $element, string $font_weight = 'normal', bool $is_underline = FALSE, bool $is_italic = FALSE, string $mobile_font_size = NULL): array {
+    if (is_array($element)) {
+      $element = $this->filterEmptyElements($element);
+    }
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
       return [];
@@ -203,9 +209,10 @@ trait ElementWrapTrait {
     return [
       '#theme' => 'server_theme_text_decorations',
       '#element' => $element,
-      '#is_bold' => $is_bold,
+      '#font_weight' => $font_weight,
       '#is_underline' => $is_underline,
-      '#font_size' => $font_size,
+      '#is_italic' => $is_italic,
+      '#font_size' => $mobile_font_size,
     ];
   }
 

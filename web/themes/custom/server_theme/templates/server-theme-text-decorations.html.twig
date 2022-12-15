@@ -1,17 +1,39 @@
-{% if font_size == 'sm' %}
-  {% set font_size_class = 'text-sm' %}
+{% if font_size == 'xs' %}
+  {% set font_size_classes = 'text-xs md:text-sm lg:text-base' %}
+{% elseif font_size == 'sm' %}
+  {% set font_size_classes = 'text-sm md:text-base lg:text-lg' %}
 {% elseif font_size == 'lg' %}
-  {% set font_size_class = 'text-lg' %}
-{% elseif font_size == 'xl' %}
-  {% set font_size_class = 'text-xl' %}
+  {% set font_size_classes = 'text-lg md:text-xl lg:text-2xl' %}
+{% endif %}
+
+{% if font_weight == 'thin' %}
+  {% set font_weight_class = 'font-thin' %}
+{% elseif font_weight == 'extralight' %}
+  {% set font_weight_class = 'font-extralight' %}
+{% elseif font_weight == 'light' %}
+  {% set font_weight_class = 'font-light' %}
+{% elseif font_weight == 'normal' %}
+  {% set font_weight_class = 'font-normal' %}
+{% elseif font_weight == 'medium' %}
+  {% set font_weight_class = 'font-medium' %}
+{% elseif font_weight == 'semibold' %}
+  {% set font_weight_class = 'font-semibold' %}
+{% elseif font_weight == 'bold' %}
+  {% set font_weight_class = 'font-bold' %}
+{% elseif font_weight == 'extrabold' %}
+  {% set font_weight_class = 'font-extrabold' %}
+{% elseif font_weight == 'black' %}
+  {% set font_weight_class = 'font-black' %}
 {% endif %}
 
 {% set classes = [
-  is_bold ? 'font-bold',
+  font_weight_class,
   is_underline ? 'underline',
-  font_size_class,
+  is_italic ? 'italic',
+  font_size_classes,
 ] | join(' ') | trim %}
 
 <div class="{{ classes }}">
   {{ element }}
 </div>
+
