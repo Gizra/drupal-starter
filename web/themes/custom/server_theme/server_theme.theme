@@ -251,6 +251,39 @@ function server_theme_theme() {
     ],
   ];
 
+  // Wrapper for a text, adding font weight.
+  $info['server_theme_text_decoration__font_weight'] = [
+    'variables' => [
+      // Allowed values are `normal`, `medium` and `bold`.
+      'weight' => 'normal',
+      'element' => [],
+    ],
+  ];
+
+  // Wrapper for a text, adding italic style.
+  $info['server_theme_text_decoration__italic'] = [
+    'variables' => [
+      'element' => [],
+    ],
+  ];
+
+  // Wrapper for a text, adding underline.
+  $info['server_theme_text_decoration__underline'] = [
+    'variables' => [
+      'element' => [],
+    ],
+  ];
+
+  // Wrapper for a text, mobile font size, that is mobile first. That is, it is
+  // responsive and grows on larger screens.
+  $info['server_theme_text_decoration__responsive_mobile_font_size'] = [
+    'variables' => [
+      // Allowed values are `xs`, `sm`, `base` and `lg`.
+      'size' => 'base',
+      'element' => [],
+    ],
+  ];
+
   $info['server_theme_social_share_button'] = [
     'variables' => [
       'url' => NULL,

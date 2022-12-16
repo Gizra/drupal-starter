@@ -179,37 +179,6 @@ trait ElementWrapTrait {
   }
 
   /**
-   * Wrap an element with text decorations.
-   *
-   * @param array|string $element
-   *   The render array or string.
-   * @param bool $is_bold
-   *   TRUE to make it text bold.
-   * @param bool $is_underline
-   *   TRUE to make it text underlined.
-   * @param string|null $font_size
-   *   The font size. Can be `sm`, `lg` or `xl`. Defaults to NULL, which will
-   *   not change the font size.
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function wrapTextDecorations(array|string $element, bool $is_bold, bool $is_underline, string $font_size = NULL): array {
-    if (empty($element)) {
-      // Element is empty, so no need to wrap it.
-      return [];
-    }
-
-    return [
-      '#theme' => 'server_theme_text_decorations',
-      '#element' => $element,
-      '#is_bold' => $is_bold,
-      '#is_underline' => $is_underline,
-      '#font_size' => $font_size,
-    ];
-  }
-
-  /**
    * Wrap an element with `lg` rounded corners.
    *
    * @param array $element
@@ -250,6 +219,37 @@ trait ElementWrapTrait {
     }
 
     return array_filter($element);
+  }
+
+  /**
+   * Wrap an element with text decorations.
+   *
+   * @param array|string $element
+   *   The render array or string.
+   * @param bool $is_bold
+   *   TRUE to make it text bold.
+   * @param bool $is_underline
+   *   TRUE to make it text underlined.
+   * @param string|null $font_size
+   *   The font size. Can be `sm`, `lg` or `xl`. Defaults to NULL, which will
+   *   not change the font size.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapTextDecorations(array|string $element, bool $is_bold, bool $is_underline, string $font_size = NULL): array {
+    if (empty($element)) {
+      // Element is empty, so no need to wrap it.
+      return [];
+    }
+
+    return [
+      '#theme' => 'server_theme_text_decorations',
+      '#element' => $element,
+      '#is_bold' => $is_bold,
+      '#is_underline' => $is_underline,
+      '#font_size' => $font_size,
+    ];
   }
 
 }
