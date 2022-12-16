@@ -281,7 +281,6 @@ trait ElementWrapTrait {
     ];
   }
 
-
   /**
    * Wrap a text element with italic style.
    *
@@ -324,7 +323,6 @@ trait ElementWrapTrait {
     ];
   }
 
-
   /**
    * Remove nested empty arrays.
    *
@@ -346,4 +344,5 @@ trait ElementWrapTrait {
 
     return array_filter($element);
   }
+
 }
