@@ -302,13 +302,17 @@ trait ElementWrapTrait {
    * If the element is an array of arrays, we'd like to remove empty ones.
    * However, if the element is a one dimension array, we'll skip it.
    *
-   * @param array $element
-   *   The render array.
+   * @param array|string $element
+   *   The render array or string.
    *
-   * @return array
-   *   The filtered render array.
+   * @return array|string
+   *   The filtered render array or the original string.
    */
-  protected function filterEmptyElements(array $element): array {
+  protected function filterEmptyElements(array|string $element): array|string {
+    if (is_string($element)) {
+      // Nothing to do here.
+      return $element;
+    }
     if (count(Element::properties($element))) {
       // Element has top level properties beginning with #.
       // Do not filter.

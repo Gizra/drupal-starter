@@ -9,10 +9,11 @@ use Drupal\intl_date\IntlDate;
 use Drupal\media\IFrameUrlHelper;
 use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
 use Drupal\server_general\ButtonTrait;
+use Drupal\server_general\ElementWrapTrait;
 use Drupal\server_general\MediaVideoTrait;
 use Drupal\server_general\TagBuilderTrait;
 use Drupal\server_general\TitleAndLabelsTrait;
-use Drupal\server_style_guide\ElementWrapTrait;
+use Drupal\server_style_guide\StyleGuideElementWrapTrait;
 use Drupal\taxonomy\Entity\Term;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -25,6 +26,7 @@ class StyleGuideController extends ControllerBase {
   use ButtonTrait;
   use ElementWrapTrait;
   use MediaVideoTrait;
+  use StyleGuideElementWrapTrait;
   use TagBuilderTrait;
   use TitleAndLabelsTrait;
 
@@ -98,6 +100,8 @@ class StyleGuideController extends ControllerBase {
     $build[] = $this->wrapElementWideContainer($element, 'Page title');
 
     $build[] = $this->getButtons();
+
+    $build[] = $this->getTextDecorations();
 
     $element = $this->getCards();
     $build[] = $this->wrapElementWideContainer($element, 'Cards');
@@ -283,6 +287,34 @@ class StyleGuideController extends ControllerBase {
     // Secondary button.
     $element = $this->buildButton($url, 'Register', FALSE);
     $build[] = $this->wrapElementWideContainer($element, 'Secondary button');
+
+    return $build;
+  }
+
+  /**
+   * Get text decorations (font weight, font size, etc.).
+   *
+   * @return array
+   *   A render array.
+   */
+  protected function getTextDecorations(): array {
+    $build = [];
+
+    // Font weight.
+    $element = $this->wrapTextFontWeight($this->getRandomTitle(), 'bold');
+    $build[] = $this->wrapElementWideContainer($element, 'Text decoration - Font weight');
+
+    // Font size.
+    $element = $this->wrapTextResponsiveFontSize($this->getRandomTitle(), 'lg');
+    $build[] = $this->wrapElementWideContainer($element, 'Text decoration - Font size');
+
+    // Italic format.
+    $element = $this->wrapTextItalic($this->getRandomTitle());
+    $build[] = $this->wrapElementWideContainer($element, 'Text decoration - Italic');
+
+    // Underline.
+    $element = $this->wrapTextUnderline($this->getRandomTitle());
+    $build[] = $this->wrapElementWideContainer($element, 'Text decoration - Underline');
 
     return $build;
   }
