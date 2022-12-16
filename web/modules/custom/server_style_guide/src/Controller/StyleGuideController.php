@@ -300,18 +300,18 @@ class StyleGuideController extends ControllerBase {
   protected function getTextDecorations(): array {
     $build = [];
 
-    // Font weight.
+    // Font weight for a string
     $element = $this->wrapTextFontWeight($this->getRandomTitle(), 'bold');
     $build[] = $this->wrapElementWideContainer($element, 'Text decoration - Font weight');
 
-    // Font size.
+    // Font size for an array.
     $element = [
       '#markup' => $this->getRandomTitle(),
     ];
     $element = $this->wrapTextResponsiveFontSize($element, 'lg');
     $build[] = $this->wrapElementWideContainer($element, 'Text decoration - Font size');
 
-    // Italic format.
+    // Italic format for `TranslatableMarkup`.
     $element = $this->wrapTextItalic($this->t('TranslatableMarkup should be decorated as well'));
     $build[] = $this->wrapElementWideContainer($element, 'Text decoration - Italic');
 
