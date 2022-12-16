@@ -276,9 +276,13 @@ function server_theme_theme() {
 
   // Wrapper for a text, mobile font size, that is mobile first. That is, it is
   // responsive and grows on larger screens.
-  $info['server_theme_text_decoration__responsive_mobile_font_size'] = [
+  $info['server_theme_text_decoration__responsive_font_size'] = [
     'variables' => [
-      // Allowed values are `xs`, `sm`, `base` and `lg`.
+      // Allowed values are `xs`, `sm`, `base` and `lg`, and they refer to the
+      // size on desktop. While Tailwind works as mobile first, when we
+      // implement the design that in reality we start from the desktop, and
+      // work our way down to the mobile. Furthermore, on mobile the font size
+      // may remain bigger, and won't become smaller - to keep things readable.
       'size' => 'base',
       'element' => [],
     ],

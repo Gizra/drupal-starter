@@ -262,20 +262,24 @@ trait ElementWrapTrait {
    * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
    *   The render array, string or a TranslatableMarkup object.
    * @param string $size
-   *   Font size of the text. Allowed values are `xs`, `sm`, `base` and `lg`.
-   *   Defaults to `base.
+   *   Font size of the text. Allowed values are `xs`, `sm`, `base` and `lg`,
+   *   and they refer to the size on desktop. While Tailwind works as mobile
+   *   first, when we implement the design that in reality we start from the
+   *   desktop, and work our way down to the mobile. Furthermore, on mobile the
+   *   font size  may remain bigger, and won't become smaller - to keep things
+   *   readable. Defaults to `base.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapTextResponsiveMobileFontSize(array|string|TranslatableMarkup $element, string $size = 'base'): array {
+  protected function wrapTextResponsiveFontSize(array|string|TranslatableMarkup $element, string $size = 'base'): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       return [];
     }
 
     return [
-      '#theme' => 'server_theme_text_decoration__responsive_mobile_font_size',
+      '#theme' => 'server_theme_text_decoration__responsive_font_size',
       '#size' => $size,
       '#element' => $element,
     ];

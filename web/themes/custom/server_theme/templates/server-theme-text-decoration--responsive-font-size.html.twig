@@ -1,0 +1,13 @@
+{% if size == 'xs' %}
+  {% set size_classes = 'text-xs' %}
+{% elseif size == 'sm' %}
+  {% set size_classes = 'text-xs md:text-sm' %}
+{% elseif size == 'base' %}
+  {% set size_classes = 'text-sm md:text-base' %}
+{% elseif size == 'lg' %}
+  {% set size_classes = 'md:text-lg' %}
+{% endif %}
+
+<div class="{{ size_class }}">
+  {{ element }}
+</div>
