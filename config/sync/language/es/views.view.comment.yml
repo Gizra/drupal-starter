@@ -1,0 +1,96 @@
+label: التعليقات
+display:
+  default:
+    display_title: الافتراضي
+    display_options:
+      title: التعليقات
+      fields:
+        comment_bulk_form:
+          action_title: إجراء
+        subject:
+          label: الموضوع
+          separator: ', '
+        uid:
+          separator: ', '
+        name:
+          label: المؤلف
+          separator: ', '
+        entity_id:
+          label: 'نُشِر في'
+          separator: ', '
+        changed:
+          label: التحديث
+          separator: ', '
+        operations:
+          label: عمليات
+        name_1:
+          separator: ', '
+      pager:
+        options:
+          tags:
+            next: 'التالية ›'
+            previous: '‹ السابقة'
+            first: '« الأولى'
+          expose:
+            items_per_page_options_all_label: '- الكل -'
+            offset_label: الإزاحة
+      exposed_form:
+        options:
+          submit_button: انتقاء
+          reset_button_label: 'إعادة الضبط'
+          exposed_sorts_label: 'الترتيب حسب'
+          sort_asc_label: تصاعدي
+          sort_desc_label: تنازلي
+      empty:
+        area_text_custom:
+          content: 'لا تعليقات.'
+      filters:
+        subject:
+          expose:
+            label: الموضوع
+        langcode:
+          expose:
+            label: اللغة
+      use_more_text: المزيد
+  page_published:
+    display_title: 'تعليقات منشورة'
+    display_options:
+      display_description: 'قائمة التعليقات المعتمدة.'
+      menu:
+        title: التعليقات
+        description: 'تم نشر التعليقات'
+  page_unapproved:
+    display_title: 'التعليقات الغير موافق عليها'
+    display_options:
+      fields:
+        comment_bulk_form:
+          action_title: إجراء
+        subject:
+          label: الموضوع
+          separator: ', '
+        uid:
+          separator: ', '
+        name:
+          label: المؤلف
+          separator: ', '
+        entity_id:
+          label: 'نُشِر في'
+          separator: ', '
+        changed:
+          label: التحديث
+          separator: ', '
+        operations:
+          label: عمليات
+        name_1:
+          separator: ', '
+      filters:
+        subject:
+          expose:
+            label: الموضوع
+        langcode:
+          expose:
+            label: اللغة
+      display_description: 'قائمة التعليقات الغير معتمدة.'
+      menu:
+        title: 'التعليقات الغير موافق عليها'
+        description: 'التعليقات غير معتمدة'

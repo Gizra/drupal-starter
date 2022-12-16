@@ -19,3 +19,6 @@ process:
     default_value: views
   field_views/target_id: _view_id
   field_views/display_id: _view_display
+  field_views/data:
+    - plugin: default_value
+      default_value: ""

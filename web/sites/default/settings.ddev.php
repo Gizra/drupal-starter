@@ -5,6 +5,8 @@
  * Custom settings for DDEV. This file is not managed by DDEV.
  */
 
+$settings['container_yamls'][] = DRUPAL_ROOT . '/sites/default/services.yml';
+
 $host = "db";
 $port = 3306;
 

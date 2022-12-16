@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\server_general;
 
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\Core\Render\Element;
 
 /**
  * Helper method for wrapping an element.
@@ -16,7 +19,8 @@ trait ElementWrapTrait {
    *   Render array.
    */
   protected function wrapContainerWide(array $element): array {
-    if (!$element) {
+    $element = $this->filterEmptyElements($element);
+    if (empty($element)) {
       // Element is empty, so no need to wrap it.
       return [];
     }
@@ -34,7 +38,8 @@ trait ElementWrapTrait {
    *   Render array.
    */
   protected function wrapContainerNarrow(array $element): array {
-    if (!$element) {
+    $element = $this->filterEmptyElements($element);
+    if (empty($element)) {
       // Element is empty, so no need to wrap it.
       return [];
     }
@@ -55,6 +60,7 @@ trait ElementWrapTrait {
    *   Render array.
    */
   protected function wrapContainerVerticalSpacing(array $element): array {
+    $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
       return [];
@@ -76,6 +82,7 @@ trait ElementWrapTrait {
    *   Render array.
    */
   protected function wrapContainerVerticalSpacingTiny(array $element): array {
+    $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
       return [];
@@ -97,6 +104,7 @@ trait ElementWrapTrait {
    *   Render array.
    */
   protected function wrapContainerVerticalSpacingBig(array $element): array {
+    $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
       return [];
@@ -118,6 +126,7 @@ trait ElementWrapTrait {
    *   Render array.
    */
   protected function wrapContainerVerticalSpacingHuge(array $element): array {
+    $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
       return [];
@@ -139,6 +148,7 @@ trait ElementWrapTrait {
    *   Render array.
    */
   protected function wrapContainerBottomPadding(array $element): array {
+    $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
       return [];
@@ -157,7 +167,8 @@ trait ElementWrapTrait {
    *   Render array.
    */
   protected function wrapProseText(array $element): array {
-    if (!$element) {
+
+    if (empty($element)) {
       // Element is empty, so no need to wrap it.
       return [];
     }
@@ -200,6 +211,49 @@ trait ElementWrapTrait {
       '#is_italic' => $is_italic,
       '#font_size' => $font_size,
     ];
+  }
+
+  /**
+   * Wrap an element with `lg` rounded corners.
+   *
+   * @param array $element
+   *   The render array.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapRoundedCornersBig(array $element): array {
+    if (empty($element)) {
+      // Element is empty, so no need to wrap it.
+      return [];
+    }
+
+    return [
+      '#theme' => 'server_theme_container_rounded_corners_big',
+      '#items' => $element,
+    ];
+  }
+
+  /**
+   * Remove nested empty arrays.
+   *
+   * If the element is an array of arrays, we'd like to remove empty ones.
+   * However, if the element is a one dimension array, we'll skip it.
+   *
+   * @param array $element
+   *   The render array.
+   *
+   * @return array
+   *   The filtered render array.
+   */
+  protected function filterEmptyElements(array $element): array {
+    if (count(Element::properties($element))) {
+      // Element has top level properties beginning with #.
+      // Do not filter.
+      return $element;
+    }
+
+    return array_filter($element);
   }
 
 }

@@ -8,7 +8,7 @@ dependencies:
     - toolbar
 id: content_editor
 label: 'Content Editor'
-weight: -8
+weight: -7
 is_admin: null
 permissions:
   - 'access content overview'

@@ -9,7 +9,7 @@ use weitzman\DrupalTestTraits\ExistingSiteBase;
 /**
  * User and roles tests.
  */
-class ServerGeneralRolesTests extends ExistingSiteBase {
+class ServerGeneralRolesTest extends ExistingSiteBase {
 
   use UsersTrait;
   use RolesTrait;

@@ -45,6 +45,22 @@ function server_general_intl_date_formatted_date_alter(string &$formatted_date, 
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Move selected language to the top of the Language drop down list.
+ */
+function server_general_form_lang_dropdown_form_alter(array &$form, FormStateInterface $form_state) {
+  $selected_language = $form['lang_dropdown_select']['#default_value'];
+  $selected_language_name = $form['lang_dropdown_select']['#options'][$selected_language];
+
+  // Remove item.
+  unset($form['lang_dropdown_select']['#options'][$selected_language]);
+
+  // And re-add on top of the list.
+  $form['lang_dropdown_select']['#options'] = [$selected_language => $selected_language_name] + $form['lang_dropdown_select']['#options'];
+}
+
+/**
  * Implements hook_field_info_alter().
  *
  * Set default widgets.
