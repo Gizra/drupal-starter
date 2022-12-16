@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\server_general;
 
 use Drupal\Core\Render\Element;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
  * Helper method for wrapping an element.
@@ -160,25 +161,6 @@ trait ElementWrapTrait {
   }
 
   /**
-   * Wrap an element, with Prose text.
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function wrapProseText(array $element): array {
-
-    if (empty($element)) {
-      // Element is empty, so no need to wrap it.
-      return [];
-    }
-
-    return [
-      '#theme' => 'server_theme_prose_text',
-      '#text' => $element,
-    ];
-  }
-
-  /**
    * Wrap an element with `lg` rounded corners.
    *
    * @param array $element
@@ -188,6 +170,7 @@ trait ElementWrapTrait {
    *   Render array.
    */
   protected function wrapRoundedCornersBig(array $element): array {
+    $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
       return [];
@@ -197,28 +180,6 @@ trait ElementWrapTrait {
       '#theme' => 'server_theme_container_rounded_corners_big',
       '#items' => $element,
     ];
-  }
-
-  /**
-   * Remove nested empty arrays.
-   *
-   * If the element is an array of arrays, we'd like to remove empty ones.
-   * However, if the element is a one dimension array, we'll skip it.
-   *
-   * @param array $element
-   *   The render array.
-   *
-   * @return array
-   *   The filtered render array.
-   */
-  protected function filterEmptyElements(array $element): array {
-    if (count(Element::properties($element))) {
-      // Element has top level properties beginning with #.
-      // Do not filter.
-      return $element;
-    }
-
-    return array_filter($element);
   }
 
   /**
@@ -252,4 +213,137 @@ trait ElementWrapTrait {
     ];
   }
 
+  /**
+   * Wrap an element, with Prose text.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapProseText(array $element): array {
+    $element = $this->filterEmptyElements($element);
+    if (empty($element)) {
+      return [];
+    }
+
+    return [
+      '#theme' => 'server_theme_prose_text',
+      '#text' => $element,
+    ];
+  }
+
+  /**
+   * Wrap a text element with font weight.
+   *
+   * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
+   *   The render array, string or a TranslatableMarkup object.
+   * @param string $weight
+   *   Font weight of the text. Allowed values are `normal`, `medium`, and
+   *   `bold`. Defaults to `normal`.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapTextFontWeight(array|string|TranslatableMarkup $element, string $weight = 'normal'): array {
+    $element = $this->filterEmptyElements($element);
+    if (empty($element)) {
+      return [];
+    }
+
+    return [
+      '#theme' => 'server_theme_text_decoration__font_weight',
+      '#weight' => $weight,
+      '#element' => $element,
+    ];
+  }
+
+  /**
+   * Wrap a text element with font weight.
+   *
+   * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
+   *   The render array, string or a TranslatableMarkup object.
+   * @param string $size
+   *   Font size of the text. Allowed values are `xs`, `sm`, `base` and `lg`.
+   *   Defaults to `base.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapTextResponsiveMobileFontSize(array|string|TranslatableMarkup $element, string $size = 'base'): array {
+    $element = $this->filterEmptyElements($element);
+    if (empty($element)) {
+      return [];
+    }
+
+    return [
+      '#theme' => 'server_theme_text_decoration__responsive_mobile_font_size',
+      '#size' => $size,
+      '#element' => $element,
+    ];
+  }
+
+
+  /**
+   * Wrap a text element with italic style.
+   *
+   * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
+   *   The render array, string or a TranslatableMarkup object.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapTextItalic(array|string|TranslatableMarkup $element): array {
+    $element = $this->filterEmptyElements($element);
+    if (empty($element)) {
+      return [];
+    }
+
+    return [
+      '#theme' => 'server_theme_text_decoration__italic',
+      '#element' => $element,
+    ];
+  }
+
+  /**
+   * Wrap a text element with underline.
+   *
+   * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
+   *   The render array, string or a TranslatableMarkup object.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapTextUnderline(array|string|TranslatableMarkup $element): array {
+    $element = $this->filterEmptyElements($element);
+    if (empty($element)) {
+      return [];
+    }
+
+    return [
+      '#theme' => 'server_theme_text_decoration__underline',
+      '#element' => $element,
+    ];
+  }
+
+
+  /**
+   * Remove nested empty arrays.
+   *
+   * If the element is an array of arrays, we'd like to remove empty ones.
+   * However, if the element is a one dimension array, we'll skip it.
+   *
+   * @param array $element
+   *   The render array.
+   *
+   * @return array
+   *   The filtered render array.
+   */
+  protected function filterEmptyElements(array $element): array {
+    if (count(Element::properties($element))) {
+      // Element has top level properties beginning with #.
+      // Do not filter.
+      return $element;
+    }
+
+    return array_filter($element);
+  }
 }
