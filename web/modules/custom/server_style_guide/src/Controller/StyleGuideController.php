@@ -300,7 +300,7 @@ class StyleGuideController extends ControllerBase {
   protected function getTextDecorations(): array {
     $build = [];
 
-    // Font weight for a string
+    // Font weight for a string.
     $element = $this->wrapTextFontWeight($this->getRandomTitle(), 'bold');
     $build[] = $this->wrapElementWideContainer($element, 'Text decoration - Font weight');
 
