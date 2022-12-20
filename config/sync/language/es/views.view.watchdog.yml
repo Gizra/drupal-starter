@@ -1,3 +1,4 @@
+label: Guardián
 description: 'آخر رسائل السجل'
 display:
   default:
@@ -7,6 +8,8 @@ display:
       fields:
         nothing:
           admin_label: أيقونة
+        wid:
+          label: WID
         severity:
           label: الحدة
         type:
@@ -15,6 +18,8 @@ display:
           label: التاريخ
         message:
           label: الرسالة
+          alter:
+            alt: '{{ message }}'
         name:
           label: المستخدم
           separator: ', '
@@ -22,7 +27,11 @@ display:
           label: عمليات
       pager:
         options:
+          tags:
+            next: ››
+            previous: ‹‹
           expose:
+            items_per_page_label: 'Elementos por página'
             items_per_page_options_all_label: '- الكل -'
             offset_label: الإزاحة
       exposed_form:

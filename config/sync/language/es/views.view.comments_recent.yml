@@ -1,9 +1,14 @@
 label: 'أحدث التعليقات'
+description: 'Comentarios recientes.'
 display:
   default:
     display_title: الافتراضي
     display_options:
       title: 'أحدث التعليقات'
+      fields:
+        changed:
+          settings:
+            past_format: 'Hace @interval'
       empty:
         area_text_custom:
           content: 'لا تعليقات.'
@@ -11,3 +16,4 @@ display:
     display_title: الصندوق
     display_options:
       block_description: 'أحدث التعليقات'
+      block_category: 'Listas (Views)'

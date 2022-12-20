@@ -1,4 +1,5 @@
 label: ميديا
+description: 'Buscar y administrar medios.'
 display:
   default:
     display_title: الافتراضي
@@ -11,6 +12,7 @@ display:
           label: 'النسخة المصغرة'
           separator: ', '
         name:
+          label: 'Nombre del elemento multimedia'
           separator: ', '
         bundle:
           label: النوع
@@ -34,7 +36,10 @@ display:
           tags:
             next: 'التالي ›'
             previous: '‹ السابق'
+            first: '« Primero'
+            last: 'Último »'
           expose:
+            items_per_page_label: 'Elementos por página'
             items_per_page_options_all_label: '- الكل -'
             offset_label: الإزاحة
       exposed_form:
@@ -44,7 +49,13 @@ display:
           exposed_sorts_label: 'الترتيب حسب'
           sort_asc_label: تصاعدي
           sort_desc_label: تنازلي
+      empty:
+        area_text_custom:
+          content: 'No hay medios disponibles.'
       filters:
+        name:
+          expose:
+            label: 'Nombre del elemento multimedia'
         bundle:
           expose:
             label: النوع
@@ -52,6 +63,7 @@ display:
           expose:
             label: صحيح
           group_info:
+            label: 'Estado de publicación'
             group_items:
               1:
                 title: منشور

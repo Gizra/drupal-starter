@@ -6,6 +6,8 @@ display:
     display_options:
       title: الأشخاص
       fields:
+        user_bulk_form:
+          label: 'Actualización masiva'
         name:
           label: 'اسم المستخدم'
         status:
@@ -17,8 +19,13 @@ display:
           label: الأدوار
         created:
           label: 'مسجل بالموقع منذ'
+          settings:
+            future_format: '@interval'
+            past_format: '@interval'
         access:
           label: 'آخر وصول'
+          settings:
+            past_format: 'Hace @interval'
         operations:
           label: عمليات
         mail:
@@ -28,7 +35,10 @@ display:
           tags:
             next: 'التالي ›'
             previous: '‹ السابق'
+            first: '« Primero'
+            last: 'Último »'
           expose:
+            items_per_page_label: 'Elementos por página'
             items_per_page_options_all_label: '- الكل -'
             offset_label: الإزاحة
       exposed_form:
@@ -42,6 +52,9 @@ display:
         area_text_custom:
           content: 'لا يوجد أشخاص.'
       filters:
+        combine:
+          expose:
+            label: 'Nombre o correo electrónico contiene'
         status:
           group_info:
             label: الحالة

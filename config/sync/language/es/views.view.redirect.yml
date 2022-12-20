@@ -14,7 +14,9 @@ display:
             previous: '‹ السابقة'
             next: 'التالية ›'
             first: '« الأولى'
+            last: 'último »'
           expose:
+            items_per_page_label: 'Elementos por página'
             items_per_page_options_all_label: '- الكل -'
             offset_label: الإزاحة
       fields:
@@ -30,5 +32,8 @@ display:
         redirect_redirect__uri:
           expose:
             label: إلى
+        language:
+          expose:
+            label: 'Lenguaje original'
   page_1:
     display_title: الصفحة

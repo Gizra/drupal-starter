@@ -27,6 +27,8 @@ display:
           tags:
             next: 'التالي ›'
             previous: '‹ السابق'
+            first: '« Primero'
+            last: 'Último »'
       exposed_form:
         options:
           submit_button: انتقاء
@@ -48,6 +50,7 @@ display:
           expose:
             label: الحالة
           group_info:
+            label: 'Estado de publicación'
             group_items:
               1:
                 title: منشور
@@ -63,3 +66,4 @@ display:
         title: المحتوى
       tab_options:
         title: المحتوى
+        description: 'Encuentre y gestione el contenido'

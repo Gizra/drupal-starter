@@ -1,3 +1,5 @@
+label: 'Bloque de usuarios conectados'
+description: 'Muestra los nombres de usuario de los usuarios activos más recientes y el número total de usuarios activos.'
 display:
   default:
     display_title: الافتراضي
@@ -10,12 +12,19 @@ display:
           exposed_sorts_label: 'الترتيب حسب'
           sort_asc_label: تصاعدي
           sort_desc_label: تنازلي
+      empty:
+        area_text_custom:
+          content: 'Hay 0 usuarios en línea.'
       filters:
         access:
           expose:
             label: 'آخر وصول'
             description: 'تحسب فترة وجود المستخدم عالخط منذ آخر عرض لصفحة.'
+      header:
+        result:
+          content: 'Actualmente hay un total de  @total usuario en linea.'
   who_s_online_block:
     display_title: 'المتصلون الأن'
     display_options:
+      display_description: 'Una lista de los usuarios que están conectados actualmente.'
       block_description: 'المتصلون الأن'
