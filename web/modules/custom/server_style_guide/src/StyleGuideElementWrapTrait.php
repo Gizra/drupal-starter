@@ -7,7 +7,7 @@ use Drupal\Component\Utility\Html;
 /**
  * Helper method for wrapping an element.
  */
-trait ElementWrapTrait {
+trait StyleGuideElementWrapTrait {
 
   /**
    * Wrap an element, with no container.

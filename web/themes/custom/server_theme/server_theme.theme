@@ -235,19 +235,40 @@ function server_theme_theme() {
     ],
   ];
 
-  // Wrapper for a text, allowing adding some simple attributes, such as bold,
-  // underline, or settings the font size (`sm`, `lg`). Often used with
-  // "regular" elements that don't require a special design, apart from the
-  // those simple text decorations.
-  $info['server_theme_text_decorations'] = [
+  // Wrapper for a text, adding font weight.
+  $info['server_theme_text_decoration__font_weight'] = [
     'variables' => [
-      // The element to wrap.
+      // Allowed values are `normal`, `medium` and `bold`.
+      'weight' => 'normal',
       'element' => [],
-      'is_bold' => NULL,
-      'is_underline' => NULL,
-      // Can either be `sm`, `lg` or `xl`. Defaults to NULL, which will not
-      // change the font size.
-      'font_size' => NULL,
+    ],
+  ];
+
+  // Wrapper for a text, adding italic style.
+  $info['server_theme_text_decoration__italic'] = [
+    'variables' => [
+      'element' => [],
+    ],
+  ];
+
+  // Wrapper for a text, adding underline.
+  $info['server_theme_text_decoration__underline'] = [
+    'variables' => [
+      'element' => [],
+    ],
+  ];
+
+  // Wrapper for a text, mobile font size, that is mobile first. That is, it is
+  // responsive and grows on larger screens.
+  $info['server_theme_text_decoration__responsive_font_size'] = [
+    'variables' => [
+      // Allowed values are `xs`, `sm`, `base` and `lg`, and they refer to the
+      // size on desktop. While Tailwind works as mobile first, when we
+      // implement the design that in reality we start from the desktop, and
+      // work our way down to the mobile. Furthermore, on mobile the font size
+      // may remain bigger, and won't become smaller - to keep things readable.
+      'size' => 'base',
+      'element' => [],
     ],
   ];
 
