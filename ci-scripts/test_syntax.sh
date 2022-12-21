@@ -13,6 +13,6 @@ FILES=`git diff-tree --no-commit-id --name-only -r HEAD | grep -v yml$`
 for FILE in $FILES
 do
   if [ -f "$FILE" ]; then
-    php -l $FILE
+    php -l "$FILE"
   fi
 done
