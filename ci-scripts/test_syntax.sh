@@ -8,7 +8,7 @@ set -e
 #
 # ---------------------------------------------------------------------------- #
 
-FILES=`git diff-tree --no-commit-id --name-only -r HEAD | grep -v yml$`
+FILES=$(git diff-tree --no-commit-id --name-only -r HEAD | grep -v yml$)
 
 for FILE in $FILES
 do
