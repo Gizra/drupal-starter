@@ -25,6 +25,10 @@ before_install:
 jobs:
   include:
     - stage: Lint
+      name: "Last commit syntax check"
+      script:
+        - "$TRAVIS_BUILD_DIR/ci-scripts/test_syntax.sh || travis_terminate 1;"
+    - stage: Lint
       name: "PhpStan"
       script:
         - "composer install"
