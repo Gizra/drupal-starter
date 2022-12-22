@@ -13,7 +13,7 @@ mysql_version: ""
 nfs_mount_enabled: false
 mutagen_enabled: false
 use_dns_when_possible: true
-composer_version: "2.4.4"
+composer_version: "2"
 web_environment:
   - COMPOSER_EXIT_ON_PATCH_FAILURE=1
 
