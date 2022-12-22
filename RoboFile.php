@@ -33,7 +33,7 @@ class RoboFile extends Tasks {
    * Compile the theme.
    *
    * @param bool $optimize
-   *   Indicate whether to optimize during compilation. Default: FALSE.
+   *   Indicate whether to optimize during compilation. Default: FALSE
    */
   private function doThemeCompile(bool $optimize = FALSE): void {
     $directories = [
@@ -265,7 +265,7 @@ class RoboFile extends Tasks {
    * Deploy to Pantheon.
    *
    * @param string $branch_name
-   *   The branch name to commit to. Default: master.
+   *   The branch name to commit to. Default: master
    * @param string|null $commit_message
    *   Supply a custom commit message for the pantheon repo.
    *   Falls back to: "Site update from [current_version]".
@@ -505,10 +505,10 @@ class RoboFile extends Tasks {
    * Deploy site from one env to the other on Pantheon.
    *
    * @param string $env
-   *   The environment to update. Default: test.
+   *   The environment to update. Default: test
    * @param bool $do_deploy
    *   Determine if 'terminus env:deploy' should be run on the given env.
-   *   Default: TRUE.
+   *   Default: TRUE
    *
    * @throws \Exception
    */
@@ -565,7 +565,7 @@ class RoboFile extends Tasks {
    * `ddev auth ssh`.
    *
    * @param string $env
-   *   The environment to install. Default: qa.
+   *   The environment to install. Default: qa
    *
    * @throws \Exception
    */
@@ -746,7 +746,7 @@ class RoboFile extends Tasks {
    * Generates a cryptographically secure random string for the password.
    *
    * @param int $length
-   *   Length of the random string. Default: 64.
+   *   Length of the random string. Default: 64
    * @param string $keyspace
    *   The set of characters that can be part of the output string. Default:
    *   '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.
