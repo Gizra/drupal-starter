@@ -589,7 +589,7 @@ class RoboFile extends Tasks {
       ->exec("terminus remote:drush $pantheon_terminus_environment -- si server --no-interaction --existing-config")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- en server_migrate --no-interaction")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- migrate:import --group=server")
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- pm:uninstall migrate")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- pm:uninstall migrate -y")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- uli");
 
     $result = $task->run()->getExitCode();
