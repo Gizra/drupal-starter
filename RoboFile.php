@@ -454,7 +454,6 @@ class RoboFile extends Tasks {
       ->run();
     if (str_contains($result->getMessage(), 'nothing to commit, working tree clean')) {
       $this->say('Nothing to commit, working tree clean');
-      return;
     }
     print $result->getMessage();
 
