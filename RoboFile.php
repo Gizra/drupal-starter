@@ -709,6 +709,7 @@ class RoboFile extends Tasks {
       ->printOutput(FALSE)
       ->run();
     $pantheon_git_url = trim($result->getMessage());
+    $this->_exec("cp .travis.template.yml .travis.yml");
     $this->taskReplaceInFile('.travis.yml')
       ->from('{{ PANTHEON_GIT_URL }}')
       ->to($pantheon_git_url)
