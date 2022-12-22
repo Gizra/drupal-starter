@@ -20,3 +20,4 @@ git clone "$PANTHEON_GIT_URL" -b master .pantheon
 
 # Make the DDEV container aware of your SSH keys.
 ddev auth ssh
+ddev . terminus auth:login --machine-token="$TERMINUS_TOKEN"
