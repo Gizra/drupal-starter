@@ -40,5 +40,5 @@ hooks:
     # Enable Devel.
     - exec: drush pm-enable devel -y
 
-    # Generate one-time login link.
-    - exec: drush uli
+    # Login as admin.
+    - exec-host: ddev login
