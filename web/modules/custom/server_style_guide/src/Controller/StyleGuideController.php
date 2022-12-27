@@ -248,8 +248,8 @@ class StyleGuideController extends ControllerBase {
   protected function getProfilePicture(): array {
     $element = [
       '#theme' => 'image',
-      '#uri' => $this->getPlaceholderPersonImage(300),
-      '#width' => 300,
+      '#uri' => $this->getPlaceholderPersonImage(100),
+      '#width' => 100,
     ];
 
     return $this->wrapRoundedCornersFull($element);
