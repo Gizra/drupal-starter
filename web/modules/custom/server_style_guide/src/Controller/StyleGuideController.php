@@ -101,6 +101,8 @@ class StyleGuideController extends ControllerBase {
 
     $build[] = $this->getButtons();
 
+    $build[] = $this->getLinks();
+
     $build[] = $this->getTextDecorations();
 
     $element = $this->getCards();
@@ -393,6 +395,35 @@ class StyleGuideController extends ControllerBase {
     // Secondary button.
     $element = $this->buildButton($url, 'Register', FALSE);
     $build[] = $this->wrapElementWideContainer($element, 'Secondary button');
+
+    return $build;
+  }
+
+  /**
+   * Get a set of buttons.
+   *
+   * @return array
+   *   A render array.
+   */
+  protected function getLinks(): array {
+    $build = [];
+
+    $url = Url::fromRoute('<front>');
+
+    $element = [
+      '#theme' => 'server_theme_link',
+      '#url' => $url,
+      '#title' => 'Internal link',
+    ];
+    $build[] = $this->wrapElementWideContainer($element, 'Link');
+
+    $element = [
+      '#theme' => 'server_theme_link',
+      '#url' => Url::fromUri('https://google.com'),
+      '#title' => 'External link with icon',
+      '#show_external_icon' => TRUE,
+    ];
+    $build[] = $this->wrapElementWideContainer($element, 'Link with external icon');
 
     return $build;
   }

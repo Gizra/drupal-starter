@@ -379,13 +379,11 @@ trait ElementWrapTrait {
    *   The render array, string or a TranslatableMarkup object.
    * @param string $color
    *   The font color.
-   * @param string|null $hover_color
-   *   Optional; The hover color.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapTextColor(array|string|TranslatableMarkup $element, string $color, string $hover_color = NULL): array {
+  protected function wrapTextColor(array|string|TranslatableMarkup $element, string $color): array {
     if (is_array($element)) {
       $element = $this->filterEmptyElements($element);
     }
@@ -397,7 +395,6 @@ trait ElementWrapTrait {
     return [
       '#theme' => 'server_theme_text_decoration__font_color',
       '#color' => $color,
-      '#hover_color' => $hover_color,
       '#element' => $element,
     ];
   }

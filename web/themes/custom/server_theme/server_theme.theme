@@ -131,6 +131,15 @@ function server_theme_theme() {
     ],
   ];
 
+  $info['server_theme_link'] = [
+    'variables' => [
+      'url' => NULL,
+      'title' => NULL,
+      // Determine if an icon suffix should appear when URL is external.
+      'show_external_icon' => TRUE,
+    ],
+  ];
+
   // Content labels (e.g. showing the content type name on a card).
   $info['server_theme_label'] = [
     'variables' => [
@@ -271,11 +280,10 @@ function server_theme_theme() {
     ],
   ];
 
-  // Wrapper for a text, adding font color and optional hover color.
+  // Wrapper for a text, adding font color.
   $info['server_theme_text_decoration__font_color'] = [
     'variables' => [
       'color' => NULL,
-      'hover_color' => NULL,
       'element' => [],
     ],
   ];
