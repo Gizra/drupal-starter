@@ -207,12 +207,13 @@ trait ElementWrapTrait {
   }
 
   /**
-   * Wrap an element with a span and a color class.
+   * Wrap an element with a background color.
    *
    * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
    *   The render array, string or a TranslatableMarkup object.
-   * @param string $font_color
-   *   The background color.
+   * @param string $color
+   *   The background color. Possible values are:
+   *   - `light-gray`.
    *
    * @return array
    *   Render array.
@@ -372,17 +373,19 @@ trait ElementWrapTrait {
   }
 
   /**
-   * Wrap an element with a span and a color class.
+   * Wrap an element with text color.
    *
    * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
    *   The render array, string or a TranslatableMarkup object.
    * @param string $color
    *   The font color.
+   * @param string|null $hover_color
+   *   Optional; The hover color.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapTextColor(array|string|TranslatableMarkup $element, string $color): array {
+  protected function wrapTextColor(array|string|TranslatableMarkup $element, string $color, string $hover_color = NULL): array {
     if (is_array($element)) {
       $element = $this->filterEmptyElements($element);
     }
@@ -392,8 +395,9 @@ trait ElementWrapTrait {
     }
 
     return [
-      '#theme' => 'server_theme_text_color',
+      '#theme' => 'server_theme_text_decoration__font_color',
       '#color' => $color,
+      '#hover_color' => $hover_color,
       '#element' => $element,
     ];
   }

@@ -314,8 +314,9 @@ class StyleGuideController extends ControllerBase {
     $element = $this->buildLabelsFromText(['News']);
     $elements[] = $this->wrapTextResponsiveFontSize($element, 'sm');
 
-    // Date
+    // Date.
     $element = ['#markup' => IntlDate::formatPattern(time(), 'short')];
+    $element = $this->wrapTextColor($element, 'gray');
     $elements[] = $this->wrapTextResponsiveFontSize($element, 'sm');
 
     $card = [

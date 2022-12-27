@@ -83,15 +83,13 @@ function server_theme_theme() {
     ],
   ];
 
-  // Wrap with a background color and optional hover.
+  // Wrap with a background color.
   $info['server_theme_container_background_color'] = [
     'variables' => [
       'items' => [],
       'color' => NULL,
-      'hover_color' => NULL,
     ],
   ];
-
 
   // The page's header.
   $info['server_theme_header'] = [
@@ -266,7 +264,18 @@ function server_theme_theme() {
   $info['server_theme_text_decoration__font_weight'] = [
     'variables' => [
       // Allowed values are `normal`, `medium` and `bold`.
+      // We can't call this variable `#weight`, as it will mess with Drupal's
+      // render array.
       'font_weight' => 'normal',
+      'element' => [],
+    ],
+  ];
+
+  // Wrapper for a text, adding font color and optional hover color.
+  $info['server_theme_text_decoration__font_color'] = [
+    'variables' => [
+      'color' => NULL,
+      'hover_color' => NULL,
       'element' => [],
     ],
   ];
@@ -299,7 +308,7 @@ function server_theme_theme() {
     ],
   ];
 
-  // Wrapper for a text, to clamp the visible lines
+  // Wrapper for a text, to clamp the visible lines.
   $info['server_theme_text_decoration__line_clamp'] = [
     'variables' => [
       // The lines to clamp. Values are 1 to 4.
