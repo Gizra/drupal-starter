@@ -302,6 +302,18 @@ function server_theme_theme() {
     ],
   ];
 
+  // Wrapper for a link, allowing to set the color, hover color and an optional
+  // underline.
+  $info['server_theme_text_decoration__link'] = [
+    'variables' => [
+      // The lines to clamp. Values are 1 to 4.
+      'color' => NULL,
+      // Possible values are `always` or `hover`.
+      'underline' => NULL,
+      'element' => [],
+    ],
+  ];
+
   // Wrapper for a text, mobile font size, that is mobile first. That is, it is
   // responsive and grows on larger screens.
   $info['server_theme_text_decoration__responsive_font_size'] = [
