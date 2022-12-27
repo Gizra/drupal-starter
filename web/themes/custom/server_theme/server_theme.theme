@@ -137,6 +137,12 @@ function server_theme_theme() {
       'title' => NULL,
       // Determine if an icon suffix should appear when URL is external.
       'show_external_icon' => TRUE,
+      // The lines to clamp. Values are 1 to 4, or NULL for none.
+      // The reason we determine the lines clamp on the link, is that in the
+      // twig file we have a flex (used for the optional external link), and in
+      // that case line clamping won't work. So we want to define the clamp only
+      // on the title.
+      'lines_clamp' => NULL,
     ],
   ];
 
@@ -306,7 +312,7 @@ function server_theme_theme() {
   // underline.
   $info['server_theme_text_decoration__link'] = [
     'variables' => [
-      // The lines to clamp. Values are 1 to 4.
+      // The lines to clamp. Values are 1 to 4, or NULL for none.
       'color' => NULL,
       // Possible values are `always` or `hover`.
       'underline' => NULL,

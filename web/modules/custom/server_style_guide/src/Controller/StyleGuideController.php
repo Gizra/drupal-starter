@@ -306,12 +306,10 @@ class StyleGuideController extends ControllerBase {
 
     $elements = [];
     // Title as link.
-    $element = [
-      '#type' => 'link',
-      '#title' => 'Never Changing Will Eventually Destroy You, But then You Should See The Longest Title',
-      '#url' => $url,
-    ];
-    $element = $this->wrapTextLineClamp($element, 2);
+    $title = 'Never Changing Will Eventually Destroy You, But then You Should See The Longest Title, This one works. check the below one , ideally speaking it, pretty amazing eh, you will see';
+    $element = $this->buildLink($url, $title, 'dark-gray');
+    $element = $this->wrapTextResponsiveFontSize($element, 'lg');
+
     $elements[] = $this->wrapTextFontWeight($element, 'bold');
 
     // Labels.
@@ -324,7 +322,7 @@ class StyleGuideController extends ControllerBase {
     $elements[] = $this->wrapTextResponsiveFontSize($element, 'sm');
 
     // Body teaser.
-    $element = 'I before parameters designer of the to separated of to part. Price question in or of a there sleep. Who a deference and drew sleep written talk said which had. sel in small been cheating sounded times should and problem. Question. Explorations derived been him aged seal for gods team- manage he according the welcoming are cities part up stands careful so own the have how up, keep';
+    $element = $this->buildProcessedText('<p>I before parameters designer of the to separated of to part. Price question in or of a there sleep. Who a deference and drew sleep written talk said which had. sel in small been cheating sounded times should and problem. Question. Explorations derived been him aged seal for gods team- manage he according the welcoming are cities part up stands careful so own the have how up, keep</p>');
     $elements[] = $this->wrapTextLineClamp($element, 4);
 
     $card = [
@@ -338,11 +336,8 @@ class StyleGuideController extends ControllerBase {
 
     $elements = [];
     // Title as link.
-    $element = [
-      '#type' => 'link',
-      '#title' => 'The Shorter Title',
-      '#url' => $url,
-    ];
+    $element = $this->buildLink($url, 'A Shorter Title', 'dark-gray');
+    $element = $this->wrapTextResponsiveFontSize($element, 'lg');
     $element = $this->wrapTextLineClamp($element, 2);
     $elements[] = $this->wrapTextFontWeight($element, 'bold');
 
@@ -356,7 +351,7 @@ class StyleGuideController extends ControllerBase {
     $elements[] = $this->wrapTextResponsiveFontSize($element, 'sm');
 
     // Body teaser.
-    $element = 'A much shorter intro';
+    $element = $this->buildProcessedText('A much <strong>shorter</strong> intro');
     $elements[] = $this->wrapTextLineClamp($element, 4);
 
     $card2 = [
@@ -416,7 +411,7 @@ class StyleGuideController extends ControllerBase {
     $build[] = $this->wrapElementWideContainer($element, 'Link');
 
     $url = 'https://google.com';
-    $element = $this->buildLink($url, 'External link', 'dark-gray', 'hover');
+    $element = $this->buildLink($url, 'External link', 'dark-gray', NULL, 'hover');
     $build[] = $this->wrapElementWideContainer($element, 'External link');
 
     return $build;
