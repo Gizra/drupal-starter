@@ -312,7 +312,7 @@ function server_theme_theme() {
   // underline.
   $info['server_theme_text_decoration__link'] = [
     'variables' => [
-      // The lines to clamp. Values are 1 to 4, or NULL for none.
+      // The color of the link. The color on hover will be calculated from it.
       'color' => NULL,
       // Possible values are `always` or `hover`.
       'underline' => NULL,

@@ -17,7 +17,7 @@ trait LinkTrait {
    * @param string $title
    *   The title of the link.
    * @param string $color
-   *   The color of the link. Hover color will be calculated from it.
+   *   The color of the link. The color on hover will be calculated from it.
    *   see `server-theme-text-decoration--link.html.twig`.
    * @param int|null $lines_clamp
    *   The lines to clamp. Values are 1 to 4, or NULL for none. Defaults to 3.

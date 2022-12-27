@@ -309,7 +309,6 @@ class StyleGuideController extends ControllerBase {
     $title = 'Never Changing Will Eventually Destroy You, But then You Should See The Longest Title, This one works. check the below one , ideally speaking it, pretty amazing eh, you will see';
     $element = $this->buildLink($url, $title, 'dark-gray');
     $element = $this->wrapTextResponsiveFontSize($element, 'lg');
-
     $elements[] = $this->wrapTextFontWeight($element, 'bold');
 
     // Labels.
@@ -338,7 +337,6 @@ class StyleGuideController extends ControllerBase {
     // Title as link.
     $element = $this->buildLink($url, 'A Shorter Title', 'dark-gray');
     $element = $this->wrapTextResponsiveFontSize($element, 'lg');
-    $element = $this->wrapTextLineClamp($element, 2);
     $elements[] = $this->wrapTextFontWeight($element, 'bold');
 
     // Labels.
@@ -365,6 +363,7 @@ class StyleGuideController extends ControllerBase {
       $card,
       $card2,
       $card,
+      $card2,
     ];
 
     return [
