@@ -330,9 +330,41 @@ class StyleGuideController extends ControllerBase {
       '#items' => $this->wrapContainerVerticalSpacing($elements),
     ];
 
+    $image = $this->buildImage($this->getPlaceholderImage(300, 400));
+
+    $elements = [];
+    // Title as link.
+    $element = [
+      '#type' => 'link',
+      '#title' => 'The Shorter Title',
+      '#url' => $url,
+    ];
+    $element = $this->wrapTextLineClamp($element, 2);
+    $elements[] = $this->wrapTextFontWeight($element, 'bold');
+
+    // Labels.
+    $element = $this->buildLabelsFromText(['News']);
+    $elements[] = $this->wrapTextResponsiveFontSize($element, 'sm');
+
+    // Date.
+    $element = ['#markup' => IntlDate::formatPattern(time(), 'short')];
+    $element = $this->wrapTextColor($element, 'gray');
+    $elements[] = $this->wrapTextResponsiveFontSize($element, 'sm');
+
+    // Body teaser.
+    $element = 'A much shorter intro';
+    $elements[] = $this->wrapTextLineClamp($element, 4);
+
+    $card2 = [
+      '#theme' => 'server_theme_card_with_image',
+      '#image' => $image,
+      '#url' => $url,
+      '#items' => $this->wrapContainerVerticalSpacing($elements),
+    ];
+
     $items = [
       $card,
-      $card,
+      $card2,
       $card,
     ];
 
