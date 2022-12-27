@@ -118,6 +118,9 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getMediaVideo();
     $build[] = $this->wrapElementWideContainer($element, 'Media: Video');
 
+    $element = $this->getProfilePicture();
+    $build[] = $this->wrapElementWideContainer($element, 'Profile picture');
+
     return $build;
   }
 
@@ -234,6 +237,22 @@ class StyleGuideController extends ControllerBase {
       '#video' => $this->buildVideo('https://www.youtube.com/watch?v=dSZQNOvpszQ', 650, 400),
       '#caption' => $caption,
     ];
+  }
+
+  /**
+   * Get a profile picture video.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getProfilePicture(): array {
+    $element = [
+      '#theme' => 'image',
+      '#uri' => $this->getPlaceholderPersonImage(100),
+      '#width' => 100,
+    ];
+
+    return $this->wrapRoundedCornersFull($element);
   }
 
   /**
@@ -454,18 +473,16 @@ class StyleGuideController extends ControllerBase {
   /**
    * Get placeholder image of a person.
    *
-   * @param int $width
-   *   The width of the image.
-   * @param int $height
-   *   The height of the image.
-   * @param string|null $text
-   *   Text to render image with.
+   * @param int $width_and_height
+   *   The width and height of the image.
+   * @param string|null $unique_id
+   *   Optional; A unique ID for the image.
    *
    * @return string
    *   URL with placeholder.
    */
-  protected function getPlaceholderPersonImage(int $width, int $height, string $text = NULL) {
-    return "https://www.fillmurray.com/{$width}/{$height}" . (!empty($text) ? '?text=' . $text : NULL);
+  protected function getPlaceholderPersonImage(int $width_and_height, string $unique_id = NULL) {
+    return "https://i.pravatar.cc/{$width_and_height}" . (!empty($unique_id) ? '?u=' . $unique_id : NULL);
   }
 
   /**
