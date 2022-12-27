@@ -106,6 +106,9 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getCards();
     $build[] = $this->wrapElementWideContainer($element, 'Cards');
 
+    $element = $this->getCardsWithImage();
+    $build[] = $this->wrapElementWideContainer($element, 'Cards with image');
+
     $element = $this->getTags();
     $build[] = $this->wrapElementWideContainer($element, 'Tags');
 
@@ -288,6 +291,53 @@ class StyleGuideController extends ControllerBase {
   }
 
   /**
+   * Get cards with image.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getCardsWithImage(): array {
+    $url = Url::fromRoute('<front>');
+    $image = $this->buildImage($this->getPlaceholderImage(300, 200));
+
+    $elements = [];
+    // Title as link.
+    $element = [
+      '#type' => 'link',
+      '#title' => 'Never Changing Will Eventually Destroy You, But then You Should See The Longest Title',
+      '#url' => $url,
+    ];
+    $element = $this->wrapTextLineClamp($element, 2);
+    $elements[] = $this->wrapTextFontWeight($element, 'bold');
+
+    // Labels.
+    $element = $this->buildLabelsFromText(['News']);
+    $elements[] = $this->wrapTextResponsiveFontSize($element, 'sm');
+
+    // Date
+    $element = ['#markup' => IntlDate::formatPattern(time(), 'short')];
+    $elements[] = $this->wrapTextResponsiveFontSize($element, 'sm');
+
+    $card = [
+      '#theme' => 'server_theme_card_with_image',
+      '#image' => $image,
+      '#url' => $url,
+      '#items' => $this->wrapContainerVerticalSpacing($elements),
+    ];
+
+    $items = [
+      $card,
+      $card,
+      $card,
+    ];
+
+    return [
+      '#theme' => 'server_theme_cards',
+      '#items' => $items,
+    ];
+  }
+
+  /**
    * Define a set of buttons.
    *
    * @return array
@@ -419,7 +469,7 @@ class StyleGuideController extends ControllerBase {
    * @return array
    *   An image render array.
    */
-  protected function buildImage(string $url, string $alt) {
+  protected function buildImage(string $url, string $alt = '') {
     return [
       '#theme' => 'image',
       '#uri' => $url,

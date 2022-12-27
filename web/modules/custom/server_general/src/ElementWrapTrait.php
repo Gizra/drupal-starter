@@ -207,7 +207,34 @@ trait ElementWrapTrait {
   }
 
   /**
-   * Wrap an element, with Prose text.
+   * Wrap an element with a span and a color class.
+   *
+   * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
+   *   The render array, string or a TranslatableMarkup object.
+   * @param string $font_color
+   *   The background color.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapBackgroundColor(array|string|TranslatableMarkup $element, string $color): array {
+    if (is_array($element)) {
+      $element = $this->filterEmptyElements($element);
+    }
+    if (empty($element)) {
+      // Element is empty, so no need to wrap it.
+      return [];
+    }
+
+    return [
+      '#theme' => 'server_theme_container_background_color',
+      '#color' => $color,
+      '#element' => $element,
+    ];
+  }
+
+  /**
+   * Wrap an element with Prose text.
    *
    * @return array
    *   Render array.
@@ -244,7 +271,7 @@ trait ElementWrapTrait {
 
     return [
       '#theme' => 'server_theme_text_decoration__font_weight',
-      '#weight' => $weight,
+      '#font_weight' => $weight,
       '#element' => $element,
     ];
   }
@@ -316,6 +343,57 @@ trait ElementWrapTrait {
 
     return [
       '#theme' => 'server_theme_text_decoration__underline',
+      '#element' => $element,
+    ];
+  }
+
+  /**
+   * Wrap a text element with line clamp.
+   *
+   * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
+   *   The render array, string or a TranslatableMarkup object.
+   * @param int $lines
+   *   The lines to clamp. Values are 1 to 4.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapTextLineClamp(array|string|TranslatableMarkup $element, int $lines): array {
+    $element = $this->filterEmptyElements($element);
+    if (empty($element)) {
+      return [];
+    }
+
+    return [
+      '#theme' => 'server_theme_text_decoration__line_clamp',
+      '#lines' => $lines,
+      '#element' => $element,
+    ];
+  }
+
+  /**
+   * Wrap an element with a span and a color class.
+   *
+   * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
+   *   The render array, string or a TranslatableMarkup object.
+   * @param string $color
+   *   The font color.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapTextColor(array|string|TranslatableMarkup $element, string $color): array {
+    if (is_array($element)) {
+      $element = $this->filterEmptyElements($element);
+    }
+    if (empty($element)) {
+      // Element is empty, so no need to wrap it.
+      return [];
+    }
+
+    return [
+      '#theme' => 'server_theme_text_color',
+      '#color' => $color,
       '#element' => $element,
     ];
   }

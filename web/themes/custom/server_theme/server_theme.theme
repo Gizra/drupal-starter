@@ -83,6 +83,16 @@ function server_theme_theme() {
     ],
   ];
 
+  // Wrap with a background color and optional hover.
+  $info['server_theme_container_background_color'] = [
+    'variables' => [
+      'items' => [],
+      'color' => NULL,
+      'hover_color' => NULL,
+    ],
+  ];
+
+
   // The page's header.
   $info['server_theme_header'] = [
     'variables' => [
@@ -162,6 +172,16 @@ function server_theme_theme() {
       'title' => NULL,
       'url' => NULL,
       'date' => NULL,
+    ],
+  ];
+
+  $info['server_theme_card_with_image'] = [
+    'variables' => [
+      'image' => NULL,
+      // URL for the image.
+      'url' => NULL,
+      // A render array.
+      'items' => [],
     ],
   ];
 
@@ -246,7 +266,7 @@ function server_theme_theme() {
   $info['server_theme_text_decoration__font_weight'] = [
     'variables' => [
       // Allowed values are `normal`, `medium` and `bold`.
-      'weight' => 'normal',
+      'font_weight' => 'normal',
       'element' => [],
     ],
   ];
@@ -275,6 +295,15 @@ function server_theme_theme() {
       // work our way down to the mobile. Furthermore, on mobile the font size
       // may remain bigger, and won't become smaller - to keep things readable.
       'size' => 'base',
+      'element' => [],
+    ],
+  ];
+
+  // Wrapper for a text, to clamp the visible lines
+  $info['server_theme_text_decoration__line_clamp'] = [
+    'variables' => [
+      // The lines to clamp. Values are 1 to 4.
+      'lines' => NULL,
       'element' => [],
     ],
   ];
