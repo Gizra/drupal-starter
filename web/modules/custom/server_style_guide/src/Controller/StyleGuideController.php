@@ -10,8 +10,9 @@ use Drupal\media\IFrameUrlHelper;
 use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
 use Drupal\server_general\ButtonTrait;
 use Drupal\server_general\ElementWrapTrait;
+use Drupal\server_general\LinkTrait;
 use Drupal\server_general\MediaVideoTrait;
-use Drupal\server_general\TagBuilderTrait;
+use Drupal\server_general\TagTrait;
 use Drupal\server_general\TitleAndLabelsTrait;
 use Drupal\server_style_guide\StyleGuideElementWrapTrait;
 use Drupal\taxonomy\Entity\Term;
@@ -25,9 +26,10 @@ class StyleGuideController extends ControllerBase {
   use BuildFieldTrait;
   use ButtonTrait;
   use ElementWrapTrait;
+  use LinkTrait;
   use MediaVideoTrait;
   use StyleGuideElementWrapTrait;
-  use TagBuilderTrait;
+  use TagTrait;
   use TitleAndLabelsTrait;
 
   /**
@@ -410,20 +412,12 @@ class StyleGuideController extends ControllerBase {
 
     $url = Url::fromRoute('<front>');
 
-    $element = [
-      '#theme' => 'server_theme_link',
-      '#url' => $url,
-      '#title' => 'Internal link',
-    ];
+    $element = $this->buildLink($url, 'Internal link', 'gray');
     $build[] = $this->wrapElementWideContainer($element, 'Link');
 
-    $element = [
-      '#theme' => 'server_theme_link',
-      '#url' => Url::fromUri('https://google.com'),
-      '#title' => 'External link with icon',
-      '#show_external_icon' => TRUE,
-    ];
-    $build[] = $this->wrapElementWideContainer($element, 'Link with external icon');
+    $url = 'https://google.com';
+    $element = $this->buildLink($url, 'External link', 'dark-gray', 'hover');
+    $build[] = $this->wrapElementWideContainer($element, 'External link');
 
     return $build;
   }
