@@ -9,8 +9,19 @@
  * template completely as that will break contextual links for logged in users.
  */
 #}
-<div class="relative h-full">
+{%
+  set classes = [
+  'node',
+  'node--type-' ~ node.bundle|clean_class,
+  node.isPromoted() ? 'node--promoted',
+  node.isSticky() ? 'node--sticky',
+  not node.isPublished() ? 'node--unpublished',
+  view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+  'relative h-full',
+]
+%}
+<article{{ attributes.addClass(classes) }}>
   {{ title_prefix }}
   {{ title_suffix }}
   {{ content }}
-</div>
+</article>
