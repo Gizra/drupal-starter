@@ -283,17 +283,17 @@ trait ElementWrapTrait {
    * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
    *   The render array, string or a TranslatableMarkup object.
    * @param string $size
-   *   Font size of the text. Allowed values are `xs`, `sm`, `base` and `lg`,
-   *   and they refer to the size on desktop. While Tailwind works as mobile
-   *   first, when we implement the design that in reality we start from the
-   *   desktop, and work our way down to the mobile. Furthermore, on mobile the
-   *   font size  may remain bigger, and won't become smaller - to keep things
-   *   readable. Defaults to `base`.
+   *   Font size of the text. Allowed values are `xs`, `sm`, `base`, `lg`, `xl`
+   *   and `3xl`. Those sizes refer to the size on desktop. While Tailwind works
+   *   as  mobile first, when we implement the design that in reality we start
+   *   from the desktop, and work our way down to the mobile. Furthermore, on
+   *   mobile the font size  may remain bigger, and won't become smaller - to
+   *   keep things readable.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapTextResponsiveFontSize(array|string|TranslatableMarkup $element, string $size = 'base'): array {
+  protected function wrapTextResponsiveFontSize(array|string|TranslatableMarkup $element, string $size): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       return [];
@@ -378,7 +378,8 @@ trait ElementWrapTrait {
    * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
    *   The render array, string or a TranslatableMarkup object.
    * @param string $color
-   *   The font color.
+   *   The font color. Possible values are: `light-gray`, `gray` and
+   *   `dark-gray`.
    *
    * @return array
    *   Render array.

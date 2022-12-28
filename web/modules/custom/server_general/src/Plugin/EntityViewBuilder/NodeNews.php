@@ -8,8 +8,7 @@ use Drupal\node\Entity\NodeType;
 use Drupal\node\NodeInterface;
 use Drupal\server_general\EntityDateTrait;
 use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
-use Drupal\server_general\LineSeparatorTrait;
-use Drupal\server_general\SocialShareTrait;
+use Drupal\server_general\LinkTrait;
 use Drupal\server_general\TitleAndLabelsTrait;
 
 /**
@@ -24,8 +23,7 @@ use Drupal\server_general\TitleAndLabelsTrait;
 class NodeNews extends NodeViewBuilderAbstract {
 
   use EntityDateTrait;
-  use LineSeparatorTrait;
-  use SocialShareTrait;
+  use LinkTrait;
   use TitleAndLabelsTrait;
 
   /**
@@ -166,15 +164,28 @@ class NodeNews extends NodeViewBuilderAbstract {
    *   Render array.
    */
   public function buildSearchIndex(array $build, NodeInterface $entity) {
+    $elements = [];
+    // Labels.
+    $elements[] = $this->buildLabelsFromText([$this->t('News')]);
+
+    // Title as link.
+    $element = $this->buildLink($entity->toUrl(), $entity->label(), 'dark-gray');
+    $element = $this->wrapTextResponsiveFontSize($element, '3xl');
+    $elements[] = $this->wrapTextFontWeight($element, 'bold');
+
+    // Summary.
+    $element = $this->buildProcessedText($entity, 'field_body', FALSE);
+    $elements[] = $this->wrapTextLineClamp($element, 4);
+
+    // Date.
     $timestamp = $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date');
+    $element = IntlDate::formatPattern($timestamp, 'short');
+    $element = $this->wrapTextColor($element, 'light-gray');
+    $elements[] = $this->wrapTextResponsiveFontSize($element, 'sm');
 
     $element = [
-      '#theme' => 'server_theme_search_result',
-      '#labels' => $this->buildLabelsFromText(['News']),
-      '#title' => $entity->label(),
-      '#summary' => $this->buildProcessedText($entity, 'field_body', FALSE),
-      '#date' => IntlDate::formatPattern($timestamp, 'short'),
-      '#url' => $entity->toUrl(),
+      '#theme' => 'server_theme_card',
+      '#items' => $this->wrapContainerVerticalSpacing($elements),
     ];
 
     $build[] = $element;
