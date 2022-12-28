@@ -196,6 +196,16 @@ function server_theme_theme() {
     ],
   ];
 
+  $info['server_theme_card_with_image_horizontal'] = [
+    'variables' => [
+      'image' => NULL,
+      // URL for the image.
+      'url' => NULL,
+      // A render array.
+      'items' => [],
+    ],
+  ];
+
   // Multiple cards.
   $info['server_theme_cards'] = [
     'variables' => [

@@ -3,6 +3,7 @@
 namespace Drupal\server_general;
 
 use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
 use Drupal\file\FileInterface;
 use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
@@ -15,12 +16,12 @@ trait ButtonTrait {
   use BuildFieldTrait;
 
   /**
-   * Get button.
+   * Build a button.
    *
-   * @param string $url
-   *   The button's URL.
-   * @param string $title
+   * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $title
    *   The button's title.
+   * @param string|\Drupal\Core\Url $url
+   *   The button's URL.
    * @param bool $is_primary
    *   Whether this is a primary button. Defaults to FALSE.
    * @param bool $open_new_tab
@@ -29,7 +30,7 @@ trait ButtonTrait {
    * @return array
    *   The rendered button array.
    */
-  protected function buildButton(string $url, string $title, bool $is_primary = FALSE, bool $open_new_tab = FALSE): array {
+  protected function buildButton(array|string|TranslatableMarkup $title, string|Url $url, bool $is_primary = FALSE, bool $open_new_tab = FALSE): array {
     return [
       '#theme' => 'server_theme_button',
       '#url' => $url,
@@ -58,7 +59,7 @@ trait ButtonTrait {
     $links = $entity->{$field_name}->getValue();
     $link = reset($links);
 
-    return $this->buildButton(Url::fromUri($link['uri'])->toString(), $link['title']);
+    return $this->buildButton($link['title'], Url::fromUri($link['uri']));
   }
 
   /**
@@ -81,7 +82,7 @@ trait ButtonTrait {
     $value = $entity->get($field_name)->getValue();
     $title = !empty($value[0]['description']) ? $value[0]['description'] : $this->t('Download');
 
-    return $this->buildButton($file->createFileUrl(), $title);
+    return $this->buildButton($title, $file->createFileUrl());
   }
 
 }

@@ -352,12 +352,12 @@ class StyleGuideController extends ControllerBase {
     $url = Url::fromRoute('<front>')->toString();
 
     // Primary button with icon.
-    $element = $this->buildButton($url, 'Download file', TRUE);
+    $element = $this->buildButton('Download file', $url, TRUE);
     $element['#icon'] = 'download';
     $build[] = $this->wrapElementWideContainer($element, 'Primary button');
 
     // Secondary button.
-    $element = $this->buildButton($url, 'Register', FALSE);
+    $element = $this->buildButton('Register', $url, FALSE);
     $build[] = $this->wrapElementWideContainer($element, 'Secondary button');
 
     return $build;
@@ -423,7 +423,7 @@ class StyleGuideController extends ControllerBase {
    */
   protected function getHeroImage(): array {
     $url = Url::fromRoute('<front>')->toString();
-    $button = $this->buildButton($url, 'Lean more');
+    $button = $this->buildButton('Learn more', $url);
 
     return [
       '#theme' => 'server_theme_hero_image',
@@ -442,7 +442,7 @@ class StyleGuideController extends ControllerBase {
    */
   protected function getRelatedContentCarousel(): array {
     $url = Url::fromRoute('<front>')->toString();
-    $button = $this->buildButton($url, 'View more');
+    $button = $this->buildButton('View more', $url);
 
     return [
       '#theme' => 'server_theme_related_content',

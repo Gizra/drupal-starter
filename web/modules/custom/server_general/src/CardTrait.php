@@ -18,6 +18,8 @@ use Drupal\intl_date\IntlDate;
  * file.
  */
 trait CardTrait {
+
+  use ButtonTrait;
   use ElementWrapTrait;
   use LinkTrait;
   use TitleAndLabelsTrait;
@@ -41,6 +43,28 @@ trait CardTrait {
   public function buildCardWithImage(Url $url, array $image, array $items): array {
     return [
       '#theme' => 'server_theme_card_with_image',
+      '#image' => $image,
+      '#url' => $url,
+      '#items' => $this->wrapContainerVerticalSpacing($items),
+    ];
+  }
+
+  /**
+   * Build "Card with image horizontal" base.
+   *
+   * @param \Drupal\Core\Url $url
+   *   The URL to link to.
+   * @param array $image
+   *   The image render array.
+   * @param array $items
+   *   The rest of the items' render array.
+   *
+   * @return array
+   *   Render array.
+   */
+  public function buildCardWithImageHorizontal(Url $url, array $image, array $items): array {
+    return [
+      '#theme' => 'server_theme_card_with_image_horizontal',
       '#image' => $image,
       '#url' => $url,
       '#items' => $this->wrapContainerVerticalSpacing($items),
@@ -83,6 +107,49 @@ trait CardTrait {
 
     // Body teaser.
     $elements[] = $this->wrapTextLineClamp($summary, 4);
+
+    return $this->buildCardWithImage($url, $image, $elements);
+  }
+
+  /**
+   * Build "Card with image horizontal" for News content type.
+   *
+   * @param array $image
+   *   The image render array.
+   * @param string $title
+   *   The title.
+   * @param \Drupal\Core\Url $url
+   *   The URL to link to.
+   * @param array $summary
+   *   Summary of the search result.
+   * @param int $timestamp
+   *   The timestamp.
+   *
+   * @return array
+   *   Render array.
+   */
+  public function buildCardWithImageHorizontalForNews(array $image, string $title, Url $url, array $summary, int $timestamp): array {
+    $elements = [];
+
+    // Labels.
+    $element = $this->buildLabelsFromText([$this->t('News')]);
+    $elements[] = $this->wrapTextResponsiveFontSize($element, 'sm');
+
+    // Date.
+    $element = ['#markup' => IntlDate::formatPattern($timestamp, 'short')];
+    $element = $this->wrapTextColor($element, 'gray');
+    $elements[] = $this->wrapTextResponsiveFontSize($element, 'sm');
+
+    // Title as link.
+    $element = $this->buildLink($title, $url, 'dark-gray');
+    $element = $this->wrapTextResponsiveFontSize($element, 'lg');
+    $elements[] = $this->wrapTextFontWeight($element, 'bold');
+
+    // Body teaser.
+    $elements[] = $this->wrapTextLineClamp($summary, 4);
+
+    // Read more button.
+    $elements[] = $this->buildButton($this->t('Read more'), $url);
 
     return $this->buildCardWithImage($url, $image, $elements);
   }
