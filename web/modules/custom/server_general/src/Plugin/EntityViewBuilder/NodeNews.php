@@ -8,7 +8,9 @@ use Drupal\node\Entity\NodeType;
 use Drupal\node\NodeInterface;
 use Drupal\server_general\EntityDateTrait;
 use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
+use Drupal\server_general\LineSeparatorTrait;
 use Drupal\server_general\LinkTrait;
+use Drupal\server_general\SocialShareTrait;
 use Drupal\server_general\TitleAndLabelsTrait;
 
 /**
@@ -23,7 +25,9 @@ use Drupal\server_general\TitleAndLabelsTrait;
 class NodeNews extends NodeViewBuilderAbstract {
 
   use EntityDateTrait;
+  use LineSeparatorTrait;
   use LinkTrait;
+  use SocialShareTrait;
   use TitleAndLabelsTrait;
 
   /**
@@ -168,7 +172,7 @@ class NodeNews extends NodeViewBuilderAbstract {
     // Labels.
     $elements[] = $this->buildLabelsFromText([$this->t('News')]);
 
-    // Title as link, wrapped in h3 tag
+    // Title as link, wrapped in h3 tag.
     $element = $this->buildLink($entity->toUrl(), $entity->label(), 'dark-gray');
     $element = $this->wrapTextResponsiveFontSize($element, '3xl');
     $element = $this->wrapTextFontWeight($element, 'bold');
