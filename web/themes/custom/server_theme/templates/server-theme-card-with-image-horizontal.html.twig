@@ -1,12 +1,12 @@
-<div class="relative rounded-lg border border-gray-300 w-full h-full overflow-hidden flex flex-row gap-8 md:gap-10 p-4 overflow-hidden bg-gray-100">
+<div class="relative rounded-lg border border-gray-300 w-full h-full overflow-hidden flex flex-col md:flex-row gap-8 md:gap-10 p-4 overflow-hidden bg-gray-100">
 
-  <a href="{{ url }}" class="w-1/3">
+  <a href="{{ url }}" class="w-full md:w-1/3">
     <figure class="child-object-cover w-full h-fit">
         {{ image }}
     </figure>
   </a>
 
-  <div class="w-2/3">
+  <div class="md:w-2/3">
   {{ items }}
   </div>
 </div>

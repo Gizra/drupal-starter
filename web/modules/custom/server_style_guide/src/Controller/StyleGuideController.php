@@ -108,9 +108,6 @@ class StyleGuideController extends ControllerBase {
 
     $build[] = $this->getTextDecorations();
 
-    $element = $this->getCards();
-    $build[] = $this->wrapElementWideContainer($element, 'Cards');
-
     $element = $this->getCardsWithImageForNews();
     $build[] = $this->wrapElementWideContainer($element, 'Cards: News');
 
@@ -263,38 +260,6 @@ class StyleGuideController extends ControllerBase {
     ];
 
     return $this->wrapRoundedCornersFull($element);
-  }
-
-  /**
-   * Get cards.
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function getCards(): array {
-    $image = $this->buildImage($this->getPlaceholderImage(300, 200), 'Card image');
-
-    $card = [
-      '#theme' => 'server_theme_card',
-      '#image' => $image,
-      '#title' => 'The source has extend, but not everyone fears it.',
-      '#url' => Url::fromRoute('<front>'),
-    ];
-
-    $single_card_long_title = $card;
-    $single_card_long_title['#title'] = 'How Professional Learning Networks Are Helping Educators Get Through Coronavirus, well they need to really learn a lot!';
-
-    $items = [
-      $card,
-      $single_card_long_title,
-      $card,
-      $card,
-    ];
-
-    return [
-      '#theme' => 'server_theme_cards',
-      '#items' => $items,
-    ];
   }
 
   /**
