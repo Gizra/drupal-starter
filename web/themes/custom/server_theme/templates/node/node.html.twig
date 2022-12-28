@@ -1,0 +1,16 @@
+{#
+/**
+ * @file
+ * Theme override to display a node.
+ *
+ * This serves the purpose of making sure all view modes are using the full
+ * height of the container. This is usually apparent when using the `card` view
+ * mode, and composing cards inside a grid container. We can't just forgo this
+ * template completely as that will break contextual links for logged in users.
+ */
+#}
+<div class="relative h-full">
+  {{ title_prefix }}
+  {{ title_suffix }}
+  {{ content }}
+</div>
