@@ -144,15 +144,20 @@ class NodeNews extends NodeViewBuilderAbstract {
    */
   public function buildTeaser(array $build, NodeInterface $entity) {
     $media = $this->getReferencedEntityFromField($entity, 'field_featured_image');
+    $image = $media instanceof MediaInterface ? $this->buildImageStyle($media, 'card', 'field_media_image') : NULL;
+    $title = $entity->label();
+    $url = $entity->toUrl();
+    $summary = $this->buildProcessedText($entity, 'field_body', FALSE);
     $timestamp = $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date');
 
-    $element = [
-      '#theme' => 'server_theme_card',
-      '#title' => $entity->label(),
-      '#image' => $media instanceof MediaInterface ? $this->buildImageStyle($media, 'card', 'field_media_image') : NULL,
-      '#date' => IntlDate::formatPattern($timestamp, 'short'),
-      '#url' => $entity->toUrl(),
-    ];
+    $element = $this->buildCardWithImageForNews(
+      $image,
+      $title,
+      $url,
+      $summary,
+      $timestamp
+    );
+
     $build[] = $element;
 
     return $build;
