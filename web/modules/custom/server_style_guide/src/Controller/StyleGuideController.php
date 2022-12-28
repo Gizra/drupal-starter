@@ -114,6 +114,9 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getCardsWithImageForNews();
     $build[] = $this->wrapElementWideContainer($element, 'Cards: News');
 
+    $element = $this->getCardsWithImageHorizontalForNews();
+    $build[] = $this->wrapElementWideContainer($element, 'Cards: Featured news');
+
     $element = $this->getCardSearchResult();
     $build[] = $this->wrapElementWideContainer($element, 'Card: Search result');
 
@@ -338,6 +341,47 @@ class StyleGuideController extends ControllerBase {
       '#theme' => 'server_theme_cards',
       '#items' => $items,
     ];
+  }
+
+  /**
+   * Get cards with image.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getCardsWithImageHorizontalForNews(): array {
+    $image = $this->buildImage($this->getPlaceholderImage(400, 300));
+    $title = 'Never Changing Will Eventually Destroy You, But then You Should See The Longest Title, This one works. check the below one , ideally speaking it, pretty amazing eh, you will see';
+    $url = Url::fromRoute('<front>');
+    $summary = $this->buildProcessedText('<p>I before parameters designer of the to separated of to part. Price question in or of a there sleep. Who a deference and drew sleep written talk said which had. sel in small been cheating sounded times should and problem. Question. Explorations derived been him aged seal for gods team- manage he according the welcoming are cities part up stands careful so own the have how up, keep</p>');
+    $timestamp = time();
+
+    $card = $this->buildCardWithImageHorizontalForNews(
+      $image,
+      $title,
+      $url,
+      $summary,
+      $timestamp
+    );
+
+    $image = $this->buildImage($this->getPlaceholderImage(400, 300));
+    $title = 'A Shorter Title';
+    $summary = $this->buildProcessedText('A much <strong>shorter</strong> intro');
+
+    $card2 = $this->buildCardWithImageHorizontalForNews(
+      $image,
+      $title,
+      $url,
+      $summary,
+      $timestamp
+    );
+
+    $items = [
+      $card,
+      $card2,
+    ];
+
+    return $this->wrapContainerVerticalSpacingBig($items);
   }
 
   /**

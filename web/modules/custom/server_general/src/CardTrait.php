@@ -151,7 +151,8 @@ trait CardTrait {
     // Read more button.
     $elements[] = $this->buildButton($this->t('Read more'), $url);
 
-    return $this->buildCardWithImage($url, $image, $elements);
+    $image = $this->wrapRoundedCornersBig($image);
+    return $this->buildCardWithImageHorizontal($url, $image, $elements);
   }
 
   /**

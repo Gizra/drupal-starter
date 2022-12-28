@@ -230,7 +230,7 @@ trait ElementWrapTrait {
     return [
       '#theme' => 'server_theme_container_background_color',
       '#color' => $color,
-      '#element' => $element,
+      '#items' => $element,
     ];
   }
 
