@@ -305,11 +305,6 @@ class StyleGuideController extends ControllerBase {
     $image = $this->buildImage($this->getPlaceholderImage(300, 200));
 
     $elements = [];
-    // Title as link.
-    $title = 'Never Changing Will Eventually Destroy You, But then You Should See The Longest Title, This one works. check the below one , ideally speaking it, pretty amazing eh, you will see';
-    $element = $this->buildLink($url, $title, 'dark-gray');
-    $element = $this->wrapTextResponsiveFontSize($element, 'lg');
-    $elements[] = $this->wrapTextFontWeight($element, 'bold');
 
     // Labels.
     $element = $this->buildLabelsFromText(['News']);
@@ -319,6 +314,12 @@ class StyleGuideController extends ControllerBase {
     $element = ['#markup' => IntlDate::formatPattern(time(), 'short')];
     $element = $this->wrapTextColor($element, 'gray');
     $elements[] = $this->wrapTextResponsiveFontSize($element, 'sm');
+
+    // Title as link.
+    $title = 'Never Changing Will Eventually Destroy You, But then You Should See The Longest Title, This one works. check the below one , ideally speaking it, pretty amazing eh, you will see';
+    $element = $this->buildLink($url, $title, 'dark-gray');
+    $element = $this->wrapTextResponsiveFontSize($element, 'lg');
+    $elements[] = $this->wrapTextFontWeight($element, 'bold');
 
     // Body teaser.
     $element = $this->buildProcessedText('<p>I before parameters designer of the to separated of to part. Price question in or of a there sleep. Who a deference and drew sleep written talk said which had. sel in small been cheating sounded times should and problem. Question. Explorations derived been him aged seal for gods team- manage he according the welcoming are cities part up stands careful so own the have how up, keep</p>');
@@ -334,10 +335,6 @@ class StyleGuideController extends ControllerBase {
     $image = $this->buildImage($this->getPlaceholderImage(300, 400));
 
     $elements = [];
-    // Title as link.
-    $element = $this->buildLink($url, 'A Shorter Title', 'dark-gray');
-    $element = $this->wrapTextResponsiveFontSize($element, 'lg');
-    $elements[] = $this->wrapTextFontWeight($element, 'bold');
 
     // Labels.
     $element = $this->buildLabelsFromText(['News']);
@@ -347,6 +344,11 @@ class StyleGuideController extends ControllerBase {
     $element = ['#markup' => IntlDate::formatPattern(time(), 'short')];
     $element = $this->wrapTextColor($element, 'gray');
     $elements[] = $this->wrapTextResponsiveFontSize($element, 'sm');
+
+    // Title as link.
+    $element = $this->buildLink($url, 'A Shorter Title', 'dark-gray');
+    $element = $this->wrapTextResponsiveFontSize($element, 'lg');
+    $elements[] = $this->wrapTextFontWeight($element, 'bold');
 
     // Body teaser.
     $element = $this->buildProcessedText('A much <strong>shorter</strong> intro');
