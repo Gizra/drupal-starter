@@ -168,10 +168,15 @@ class NodeNews extends NodeViewBuilderAbstract {
     // Labels.
     $elements[] = $this->buildLabelsFromText([$this->t('News')]);
 
-    // Title as link.
+    // Title as link, wrapped in h3 tag
     $element = $this->buildLink($entity->toUrl(), $entity->label(), 'dark-gray');
     $element = $this->wrapTextResponsiveFontSize($element, '3xl');
-    $elements[] = $this->wrapTextFontWeight($element, 'bold');
+    $element = $this->wrapTextFontWeight($element, 'bold');
+    $elements[] = [
+      '#type' => 'html_tag',
+      '#tag' => 'h3',
+      '#value' => render($element),
+    ];
 
     // Summary.
     $element = $this->buildProcessedText($entity, 'field_body', FALSE);

@@ -1,9 +1,9 @@
 {% if color == 'gray' %}
   {% set color_class = 'text-gray-500' %}
-  {% set hover_color_class = 'text-gray-600' %}
+  {% set hover_color_class = 'hover:text-gray-600' %}
 {% elseif color == 'dark-gray' %}
   {% set color_class = 'text-gray-700' %}
-  {% set hover_color_class = 'text-gray-800' %}
+  {% set hover_color_class = 'hover:text-gray-800' %}
 {% endif %}
 
 {% set classes = [
