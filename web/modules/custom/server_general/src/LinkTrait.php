@@ -12,10 +12,10 @@ trait LinkTrait {
   /**
    * Build a link.
    *
-   * @param string|\Drupal\Core\Url $url
-   *   The URL string or object.
    * @param string $title
    *   The title of the link.
+   * @param string|\Drupal\Core\Url $url
+   *   The URL string or object.
    * @param string $color
    *   The color of the link. The color on hover will be calculated from it.
    *   see `server-theme-text-decoration--link.html.twig`.
@@ -34,7 +34,7 @@ trait LinkTrait {
    * @return array
    *   Render array.
    */
-  public function buildLink(string|Url $url, string $title, string $color, ?int $lines_clamp = 3, string $underline = 'hover', bool $show_external_icon = TRUE): array {
+  public function buildLink(string $title, string|Url $url, string $color, ?int $lines_clamp = 3, string $underline = 'hover', bool $show_external_icon = TRUE): array {
     if (is_string($url)) {
       $url = Url::fromUri($url);
     }

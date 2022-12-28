@@ -5,10 +5,10 @@ namespace Drupal\server_style_guide\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
 use Drupal\Core\Utility\LinkGenerator;
-use Drupal\intl_date\IntlDate;
 use Drupal\media\IFrameUrlHelper;
 use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
 use Drupal\server_general\ButtonTrait;
+use Drupal\server_general\CardTrait;
 use Drupal\server_general\ElementWrapTrait;
 use Drupal\server_general\LinkTrait;
 use Drupal\server_general\MediaVideoTrait;
@@ -25,6 +25,7 @@ class StyleGuideController extends ControllerBase {
 
   use BuildFieldTrait;
   use ButtonTrait;
+  use CardTrait;
   use ElementWrapTrait;
   use LinkTrait;
   use MediaVideoTrait;
@@ -110,14 +111,14 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getCards();
     $build[] = $this->wrapElementWideContainer($element, 'Cards');
 
-    $element = $this->getCardsWithImage();
-    $build[] = $this->wrapElementWideContainer($element, 'Cards with image');
+    $element = $this->getCardsWithImageForNews();
+    $build[] = $this->wrapElementWideContainer($element, 'Cards: News');
+
+    $element = $this->getCardSearchResult();
+    $build[] = $this->wrapElementWideContainer($element, 'Card: Search result');
 
     $element = $this->getTags();
     $build[] = $this->wrapElementWideContainer($element, 'Tags');
-
-    $element = $this->getSearchResult();
-    $build[] = $this->wrapElementWideContainer($element, 'Search result');
 
     $element = $this->getMediaImage();
     $build[] = $this->wrapElementWideContainer($element, 'Media: Image');
@@ -195,15 +196,14 @@ class StyleGuideController extends ControllerBase {
    * @return array
    *   Render array.
    */
-  protected function getSearchResult(): array {
-    return [
-      '#theme' => 'server_theme_search_result',
-      '#labels' => $this->buildLabelsFromText(['News']),
-      '#title' => $this->getRandomTitle(),
-      '#summary' => 'Drupal 9 starter kit for efficient and streamlined development featuring TailwindCSS!',
-      '#date' => IntlDate::formatPattern(time(), 'short'),
-      '#url' => Url::fromRoute('<front>'),
-    ];
+  protected function getCardSearchResult(): array {
+    return $this->buildCardSearchResult(
+      'News',
+      $this->getRandomTitle(),
+      Url::fromRoute('<front>'),
+      $this->buildProcessedText("Both refute. Of their its it funny children into good origin into self-interest, my she were bad of chosen stage italic, fame, is must didn't evaluate little may picture the didn't is not there of high accustomed. Him great those the sort alphabet she were workmen. Reflection bad the external gloomy not we it yet any them. What's late showed picture attached duck usual. To of actual writer fame. Prepared on was to stairs basically, the see would hadn't easier searching watched in and someone his where of the and written fly being a be his the to visuals was."),
+      time()
+    );
   }
 
   /**
@@ -300,66 +300,32 @@ class StyleGuideController extends ControllerBase {
    * @return array
    *   Render array.
    */
-  protected function getCardsWithImage(): array {
-    $url = Url::fromRoute('<front>');
+  protected function getCardsWithImageForNews(): array {
     $image = $this->buildImage($this->getPlaceholderImage(300, 200));
-
-    $elements = [];
-
-    // Labels.
-    $element = $this->buildLabelsFromText(['News']);
-    $elements[] = $this->wrapTextResponsiveFontSize($element, 'sm');
-
-    // Date.
-    $element = ['#markup' => IntlDate::formatPattern(time(), 'short')];
-    $element = $this->wrapTextColor($element, 'gray');
-    $elements[] = $this->wrapTextResponsiveFontSize($element, 'sm');
-
-    // Title as link.
     $title = 'Never Changing Will Eventually Destroy You, But then You Should See The Longest Title, This one works. check the below one , ideally speaking it, pretty amazing eh, you will see';
-    $element = $this->buildLink($url, $title, 'dark-gray');
-    $element = $this->wrapTextResponsiveFontSize($element, 'lg');
-    $elements[] = $this->wrapTextFontWeight($element, 'bold');
+    $url = Url::fromRoute('<front>');
+    $summary = $this->buildProcessedText('<p>I before parameters designer of the to separated of to part. Price question in or of a there sleep. Who a deference and drew sleep written talk said which had. sel in small been cheating sounded times should and problem. Question. Explorations derived been him aged seal for gods team- manage he according the welcoming are cities part up stands careful so own the have how up, keep</p>');
+    $timestamp = time();
 
-    // Body teaser.
-    $element = $this->buildProcessedText('<p>I before parameters designer of the to separated of to part. Price question in or of a there sleep. Who a deference and drew sleep written talk said which had. sel in small been cheating sounded times should and problem. Question. Explorations derived been him aged seal for gods team- manage he according the welcoming are cities part up stands careful so own the have how up, keep</p>');
-    $elements[] = $this->wrapTextLineClamp($element, 4);
-
-    $card = [
-      '#theme' => 'server_theme_card_with_image',
-      '#image' => $image,
-      '#url' => $url,
-      '#items' => $this->wrapContainerVerticalSpacing($elements),
-    ];
+    $card = $this->buildCardWithImageForNews(
+      $image,
+      $title,
+      $url,
+      $summary,
+      $timestamp
+    );
 
     $image = $this->buildImage($this->getPlaceholderImage(300, 400));
+    $title = 'A Shorter Title';
+    $summary = $this->buildProcessedText('A much <strong>shorter</strong> intro');
 
-    $elements = [];
-
-    // Labels.
-    $element = $this->buildLabelsFromText(['News']);
-    $elements[] = $this->wrapTextResponsiveFontSize($element, 'sm');
-
-    // Date.
-    $element = ['#markup' => IntlDate::formatPattern(time(), 'short')];
-    $element = $this->wrapTextColor($element, 'gray');
-    $elements[] = $this->wrapTextResponsiveFontSize($element, 'sm');
-
-    // Title as link.
-    $element = $this->buildLink($url, 'A Shorter Title', 'dark-gray');
-    $element = $this->wrapTextResponsiveFontSize($element, 'lg');
-    $elements[] = $this->wrapTextFontWeight($element, 'bold');
-
-    // Body teaser.
-    $element = $this->buildProcessedText('A much <strong>shorter</strong> intro');
-    $elements[] = $this->wrapTextLineClamp($element, 4);
-
-    $card2 = [
-      '#theme' => 'server_theme_card_with_image',
-      '#image' => $image,
-      '#url' => $url,
-      '#items' => $this->wrapContainerVerticalSpacing($elements),
-    ];
+    $card2 = $this->buildCardWithImageForNews(
+      $image,
+      $title,
+      $url,
+      $summary,
+      $timestamp
+    );
 
     $items = [
       $card,
@@ -408,11 +374,11 @@ class StyleGuideController extends ControllerBase {
 
     $url = Url::fromRoute('<front>');
 
-    $element = $this->buildLink($url, 'Internal link', 'gray');
+    $element = $this->buildLink('Internal link', $url, 'gray');
     $build[] = $this->wrapElementWideContainer($element, 'Link');
 
     $url = 'https://google.com';
-    $element = $this->buildLink($url, 'External link', 'dark-gray', NULL, 'hover');
+    $element = $this->buildLink('External link', $url, 'dark-gray', NULL, 'hover');
     $build[] = $this->wrapElementWideContainer($element, 'External link');
 
     return $build;
