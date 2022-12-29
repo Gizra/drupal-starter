@@ -149,9 +149,6 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getRelatedContentCarousel();
     $build[] = $this->wrapElementNoContainer($element, 'Related content');
 
-    $element = $this->getFooter();
-    $build[] = $this->wrapElementNoContainer($element, 'Footer');
-
     $element = $this->getCta();
     $build[] = $this->wrapElementNoContainer($element, 'Call to Action');
 
@@ -246,10 +243,27 @@ class StyleGuideController extends ControllerBase {
 
       $elements[] = $this->wrapRoundedCornersFull($element);
 
-      $element = $this->buildLink($name, $url);
-      $element = $this->wrapTextFontWeight($element, 'bold');
-      $element = $this->wrapTextCenter($element);
-      $elements[] = $this->wrapTextColor($element, 'light-gray');
+      if ($name === 'Smith Allen') {
+        $inner_elements = [];
+
+        $element = $this->buildLink($name, $url);
+        $element = $this->wrapTextFontWeight($element, 'bold');
+        $element = $this->wrapTextCenter($element);
+        $inner_elements[] = $this->wrapTextColor($element, 'light-gray');
+
+        $element = ['#markup' => 'General Director, and Assistant to The Regional Manager'];
+        $element = $this->wrapTextResponsiveFontSize($element, 'sm');
+        $element = $this->wrapTextCenter($element);
+        $inner_elements[] = $this->wrapTextColor($element, 'gray');
+
+        $elements[] = $this->wrapContainerVerticalSpacingTiny($inner_elements);
+      }
+      else {
+        $element = $this->buildLink($name, $url);
+        $element = $this->wrapTextFontWeight($element, 'bold');
+        $element = $this->wrapTextCenter($element);
+        $elements[] = $this->wrapTextColor($element, 'light-gray');
+      }
 
       $items[] = $this->buildCardCentered($elements);
     }
@@ -496,18 +510,6 @@ class StyleGuideController extends ControllerBase {
   }
 
   /**
-   * Get the footer.
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function getFooter(): array {
-    return [
-      '#theme' => 'server_theme_footer',
-    ];
-  }
-
-  /**
    * Get CTA (Call to action).
    *
    * @return array
@@ -515,7 +517,7 @@ class StyleGuideController extends ControllerBase {
    */
   protected function getCta(): array {
     $url = Url::fromRoute('<front>')->toString();
-    $button = $this->buildButton($url, 'View more');
+    $button = $this->buildButton('View more', $url);
 
     return [
       '#theme' => 'server_theme_paragraph__cta',
@@ -695,7 +697,7 @@ class StyleGuideController extends ControllerBase {
   protected function getRelatedContent(int $num = 5): array {
     $elements = [];
     for ($i = 0; $i < $num; $i++) {
-      $elements[] =$this->buildCardWithImageForNews(
+      $elements[] = $this->buildCardWithImageForNews(
         $this->buildImage($this->getPlaceholderImage(300, 200, "card_image_$i", 'seed'), "Card image $i"),
         $this->getRandomTitle(),
         Url::fromRoute('<front>'),
