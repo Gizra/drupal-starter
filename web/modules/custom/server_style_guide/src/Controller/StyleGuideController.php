@@ -235,8 +235,12 @@ class StyleGuideController extends ControllerBase {
         '#width' => 100,
       ];
       $elements[] = $this->wrapRoundedCornersFull($element);
-      $element = ['#markup' => $name];
-      $elements[] = $this->wrapTextFontWeight($element, 'medium');
+
+      $element = $this->buildLink($name, Url::fromRoute('<front>'));
+      $element = $this->wrapTextFontWeight($element, 'bold');
+      $element = $this->wrapTextCenter($element);
+      $elements[] = $this->wrapTextColor($element, 'light-gray');
+
       $items[] = $this->buildCardCentered($elements);
     }
 

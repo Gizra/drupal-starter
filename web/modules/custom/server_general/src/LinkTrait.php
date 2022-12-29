@@ -34,7 +34,7 @@ trait LinkTrait {
    * @return array
    *   Render array.
    */
-  public function buildLink(string $title, string|Url $url, string $color, ?int $lines_clamp = 3, string $underline = 'hover', bool $show_external_icon = TRUE): array {
+  public function buildLink(string $title, string|Url $url, string $color = 'dark-gray', ?int $lines_clamp = 3, string $underline = 'hover', bool $show_external_icon = TRUE): array {
     if (is_string($url)) {
       $url = Url::fromUri($url);
     }

@@ -373,6 +373,27 @@ trait ElementWrapTrait {
   }
 
   /**
+   * Wrap a text with center alignment.
+   *
+   * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
+   *   The render array, string or a TranslatableMarkup object.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapTextCenter(array|string|TranslatableMarkup $element): array {
+    $element = $this->filterEmptyElements($element);
+    if (empty($element)) {
+      return [];
+    }
+
+    return [
+      '#theme' => 'server_theme_text_decoration__center',
+      '#element' => $element,
+    ];
+  }
+
+  /**
    * Wrap an element with text color.
    *
    * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
