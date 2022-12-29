@@ -489,10 +489,14 @@ class StyleGuideController extends ControllerBase {
     ];
   }
 
+  /**
+   * Get CTA.
+   *
+   * @return array
+   *   Render array.
+   */
   protected function getCta(): array {
-    $url = Url::fromRoute('<front>')->toString();
-    $button = $this->buildButton('View more', $url);
-
+    $url = Url::fromRoute('<front>');
     $elements = [];
 
     // Title.
