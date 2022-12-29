@@ -25,6 +25,38 @@ trait CardTrait {
   use TitleAndLabelsTrait;
 
   /**
+   * Build "Card" - the simplest one.
+   *
+   * @param array $items
+   *   The elements as render array.
+   *
+   * @return array
+   *   Render array.
+   */
+  public function buildCard(array $items): array {
+    return [
+      '#theme' => 'server_theme_card',
+      '#items' => $this->wrapContainerVerticalSpacing($items),
+    ];
+  }
+
+  /**
+   * Build "Centered card".
+   *
+   * @param array $items
+   *   The elements as render array.
+   *
+   * @return array
+   *   Render array.
+   */
+  public function buildCardCentered(array $items): array {
+    return [
+      '#theme' => 'server_theme_card_centered',
+      '#items' => $this->wrapContainerVerticalSpacing($items, 'center'),
+    ];
+  }
+
+  /**
    * Build "Card with image".
    *
    * This is the "base" helper method for rendering a card with image. Specific
@@ -46,22 +78,6 @@ trait CardTrait {
       '#image' => $image,
       '#url' => $url,
       '#items' => $this->wrapContainerVerticalSpacing($items),
-    ];
-  }
-
-  /**
-   * Build "Centered card".
-   *
-   * @param array $items
-   *   The elements as render array.
-   *
-   * @return array
-   *   Render array.
-   */
-  public function buildCardCentered(array $items): array {
-    return [
-      '#theme' => 'server_theme_card_centered',
-      '#items' => $this->wrapContainerVerticalSpacing($items, 'center'),
     ];
   }
 
@@ -210,10 +226,7 @@ trait CardTrait {
     $element = $this->wrapTextColor($element, 'light-gray');
     $elements[] = $this->wrapTextResponsiveFontSize($element, 'sm');
 
-    return [
-      '#theme' => 'server_theme_card',
-      '#items' => $this->wrapContainerVerticalSpacing($elements),
-    ];
+    return $this->buildCard($elements);
   }
 
   /**

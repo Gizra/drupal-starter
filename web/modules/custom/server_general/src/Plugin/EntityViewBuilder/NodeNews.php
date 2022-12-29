@@ -87,7 +87,10 @@ class NodeNews extends NodeViewBuilderAbstract {
     $elements[] = $this->wrapTextResponsiveFontSize($element, 'lg');
 
     $elements = $this->wrapContainerVerticalSpacing($elements);
-    return $this->wrapContainerNarrow($elements);
+    return [
+      '#theme' => 'server_theme_main_and_sidebar',
+      '#main' => $this->wrapContainerVerticalSpacingBig($elements),
+    ];
   }
 
   /**
@@ -122,11 +125,12 @@ class NodeNews extends NodeViewBuilderAbstract {
     $social_share_elements[] = $this->buildSocialShare($entity);
 
     $sidebar_elements[] = $this->wrapContainerVerticalSpacing($social_share_elements);
+    $sidebar_elements = $this->wrapContainerVerticalSpacingBig($sidebar_elements);
 
     return [
       '#theme' => 'server_theme_main_and_sidebar',
       '#main' => $this->wrapContainerVerticalSpacingBig($main_elements),
-      '#sidebar' => $this->wrapContainerVerticalSpacingBig($sidebar_elements),
+      '#sidebar' => $this->buildCard($sidebar_elements),
     ];
 
   }
