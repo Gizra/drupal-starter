@@ -112,7 +112,7 @@ class StyleGuideController extends ControllerBase {
     $build[] = $this->wrapElementWideContainer($element, 'Card: Simple (Search result)');
 
     $element = $this->getCardsCentered();
-    $build[] = $this->wrapElementWideContainer($element, 'Card: Centered (Logos)');
+    $build[] = $this->wrapElementWideContainer($element, 'Card: Centered (Profile info)');
 
     $element = $this->getCardsWithImageForNews();
     $build[] = $this->wrapElementWideContainer($element, 'Cards: With image (News cards)');
@@ -128,9 +128,6 @@ class StyleGuideController extends ControllerBase {
 
     $element = $this->getMediaVideo();
     $build[] = $this->wrapElementWideContainer($element, 'Media: Video');
-
-    $element = $this->getProfilePicture();
-    $build[] = $this->wrapElementWideContainer($element, 'Profile picture');
 
     return $build;
   }
@@ -285,22 +282,6 @@ class StyleGuideController extends ControllerBase {
       '#video' => $this->buildVideo('https://www.youtube.com/watch?v=dSZQNOvpszQ', 650, 400),
       '#caption' => $caption,
     ];
-  }
-
-  /**
-   * Get a profile picture video.
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function getProfilePicture(): array {
-    $element = [
-      '#theme' => 'image',
-      '#uri' => $this->getPlaceholderPersonImage(100),
-      '#width' => 100,
-    ];
-
-    return $this->wrapRoundedCornersFull($element);
   }
 
   /**
