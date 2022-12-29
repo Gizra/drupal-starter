@@ -9,6 +9,7 @@ use Drupal\media\IFrameUrlHelper;
 use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
 use Drupal\server_general\ButtonTrait;
 use Drupal\server_general\CardTrait;
+use Drupal\server_general\ElementTrait;
 use Drupal\server_general\ElementWrapTrait;
 use Drupal\server_general\LinkTrait;
 use Drupal\server_general\MediaVideoTrait;
@@ -26,6 +27,7 @@ class StyleGuideController extends ControllerBase {
   use BuildFieldTrait;
   use ButtonTrait;
   use CardTrait;
+  use ElementTrait;
   use ElementWrapTrait;
   use LinkTrait;
   use MediaVideoTrait;
@@ -496,27 +498,13 @@ class StyleGuideController extends ControllerBase {
    *   Render array.
    */
   protected function getCta(): array {
-    $url = Url::fromRoute('<front>');
-    $elements = [];
+    return $this->buildElementCta(
+      $this->getRandomTitle(),
+      'How does the system generate all this custom content? It actually skims Wikipedia pages related to your search, copy-and-pasting information and reformatting it just for you. That means it’s not the sort of text you’d ever want to claim as your company’s own. But then again, it’s perfect for creating a layout that’s not trapped in a two-millennia-old anachronism',
+      'View more',
+      Url::fromRoute('<front>'),
+    );
 
-    // Title.
-    $element = ['#markup' => $this->getRandomTitle()];
-    $element = $this->wrapTextResponsiveFontSize($element, '3xl');
-    $elements[] = $this->wrapTextFontWeight($element, 'bold');
-
-    // Subtitle.
-    $element = ['#markup' => 'How does the system generate all this custom content? It actually skims Wikipedia pages related to your search, copy-and-pasting information and reformatting it just for you. That means it’s not the sort of text you’d ever want to claim as your company’s own. But then again, it’s perfect for creating a layout that’s not trapped in a two-millennia-old anachronism'];
-    $element = $this->wrapTextResponsiveFontSize($element, 'xl');
-    $elements[] = $this->wrapTextFontWeight($element, 'medium');
-
-    // Button.
-    $elements[] = $this->buildButton('View more', $url);
-
-    $elements = $this->wrapContainerVerticalSpacingBig($elements, 'center');
-    $elements = $this->wrapTextCenter($elements);
-    $elements = $this->wrapContainerNarrow($elements);
-    $elements = $this->wrapContainerVerticalPadding($elements);
-    return $this->wrapBackgroundColor($elements, 'light-gray');
   }
 
   /**
