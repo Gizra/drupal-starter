@@ -33,6 +33,8 @@ function server_theme_theme() {
   $info['server_theme_container_vertical_spacing'] = [
     'variables' => [
       'items' => [],
+      // Possible values are `start`, `center`, `end` or NULL to have no change.
+      'align' => NULL,
     ],
   ];
 
@@ -41,6 +43,7 @@ function server_theme_theme() {
   $info['server_theme_container_vertical_spacing_tiny'] = [
     'variables' => [
       'items' => [],
+      'align' => NULL,
     ],
   ];
 
@@ -48,6 +51,7 @@ function server_theme_theme() {
   $info['server_theme_container_vertical_spacing_big'] = [
     'variables' => [
       'items' => [],
+      'align' => NULL,
     ],
   ];
 
@@ -55,6 +59,7 @@ function server_theme_theme() {
   $info['server_theme_container_vertical_spacing_huge'] = [
     'variables' => [
       'items' => [],
+      'align' => NULL,
     ],
   ];
 

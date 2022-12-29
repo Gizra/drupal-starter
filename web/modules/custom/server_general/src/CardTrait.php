@@ -61,7 +61,7 @@ trait CardTrait {
   public function buildCardCentered(array $items): array {
     return [
       '#theme' => 'server_theme_card_centered',
-      '#items' => $this->wrapContainerVerticalSpacing($items),
+      '#items' => $this->wrapContainerVerticalSpacing($items, 'center'),
     ];
   }
 

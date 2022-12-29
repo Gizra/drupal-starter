@@ -225,7 +225,7 @@ class StyleGuideController extends ControllerBase {
     $url = Url::fromRoute('<front>');
 
     $names = ['Jon Doe', 'Smith Allen', 'David Bowie'];
-    foreach ($names as $name) {
+    foreach ($names as $key => $name) {
       $elements = [];
       $element = [
         '#theme' => 'image',
@@ -243,7 +243,7 @@ class StyleGuideController extends ControllerBase {
 
       $elements[] = $this->wrapRoundedCornersFull($element);
 
-      if ($name === 'Smith Allen') {
+      if ($key === 1) {
         $inner_elements = [];
 
         $element = $this->buildLink($name, $url);
@@ -256,7 +256,7 @@ class StyleGuideController extends ControllerBase {
         $element = $this->wrapTextCenter($element);
         $inner_elements[] = $this->wrapTextColor($element, 'gray');
 
-        $elements[] = $this->wrapContainerVerticalSpacingTiny($inner_elements);
+        $elements[] = $this->wrapContainerVerticalSpacingTiny($inner_elements, 'center');
       }
       else {
         $element = $this->buildLink($name, $url);
