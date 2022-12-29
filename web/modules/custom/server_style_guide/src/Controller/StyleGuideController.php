@@ -225,6 +225,7 @@ class StyleGuideController extends ControllerBase {
    */
   protected function getCardsCentered(): array {
     $items = [];
+    $url = Url::fromRoute('<front>');
 
     $names = ['Jon Doe', 'Smith Allen', 'David Bowie'];
     foreach ($names as $name) {
@@ -234,9 +235,18 @@ class StyleGuideController extends ControllerBase {
         '#uri' => $this->getPlaceholderPersonImage(100),
         '#width' => 100,
       ];
+
+      // Image should be clickable.
+      $element = [
+        '#type' => 'html_tag',
+        '#tag' => 'a',
+        '#value' => render($element),
+        '#attributes' => ['href' => $url->toString()],
+      ];
+
       $elements[] = $this->wrapRoundedCornersFull($element);
 
-      $element = $this->buildLink($name, Url::fromRoute('<front>'));
+      $element = $this->buildLink($name, $url);
       $element = $this->wrapTextFontWeight($element, 'bold');
       $element = $this->wrapTextCenter($element);
       $elements[] = $this->wrapTextColor($element, 'light-gray');
