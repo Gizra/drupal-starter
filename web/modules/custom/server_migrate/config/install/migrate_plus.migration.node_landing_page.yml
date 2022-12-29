@@ -2,8 +2,6 @@ id: node_landing_page
 label: 'Landing Page'
 migration_group: server
 migration_tags:
-  - landing_page
-  - node_landing_page
   - node
 source:
   plugin: csv
@@ -36,9 +34,9 @@ process:
     - plugin: migration_lookup
       migration:
         - paragraph_cta
+        - paragraph_news_teasers
         - paragraph_related_content
         - paragraph_search
-        - paragraph_views
       no_stub: true
     - plugin: sub_process
       process:
@@ -48,7 +46,7 @@ process:
 migration_dependencies:
   required:
     - paragraph_cta
+    - paragraph_news_teasers
     - paragraph_related_content
     - paragraph_search
-    - paragraph_views
     - user
