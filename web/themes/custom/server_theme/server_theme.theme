@@ -74,6 +74,15 @@ function server_theme_theme() {
     ],
   ];
 
+  // A wrapper that adds a bottom padding `py-10`. This is likely used on
+  // elements such as a CTA that are built by composing twigs, rather than a
+  // monolithic twig.
+  $info['server_theme_container_vertical_padding'] = [
+    'variables' => [
+      'items' => [],
+    ],
+  ];
+
   // Wrap with `lg` rounded corners.
   $info['server_theme_container_rounded_corners_big'] = [
     'variables' => [

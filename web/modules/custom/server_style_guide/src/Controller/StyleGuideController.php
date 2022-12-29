@@ -489,22 +489,30 @@ class StyleGuideController extends ControllerBase {
     ];
   }
 
-  /**
-   * Get CTA (Call to action).
-   *
-   * @return array
-   *   Render array.
-   */
   protected function getCta(): array {
     $url = Url::fromRoute('<front>')->toString();
     $button = $this->buildButton('View more', $url);
 
-    return [
-      '#theme' => 'server_theme_paragraph__cta',
-      '#title' => $this->t('Lorem ipsum dolor sit amet'),
-      '#subtitle' => $this->t('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'),
-      '#button' => $button,
-    ];
+    $elements = [];
+
+    // Title.
+    $element = ['#markup' => $this->getRandomTitle()];
+    $element = $this->wrapTextResponsiveFontSize($element, '3xl');
+    $elements[] = $this->wrapTextFontWeight($element, 'bold');
+
+    // Subtitle.
+    $element = ['#markup' => 'How does the system generate all this custom content? It actually skims Wikipedia pages related to your search, copy-and-pasting information and reformatting it just for you. That means it’s not the sort of text you’d ever want to claim as your company’s own. But then again, it’s perfect for creating a layout that’s not trapped in a two-millennia-old anachronism'];
+    $element = $this->wrapTextResponsiveFontSize($element, 'xl');
+    $elements[] = $this->wrapTextFontWeight($element, 'medium');
+
+    // Button.
+    $elements[] = $this->buildButton('View more', $url);
+
+    $elements = $this->wrapContainerVerticalSpacingBig($elements, 'center');
+    $elements = $this->wrapTextCenter($elements);
+    $elements = $this->wrapContainerNarrow($elements);
+    $elements = $this->wrapContainerVerticalPadding($elements);
+    return $this->wrapBackgroundColor($elements, 'light-gray');
   }
 
   /**
