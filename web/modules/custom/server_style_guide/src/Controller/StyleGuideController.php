@@ -74,15 +74,9 @@ class StyleGuideController extends ControllerBase {
   public function styleGuidePage() {
     $build = [];
 
-    // Wide container.
-    $elements = $this->getWideWidthElements();
-
-    // No container.
-    $elements = array_merge($elements, $this->getFullWidthElements());
-
     $build[] = [
       '#theme' => 'server_style_guide_wrapper',
-      '#elements' => $elements,
+      '#elements' => $this->getAllElements(),
     ];
 
     $build['#attached']['library'][] = 'server_style_guide/accordion';
@@ -91,12 +85,12 @@ class StyleGuideController extends ControllerBase {
   }
 
   /**
-   * Define all elements here that should be 'wide' width.
+   * Get all the elements that should be in the Style guide.
    *
    * @return array
    *   A render array containing the elements.
    */
-  protected function getWideWidthElements() : array {
+  protected function getAllElements() : array {
     $build = [];
 
     $element = $this->getPageTitle();
@@ -120,6 +114,9 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getCardsWithImageHorizontalForNews();
     $build[] = $this->wrapElementWideContainer($element, 'Cards: Horizontal with image (Featured content)');
 
+    $element = $this->getRelatedContentCarousel();
+    $build[] = $this->wrapElementNoContainer($element, 'Cards: Carousel (Related content)');
+
     $element = $this->getTags();
     $build[] = $this->wrapElementWideContainer($element, 'Tags');
 
@@ -129,25 +126,8 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getMediaVideo();
     $build[] = $this->wrapElementWideContainer($element, 'Media: Video');
 
-    return $build;
-  }
-
-  /**
-   * Define all elements here that should be 'full' width.
-   *
-   * Elements spanning full-width of the document.
-   *
-   * @return array
-   *   A render array containing the elements.
-   */
-  protected function getFullWidthElements(): array {
-    $build = [];
-
     $element = $this->getHeroImage();
     $build[] = $this->wrapElementNoContainer($element, 'Hero image');
-
-    $element = $this->getRelatedContentCarousel();
-    $build[] = $this->wrapElementNoContainer($element, 'Related content');
 
     $element = $this->getCta();
     $build[] = $this->wrapElementNoContainer($element, 'Call to Action');
