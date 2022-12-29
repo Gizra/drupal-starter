@@ -693,18 +693,15 @@ class StyleGuideController extends ControllerBase {
    *   Array of render arrays.
    */
   protected function getRelatedContent(int $num = 5): array {
-    $element_base = [
-      '#theme' => 'server_theme_card',
-      '#body' => 'Decorate one package of cauliflower in six teaspoons of plain vinegar. Try flavoring the crême fraîche gingers with clammy rum and fish sauce, simmered.',
-      '#url' => Url::fromRoute('<front>'),
-    ];
-
     $elements = [];
     for ($i = 0; $i < $num; $i++) {
-      $elements[] = [
-        '#image' => $this->buildImage($this->getPlaceholderImage(300, 200, "card_image_$i", 'seed'), "Card image $i"),
-        '#title' => $this->getRandomTitle(),
-      ] + $element_base;
+      $elements[] =$this->buildCardWithImageForNews(
+        $this->buildImage($this->getPlaceholderImage(300, 200, "card_image_$i", 'seed'), "Card image $i"),
+        $this->getRandomTitle(),
+        Url::fromRoute('<front>'),
+        $this->buildProcessedText('Decorate one package of cauliflower in six teaspoons of plain vinegar. Try flavoring the crême fraîche gingers with clammy rum and fish sauce, simmered.'),
+        time(),
+      );
     }
     return $elements;
   }
