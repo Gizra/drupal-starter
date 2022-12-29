@@ -164,6 +164,38 @@ class NodeNews extends NodeViewBuilderAbstract {
   }
 
   /**
+   * Build Teaser view mode.
+   *
+   * @param array $build
+   *   The existing build.
+   * @param \Drupal\node\NodeInterface $entity
+   *   The entity.
+   *
+   * @return array
+   *   Render array.
+   */
+  public function buildFeatured(array $build, NodeInterface $entity) {
+    $media = $this->getReferencedEntityFromField($entity, 'field_featured_image');
+    $image = $media instanceof MediaInterface ? $this->buildImageStyle($media, 'card', 'field_media_image') : NULL;
+    $title = $entity->label();
+    $url = $entity->toUrl();
+    $summary = $this->buildProcessedText($entity, 'field_body', FALSE);
+    $timestamp = $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date');
+
+    $element = $this->buildCardWithImageHorizontalForNews(
+      $image,
+      $title,
+      $url,
+      $summary,
+      $timestamp
+    );
+
+    $build[] = $element;
+
+    return $build;
+  }
+
+  /**
    * Build "Search index" view mode.
    *
    * @param array $build

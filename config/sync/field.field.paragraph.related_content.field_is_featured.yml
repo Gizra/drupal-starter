@@ -1,0 +1,23 @@
+uuid: 22606db3-d687-4ef3-8a29-7f5c3dfa5633
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_is_featured
+    - paragraphs.paragraphs_type.related_content
+id: paragraph.related_content.field_is_featured
+field_name: field_is_featured
+entity_type: paragraph
+bundle: related_content
+label: Featured
+description: 'Determine of cards should show as "Featured" - bigger cards, and only a single one at a time.'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

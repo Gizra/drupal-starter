@@ -285,6 +285,9 @@ function server_theme_theme() {
     'variables' => [
       'title' => NULL,
       'items' => [],
+      // Indicate if cards are featured, thus we show only a single card at a
+      // time.
+      'is_featured' => FALSE,
       // The render array of `server_theme_button`.
       'button' => NULL,
     ],
