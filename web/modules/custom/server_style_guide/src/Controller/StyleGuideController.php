@@ -346,7 +346,8 @@ class StyleGuideController extends ControllerBase {
       $card2,
     ];
 
-    return $this->wrapContainerVerticalSpacingBig($items);
+    $element = $this->wrapContainerVerticalSpacingBig($items);
+    return $this->wrapContainerNarrow($element);
   }
 
   /**
