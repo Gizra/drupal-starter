@@ -74,15 +74,6 @@ function server_theme_theme() {
     ],
   ];
 
-  // A wrapper that adds a bottom padding `py-10`. This is likely used on
-  // elements such as a CTA that are built by composing twigs, rather than a
-  // monolithic twig.
-  $info['server_theme_container_vertical_padding'] = [
-    'variables' => [
-      'items' => [],
-    ],
-  ];
-
   // Wrap with `lg` rounded corners.
   $info['server_theme_container_rounded_corners_big'] = [
     'variables' => [
@@ -239,13 +230,11 @@ function server_theme_theme() {
     ],
   ];
 
-  // "Call to action" paragraph type.
-  $info['server_theme_paragraph__cta'] = [
+  // "Call to action" element.
+  $info['server_theme_element__cta'] = [
     'variables' => [
-      'title' => NULL,
-      'subtitle' => NULL,
-      // The render array of `server_theme_button`.
-      'button' => NULL,
+      // Render array.
+      'items' => [],
     ],
   ];
 

@@ -177,28 +177,6 @@ trait ElementWrapTrait {
   }
 
   /**
-   * Wrap an element with vertical padding.
-   *
-   * @param array $element
-   *   Render array.
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function wrapContainerVerticalPadding(array $element): array {
-    $element = $this->filterEmptyElements($element);
-    if (empty($element)) {
-      // Element is empty, so no need to wrap it.
-      return [];
-    }
-
-    return [
-      '#theme' => 'server_theme_container_vertical_padding',
-      '#items' => $element,
-    ];
-  }
-
-  /**
    * Wrap an element with `lg` rounded corners.
    *
    * @param array $element

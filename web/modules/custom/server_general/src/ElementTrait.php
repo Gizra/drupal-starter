@@ -55,12 +55,11 @@ trait ElementTrait {
     $elements[] = $this->buildButton($button_text, $url);
 
     $elements = $this->wrapContainerVerticalSpacingBig($elements, 'center');
-    $elements = $this->wrapTextCenter($elements);
-    $elements = $this->wrapContainerNarrow($elements);
-    $elements = $this->wrapContainerVerticalPadding($elements);
 
-    return $this->wrapBackgroundColor($elements, 'light-gray');
-
+    return [
+      '#theme' => 'server_theme_element__cta',
+      '#items' => $elements,
+    ];
   }
 
 }
