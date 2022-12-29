@@ -1,4 +1,6 @@
-<div class="relative rounded-lg border border-gray-300 w-full h-full overflow-hidden flex flex-col md:flex-row gap-8 md:gap-10 p-4 overflow-hidden bg-gray-100">
+{% import '@server_theme/templates/server-theme-card-base.html.twig' as base %}
+
+<div class="{{ base.getBaseClasses() }} flex flex-col md:flex-row gap-8 md:gap-10 p-4 overflow-hidden bg-gray-100">
 
   <a href="{{ url }}" class="rounded-lg overflow-hidden w-full md:w-1/3 max-h-56 h-fit">
     <figure class="child-object-cover w-full">
