@@ -27,6 +27,7 @@ process:
       migration:
         - news
       no_stub: true
+  field_is_featured: _is_featured
   field_link/uri: _url
   field_link/title: _url_title
 
