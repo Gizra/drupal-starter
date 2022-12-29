@@ -4,6 +4,12 @@
     @apply max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-20;
   }
 
+  .container-narrow {
+    // Container width is sum of left/right padding and 768px max width.
+    // 80px + 768px + 80px = 928px = 58rem
+    @apply max-w-[58rem] mx-auto px-4 md:px-10 xl:px-20;
+  }
+
   // Adding this class to parents of image containers we can style images
   // to cover their parents/or contained within the parents without having
   // access to the image HTML.
