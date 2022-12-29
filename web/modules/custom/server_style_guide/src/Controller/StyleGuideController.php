@@ -108,14 +108,17 @@ class StyleGuideController extends ControllerBase {
 
     $build[] = $this->getTextDecorations();
 
+    $element = $this->getCards();
+    $build[] = $this->wrapElementWideContainer($element, 'Card: Simple (Search result)');
+
+    $element = $this->getCardsCentered();
+    $build[] = $this->wrapElementWideContainer($element, 'Card: Centered (Logos)');
+
     $element = $this->getCardsWithImageForNews();
-    $build[] = $this->wrapElementWideContainer($element, 'Cards: News');
+    $build[] = $this->wrapElementWideContainer($element, 'Cards: With image (News cards)');
 
     $element = $this->getCardsWithImageHorizontalForNews();
-    $build[] = $this->wrapElementWideContainer($element, 'Cards: Featured news');
-
-    $element = $this->getCardSearchResult();
-    $build[] = $this->wrapElementWideContainer($element, 'Card: Search result');
+    $build[] = $this->wrapElementWideContainer($element, 'Cards: Horizontal with image (Featured content)');
 
     $element = $this->getTags();
     $build[] = $this->wrapElementWideContainer($element, 'Tags');
@@ -191,19 +194,57 @@ class StyleGuideController extends ControllerBase {
   }
 
   /**
-   * Get A single Search result.
+   * Get Simple cards.
    *
    * @return array
    *   Render array.
    */
-  protected function getCardSearchResult(): array {
-    return $this->buildCardSearchResult(
+  protected function getCards(): array {
+    $elements = [];
+    $elements[] = $this->buildCardSearchResult(
       'News',
       $this->getRandomTitle(),
       Url::fromRoute('<front>'),
       $this->buildProcessedText("Both refute. Of their its it funny children into good origin into self-interest, my she were bad of chosen stage italic, fame, is must didn't evaluate little may picture the didn't is not there of high accustomed. Him great those the sort alphabet she were workmen. Reflection bad the external gloomy not we it yet any them. What's late showed picture attached duck usual. To of actual writer fame. Prepared on was to stairs basically, the see would hadn't easier searching watched in and someone his where of the and written fly being a be his the to visuals was."),
       time()
     );
+
+    $elements[] = $this->buildCardSearchResult(
+      'News',
+      $this->getRandomTitle(),
+      Url::fromRoute('<front>'),
+      $this->buildProcessedText("How does the system generate all this custom content?"),
+      time()
+    );
+
+    return $this->wrapContainerVerticalSpacingBig($elements);
+  }
+
+  /**
+   * Get Centered cards.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getCardsCentered(): array {
+    $items = [];
+
+    $names = ['Jon Doe', 'Smith Allen', 'David Bowie'];
+    foreach ($names as $name) {
+      $elements = [];
+      $element = [
+        '#theme' => 'image',
+        '#uri' => $this->getPlaceholderPersonImage(100),
+        '#width' => 100,
+      ];
+      $elements[] = $this->wrapRoundedCornersFull($element);
+      $element = ['#markup' => $name];
+      $elements[] = $this->wrapTextFontWeight($element, 'medium');
+      $items[] = $this->buildCardCentered($elements);
+    }
+
+    return $this->buildCards($items);
+
   }
 
   /**
@@ -302,10 +343,7 @@ class StyleGuideController extends ControllerBase {
       $card2,
     ];
 
-    return [
-      '#theme' => 'server_theme_cards',
-      '#items' => $items,
-    ];
+    return $this->buildCards($items);
   }
 
   /**
@@ -559,14 +597,13 @@ class StyleGuideController extends ControllerBase {
    *
    * @param int $width_and_height
    *   The width and height of the image.
-   * @param string|null $unique_id
-   *   Optional; A unique ID for the image.
    *
    * @return string
    *   URL with placeholder.
    */
-  protected function getPlaceholderPersonImage(int $width_and_height, string $unique_id = NULL) {
-    return "https://i.pravatar.cc/{$width_and_height}" . (!empty($unique_id) ? '?u=' . $unique_id : NULL);
+  protected function getPlaceholderPersonImage(int $width_and_height) {
+    $unique_id = substr(str_shuffle(md5(microtime())), 0, 10);
+    return "https://i.pravatar.cc/{$width_and_height}?u=" . $unique_id;
   }
 
   /**

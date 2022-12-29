@@ -50,6 +50,22 @@ trait CardTrait {
   }
 
   /**
+   * Build "Centered card".
+   *
+   * @param array $items
+   *   The elements as render array.
+   *
+   * @return array
+   *   Render array.
+   */
+  public function buildCardCentered(array $items): array {
+    return [
+      '#theme' => 'server_theme_card_centered',
+      '#items' => $this->wrapContainerVerticalSpacing($items),
+    ];
+  }
+
+  /**
    * Build "Card with image horizontal" base.
    *
    * @param \Drupal\Core\Url $url
@@ -197,6 +213,22 @@ trait CardTrait {
     return [
       '#theme' => 'server_theme_card',
       '#items' => $this->wrapContainerVerticalSpacing($elements),
+    ];
+  }
+
+  /**
+   * Wrap multiple cards with a grid.
+   *
+   * @param array $items
+   *   The elements as render array.
+   *
+   * @return array
+   *   Render array.
+   */
+  public function buildCards(array $items): array {
+    return [
+      '#theme' => 'server_theme_cards',
+      '#items' => $items,
     ];
   }
 

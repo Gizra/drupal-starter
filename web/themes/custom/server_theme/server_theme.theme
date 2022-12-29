@@ -186,6 +186,15 @@ function server_theme_theme() {
     ],
   ];
 
+  // Card with elements positioned in the center of it.
+  $info['server_theme_card_centered'] = [
+    'variables' => [
+      // A render array.
+      'items' => NULL,
+    ],
+  ];
+
+  // Card with a top image. Used often for content teasers/ cards.
   $info['server_theme_card_with_image'] = [
     'variables' => [
       'image' => NULL,
@@ -196,6 +205,8 @@ function server_theme_theme() {
     ],
   ];
 
+  // Card with horizontal alignment, where image is on the left (in LTR).
+  // Used often for featured content.
   $info['server_theme_card_with_image_horizontal'] = [
     'variables' => [
       'image' => NULL,
