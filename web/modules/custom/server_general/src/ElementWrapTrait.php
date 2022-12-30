@@ -183,6 +183,30 @@ trait ElementWrapTrait {
   }
 
   /**
+   * Wrap an element with `full` rounded corners.
+   *
+   * This can be used for example to make a profile picture circular.
+   *
+   * @param array $element
+   *   The render array.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapRoundedCornersFull(array $element): array {
+    $element = $this->filterEmptyElements($element);
+    if (empty($element)) {
+      // Element is empty, so no need to wrap it.
+      return [];
+    }
+
+    return [
+      '#theme' => 'server_theme_container_rounded_corners_full',
+      '#items' => $element,
+    ];
+  }
+
+  /**
    * Wrap an element, with Prose text.
    *
    * @return array

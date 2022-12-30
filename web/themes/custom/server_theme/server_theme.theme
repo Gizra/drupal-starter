@@ -76,6 +76,13 @@ function server_theme_theme() {
     ],
   ];
 
+  // Wrap with `full` rounded corners.
+  $info['server_theme_container_rounded_corners_full'] = [
+    'variables' => [
+      'items' => [],
+    ],
+  ];
+
   // The page's header.
   $info['server_theme_header'] = [
     'variables' => [
