@@ -33,7 +33,7 @@ class RoboFile extends Tasks {
    * Compile the theme.
    *
    * @param bool $optimize
-   *   Indicate whether to optimize during compilation. Default: FALSE.
+   *   Indicate whether to optimize during compilation. Default: FALSE
    */
   private function doThemeCompile(bool $optimize = FALSE): void {
     $directories = [
@@ -265,7 +265,7 @@ class RoboFile extends Tasks {
    * Deploy to Pantheon.
    *
    * @param string $branch_name
-   *   The branch name to commit to. Default: master.
+   *   The branch name to commit to. Default: master
    * @param string|null $commit_message
    *   Supply a custom commit message for the pantheon repo.
    *   Falls back to: "Site update from [current_version]".
@@ -454,7 +454,6 @@ class RoboFile extends Tasks {
       ->run();
     if (str_contains($result->getMessage(), 'nothing to commit, working tree clean')) {
       $this->say('Nothing to commit, working tree clean');
-      return;
     }
     print $result->getMessage();
 
@@ -505,10 +504,10 @@ class RoboFile extends Tasks {
    * Deploy site from one env to the other on Pantheon.
    *
    * @param string $env
-   *   The environment to update. Default: test.
+   *   The environment to update. Default: test
    * @param bool $do_deploy
    *   Determine if 'terminus env:deploy' should be run on the given env.
-   *   Default: TRUE.
+   *   Default: TRUE
    *
    * @throws \Exception
    */
@@ -565,7 +564,7 @@ class RoboFile extends Tasks {
    * `ddev auth ssh`.
    *
    * @param string $env
-   *   The environment to install. Default: qa.
+   *   The environment to install. Default: qa
    *
    * @throws \Exception
    */
@@ -590,7 +589,7 @@ class RoboFile extends Tasks {
       ->exec("terminus remote:drush $pantheon_terminus_environment -- si server --no-interaction --existing-config")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- en server_migrate --no-interaction")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- migrate:import --group=server")
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- pm:uninstall migrate")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- pm:uninstall migrate -y")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- uli");
 
     $result = $task->run()->getExitCode();
@@ -710,6 +709,7 @@ class RoboFile extends Tasks {
       ->printOutput(FALSE)
       ->run();
     $pantheon_git_url = trim($result->getMessage());
+    $this->_exec("cp .travis.template.yml .travis.yml");
     $this->taskReplaceInFile('.travis.yml')
       ->from('{{ PANTHEON_GIT_URL }}')
       ->to($pantheon_git_url)
@@ -746,7 +746,7 @@ class RoboFile extends Tasks {
    * Generates a cryptographically secure random string for the password.
    *
    * @param int $length
-   *   Length of the random string. Default: 64.
+   *   Length of the random string. Default: 64
    * @param string $keyspace
    *   The set of characters that can be part of the output string. Default:
    *   '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.

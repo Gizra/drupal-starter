@@ -1,0 +1,62 @@
+version: ~> 1.0
+sudo: required
+language: php
+dist: focal
+php:
+  - 8.0
+
+services:
+  - docker
+
+stages:
+  - lint
+  - test
+  - deploy
+
+env:
+  global:
+    - PANTHEON_GIT_URL="{{ PANTHEON_GIT_URL }}"
+
+before_install:
+  - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+
+jobs:
+  include:
+    - stage: Lint
+      name: "PhpStan"
+      script:
+        - "composer install"
+        - "vendor/bin/phpstan analyse -c phpstan.neon"
+    - stage: Lint
+      name: "Drupal coding standard: phpcs"
+      script:
+        - "$TRAVIS_BUILD_DIR/ci-scripts/install_coder.sh || travis_terminate 1;"
+        - "export REVIEW_STANDARD=\"Drupal\" && $TRAVIS_BUILD_DIR/ci-scripts/test_coder.sh"
+    - stage: Lint
+      name: "Drupal coding best practices: phpcs"
+      script:
+        - "$TRAVIS_BUILD_DIR/ci-scripts/install_coder.sh || travis_terminate 1;"
+        - "export REVIEW_STANDARD=\"DrupalPractice\" && $TRAVIS_BUILD_DIR/ci-scripts/test_coder.sh"
+    - stage: Lint
+      name: "Shell coding standard: shellcheck"
+      script:
+        - "$TRAVIS_BUILD_DIR/ci-scripts/install_shell.sh || travis_terminate 1;"
+        - "$TRAVIS_BUILD_DIR/ci-scripts/test_shell.sh || travis_terminate 1;"
+    - stage: Test
+      name: "Backend tests: Functional tests"
+      # Before auto-deploy gets configured, this will execute the tests always.
+      if: (branch != "{{ GITHUB_DEPLOY_BRANCH }}" AND tag IS blank) OR env(TERMINUS_TOKEN) IS blank
+      script:
+        - "$TRAVIS_BUILD_DIR/ci-scripts/install_ddev.sh || travis_terminate 1;"
+        - "$TRAVIS_BUILD_DIR/ci-scripts/install_drupal.sh || travis_terminate 1;"
+        - "$TRAVIS_BUILD_DIR/ci-scripts/test_phpunit.sh || travis_terminate 1;"
+    - stage: Deploy
+      name: "Backend tests: Functional tests and deploy to Pantheon"
+      # This will get activated using ddev robo deploy:config-autodeploy.
+      if: branch = "{{ GITHUB_DEPLOY_BRANCH }}" AND type = push AND env(TERMINUS_TOKEN) IS present
+      script:
+        - "$TRAVIS_BUILD_DIR/ci-scripts/install_ddev.sh || travis_terminate 1;"
+        - "$TRAVIS_BUILD_DIR/ci-scripts/install_drupal.sh || travis_terminate 1;"
+        - "$TRAVIS_BUILD_DIR/ci-scripts/test_phpunit.sh || travis_terminate 1;"
+        - "(travis_retry $TRAVIS_BUILD_DIR/ci-scripts/prepare_deploy.sh) || travis_terminate 1;"
+        - "travis_retry ddev robo deploy:pantheon --no-interaction {{ PANTHEON_DEPLOY_BRANCH }}"
