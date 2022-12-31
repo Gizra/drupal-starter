@@ -6,6 +6,7 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
 use Drupal\Core\Utility\LinkGenerator;
 use Drupal\media\IFrameUrlHelper;
+use Drupal\node\Entity\Node;
 use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
 use Drupal\server_general\ButtonTrait;
 use Drupal\server_general\CardTrait;
@@ -13,6 +14,7 @@ use Drupal\server_general\ElementTrait;
 use Drupal\server_general\ElementWrapTrait;
 use Drupal\server_general\LinkTrait;
 use Drupal\server_general\MediaVideoTrait;
+use Drupal\server_general\SocialShareTrait;
 use Drupal\server_general\TagTrait;
 use Drupal\server_general\TitleAndLabelsTrait;
 use Drupal\server_style_guide\StyleGuideElementWrapTrait;
@@ -31,6 +33,7 @@ class StyleGuideController extends ControllerBase {
   use ElementWrapTrait;
   use LinkTrait;
   use MediaVideoTrait;
+  use SocialShareTrait;
   use StyleGuideElementWrapTrait;
   use TagTrait;
   use TitleAndLabelsTrait;
@@ -105,6 +108,9 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getTags();
     $build[] = $this->wrapElementWideContainer($element, 'Tags');
 
+    $element = $this->getSocialShare();
+    $build[] = $this->wrapElementWideContainer($element, 'Social share');
+
     $build[] = $this->getTextDecorations();
 
     $element = $this->getCards();
@@ -167,6 +173,20 @@ class StyleGuideController extends ControllerBase {
       '#title' => 'Tags',
       '#items' => $items,
     ];
+  }
+
+  /**
+   * Get tags.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getSocialShare(): array {
+    $entity = Node::create([
+      'label' => 'Social share trait',
+      'type' => 'news',
+    ]);
+    return $this->buildSocialShare($entity);
   }
 
   /**

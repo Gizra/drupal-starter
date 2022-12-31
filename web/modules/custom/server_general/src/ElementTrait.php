@@ -36,7 +36,7 @@ trait ElementTrait {
    * @return array
    *   Render array.
    */
-  public function buildElementCta(string $title, string $subtitle, string $button_text, Url $url): array {
+  protected function buildElementCta(string $title, string $subtitle, string $button_text, Url $url): array {
     $elements = [];
 
     // Title.
@@ -79,7 +79,7 @@ trait ElementTrait {
    * @return array
    *   Render array.
    */
-  public function buildElementHeroImage(array $image, string $title, string $subtitle, string $button_text, Url $url): array {
+  protected function buildElementHeroImage(array $image, string $title, string $subtitle, string $button_text, Url $url): array {
     $elements = [];
 
     // Title.

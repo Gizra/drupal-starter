@@ -33,7 +33,7 @@ trait CardTrait {
    * @return array
    *   Render array.
    */
-  public function buildCard(array $items): array {
+  protected function buildCard(array $items): array {
     return [
       '#theme' => 'server_theme_card',
       '#items' => $this->wrapContainerVerticalSpacing($items),
@@ -49,7 +49,7 @@ trait CardTrait {
    * @return array
    *   Render array.
    */
-  public function buildCardCentered(array $items): array {
+  protected function buildCardCentered(array $items): array {
     return [
       '#theme' => 'server_theme_card__centered',
       '#items' => $this->wrapContainerVerticalSpacing($items, 'center'),
@@ -72,7 +72,7 @@ trait CardTrait {
    * @return array
    *   Render array.
    */
-  public function buildCardWithImage(Url $url, array $image, array $items): array {
+  protected function buildCardWithImage(Url $url, array $image, array $items): array {
     return [
       '#theme' => 'server_theme_card__with_image',
       '#image' => $image,
@@ -94,7 +94,7 @@ trait CardTrait {
    * @return array
    *   Render array.
    */
-  public function buildCardWithImageHorizontal(Url $url, array $image, array $items): array {
+  protected function buildCardWithImageHorizontal(Url $url, array $image, array $items): array {
     return [
       '#theme' => 'server_theme_card__with_image_horizontal',
       '#image' => $image,
@@ -120,7 +120,7 @@ trait CardTrait {
    * @return array
    *   Render array.
    */
-  public function buildCardWithImageForNews(array $image, string $title, Url $url, array $summary, int $timestamp): array {
+  protected function buildCardWithImageForNews(array $image, string $title, Url $url, array $summary, int $timestamp): array {
     $elements = [];
 
     // Labels.
@@ -160,7 +160,7 @@ trait CardTrait {
    * @return array
    *   Render array.
    */
-  public function buildCardWithImageHorizontalForNews(array $image, string $title, Url $url, array $summary, int $timestamp): array {
+  protected function buildCardWithImageHorizontalForNews(array $image, string $title, Url $url, array $summary, int $timestamp): array {
     $elements = [];
 
     // Labels.
@@ -203,7 +203,7 @@ trait CardTrait {
    * @return array
    *   Render array.
    */
-  public function buildCardSearchResult(string $label, string $title, Url $url, array $summary, int $timestamp): array {
+  protected function buildCardSearchResult(string $label, string $title, Url $url, array $summary, int $timestamp): array {
     $elements = [];
     // Labels.
     $elements[] = $this->buildLabelsFromText([$label]);
@@ -238,7 +238,7 @@ trait CardTrait {
    * @return array
    *   Render array.
    */
-  public function buildCards(array $items): array {
+  protected function buildCards(array $items): array {
     return [
       '#theme' => 'server_theme_cards',
       '#items' => $items,
