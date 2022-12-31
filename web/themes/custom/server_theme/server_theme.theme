@@ -239,24 +239,17 @@ function server_theme_theme() {
   ];
 
   // "Text" paragraph type.
-  $info['server_theme_paragraph__text'] = [
+  $info['server_theme_element__text'] = [
     'variables' => [
       'title' => NULL,
       'body' => NULL,
     ],
   ];
 
-  $info['server_theme_footer'] = [
-    'variables' => [],
-  ];
-
   $info['server_theme_element__hero_image'] = [
     'variables' => [
       'image' => NULL,
-      'title' => NULL,
-      'subtitle' => NULL,
-      // The render array of `server_theme_button`.
-      'button' => NULL,
+      'items' => NULL,
     ],
   ];
 
@@ -432,6 +425,10 @@ function server_theme_theme() {
     'variables' => [
       'search_term' => '',
     ],
+  ];
+
+  $info['server_theme_footer'] = [
+    'variables' => [],
   ];
 
   return $info;

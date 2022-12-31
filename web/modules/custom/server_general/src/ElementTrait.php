@@ -65,6 +65,8 @@ trait ElementTrait {
   /**
    * Build a Hero image.
    *
+   * @param array $image
+   *   The render array of the image,.
    * @param string $title
    *   The title.
    * @param string $subtitle
@@ -77,7 +79,7 @@ trait ElementTrait {
    * @return array
    *   Render array.
    */
-  public function buildElementHeroImage(string $title, string $subtitle, string $button_text, Url $url): array {
+  public function buildElementHeroImage(array $image, string $title, string $subtitle, string $button_text, Url $url): array {
     $elements = [];
 
     // Title.
@@ -86,19 +88,18 @@ trait ElementTrait {
     $elements[] = $this->wrapTextFontWeight($element, 'bold');
 
     // Subtitle.
-    if (!empty($subtitle)) {
-      $element = ['#markup' => $subtitle];
-      $element = $this->wrapTextResponsiveFontSize($element, 'xl');
-      $elements[] = $this->wrapTextFontWeight($element, 'medium');
-    }
+    $element = ['#markup' => $subtitle];
+    $element = $this->wrapTextResponsiveFontSize($element, 'xl');
+    $elements[] = $this->wrapTextFontWeight($element, 'medium');
 
     // Button.
     $elements[] = $this->buildButton($button_text, $url);
 
-    $elements = $this->wrapContainerVerticalSpacingBig($elements, 'center');
+    $elements = $this->wrapContainerVerticalSpacingBig($elements);
 
     return [
       '#theme' => 'server_theme_element__hero_image',
+      '#image' => $image,
       '#items' => $elements,
     ];
   }

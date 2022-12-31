@@ -122,17 +122,17 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getRelatedContentCarousel();
     $build[] = $this->wrapElementNoContainer($element, 'Cards: Carousel (Related content)');
 
+    $element = $this->getCta();
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Call to Action');
+
+    $element = $this->getHeroImage();
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Hero image');
+
     $element = $this->getMediaImage();
     $build[] = $this->wrapElementWideContainer($element, 'Media: Image');
 
     $element = $this->getMediaVideo();
     $build[] = $this->wrapElementWideContainer($element, 'Media: Video');
-
-    $element = $this->getHeroImage();
-    $build[] = $this->wrapElementNoContainer($element, 'Hero image');
-
-    $element = $this->getCta();
-    $build[] = $this->wrapElementNoContainer($element, 'Element:Call to Action');
 
     return $build;
   }
@@ -462,15 +462,14 @@ class StyleGuideController extends ControllerBase {
    */
   protected function getHeroImage(): array {
     $url = Url::fromRoute('<front>');
-    $button = $this->buildButton('Learn more', $url);
 
-    return [
-      '#theme' => 'server_theme_hero_image',
-      '#image' => $this->buildImage($this->getPlaceholderImage(1600, 900, '1048'), 'Hero image alt'),
-      '#title' => $this->t('Drupal Starter'),
-      '#subtitle' => $this->t('Drupal 9 starter kit for efficient and streamlined development featuring TailwindCSS!'),
-      '#button' => $button,
-    ];
+    return $this->buildElementHeroImage(
+      $this->buildImage($this->getPlaceholderImage(1600, 900)),
+      $this->getRandomTitle(),
+      $this->getRandomTitle(),
+      'Learn more',
+      $url,
+    );
   }
 
   /**
