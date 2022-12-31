@@ -651,15 +651,15 @@ class StyleGuideController extends ControllerBase {
   protected function getRandomTitle(): string {
     $titles = [
       'Never Changing Will Eventually Destroy You',
-      'Sick And Tired Of Doing DRUPAL The Old Way? Read This',
-      '5 Brilliant Ways To Teach Your Audience About DRUPAL',
-      'How To Become Better With DRUPAL In 10 Minutes',
-      'Doing Drupal the Gizra way',
-      'CODING And The Chuck Norris Effect',
-      'The Philosophy Of CODING',
-      'The Anthony Robins Guide To CODING',
-      'The A - Z Guide Of CODING',
-      'How To Turn CODING Into Success',
+      'Sick And Tired Of Doing Drupal The Old Way? Read This',
+      '5 Brilliant Ways To Teach Your Audience About Drupal',
+      'How To Become Better With Drupal In 10 Minutes',
+      'Using Pluggable Entity View Builder for Drupal theming',
+      'Coding And The Chuck Norris Effect',
+      'The Philosophy Of Coding',
+      'The Anthony Robins Guide To Coding',
+      'The A - Z Guide Of Coding',
+      'How To Turn Coding Into Success',
     ];
     return $titles[array_rand($titles)];
   }
