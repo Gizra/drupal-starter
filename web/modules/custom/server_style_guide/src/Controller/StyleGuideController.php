@@ -102,10 +102,10 @@ class StyleGuideController extends ControllerBase {
 
     $build[] = $this->getLinks();
 
-    $build[] = $this->getTextDecorations();
-
     $element = $this->getTags();
     $build[] = $this->wrapElementWideContainer($element, 'Tags');
+
+    $build[] = $this->getTextDecorations();
 
     $element = $this->getCards();
     $build[] = $this->wrapElementWideContainer($element, 'Card: Simple (Search result)');
