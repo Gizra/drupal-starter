@@ -293,6 +293,18 @@ function server_theme_theme() {
     ],
   ];
 
+  // Wrap an element with an HTML tag (e.g. <h1> or <p>).
+  // We could use Render's api `html_tag` tag, however it requires us to
+  // `render()` the array ourselves. So to keep everything is a render array
+  // form and consistent with other text decorations, we add a twig for that.
+  $info['server_theme_wrap_html_tag'] = [
+    'variables' => [
+      // Render array.
+      'tag' => NULL,
+      'element' => [],
+    ],
+  ];
+
   // Wrapper for a text, adding font weight.
   $info['server_theme_text_decoration__font_weight'] = [
     'variables' => [

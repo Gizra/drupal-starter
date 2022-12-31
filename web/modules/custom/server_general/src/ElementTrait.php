@@ -84,7 +84,7 @@ trait ElementTrait {
 
     // Title.
     $element = ['#markup' => $title];
-    $element = $this->wrapTextResponsiveFontSize($element, '3xl');
+    $element = $this->wrapHtmlTag($element, 'h1');
     $elements[] = $this->wrapTextFontWeight($element, 'bold');
 
     // Subtitle.

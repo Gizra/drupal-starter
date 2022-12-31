@@ -269,6 +269,31 @@ trait ElementWrapTrait {
   }
 
   /**
+   * Wrap an element with a tag.
+   *
+   * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
+   *   The render array, string or a TranslatableMarkup object.
+   * @param string $tag
+   *   The number of the heading. For example `h1` would result with a
+   *   `<h1></h1>` tag.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapHtmlTag(array|string|TranslatableMarkup $element, string $tag): array {
+    $element = $this->filterEmptyElements($element);
+    if (empty($element)) {
+      return [];
+    }
+
+    return [
+      '#theme' => 'server_theme_wrap_html_tag',
+      '#tag' => $tag,
+      '#element' => $element,
+    ];
+  }
+
+  /**
    * Wrap a text element with font weight.
    *
    * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
