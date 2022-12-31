@@ -1,14 +1,14 @@
 {% if service == 'email' %}
-  {% set shareUrl = "mailto:?subject=" ~ email_subject|url_encode ~ "&body=Check out this site " ~ url|url_encode %}
+  {% set shareUrl = "mailto:?subject=" ~ email_subject|url_encode ~ "&body=Check out this site " ~ url.toString()|url_encode %}
   {% set title = 'Share by Email'|t %}
 {% elseif service == 'facebook' %}
-  {% set shareUrl = "https://www.facebook.com/share.php?u=" ~ url %}
+  {% set shareUrl = "https://www.facebook.com/share.php?u=" ~ url.toString() %}
   {% set title = 'Share on Facebook'|t %}
 {% elseif service == 'linkedin' %}
-  {% set shareUrl = "https://www.linkedin.com/sharing/share-offsite/?url=" ~ url %}
+  {% set shareUrl = "https://www.linkedin.com/sharing/share-offsite/?url=" ~ url.toString() %}
   {% set title = 'Share on LinkedIn'|t %}
 {% elseif service == 'twitter' %}
-  {% set shareUrl = "https://twitter.com/intent/tweet?url=" ~ url %}
+  {% set shareUrl = "https://twitter.com/intent/tweet?url=" ~ url.toString() %}
   {% set title = 'Share on Twitter'|t %}
 {% endif %}
 
