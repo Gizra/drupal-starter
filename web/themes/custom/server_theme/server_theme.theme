@@ -408,15 +408,6 @@ function server_theme_theme() {
     ],
   ];
 
-  // Media video.
-  $info['server_theme_media__video'] = [
-    'variables' => [
-      'video' => NULL,
-      // An optional caption, render array of `server_theme_media_caption`.
-      'caption' => [],
-    ],
-  ];
-
   // Facets wrapper on Search page.
   $info['server_theme_facets__search'] = [
     'variables' => [

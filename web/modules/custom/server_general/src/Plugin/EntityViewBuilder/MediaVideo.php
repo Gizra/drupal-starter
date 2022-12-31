@@ -6,6 +6,7 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\media\MediaInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
+use Drupal\server_general\ElementWrapTrait;
 use Drupal\server_general\MediaCaptionTrait;
 use Drupal\server_general\MediaVideoTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -21,6 +22,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class MediaVideo extends EntityViewBuilderPluginAbstract {
 
+  use ElementWrapTrait;
   use MediaCaptionTrait;
   use MediaVideoTrait;
 
@@ -61,12 +63,14 @@ class MediaVideo extends EntityViewBuilderPluginAbstract {
       return $build;
     }
 
-    $element = [
-      '#theme' => 'server_theme_media__video',
-      '#video' => $this->buildVideo($url, self::VIDEO_FULL_MAX_WIDTH, self::VIDEO_FULL_MAX_HEIGHT, TRUE),
-      '#caption' => $this->buildCaption($entity),
-    ];
-    $build[] = $element;
+    $elements = [];
+    // Video.
+    $elements[] = $this->buildVideo($url, self::VIDEO_FULL_MAX_WIDTH, self::VIDEO_FULL_MAX_HEIGHT, TRUE);
+
+    // Caption.
+    $elements[] = $this->buildCaption($entity);
+
+    $build[] = $this->wrapContainerVerticalSpacing($elements);
     return $build;
   }
 
