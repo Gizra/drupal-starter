@@ -484,7 +484,7 @@ class StyleGuideController extends ControllerBase {
     $url = Url::fromRoute('<front>');
 
     return $this->buildElementHeroImage(
-      $this->buildImage($this->getPlaceholderImage(1600, 900)),
+      $this->buildImage($this->getPlaceholderImage(1600, 400)),
       $this->getRandomTitle(),
       $this->getRandomTitle(),
       'Learn more',
