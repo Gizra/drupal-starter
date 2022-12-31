@@ -33,13 +33,18 @@ class ParagraphText extends EntityViewBuilderPluginAbstract {
    *   Render array.
    */
   public function buildFull(array $build, ParagraphInterface $entity): array {
-    $element[] = [
-      '#theme' => 'server_theme_element__text',
-      '#title' => $this->getTextFieldValue($entity, 'field_title'),
-      '#body' => $this->buildProcessedText($entity, 'field_body'),
-    ];
+    $elements = [];
+    $element = $this->getTextFieldValue($entity, 'field_title');
 
-    $build[] = $this->wrapContainerWide($element);
+    $element = $this->wrapHtmlTag($element, 'h2');
+    $element = $this->wrapTextResponsiveFontSize($element, 'xl');
+    $elements[] = $element;
+
+    $element = $this->buildProcessedText($entity, 'field_body');
+    $elements[] = $element;
+
+    $elements = $this->wrapContainerVerticalSpacing($elements);
+    $build[] = $this->wrapContainerWide($elements);
 
     return $build;
   }
