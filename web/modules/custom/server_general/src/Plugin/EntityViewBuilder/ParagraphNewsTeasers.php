@@ -45,9 +45,8 @@ class ParagraphNewsTeasers extends EntityViewBuilderPluginAbstract {
     }
 
     $element = $this->getTextFieldValue($entity, 'field_title');
+    $element = $this->wrapHtmlTag($element, 'h2');
     $element = $this->wrapTextFontWeight($element, 'bold');
-    // @todo Wrap with <h2>
-    $element = $this->wrapTextResponsiveFontSize($element, '3xl');
     $elements[] = $element;
 
     $elements[] = $view->buildRenderable('embed_1');
