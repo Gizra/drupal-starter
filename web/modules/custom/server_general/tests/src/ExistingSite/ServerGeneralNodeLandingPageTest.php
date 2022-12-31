@@ -39,7 +39,11 @@ class ServerGeneralNodeLandingPageTest extends ServerGeneralNodeTestBase {
    */
   public function testGeneral() {
     $paragraph_types = [
-      'Views',
+      'Hero image',
+      'Related content',
+      'Search',
+      'Text',
+      'News teasers',
     ];
 
     $assert = $this->assertSession();
