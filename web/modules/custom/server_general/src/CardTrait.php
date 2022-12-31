@@ -51,7 +51,7 @@ trait CardTrait {
    */
   public function buildCardCentered(array $items): array {
     return [
-      '#theme' => 'server_theme_card_centered',
+      '#theme' => 'server_theme_card__centered',
       '#items' => $this->wrapContainerVerticalSpacing($items, 'center'),
     ];
   }
@@ -74,7 +74,7 @@ trait CardTrait {
    */
   public function buildCardWithImage(Url $url, array $image, array $items): array {
     return [
-      '#theme' => 'server_theme_card_with_image',
+      '#theme' => 'server_theme_card__with_image',
       '#image' => $image,
       '#url' => $url,
       '#items' => $this->wrapContainerVerticalSpacing($items),
@@ -96,7 +96,7 @@ trait CardTrait {
    */
   public function buildCardWithImageHorizontal(Url $url, array $image, array $items): array {
     return [
-      '#theme' => 'server_theme_card_with_image_horizontal',
+      '#theme' => 'server_theme_card__with_image_horizontal',
       '#image' => $image,
       '#url' => $url,
       '#items' => $this->wrapContainerVerticalSpacing($items),

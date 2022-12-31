@@ -62,4 +62,45 @@ trait ElementTrait {
     ];
   }
 
+  /**
+   * Build a Hero image.
+   *
+   * @param string $title
+   *   The title.
+   * @param string $subtitle
+   *   The subtitle.
+   * @param string $button_text
+   *   The button text.
+   * @param \Drupal\Core\Url $url
+   *   The URL to link the button to.
+   *
+   * @return array
+   *   Render array.
+   */
+  public function buildElementHeroImage(string $title, string $subtitle, string $button_text, Url $url): array {
+    $elements = [];
+
+    // Title.
+    $element = ['#markup' => $title];
+    $element = $this->wrapTextResponsiveFontSize($element, '3xl');
+    $elements[] = $this->wrapTextFontWeight($element, 'bold');
+
+    // Subtitle.
+    if (!empty($subtitle)) {
+      $element = ['#markup' => $subtitle];
+      $element = $this->wrapTextResponsiveFontSize($element, 'xl');
+      $elements[] = $this->wrapTextFontWeight($element, 'medium');
+    }
+
+    // Button.
+    $elements[] = $this->buildButton($button_text, $url);
+
+    $elements = $this->wrapContainerVerticalSpacingBig($elements, 'center');
+
+    return [
+      '#theme' => 'server_theme_element__hero_image',
+      '#items' => $elements,
+    ];
+  }
+
 }

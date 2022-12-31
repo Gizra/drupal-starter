@@ -104,6 +104,9 @@ class StyleGuideController extends ControllerBase {
 
     $build[] = $this->getTextDecorations();
 
+    $element = $this->getTags();
+    $build[] = $this->wrapElementWideContainer($element, 'Tags');
+
     $element = $this->getCards();
     $build[] = $this->wrapElementWideContainer($element, 'Card: Simple (Search result)');
 
@@ -119,9 +122,6 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getRelatedContentCarousel();
     $build[] = $this->wrapElementNoContainer($element, 'Cards: Carousel (Related content)');
 
-    $element = $this->getTags();
-    $build[] = $this->wrapElementWideContainer($element, 'Tags');
-
     $element = $this->getMediaImage();
     $build[] = $this->wrapElementWideContainer($element, 'Media: Image');
 
@@ -132,7 +132,7 @@ class StyleGuideController extends ControllerBase {
     $build[] = $this->wrapElementNoContainer($element, 'Hero image');
 
     $element = $this->getCta();
-    $build[] = $this->wrapElementNoContainer($element, 'Call to Action');
+    $build[] = $this->wrapElementNoContainer($element, 'Element:Call to Action');
 
     return $build;
   }
