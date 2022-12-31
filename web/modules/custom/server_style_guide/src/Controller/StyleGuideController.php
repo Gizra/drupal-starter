@@ -125,8 +125,11 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getCardsWithImageHorizontalForNews();
     $build[] = $this->wrapElementWideContainer($element, 'Cards: Horizontal with image (Featured content)');
 
-    $element = $this->getRelatedContentCarousel();
-    $build[] = $this->wrapElementNoContainer($element, 'Cards: Carousel (Related content)');
+    $element = $this->getRelatedContentCarousel(FALSE);
+    $build[] = $this->wrapElementNoContainer($element, 'Cards: Carousel (Related content, not featured)');
+
+    $element = $this->getRelatedContentCarousel(TRUE);
+    $build[] = $this->wrapElementNoContainer($element, 'Cards: Carousel (Related content, featured)');
 
     $element = $this->getCta();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Call to Action');
@@ -495,18 +498,25 @@ class StyleGuideController extends ControllerBase {
   /**
    * Get the Related content carousel.
    *
+   * @param bool $is_featured
+   *   Determine if carousel should render related content as featured items
+   *   (horizontal card with image).
+   *
    * @return array
    *   Render array.
    */
-  protected function getRelatedContentCarousel(): array {
+  protected function getRelatedContentCarousel(bool $is_featured): array {
     $url = Url::fromRoute('<front>');
-    $button = $this->buildButton('View more', $url);
+
+    // Show button only if it's not featured content.
+    $button = !$is_featured ? $this->buildButton('View more', $url) : NULL;
 
     return [
       '#theme' => 'server_theme_related_content',
       '#title' => $this->t('Related content'),
-      '#items' => $this->getRelatedContent(10),
+      '#items' => $this->getRelatedContent(6, $is_featured),
       '#button' => $button,
+      '#is_featured' => $is_featured,
     ];
   }
 
@@ -689,14 +699,19 @@ class StyleGuideController extends ControllerBase {
    *
    * @param int $num
    *   Number of items to create. Default 5.
+   * @param bool $is_featured
+   *   Determine if carousel should render related content as featured items
+   *   (horizontal card with image). Defaults to FALSE.
    *
    * @return array
    *   Array of render arrays.
    */
-  protected function getRelatedContent(int $num = 5): array {
+  protected function getRelatedContent(int $num = 5, bool $is_featured = FALSE): array {
     $elements = [];
+    $func = $is_featured ? 'buildCardWithImageHorizontalForNews' : 'buildCardWithImageForNews';
     for ($i = 0; $i < $num; $i++) {
-      $elements[] = $this->buildCardWithImageForNews(
+      $elements[] = call_user_func(
+        [$this, $func],
         $this->buildImage($this->getPlaceholderImage(300, 200, "card_image_$i", 'seed'), "Card image $i"),
         $this->getRandomTitle(),
         Url::fromRoute('<front>'),
