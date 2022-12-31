@@ -499,7 +499,7 @@ class StyleGuideController extends ControllerBase {
   protected function getCta(): array {
     return $this->buildElementCta(
       $this->getRandomTitle(),
-      'How does the system generate all this custom content? It actually skims Wikipedia pages related to your search, copy-and-pasting information and reformatting it just for you. That means it’s not the sort of text you’d ever want to claim as your company’s own. But then again, it’s perfect for creating a layout that’s not trapped in a two-millennia-old anachronism',
+      'How does the system generate all this custom content? It actually skims Wikipedia pages related to your search',
       'View more',
       Url::fromRoute('<front>'),
     );
