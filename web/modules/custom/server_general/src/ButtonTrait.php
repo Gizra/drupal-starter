@@ -20,8 +20,8 @@ trait ButtonTrait {
    *
    * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $title
    *   The button's title.
-   * @param string|\Drupal\Core\Url $url
-   *   The button's URL.
+   * @param \Drupal\Core\Url $url
+   *   The button's URL as Url object.
    * @param bool $is_primary
    *   Whether this is a primary button. Defaults to FALSE.
    * @param bool $open_new_tab
@@ -30,7 +30,7 @@ trait ButtonTrait {
    * @return array
    *   The rendered button array.
    */
-  protected function buildButton(array|string|TranslatableMarkup $title, string|Url $url, bool $is_primary = FALSE, bool $open_new_tab = FALSE): array {
+  protected function buildButton(array|string|TranslatableMarkup $title, Url $url, bool $is_primary = FALSE, bool $open_new_tab = FALSE): array {
     return [
       '#theme' => 'server_theme_button',
       '#url' => $url,
@@ -82,7 +82,8 @@ trait ButtonTrait {
     $value = $entity->get($field_name)->getValue();
     $title = !empty($value[0]['description']) ? $value[0]['description'] : $this->t('Download');
 
-    return $this->buildButton($title, $file->createFileUrl());
+    $url = Url::fromUri($file->createFileUrl());
+    return $this->buildButton($title, $url);
   }
 
 }

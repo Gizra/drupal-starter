@@ -388,7 +388,7 @@ class StyleGuideController extends ControllerBase {
   protected function getButtons(): array {
     $build = [];
 
-    $url = Url::fromRoute('<front>')->toString();
+    $url = Url::fromRoute('<front>');
 
     // Primary button with icon.
     $element = $this->buildButton('Download file', $url, TRUE);
@@ -416,7 +416,7 @@ class StyleGuideController extends ControllerBase {
     $element = $this->buildLink('Internal link', $url, 'gray');
     $build[] = $this->wrapElementWideContainer($element, 'Link');
 
-    $url = 'https://google.com';
+    $url = Url::fromUri('https://example.com');
     $element = $this->buildLink('External link', $url, 'dark-gray', NULL, 'hover');
     $build[] = $this->wrapElementWideContainer($element, 'External link');
 
@@ -461,7 +461,7 @@ class StyleGuideController extends ControllerBase {
    *   Render array.
    */
   protected function getHeroImage(): array {
-    $url = Url::fromRoute('<front>')->toString();
+    $url = Url::fromRoute('<front>');
     $button = $this->buildButton('Learn more', $url);
 
     return [
@@ -480,7 +480,7 @@ class StyleGuideController extends ControllerBase {
    *   Render array.
    */
   protected function getRelatedContentCarousel(): array {
-    $url = Url::fromRoute('<front>')->toString();
+    $url = Url::fromRoute('<front>');
     $button = $this->buildButton('View more', $url);
 
     return [
