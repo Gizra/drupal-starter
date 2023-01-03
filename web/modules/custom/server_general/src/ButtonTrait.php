@@ -3,6 +3,7 @@
 namespace Drupal\server_general;
 
 use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
 use Drupal\file\FileInterface;
 use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
@@ -15,12 +16,12 @@ trait ButtonTrait {
   use BuildFieldTrait;
 
   /**
-   * Get button.
+   * Build a button.
    *
-   * @param string $url
-   *   The button's URL.
-   * @param string $title
+   * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $title
    *   The button's title.
+   * @param \Drupal\Core\Url $url
+   *   The button's URL as Url object.
    * @param bool $is_primary
    *   Whether this is a primary button. Defaults to FALSE.
    * @param bool $open_new_tab
@@ -29,7 +30,7 @@ trait ButtonTrait {
    * @return array
    *   The rendered button array.
    */
-  protected function buildButton(string $url, string $title, bool $is_primary = FALSE, bool $open_new_tab = FALSE): array {
+  protected function buildButton(array|string|TranslatableMarkup $title, Url $url, bool $is_primary = FALSE, bool $open_new_tab = FALSE): array {
     return [
       '#theme' => 'server_theme_button',
       '#url' => $url,
@@ -55,10 +56,14 @@ trait ButtonTrait {
       return [];
     }
 
-    $links = $entity->{$field_name}->getValue();
-    $link = reset($links);
+    $value = $this->getLinkFieldValue($entity, $field_name);
+    if (empty($value)) {
+      return [];
+    }
 
-    return $this->buildButton(Url::fromUri($link['uri'])->toString(), $link['title']);
+    // If title is empty, show the URL itself.
+    $title = $value['title'] ?? $value['url']->toString();
+    return $this->buildButton($title, $value['url']);
   }
 
   /**
@@ -78,10 +83,14 @@ trait ButtonTrait {
     if (!$file instanceof FileInterface) {
       return [];
     }
-    $value = $entity->get($field_name)->getValue();
-    $title = !empty($value[0]['description']) ? $value[0]['description'] : $this->t('Download');
 
-    return $this->buildButton($file->createFileUrl(), $title);
+    $value = $this->getLinkFieldValue($entity, $field_name);
+    if (empty($value)) {
+      return [];
+    }
+
+    $title = $value['title'] ?? $this->t('Download');
+    return $this->buildButton($title, $value['url']);
   }
 
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2ecaa16505c75ca473111e2fa3a61aa4",
+    "content-hash": "2626fa7fe8e3c1c9a9cd883cc4f1e134",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3685,69 +3685,6 @@
             "homepage": "https://www.drupal.org/project/token",
             "support": {
                 "source": "https://git.drupalcode.org/project/token"
-            }
-        },
-        {
-            "name": "drupal/viewsreference",
-            "version": "2.0.0-beta4",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/viewsreference.git",
-                "reference": "8.x-2.0-beta4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/viewsreference-8.x-2.0-beta4.zip",
-                "reference": "8.x-2.0-beta4",
-                "shasum": "913d6c77d73a9aa475b695a069ec5258569ddb07"
-            },
-            "require": {
-                "drupal/core": "^9.3 || ^10"
-            },
-            "conflict": {
-                "drupal/viewsreferennce": "*"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "8.x-2.0-beta4",
-                    "datestamp": "1664821610",
-                    "security-coverage": {
-                        "status": "not-covered",
-                        "message": "Beta releases are not covered by Drupal security advisories."
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "jasonawant",
-                    "homepage": "https://www.drupal.org/user/589890"
-                },
-                {
-                    "name": "joekers",
-                    "homepage": "https://www.drupal.org/user/2229066"
-                },
-                {
-                    "name": "kent@passingphase.nz",
-                    "homepage": "https://www.drupal.org/user/93571"
-                },
-                {
-                    "name": "seanB",
-                    "homepage": "https://www.drupal.org/user/545912"
-                }
-            ],
-            "description": "Views reference",
-            "homepage": "http://drupal.org/project/viewsreference",
-            "keywords": [
-                "Drupal"
-            ],
-            "support": {
-                "source": "https://git.drupalcode.org/project/viewsreference",
-                "issues": "https://www.drupal.org/project/issues/viewsreference"
             }
         },
         {
@@ -13212,7 +13149,6 @@
         "drupal/config_ignore": 10,
         "drupal/elasticsearch_connector": 15,
         "drupal/emptyparagraphkiller": 15,
-        "drupal/viewsreference": 10,
         "drupal/drupal_test_assertions": 20
     },
     "prefer-stable": true,

@@ -234,8 +234,8 @@ display:
         - user.permissions
       tags:
         - 'config:field.storage.node.field_featured_image'
-  embed:
-    id: embed
+  embed_1:
+    id: embed_1
     display_title: Embed
     display_plugin: embed
     position: 1

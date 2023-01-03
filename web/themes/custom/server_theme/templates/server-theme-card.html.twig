@@ -1,17 +1,7 @@
-<div class="rounded-lg border border-gray-300 w-full overflow-hidden">
+{% import '@server_theme/templates/server-theme-card-base.html.twig' as base %}
 
-  <a href="{{ url }}">
-    <figure class="child-object-cover h-48">
-        {{ image }}
-    </figure>
-  </a>
+<div class="{{ base.getBaseClasses() }} p-4">
 
-  <div class="flex flex-col gap-4 p-4 h-36">
-
-    <a href="{{ url }}">
-      <h3 class="line-clamp-3">{{ title }}</h3>
-    </a>
-    <div class="text-sm mt-auto">{{ date }}</div>
-  </div>
+  {{ items }}
 
 </div>

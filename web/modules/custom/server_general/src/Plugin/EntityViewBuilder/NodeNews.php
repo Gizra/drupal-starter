@@ -6,9 +6,11 @@ use Drupal\intl_date\IntlDate;
 use Drupal\media\MediaInterface;
 use Drupal\node\Entity\NodeType;
 use Drupal\node\NodeInterface;
+use Drupal\server_general\CardTrait;
 use Drupal\server_general\EntityDateTrait;
 use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
 use Drupal\server_general\LineSeparatorTrait;
+use Drupal\server_general\LinkTrait;
 use Drupal\server_general\SocialShareTrait;
 use Drupal\server_general\TitleAndLabelsTrait;
 
@@ -23,8 +25,10 @@ use Drupal\server_general\TitleAndLabelsTrait;
  */
 class NodeNews extends NodeViewBuilderAbstract {
 
+  use CardTrait;
   use EntityDateTrait;
   use LineSeparatorTrait;
+  use LinkTrait;
   use SocialShareTrait;
   use TitleAndLabelsTrait;
 
@@ -83,7 +87,10 @@ class NodeNews extends NodeViewBuilderAbstract {
     $elements[] = $this->wrapTextResponsiveFontSize($element, 'lg');
 
     $elements = $this->wrapContainerVerticalSpacing($elements);
-    return $this->wrapContainerNarrow($elements);
+    return [
+      '#theme' => 'server_theme_main_and_sidebar',
+      '#main' => $this->wrapContainerVerticalSpacingBig($elements),
+    ];
   }
 
   /**
@@ -118,11 +125,12 @@ class NodeNews extends NodeViewBuilderAbstract {
     $social_share_elements[] = $this->buildSocialShare($entity);
 
     $sidebar_elements[] = $this->wrapContainerVerticalSpacing($social_share_elements);
+    $sidebar_elements = $this->wrapContainerVerticalSpacingBig($sidebar_elements);
 
     return [
       '#theme' => 'server_theme_main_and_sidebar',
       '#main' => $this->wrapContainerVerticalSpacingBig($main_elements),
-      '#sidebar' => $this->wrapContainerVerticalSpacingBig($sidebar_elements),
+      '#sidebar' => $this->buildCard($sidebar_elements),
     ];
 
   }
@@ -140,15 +148,52 @@ class NodeNews extends NodeViewBuilderAbstract {
    */
   public function buildTeaser(array $build, NodeInterface $entity) {
     $media = $this->getReferencedEntityFromField($entity, 'field_featured_image');
+    $image = $media instanceof MediaInterface ? $this->buildImageStyle($media, 'card', 'field_media_image') : NULL;
+    $title = $entity->label();
+    $url = $entity->toUrl();
+    $summary = $this->buildProcessedText($entity, 'field_body', FALSE);
     $timestamp = $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date');
 
-    $element = [
-      '#theme' => 'server_theme_card',
-      '#title' => $entity->label(),
-      '#image' => $media instanceof MediaInterface ? $this->buildImageStyle($media, 'card', 'field_media_image') : NULL,
-      '#date' => IntlDate::formatPattern($timestamp, 'short'),
-      '#url' => $entity->toUrl(),
-    ];
+    $element = $this->buildCardWithImageForNews(
+      $image,
+      $title,
+      $url,
+      $summary,
+      $timestamp
+    );
+
+    $build[] = $element;
+
+    return $build;
+  }
+
+  /**
+   * Build Teaser view mode.
+   *
+   * @param array $build
+   *   The existing build.
+   * @param \Drupal\node\NodeInterface $entity
+   *   The entity.
+   *
+   * @return array
+   *   Render array.
+   */
+  public function buildFeatured(array $build, NodeInterface $entity) {
+    $media = $this->getReferencedEntityFromField($entity, 'field_featured_image');
+    $image = $media instanceof MediaInterface ? $this->buildImageStyle($media, 'card', 'field_media_image') : NULL;
+    $title = $entity->label();
+    $url = $entity->toUrl();
+    $summary = $this->buildProcessedText($entity, 'field_body', FALSE);
+    $timestamp = $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date');
+
+    $element = $this->buildCardWithImageHorizontalForNews(
+      $image,
+      $title,
+      $url,
+      $summary,
+      $timestamp
+    );
+
     $build[] = $element;
 
     return $build;
@@ -166,16 +211,13 @@ class NodeNews extends NodeViewBuilderAbstract {
    *   Render array.
    */
   public function buildSearchIndex(array $build, NodeInterface $entity) {
-    $timestamp = $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date');
-
-    $element = [
-      '#theme' => 'server_theme_search_result',
-      '#labels' => $this->buildLabelsFromText(['News']),
-      '#title' => $entity->label(),
-      '#summary' => $this->buildProcessedText($entity, 'field_body', FALSE),
-      '#date' => IntlDate::formatPattern($timestamp, 'short'),
-      '#url' => $entity->toUrl(),
-    ];
+    $element = $this->buildCardSearchResult(
+      $this->t('News'),
+      $entity->label(),
+      $entity->toUrl(),
+      $this->buildProcessedText($entity, 'field_body', FALSE),
+      $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date')
+    );
 
     $build[] = $element;
 

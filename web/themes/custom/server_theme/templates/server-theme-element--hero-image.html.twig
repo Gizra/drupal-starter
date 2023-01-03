@@ -10,14 +10,8 @@
 
   <div class="row-start-1 col-start-1 z-10 flex flex-col justify-center">
     <div class="container-wide w-full">
-      <div class="max-w-prose p-6 md:p-8 lg:p-10 bg-white/40 flex flex-col gap-3 md:gap-4 lg:gap-5">
-        <h1>{{ title }}</h1>
-
-        {% if subtitle %}
-          <p class="text-lg md:text-xl lg:text-2xl">{{ subtitle }}</p>
-        {% endif %}
-
-        {{ button }}
+      <div class="max-w-prose p-6 md:p-8 lg:p-10 bg-white/90 flex flex-col gap-3 md:gap-4 lg:gap-5 rounded-lg">
+        {{ items }}
 
       </div>
     </div>

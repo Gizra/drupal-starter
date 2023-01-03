@@ -1,0 +1,23 @@
+uuid: 4ab5be2d-6abd-4c28-8e9e-d61271540438
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.news_teasers.field_title
+    - paragraphs.paragraphs_type.news_teasers
+id: paragraph.news_teasers.default
+targetEntityType: paragraph
+bundle: news_teasers
+mode: default
+content:
+  field_title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

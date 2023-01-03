@@ -55,11 +55,14 @@ trait ElementWrapTrait {
    *
    * @param array $element
    *   Render array.
+   * @param string $align
+   *   Determine if flex should also have an alignment. Possible values are
+   *   `start`, `center`, `end` or NULL to have no change.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapContainerVerticalSpacing(array $element): array {
+  protected function wrapContainerVerticalSpacing(array $element, string $align = NULL): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
@@ -69,6 +72,7 @@ trait ElementWrapTrait {
     return [
       '#theme' => 'server_theme_container_vertical_spacing',
       '#items' => $element,
+      '#align' => $align,
     ];
   }
 
@@ -77,11 +81,14 @@ trait ElementWrapTrait {
    *
    * @param array $element
    *   Render array.
+   * @param string $align
+   *   Determine if flex should also have an alignment. Possible values are
+   *   `start`, `center`, `end` or NULL to have no change.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapContainerVerticalSpacingTiny(array $element): array {
+  protected function wrapContainerVerticalSpacingTiny(array $element, string $align = NULL): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
@@ -91,6 +98,7 @@ trait ElementWrapTrait {
     return [
       '#theme' => 'server_theme_container_vertical_spacing_tiny',
       '#items' => $element,
+      '#align' => $align,
     ];
   }
 
@@ -99,11 +107,14 @@ trait ElementWrapTrait {
    *
    * @param array $element
    *   Render array.
+   * @param string $align
+   *   Determine if flex should also have an alignment. Possible values are
+   *   `start`, `center`, `end` or NULL to have no change.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapContainerVerticalSpacingBig(array $element): array {
+  protected function wrapContainerVerticalSpacingBig(array $element, string $align = NULL): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
@@ -113,6 +124,7 @@ trait ElementWrapTrait {
     return [
       '#theme' => 'server_theme_container_vertical_spacing_big',
       '#items' => $element,
+      '#align' => $align,
     ];
   }
 
@@ -121,11 +133,14 @@ trait ElementWrapTrait {
    *
    * @param array $element
    *   Render array.
+   * @param string $align
+   *   Determine if flex should also have an alignment. Possible values are
+   *   `start`, `center`, `end` or NULL to have no change.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapContainerVerticalSpacingHuge(array $element): array {
+  protected function wrapContainerVerticalSpacingHuge(array $element, string $align = NULL): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
@@ -135,11 +150,12 @@ trait ElementWrapTrait {
     return [
       '#theme' => 'server_theme_container_vertical_spacing_huge',
       '#items' => $element,
+      '#align' => $align,
     ];
   }
 
   /**
-   * Wrap an element with a bottom padding.
+   * Wrap an element with bottom padding.
    *
    * @param array $element
    *   Render array.
@@ -207,7 +223,35 @@ trait ElementWrapTrait {
   }
 
   /**
-   * Wrap an element, with Prose text.
+   * Wrap an element with a background color.
+   *
+   * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
+   *   The render array, string or a TranslatableMarkup object.
+   * @param string $color
+   *   The background color. Possible values are:
+   *   - `light-gray`.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapBackgroundColor(array|string|TranslatableMarkup $element, string $color): array {
+    if (is_array($element)) {
+      $element = $this->filterEmptyElements($element);
+    }
+    if (empty($element)) {
+      // Element is empty, so no need to wrap it.
+      return [];
+    }
+
+    return [
+      '#theme' => 'server_theme_container_background_color',
+      '#color' => $color,
+      '#items' => $element,
+    ];
+  }
+
+  /**
+   * Wrap an element with Prose text.
    *
    * @return array
    *   Render array.
@@ -221,6 +265,31 @@ trait ElementWrapTrait {
     return [
       '#theme' => 'server_theme_prose_text',
       '#text' => $element,
+    ];
+  }
+
+  /**
+   * Wrap an element with a tag.
+   *
+   * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
+   *   The render array, string or a TranslatableMarkup object.
+   * @param string $tag
+   *   The number of the heading. For example `h1` would result with a
+   *   `<h1></h1>` tag.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapHtmlTag(array|string|TranslatableMarkup $element, string $tag): array {
+    $element = $this->filterEmptyElements($element);
+    if (empty($element)) {
+      return [];
+    }
+
+    return [
+      '#theme' => 'server_theme_wrap_html_tag',
+      '#tag' => $tag,
+      '#element' => $element,
     ];
   }
 
@@ -244,7 +313,7 @@ trait ElementWrapTrait {
 
     return [
       '#theme' => 'server_theme_text_decoration__font_weight',
-      '#weight' => $weight,
+      '#font_weight' => $weight,
       '#element' => $element,
     ];
   }
@@ -255,17 +324,17 @@ trait ElementWrapTrait {
    * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
    *   The render array, string or a TranslatableMarkup object.
    * @param string $size
-   *   Font size of the text. Allowed values are `xs`, `sm`, `base` and `lg`,
-   *   and they refer to the size on desktop. While Tailwind works as mobile
-   *   first, when we implement the design that in reality we start from the
-   *   desktop, and work our way down to the mobile. Furthermore, on mobile the
-   *   font size  may remain bigger, and won't become smaller - to keep things
-   *   readable. Defaults to `base`.
+   *   Font size of the text. Allowed values are `xs`, `sm`, `base`, `lg`, `xl`
+   *   and `3xl`. Those sizes refer to the size on desktop. While Tailwind works
+   *   as  mobile first, when we implement the design that in reality we start
+   *   from the desktop, and work our way down to the mobile. Furthermore, on
+   *   mobile the font size  may remain bigger, and won't become smaller - to
+   *   keep things readable.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapTextResponsiveFontSize(array|string|TranslatableMarkup $element, string $size = 'base'): array {
+  protected function wrapTextResponsiveFontSize(array|string|TranslatableMarkup $element, string $size): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       return [];
@@ -316,6 +385,79 @@ trait ElementWrapTrait {
 
     return [
       '#theme' => 'server_theme_text_decoration__underline',
+      '#element' => $element,
+    ];
+  }
+
+  /**
+   * Wrap a text element with line clamp.
+   *
+   * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
+   *   The render array, string or a TranslatableMarkup object.
+   * @param int $lines
+   *   The lines to clamp. Values are 1 to 4.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapTextLineClamp(array|string|TranslatableMarkup $element, int $lines): array {
+    $element = $this->filterEmptyElements($element);
+    if (empty($element)) {
+      return [];
+    }
+
+    return [
+      '#theme' => 'server_theme_text_decoration__line_clamp',
+      '#lines' => $lines,
+      '#element' => $element,
+    ];
+  }
+
+  /**
+   * Wrap a text with center alignment.
+   *
+   * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
+   *   The render array, string or a TranslatableMarkup object.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapTextCenter(array|string|TranslatableMarkup $element): array {
+    $element = $this->filterEmptyElements($element);
+    if (empty($element)) {
+      return [];
+    }
+
+    return [
+      '#theme' => 'server_theme_text_decoration__center',
+      '#element' => $element,
+    ];
+  }
+
+  /**
+   * Wrap an element with text color.
+   *
+   * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
+   *   The render array, string or a TranslatableMarkup object.
+   * @param string $color
+   *   The font color. Possible values are: `light-gray`, `gray` and
+   *   `dark-gray`.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapTextColor(array|string|TranslatableMarkup $element, string $color): array {
+    if (is_array($element)) {
+      $element = $this->filterEmptyElements($element);
+    }
+    if (empty($element)) {
+      // Element is empty, so no need to wrap it.
+      return [];
+    }
+
+    return [
+      '#theme' => 'server_theme_text_decoration__font_color',
+      '#color' => $color,
       '#element' => $element,
     ];
   }

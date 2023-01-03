@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.related_content.field_is_featured
     - field.field.paragraph.related_content.field_link
     - field.field.paragraph.related_content.field_related_content
     - field.field.paragraph.related_content.field_title
@@ -15,6 +16,13 @@ targetEntityType: paragraph
 bundle: related_content
 mode: default
 content:
+  field_is_featured:
+    type: boolean_checkbox
+    weight: 11
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
   field_link:
     type: link_default
     weight: 2

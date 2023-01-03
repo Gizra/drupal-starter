@@ -1,0 +1,7 @@
+{% if color == 'light-gray'%}
+  {% set color_class = 'bg-gray-100' %}
+{% endif %}
+
+<div class="{{ color_class }}">
+  {{ items }}
+</div>

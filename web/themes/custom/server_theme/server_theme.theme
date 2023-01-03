@@ -33,6 +33,8 @@ function server_theme_theme() {
   $info['server_theme_container_vertical_spacing'] = [
     'variables' => [
       'items' => [],
+      // Possible values are `start`, `center`, `end` or NULL to have no change.
+      'align' => NULL,
     ],
   ];
 
@@ -41,6 +43,7 @@ function server_theme_theme() {
   $info['server_theme_container_vertical_spacing_tiny'] = [
     'variables' => [
       'items' => [],
+      'align' => NULL,
     ],
   ];
 
@@ -48,6 +51,7 @@ function server_theme_theme() {
   $info['server_theme_container_vertical_spacing_big'] = [
     'variables' => [
       'items' => [],
+      'align' => NULL,
     ],
   ];
 
@@ -55,6 +59,7 @@ function server_theme_theme() {
   $info['server_theme_container_vertical_spacing_huge'] = [
     'variables' => [
       'items' => [],
+      'align' => NULL,
     ],
   ];
 
@@ -83,6 +88,14 @@ function server_theme_theme() {
     ],
   ];
 
+  // Wrap with a background color.
+  $info['server_theme_container_background_color'] = [
+    'variables' => [
+      'items' => [],
+      'color' => NULL,
+    ],
+  ];
+
   // The page's header.
   $info['server_theme_header'] = [
     'variables' => [
@@ -92,6 +105,8 @@ function server_theme_theme() {
       'menu' => NULL,
       // Site name from the config.
       'site_name' => \Drupal::config('system.site')->get('name'),
+      // Site messages passed by \Drupal::messenger().
+      'messages' => NULL,
     ],
   ];
 
@@ -120,6 +135,21 @@ function server_theme_theme() {
   $info['server_theme_page_title'] = [
     'variables' => [
       'title' => NULL,
+    ],
+  ];
+
+  $info['server_theme_link'] = [
+    'variables' => [
+      'url' => NULL,
+      'title' => NULL,
+      // Determine if an icon suffix should appear when URL is external.
+      'show_external_icon' => TRUE,
+      // The lines to clamp. Values are 1 to 4, or NULL for none.
+      // The reason we determine the lines clamp on the link, is that in the
+      // twig file we have a flex (used for the optional external link), and in
+      // that case line clamping won't work. So we want to define the clamp only
+      // on the title.
+      'lines_clamp' => NULL,
     ],
   ];
 
@@ -158,10 +188,39 @@ function server_theme_theme() {
   // Simple card.
   $info['server_theme_card'] = [
     'variables' => [
+      // A render array.
+      'items' => NULL,
+    ],
+  ];
+
+  // Card with elements positioned in the center of it.
+  $info['server_theme_card__centered'] = [
+    'variables' => [
+      // A render array.
+      'items' => NULL,
+    ],
+  ];
+
+  // Card with a top image. Used often for content teasers/ cards.
+  $info['server_theme_card__with_image'] = [
+    'variables' => [
       'image' => NULL,
-      'title' => NULL,
+      // URL for the image.
       'url' => NULL,
-      'date' => NULL,
+      // A render array.
+      'items' => [],
+    ],
+  ];
+
+  // Card with horizontal alignment, where image is on the left (in LTR).
+  // Used often for featured content.
+  $info['server_theme_card__with_image_horizontal'] = [
+    'variables' => [
+      'image' => NULL,
+      // URL for the image.
+      'url' => NULL,
+      // A render array.
+      'items' => [],
     ],
   ];
 
@@ -173,35 +232,18 @@ function server_theme_theme() {
     ],
   ];
 
-  // "Call to action" paragraph type.
-  $info['server_theme_paragraph__cta'] = [
+  // "Call to action" element.
+  $info['server_theme_element__cta'] = [
     'variables' => [
-      'title' => NULL,
-      'subtitle' => NULL,
-      // The render array of `server_theme_button`.
-      'button' => NULL,
+      // Render array.
+      'items' => [],
     ],
   ];
 
-  // "Text" paragraph type.
-  $info['server_theme_paragraph__text'] = [
-    'variables' => [
-      'title' => NULL,
-      'body' => NULL,
-    ],
-  ];
-
-  $info['server_theme_footer'] = [
-    'variables' => [],
-  ];
-
-  $info['server_theme_hero_image'] = [
+  $info['server_theme_element__hero_image'] = [
     'variables' => [
       'image' => NULL,
-      'title' => NULL,
-      'subtitle' => NULL,
-      // The render array of `server_theme_button`.
-      'button' => NULL,
+      'items' => NULL,
     ],
   ];
 
@@ -230,6 +272,9 @@ function server_theme_theme() {
     'variables' => [
       'title' => NULL,
       'items' => [],
+      // Indicate if cards are featured, thus we show only a single card at a
+      // time.
+      'is_featured' => FALSE,
       // The render array of `server_theme_button`.
       'button' => NULL,
     ],
@@ -242,11 +287,33 @@ function server_theme_theme() {
     ],
   ];
 
+  // Wrap an element with an HTML tag (e.g. <h1> or <p>).
+  // We could use Render's api `html_tag` tag, however it requires us to
+  // `render()` the array ourselves. So to keep everything is a render array
+  // form and consistent with other text decorations, we add a twig for that.
+  $info['server_theme_wrap_html_tag'] = [
+    'variables' => [
+      // Render array.
+      'tag' => NULL,
+      'element' => [],
+    ],
+  ];
+
   // Wrapper for a text, adding font weight.
   $info['server_theme_text_decoration__font_weight'] = [
     'variables' => [
       // Allowed values are `normal`, `medium` and `bold`.
-      'weight' => 'normal',
+      // We can't call this variable `#weight`, as it will mess with Drupal's
+      // render array.
+      'font_weight' => 'normal',
+      'element' => [],
+    ],
+  ];
+
+  // Wrapper for a text, adding font color.
+  $info['server_theme_text_decoration__font_color'] = [
+    'variables' => [
+      'color' => NULL,
       'element' => [],
     ],
   ];
@@ -265,6 +332,18 @@ function server_theme_theme() {
     ],
   ];
 
+  // Wrapper for a link, allowing to set the color, hover color and an optional
+  // underline.
+  $info['server_theme_text_decoration__link'] = [
+    'variables' => [
+      // The color of the link. The color on hover will be calculated from it.
+      'color' => NULL,
+      // Possible values are `always` or `hover`.
+      'underline' => NULL,
+      'element' => [],
+    ],
+  ];
+
   // Wrapper for a text, mobile font size, that is mobile first. That is, it is
   // responsive and grows on larger screens.
   $info['server_theme_text_decoration__responsive_font_size'] = [
@@ -275,6 +354,22 @@ function server_theme_theme() {
       // work our way down to the mobile. Furthermore, on mobile the font size
       // may remain bigger, and won't become smaller - to keep things readable.
       'size' => 'base',
+      'element' => [],
+    ],
+  ];
+
+  // Wrapper for a text, to clamp the visible lines.
+  $info['server_theme_text_decoration__line_clamp'] = [
+    'variables' => [
+      // The lines to clamp. Values are 1 to 4.
+      'lines' => NULL,
+      'element' => [],
+    ],
+  ];
+
+  // Wrap a text with center alignment.
+  $info['server_theme_text_decoration__center'] = [
+    'variables' => [
       'element' => [],
     ],
   ];
@@ -338,16 +433,8 @@ function server_theme_theme() {
     ],
   ];
 
-  // A single content showing as a result in the search page.
-  $info['server_theme_search_result'] = [
-    'variables' => [
-      // Render array from `server_theme_labels`.
-      'labels' => [],
-      'title' => NULL,
-      'summary' => NULL,
-      'date' => NULL,
-      'url' => NULL,
-    ],
+  $info['server_theme_footer'] = [
+    'variables' => [],
   ];
 
   return $info;
@@ -367,6 +454,7 @@ function server_theme_preprocess_page(array &$variables) {
     'display' => LANGDROPDOWN_DISPLAY_NATIVE,
   ];
 
+  $messages = !empty($variables['page']['header']['server_theme_messages']) ? $variables['page']['header']['server_theme_messages'] : NULL;
   $variables['page']['header'] = [
     '#theme' => 'server_theme_header',
     '#search_block' => [
@@ -383,6 +471,7 @@ function server_theme_preprocess_page(array &$variables) {
       '#theme' => 'server_theme_header_menu',
       '#items' => server_theme_prepare_menu_links('main'),
     ],
+    '#messages' => $messages,
   ];
 
   $variables['page']['footer'] = [

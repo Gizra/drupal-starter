@@ -5,13 +5,17 @@ namespace Drupal\server_style_guide\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
 use Drupal\Core\Utility\LinkGenerator;
-use Drupal\intl_date\IntlDate;
 use Drupal\media\IFrameUrlHelper;
+use Drupal\node\Entity\Node;
 use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
 use Drupal\server_general\ButtonTrait;
+use Drupal\server_general\CardTrait;
+use Drupal\server_general\ElementTrait;
 use Drupal\server_general\ElementWrapTrait;
+use Drupal\server_general\LinkTrait;
 use Drupal\server_general\MediaVideoTrait;
-use Drupal\server_general\TagBuilderTrait;
+use Drupal\server_general\SocialShareTrait;
+use Drupal\server_general\TagTrait;
 use Drupal\server_general\TitleAndLabelsTrait;
 use Drupal\server_style_guide\StyleGuideElementWrapTrait;
 use Drupal\taxonomy\Entity\Term;
@@ -24,10 +28,14 @@ class StyleGuideController extends ControllerBase {
 
   use BuildFieldTrait;
   use ButtonTrait;
+  use CardTrait;
+  use ElementTrait;
   use ElementWrapTrait;
+  use LinkTrait;
   use MediaVideoTrait;
+  use SocialShareTrait;
   use StyleGuideElementWrapTrait;
-  use TagBuilderTrait;
+  use TagTrait;
   use TitleAndLabelsTrait;
 
   /**
@@ -71,15 +79,9 @@ class StyleGuideController extends ControllerBase {
   public function styleGuidePage() {
     $build = [];
 
-    // Wide container.
-    $elements = $this->getWideWidthElements();
-
-    // No container.
-    $elements = array_merge($elements, $this->getFullWidthElements());
-
     $build[] = [
       '#theme' => 'server_style_guide_wrapper',
-      '#elements' => $elements,
+      '#elements' => $this->getAllElements(),
     ];
 
     $build['#attached']['library'][] = 'server_style_guide/accordion';
@@ -88,12 +90,12 @@ class StyleGuideController extends ControllerBase {
   }
 
   /**
-   * Define all elements here that should be 'wide' width.
+   * Get all the elements that should be in the Style guide.
    *
    * @return array
    *   A render array containing the elements.
    */
-  protected function getWideWidthElements() : array {
+  protected function getAllElements() : array {
     $build = [];
 
     $element = $this->getPageTitle();
@@ -101,51 +103,45 @@ class StyleGuideController extends ControllerBase {
 
     $build[] = $this->getButtons();
 
-    $build[] = $this->getTextDecorations();
-
-    $element = $this->getCards();
-    $build[] = $this->wrapElementWideContainer($element, 'Cards');
+    $build[] = $this->getLinks();
 
     $element = $this->getTags();
     $build[] = $this->wrapElementWideContainer($element, 'Tags');
 
-    $element = $this->getSearchResult();
-    $build[] = $this->wrapElementWideContainer($element, 'Search result');
+    $element = $this->getSocialShare();
+    $build[] = $this->wrapElementWideContainer($element, 'Social share');
+
+    $build[] = $this->getTextDecorations();
+
+    $element = $this->getCards();
+    $build[] = $this->wrapElementWideContainer($element, 'Card: Simple (Search result)');
+
+    $element = $this->getCardsCentered();
+    $build[] = $this->wrapElementWideContainer($element, 'Card: Centered (Profile info)');
+
+    $element = $this->getCardsWithImageForNews();
+    $build[] = $this->wrapElementWideContainer($element, 'Cards: With image (News cards)');
+
+    $element = $this->getCardsWithImageHorizontalForNews();
+    $build[] = $this->wrapElementWideContainer($element, 'Cards: Horizontal with image (Featured content)');
+
+    $element = $this->getRelatedContentCarousel(FALSE);
+    $build[] = $this->wrapElementNoContainer($element, 'Cards: Carousel (Related content, not featured)');
+
+    $element = $this->getRelatedContentCarousel(TRUE);
+    $build[] = $this->wrapElementNoContainer($element, 'Cards: Carousel (Related content, featured)');
+
+    $element = $this->getCta();
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Call to Action');
+
+    $element = $this->getHeroImage();
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Hero image');
 
     $element = $this->getMediaImage();
     $build[] = $this->wrapElementWideContainer($element, 'Media: Image');
 
     $element = $this->getMediaVideo();
     $build[] = $this->wrapElementWideContainer($element, 'Media: Video');
-
-    $element = $this->getProfilePicture();
-    $build[] = $this->wrapElementWideContainer($element, 'Profile picture');
-
-    return $build;
-  }
-
-  /**
-   * Define all elements here that should be 'full' width.
-   *
-   * Elements spanning full-width of the document.
-   *
-   * @return array
-   *   A render array containing the elements.
-   */
-  protected function getFullWidthElements(): array {
-    $build = [];
-
-    $element = $this->getHeroImage();
-    $build[] = $this->wrapElementNoContainer($element, 'Hero image');
-
-    $element = $this->getRelatedContentCarousel();
-    $build[] = $this->wrapElementNoContainer($element, 'Related content');
-
-    $element = $this->getFooter();
-    $build[] = $this->wrapElementNoContainer($element, 'Footer');
-
-    $element = $this->getCta();
-    $build[] = $this->wrapElementNoContainer($element, 'Call to Action');
 
     return $build;
   }
@@ -183,20 +179,102 @@ class StyleGuideController extends ControllerBase {
   }
 
   /**
-   * Get A single Search result.
+   * Get tags.
    *
    * @return array
    *   Render array.
    */
-  protected function getSearchResult(): array {
-    return [
-      '#theme' => 'server_theme_search_result',
-      '#labels' => $this->buildLabelsFromText(['News']),
-      '#title' => $this->getRandomTitle(),
-      '#summary' => 'Drupal 9 starter kit for efficient and streamlined development featuring TailwindCSS!',
-      '#date' => IntlDate::formatPattern(time(), 'short'),
-      '#url' => Url::fromRoute('<front>'),
-    ];
+  protected function getSocialShare(): array {
+    $entity = Node::create([
+      'label' => 'Social share trait',
+      'type' => 'news',
+    ]);
+    return $this->buildSocialShare($entity);
+  }
+
+  /**
+   * Get Simple cards.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getCards(): array {
+    $elements = [];
+    $elements[] = $this->buildCardSearchResult(
+      'News',
+      $this->getRandomTitle(),
+      Url::fromRoute('<front>'),
+      $this->buildProcessedText("Both refute. Of their its it funny children into good origin into self-interest, my she were bad of chosen stage italic, fame, is must didn't evaluate little may picture the didn't is not there of high accustomed. Him great those the sort alphabet she were workmen. Reflection bad the external gloomy not we it yet any them. What's late showed picture attached duck usual. To of actual writer fame. Prepared on was to stairs basically, the see would hadn't easier searching watched in and someone his where of the and written fly being a be his the to visuals was."),
+      time()
+    );
+
+    $elements[] = $this->buildCardSearchResult(
+      'News',
+      $this->getRandomTitle(),
+      Url::fromRoute('<front>'),
+      $this->buildProcessedText("How does the system generate all this custom content?"),
+      time()
+    );
+
+    return $this->wrapContainerVerticalSpacingBig($elements);
+  }
+
+  /**
+   * Get Centered cards.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getCardsCentered(): array {
+    $items = [];
+    $url = Url::fromRoute('<front>');
+
+    $names = ['Jon Doe', 'Smith Allen', 'David Bowie'];
+    foreach ($names as $key => $name) {
+      $elements = [];
+      $element = [
+        '#theme' => 'image',
+        '#uri' => $this->getPlaceholderPersonImage(100),
+        '#width' => 100,
+      ];
+
+      // Image should be clickable.
+      $element = [
+        '#type' => 'html_tag',
+        '#tag' => 'a',
+        '#value' => render($element),
+        '#attributes' => ['href' => $url->toString()],
+      ];
+
+      $elements[] = $this->wrapRoundedCornersFull($element);
+
+      if ($key === 1) {
+        $inner_elements = [];
+
+        $element = $this->buildLink($name, $url);
+        $element = $this->wrapTextFontWeight($element, 'bold');
+        $element = $this->wrapTextCenter($element);
+        $inner_elements[] = $this->wrapTextColor($element, 'light-gray');
+
+        $element = ['#markup' => 'General Director, and Assistant to The Regional Manager'];
+        $element = $this->wrapTextResponsiveFontSize($element, 'sm');
+        $element = $this->wrapTextCenter($element);
+        $inner_elements[] = $this->wrapTextColor($element, 'gray');
+
+        $elements[] = $this->wrapContainerVerticalSpacingTiny($inner_elements, 'center');
+      }
+      else {
+        $element = $this->buildLink($name, $url);
+        $element = $this->wrapTextFontWeight($element, 'bold');
+        $element = $this->wrapTextCenter($element);
+        $elements[] = $this->wrapTextColor($element, 'light-gray');
+      }
+
+      $items[] = $this->buildCardCentered($elements);
+    }
+
+    return $this->buildCards($items);
+
   }
 
   /**
@@ -240,51 +318,88 @@ class StyleGuideController extends ControllerBase {
   }
 
   /**
-   * Get a profile picture video.
+   * Get cards with image.
    *
    * @return array
    *   Render array.
    */
-  protected function getProfilePicture(): array {
-    $element = [
-      '#theme' => 'image',
-      '#uri' => $this->getPlaceholderPersonImage(100),
-      '#width' => 100,
-    ];
+  protected function getCardsWithImageForNews(): array {
+    $image = $this->buildImage($this->getPlaceholderImage(300, 200));
+    $title = 'Never Changing Will Eventually Destroy You, But then You Should See The Longest Title, This one works. check the below one , ideally speaking it, pretty amazing eh, you will see';
+    $url = Url::fromRoute('<front>');
+    $summary = $this->buildProcessedText('<p>I before parameters designer of the to separated of to part. Price question in or of a there sleep. Who a deference and drew sleep written talk said which had. sel in small been cheating sounded times should and problem. Question. Explorations derived been him aged seal for gods team- manage he according the welcoming are cities part up stands careful so own the have how up, keep</p>');
+    $timestamp = time();
 
-    return $this->wrapRoundedCornersFull($element);
-  }
+    $card = $this->buildCardWithImageForNews(
+      $image,
+      $title,
+      $url,
+      $summary,
+      $timestamp
+    );
 
-  /**
-   * Get cards.
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function getCards(): array {
-    $image = $this->buildImage($this->getPlaceholderImage(300, 200), 'Card image');
+    $image = $this->buildImage($this->getPlaceholderImage(300, 400));
+    $title = 'A Shorter Title';
+    $summary = $this->buildProcessedText('A much <strong>shorter</strong> intro');
 
-    $card = [
-      '#theme' => 'server_theme_card',
-      '#image' => $image,
-      '#title' => 'The source has extend, but not everyone fears it.',
-      '#url' => Url::fromRoute('<front>'),
-    ];
-
-    $single_card_long_title = $card;
-    $single_card_long_title['#title'] = 'How Professional Learning Networks Are Helping Educators Get Through Coronavirus, well they need to really learn a lot!';
+    $card2 = $this->buildCardWithImageForNews(
+      $image,
+      $title,
+      $url,
+      $summary,
+      $timestamp
+    );
 
     $items = [
       $card,
-      $single_card_long_title,
+      $card2,
       $card,
-      $card,
+      $card2,
     ];
 
-    return [
-      '#theme' => 'server_theme_cards',
-      '#items' => $items,
+    return $this->buildCards($items);
+  }
+
+  /**
+   * Get cards with image.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getCardsWithImageHorizontalForNews(): array {
+    $image = $this->buildImage($this->getPlaceholderImage(400, 300));
+    $title = 'Never Changing Will Eventually Destroy You, But then You Should See The Longest Title, This one works. check the below one , ideally speaking it, pretty amazing eh, you will see';
+    $url = Url::fromRoute('<front>');
+    $summary = $this->buildProcessedText('<p>I before parameters designer of the to separated of to part. Price question in or of a there sleep. Who a deference and drew sleep written talk said which had. sel in small been cheating sounded times should and problem. Question. Explorations derived been him aged seal for gods team- manage he according the welcoming are cities part up stands careful so own the have how up, keep</p>');
+    $timestamp = time();
+
+    $card = $this->buildCardWithImageHorizontalForNews(
+      $image,
+      $title,
+      $url,
+      $summary,
+      $timestamp
+    );
+
+    $image = $this->buildImage($this->getPlaceholderImage(400, 300));
+    $title = 'A Shorter Title';
+    $summary = $this->buildProcessedText('A much <strong>shorter</strong> intro');
+
+    $card2 = $this->buildCardWithImageHorizontalForNews(
+      $image,
+      $title,
+      $url,
+      $summary,
+      $timestamp
+    );
+
+    $items = [
+      $card,
+      $card2,
     ];
+
+    $element = $this->wrapContainerVerticalSpacingBig($items);
+    return $this->wrapContainerNarrow($element);
   }
 
   /**
@@ -296,16 +411,37 @@ class StyleGuideController extends ControllerBase {
   protected function getButtons(): array {
     $build = [];
 
-    $url = Url::fromRoute('<front>')->toString();
+    $url = Url::fromRoute('<front>');
 
     // Primary button with icon.
-    $element = $this->buildButton($url, 'Download file', TRUE);
+    $element = $this->buildButton('Download file', $url, TRUE);
     $element['#icon'] = 'download';
     $build[] = $this->wrapElementWideContainer($element, 'Primary button');
 
     // Secondary button.
-    $element = $this->buildButton($url, 'Register', FALSE);
+    $element = $this->buildButton('Register', $url, FALSE);
     $build[] = $this->wrapElementWideContainer($element, 'Secondary button');
+
+    return $build;
+  }
+
+  /**
+   * Get a set of buttons.
+   *
+   * @return array
+   *   A render array.
+   */
+  protected function getLinks(): array {
+    $build = [];
+
+    $url = Url::fromRoute('<front>');
+
+    $element = $this->buildLink('Internal link', $url, 'gray');
+    $build[] = $this->wrapElementWideContainer($element, 'Link');
+
+    $url = Url::fromUri('https://example.com');
+    $element = $this->buildLink('External link', $url, 'dark-gray', NULL, 'hover');
+    $build[] = $this->wrapElementWideContainer($element, 'External link');
 
     return $build;
   }
@@ -348,64 +484,56 @@ class StyleGuideController extends ControllerBase {
    *   Render array.
    */
   protected function getHeroImage(): array {
-    $url = Url::fromRoute('<front>')->toString();
-    $button = $this->buildButton($url, 'Lean more');
+    $url = Url::fromRoute('<front>');
 
-    return [
-      '#theme' => 'server_theme_hero_image',
-      '#image' => $this->buildImage($this->getPlaceholderImage(1600, 900, '1048'), 'Hero image alt'),
-      '#title' => $this->t('Drupal Starter'),
-      '#subtitle' => $this->t('Drupal 9 starter kit for efficient and streamlined development featuring TailwindCSS!'),
-      '#button' => $button,
-    ];
+    return $this->buildElementHeroImage(
+      $this->buildImage($this->getPlaceholderImage(1600, 400)),
+      $this->getRandomTitle(),
+      $this->getRandomTitle(),
+      'Learn more',
+      $url,
+    );
   }
 
   /**
    * Get the Related content carousel.
    *
-   * @return array
-   *   Render array.
-   */
-  protected function getRelatedContentCarousel(): array {
-    $url = Url::fromRoute('<front>')->toString();
-    $button = $this->buildButton($url, 'View more');
-
-    return [
-      '#theme' => 'server_theme_related_content',
-      '#title' => $this->t('Related content'),
-      '#items' => $this->getRelatedContent(10),
-      '#button' => $button,
-    ];
-  }
-
-  /**
-   * Get the footer.
+   * @param bool $is_featured
+   *   Determine if carousel should render related content as featured items
+   *   (horizontal card with image).
    *
    * @return array
    *   Render array.
    */
-  protected function getFooter(): array {
+  protected function getRelatedContentCarousel(bool $is_featured): array {
+    $url = Url::fromRoute('<front>');
+
+    // Show button only if it's not featured content.
+    $button = !$is_featured ? $this->buildButton('View more', $url) : NULL;
+
     return [
-      '#theme' => 'server_theme_footer',
+      '#theme' => 'server_theme_related_content',
+      '#title' => $this->t('Related content'),
+      '#items' => $this->getRelatedContent(6, $is_featured),
+      '#button' => $button,
+      '#is_featured' => $is_featured,
     ];
   }
 
   /**
-   * Get CTA (Call to action).
+   * Get CTA.
    *
    * @return array
    *   Render array.
    */
   protected function getCta(): array {
-    $url = Url::fromRoute('<front>')->toString();
-    $button = $this->buildButton($url, 'View more');
+    return $this->buildElementCta(
+      $this->getRandomTitle(),
+      'How does the system generate all this custom content? It actually skims Wikipedia pages related to your search',
+      'View more',
+      Url::fromRoute('<front>'),
+    );
 
-    return [
-      '#theme' => 'server_theme_paragraph__cta',
-      '#title' => $this->t('Lorem ipsum dolor sit amet'),
-      '#subtitle' => $this->t('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'),
-      '#button' => $button,
-    ];
   }
 
   /**
@@ -419,7 +547,7 @@ class StyleGuideController extends ControllerBase {
    * @return array
    *   An image render array.
    */
-  protected function buildImage(string $url, string $alt) {
+  protected function buildImage(string $url, string $alt = '') {
     return [
       '#theme' => 'image',
       '#uri' => $url,
@@ -475,14 +603,13 @@ class StyleGuideController extends ControllerBase {
    *
    * @param int $width_and_height
    *   The width and height of the image.
-   * @param string|null $unique_id
-   *   Optional; A unique ID for the image.
    *
    * @return string
    *   URL with placeholder.
    */
-  protected function getPlaceholderPersonImage(int $width_and_height, string $unique_id = NULL) {
-    return "https://i.pravatar.cc/{$width_and_height}" . (!empty($unique_id) ? '?u=' . $unique_id : NULL);
+  protected function getPlaceholderPersonImage(int $width_and_height) {
+    $unique_id = substr(str_shuffle(md5(microtime())), 0, 10);
+    return "https://i.pravatar.cc/{$width_and_height}?u=" . $unique_id;
   }
 
   /**
@@ -554,15 +681,15 @@ class StyleGuideController extends ControllerBase {
   protected function getRandomTitle(): string {
     $titles = [
       'Never Changing Will Eventually Destroy You',
-      'Sick And Tired Of Doing DRUPAL The Old Way? Read This',
-      '5 Brilliant Ways To Teach Your Audience About DRUPAL',
-      'How To Become Better With DRUPAL In 10 Minutes',
-      'Doing Drupal the Gizra way',
-      'CODING And The Chuck Norris Effect',
-      'The Philosophy Of CODING',
-      'The Anthony Robins Guide To CODING',
-      'The A - Z Guide Of CODING',
-      'How To Turn CODING Into Success',
+      'Sick And Tired Of Doing Drupal The Old Way? Read This',
+      '5 Brilliant Ways To Teach Your Audience About Drupal',
+      'How To Become Better With Drupal In 10 Minutes',
+      'Using Pluggable Entity View Builder for Drupal theming',
+      'Coding And The Chuck Norris Effect',
+      'The Philosophy Of Coding',
+      'The Anthony Robins Guide To Coding',
+      'The A - Z Guide Of Coding',
+      'How To Turn Coding Into Success',
     ];
     return $titles[array_rand($titles)];
   }
@@ -572,23 +699,25 @@ class StyleGuideController extends ControllerBase {
    *
    * @param int $num
    *   Number of items to create. Default 5.
+   * @param bool $is_featured
+   *   Determine if carousel should render related content as featured items
+   *   (horizontal card with image). Defaults to FALSE.
    *
    * @return array
    *   Array of render arrays.
    */
-  protected function getRelatedContent(int $num = 5): array {
-    $element_base = [
-      '#theme' => 'server_theme_card',
-      '#body' => 'Decorate one package of cauliflower in six teaspoons of plain vinegar. Try flavoring the crême fraîche gingers with clammy rum and fish sauce, simmered.',
-      '#url' => Url::fromRoute('<front>'),
-    ];
-
+  protected function getRelatedContent(int $num = 5, bool $is_featured = FALSE): array {
     $elements = [];
+    $func = $is_featured ? 'buildCardWithImageHorizontalForNews' : 'buildCardWithImageForNews';
     for ($i = 0; $i < $num; $i++) {
-      $elements[] = [
-        '#image' => $this->buildImage($this->getPlaceholderImage(300, 200, "card_image_$i", 'seed'), "Card image $i"),
-        '#title' => $this->getRandomTitle(),
-      ] + $element_base;
+      $elements[] = call_user_func(
+        [$this, $func],
+        $this->buildImage($this->getPlaceholderImage(300, 200, "card_image_$i", 'seed'), "Card image $i"),
+        $this->getRandomTitle(),
+        Url::fromRoute('<front>'),
+        $this->buildProcessedText('Decorate one package of cauliflower in six teaspoons of plain vinegar. Try flavoring the crême fraîche gingers with clammy rum and fish sauce, simmered.'),
+        time(),
+      );
     }
     return $elements;
   }

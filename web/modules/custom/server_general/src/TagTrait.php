@@ -11,7 +11,7 @@ use Drupal\taxonomy\TermInterface;
  *
  * Helper method for building a tag.
  */
-trait TagBuilderTrait {
+trait TagTrait {
 
   /**
    * Get a tag.

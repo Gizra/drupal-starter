@@ -5,6 +5,7 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
 use Drupal\server_general\ButtonTrait;
+use Drupal\server_general\ElementTrait;
 use Drupal\server_general\ElementWrapTrait;
 
 /**
@@ -19,6 +20,7 @@ use Drupal\server_general\ElementWrapTrait;
 class ParagraphCta extends EntityViewBuilderPluginAbstract {
 
   use ButtonTrait;
+  use ElementTrait;
   use ElementWrapTrait;
 
   /**
@@ -33,35 +35,21 @@ class ParagraphCta extends EntityViewBuilderPluginAbstract {
    *   Render array.
    */
   public function buildFull(array $build, ParagraphInterface $entity): array {
-    $element = [
-      '#theme' => 'server_theme_paragraph__cta',
-      '#title' => $this->getTextFieldValue($entity, 'field_title'),
-      '#subtitle' => $this->getTextFieldValue($entity, 'field_subtitle'),
-      '#button' => $this->buildLinkButton($entity),
-    ];
+    $link = $this->getLinkFieldValue($entity, 'field_link');
+    if (empty($link)) {
+      return [];
+    }
+
+    $element = $this->buildElementCta(
+      $this->getTextFieldValue($entity, 'field_title'),
+      $this->getTextFieldValue($entity, 'field_subtitle'),
+      $link['title'],
+      $link['url'],
+    );
+
     $build[] = $element;
 
     return $build;
-  }
-
-  /**
-   * Get link info.
-   *
-   * @param mixed $entity
-   *   The entity.
-   * @param string $field_name
-   *   The machine name of the field holding the link.
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function getLink($entity, string $field_name = 'field_link') {
-    $link = NULL;
-    if (!$entity->get($field_name)->isEmpty()) {
-      $link = $entity->$field_name->getValue();
-      $link = reset($link);
-    }
-    return $link;
   }
 
 }

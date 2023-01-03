@@ -7,10 +7,10 @@ dependencies:
     - node.type.landing_page
     - paragraphs.paragraphs_type.cta
     - paragraphs.paragraphs_type.hero_image
+    - paragraphs.paragraphs_type.news_teasers
     - paragraphs.paragraphs_type.related_content
     - paragraphs.paragraphs_type.search
     - paragraphs.paragraphs_type.text
-    - paragraphs.paragraphs_type.views
   module:
     - entity_reference_revisions
 id: node.landing_page.field_paragraphs
@@ -32,7 +32,7 @@ settings:
       related_content: related_content
       search: search
       text: text
-      views: views
+      news_teasers: news_teasers
     negate: 0
     target_bundles_drag_drop:
       cta:
@@ -40,6 +40,9 @@ settings:
         enabled: true
       hero_image:
         weight: -12
+        enabled: true
+      news_teasers:
+        weight: 8
         enabled: true
       related_content:
         weight: -11
@@ -52,5 +55,5 @@ settings:
         enabled: true
       views:
         weight: -8
-        enabled: true
+        enabled: false
 field_type: entity_reference_revisions

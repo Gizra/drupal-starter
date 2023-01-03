@@ -37,12 +37,15 @@ class ParagraphRelatedContent extends EntityViewBuilderPluginAbstract {
 
     /** @var \Drupal\Core\Field\EntityReferenceFieldItemListInterface $related_content */
     $related_content = $entity->get('field_related_content');
+    $is_featured = $this->getBooleanFieldValue($entity, 'field_is_featured');
+    $view_mode = $is_featured ? 'featured' : 'teaser';
 
     $build[] = [
       '#theme' => 'server_theme_related_content',
       '#title' => $this->getTextFieldValue($entity, 'field_title'),
-      '#items' => $this->buildReferencedEntities($related_content, 'teaser'),
+      '#items' => $this->buildReferencedEntities($related_content, $view_mode),
       '#button' => $this->buildLinkButton($entity),
+      '#is_featured' => $is_featured,
     ];
 
     return $build;
