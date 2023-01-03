@@ -79,11 +79,14 @@ trait ButtonTrait {
     if (!$file instanceof FileInterface) {
       return [];
     }
-    $value = $entity->get($field_name)->getValue();
-    $title = !empty($value[0]['description']) ? $value[0]['description'] : $this->t('Download');
 
-    $url = Url::fromUri($file->createFileUrl());
-    return $this->buildButton($title, $url);
+    $value = $this->getLinkFieldValue($entity, $field_name);
+    if (empty($value)) {
+      return [];
+    }
+
+    $title = $value['title'] ?? $this->t('Download');
+    return $this->buildButton($title, $value['url']);
   }
 
 }
