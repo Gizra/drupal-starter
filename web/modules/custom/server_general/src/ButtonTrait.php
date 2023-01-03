@@ -56,10 +56,14 @@ trait ButtonTrait {
       return [];
     }
 
-    $links = $entity->{$field_name}->getValue();
-    $link = reset($links);
+    $value = $this->getLinkFieldValue($entity, $field_name);
+    if (empty($value)) {
+      return [];
+    }
 
-    return $this->buildButton($link['title'], Url::fromUri($link['uri']));
+    // If title is empty, show the URL itself.
+    $title = $value['title'] ?? $value['url']->toString();
+    return $this->buildButton($title, $value['url']);
   }
 
   /**
