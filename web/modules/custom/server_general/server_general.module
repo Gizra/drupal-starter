@@ -98,6 +98,9 @@ function server_general_field_widget_single_element_language_select_form_alter(a
 
 /**
  * Implements pluggable_entity_view_builder_build_ENTITY_TYPE_alter().
+ *
+ * Add Quick links to Paragraph, by invoking the Paragraphs edit module view
+ * alter.
  */
 function server_general_pluggable_entity_view_builder_build_paragraph_alter(array &$build, ParagraphInterface $entity) {
   $entity_type = 'paragraph';
