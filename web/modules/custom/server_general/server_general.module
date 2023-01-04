@@ -5,6 +5,7 @@
  * Module file.
  */
 
+use Drupal\paragraphs\ParagraphInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\server_general\ArabicNumberConverter;
@@ -93,4 +94,21 @@ function server_general_field_info_alter(array &$info) {
  */
 function server_general_field_widget_single_element_language_select_form_alter(array &$element, FormStateInterface $form_state, array $context) {
   $element['value']['#languages'] = LanguageInterface::STATE_CONFIGURABLE;
+}
+
+/**
+ * Implements pluggable_entity_view_builder_build_ENTITY_TYPE_alter().
+ */
+function server_general_pluggable_entity_view_builder_build_paragraph_alter(&$build, ParagraphInterface $entity) {
+  $entity_type = 'paragraph';
+
+  $entity = $build['#' . $entity_type];
+  $view_mode = $build['#view_mode'];
+  $view_mode = $view_mode === 'full' ? 'default' : $view_mode;
+
+  $display = \Drupal::entityTypeManager()
+    ->getStorage('entity_view_display')
+    ->load($entity_type . '.' . $entity->bundle() . '.' . $view_mode);
+
+  paragraphs_edit_paragraph_view_alter($build, $entity, $display);
 }
