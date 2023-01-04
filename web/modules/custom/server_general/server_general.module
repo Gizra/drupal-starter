@@ -99,11 +99,12 @@ function server_general_field_widget_single_element_language_select_form_alter(a
 /**
  * Implements pluggable_entity_view_builder_build_ENTITY_TYPE_alter().
  */
-function server_general_pluggable_entity_view_builder_build_paragraph_alter(&$build, ParagraphInterface $entity) {
+function server_general_pluggable_entity_view_builder_build_paragraph_alter(array &$build, ParagraphInterface $entity) {
   $entity_type = 'paragraph';
 
   $entity = $build['#' . $entity_type];
   $view_mode = $build['#view_mode'];
+  // PEVB renames `default` view mode to `full`.
   $view_mode = $view_mode === 'full' ? 'default' : $view_mode;
 
   $display = \Drupal::entityTypeManager()
