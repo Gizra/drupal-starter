@@ -437,6 +437,14 @@ function server_theme_theme() {
     'variables' => [],
   ];
 
+  // Adding OG group field alternative title and link variables.
+  $info['server_theme_node_group__og_group_field'] = [
+    'variables' => [
+      'title' => NULL,
+      'link' => NULL,
+    ],
+  ];
+
   return $info;
 }
 
