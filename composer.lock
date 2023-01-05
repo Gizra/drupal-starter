@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2626fa7fe8e3c1c9a9cd883cc4f1e134",
+    "content-hash": "eb90020041bec9a1450320e89e279588",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1961,29 +1961,29 @@
         },
         {
             "name": "drupal/emptyparagraphkiller",
-            "version": "1.0.0-alpha1",
+            "version": "1.0.0-beta1",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/emptyparagraphkiller.git",
-                "reference": "8.x-1.0-alpha1"
+                "reference": "8.x-1.0-beta1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/emptyparagraphkiller-8.x-1.0-alpha1.zip",
-                "reference": "8.x-1.0-alpha1",
-                "shasum": "349fdd4f15801103f722cd7bc9c6c923f9c5b56a"
+                "url": "https://ftp.drupal.org/files/projects/emptyparagraphkiller-8.x-1.0-beta1.zip",
+                "reference": "8.x-1.0-beta1",
+                "shasum": "7e8c11155b83d924601e67b26602a963e709f880"
             },
             "require": {
-                "drupal/core": "^8 || ^9"
+                "drupal/core": "^8 || ^9 || ^10"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.0-alpha1",
-                    "datestamp": "1599613120",
+                    "version": "8.x-1.0-beta1",
+                    "datestamp": "1672314402",
                     "security-coverage": {
                         "status": "not-covered",
-                        "message": "Alpha releases are not covered by Drupal security advisories."
+                        "message": "Beta releases are not covered by Drupal security advisories."
                     }
                 }
             },
@@ -1993,16 +1993,16 @@
             ],
             "authors": [
                 {
-                    "name": "SKAUGHT",
-                    "homepage": "https://www.drupal.org/user/297907"
-                },
-                {
                     "name": "baikho",
                     "homepage": "https://www.drupal.org/user/2727459"
                 },
                 {
                     "name": "siliconmeadow",
                     "homepage": "https://www.drupal.org/user/55284"
+                },
+                {
+                    "name": "SKAUGHT",
+                    "homepage": "https://www.drupal.org/user/297907"
                 }
             ],
             "description": "Filters out pesky empty paragraphs.",
@@ -13148,7 +13148,7 @@
     "stability-flags": {
         "drupal/config_ignore": 10,
         "drupal/elasticsearch_connector": 15,
-        "drupal/emptyparagraphkiller": 15,
+        "drupal/emptyparagraphkiller": 10,
         "drupal/drupal_test_assertions": 20
     },
     "prefer-stable": true,
