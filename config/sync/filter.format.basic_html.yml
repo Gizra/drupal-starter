@@ -6,7 +6,6 @@ dependencies:
     - core.entity_view_mode.media.embed
   module:
     - editor
-    - emptyparagraphkiller
     - media
 _core:
   default_config_hash: P8ddpAIKtawJDi5SzOwCzVnnNYqONewSTJ6Xn0dW_aQ
@@ -46,12 +45,6 @@ filters:
     provider: editor
     status: true
     weight: 11
-    settings: {  }
-  emptyparagraphkiller:
-    id: emptyparagraphkiller
-    provider: emptyparagraphkiller
-    status: true
-    weight: 0
     settings: {  }
   media_embed:
     id: media_embed
