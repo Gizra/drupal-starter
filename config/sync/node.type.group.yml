@@ -1,0 +1,17 @@
+uuid: bcba781c-5e1f-4860-ac52-1213d932ee4e
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: Group
+type: group
+description: 'Example Organic group content type for job application at Gizra.'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false
