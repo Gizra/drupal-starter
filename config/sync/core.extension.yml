@@ -36,6 +36,7 @@ module:
   help: 0
   history: 0
   image: 0
+  improve_line_breaks_filter: 0
   inline_entity_form: 0
   intl_date: 0
   lang_dropdown: 0
