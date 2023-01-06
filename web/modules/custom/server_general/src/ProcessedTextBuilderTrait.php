@@ -25,7 +25,7 @@ trait ProcessedTextBuilderTrait {
    * @return array
    *   Render array.
    */
-  protected function buildProcessedText(FieldableEntityInterface $entity, string $field = 'field_body', bool $wrap_prose = TRUE) : array {
+  protected function buildProcessedText(FieldableEntityInterface $entity, string $field = 'body', bool $wrap_prose = TRUE) : array {
     if (!$entity->hasField($field) || $entity->get($field)->isEmpty()) {
       // Field is empty or doesn't exist.
       return [];
