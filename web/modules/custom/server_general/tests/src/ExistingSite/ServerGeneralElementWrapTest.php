@@ -28,9 +28,13 @@ class ServerGeneralElementWrapTest extends ExistingSiteBase {
     // Non-nested array.
     $element = [
       '#foo' => FALSE,
+      0 => FALSE,
+      '' => FALSE,
     ];
     $expected = [
       '#foo' => FALSE,
+      0 => FALSE,
+      '' => FALSE,
     ];
     $result = $this->filterEmptyElements($element);
     $this->assertEquals($expected, $result);
@@ -40,10 +44,12 @@ class ServerGeneralElementWrapTest extends ExistingSiteBase {
     $element = [
       '#foo' => FALSE,
       0 => [],
+      '' => [],
     ];
     $expected = [
       '#foo' => FALSE,
       0 => [],
+      '' => [],
     ];
     $result = $this->filterEmptyElements($element);
     $this->assertEquals($expected, $result);
@@ -52,6 +58,7 @@ class ServerGeneralElementWrapTest extends ExistingSiteBase {
     $element = [
       0 => [],
       1 => [],
+      '' => [],
     ];
     $expected = [];
     $result = $this->filterEmptyElements($element);
@@ -61,6 +68,7 @@ class ServerGeneralElementWrapTest extends ExistingSiteBase {
     $element = [
       0 => [],
       1 => ['#foo' => FALSE],
+      '' => [],
     ];
     $expected = [
       1 => ['#foo' => FALSE],

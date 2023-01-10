@@ -479,7 +479,13 @@ trait ElementWrapTrait {
       // Nothing to do here.
       return $element;
     }
-    if (count(Element::properties($element))) {
+
+    // Filter out the empty keys in the element.
+    $element_with_keys = array_filter(
+      $element, fn ($key) => isset($key[0]), ARRAY_FILTER_USE_KEY
+    );
+
+    if (count(Element::properties($element_with_keys))) {
       // Element has top level properties beginning with #.
       // Do not filter.
       return $element;
