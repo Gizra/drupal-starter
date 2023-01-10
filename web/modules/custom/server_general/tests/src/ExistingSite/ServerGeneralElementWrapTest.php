@@ -28,10 +28,12 @@ class ServerGeneralElementWrapTest extends ExistingSiteBase {
     // Non-nested array.
     $element = [
       '#foo' => FALSE,
+      0 => FALSE,
       '' => FALSE,
     ];
     $expected = [
       '#foo' => FALSE,
+      0 => FALSE,
       '' => FALSE,
     ];
     $result = $this->filterEmptyElements($element);
