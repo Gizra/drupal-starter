@@ -67,6 +67,40 @@ class ServerGeneralElementWrapTest extends ExistingSiteBase {
     ];
     $result = $this->filterEmptyElements($element);
     $this->assertEquals($expected, $result);
+
+    // Non-nested array with empty key.
+    $element = [
+      '' => FALSE,
+    ];
+    $expected = [];
+    $result = $this->filterEmptyElements($element);
+    $this->assertEquals($expected, $result);
+
+    // Mix of non-nested and nested array with empty key.
+    // As it has top level `#` we shouldn't filter it at all.
+    $element = [
+      '#foo' => FALSE,
+      '' => [],
+    ];
+    $expected = [
+      '#foo' => FALSE,
+      '' => [],
+    ];
+    $result = $this->filterEmptyElements($element);
+    $this->assertEquals($expected, $result);
+
+    // Nested array with empty key and some existing elements.
+    $element = [
+      0 => [],
+      1 => ['#foo' => FALSE],
+      '' => ['#foo' => FALSE],
+    ];
+    $expected = [
+      1 => ['#foo' => FALSE],
+      '' => ['#foo' => FALSE],
+    ];
+    $result = $this->filterEmptyElements($element);
+    $this->assertEquals($expected, $result);
   }
 
 }
