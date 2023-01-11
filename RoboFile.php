@@ -346,7 +346,7 @@ class RoboFile extends Tasks {
 
     // Ensure the dev dependencies are installed before compiling the theme in
     // case this is a retry.
-    $this->taskExec("composer install")->run();
+    $this->taskExec('composer install')->run();
 
     // Compile theme.
     $this->themeCompile();
