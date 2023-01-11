@@ -22,6 +22,12 @@ before_install:
   - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
   - docker login --password "$DOCKER_PASSWORD" --username amitaibu
 
+git:
+  # By default, travis clones with depth 50 for performance, however this can
+  # cause issues with deployment as the full history is not available. So we
+  # disable depth specification and clone the full branch history.
+  depth: false
+
 jobs:
   include:
     - stage: Lint
