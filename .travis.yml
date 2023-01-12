@@ -23,10 +23,11 @@ before_install:
   - docker login --password "$DOCKER_PASSWORD" --username amitaibu
 
 git:
-  # By default, travis clones with depth 50 for performance, however this can
-  # cause issues with deployment as the full history is not available. So we
-  # disable depth specification and clone the full branch history.
-  depth: false
+  # By default, travis clones with depth 50 for performance (only latest 50
+  # commits) which may not be enough history to check for previous deployments'
+  # commit hashes. So we set depth to 500 commits, however you may raise this
+  # if needed, on a project by project basis.
+  depth: 500
 
 jobs:
   include:
