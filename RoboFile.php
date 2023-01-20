@@ -64,16 +64,11 @@ class RoboFile extends Tasks {
     if ($optimize) {
       // Minify the JS files.
       foreach (glob(self::THEME_BASE . '/src/js/*.js') as $js_file) {
-
-        $to = $js_file;
-        $to = str_replace('/src/', '/dist/', $to);
-
-        $this->taskMinify($js_file)
-          ->to($to)
-          ->type('js')
-          ->singleLine(TRUE)
-          ->keepImportantComments(FALSE)
-          ->run();
+        // Make the path relative to the theme root.
+        $from = str_replace('web/themes/custom/server_theme/', '', $js_file);
+        $to = str_replace('src/', 'dist/', $from);
+        // Minify the js.
+        $this->_exec("cd $theme_dir && npx minify $from > $to");
       }
     }
     else {
