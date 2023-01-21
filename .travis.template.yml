@@ -60,3 +60,4 @@ jobs:
         - "$TRAVIS_BUILD_DIR/ci-scripts/test_phpunit.sh || travis_terminate 1;"
         - "(travis_retry $TRAVIS_BUILD_DIR/ci-scripts/prepare_deploy.sh) || travis_terminate 1;"
         - "travis_retry ddev robo deploy:pantheon --no-interaction {{ PANTHEON_DEPLOY_BRANCH }}"
+        - "ddev robo notify:deploy || travis_terminate 1;"
