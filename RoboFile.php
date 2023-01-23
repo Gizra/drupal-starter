@@ -1262,18 +1262,18 @@ END;
       }
     }
 
-    if (!empty($issue_number)) {
-      $this->say("Notifying GitHub of the deployment");
-      $exit_code = $this->taskExec("curl -X POST -H 'Authorization: token $github_token' -d '{\"body\": \"The latest merged PR just got deployed successfully to Pantheon `$pantheon_environment` environment\"}' https://api.github.com/repos/" . self::$githubProject . "/issues/$issue_number/comments")
-        ->printOutput(FALSE)
-        ->run()
-        ->getExitCode();
-      if ($exit_code) {
-        throw new \Exception("Could not notify GitHub of the deployment, GitHub API error.");
-      }
-    }
-    else {
+    if (empty($issue_number)) {
       $this->say("Giving up, no notification sent to GitHub");
+      return;
+    }
+
+    $this->say("Notifying GitHub of the deployment");
+    $exit_code = $this->taskExec("curl -X POST -H 'Authorization: token $github_token' -d '{\"body\": \"The latest merged PR just got deployed successfully to Pantheon `$pantheon_environment` environment\"}' https://api.github.com/repos/" . self::$githubProject . "/issues/$issue_number/comments")
+      ->printOutput(FALSE)
+      ->run()
+      ->getExitCode();
+    if ($exit_code) {
+      throw new \Exception("Could not notify GitHub of the deployment, GitHub API error.");
     }
   }
 
