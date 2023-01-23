@@ -53,7 +53,7 @@ jobs:
     - stage: Deploy
       name: "Backend tests: Functional tests and deploy to Pantheon"
       # This will get activated using ddev robo deploy:config-autodeploy.
-      if: branch = "{{ GITHUB_DEPLOY_BRANCH }}" AND type = push AND env(TERMINUS_TOKEN) IS present
+      if: branch = "{{ GITHUB_DEPLOY_BRANCH }}" AND type = push AND env(TERMINUS_TOKEN) IS present AND tag IS blank
       script:
         - "$TRAVIS_BUILD_DIR/ci-scripts/install_ddev.sh || travis_terminate 1;"
         - "$TRAVIS_BUILD_DIR/ci-scripts/install_drupal.sh || travis_terminate 1;"
@@ -61,3 +61,21 @@ jobs:
         - "(travis_retry $TRAVIS_BUILD_DIR/ci-scripts/prepare_deploy.sh) || travis_terminate 1;"
         - "travis_retry ddev robo deploy:pantheon --no-interaction {{ PANTHEON_DEPLOY_BRANCH }}"
         - "ddev robo notify:deploy || travis_terminate 1;"
+    - stage: Deploy
+      name: "Backend tests: Functional tests and deploy to Pantheon TEST"
+      if: tag IS present AND type = "push" AND tag !~ /live$/
+      script:
+        - "$TRAVIS_BUILD_DIR/ci-scripts/install_ddev.sh || travis_terminate 1;"
+        - "$TRAVIS_BUILD_DIR/ci-scripts/install_drupal.sh || travis_terminate 1;"
+        - "$TRAVIS_BUILD_DIR/ci-scripts/test_phpunit.sh || travis_terminate 1;"
+        - "$TRAVIS_BUILD_DIR/ci-scripts/prepare_deploy.sh || travis_terminate 1;"
+        - "cd $TRAVIS_BUILD_DIR/drupal && ddev robo deploy:tag-pantheon --no-interaction $TRAVIS_TAG master"
+        - "cd $TRAVIS_BUILD_DIR/drupal && ddev robo deploy:pantheon-sync"
+    - stage: Deploy
+      name: "Backend tests: Functional tests and deploy to Pantheon LIVE"
+      if: tag IS present AND type = "push" AND tag =~ /live$/
+      script:
+      - "$TRAVIS_BUILD_DIR/ci-scripts/install_ddev.sh || travis_terminate 1;"
+      - "$TRAVIS_BUILD_DIR/ci-scripts/prepare_deploy.sh || travis_terminate 1;"
+      - "$TRAVIS_BUILD_DIR/ci-scripts/check_live_deploy.sh || travis_terminate 1;"
+      - "ddev robo deploy:pantheon-sync live"
