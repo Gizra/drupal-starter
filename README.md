@@ -231,7 +231,7 @@ In order to deploy upon every merge automatically by Travis, you shall:
 1. Initiate QA (`qa` branch) multidev environment for the given project.
 1. Double-check if `./.ddev/providers/pantheon.yaml` contains the proper Pantheon project name.
 1. Get a [Pantheon machine token](https://pantheon.io/docs/machine-tokens) (using a dummy new Pantheon user ideally, one user per project for the sake of security)
-1. Get a GitHub Personal access token, it is needed for [Travis CLI to authenticate](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token). It will be used like this: `travis login --pro --github-token=`.
+1. Get a GitHub Personal access token, it is needed for [Travis CLI to authenticate](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token). It will be used like this: `travis login --pro --github-token=`. Also it will be used to post a comment to GitHub to the relevant issue when a merged PR is deployed, so set the expiry date far in the future enough for this.
 1. `ddev robo deploy:config-autodeploy [your terminus token] [your github token]`
 1. `git commit -m "Deployment secrets and configuration"`
 1. Add the public key in `travis-key.pub` to the newly created dummy [Pantheon user](https://pantheon.io/docs/ssh-keys)
