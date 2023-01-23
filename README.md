@@ -239,6 +239,10 @@ In order to deploy upon every merge automatically by Travis, you shall:
 Optionally you can specify which target branch you'd like to push on Pantheon, by default it's `master`, so the target is the DEV environment, but alternatively you can issue:
 `ddev robo deploy:config-autodeploy [your terminus token] [your github token] [pantheon project name] [gh_branch] [pantheon_branch]`
 
+After you have automatic deployment for a project, you are able to deploy to Pantheon `test` and `live` using Git tags.
+`git tag 0.1.2` will imply a deployment to the `test` environment (and `dev` - as enforced by Pantheon).
+`git tag 0.1.2_live` will imply a deployment to `live`. In order to make it fast, you need to first create the tag that deploy to `test`, then you need to tag the same commit with a tag suffixed with `_live`.
+
 ## Pulling DB & Files From Pantheon
 
     ddev auth ssh
