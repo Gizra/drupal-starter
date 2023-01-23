@@ -331,11 +331,11 @@ class RoboFile extends Tasks {
         ->run();
 
       if ($result->getMessage() !== 'commit') {
-        $this->yell(strtr('This current commit @current-commit cannot be deployed, since new commits have been created since, so we don\'t want to deploy an older version.', [
+        $this->yell(strtr('This current commit @current-commit cannot be deployed, since new commits have been created since, so we don\'t want to deploy an older version. Result was: @result', [
           '@current-commit' => $current_version,
+          '@result' => $result->getMessage(),
         ]));
-        $this->yell('Aborting the process to avoid going back in time.');
-        return;
+        throw new Exception('Aborting the process to avoid going back in time.');
       }
     }
 
