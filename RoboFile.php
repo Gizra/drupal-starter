@@ -64,16 +64,11 @@ class RoboFile extends Tasks {
     if ($optimize) {
       // Minify the JS files.
       foreach (glob(self::THEME_BASE . '/src/js/*.js') as $js_file) {
-
-        $to = $js_file;
-        $to = str_replace('/src/', '/dist/', $to);
-
-        $this->taskMinify($js_file)
-          ->to($to)
-          ->type('js')
-          ->singleLine(TRUE)
-          ->keepImportantComments(FALSE)
-          ->run();
+        // Make the path relative to the theme root.
+        $from = str_replace('web/themes/custom/server_theme/', '', $js_file);
+        $to = str_replace('src/', 'dist/', $from);
+        // Minify the js.
+        $this->_exec("cd $theme_dir && npx minify $from > $to");
       }
     }
     else {
@@ -336,11 +331,11 @@ class RoboFile extends Tasks {
         ->run();
 
       if ($result->getMessage() !== 'commit') {
-        $this->yell(strtr('This current commit @current-commit cannot be deployed, since new commits have been created since, so we don\'t want to deploy an older version.', [
+        $this->yell(strtr('This current commit @current-commit cannot be deployed, since new commits have been created since, so we don\'t want to deploy an older version. Result was: @result', [
           '@current-commit' => $current_version,
+          '@result' => $result->getMessage(),
         ]));
-        $this->yell('Aborting the process to avoid going back in time.');
-        return;
+        throw new Exception('Aborting the process to avoid going back in time.');
       }
     }
 
