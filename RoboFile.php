@@ -33,7 +33,7 @@ class RoboFile extends Tasks {
    * Compile the theme.
    *
    * @param bool $optimize
-   *   Indicate whether to optimize during compilation. Default: FALSE
+   *   Indicate whether to optimize during compilation.
    */
   private function doThemeCompile(bool $optimize = FALSE): void {
     $directories = [
@@ -211,10 +211,9 @@ class RoboFile extends Tasks {
    * @param string $tag
    *   The tag name in the current repository.
    * @param string $branch_name
-   *   The branch name from Pantheon repository. Default: master
+   *   The branch name from Pantheon repository.
    * @param string|null $commit_message
    *   Supply a custom commit message for the pantheon repo.
-   *   Default: "Release [tag]".
    *
    * @throws \Exception
    */
@@ -260,7 +259,7 @@ class RoboFile extends Tasks {
    * Deploy to Pantheon.
    *
    * @param string $branch_name
-   *   The branch name to commit to. Default: master
+   *   The branch name to commit to.
    * @param string|null $commit_message
    *   Supply a custom commit message for the pantheon repo.
    *   Falls back to: "Site update from [current_version]".
@@ -397,8 +396,8 @@ class RoboFile extends Tasks {
       throw new Exception('File sync failed');
     }
 
-    // The settings.pantheon.php is managed by Pantheon, there can be updates, site-specific modifications
-    // belong to settings.php.
+    // The settings.pantheon.php is managed by Pantheon, there can be updates,
+    // site-specific modifications belong to settings.php.
     $this->_exec("cp web/sites/default/settings.pantheon.php $pantheon_directory/web/sites/default/settings.php");
 
     // Flag the current version in the artifact repo.
@@ -406,7 +405,7 @@ class RoboFile extends Tasks {
 
     // We don't want to change Pantheon's git ignore, as we do want to commit
     // vendor and contrib directories.
-    // @todo: Ignore it from rsync, but './.gitignore' didn't work.
+    // @todo Ignore it from rsync, but './.gitignore' didn't work.
     $this->_exec("cd $pantheon_directory && git checkout .gitignore");
 
     // Also we need to clean up gitignores that are deeper in the tree,
@@ -479,6 +478,7 @@ class RoboFile extends Tasks {
    *
    * @return array
    *   Array keyed by `name` and `env`.
+   *
    * @throws \Exception
    */
   protected function getPantheonNameAndEnv() : array {
@@ -503,10 +503,9 @@ class RoboFile extends Tasks {
    * Deploy site from one env to the other on Pantheon.
    *
    * @param string $env
-   *   The environment to update. Default: test
+   *   The environment to update.
    * @param bool $do_deploy
    *   Determine if 'terminus env:deploy' should be run on the given env.
-   *   Default: TRUE
    *
    * @throws \Exception
    */
@@ -563,7 +562,7 @@ class RoboFile extends Tasks {
    * `ddev auth ssh`.
    *
    * @param string $env
-   *   The environment to install. Default: qa
+   *   The environment to install.
    *
    * @throws \Exception
    */
@@ -620,6 +619,7 @@ class RoboFile extends Tasks {
       'modules/custom',
       'themes/custom',
       'profiles/custom',
+      '../RoboFile.php',
     ];
 
     $error_code = NULL;
@@ -650,7 +650,7 @@ class RoboFile extends Tasks {
    *   Terminus machine token: https://pantheon.io/docs/machine-tokens.
    * @param string $github_token
    *   Personal GitHub token (Travis auth):
-   *   https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
+   *   https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token.
    * @param string $github_deploy_branch
    *   The branch that should be pushed automatically to Pantheon. By default,
    *   it's 'main', the default GitHub branch for any new project.
@@ -733,27 +733,41 @@ class RoboFile extends Tasks {
     $this->say("Convert the project to nested docroot: https://pantheon.io/docs/nested-docroot .");
   }
 
+  /**
+   * ElasticSearch index names.
+   *
+   * @var array|string[]
+   */
   private array $indices = [
     "server",
   ];
 
+  /**
+   * ElasticSearch environments - we will at least one index per environment.
+   *
+   * @var array|string[]
+   */
   private array $environments = ["qa", "dev", "test", "live"];
 
+  /**
+   * Identifies of the sites in ElasticSearch.
+   *
+   * @var array|string[]
+   */
   private array $sites = ["server"];
 
   /**
    * Generates a cryptographically secure random string for the password.
    *
    * @param int $length
-   *   Length of the random string. Default: 64
+   *   Length of the random string.
    * @param string $keyspace
-   *   The set of characters that can be part of the output string. Default:
-   *   '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.
+   *   The set of characters that can be part of the output string.
    *
    * @return string
    *   The random string.
    *
-   * @throws \RangeException|\Exception
+   * @throws \Exception
    */
   protected function randomStr(
     int $length = 64,
@@ -889,9 +903,9 @@ END;
    * @param string $es_url
    *   Fully qualified URL to ES, for example: http://elasticsearch:9200 .
    * @param string $username
-   *   The username of the ES admin user. Default: empty string.
+   *   The username of the ES admin user.
    * @param string $password
-   *   The password of the ES admin user. Default: empty string.
+   *   The password of the ES admin user.
    *
    * @throws \Exception
    */
@@ -946,6 +960,7 @@ END;
    *   The environment ID.
    *
    * @return string|null
+   *   The password of the user in ElasticSearch, if exists.
    */
   protected function getUserPassword(string $site, string $environment): ?string {
     $credentials_file = $site . '.es.secrets.json';
@@ -1047,9 +1062,9 @@ END;
       $pr_matches = [];
 
       // Here we need to handle two cases.
-      // In the past, we used simple Merge on GitHub, so there are messages like:
+      // Simple Merges:
       // Merge pull request #1234 from Gizra/drupal-starter/1234
-      // In the new workflow, we use Squash & Merge, so there are messages like:
+      // Squash & Merges, so there are messages like:
       // Explanation (#1234)
       preg_match_all('/Merge pull request #([0-9]+)/', $line, $pr_matches);
 
@@ -1057,7 +1072,6 @@ END;
         // No log message at all, not meaningful for changelog.
         continue;
       }
-
       if (!isset($pr_matches[1][0])) {
         // Could not detect PR number or it"s a Squash and Merge.
         $pr_matches = [];
@@ -1091,6 +1105,26 @@ END;
 
       if (isset($issue_matches[1][0])) {
         $issue_number = $issue_matches[1][0];
+      }
+      else {
+        // Retrieve the issue number from the PR description via GitHub API.
+        $pr = NULL;
+        if (!empty($github_project) && !empty($github_org) && !empty($github_project)) {
+          $pr = $this->githubApiGet("repos/$github_org/$github_project/pulls/$pr_number");
+        }
+        if (!isset($pr->body)) {
+          $no_issue_lines[] = "- $log_messages[1] (#$pr_number)";
+          continue;
+        }
+        preg_match_all('!#([0-9]+)!', $pr->body, $issue_matches);
+        if (!isset($issue_matches[1][0])) {
+          $no_issue_lines[] = "- $log_messages[1] (#$pr_number)";
+          continue;
+        }
+        $issue_number = $issue_matches[1][0];
+      }
+
+      if (!empty($issue_number)) {
         if (!isset($issue_titles[$issue_number]) && !empty($github_org) && !empty($github_project)) {
           $issue_details = $this->githubApiGet("repos/$github_org/$github_project/issues/$issue_number");
           if (!empty($issue_details->title)) {
@@ -1144,6 +1178,8 @@ END;
    *   Section title.
    * @param array $lines
    *   Bullet points.
+   * @param bool $print_key
+   *   Whether to print the key of the array.
    */
   protected function printReleaseNotesSection(string $title, array $lines, bool $print_key = FALSE): void {
     if (!empty($title)) {
