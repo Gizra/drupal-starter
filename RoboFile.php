@@ -1081,7 +1081,7 @@ END;
         }
       }
 
-      $log_messages[1] = trim($log_messages[1]);
+      $log_messages[1] = trim(str_replace('* ', '', $log_messages[1]));
       if (empty($log_messages[1])) {
         // Whitespace-only log message, not meaningful for changelog.
         continue;
