@@ -1021,9 +1021,9 @@ END;
     }
 
     // This is the heart of the release notes, the git history, we get all the
-    // merge commits since the specified last version and later on we parse
+    // commits since the specified last version and later on we parse
     // the output. Optionally we enrich it with metadata from GitHub REST API.
-    $git_command = "git log --merges --pretty=format:'%s¬¬|¬¬%b'";
+    $git_command = "git log --pretty=format:'%s¬¬|¬¬%b'";
     if (!empty($tag)) {
       $git_command .= " $tag..";
     }
@@ -1045,6 +1045,12 @@ END;
     foreach ($lines as $line) {
       $log_messages = explode("¬¬|¬¬", $line);
       $pr_matches = [];
+
+      // Here we need to handle two cases.
+      // In the past, we used simple Merge on GitHub, so there are messages like:
+      // Merge pull request #1234 from Gizra/drupal-starter/1234
+      // In the new workflow, we use Squash & Merge, so there are messages like:
+      // Explanation (#1234)
       preg_match_all('/Merge pull request #([0-9]+)/', $line, $pr_matches);
 
       if (count($log_messages) < 2) {
@@ -1053,8 +1059,12 @@ END;
       }
 
       if (!isset($pr_matches[1][0])) {
-        // Could not detect PR number.
-        continue;
+        // Could not detect PR number or it"s a Squash and Merge.
+        $pr_matches = [];
+        preg_match_all('!\(#([0-9]+)\)!', $line, $pr_matches);
+        if (!isset($pr_matches[0][0])) {
+          continue;
+        }
       }
 
       $log_messages[1] = trim($log_messages[1]);
