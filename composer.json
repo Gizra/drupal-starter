@@ -55,7 +55,7 @@
         "drupal/select2": "^1.13",
         "drupal/simple_sitemap": "^4",
         "drupal/stage_file_proxy": "^1.1",
-        "drush/drush": "^10.2",
+        "drush/drush": "^11",
         "npm-asset/select2": "^4.0",
         "npm-asset/slick-carousel": "^1.8",
         "oomphinc/composer-installers-extender": "^2.0"
