@@ -662,6 +662,7 @@ class RoboFile extends Tasks {
    * @throws \Exception
    */
   public function deployConfigAutodeploy(string $token, string $github_token, string $github_deploy_branch = 'main', string $pantheon_deploy_branch = 'qa'): void {
+    $this->_exec("cp .travis.template.yml .travis.yml");
     $pantheon_info = $this->getPantheonNameAndEnv();
     $project_name = $pantheon_info['name'];
 
@@ -708,7 +709,6 @@ class RoboFile extends Tasks {
       ->printOutput(FALSE)
       ->run();
     $pantheon_git_url = trim($result->getMessage());
-    $this->_exec("cp .travis.template.yml .travis.yml");
     $this->taskReplaceInFile('.travis.yml')
       ->from('{{ PANTHEON_GIT_URL }}')
       ->to($pantheon_git_url)
