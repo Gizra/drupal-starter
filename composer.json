@@ -33,7 +33,7 @@
         "drupal/core-recommended": "^9.0.0",
         "drupal/elasticsearch_connector": "^7.0@alpha",
         "drupal/emptyparagraphkiller": "^1.0@alpha",
-        "drupal/entity_browser": "^2.8",
+        "drupal/entity_browser": "^2.9",
         "drupal/environment_indicator": "^4.0",
         "drupal/facets": "^2.0",
         "drupal/focal_point": "^1.5",
