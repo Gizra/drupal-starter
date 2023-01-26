@@ -23,6 +23,13 @@ class RoboFile extends Tasks {
   const DEPLOYMENT_WAIT_TIME = 500000;
 
   /**
+   * The GitHub project slug.
+   *
+   * @var string
+   */
+  public static string $githubProject = 'Gizra/the-client';
+
+  /**
    * ElasticSearch index prefix.
    *
    * @var string
@@ -1320,7 +1327,13 @@ END;
       ->getMessage();
 
     $this->say("Notifying GitHub of the deployment");
-    $exit_code = $this->taskExec("curl -X POST -H 'Authorization: token $github_token' -d '{\"body\": \"The latest merged [PR](https://github.com/" . self::$githubProject . "/pull/" . $pr_number . ") just got deployed successfully to Pantheon [`$pantheon_environment`](https://" . $domain . "/) environment\"}' https://api.github.com/repos/" . self::$githubProject . "/issues/$issue_number/comments")
+    if (empty($pr_number)) {
+      $issue_comment = "{\"body\": \"The latest merged PR just got deployed successfully to Pantheon [`$pantheon_environment`](https://" . $domain . "/) environment\"}";
+    }
+    else {
+      $issue_comment = "{\"body\": \"The latest merged [PR](https://github.com/" . self::$githubProject . "/pull/" . $pr_number . ") just got deployed successfully to Pantheon [`$pantheon_environment`](https://" . $domain . "/) environment\"}";
+    }
+    $exit_code = $this->taskExec("curl -X POST -H 'Authorization: token $github_token' -d '$issue_comment' https://api.github.com/repos/" . self::$githubProject . "/issues/$issue_number/comments")
       ->printOutput(FALSE)
       ->run()
       ->getExitCode();
