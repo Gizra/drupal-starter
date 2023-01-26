@@ -1257,7 +1257,7 @@ END;
    * @param string $pantheon_environment
    *   The Pantheon environment where the code was deployed.
    */
-  function notifyDeploy(string $pantheon_environment = 'qa') {
+  public function notifyDeploy(string $pantheon_environment = 'qa') {
     $github_token = getenv('GITHUB_TOKEN');
     $git_commit_message = getenv('TRAVIS_COMMIT_MESSAGE');
     if (strstr($git_commit_message, 'Merge pull request') === FALSE && strstr($git_commit_message, ' (#') === FALSE) {
@@ -1312,8 +1312,15 @@ END;
       return;
     }
 
+    $pantheon_info = $this->getPantheonNameAndEnv();
+    // Retrieve environment domain name.
+    $domain = $this->taskExec("terminus env:info " . $pantheon_info['name'] . "." . $pantheon_environment . " --field=domain --format=list")
+      ->printOutput(FALSE)
+      ->run()
+      ->getMessage();
+
     $this->say("Notifying GitHub of the deployment");
-    $exit_code = $this->taskExec("curl -X POST -H 'Authorization: token $github_token' -d '{\"body\": \"The latest merged PR just got deployed successfully to Pantheon `$pantheon_environment` environment\"}' https://api.github.com/repos/" . self::$githubProject . "/issues/$issue_number/comments")
+    $exit_code = $this->taskExec("curl -X POST -H 'Authorization: token $github_token' -d '{\"body\": \"The latest merged [PR](https://github.com/" . self::$githubProject . "/pull/" . $pr_number . ") just got deployed successfully to Pantheon [`$pantheon_environment`](https://" . $domain . "/) environment\"}' https://api.github.com/repos/" . self::$githubProject . "/issues/$issue_number/comments")
       ->printOutput(FALSE)
       ->run()
       ->getExitCode();
