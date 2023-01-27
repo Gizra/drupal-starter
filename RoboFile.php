@@ -1331,7 +1331,7 @@ END;
       $issue_comment = "{\"body\": \"The latest merged PR just got deployed successfully to Pantheon [`$pantheon_environment`](https://" . $domain . "/) environment\"}";
     }
     else {
-      $issue_comment = "{\"body\": \"The latest merged PR [#$pr_number](https://github.com/" . self::$githubProject . "/pull/" . $pr_number . ") just got deployed successfully to Pantheon [`$pantheon_environment`](https://" . $domain . "/) environment\"}";
+      $issue_comment = "{\"body\": \"The latest merged PR #$pr_number just got deployed successfully to Pantheon [`$pantheon_environment`](https://" . $domain . "/) environment\"}";
     }
     $exit_code = $this->taskExec("curl -X POST -H 'Authorization: token $github_token' -d '$issue_comment' https://api.github.com/repos/" . self::$githubProject . "/issues/$issue_number/comments")
       ->printOutput(FALSE)
