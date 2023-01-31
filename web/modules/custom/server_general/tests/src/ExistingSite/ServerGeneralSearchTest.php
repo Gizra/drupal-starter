@@ -48,4 +48,39 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
     });
   }
 
+  /**
+   * Test the relevance sort, boosting of title should be the highest.
+   */
+  public function testRelevanceSort() {
+    $node = $this->createNode([
+      'type' => 'news',
+      'title' => 'aspecialword in the title',
+      'body' => 'something else in the body',
+      'status' => 1,
+    ]);
+    $node->setPublished()->save();
+    $node = $this->createNode([
+      'type' => 'news',
+      'title' => 'something else in the title',
+      'body' => 'aspecialword in the body',
+      'status' => 1,
+    ]);
+    $node->setPublished()->save();
+    $this->triggerPostRequestIndexing();
+    $this->waitForElasticSearchIndex(function () {
+      $assert = $this->assertSession();
+      $this->drupalGet('/search', [
+        'query' => [
+          'key' => 'aspecialword',
+        ],
+      ]);
+      // The first result should be the one with the word in the title.
+      // Xpath for: <div class="views-row"> which is the first child of
+      // <div class="view-content">.
+      $assert->elementTextEquals('xpath', "(//div[contains(@class, 'views-row')])[1]//a", 'aspecialword in the title');
+      // The second result should be the one with the word in the body.
+      $assert->elementTextEquals('xpath', "(//div[contains(@class, 'views-row')])[2]//a", 'something else in the title');
+    });
+  }
+
 }
