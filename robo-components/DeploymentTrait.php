@@ -371,10 +371,12 @@ trait DeploymentTrait {
    *
    * @param string $env
    *   The environment to install.
+   * @param string $pantheon_name
+   *   The Pantheon site name.
    *
    * @throws \Exception
    */
-  public function deployPantheonInstallEnv(string $env = 'qa'): void {
+  public function deployPantheonInstallEnv(string $env = 'qa', string $pantheon_name = NULL): void {
     $forbidden_envs = [
       'live',
     ];
@@ -382,8 +384,13 @@ trait DeploymentTrait {
       throw new \Exception("Reinstalling the site on `$env` environment is forbidden.");
     }
 
-    $pantheon_info = $this->getPantheonNameAndEnv();
-    $pantheon_terminus_environment = $pantheon_info['name'] . '.' . $env;
+    if ($pantheon_name === NULL) {
+      $pantheon_info = $this->getPantheonNameAndEnv();
+      $pantheon_terminus_environment = $pantheon_info['name'] . '.' . $env;
+    }
+    else {
+      $pantheon_terminus_environment = $pantheon_name . '.' . $env;
+    }
 
     // This set of commands should work, so expecting no failures
     // (tend to invoke the same flow as DDEV's `config.local.yaml`).

@@ -131,8 +131,11 @@ trait BootstrapTrait {
     $this->taskExec("git clone $pantheon_repository_url .pantheon");
 
     // Create QA environment on Pantheon.
-    $this->taskExec("terminus env:create $project_machine_name.dev qa")
+    $this->taskExec("terminus multidev:create $project_machine_name.dev qa")
       ->run();
+
+    $this->deployPantheonInstallEnv('dev', $project_machine_name);
+    $this->deployPantheonInstallEnv('qa', $project_machine_name);
 
     if ($http_basic_auth_user && $http_basic_auth_password) {
       $this->lockPantheonEnvironments($project_machine_name, $http_basic_auth_user, $http_basic_auth_password);
