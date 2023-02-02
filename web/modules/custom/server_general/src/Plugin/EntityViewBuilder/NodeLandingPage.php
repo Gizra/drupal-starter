@@ -42,7 +42,8 @@ class NodeLandingPage extends NodeViewBuilderAbstract {
     $element = $this->buildReferencedEntities($paragraphs);
     $elements[] = $this->wrapContainerVerticalSpacingBig($element);
 
-    $build[] = $this->wrapContainerVerticalSpacingBig($elements);
+    $elements = $this->wrapContainerVerticalSpacingBig($elements);
+    $build[] = $this->wrapContainerBottomPadding($elements);
 
     return $build;
   }

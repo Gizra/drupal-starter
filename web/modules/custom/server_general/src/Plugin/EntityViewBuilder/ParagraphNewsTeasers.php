@@ -5,6 +5,7 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
 use Drupal\server_general\ElementWrapTrait;
+use Drupal\server_general\TitleAndLabelsTrait;
 use Drupal\views\Views;
 
 /**
@@ -19,6 +20,7 @@ use Drupal\views\Views;
 class ParagraphNewsTeasers extends EntityViewBuilderPluginAbstract {
 
   use ElementWrapTrait;
+  use TitleAndLabelsTrait;
 
   /**
    * Build full view mode.
@@ -45,8 +47,7 @@ class ParagraphNewsTeasers extends EntityViewBuilderPluginAbstract {
     }
 
     $element = $this->getTextFieldValue($entity, 'field_title');
-    $element = $this->wrapHtmlTag($element, 'h2');
-    $element = $this->wrapTextFontWeight($element, 'bold');
+    $element = $this->buildParagraphTitle($element);
     $elements[] = $element;
 
     $elements[] = $view->buildRenderable('embed_1');
