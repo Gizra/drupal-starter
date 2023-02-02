@@ -15,6 +15,7 @@ stages:
 
 env:
   global:
+    - DDEV_NO_INSTRUMENTATION=true
     - PANTHEON_GIT_URL="{{ PANTHEON_GIT_URL }}"
 
 before_install:
