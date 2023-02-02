@@ -109,8 +109,15 @@ trait BootstrapTrait {
     $this->taskExec("cd .bootstrap && composer update --lock")
       ->run();
 
+    $this->taskReplaceInFile('.bootstrap/config/sync/system.site.yml')
+      ->from('Drupal Starter')
+      ->to($project_name)
+      ->run();
+
     $this->taskExec("cd .bootstrap && git add . && git commit -m 'Bootstrap project $project_name by $host_user' && git push origin main")
       ->run();
+
+    $this->taskExec()
   }
 
 }
