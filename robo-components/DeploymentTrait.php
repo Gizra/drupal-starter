@@ -495,4 +495,88 @@ trait DeploymentTrait {
     $this->say("Convert the project to nested docroot: https://pantheon.io/docs/nested-docroot .");
   }
 
+  /**
+   * Posts a comment on the GitHub issue that the code got deployed to Pantheon.
+   *
+   * @param string $pantheon_environment
+   *   The Pantheon environment where the code was deployed.
+   */
+  public function deployNotify(string $pantheon_environment = 'qa') {
+    $github_token = getenv('GITHUB_TOKEN');
+    $git_commit_message = getenv('TRAVIS_COMMIT_MESSAGE');
+    if (strstr($git_commit_message, 'Merge pull request') === FALSE && strstr($git_commit_message, ' (#') === FALSE) {
+      $this->say($git_commit_message);
+      return;
+    }
+
+    $issue_matches = [];
+    // If the PR was simply merged, then we have this:
+    preg_match_all('!from [a-zA-Z-_0-9]+/([0-9]+)!', $git_commit_message, $issue_matches);
+    if (!isset($issue_matches[1][0])) {
+      $this->say("Could not determine the issue number from the commit message name: $git_commit_message");
+
+      // If the PR was merged with a squash, then we have this:
+      // blah blah (#1234)
+      // Where 1234 is the PR number.
+      $pr_matches = [];
+      preg_match_all('!\(#([0-9]+)\)!', $git_commit_message, $pr_matches);
+      if (!isset($pr_matches[0][0])) {
+        $this->say("Could not determine the PR number from the commit message: $git_commit_message");
+        return;
+      }
+      // Retrieve the issue number from the PR description via GitHub API.
+      $pr_number = $pr_matches[1][0];
+      $pr = $this->taskExec("curl -H \"Authorization: token $github_token\" https://api.github.com/repos/" . self::$githubProject . "/pulls/$pr_number")
+        ->printOutput(FALSE)
+        ->run()
+        ->getMessage();
+      $pr = json_decode($pr);
+      if (!isset($pr->body)) {
+        $this->say("Could not determine the issue number from the PR: $git_commit_message");
+        return;
+      }
+      // The issue number should be the first #1234 in the PR description.
+      preg_match_all('!#([0-9]+)!', $pr->body, $issue_matches);
+      if (!isset($issue_matches[1][0])) {
+        $this->say("Could not determine the issue number from the PR description: $pr->body");
+        return;
+      }
+      $issue_number = $issue_matches[1][0];
+
+    }
+    else {
+      $issue_number = $issue_matches[1][0];
+      if (empty($issue_number) || !is_numeric($issue_number)) {
+        throw new \Exception("Could not determine the issue number from the branch name in the commit message: $git_commit_message");
+      }
+    }
+
+    if (empty($issue_number)) {
+      $this->say("Giving up, no notification sent to GitHub");
+      return;
+    }
+
+    $pantheon_info = $this->getPantheonNameAndEnv();
+    // Retrieve environment domain name.
+    $domain = $this->taskExec("terminus env:info " . $pantheon_info['name'] . "." . $pantheon_environment . " --field=domain --format=list")
+      ->printOutput(FALSE)
+      ->run()
+      ->getMessage();
+
+    $this->say("Notifying GitHub of the deployment");
+    if (empty($pr_number)) {
+      $issue_comment = "{\"body\": \"The latest merged PR just got deployed successfully to Pantheon [`$pantheon_environment`](https://" . $domain . "/) environment\"}";
+    }
+    else {
+      $issue_comment = "{\"body\": \"The latest merged PR #$pr_number just got deployed successfully to Pantheon [`$pantheon_environment`](https://" . $domain . "/) environment\"}";
+    }
+    $exit_code = $this->taskExec("curl -X POST -H 'Authorization: token $github_token' -d '$issue_comment' https://api.github.com/repos/" . self::$githubProject . "/issues/$issue_number/comments")
+      ->printOutput(FALSE)
+      ->run()
+      ->getExitCode();
+    if ($exit_code) {
+      throw new \Exception("Could not notify GitHub of the deployment, GitHub API error.");
+    }
+  }
+
 }
