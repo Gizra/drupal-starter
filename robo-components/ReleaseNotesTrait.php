@@ -5,7 +5,7 @@ namespace RoboComponents;
 /**
  * Release notes generator using Git history.
  */
-trait ReleaseNotes {
+trait ReleaseNotesTrait {
 
   /**
    * Generates log of changes since the given tag.

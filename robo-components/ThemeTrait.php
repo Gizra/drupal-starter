@@ -9,7 +9,7 @@ use Symfony\Component\Finder\Finder;
 /**
  * Compilation of theme source assets.
  */
-trait Theme {
+trait ThemeTrait {
 
   /**
    * The name of the theme.

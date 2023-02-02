@@ -5,7 +5,7 @@ namespace RoboComponents;
 /**
  * Provision ElasticSearch with all the indices and users, custom analyzer..
  */
-trait ElasticSearch {
+trait ElasticSearchTrait {
 
   /**
    * ElasticSearch index prefix.

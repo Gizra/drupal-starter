@@ -7,7 +7,7 @@ use Robo\ResultData;
 /**
  * Coding standard checks for Drupal.
  */
-trait Phpcs {
+trait PhpcsTrait {
 
   /**
    * Perform a Code sniffer test, and fix when applicable.

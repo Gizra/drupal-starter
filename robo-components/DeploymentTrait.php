@@ -7,7 +7,7 @@ use Symfony\Component\Yaml\Yaml;
 /**
  * Deployment tailored to Pantheon.io.
  */
-trait Deployment {
+trait DeploymentTrait {
 
   /**
    * The wait time between deployment checks in microseconds.
@@ -349,7 +349,7 @@ trait Deployment {
       ->getExitCode();
 
     if ($result !== 0) {
-      throw new \Exception('The deployment went well, but the re-indexing to ElasticSearch failed. Try to perform manually later.');
+      throw new \Exception('The deployment went well, but the re-indexing to ElasticSearchTrait failed. Try to perform manually later.');
     }
 
     $result = $this->taskExecStack()

@@ -3,21 +3,21 @@
 declare(strict_types = 1);
 
 use Robo\Tasks;
-use RoboComponents\ReleaseNotes;
-use RoboComponents\Theme;
-use RoboComponents\Deployment;
-use RoboComponents\Phpcs;
-use RoboComponents\ElasticSearch;
+use RoboComponents\ReleaseNotesTrait;
+use RoboComponents\ThemeTrait;
+use RoboComponents\DeploymentTrait;
+use RoboComponents\PhpcsTrait;
+use RoboComponents\ElasticSearchTrait;
 
 /**
  * Robo commands.
  */
 class RoboFile extends Tasks {
 
-  use Deployment;
-  use ElasticSearch;
-  use ReleaseNotes;
-  use Phpcs;
-  use Theme;
+  use DeploymentTrait;
+  use ElasticSearchTrait;
+  use ReleaseNotesTrait;
+  use PhpcsTrait;
+  use ThemeTrait;
 
 }
