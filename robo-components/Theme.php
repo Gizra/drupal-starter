@@ -2,7 +2,9 @@
 
 namespace RoboComponents;
 
+use Lurker\Event\FilesystemEvent;
 use Robo\ResultData;
+use Symfony\Component\Finder\Finder;
 
 /**
  * Compilation of theme source assets.

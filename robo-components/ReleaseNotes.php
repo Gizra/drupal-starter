@@ -36,7 +36,7 @@ trait ReleaseNotes {
         ->run()
         ->getMessage();
       if (empty($latest_tag)) {
-        throw new Exception('There are no tags in this repository.');
+        throw new \Exception('There are no tags in this repository.');
       }
       if ($this->confirm("Would you like to compare from the latest tag: $latest_tag?")) {
         $tag = $latest_tag;
@@ -249,10 +249,10 @@ trait ReleaseNotes {
     $token = getenv('GITHUB_ACCESS_TOKEN');
     $username = getenv('GITHUB_USERNAME');
     if (empty($token)) {
-      throw new Exception('Specify the personal access token in GITHUB_ACCESS_TOKEN environment variable before invoking the release notes generator in order to be able to fetch details of issues and pull requests');
+      throw new \Exception('Specify the personal access token in GITHUB_ACCESS_TOKEN environment variable before invoking the release notes generator in order to be able to fetch details of issues and pull requests');
     }
     if (empty($username)) {
-      throw new Exception('Specify the GitHub username in GITHUB_USERNAME environment variable before invoking the release notes generator in order to be able to fetch details of issues and pull requests');
+      throw new \Exception('Specify the GitHub username in GITHUB_USERNAME environment variable before invoking the release notes generator in order to be able to fetch details of issues and pull requests');
     }
     // We might not have a sane Drupal instance, let's not rely on Drupal API
     // to generate release notes.
@@ -267,7 +267,7 @@ trait ReleaseNotes {
     curl_close($ch);
     $result = empty($result) ? NULL : json_decode($result);
     if (substr((string) $http_code, 0, 1) != 2) {
-      throw new Exception("Failed to request the API:\n" . print_r($result, TRUE));
+      throw new \Exception("Failed to request the API:\n" . print_r($result, TRUE));
     }
     return $result;
   }

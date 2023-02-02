@@ -56,7 +56,7 @@ trait ElasticSearch {
     string $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
   ): string {
     if ($length < 1) {
-      throw new RangeException("Length must be a positive integer");
+      throw new \RangeException("Length must be a positive integer");
     }
     $pieces = [];
     $max = mb_strlen($keyspace, '8bit') - 1;
@@ -96,7 +96,7 @@ trait ElasticSearch {
         ->run()
         ->getMessage(), TRUE);
       if (isset($result['error'])) {
-        throw new Exception('Cannot connect to ES or security not enabled');
+        throw new \Exception('Cannot connect to ES or security not enabled');
       }
       foreach (array_keys($result) as $existing_username) {
         foreach ($this->sites as $site) {

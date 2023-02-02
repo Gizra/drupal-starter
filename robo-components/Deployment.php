@@ -34,7 +34,7 @@ trait Deployment {
 
     if ($result->getMessage()) {
       $this->say($result->getMessage());
-      throw new Exception('The working directory is dirty. Please commit or stash the pending changes.');
+      throw new \Exception('The working directory is dirty. Please commit or stash the pending changes.');
     }
 
     $this->taskExec("git checkout $tag")->run();
@@ -52,7 +52,7 @@ trait Deployment {
     try {
       $this->deployPantheon($branch_name, $commit_message);
     }
-    catch (Exception $e) {
+    catch (\Exception $e) {
       $this->yell('The deployment failed', 22, 'red');
       $this->say($e->getMessage());
       // Set exit code to 1 (error).
@@ -80,7 +80,7 @@ trait Deployment {
     $deployment_version_path = $pantheon_directory . '/.deployment';
 
     if (!file_exists($pantheon_directory) || !is_dir($pantheon_directory)) {
-      throw new Exception('Clone the Pantheon artifact repository first into the .pantheon directory');
+      throw new \Exception('Clone the Pantheon artifact repository first into the .pantheon directory');
     }
 
     $result = $this
@@ -90,7 +90,7 @@ trait Deployment {
 
     if ($result->getMessage()) {
       $this->say($result->getMessage());
-      throw new Exception('The Pantheon directory is dirty. Please commit any pending changes.');
+      throw new \Exception('The Pantheon directory is dirty. Please commit any pending changes.');
     }
 
     $result = $this
@@ -100,17 +100,17 @@ trait Deployment {
 
     if ($result->getMessage()) {
       $this->say($result->getMessage());
-      throw new Exception('The Pantheon directory is dirty. Please commit any pending changes.');
+      throw new \Exception('The Pantheon directory is dirty. Please commit any pending changes.');
     }
 
     // Validate pantheon.yml has web_docroot: true.
     if (!file_exists($pantheon_directory . '/pantheon.yml')) {
-      throw new Exception("pantheon.yml is missing from the Pantheon directory ($pantheon_directory)");
+      throw new \Exception("pantheon.yml is missing from the Pantheon directory ($pantheon_directory)");
     }
 
     $yaml = Yaml::parseFile($pantheon_directory . '/pantheon.yml');
     if (empty($yaml['web_docroot'])) {
-      throw new Exception("'web_docroot: true' is missing from pantheon.yml in Pantheon directory ($pantheon_directory)");
+      throw new \Exception("'web_docroot: true' is missing from pantheon.yml in Pantheon directory ($pantheon_directory)");
     }
 
     $this->_exec("cd $pantheon_directory && git checkout $branch_name");
@@ -143,7 +143,7 @@ trait Deployment {
           '@current-commit' => $current_version,
           '@result' => $result->getMessage(),
         ]));
-        throw new Exception('Aborting the process to avoid going back in time.');
+        throw new \Exception('Aborting the process to avoid going back in time.');
       }
     }
 
@@ -201,7 +201,7 @@ trait Deployment {
     // Copy all files and folders.
     $result = $this->_exec("rsync -az -q --delete $rsync_exclude_string . $pantheon_directory")->getExitCode();
     if ($result !== 0) {
-      throw new Exception('File sync failed');
+      throw new \Exception('File sync failed');
     }
 
     // The settings.pantheon.php is managed by Pantheon, there can be updates,
@@ -264,19 +264,19 @@ trait Deployment {
     print $result->getMessage();
 
     if ($result->getExitCode() !== 0) {
-      throw new Exception('Pushing to the remote repository failed');
+      throw new \Exception('Pushing to the remote repository failed');
     }
 
     // Let's wait until the code is deployed to the environment.
     // This "git push" above is as async operation, so prevent invoking
     // for instance drush cim before the new changes are there.
-    usleep(self::DEPLOYMENT_WAIT_TIME);
+    usleep(self::$deploymentWaitTime);
     $pantheon_info = $this->getPantheonNameAndEnv();
     $pantheon_env = $branch_name == 'master' ? 'dev' : $branch_name;
 
     do {
       $code_sync_completed = $this->_exec("terminus workflow:list " . $pantheon_info['name'] . " --format=csv | grep " . $pantheon_env . " | grep Sync | awk -F',' '{print $5}' | grep running")->getExitCode();
-      usleep(self::DEPLOYMENT_WAIT_TIME);
+      usleep(self::$deploymentWaitTime);
     } while (!$code_sync_completed);
     $this->deployPantheonSync($pantheon_env, FALSE);
   }
@@ -292,12 +292,12 @@ trait Deployment {
   protected function getPantheonNameAndEnv() : array {
     $yaml = Yaml::parseFile('./.ddev/providers/pantheon.yaml');
     if (empty($yaml['environment_variables']['project'])) {
-      throw new Exception("`environment_variables.project` is missing from .ddev/providers/pantheon.yaml");
+      throw new \Exception("`environment_variables.project` is missing from .ddev/providers/pantheon.yaml");
     }
 
     $project = explode('.', $yaml['environment_variables']['project'], 2);
     if (count($project) !== 2) {
-      throw new Exception("`environment_variables.project` should be in the format of `yourproject.dev`");
+      throw new \Exception("`environment_variables.project` should be in the format of `yourproject.dev`");
     }
 
     return [
@@ -338,7 +338,7 @@ trait Deployment {
       ->run()
       ->getExitCode();
     if ($result !== 0) {
-      throw new Exception('The site could not be fully updated at Pantheon. Try "ddev robo deploy:pantheon-install-env" manually.');
+      throw new \Exception('The site could not be fully updated at Pantheon. Try "ddev robo deploy:pantheon-install-env" manually.');
     }
 
     $result = $this->taskExecStack()
@@ -349,7 +349,7 @@ trait Deployment {
       ->getExitCode();
 
     if ($result !== 0) {
-      throw new Exception('The deployment went well, but the re-indexing to ElasticSearch failed. Try to perform manually later.');
+      throw new \Exception('The deployment went well, but the re-indexing to ElasticSearch failed. Try to perform manually later.');
     }
 
     $result = $this->taskExecStack()
@@ -359,7 +359,7 @@ trait Deployment {
       ->getExitCode();
 
     if ($result !== 0) {
-      throw new Exception('Could not generate a login link. Try again manually or check earlier errors.');
+      throw new \Exception('Could not generate a login link. Try again manually or check earlier errors.');
     }
   }
 
@@ -379,7 +379,7 @@ trait Deployment {
       'live',
     ];
     if (in_array($env, $forbidden_envs)) {
-      throw new Exception("Reinstalling the site on `$env` environment is forbidden.");
+      throw new \Exception("Reinstalling the site on `$env` environment is forbidden.");
     }
 
     $pantheon_info = $this->getPantheonNameAndEnv();
@@ -401,7 +401,7 @@ trait Deployment {
     $result = $task->run()->getExitCode();
 
     if ($result !== 0) {
-      throw new Exception("The site failed to install on Pantheon's `$env` environment.");
+      throw new \Exception("The site failed to install on Pantheon's `$env` environment.");
     }
   }
 
@@ -441,30 +441,30 @@ trait Deployment {
         ->getExitCode();
 
       if ($result !== 0) {
-        throw new Exception('The installation of the dependencies failed.');
+        throw new \Exception('The installation of the dependencies failed.');
       }
     }
 
     $result = $this->taskExec('ssh-keygen -f travis-key -P ""')->run();
     if ($result->getExitCode() !== 0) {
-      throw new Exception('The key generation failed.');
+      throw new \Exception('The key generation failed.');
     }
 
     $result = $this->taskExec('travis login --pro --github-token="' . $github_token . '"')->run();
     if ($result->getExitCode() !== 0) {
-      throw new Exception('The authentication with GitHub via Travis CLI failed.');
+      throw new \Exception('The authentication with GitHub via Travis CLI failed.');
     }
 
     $result = $this->taskExec('travis encrypt-file travis-key --add --no-interactive --pro')
       ->run();
     if ($result->getExitCode() !== 0) {
-      throw new Exception('The encryption of the private key failed.');
+      throw new \Exception('The encryption of the private key failed.');
     }
 
     $result = $this->taskExec('travis encrypt TERMINUS_TOKEN="' . $token . '" --add --no-interactive --pro')
       ->run();
     if ($result->getExitCode() !== 0) {
-      throw new Exception('The encryption of the Terminus token failed.');
+      throw new \Exception('The encryption of the Terminus token failed.');
     }
 
     $result = $this->taskExec("terminus connection:info $project_name.dev --fields='Git Command' --format=string | awk '{print $3}'")
@@ -486,7 +486,7 @@ trait Deployment {
 
     $result = $this->taskExec('git add .travis.yml travis-key.enc')->run();
     if ($result->getExitCode() !== 0) {
-      throw new Exception("git add failed.");
+      throw new \Exception("git add failed.");
     }
     $this->say("The project was prepared for the automatic deployment to Pantheon");
     $this->say("Review the changes and make a commit from the added files.");
