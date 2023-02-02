@@ -10,7 +10,7 @@ trait BootstrapTrait {
   /**
    * Bootstrap a new client project on Pantheon.io.
    *
-   * @param string $github_repository
+   * @param string $github_repository_url
    *   The clone URL of the GitHub repository.
    * @param string $pantheon_project
    *   The Pantheon project name.
@@ -27,8 +27,45 @@ trait BootstrapTrait {
    * @param string $http_basic_auth_password
    *   The HTTP basic auth password. Optional.
    */
-  public function bootstrapProject(string $github_repository, string $pantheon_project, string $terminus_token, string $github_token, string $docker_mirror_url = '', string $http_basic_auth_user = '', string $http_basic_auth_password = '') {
+  public function bootstrapProject(string $project_name, string $github_repository_url, string $pantheon_project, string $terminus_token, string $github_token, string $docker_mirror_url = '', string $http_basic_auth_user = '', string $http_basic_auth_password = '') {
+    $temp_remote = 'bootstrap_' . time();
+    $this->taskExec("git remote add $temp_remote $github_repository_url")
+      ->run();
+    $this->taskExec("git push $temp_remote main")
+      ->run();
+    $this->taskExec("git remote remove $temp_remote")
+      ->run();
 
+    $this->taskExec("git clone $github_repository_url .bootstrap")
+      ->run();
+
+    // Extract project name from $github_repository_url.
+    // The syntax is like: git@github.com:Organization/projectname.git
+    preg_match('/github.com[:\/](.*)\/(.*)\.git/', $github_repository_url, $matches);
+    $project_machine_name = $matches[2];
+
+    $this->taskReplaceInFile('.bootstrap/.ddev/config.yaml')
+      ->from('drupal-starter')
+      ->to($project_machine_name)
+      ->run();
+
+    $this->taskReplaceInFile('.bootstrap/.ddev/config.yaml')
+      ->from('8880')
+      ->to(rand(6000, 8000))
+      ->run();
+
+    $this->taskReplaceInFile('.bootstrap/.ddev/config.yaml')
+      ->from('4443')
+      ->to(rand(3000, 5000))
+      ->run();
+
+    $host_user = $this->taskExec("whoami")
+      ->printOutput(FALSE)
+      ->run()
+      ->getMessage();
+
+    $this->taskExec("cd .bootstrap && git add . && git commit -m 'Bootstrap project $project_name by $host_user' && git push origin main")
+      ->run();
   }
 
 }
