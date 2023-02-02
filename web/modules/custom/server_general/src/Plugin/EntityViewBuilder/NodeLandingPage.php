@@ -43,6 +43,8 @@ class NodeLandingPage extends NodeViewBuilderAbstract {
     $elements[] = $this->wrapContainerVerticalSpacingBig($element);
 
     $elements = $this->wrapContainerVerticalSpacingBig($elements);
+    // Add bottom padding, so there's some padding between all the paragraphs
+    // and the footer.
     $build[] = $this->wrapContainerBottomPadding($elements);
 
     return $build;
