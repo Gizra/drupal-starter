@@ -42,7 +42,7 @@ trait BootstrapTrait {
       ->run();
 
     // Extract project name from $github_repository_url.
-    // The syntax is like: git@github.com:Organization/projectname.git
+    // The syntax is like: git@github.com:Organization/projectname.git .
     preg_match('/github.com[:\/](.*)\/(.*)\.git/', $github_repository_url, $matches);
     $organization = $matches[1];
     $project_machine_name = $matches[2];
