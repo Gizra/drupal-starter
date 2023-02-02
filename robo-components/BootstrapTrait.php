@@ -14,8 +14,6 @@ trait BootstrapTrait {
    *   The project name.
    * @param string $github_repository_url
    *   The clone URL of the GitHub repository.
-   * @param string $pantheon_project
-   *   The Pantheon project name.
    * @param string $terminus_token
    *   The Pantheon machine token.
    * @param string $github_token
@@ -29,7 +27,7 @@ trait BootstrapTrait {
    * @param string $http_basic_auth_password
    *   The HTTP basic auth password. Optional.
    */
-  public function bootstrapProject(string $project_name, string $github_repository_url, string $pantheon_project, string $terminus_token, string $github_token, string $docker_mirror_url = '', string $http_basic_auth_user = '', string $http_basic_auth_password = '') {
+  public function bootstrapProject(string $project_name, string $github_repository_url, string $terminus_token, string $github_token, string $docker_mirror_url = '', string $http_basic_auth_user = '', string $http_basic_auth_password = '') {
     $temp_remote = 'bootstrap_' . time();
     $this->taskExec("git remote add $temp_remote $github_repository_url")
       ->run();
@@ -84,7 +82,7 @@ trait BootstrapTrait {
 
     $this->taskReplaceInFile('.bootstrap/.ddev/providers/pantheon.yaml')
       ->from('yourproject.dev')
-      ->to($pantheon_project . '.qa')
+      ->to($project_name . '.qa')
       ->run();
 
     $this->taskReplaceInFile('.bootstrap/composer.json')
@@ -117,7 +115,56 @@ trait BootstrapTrait {
     $this->taskExec("cd .bootstrap && git add . && git commit -m 'Bootstrap project $project_name by $host_user' && git push origin main")
       ->run();
 
-    $this->taskExec()
+    $this->taskExec("terminus auth:login --machine-token=\"$terminus_token\"")
+      ->run();
+
+    $this->taskExec("terminus site:create $project_machine_name \"$project_name\" \"Drupal 9\" --org=\"$organization\"")
+      ->run();
+
+    // Retrieve Git repository from Pantheon, then clone the artifact repository
+    // to .pantheon directory.
+    $pantheon_repository_url = $this->taskExec("terminus connection:info $project_machine_name.dev --field=git_url")
+      ->printOutput(FALSE)
+      ->run()
+      ->getMessage();
+
+    $this->taskExec("git clone $pantheon_repository_url .pantheon");
+
+    // Create QA environment on Pantheon.
+    $this->taskExec("terminus env:create $project_machine_name.dev qa")
+      ->run();
+
+    if ($http_basic_auth_user && $http_basic_auth_password) {
+      $this->lockPantheonEnvironments($project_machine_name, $http_basic_auth_user, $http_basic_auth_password);
+    }
+    else {
+      $this->say("No HTTP basic auth credentials were provided. Pantheon environments will not be locked.");
+    }
+  }
+
+  /**
+   * Lock all Pantheon environments for the given site.
+   *
+   * @param string $project_machine_name
+   *   The machine name of the project.
+   * @param string $http_basic_auth_user
+   *   The HTTP basic auth user.
+   * @param string $http_basic_auth_password
+   *   The HTTP basic auth password.
+   */
+  public function lockPantheonEnvironments(string $project_machine_name, string $http_basic_auth_user, string $http_basic_auth_password) {
+    $pantheon_environments = $this->taskExec("terminus env:list $project_machine_name --field=ID --format=list")
+      ->printOutput(FALSE)
+      ->run()
+      ->getMessage();
+
+    $pantheon_environments = explode(PHP_EOL, $pantheon_environments);
+    foreach ($pantheon_environments as $pantheon_environment) {
+      $this->taskExec("terminus env:wake $project_machine_name.$pantheon_environment")
+        ->run();
+      $this->taskExec("terminus env:lock $project_machine_name.$pantheon_environment --username=$http_basic_auth_user --password=$http_basic_auth_password")
+        ->run();
+    }
   }
 
 }
