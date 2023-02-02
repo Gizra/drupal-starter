@@ -99,4 +99,18 @@ for dir in web/profiles/*/ ; do
   code_review "$dir"
 done
 
+cd "$TRAVIS_BUILD_DIR" || exit 1
+if [[ -d "robo-components" ]];
+then
+  echo
+  if [[ "${FIX_MODE}" -eq 1 ]]; then
+    echo "${LBLUE}> Correcting Robo code to follow the '${REVIEW_STANDARD}' standard. ${RESTORE}"
+  else
+    echo "${LBLUE}> Sniffing Robo code following '${REVIEW_STANDARD}' standard. ${RESTORE}"
+  fi
+  for dir in robo-components/* ; do
+    code_review "$dir"
+  done
+fi
+
 exit $HAS_ERRORS
