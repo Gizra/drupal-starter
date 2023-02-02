@@ -81,6 +81,11 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "RoboComponents\\": "./robo-components/"
+        }
+    },
     "config": {
         "sort-packages": true,
         "allow-plugins": {

@@ -529,7 +529,7 @@ class StyleGuideController extends ControllerBase {
   protected function getCta(): array {
     return $this->buildElementCta(
       $this->getRandomTitle(),
-      'How does the system generate all this custom content? It actually skims Wikipedia pages related to your search',
+      $this->buildProcessedText('How does the system generate all this custom content? It actually skims Wikipedia pages related to your search'),
       'View more',
       Url::fromRoute('<front>'),
     );
