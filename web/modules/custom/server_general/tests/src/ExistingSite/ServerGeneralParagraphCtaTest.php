@@ -23,7 +23,6 @@ class ServerGeneralParagraphCtaTest extends ServerGeneralParagraphTestBase {
   public function getRequiredFields(): array {
     return [
       'field_link',
-      'field_subtitle',
       'field_title',
     ];
   }
@@ -32,7 +31,9 @@ class ServerGeneralParagraphCtaTest extends ServerGeneralParagraphTestBase {
    * {@inheritdoc}
    */
   public function getOptionalFields(): array {
-    return [];
+    return [
+      'field_body',
+    ];
   }
 
   /**
@@ -41,7 +42,7 @@ class ServerGeneralParagraphCtaTest extends ServerGeneralParagraphTestBase {
   public function testRender() {
     $cta = Paragraph::create(['type' => 'cta']);
     $cta->set('field_title', 'Lorem ipsum dolor sit amet');
-    $cta->set('field_subtitle', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
+    $cta->set('field_body', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
     $cta->set('field_link', [
       'uri' => 'https://example.com',
       'title' => 'Button text',

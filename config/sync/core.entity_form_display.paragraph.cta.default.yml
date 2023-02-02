@@ -3,17 +3,26 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.cta.field_body
     - field.field.paragraph.cta.field_link
-    - field.field.paragraph.cta.field_subtitle
     - field.field.paragraph.cta.field_title
     - paragraphs.paragraphs_type.cta
   module:
     - link
+    - text
 id: paragraph.cta.default
 targetEntityType: paragraph
 bundle: cta
 mode: default
 content:
+  field_body:
+    type: text_textarea
+    weight: 1
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
   field_link:
     type: link_default
     weight: 2
@@ -21,14 +30,6 @@ content:
     settings:
       placeholder_url: ''
       placeholder_title: ''
-    third_party_settings: {  }
-  field_subtitle:
-    type: string_textfield
-    weight: 1
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
     third_party_settings: {  }
   field_title:
     type: string_textfield
@@ -39,7 +40,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
   translation:
-    weight: 10
+    weight: 3
     region: content
     settings: {  }
     third_party_settings: {  }

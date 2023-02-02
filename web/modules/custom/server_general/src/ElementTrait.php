@@ -26,8 +26,8 @@ trait ElementTrait {
    *
    * @param string $title
    *   The title.
-   * @param string $subtitle
-   *   The subtitle.
+   * @param array $text
+   *   Processed text.
    * @param string $button_text
    *   The button text.
    * @param \Drupal\Core\Url $url
@@ -36,7 +36,7 @@ trait ElementTrait {
    * @return array
    *   Render array.
    */
-  protected function buildElementCta(string $title, string $subtitle, string $button_text, Url $url): array {
+  protected function buildElementCta(string $title, array $text, string $button_text, Url $url): array {
     $elements = [];
 
     // Title.
@@ -44,12 +44,8 @@ trait ElementTrait {
     $element = $this->wrapTextResponsiveFontSize($element, '3xl');
     $elements[] = $this->wrapTextFontWeight($element, 'bold');
 
-    // Subtitle.
-    if (!empty($subtitle)) {
-      $element = ['#markup' => $subtitle];
-      $element = $this->wrapTextResponsiveFontSize($element, 'xl');
-      $elements[] = $this->wrapTextFontWeight($element, 'medium');
-    }
+    // Text.
+    $elements[] = $text;
 
     // Button.
     $elements[] = $this->buildButton($button_text, $url);
