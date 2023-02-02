@@ -1968,16 +1968,16 @@
             ],
             "authors": [
                 {
-                    "name": "SKAUGHT",
-                    "homepage": "https://www.drupal.org/user/297907"
-                },
-                {
                     "name": "baikho",
                     "homepage": "https://www.drupal.org/user/2727459"
                 },
                 {
                     "name": "siliconmeadow",
                     "homepage": "https://www.drupal.org/user/55284"
+                },
+                {
+                    "name": "SKAUGHT",
+                    "homepage": "https://www.drupal.org/user/297907"
                 }
             ],
             "description": "Filters out pesky empty paragraphs.",
@@ -2632,8 +2632,16 @@
                     "homepage": "https://www.drupal.org/user/1852732"
                 },
                 {
+                    "name": "fenstrat",
+                    "homepage": "https://www.drupal.org/user/362649"
+                },
+                {
                     "name": "larowlan",
                     "homepage": "https://www.drupal.org/user/395439"
+                },
+                {
+                    "name": "mstrelan",
+                    "homepage": "https://www.drupal.org/user/314289"
                 },
                 {
                     "name": "rikki_iki",
@@ -2671,7 +2679,7 @@
             "extra": {
                 "drupal": {
                     "version": "2.1.1",
-                    "datestamp": "1647985110",
+                    "datestamp": "1647985179",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -3477,7 +3485,7 @@
             "extra": {
                 "drupal": {
                     "version": "4.1.3",
-                    "datestamp": "1665573795",
+                    "datestamp": "1674225949",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
