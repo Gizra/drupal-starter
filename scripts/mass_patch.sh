@@ -12,18 +12,16 @@ fi
 
 GH_TOKEN="$1"
 PATCH_FILE="$2"
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+BASE_DIR=$(pwd)
 
 # List of repos to patch
 REPOSITORIES=(client1 client2 client3)
 
-git config pull.rebase false
-
 # Clone or update each repository
 for REPO in "${REPOSITORIES[@]}"
 do
-  cd "$SCRIPT_DIR" || exit 1
-  DEFAULT_BRANCH=$(curl -s -H "Authorization: token $GH_TOKEN" "https://api.github.com/repos/Gizra/$REPO" | jq -r '.DEFAULT_BRANCH')
+  cd "$BASE_DIR" || exit 1
+  DEFAULT_BRANCH=$(curl -s -H "Authorization: token $GH_TOKEN" "https://api.github.com/repos/Gizra/$REPO" | jq -r '.default_branch')
   echo "Patching $REPO ($DEFAULT_BRANCH is the default branch)"
 
   if [ ! -d "$REPO" ]; then
@@ -32,6 +30,7 @@ do
 
   cd "$REPO" || continue
   echo "Cleaning $REPO repository"
+  git config pull.rebase false
   git checkout "$DEFAULT_BRANCH"
   git fetch
   git reset --hard origin/"$DEFAULT_BRANCH" || continue
