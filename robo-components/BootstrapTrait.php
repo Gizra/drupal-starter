@@ -181,27 +181,6 @@ trait BootstrapTrait {
     $this->taskExec("git clone $pantheon_repository_url .pantheon")
       ->run();
 
-    $this->taskWriteToFile('.pantheon/.gitignore')
-      ->append(FALSE)
-      ->textFromFile('pantheon-template/gitignore-template')
-      ->run();
-    $this->taskWriteToFile('.pantheon/pantheon.yml')
-      ->append(FALSE)
-      ->textFromFile('pantheon-template/pantheon.yml')
-      ->run();
-    $this->taskWriteToFile('.pantheon/pantheon.upstream.yml')
-      ->append(FALSE)
-      ->textFromFile('pantheon-template/pantheon.upstream.yml')
-      ->run();
-    $this->taskWriteToFile('.pantheon/web/sites/default/settings.pantheon.php')
-      ->append(FALSE)
-      ->textFromFile('pantheon-template/settings.pantheon.php')
-      ->run();
-    $this->taskWriteToFile('.pantheon/web/sites/default/settings.php')
-      ->append(FALSE)
-      ->textFromFile('pantheon-template/web/sites/default/settings.pantheon.php')
-      ->run();
-
     // Ensure the dev dependencies are installed before compiling the theme in
     // case this is a retry.
     $this->taskExec('composer install')->run();
@@ -226,6 +205,27 @@ trait BootstrapTrait {
     if ($result !== 0) {
       throw new \Exception('Failed to rsync theme to .pantheon');
     }
+
+    $this->taskWriteToFile('.pantheon/.gitignore')
+      ->append(FALSE)
+      ->textFromFile('pantheon_template/gitignore-template')
+      ->run();
+    $this->taskWriteToFile('.pantheon/pantheon.yml')
+      ->append(FALSE)
+      ->textFromFile('pantheon_template/pantheon.yml')
+      ->run();
+    $this->taskWriteToFile('.pantheon/pantheon.upstream.yml')
+      ->append(FALSE)
+      ->textFromFile('pantheon_template/pantheon.upstream.yml')
+      ->run();
+    $this->taskWriteToFile('.pantheon/web/sites/default/settings.pantheon.php')
+      ->append(FALSE)
+      ->textFromFile('pantheon_template/settings.pantheon.php')
+      ->run();
+    $this->taskWriteToFile('.pantheon/web/sites/default/settings.php')
+      ->append(FALSE)
+      ->textFromFile('.bootstrap/web/sites/default/settings.pantheon.php')
+      ->run();
 
     $this->taskExec("cd .pantheon && git add . && git commit -m 'Bootstrap project $project_name' && git push origin master")
       ->run();
