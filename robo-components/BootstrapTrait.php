@@ -64,6 +64,9 @@ trait BootstrapTrait {
    *   The Docker mirror URL. Optional, but expect Travis failures if not set,
    */
   protected function prepareGithubRepository(string $project_name, string $organization, string $project_machine_name, string $github_repository_url, string $docker_mirror_url = '') {
+    if (is_dir('.bootstrap')) {
+      throw new \Exception('The .bootstrap directory already exists. Please remove / rename it and try again.');
+    }
     $temp_remote = 'bootstrap_' . time();
     $this->taskExec("git remote add $temp_remote $github_repository_url")
       ->run();
@@ -166,6 +169,9 @@ trait BootstrapTrait {
     $this->taskExec("terminus site:create $project_machine_name \"$project_name\" \"Drupal 9\" --org=\"$organization\"")
       ->run();
 
+    $this->taskExec("terminus connection:set $project_machine_name.dev git")
+      ->run();
+
     // Retrieve Git repository from Pantheon, then clone the artifact repository
     // to .pantheon directory.
     $pantheon_repository_url = $this->taskExec("terminus connection:info $project_machine_name.dev --field=git_url")
@@ -173,7 +179,8 @@ trait BootstrapTrait {
       ->run()
       ->getMessage();
 
-    $this->taskExec("git clone $pantheon_repository_url .pantheon");
+    $this->taskExec("git clone $pantheon_repository_url .pantheon")
+      ->run();
 
     $this->taskWriteToFile('.pantheon/.gitignore')
       ->append(FALSE)
@@ -196,11 +203,14 @@ trait BootstrapTrait {
       ->textFromFile('pantheon-template/web/sites/default/settings.pantheon.php')
       ->run();
 
-    $this->taskExec("cd .pantheon && git add . && git commit -m 'Bootstrap project $project_name && git push origin master")
+    $this->taskExec("cd .pantheon && git add . && git commit -m 'Bootstrap project $project_name' && git push origin master")
       ->run();
 
     // Create QA environment on Pantheon.
     $this->taskExec("terminus multidev:create $project_machine_name.dev qa")
+      ->run();
+
+    $this->taskExec("terminus connection:set $project_machine_name.qa git")
       ->run();
   }
 
