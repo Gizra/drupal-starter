@@ -2,7 +2,7 @@
 set -e
 
 echo "Logging into Docker Hub if the password is set"
-if [ -z "$DOCKER_PASSWORD" ]; then
+if [ -z "${DOCKER_PASSWORD}" ]; then
   echo "No Docker Hub password set, skipping login."
 else
   docker login --password "$DOCKER_PASSWORD" --username amitaibu
