@@ -15,6 +15,50 @@ trait DeploymentTrait {
   public static int $deploymentWaitTime = 500000;
 
   /**
+   * The files / directories to exclude from deployment.
+   *
+   * @var array|string[]
+   */
+  public static array $deploySyncExcludes = [
+    '.bootstrap-fast.php',
+    '.ddev',
+    '.editorconfig',
+    '.git',
+    '.idea',
+    '.pantheon',
+    '.phpunit.result.cache',
+    '.travis.yml',
+    'ci-scripts',
+    'pantheon.upstream.yml',
+    'phpstan.neon',
+    'phpunit.xml.dist',
+    'README.md',
+    'RoboFile.php',
+    'server.es.secrets.json',
+    'travis-key.enc',
+    'travis-key',
+    'web/.csslintrc',
+    'web/.eslintignore',
+    'web/.eslintrc.json',
+    'web/example.gitignore',
+    'web/INSTALL.txt',
+    'web/modules/README.txt',
+    'web/profiles/README.txt',
+    'web/README.md',
+    'web/README.txt',
+    'web/sites/default',
+    'web/sites/simpletest',
+    'web/sites/README.txt',
+    'web/themes/README.txt',
+    'web/themes/custom/server_theme/src',
+    'web/themes/custom/server_theme/node_modules',
+    'web/themes/custom/server_theme/package.json',
+    'web/themes/custom/server_theme/package-lock.json',
+    'web/themes/custom/server_theme/tailwind.config.js',
+    'web/themes/custom/server_theme/postcss.config.js',
+  ];
+
+  /**
    * Deploy a tag (specific release) to Pantheon.
    *
    * @param string $tag
@@ -157,46 +201,7 @@ trait DeploymentTrait {
     // Remove the dev dependencies before pushing up to Pantheon.
     $this->taskExec("composer install --no-dev")->run();
 
-    $rsync_exclude = [
-      '.bootstrap-fast.php',
-      '.ddev',
-      '.editorconfig',
-      '.git',
-      '.idea',
-      '.pantheon',
-      '.phpunit.result.cache',
-      '.travis.yml',
-      'ci-scripts',
-      'pantheon.upstream.yml',
-      'phpstan.neon',
-      'phpunit.xml.dist',
-      'README.md',
-      'RoboFile.php',
-      'server.es.secrets.json',
-      'travis-key.enc',
-      'travis-key',
-      'web/.csslintrc',
-      'web/.eslintignore',
-      'web/.eslintrc.json',
-      'web/example.gitignore',
-      'web/INSTALL.txt',
-      'web/modules/README.txt',
-      'web/profiles/README.txt',
-      'web/README.md',
-      'web/README.txt',
-      'web/sites/default',
-      'web/sites/simpletest',
-      'web/sites/README.txt',
-      'web/themes/README.txt',
-      'web/themes/custom/server_theme/src',
-      'web/themes/custom/server_theme/node_modules',
-      'web/themes/custom/server_theme/package.json',
-      'web/themes/custom/server_theme/package-lock.json',
-      'web/themes/custom/server_theme/tailwind.config.js',
-      'web/themes/custom/server_theme/postcss.config.js',
-    ];
-
-    $rsync_exclude_string = '--exclude=' . implode(' --exclude=', $rsync_exclude);
+    $rsync_exclude_string = '--exclude=' . implode(' --exclude=', self::$deploySyncExcludes);
 
     // Copy all files and folders.
     $result = $this->_exec("rsync -az -q --delete $rsync_exclude_string . $pantheon_directory")->getExitCode();

@@ -34,6 +34,8 @@ trait BootstrapTrait {
     $organization = $matches[1];
     $project_machine_name = $matches[2];
 
+    $this->verifyRequirements($project_name, $organization, $project_machine_name, $terminus_token, $github_token, $docker_mirror_url, $http_basic_auth_user, $http_basic_auth_password);
+
     $this->prepareGithubRepository($project_name, $organization, $project_machine_name, $github_repository_url, $docker_mirror_url);
 
     $this->createPantheonProject($terminus_token, $project_name, $project_machine_name, $organization);
@@ -64,9 +66,6 @@ trait BootstrapTrait {
    *   The Docker mirror URL. Optional, but expect Travis failures if not set,
    */
   protected function prepareGithubRepository(string $project_name, string $organization, string $project_machine_name, string $github_repository_url, string $docker_mirror_url = '') {
-    if (is_dir('.bootstrap')) {
-      throw new \Exception('The .bootstrap directory already exists. Please remove / rename it and try again.');
-    }
     $temp_remote = 'bootstrap_' . time();
     $this->taskExec("git remote add $temp_remote $github_repository_url")
       ->run();
@@ -203,6 +202,31 @@ trait BootstrapTrait {
       ->textFromFile('pantheon-template/web/sites/default/settings.pantheon.php')
       ->run();
 
+    // Ensure the dev dependencies are installed before compiling the theme in
+    // case this is a retry.
+    $this->taskExec('composer install')->run();
+
+    // Compile theme.
+    $this->themeCompile();
+
+    // Remove the dev dependencies before pushing up to Pantheon.
+    $this->taskExec("composer install --no-dev")->run();
+
+    $rsync_exclude_string = '--exclude=' . implode(' --exclude=', self::$deploySyncExcludes);
+
+    $result = $this->_exec("rsync -az -q $rsync_exclude_string .bootstrap .pantheon")->getExitCode();
+    if ($result !== 0) {
+      throw new \Exception('Failed to rsync .bootstrap to .pantheon');
+    }
+
+    // We need a working DDEV instance to compile the theme, that's why
+    // it is a bit awkward to assemble the Pantheon artifact repository
+    // from two GitHub repositories.
+    $result = $this->_exec("rsync -az -q $rsync_exclude_string " . self::$themeBase . " .pantheon/" . self::$themeBase)->getExitCode();
+    if ($result !== 0) {
+      throw new \Exception('Failed to rsync theme to .pantheon');
+    }
+
     $this->taskExec("cd .pantheon && git add . && git commit -m 'Bootstrap project $project_name' && git push origin master")
       ->run();
 
@@ -236,6 +260,47 @@ trait BootstrapTrait {
         ->run();
       $this->taskExec("terminus env:lock $project_machine_name.$pantheon_environment --username=$http_basic_auth_user --password=$http_basic_auth_password")
         ->run();
+    }
+  }
+
+  /**
+   * Verify the input data / environment.
+   *
+   * @param string $project_name
+   *   The project name.
+   * @param string $organization
+   *   The GitHub organization.
+   * @param string $project_machine_name
+   *   The project machine name in GH slug.
+   * @param string $terminus_token
+   *   The Pantheon machine token.
+   * @param string $github_token
+   *   The GitHub token.
+   * @param string $docker_mirror_url
+   *   The Docker mirror URL.
+   * @param string $http_basic_auth_user
+   *   The HTTP basic auth user.
+   * @param string $http_basic_auth_password
+   *   The HTTP basic auth password.
+   */
+  protected function verifyRequirements($project_name, $organization, $project_machine_name, $terminus_token, $github_token, $docker_mirror_url, $http_basic_auth_user, $http_basic_auth_password) {
+    if (is_dir('.bootstrap')) {
+      throw new \Exception('The .bootstrap directory already exists. Please remove / move it and try again.');
+    }
+    if (is_dir('.pantheon')) {
+      throw new \Exception('The .pantheon directory already exists. Please remove / move it and try again.');
+    }
+    if (empty(trim($project_name))) {
+      throw new \Exception('The project name is empty.');
+    }
+    if (empty(trim($organization))) {
+      throw new \Exception('The organization is empty.');
+    }
+    if (empty(trim($project_machine_name))) {
+      throw new \Exception('The project machine name is empty.');
+    }
+    if (str_contains($project_machine_name, ' ')) {
+      throw new \Exception('The project machine name contains spaces.');
     }
   }
 
