@@ -56,6 +56,7 @@ trait DeploymentTrait {
     'web/themes/custom/server_theme/package-lock.json',
     'web/themes/custom/server_theme/tailwind.config.js',
     'web/themes/custom/server_theme/postcss.config.js',
+    'node_modules',
   ];
 
   /**
