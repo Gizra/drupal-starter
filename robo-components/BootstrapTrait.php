@@ -63,7 +63,7 @@ trait BootstrapTrait {
    * @param string $github_repository_url
    *   The clone URL of the GitHub repository.
    * @param string $docker_mirror_url
-   *   The Docker mirror URL. Optional, but expect Travis failures if not set,
+   *   The Docker mirror URL. Optional, but expect Travis failures if not set.
    */
   protected function prepareGithubRepository(string $project_name, string $organization, string $project_machine_name, string $github_repository_url, string $docker_mirror_url = '') {
     $temp_remote = 'bootstrap_' . time();
@@ -151,17 +151,16 @@ trait BootstrapTrait {
   /**
    * Creates and prepare the Pantheon project.
    *
-   * @param $terminus_token
-   *   The Pantheon machine token. @see https://pantheon.io/docs/machine-tokens
-   *
-   * @param $project_name
+   * @param string $terminus_token
+   *   The Pantheon machine token.
+   * @param string $project_name
    *   The project name.
-   * @param $project_machine_name
+   * @param string $project_machine_name
    *   The project machine name in GH slug.
-   * @param $organization
+   * @param string $organization
    *   The GitHub/Pantheon organization.
    */
-  protected function createPantheonProject($terminus_token, $project_name, $project_machine_name, $organization) {
+  protected function createPantheonProject(string $terminus_token, string $project_name, string $project_machine_name, string $organization) {
     $this->taskExec("terminus auth:login --machine-token=\"$terminus_token\"")
       ->run();
 
