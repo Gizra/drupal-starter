@@ -175,6 +175,30 @@ trait BootstrapTrait {
 
     $this->taskExec("git clone $pantheon_repository_url .pantheon");
 
+    $this->taskWriteToFile('.pantheon/.gitignore')
+      ->append(FALSE)
+      ->textFromFile('pantheon-template/gitignore-template')
+      ->run();
+    $this->taskWriteToFile('.pantheon/pantheon.yml')
+      ->append(FALSE)
+      ->textFromFile('pantheon-template/pantheon.yml')
+      ->run();
+    $this->taskWriteToFile('.pantheon/pantheon.upstream.yml')
+      ->append(FALSE)
+      ->textFromFile('pantheon-template/pantheon.upstream.yml')
+      ->run();
+    $this->taskWriteToFile('.pantheon/web/sites/default/settings.pantheon.php')
+      ->append(FALSE)
+      ->textFromFile('pantheon-template/settings.pantheon.php')
+      ->run();
+    $this->taskWriteToFile('.pantheon/web/sites/default/settings.php')
+      ->append(FALSE)
+      ->textFromFile('pantheon-template/web/sites/default/settings.pantheon.php')
+      ->run();
+
+    $this->taskExec("cd .pantheon && git add . && git commit -m 'Bootstrap project $project_name && git push origin master")
+      ->run();
+
     // Create QA environment on Pantheon.
     $this->taskExec("terminus multidev:create $project_machine_name.dev qa")
       ->run();
