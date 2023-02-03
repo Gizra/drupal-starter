@@ -28,6 +28,42 @@ trait BootstrapTrait {
    *   The HTTP basic auth password. Optional.
    */
   public function bootstrapProject(string $project_name, string $github_repository_url, string $terminus_token, string $github_token, string $docker_mirror_url = '', string $http_basic_auth_user = '', string $http_basic_auth_password = '') {
+    // Extract project name from $github_repository_url.
+    // The syntax is like: git@github.com:Organization/projectname.git .
+    preg_match('/github.com[:\/](.*)\/(.*)\.git/', $github_repository_url, $matches);
+    $organization = $matches[1];
+    $project_machine_name = $matches[2];
+
+    $this->prepareGithubRepository($project_name, $organization, $project_machine_name, $github_repository_url, $docker_mirror_url);
+
+    $this->createPantheonProject($terminus_token, $project_name, $project_machine_name, $organization);
+
+    $this->deployPantheonInstallEnv('dev', $project_machine_name);
+    $this->deployPantheonInstallEnv('qa', $project_machine_name);
+
+    if ($http_basic_auth_user && $http_basic_auth_password) {
+      $this->lockPantheonEnvironments($project_machine_name, $http_basic_auth_user, $http_basic_auth_password);
+    }
+    else {
+      $this->say("No HTTP basic auth credentials were provided. Pantheon environments will not be locked.");
+    }
+  }
+
+  /**
+   * Prepares the new GitHub repository for the project.
+   *
+   * @param string $project_name
+   *   The project name.
+   * @param string $organization
+   *   The GitHub organization.
+   * @param string $project_machine_name
+   *   The project machine name in GH slug.
+   * @param string $github_repository_url
+   *   The clone URL of the GitHub repository.
+   * @param string $docker_mirror_url
+   *   The Docker mirror URL. Optional, but expect Travis failures if not set,
+   */
+  protected function prepareGithubRepository(string $project_name, string $organization, string $project_machine_name, string $github_repository_url, string $docker_mirror_url = '') {
     $temp_remote = 'bootstrap_' . time();
     $this->taskExec("git remote add $temp_remote $github_repository_url")
       ->run();
@@ -38,12 +74,6 @@ trait BootstrapTrait {
 
     $this->taskExec("git clone $github_repository_url .bootstrap")
       ->run();
-
-    // Extract project name from $github_repository_url.
-    // The syntax is like: git@github.com:Organization/projectname.git .
-    preg_match('/github.com[:\/](.*)\/(.*)\.git/', $github_repository_url, $matches);
-    $organization = $matches[1];
-    $project_machine_name = $matches[2];
 
     $this->taskReplaceInFile('.bootstrap/.ddev/config.yaml')
       ->from('drupal-starter')
@@ -114,7 +144,22 @@ trait BootstrapTrait {
 
     $this->taskExec("cd .bootstrap && git add . && git commit -m 'Bootstrap project $project_name by $host_user' && git push origin main")
       ->run();
+  }
 
+  /**
+   * Creates and prepare the Pantheon project.
+   *
+   * @param $terminus_token
+   *   The Pantheon machine token. @see https://pantheon.io/docs/machine-tokens
+   *
+   * @param $project_name
+   *   The project name.
+   * @param $project_machine_name
+   *   The project machine name in GH slug.
+   * @param $organization
+   *   The GitHub/Pantheon organization.
+   */
+  protected function createPantheonProject($terminus_token, $project_name, $project_machine_name, $organization) {
     $this->taskExec("terminus auth:login --machine-token=\"$terminus_token\"")
       ->run();
 
@@ -133,16 +178,6 @@ trait BootstrapTrait {
     // Create QA environment on Pantheon.
     $this->taskExec("terminus multidev:create $project_machine_name.dev qa")
       ->run();
-
-    $this->deployPantheonInstallEnv('dev', $project_machine_name);
-    $this->deployPantheonInstallEnv('qa', $project_machine_name);
-
-    if ($http_basic_auth_user && $http_basic_auth_password) {
-      $this->lockPantheonEnvironments($project_machine_name, $http_basic_auth_user, $http_basic_auth_password);
-    }
-    else {
-      $this->say("No HTTP basic auth credentials were provided. Pantheon environments will not be locked.");
-    }
   }
 
   /**
