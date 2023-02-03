@@ -49,6 +49,11 @@ trait BootstrapTrait {
     else {
       $this->say("No HTTP basic auth credentials were provided. Pantheon environments will not be locked.");
     }
+
+    $this->say("Bootstrap completed successfully.");
+    $this->say("You might want to run the following commands to properly place the project:");
+    $this->say("mv .bootstrap ../$project_machine_name");
+    $this->say("mv .pantheon ../$project_machine_name/.pantheon");
   }
 
   /**
