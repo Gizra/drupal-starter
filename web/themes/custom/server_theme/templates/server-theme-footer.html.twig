@@ -1,5 +1,5 @@
 {% macro socialMedia(name, url) %}
-  <a href="{{ url }}" target="_blank">
+  <a href="{{ url }}" target="_blank" title="{% trans %}Share on {{ name }}{% endtrans %}">
     <i class="fa fa-lg fa-{{ name }}"></i>
   </a>
 {% endmacro %}
