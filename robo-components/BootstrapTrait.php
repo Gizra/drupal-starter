@@ -262,7 +262,7 @@ trait BootstrapTrait {
     foreach ($pantheon_environments as $pantheon_environment) {
       $this->taskExec("terminus env:wake $project_machine_name.$pantheon_environment")
         ->run();
-      $this->taskExec("terminus env:lock $project_machine_name.$pantheon_environment --username=$http_basic_auth_user --password=$http_basic_auth_password")
+      $this->taskExec("terminus lock:enable $project_machine_name.$pantheon_environment $http_basic_auth_user $http_basic_auth_password")
         ->run();
     }
   }
