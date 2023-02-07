@@ -32,11 +32,11 @@ msgstr ""
 
 #: themes/custom/server_theme/templates/menu-local-tasks.html.twig:17
 msgid "Primary tabs"
-msgstr ""
+msgstr "التبويبات الأساسية"
 
 #: themes/custom/server_theme/templates/menu-local-tasks.html.twig:23
 msgid "Secondary tabs"
-msgstr ""
+msgstr "التبويبات الفرعية"
 
 #: themes/custom/server_theme/templates/server-theme-facets-title.html.twig:5
 msgid "Filters"
