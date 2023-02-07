@@ -43,12 +43,7 @@ trait BootstrapTrait {
     $this->deployPantheonInstallEnv('dev', $project_machine_name);
     $this->deployPantheonInstallEnv('qa', $project_machine_name);
 
-    if ($http_basic_auth_user && $http_basic_auth_password) {
-      $this->lockPantheonEnvironments($project_machine_name, $http_basic_auth_user, $http_basic_auth_password);
-    }
-    else {
-      $this->say("No HTTP basic auth credentials were provided. Pantheon environments will not be locked.");
-    }
+    $this->lockPantheonEnvironments($project_machine_name, $http_basic_auth_user, $http_basic_auth_password);
 
     $this->say("Bootstrap completed successfully.");
     $this->say("You might want to run the following commands to properly place the project:");
@@ -253,6 +248,10 @@ trait BootstrapTrait {
    *   The HTTP basic auth password.
    */
   public function lockPantheonEnvironments(string $project_machine_name, string $http_basic_auth_user, string $http_basic_auth_password) {
+    if (empty($http_basic_auth_user) || empty($http_basic_auth_password)) {
+      $this->say("No HTTP basic auth credentials were provided. Pantheon environments will not be locked.");
+      return;
+    }
     $pantheon_environments = $this->taskExec("terminus env:list $project_machine_name --field=ID --format=list")
       ->printOutput(FALSE)
       ->run()
