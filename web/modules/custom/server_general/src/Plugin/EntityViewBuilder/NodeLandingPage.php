@@ -42,7 +42,10 @@ class NodeLandingPage extends NodeViewBuilderAbstract {
     $element = $this->buildReferencedEntities($paragraphs);
     $elements[] = $this->wrapContainerVerticalSpacingBig($element);
 
-    $build[] = $this->wrapContainerVerticalSpacingBig($elements);
+    $elements = $this->wrapContainerVerticalSpacingBig($elements);
+    // Add bottom padding, so there's some padding between all the paragraphs
+    // and the footer.
+    $build[] = $this->wrapContainerBottomPadding($elements);
 
     return $build;
   }

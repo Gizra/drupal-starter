@@ -18,6 +18,9 @@ process:
     plugin: default_value
     default_value: cta
   field_title: _title
-  field_subtitle: _subtitle
   field_link/uri: _url
   field_link/title: _url_title
+  field_body/value: _body
+  field_body/format:
+    plugin: default_value
+    default_value: basic_html

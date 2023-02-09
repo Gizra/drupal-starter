@@ -1,19 +1,21 @@
-uuid: 7f25e042-56d0-4207-b34b-4eeefa5cc390
+uuid: 65aaa301-9e24-4fd1-ad22-2706f7c17da4
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.paragraph.field_subtitle
+    - field.storage.paragraph.field_body
     - paragraphs.paragraphs_type.cta
-id: paragraph.cta.field_subtitle
-field_name: field_subtitle
+  module:
+    - text
+id: paragraph.cta.field_body
+field_name: field_body
 entity_type: paragraph
 bundle: cta
-label: Subtitle
+label: Description
 description: ''
-required: true
+required: false
 translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }
-field_type: string
+field_type: text_long

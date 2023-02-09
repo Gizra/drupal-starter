@@ -62,4 +62,17 @@ trait TitleAndLabelsTrait {
     ];
   }
 
+  /**
+   * Build the paragraph title.
+   *
+   * @param string $title
+   *   The title.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function buildParagraphTitle(string $title): array {
+    return $this->wrapHtmlTag($title, 'h2');
+  }
+
 }
