@@ -75,8 +75,6 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
         ],
       ]);
       // The first result should be the one with the word in the title.
-      // Xpath for: <div class="views-row"> which is the first child of
-      // <div class="view-content">.
       $assert->elementTextEquals('xpath', "(//div[contains(@class, 'views-row')])[1]//a", 'aspecialword in the title');
       // The second result should be the one with the word in the body.
       $assert->elementTextEquals('xpath', "(//div[contains(@class, 'views-row')])[2]//a", 'something else in the title');
