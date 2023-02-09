@@ -62,7 +62,7 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
     $node = $this->createNode([
       'type' => 'news',
       'title' => 'something else in the title',
-      'body' => 'aspecialword in the body',
+      'field_body' => 'aspecialword in the body',
       'status' => 1,
     ]);
     $node->setPublished()->save();
