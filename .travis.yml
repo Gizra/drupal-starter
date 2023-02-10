@@ -15,7 +15,7 @@ stages:
 
 env:
   global:
-    - PANTHEON_GIT_URL="{{ PANTHEON_GIT_URL }}"
+    - PANTHEON_GIT_URL="ssh://codeserver.dev.5acc1750-abf0-47ef-a6d8-6890a6efaca8@codeserver.dev.5acc1750-abf0-47ef-a6d8-6890a6efaca8.drush.in:2222/~/repository.git"
     - secure: bE9Qwgm4OnzsHCtE4WBiQWNYRCoG0pO2wC0tY2bu0RVJ+TJekZ2UBC2XAr6dsoFCAZE1nYN6VnRMYuUqXThRjlaLEY96L2I2XD3m7iZrOlDVVEWP0vnOZD892x4k/S/wpQFXYaQHSyikyyFfL5m3V0bIWjoweyON293q5494WKRnVrD5+uYGMdSLQmwF8lm/L/q3hlLpm8Ju63IM4WHAk0YY8Z/ASjCsKk/QGJTePU5OSjKO+NFLU49LRMPXjbWxWiz9leWNy0NP8St+7ONW/QX9QPRxiOoBGK+gzz3U0zGmAbF3mWNfTC1KRIsiA9vVI36pYAfA2n2Bv4Jz31ktUkTOCt6nvkpL4/4LcYcp8uymM0wW2+coaWlLBxRIrjz80XgtAr3ruy6ArC6BddOefYCxsw13Z2LseG88FmRy4VX/ypIj7h38wdhQZqgj6WsEmQR2tHO3mlXcd+ZL/LdFA181uQhOPuPWn5UYEgC3Rth2N3n2OXguzFizFA/XBbPmDlG/KUPcJX4suUzhawvaMS79XvUIVEYID8InoMzQs3VtqlGeOqYHbz4rjn7inpQgdLw6OdIssk6pp0nwqugiCPrMlLw3G3yiUwNQZ9jXR0UjhOXR40KIGbGwg0xbC/xtdQjM+76VEtnJmpQQcDxZ/ZmEbUK8xdOuss84LFJnVKw=
 
 before_install:
@@ -54,7 +54,7 @@ jobs:
     - stage: Test
       name: "Backend tests: Functional tests"
       # Before auto-deploy gets configured, this will execute the tests always.
-      if: (branch != "{{ GITHUB_DEPLOY_BRANCH }}" AND tag IS blank) OR env(TERMINUS_TOKEN) IS blank
+      if: (branch != "main" AND tag IS blank)
       script:
         - "$TRAVIS_BUILD_DIR/ci-scripts/install_ddev.sh || travis_terminate 1;"
         - "$TRAVIS_BUILD_DIR/ci-scripts/install_drupal.sh || travis_terminate 1;"
@@ -62,10 +62,11 @@ jobs:
     - stage: Deploy
       name: "Backend tests: Functional tests and deploy to Pantheon"
       # This will get activated using ddev robo deploy:config-autodeploy.
-      if: branch = "{{ GITHUB_DEPLOY_BRANCH }}" AND type = push AND env(TERMINUS_TOKEN) IS present
+      if: branch = "main" AND type = push
       script:
         - "$TRAVIS_BUILD_DIR/ci-scripts/install_ddev.sh || travis_terminate 1;"
         - "$TRAVIS_BUILD_DIR/ci-scripts/install_drupal.sh || travis_terminate 1;"
         - "$TRAVIS_BUILD_DIR/ci-scripts/test_phpunit.sh || travis_terminate 1;"
         - "(travis_retry $TRAVIS_BUILD_DIR/ci-scripts/prepare_deploy.sh) || travis_terminate 1;"
-        - "travis_retry ddev robo deploy:pantheon --no-interaction {{ PANTHEON_DEPLOY_BRANCH }}"
+        - "travis_retry ddev robo deploy:pantheon --no-interaction"
+        - "ddev robo deploy:notify || travis_terminate 1;"
