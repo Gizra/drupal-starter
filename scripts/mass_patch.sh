@@ -11,11 +11,33 @@ if [ "$#" -ne 2 ]; then
 fi
 
 GH_TOKEN="$1"
-PATCH_FILE="$2"
+PATCH_FILE=$(realpath "$2")
+BRANCH_NAME=$(basename "$PATCH_FILE" .patch)
 BASE_DIR=$(pwd)
 
-# List of repos to patch
-REPOSITORIES=(client1 client2 client3)
+# Check if the patch file actually exists.
+if [ ! -f "$PATCH_FILE" ]; then
+  echo "The patch file does not exist."
+  exit 1
+fi
+
+# Check if the branch name contains space, abort in that case.
+if [[ "$BRANCH_NAME" == *" "* ]]; then
+  echo "The branch name cannot contain spaces."
+  exit 1
+fi
+
+# The list of repos to patch comes from an environment variable.
+# If the variable is not set, print instructions and exit.
+if [ -z "$REPOSITORIES" ]; then
+  echo "The REPOSITORIES environment variable is not set."
+  echo "For example:"
+  echo "export REPOSITORIES=\"client1 client2 client3\""
+  exit 1
+fi
+
+# Convert the string to an array.
+REPOSITORIES=($REPOSITORIES)
 
 # Clone or update each repository
 for REPO in "${REPOSITORIES[@]}"
@@ -37,14 +59,14 @@ do
   git clean -f
 
   echo "Applying patch"
-  git apply ../"$PATCH_FILE" || continue
-  git checkout -b "$PATCH_FILE" || continue
+  git apply "$PATCH_FILE" || continue
+  git checkout -b "$BRANCH_NAME" || continue
   git add .
   git commit -m "Apply patch $PATCH_FILE" || continue
-  git push origin "$PATCH_FILE"
+  git push origin "$BRANCH_NAME"
   curl -H "Authorization: token $GH_TOKEN" \
        -X POST \
-       -d '{"title":"Apply patch '$PATCH_FILE'", "head":"'$PATCH_FILE'", "base":"'$DEFAULT_BRANCH'"}' \
+       -d '{"title":"Apply patch '$PATCH_FILE'", "head":"'$BRANCH_NAME'", "base":"'$DEFAULT_BRANCH'"}' \
        "https://api.github.com/repos/Gizra/$REPO/pulls"
   echo "$REPO is completed"
   echo ""
