@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 use Drupal\Core\DrupalKernel;
 use Robo\Tasks;
+use RoboComponents\BootstrapTrait;
 use RoboComponents\ReleaseNotesTrait;
 use RoboComponents\ThemeTrait;
 use RoboComponents\DeploymentTrait;
@@ -21,6 +22,7 @@ $GLOBALS['drupal_autoloader'] = require_once 'web/autoload.php';
  */
 class RoboFile extends Tasks {
 
+  use BootstrapTrait;
   use DeploymentTrait;
   use ElasticSearchTrait;
   use ExportFromConfig;

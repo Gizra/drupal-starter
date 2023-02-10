@@ -20,6 +20,10 @@ env:
 
 before_install:
   - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+  - sudo jq '."registry-mirrors" = ["DOCKER_MIRROR"]' /etc/docker/daemon.json > $tmpdaemon
+  - sudo mv $tmpdaemon /etc/docker/daemon.json
+  - sudo systemctl daemon-reload
+  - sudo systemctl restart docker
 
 jobs:
   include:
