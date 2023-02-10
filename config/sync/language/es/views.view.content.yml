@@ -1,65 +1,69 @@
-label: المحتوى
-description: 'إيجاد وإدارة المحتوى'
+label: Contenido
+description: 'Encontrar y administrar contenido.'
 display:
   default:
-    display_title: الافتراضي
+    display_title: 'Por defecto'
     display_options:
-      title: المحتوى
+      title: Contenido
       fields:
         title:
-          label: العنوان
+          label: Título
         type:
-          label: 'نوع المحتوى'
+          label: 'Tipo de contenido'
           separator: ', '
         name:
-          label: المؤلف
+          label: Autor
         status:
-          label: الحالة
+          label: Estado
           settings:
-            format_custom_false: 'غير منشور'
-            format_custom_true: منشور
+            format_custom_false: 'Sin publicar'
+            format_custom_true: Publicado
         changed:
-          label: التحديث
+          label: Actualizado
         operations:
-          label: عمليات
+          label: Operaciones
       pager:
         options:
           tags:
-            next: 'التالي ›'
-            previous: '‹ السابق'
+            next: 'Siguiente >'
+            previous: '‹ Anterior'
+            first: '« Primero'
+            last: 'Último »'
       exposed_form:
         options:
-          submit_button: انتقاء
-          reset_button_label: 'إعادة الضبط'
-          exposed_sorts_label: 'الترتيب حسب'
-          sort_asc_label: تصاعدي
-          sort_desc_label: تنازلي
+          submit_button: Filtro
+          reset_button_label: Restablecer
+          exposed_sorts_label: 'Ordenar por'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
       empty:
         area_text_custom:
-          content: 'لا يوجد محتوى.'
+          content: 'No hay contenido disponible.'
       filters:
         title:
           expose:
-            label: العنوان
+            label: Título
         type:
           expose:
-            label: 'نوع المحتوى'
+            label: 'Tipo de contenido'
         status:
           expose:
-            label: الحالة
+            label: Estado
           group_info:
+            label: 'Estado de publicación'
             group_items:
               1:
-                title: منشور
+                title: Publicado
               2:
-                title: 'غير منشور'
+                title: 'Sin publicar'
         langcode:
           expose:
-            label: اللغة
+            label: Idioma
   page_1:
-    display_title: الصفحة
+    display_title: Página
     display_options:
       menu:
-        title: المحتوى
+        title: Contenido
       tab_options:
-        title: المحتوى
+        title: Contenido
+        description: 'Encuentre y gestione el contenido'

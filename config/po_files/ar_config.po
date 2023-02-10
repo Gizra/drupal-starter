@@ -1,0 +1,351 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgctxt "facets.facet.content_type:widget.config.reset_text"
+msgid "Show all"
+msgstr ""
+
+msgctxt "facets.facet.content_type:widget.config.soft_limit_settings.show_less_label"
+msgid "Show less"
+msgstr ""
+
+msgctxt "facets.facet.content_type:widget.config.soft_limit_settings.show_more_label"
+msgid "Show more"
+msgstr ""
+
+msgctxt "field.field.media.image.field_caption:label,field.field.media.video.field_caption:label"
+msgid "Caption"
+msgstr ""
+
+msgctxt "field.field.media.image.field_media_image:label,field.field.paragraph.hero_image.field_image:label,media.type.image:label"
+msgid "Image"
+msgstr ""
+
+msgctxt "field.field.media.video.field_media_oembed_video:label"
+msgid "Remote video URL"
+msgstr ""
+
+msgctxt "field.field.node.landing_page.field_is_title_hidden:label"
+msgid "Hide title"
+msgstr ""
+
+msgctxt "field.field.node.landing_page.field_is_title_hidden:description"
+msgid "Check to hide the title on the page."
+msgstr ""
+
+msgctxt "field.field.node.landing_page.field_paragraphs:label"
+msgid "Paragraphs"
+msgstr ""
+
+msgctxt "field.field.node.news.field_body:label,field.field.paragraph.text.field_body:label"
+msgid "Body"
+msgstr ""
+
+msgctxt "field.field.node.news.field_featured_image:label"
+msgid "Featured image"
+msgstr ""
+
+msgctxt "field.field.node.news.field_publish_date:label"
+msgid "Publish date"
+msgstr ""
+
+msgctxt "field.field.node.news.field_tags:label,taxonomy.vocabulary.tags:name"
+msgid "Tags"
+msgstr ""
+
+msgctxt "field.field.paragraph.cta.field_body:label"
+msgid "Description"
+msgstr ""
+
+msgctxt "field.field.paragraph.cta.field_link:label,field.field.paragraph.hero_image.field_link:label,field.field.paragraph.related_content.field_link:label"
+msgid "Link"
+msgstr ""
+
+msgctxt "field.field.paragraph.cta.field_title:label,field.field.paragraph.hero_image.field_title:label,field.field.paragraph.news_teasers.field_title:label,field.field.paragraph.related_content.field_title:label,field.field.paragraph.text.field_title:label"
+msgid "Title"
+msgstr ""
+
+msgctxt "field.field.paragraph.hero_image.field_subtitle:label"
+msgid "Subtitle"
+msgstr ""
+
+msgctxt "field.field.paragraph.related_content.field_is_featured:label"
+msgid "Featured"
+msgstr ""
+
+msgctxt "field.field.paragraph.related_content.field_is_featured:description"
+msgid "Determine of cards should show as \"Featured\" - bigger cards, and only a single one at a time."
+msgstr ""
+
+msgctxt "field.field.paragraph.related_content.field_related_content:label,paragraphs.paragraphs_type.related_content:label"
+msgid "Related content"
+msgstr ""
+
+msgctxt "field.field.user.user.user_picture:label"
+msgid "Picture"
+msgstr ""
+
+msgctxt "field.field.user.user.user_picture:description"
+msgid "Your virtual face or picture."
+msgstr ""
+
+msgctxt "filter.format.restricted_html:name"
+msgid "Restricted HTML"
+msgstr ""
+
+msgctxt "filter.format.basic_html:name"
+msgid "Basic HTML"
+msgstr ""
+
+msgctxt "filter.format.full_html:name"
+msgid "Full HTML"
+msgstr ""
+
+msgctxt "filter.format.plain_text:name"
+msgid "Plain text"
+msgstr "نص عادي"
+
+msgctxt "media.type.image:description,media.type.video:description"
+msgid ""
+msgstr ""
+
+msgctxt "media.type.video:label"
+msgid "Video"
+msgstr ""
+
+msgctxt "node.type.landing_page:name"
+msgid "Landing page"
+msgstr ""
+
+msgctxt "node.type.landing_page:description"
+msgid "Use <em>landing pages</em> for your configurable pages with paragraphs, such as an 'Home' page."
+msgstr ""
+
+msgctxt "node.type.news:name"
+msgid "News"
+msgstr ""
+
+msgctxt "node.type.news:description"
+msgid "Use <em>news</em> for time-sensitive content like news, press releases or blog posts."
+msgstr ""
+
+msgctxt "paragraphs.paragraphs_type.cta:label"
+msgid "Call to action"
+msgstr ""
+
+msgctxt "paragraphs.paragraphs_type.hero_image:label"
+msgid "Hero image"
+msgstr ""
+
+msgctxt "paragraphs.paragraphs_type.news_teasers:label"
+msgid "News teasers"
+msgstr ""
+
+msgctxt "paragraphs.paragraphs_type.news_teasers:description"
+msgid "Show News teasers as grid of cards."
+msgstr ""
+
+msgctxt "paragraphs.paragraphs_type.search:label"
+msgid "Search"
+msgstr ""
+
+msgctxt "paragraphs.paragraphs_type.search:description"
+msgid "Show the search filters and results widget."
+msgstr ""
+
+msgctxt "paragraphs.paragraphs_type.text:label"
+msgid "Text"
+msgstr ""
+
+msgctxt "paragraphs.paragraphs_type.text:description"
+msgid "An optional title and body fields."
+msgstr ""
+
+msgctxt "system.action.comment_delete_action:label"
+msgid "Delete comment"
+msgstr "احذف التعليق"
+
+msgctxt "system.action.comment_publish_action:label"
+msgid "Publish comment"
+msgstr "نشر التعليق"
+
+msgctxt "system.action.comment_save_action:label"
+msgid "Save comment"
+msgstr "حفظ التعليق"
+
+msgctxt "system.action.comment_unpublish_action:label"
+msgid "Unpublish comment"
+msgstr "تراجع عن نشر التعليق"
+
+msgctxt "system.action.media_delete_action:label"
+msgid "Delete media"
+msgstr ""
+
+msgctxt "system.action.media_publish_action:label"
+msgid "Publish media"
+msgstr ""
+
+msgctxt "system.action.media_save_action:label"
+msgid "Save media"
+msgstr ""
+
+msgctxt "system.action.media_unpublish_action:label"
+msgid "Unpublish media"
+msgstr ""
+
+msgctxt "system.action.node_delete_action:label"
+msgid "Delete content"
+msgstr ""
+
+msgctxt "system.action.node_make_sticky_action:label"
+msgid "Make content sticky"
+msgstr "تثبيت المحتوى"
+
+msgctxt "system.action.node_make_unsticky_action:label"
+msgid "Make content unsticky"
+msgstr "إلغاء جعل المحتوى مثبت"
+
+msgctxt "system.action.node_promote_action:label"
+msgid "Promote content to front page"
+msgstr "ترقية المحتوى إلى الصفحة الرئيسية"
+
+msgctxt "system.action.node_publish_action:label"
+msgid "Publish content"
+msgstr "نشر المحتوى"
+
+msgctxt "system.action.node_save_action:label"
+msgid "Save content"
+msgstr "حفظ المحتوى"
+
+msgctxt "system.action.node_unpromote_action:label"
+msgid "Remove content from front page"
+msgstr "ارفع الموضوع من الصفحة الرئيسية"
+
+msgctxt "system.action.node_unpublish_action:label"
+msgid "Unpublish content"
+msgstr "إلغاء نشر المحتوى"
+
+msgctxt "system.action.pathauto_update_alias_node:label,system.action.pathauto_update_alias_user:label"
+msgid "Update URL alias"
+msgstr ""
+
+msgctxt "system.action.redirect_delete_action:label"
+msgid "Delete redirect"
+msgstr ""
+
+msgctxt "system.action.taxonomy_term_publish_action:label"
+msgid "Publish taxonomy term"
+msgstr ""
+
+msgctxt "system.action.taxonomy_term_unpublish_action:label"
+msgid "Unpublish taxonomy term"
+msgstr ""
+
+msgctxt "system.action.user_add_role_action.administrator:label"
+msgid "Add the Administrator role to the selected user(s)"
+msgstr ""
+
+msgctxt "system.action.user_add_role_action.content_editor:label"
+msgid "Add the Content Editor role to the selected user(s)"
+msgstr ""
+
+msgctxt "system.action.user_add_role_action.translator:label"
+msgid "Add the Translator role to the selected user(s)"
+msgstr ""
+
+msgctxt "system.action.user_block_user_action:label"
+msgid "Block the selected user(s)"
+msgstr ""
+
+msgctxt "system.action.user_cancel_user_action:label"
+msgid "Cancel the selected user account(s)"
+msgstr ""
+
+msgctxt "system.action.user_remove_role_action.administrator:label"
+msgid "Remove the Administrator role from the selected user(s)"
+msgstr ""
+
+msgctxt "system.action.user_remove_role_action.content_editor:label"
+msgid "Remove the Content Editor role from the selected user(s)"
+msgstr ""
+
+msgctxt "system.action.user_remove_role_action.translator:label"
+msgid "Remove the Translator role from the selected user(s)"
+msgstr ""
+
+msgctxt "system.action.user_unblock_user_action:label"
+msgid "Unblock the selected user(s)"
+msgstr ""
+
+msgctxt "system.maintenance:message"
+msgid "@site is currently under maintenance. We should be back shortly. Thank you for your patience."
+msgstr "@site حاليا تحت الصيانة. يعود قريبا. شكرا على صبرك."
+
+msgctxt "system.menu.account:label"
+msgid "User account menu"
+msgstr ""
+
+msgctxt "system.menu.account:description"
+msgid "Links related to the active user account"
+msgstr ""
+
+msgctxt "system.menu.admin:label"
+msgid "Administration"
+msgstr "الإدارة"
+
+msgctxt "system.menu.admin:description"
+msgid "Administrative task links"
+msgstr ""
+
+msgctxt "system.menu.footer:label"
+msgid "Footer"
+msgstr "التذييل"
+
+msgctxt "system.menu.footer:description"
+msgid "Site information links"
+msgstr ""
+
+msgctxt "system.menu.main:label"
+msgid "Main navigation"
+msgstr ""
+
+msgctxt "system.menu.main:description"
+msgid "Site section links"
+msgstr ""
+
+msgctxt "system.menu.tools:label"
+msgid "Tools"
+msgstr "الأدوات"
+
+msgctxt "system.menu.tools:description"
+msgid "User tool links, often added by modules"
+msgstr ""
+
+msgctxt "taxonomy.vocabulary.tags:description"
+msgid "Use tags to group articles on similar topics into categories."
+msgstr ""
+
+msgctxt "user.role.administrator:label"
+msgid "Administrator"
+msgstr ""
+
+msgctxt "user.role.anonymous:label"
+msgid "Anonymous user"
+msgstr "مستخدم مجهول"
+
+msgctxt "user.role.authenticated:label"
+msgid "Authenticated user"
+msgstr "مستخدم موثوق"
+
+msgctxt "user.role.content_editor:label"
+msgid "Content Editor"
+msgstr ""
+
+msgctxt "user.role.translator:label"
+msgid "Translator"
+msgstr ""
