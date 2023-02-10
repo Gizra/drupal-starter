@@ -36,6 +36,15 @@ if [ -z "$REPOSITORIES" ]; then
   exit 1
 fi
 
+# Make sure if are not in a repository root, if .git directory exists,
+# ask to execute it from elsewhere.
+if [ -d .git ]; then
+  echo "You are in a repository root, please execute this script from"
+  echo "a directory that contains your working copies. for example:"
+  echo "cd /home/User/gizra"
+  exit 1
+fi
+
 # Convert the string to an array.
 REPOSITORIES=($REPOSITORIES)
 
@@ -47,7 +56,7 @@ do
   echo "Patching $REPO ($DEFAULT_BRANCH is the default branch)"
 
   if [ ! -d "$REPO" ]; then
-    git clone "git@github.com:Gizra/$REPO.git"
+    git clone "git@github.com:Gizra/$REPO.git" || continue
   fi
 
   cd "$REPO" || continue
