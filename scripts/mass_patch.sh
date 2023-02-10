@@ -79,4 +79,6 @@ do
        "https://api.github.com/repos/Gizra/$REPO/pulls"
   echo "$REPO is completed"
   echo ""
+  # We have various rate limiting on GitHub, so let's sleep a bit.
+  sleep 5
 done
