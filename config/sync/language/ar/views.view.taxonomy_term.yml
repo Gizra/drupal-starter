@@ -1,11 +1,16 @@
 label: 'مصطلح تصنيف'
+description: 'Contenido perteneciente a un determinado término de taxonomía.'
 display:
   default:
     display_title: الافتراضي
     display_options:
       pager:
         options:
+          tags:
+            next: ››
+            previous: ‹‹
           expose:
+            items_per_page_label: 'Elementos por página'
             items_per_page_options_all_label: '- الكل -'
             offset_label: الإزاحة
       exposed_form:
@@ -19,6 +24,7 @@ display:
         tid:
           exception:
             title: الكل
+          title: '{{ arguments.tid }}'
   feed_1:
     display_title: التلقيمة
   page_1:

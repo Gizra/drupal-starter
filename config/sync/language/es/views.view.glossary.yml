@@ -1,31 +1,36 @@
-label: القاموس
+label: Glosario
+description: 'Todo el contenido, alfabéticamente.'
 display:
   default:
-    display_title: الافتراضي
+    display_title: 'Por defecto'
     display_options:
       fields:
         title:
-          label: العنوان
+          label: Título
         name:
-          label: المؤلف
+          label: Autor
         changed:
-          label: 'آخر تحديث'
+          label: 'Última actualización'
       pager:
         options:
+          tags:
+            next: ››
+            previous: ‹‹
           expose:
-            items_per_page_options_all_label: '- الكل -'
-            offset_label: الإزاحة
+            items_per_page_label: 'Elementos por página'
+            items_per_page_options_all_label: '- Todo -'
+            offset_label: Desplazamiento
       exposed_form:
         options:
-          submit_button: تطبيق
-          reset_button_label: 'إعادة الضبط'
-          exposed_sorts_label: 'الترتيب حسب'
-          sort_asc_label: تصاعدي
-          sort_desc_label: تنازلي
+          submit_button: Aplicar
+          reset_button_label: Restablecer
+          exposed_sorts_label: 'Ordenar por'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
   attachment_1:
-    display_title: المرفق
+    display_title: Adjunto
   page_1:
-    display_title: الصفحة
+    display_title: Página
     display_options:
       menu:
-        title: القاموس
+        title: Glosario

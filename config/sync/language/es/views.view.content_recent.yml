@@ -1,22 +1,23 @@
-label: 'أحدث المحتويات'
+label: 'Contenido reciente'
+description: 'Contenido reciente.'
 display:
   default:
-    display_title: الافتراضي
+    display_title: 'Por defecto'
     display_options:
-      title: 'أحدث المحتويات'
+      title: 'Contenido reciente'
       fields:
         changed:
           separator: ', '
       exposed_form:
         options:
-          submit_button: تطبيق
-          reset_button_label: 'إعادة الضبط'
-          exposed_sorts_label: 'الترتيب حسب'
-          sort_asc_label: تصاعدي
-          sort_desc_label: تنازلي
+          submit_button: Aplicar
+          reset_button_label: Restablecer
+          exposed_sorts_label: 'Ordenar por'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
       empty:
         area_text_custom:
-          content: 'لا يوجد محتوى.'
-      use_more_text: المزيد
+          content: 'No hay contenido disponible.'
+      use_more_text: Más
   block_1:
-    display_title: الصندوق
+    display_title: Bloque

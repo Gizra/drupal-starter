@@ -7,8 +7,8 @@ url:
   prefixes:
     en: ''
     ar: ar
-    es: es
     '': null
+    es: es
   domains:
     en: ''
     ar: ''

@@ -1,4 +1,5 @@
 label: 'أحدث المحتويات'
+description: 'Contenido reciente.'
 display:
   default:
     display_title: الافتراضي

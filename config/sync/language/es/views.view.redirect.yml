@@ -1,34 +1,61 @@
+label: Redirección
 display:
   default:
+    display_title: Máster
     display_options:
       exposed_form:
         options:
-          submit_button: انتقاء
-          reset_button_label: 'إعادة الضبط'
-          exposed_sorts_label: 'الترتيب حسب'
-          sort_asc_label: تصاعدي
-          sort_desc_label: تنازلي
+          submit_button: Filtro
+          reset_button_label: Restablecer
+          exposed_sorts_label: 'Ordenar por'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
       pager:
         options:
           tags:
-            previous: '‹ السابقة'
-            next: 'التالية ›'
-            first: '« الأولى'
+            previous: '‹ anterior'
+            next: 'siguiente ›'
+            first: '« primero'
+            last: 'último »'
           expose:
-            items_per_page_options_all_label: '- الكل -'
-            offset_label: الإزاحة
+            items_per_page_label: 'Elementos por página'
+            items_per_page_options_all_label: '- Todo -'
+            offset_label: Desplazamiento
       fields:
+        redirect_bulk_form:
+          action_title: 'Con selección'
         redirect_source__path:
-          label: من
+          label: Desde
           separator: ', '
         created:
-          label: الإنشاء
+          label: Creado
       filters:
         redirect_source__path:
           expose:
-            label: من
+            label: Desde
         redirect_redirect__uri:
           expose:
-            label: إلى
+            label: Para
+        status_code:
+          group_info:
+            group_items:
+              1:
+                title: '300 Múltiples posibilidades'
+              2:
+                title: '301 Movido permanentemente'
+              3:
+                title: '302 Encontrado'
+              4:
+                title: '303 Ver otra ubicación'
+              5:
+                title: '304 No modificado'
+              6:
+                title: '305 Usar proxy'
+              7:
+                title: '307 Redirección temporal'
+        language:
+          expose:
+            label: 'Lenguaje original'
+      title: Redirección
   page_1:
-    display_title: الصفحة
+    display_title: Página

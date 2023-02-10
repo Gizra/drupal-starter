@@ -1,4 +1,5 @@
 label: 'أحدث التعليقات'
+description: 'Comentarios recientes.'
 display:
   default:
     display_title: الافتراضي
@@ -11,3 +12,4 @@ display:
     display_title: الصندوق
     display_options:
       block_description: 'أحدث التعليقات'
+      block_category: 'Listas (Views)'

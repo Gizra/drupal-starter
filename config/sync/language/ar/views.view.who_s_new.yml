@@ -1,4 +1,5 @@
 label: 'المستخدمون الجدد'
+description: 'Muestra una lista de las cuentas de usuario más recientes del sitio.'
 display:
   default:
     display_title: الافتراضي
@@ -14,5 +15,6 @@ display:
   block_1:
     display_title: 'المستخدمون الجدد'
     display_options:
+      display_description: 'Un listado de nuevos usuarios'
       block_description: 'المستخدمون الجدد'
       block_category: المستخدم

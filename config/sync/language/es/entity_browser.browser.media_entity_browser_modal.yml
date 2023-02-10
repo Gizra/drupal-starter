@@ -1,0 +1,10 @@
+label: 'Navegador de entidades de medios (Modal)'
+display_configuration:
+  link_text: 'Seleccionar medios'
+widgets:
+  fc729026-c85f-4561-acd5-38d4082b69fb:
+    settings:
+      submit_text: 'Seleccionar medios'
+    label: 'Elegir medio existente'
+  9769d4e4-1f9c-4313-8b01-fe8cff8aa5a1:
+    label: 'Subir nueva imagen'
