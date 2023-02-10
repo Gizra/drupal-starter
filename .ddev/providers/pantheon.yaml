@@ -37,7 +37,7 @@
 # `ddev exec terminus site:list` will show available sites
 
 environment_variables:
-  project: yourproject.dev
+  project: gizra-drupal-starter.qa
 
 auth_command:
   command: |
