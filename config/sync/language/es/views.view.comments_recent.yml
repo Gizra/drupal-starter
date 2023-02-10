@@ -8,7 +8,6 @@ display:
       fields:
         changed:
           settings:
-            future_format: 'Desde hace @interval'
             past_format: 'Hace @interval'
       empty:
         area_text_custom:

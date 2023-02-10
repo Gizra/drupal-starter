@@ -293,3 +293,69 @@ ddev ddev-flood-flush 193.165.2.3
 ```
 
 Purges entries related to IP `193.165.2.3` from Pantheon's `test` environment, or alternatively from DDEV's own Redis.
+
+
+## Importing/Exporting translations
+
+There are 2 types of translations that we manage in this site by code. These are:
+
+- UI translations
+- Config translations
+
+### UI translations
+
+UI translations are strings that pass through `TranslatableMarkup` basically. They are defined mostly in twig files and
+in PHP classes. The UI translations files are in `config/po_files` directory:
+
+- `ar.po`
+- `es.po`
+
+#### Exporting UI translations
+
+When new translatable strings are added, a dev should:
+
+- Enable potx module `ddev drush en potx`
+- Export the translation strings from the file. For example, if you added a new string in server_general.module:
+  - `drush potx --files modules/server_general/server_general.module`
+  - Open `web/general.pot` file, copy the new translatable string you added and paste it into each language po file.
+- Provide the updated po file to the translators.
+
+Once these are translated by translators and provided back to devs, devs will need to simply commit the changes.
+
+#### Importing UI translations
+
+These files are imported automatically on deploys to Pantheon. And on ddev if you have `exec: robo locale:import` in
+your ddev's `config.local.yaml` they will be imported on ddev start.
+
+To run the import manually on ddev: `ddev robo locale:import`.
+
+### Config translations
+
+Config translations are for translating config entities, such as a Node Type. The Config translations files are in
+`config/po_files` directory and the file names end with `_config`:
+
+- `ar_config.po`
+- `es_config.po`
+
+#### Exporting Config translations
+
+When new modules are installed, or new configuration is added to the site, a dev should re-export the config
+translations and provide it to a translator for updating.
+
+First you must identify the strings which will need to be added to the list of translatable config strings.
+To do this simply update the `managed-config.txt` file and add the config name (without the `.yml`) followed by a colon
+and the config key that you want to translate. For example, to add "News" node type's bundle label to the list,
+simply add `node.type.news:name` to the file in a new line.
+
+Then you need to run `ddev robo locale:export-from-config` which will update the config po files.
+
+#### Importing Config translations
+
+These files are __*not*__ imported automatically. When a dev receives updated `*_config.po` file, they need to manually
+import the po file.
+
+To import the config translations:
+
+- Run `ddev robo locale:import-to-config`
+- Run `ddev drush config:export`
+- Review & commit the config changes

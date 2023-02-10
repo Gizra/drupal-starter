@@ -1,6 +1,2 @@
 translation:
-  use_source: remote_and_local
-  overwrite_customized: false
-  overwrite_not_customized: false
-  update_interval_days: null
-  path: /tmp/translations
+  path: sites/default/files/translations

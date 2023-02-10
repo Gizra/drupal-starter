@@ -1,0 +1,4 @@
+api_version: 1
+web_docroot: true
+build_step: false
+php_version: 8.0

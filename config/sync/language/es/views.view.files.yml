@@ -26,8 +26,6 @@ display:
           label: 'Fecha de modificación'
         count:
           label: 'Usado en'
-          alter:
-            path: 'admin/content/files/usage/{{ fid }}'
       pager:
         options:
           tags:
