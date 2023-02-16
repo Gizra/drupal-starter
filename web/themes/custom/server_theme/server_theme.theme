@@ -268,7 +268,7 @@ function server_theme_theme() {
     'variables' => [],
   ];
 
-  $info['server_theme_related_content'] = [
+  $info['server_theme_carousel'] = [
     'variables' => [
       'title' => NULL,
       'items' => [],

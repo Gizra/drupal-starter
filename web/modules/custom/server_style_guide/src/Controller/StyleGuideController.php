@@ -512,7 +512,7 @@ class StyleGuideController extends ControllerBase {
     $button = !$is_featured ? $this->buildButton('View more', $url) : NULL;
 
     return [
-      '#theme' => 'server_theme_related_content',
+      '#theme' => 'server_theme_carousel',
       '#title' => $this->t('Related content'),
       '#items' => $this->getRelatedContent(6, $is_featured),
       '#button' => $button,
