@@ -510,14 +510,14 @@ class StyleGuideController extends ControllerBase {
 
     // Show button only if it's not featured content.
     $button = !$is_featured ? $this->buildButton('View more', $url) : NULL;
+    $items = $this->getRelatedContent(6, $is_featured);
 
-    return [
-      '#theme' => 'server_theme_carousel',
-      '#title' => $this->t('Related content'),
-      '#items' => $this->getRelatedContent(6, $is_featured),
-      '#button' => $button,
-      '#is_featured' => $is_featured,
-    ];
+    return $this->buildElementCarousel(
+      $items,
+      $is_featured,
+      $this->t('Related content'),
+      $button,
+    );
   }
 
   /**
