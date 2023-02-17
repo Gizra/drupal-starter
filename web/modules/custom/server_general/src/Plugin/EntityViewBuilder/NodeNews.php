@@ -130,7 +130,7 @@ class NodeNews extends NodeViewBuilderAbstract {
     return [
       '#theme' => 'server_theme_main_and_sidebar',
       '#main' => $this->wrapContainerVerticalSpacingBig($main_elements),
-      '#sidebar' => $this->buildCard($sidebar_elements),
+      '#sidebar' => $this->buildCardLayout($sidebar_elements),
     ];
 
   }

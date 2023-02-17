@@ -270,7 +270,7 @@ class StyleGuideController extends ControllerBase {
         $elements[] = $this->wrapTextColor($element, 'light-gray');
       }
 
-      $items[] = $this->buildCardCentered($elements);
+      $items[] = $this->buildCardLayoutCentered($elements);
     }
 
     return $this->buildCards($items);
