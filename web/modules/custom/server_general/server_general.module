@@ -109,7 +109,7 @@ function server_general_pluggable_entity_view_builder_build_paragraph_alter(arra
   // PEVB renames `default` view mode to `full`.
   $view_mode = $view_mode === 'full' ? 'default' : $view_mode;
 
-  /** @var \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display */
+  /** @var ?\Drupal\Core\Entity\Display\EntityViewDisplayInterface $display */
   $display = \Drupal::entityTypeManager()
     ->getStorage('entity_view_display')
     ->load($entity_type . '.' . $entity->bundle() . '.' . $view_mode);
