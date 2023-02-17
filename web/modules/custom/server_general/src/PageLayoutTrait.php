@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Drupal\server_general;
 
 /**
- * Helper methods to build a main and sidebar layout.
+ * Helper methods to build Page layouts.
  */
 trait PageLayoutTrait {
 
