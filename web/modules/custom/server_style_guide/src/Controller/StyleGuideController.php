@@ -548,7 +548,7 @@ class StyleGuideController extends ControllerBase {
    * @return array
    *   An image render array.
    */
-  protected function buildImage(string $url, string $alt = '') {
+  protected function buildImage(string $url, string $alt = 'Placeholder image') {
     return [
       '#theme' => 'image',
       '#uri' => $url,
