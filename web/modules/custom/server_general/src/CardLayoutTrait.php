@@ -36,7 +36,7 @@ trait CardLayoutTrait {
    */
   protected function buildCardLayout(array $items): array {
     return [
-      '#theme' => 'server_theme_card',
+      '#theme' => 'server_theme_card_layout',
       '#items' => $this->wrapContainerVerticalSpacing($items),
     ];
   }
@@ -52,7 +52,7 @@ trait CardLayoutTrait {
    */
   protected function buildCardLayoutCentered(array $items): array {
     return [
-      '#theme' => 'server_theme_card__centered',
+      '#theme' => 'server_theme_card_layout__centered',
       '#items' => $this->wrapContainerVerticalSpacing($items, 'center'),
     ];
   }
@@ -75,7 +75,7 @@ trait CardLayoutTrait {
    */
   protected function buildCardLayoutWithImage(Url $url, array $image, array $items): array {
     return [
-      '#theme' => 'server_theme_card__with_image',
+      '#theme' => 'server_theme_card_layout__with_image',
       '#image' => $image,
       '#url' => $url,
       '#items' => $this->wrapContainerVerticalSpacing($items),
@@ -97,7 +97,7 @@ trait CardLayoutTrait {
    */
   protected function buildCardLayoutWithImageHorizontal(Url $url, array $image, array $items): array {
     return [
-      '#theme' => 'server_theme_card__with_image_horizontal',
+      '#theme' => 'server_theme_card_layout__with_image_horizontal',
       '#image' => $image,
       '#url' => $url,
       '#items' => $this->wrapContainerVerticalSpacing($items),
