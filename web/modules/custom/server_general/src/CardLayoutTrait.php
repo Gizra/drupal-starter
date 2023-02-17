@@ -11,7 +11,7 @@ use Drupal\Core\Url;
  * Helper methods for rendering different Card layouts.
  *
  * A card layout can be for example a card with an image, or a card with
- * centered items. This Trait should only be used by `CardTrait`. You should not
+ * centered items. This trait should only be used by `CardTrait`. You should not
  * try to call this trait's methods directly from the Style guide or PEVB,
  * instead you should be calling the methods from `CardTrait`.
  *
