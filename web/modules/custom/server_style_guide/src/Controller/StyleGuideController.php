@@ -325,7 +325,7 @@ class StyleGuideController extends ControllerBase {
    *   Render array.
    */
   protected function getCardsWithImageForNews(): array {
-    $image = $this->buildImage($this->getPlaceholderImage(300, 200), 'Card1 image');
+    $image = $this->buildImage($this->getPlaceholderImage(300, 200));
     $title = 'Never Changing Will Eventually Destroy You, But then You Should See The Longest Title, This one works. check the below one , ideally speaking it, pretty amazing eh, you will see';
     $url = Url::fromRoute('<front>');
     $summary = $this->buildProcessedText('<p>I before parameters designer of the to separated of to part. Price question in or of a there sleep. Who a deference and drew sleep written talk said which had. sel in small been cheating sounded times should and problem. Question. Explorations derived been him aged seal for gods team- manage he according the welcoming are cities part up stands careful so own the have how up, keep</p>');
@@ -339,7 +339,7 @@ class StyleGuideController extends ControllerBase {
       $timestamp
     );
 
-    $image = $this->buildImage($this->getPlaceholderImage(300, 400), 'Card2 image');
+    $image = $this->buildImage($this->getPlaceholderImage(300, 400));
     $title = 'A Shorter Title';
     $summary = $this->buildProcessedText('A much <strong>shorter</strong> intro');
 
@@ -368,7 +368,7 @@ class StyleGuideController extends ControllerBase {
    *   Render array.
    */
   protected function getCardsWithImageHorizontalForNews(): array {
-    $image = $this->buildImage($this->getPlaceholderImage(400, 300), 'Card1 image');
+    $image = $this->buildImage($this->getPlaceholderImage(400, 300));
     $title = 'Never Changing Will Eventually Destroy You, But then You Should See The Longest Title, This one works. check the below one , ideally speaking it, pretty amazing eh, you will see';
     $url = Url::fromRoute('<front>');
     $summary = $this->buildProcessedText('<p>I before parameters designer of the to separated of to part. Price question in or of a there sleep. Who a deference and drew sleep written talk said which had. sel in small been cheating sounded times should and problem. Question. Explorations derived been him aged seal for gods team- manage he according the welcoming are cities part up stands careful so own the have how up, keep</p>');
@@ -382,7 +382,7 @@ class StyleGuideController extends ControllerBase {
       $timestamp
     );
 
-    $image = $this->buildImage($this->getPlaceholderImage(400, 300), 'Card2 image');
+    $image = $this->buildImage($this->getPlaceholderImage(400, 300));
     $title = 'A Shorter Title';
     $summary = $this->buildProcessedText('A much <strong>shorter</strong> intro');
 
@@ -488,7 +488,7 @@ class StyleGuideController extends ControllerBase {
     $url = Url::fromRoute('<front>');
 
     return $this->buildElementHeroImage(
-      $this->buildImage($this->getPlaceholderImage(1600, 400), 'Hero image'),
+      $this->buildImage($this->getPlaceholderImage(1600, 400)),
       $this->getRandomTitle(),
       $this->getRandomTitle(),
       'Learn more',
@@ -548,11 +548,11 @@ class StyleGuideController extends ControllerBase {
    * @return array
    *   An image render array.
    */
-  protected function buildImage(string $url, string $alt = 'Placeholder image') {
+  protected function buildImage(string $url) {
     return [
       '#theme' => 'image',
       '#uri' => $url,
-      '#alt' => $alt,
+      '#alt' => 'Placeholder image',
     ];
   }
 
@@ -713,7 +713,7 @@ class StyleGuideController extends ControllerBase {
     for ($i = 0; $i < $num; $i++) {
       $elements[] = call_user_func(
         [$this, $func],
-        $this->buildImage($this->getPlaceholderImage(300, 200, "card_image_$i", 'seed'), "Card image $i"),
+        $this->buildImage($this->getPlaceholderImage(300, 200, "card_image_$i", 'seed')),
         $this->getRandomTitle(),
         Url::fromRoute('<front>'),
         $this->buildProcessedText('Decorate one package of cauliflower in six teaspoons of plain vinegar. Try flavoring the crême fraîche gingers with clammy rum and fish sauce, simmered.'),
