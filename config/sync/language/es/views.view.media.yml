@@ -1,67 +1,79 @@
-label: ميديا
+label: Multimedia
+description: 'Buscar y administrar medios.'
 display:
   default:
-    display_title: الافتراضي
+    display_title: 'Por defecto'
     display_options:
-      title: ميديا
+      title: Multimedia
       fields:
         media_bulk_form:
-          action_title: إجراء
+          action_title: Acción
         thumbnail__target_id:
-          label: 'النسخة المصغرة'
+          label: Miniatura
           separator: ', '
         name:
+          label: 'Nombre del elemento multimedia'
           separator: ', '
         bundle:
-          label: النوع
+          label: Tipo
           separator: ', '
         uid:
-          label: المؤلف
+          label: Autor
           separator: ', '
         status:
-          label: الحالة
+          label: Estado
           settings:
-            format_custom_false: 'غير منشور'
-            format_custom_true: منشور
+            format_custom_false: 'Sin publicar'
+            format_custom_true: Publicado
           separator: ', '
         changed:
-          label: التحديث
+          label: Actualizado
           separator: ', '
         operations:
-          label: عمليات
+          label: Operaciones
       pager:
         options:
           tags:
-            next: 'التالي ›'
-            previous: '‹ السابق'
+            next: 'Siguiente >'
+            previous: '‹ Anterior'
+            first: '« Primero'
+            last: 'Último »'
           expose:
-            items_per_page_options_all_label: '- الكل -'
-            offset_label: الإزاحة
+            items_per_page_label: 'Elementos por página'
+            items_per_page_options_all_label: '- Todo -'
+            offset_label: Desplazamiento
       exposed_form:
         options:
-          submit_button: انتقاء
-          reset_button_label: 'إعادة الضبط'
-          exposed_sorts_label: 'الترتيب حسب'
-          sort_asc_label: تصاعدي
-          sort_desc_label: تنازلي
+          submit_button: Filtro
+          reset_button_label: Restablecer
+          exposed_sorts_label: 'Ordenar por'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      empty:
+        area_text_custom:
+          content: 'No hay medios disponibles.'
       filters:
+        name:
+          expose:
+            label: 'Nombre del elemento multimedia'
         bundle:
           expose:
-            label: النوع
+            label: Tipo
         status:
           expose:
-            label: صحيح
+            label: Verdad
           group_info:
+            label: 'Estado de publicación'
             group_items:
               1:
-                title: منشور
+                title: Publicado
               2:
-                title: 'غير منشور'
+                title: 'Sin publicar'
         langcode:
           expose:
-            label: اللغة
+            label: Idioma
   media_page_list:
-    display_title: ميديا
+    display_title: Multimedia
     display_options:
       menu:
-        title: ميديا
+        title: Multimedia

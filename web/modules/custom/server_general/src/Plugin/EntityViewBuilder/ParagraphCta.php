@@ -7,6 +7,7 @@ use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
 use Drupal\server_general\ButtonTrait;
 use Drupal\server_general\ElementTrait;
 use Drupal\server_general\ElementWrapTrait;
+use Drupal\server_general\ProcessedTextBuilderTrait;
 
 /**
  * The "Call to Action" paragraph plugin.
@@ -22,6 +23,7 @@ class ParagraphCta extends EntityViewBuilderPluginAbstract {
   use ButtonTrait;
   use ElementTrait;
   use ElementWrapTrait;
+  use ProcessedTextBuilderTrait;
 
   /**
    * Build full view mode.
@@ -42,7 +44,7 @@ class ParagraphCta extends EntityViewBuilderPluginAbstract {
 
     $element = $this->buildElementCta(
       $this->getTextFieldValue($entity, 'field_title'),
-      $this->getTextFieldValue($entity, 'field_subtitle'),
+      $this->buildProcessedText($entity),
       $link['title'],
       $link['url'],
     );

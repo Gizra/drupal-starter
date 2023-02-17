@@ -3,17 +3,25 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.cta.field_body
     - field.field.paragraph.cta.field_link
-    - field.field.paragraph.cta.field_subtitle
     - field.field.paragraph.cta.field_title
     - paragraphs.paragraphs_type.cta
   module:
     - link
+    - text
 id: paragraph.cta.default
 targetEntityType: paragraph
 bundle: cta
 mode: default
 content:
+  field_body:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
   field_link:
     type: link
     label: above
@@ -25,14 +33,6 @@ content:
       target: ''
     third_party_settings: {  }
     weight: 2
-    region: content
-  field_subtitle:
-    type: string
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 1
     region: content
   field_title:
     type: string

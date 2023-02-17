@@ -18,6 +18,15 @@ export GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChec
 
 git clone "$PANTHEON_GIT_URL" -b master .pantheon
 
+ddev stop
+
+# Expose some environment variables to DDEV to be able to notify on auto-deploy.
+ddev config global --web-environment-add="TRAVIS_COMMIT_MESSAGE=$TRAVIS_COMMIT_MESSAGE"
+ddev config global --web-environment-add="GITHUB_TOKEN=$GITHUB_TOKEN"
+
+rm .ddev/config.local.yaml || true
+ddev start
+
 # Make the DDEV container aware of your SSH keys.
 ddev auth ssh
 ddev . terminus auth:login --machine-token="$TERMINUS_TOKEN"

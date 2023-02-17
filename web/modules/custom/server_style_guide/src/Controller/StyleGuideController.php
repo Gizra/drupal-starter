@@ -270,7 +270,7 @@ class StyleGuideController extends ControllerBase {
         $elements[] = $this->wrapTextColor($element, 'light-gray');
       }
 
-      $items[] = $this->buildCardCentered($elements);
+      $items[] = $this->buildCardLayoutCentered($elements);
     }
 
     return $this->buildCards($items);
@@ -510,14 +510,14 @@ class StyleGuideController extends ControllerBase {
 
     // Show button only if it's not featured content.
     $button = !$is_featured ? $this->buildButton('View more', $url) : NULL;
+    $items = $this->getRelatedContent(6, $is_featured);
 
-    return [
-      '#theme' => 'server_theme_related_content',
-      '#title' => $this->t('Related content'),
-      '#items' => $this->getRelatedContent(6, $is_featured),
-      '#button' => $button,
-      '#is_featured' => $is_featured,
-    ];
+    return $this->buildElementCarousel(
+      $items,
+      $is_featured,
+      $this->t('Related content'),
+      $button,
+    );
   }
 
   /**
@@ -529,7 +529,7 @@ class StyleGuideController extends ControllerBase {
   protected function getCta(): array {
     return $this->buildElementCta(
       $this->getRandomTitle(),
-      'How does the system generate all this custom content? It actually skims Wikipedia pages related to your search',
+      $this->buildProcessedText('How does the system generate all this custom content? It actually skims Wikipedia pages related to your search'),
       'View more',
       Url::fromRoute('<front>'),
     );

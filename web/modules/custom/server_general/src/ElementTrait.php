@@ -26,8 +26,8 @@ trait ElementTrait {
    *
    * @param string $title
    *   The title.
-   * @param string $subtitle
-   *   The subtitle.
+   * @param array $text
+   *   Processed text.
    * @param string $button_text
    *   The button text.
    * @param \Drupal\Core\Url $url
@@ -36,7 +36,7 @@ trait ElementTrait {
    * @return array
    *   Render array.
    */
-  protected function buildElementCta(string $title, string $subtitle, string $button_text, Url $url): array {
+  protected function buildElementCta(string $title, array $text, string $button_text, Url $url): array {
     $elements = [];
 
     // Title.
@@ -44,12 +44,8 @@ trait ElementTrait {
     $element = $this->wrapTextResponsiveFontSize($element, '3xl');
     $elements[] = $this->wrapTextFontWeight($element, 'bold');
 
-    // Subtitle.
-    if (!empty($subtitle)) {
-      $element = ['#markup' => $subtitle];
-      $element = $this->wrapTextResponsiveFontSize($element, 'xl');
-      $elements[] = $this->wrapTextFontWeight($element, 'medium');
-    }
+    // Text.
+    $elements[] = $text;
 
     // Button.
     $elements[] = $this->buildButton($button_text, $url);
@@ -66,7 +62,7 @@ trait ElementTrait {
    * Build a Hero image.
    *
    * @param array $image
-   *   The render array of the image,.
+   *   The render array of the image.
    * @param string $title
    *   The title.
    * @param string $subtitle
@@ -101,6 +97,37 @@ trait ElementTrait {
       '#theme' => 'server_theme_element__hero_image',
       '#image' => $image,
       '#items' => $elements,
+    ];
+  }
+
+  /**
+   * Build a Carousel.
+   *
+   * @param array $items
+   *   The items to render inside the carousel.
+   * @param bool $is_featured
+   *   Determine if items inside the carousel are "featured". Usually a featured
+   *   item means that only a single card should appear at a time.
+   * @param string|null $title
+   *   Optional; The title.
+   * @param array|null $button
+   *   Optional; The render array of the button, likely created with
+   *   ButtonTrait::buildButton.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function buildElementCarousel(array $items, bool $is_featured = FALSE, string $title = NULL, array $button = NULL): array {
+    if (empty($items)) {
+      return [];
+    }
+
+    return [
+      '#theme' => 'server_theme_carousel',
+      '#title' => $title,
+      '#items' => $items,
+      '#button' => $button,
+      '#is_featured' => $is_featured,
     ];
   }
 

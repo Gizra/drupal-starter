@@ -33,7 +33,7 @@
         "drupal/core-recommended": "^9.0.0",
         "drupal/elasticsearch_connector": "^7.0@alpha",
         "drupal/emptyparagraphkiller": "^1.0@alpha",
-        "drupal/entity_browser": "^2.8",
+        "drupal/entity_browser": "^2.9",
         "drupal/environment_indicator": "^4.0",
         "drupal/facets": "^2.0",
         "drupal/focal_point": "^1.5",
@@ -56,7 +56,7 @@
         "drupal/select2": "^1.13",
         "drupal/simple_sitemap": "^4",
         "drupal/stage_file_proxy": "^1.1",
-        "drush/drush": "^10.2",
+        "drush/drush": "^11",
         "npm-asset/select2": "^4.0",
         "npm-asset/slick-carousel": "^1.8",
         "oomphinc/composer-installers-extender": "^2.0"
@@ -67,10 +67,11 @@
         "drupal/coder": "^8.3.1",
         "drupal/devel": "^4",
         "drupal/drupal_test_assertions": "1.0.x-dev",
+        "drupal/potx": "^1.0@alpha",
+        "gettext/gettext": "^5.7",
         "mglaman/phpstan-drupal": "1.1.10",
         "mpyw/phpunit-patch-serializable-comparison": "^0.0.2",
         "natxet/cssmin": "^3.0",
-        "patchwork/jsqueeze": "^2.0",
         "phpspec/prophecy-phpunit": "^2",
         "phpstan/phpstan": "1.4.6",
         "scssphp/scssphp": "^1.0.0",
@@ -83,6 +84,12 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "RoboComponents\\": "./robo-components/",
+            "TranslationManagement\\": "./translation_management/"
+        }
+    },
     "config": {
         "sort-packages": true,
         "allow-plugins": {

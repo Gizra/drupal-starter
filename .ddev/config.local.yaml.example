@@ -12,6 +12,9 @@ hooks:
     # Install profile
     - exec: drush site-install server -y --existing-config
 
+    # Import translations.
+    - exec: robo locale:import
+
     # Make sure Elasticsearch can accept connections.
     - exec: while ! echo exit | nc elasticsearch 9200; do sleep 1; done
 
@@ -42,3 +45,11 @@ hooks:
 
     # Login as admin.
     - exec-host: ddev login
+
+    # Make sure PHP CLI has no memory limit, this is
+    # especially for unit testing.
+    # Web requests should be still limited, as the
+    # hosting environment won't provide unlimited
+    # memory either.
+    # @see https://github.com/drud/ddev/issues/1825#issuecomment-529964728
+    - exec: perl -pi -e 's/memory_limit.*$/memory_limit = -1/' /etc/php/${DDEV_PHP_VERSION}/cli/conf.d/*.ini

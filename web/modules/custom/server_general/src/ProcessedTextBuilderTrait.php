@@ -17,7 +17,7 @@ trait ProcessedTextBuilderTrait {
    * @param \Drupal\Core\Entity\FieldableEntityInterface $entity
    *   The entity.
    * @param string $field
-   *   Optional; The name of the field. Defaults to "body".
+   *   Optional; The name of the field. Defaults to "field_body".
    * @param bool $wrap_prose
    *   Optional; If TRUE then wrap the text with the `prose` classes.
    *   Defaults to TRUE.

@@ -6,18 +6,18 @@ migration_tags:
 source:
   plugin: csv
   path: modules/custom/server_migrate/csv_files/images.csv
-  ids: ['_uuid']
+  ids: ['_id']
   header_offset: 0
 destination:
   plugin: 'entity:media'
   default_bundle: image
 process:
-  uuid: _uuid
+  id: _id
   name: _title
   field_media_image/target_id:
     - plugin: migration_lookup
       migration: images
-      source: _uuid
+      source: _id
   field_media_image/alt: _title
 
 migration_dependencies:
