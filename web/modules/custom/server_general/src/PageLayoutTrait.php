@@ -19,18 +19,18 @@ namespace Drupal\server_general;
 trait PageLayoutTrait {
 
   /**
-   * Build main and sidebar.
+   * Build Main and sidebar layout.
    *
    * @param array $main
    *   The main render array.
    * @param array $sidebar
    *   The sidebar render array.
    * @param bool $is_sidebar_first
-   *   Whether to place the sidebar first on mobile/tablet layout.
-   *   Default: FALSE.
+   *   Determine if sidebar should appear first on mobile/tablet layout.
+   *   Defaults to FALSE.
    *
    * @return array
-   *   The main and sidebar render array.
+   *   The render array.
    */
   protected function buildPageLayoutMainAndSidebar(array $main, array $sidebar = [], bool $is_sidebar_first = FALSE) {
     return [
