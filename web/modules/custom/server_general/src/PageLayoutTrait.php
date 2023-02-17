@@ -6,6 +6,15 @@ namespace Drupal\server_general;
 
 /**
  * Helper methods to build Page layouts.
+ *
+ * A "regular" single column page layout doesn't need any method here, as one
+ * can use inside PEVB something like
+ * `$build[] = $this->wrapContainerWide($elements);`.
+ * So it's likely this trait will hold only the Main and sidebar helper method,
+ * unless there's a need for a more complex layout.
+ *
+ * Trait is providing helper methods for each card. One method equals one theme
+ * file.
  */
 trait PageLayoutTrait {
 
