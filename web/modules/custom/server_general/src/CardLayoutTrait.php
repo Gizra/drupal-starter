@@ -20,11 +20,6 @@ use Drupal\Core\Url;
  */
 trait CardLayoutTrait {
 
-  use ButtonTrait;
-  use ElementWrapTrait;
-  use LinkTrait;
-  use TitleAndLabelsTrait;
-
   /**
    * Build "Card" - the simplest one.
    *
