@@ -20,88 +20,10 @@ use Drupal\intl_date\IntlDate;
 trait CardTrait {
 
   use ButtonTrait;
+  use CardLayoutTrait;
   use ElementWrapTrait;
   use LinkTrait;
   use TitleAndLabelsTrait;
-
-  /**
-   * Build "Card" - the simplest one.
-   *
-   * @param array $items
-   *   The elements as render array.
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function buildCard(array $items): array {
-    return [
-      '#theme' => 'server_theme_card',
-      '#items' => $this->wrapContainerVerticalSpacing($items),
-    ];
-  }
-
-  /**
-   * Build "Centered card".
-   *
-   * @param array $items
-   *   The elements as render array.
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function buildCardCentered(array $items): array {
-    return [
-      '#theme' => 'server_theme_card__centered',
-      '#items' => $this->wrapContainerVerticalSpacing($items, 'center'),
-    ];
-  }
-
-  /**
-   * Build "Card with image".
-   *
-   * This is the "base" helper method for rendering a card with image. Specific
-   * cards may implement own helper methods, that will use this one.
-   *
-   * @param \Drupal\Core\Url $url
-   *   The URL to link to.
-   * @param array $image
-   *   The image render array.
-   * @param array $items
-   *   The rest of the items' render array.
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function buildCardWithImage(Url $url, array $image, array $items): array {
-    return [
-      '#theme' => 'server_theme_card__with_image',
-      '#image' => $image,
-      '#url' => $url,
-      '#items' => $this->wrapContainerVerticalSpacing($items),
-    ];
-  }
-
-  /**
-   * Build "Card with image horizontal" base.
-   *
-   * @param \Drupal\Core\Url $url
-   *   The URL to link to.
-   * @param array $image
-   *   The image render array.
-   * @param array $items
-   *   The rest of the items' render array.
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function buildCardWithImageHorizontal(Url $url, array $image, array $items): array {
-    return [
-      '#theme' => 'server_theme_card__with_image_horizontal',
-      '#image' => $image,
-      '#url' => $url,
-      '#items' => $this->wrapContainerVerticalSpacing($items),
-    ];
-  }
 
   /**
    * Build "Card with image" for News content type.
@@ -140,7 +62,7 @@ trait CardTrait {
     // Body teaser.
     $elements[] = $this->wrapTextLineClamp($summary, 4);
 
-    return $this->buildCardWithImage($url, $image, $elements);
+    return $this->buildCardLayoutWithImage($url, $image, $elements);
   }
 
   /**
@@ -183,7 +105,7 @@ trait CardTrait {
     // Read more button.
     $elements[] = $this->buildButton($this->t('Read more'), $url);
 
-    return $this->buildCardWithImageHorizontal($url, $image, $elements);
+    return $this->buildCardLayoutWithImageHorizontal($url, $image, $elements);
   }
 
   /**
@@ -226,7 +148,7 @@ trait CardTrait {
     $element = $this->wrapTextColor($element, 'light-gray');
     $elements[] = $this->wrapTextResponsiveFontSize($element, 'sm');
 
-    return $this->buildCard($elements);
+    return $this->buildCardLayout($elements);
   }
 
   /**

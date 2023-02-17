@@ -15,6 +15,13 @@ trait DeploymentTrait {
   public static int $deploymentWaitTime = 500000;
 
   /**
+   * The GitHub project slug.
+   *
+   * @var string
+   */
+  public static string $githubProject = 'Gizra/drupal-starter';
+
+  /**
    * The files / directories to exclude from deployment.
    *
    * @var array|string[]
