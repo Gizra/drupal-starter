@@ -285,7 +285,7 @@ class StyleGuideController extends ControllerBase {
    *   Render array.
    */
   protected function getMediaImage(): array {
-    $image = $this->buildImage($this->getPlaceholderImage(300, 200), 'Image');
+    $image = $this->buildImage($this->getPlaceholderImage(300, 200));
 
     $caption = [
       '#theme' => 'server_theme_media_caption',
@@ -542,8 +542,6 @@ class StyleGuideController extends ControllerBase {
    *
    * @param string $url
    *   The url of the image, internal or external.
-   * @param string $alt
-   *   Alt text.
    *
    * @return array
    *   An image render array.
