@@ -12,7 +12,7 @@ namespace Drupal\server_general;
  * So it's likely this trait will hold only the Main and sidebar helper method,
  * unless there's a need for a more complex layout.
  *
- * Trait is providing helper methods for each card. One method equals one theme
+ * Trait provides helper methods for each layout. One method equals one theme
  * file.
  */
 trait PageLayoutTrait {
