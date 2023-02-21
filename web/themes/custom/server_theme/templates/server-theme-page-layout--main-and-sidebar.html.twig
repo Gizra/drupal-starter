@@ -1,0 +1,18 @@
+{% set classes = [
+  'flex flex-col md:flex-row gap-y-5 sm:gap-x-10 md:gap-x-14',
+  is_sidebar_first ? 'flex-col-reverse' : 'flex-col',
+] | join(' ') | trim %}
+
+<div class="{{ classes }}">
+
+  <div class="w-full max-w-3xl">
+    {{ main }}
+  </div>
+
+  {% if sidebar is not empty %}
+  <div class="h-fit w-full md:w-1/3">
+    {{ sidebar }}
+  </div>
+  {% endif %}
+
+</div>
