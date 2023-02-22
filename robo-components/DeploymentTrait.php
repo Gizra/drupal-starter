@@ -221,9 +221,6 @@ trait DeploymentTrait {
     // site-specific modifications belong to settings.php.
     $this->_exec("cp web/sites/default/settings.pantheon.php $pantheon_directory/web/sites/default/settings.php");
 
-    // Copy the updated .htaccess file.
-    $this->_exec("cp web/sites/default/files/.htaccess $pantheon_directory/web/sites/default/files/.htaccess");
-
     // Flag the current version in the artifact repo.
     file_put_contents($deployment_version_path, $current_version);
 
