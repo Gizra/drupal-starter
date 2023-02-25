@@ -41,23 +41,20 @@ fi
 if [ -d .git ]; then
   echo "You are in a repository root, please execute this script from"
   echo "a directory that contains your working copies. for example:"
-  echo "cd /home/User/gizra"
+  echo "cd /home/User/projects"
   exit 1
 fi
 
 # Convert the string to an array.
-REPOSITORIES=($REPOSITORIES)
+mapfile -t REPOSITORIES <<< "$REPOSITORIES"
 
 # Clone or update each repository
 for REPO in "${REPOSITORIES[@]}"
 do
   cd "$BASE_DIR" || exit 1
-  DEFAULT_BRANCH=$(curl -s -H "Authorization: token $GH_TOKEN" "https://api.github.com/repos/Gizra/$REPO" | jq -r '.default_branch')
+  SLUG=$(git remote get-url origin | awk 'BEGIN { FS = ":" } ; { print $2 }' | sed s/.git$//)
+  DEFAULT_BRANCH=$(curl -s -H "Authorization: token $GH_TOKEN" "https://api.github.com/repos/$SLUG" | jq -r '.default_branch')
   echo "Patching $REPO ($DEFAULT_BRANCH is the default branch)"
-
-  if [ ! -d "$REPO" ]; then
-    git clone "git@github.com:Gizra/$REPO.git" || continue
-  fi
 
   cd "$REPO" || continue
   echo "Cleaning $REPO repository"
@@ -75,8 +72,8 @@ do
   git push origin "$BRANCH_NAME"
   curl -H "Authorization: token $GH_TOKEN" \
        -X POST \
-       -d '{"title":"Apply patch '$PATCH_FILE'", "head":"'$BRANCH_NAME'", "base":"'$DEFAULT_BRANCH'"}' \
-       "https://api.github.com/repos/Gizra/$REPO/pulls"
+       -d '{"title":"Apply patch '"$PATCH_FILE"'", "head":"'"$BRANCH_NAME"'", "base":"'"$DEFAULT_BRANCH"'"}' \
+       "https://api.github.com/repos/$SLUG/pulls"
   echo "$REPO is completed"
   echo ""
   # We have various rate limiting on GitHub, so let's sleep a bit.
