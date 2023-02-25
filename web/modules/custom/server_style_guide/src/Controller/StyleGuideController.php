@@ -415,8 +415,7 @@ class StyleGuideController extends ControllerBase {
     $url = Url::fromRoute('<front>');
 
     // Primary button with icon.
-    $element = $this->buildButton('Download file', $url, TRUE);
-    $element['#icon'] = 'download';
+    $element = $this->buildButton('Download file', $url, TRUE, 'download');
     $build[] = $this->wrapElementWideContainer($element, 'Primary button');
 
     // Secondary button.
