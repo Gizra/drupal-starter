@@ -1,0 +1,75 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2023-02-07 17:18+0000\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: modules/custom/server_general/src/ButtonTrait.php:92
+msgid "Download"
+msgstr ""
+
+#: modules/custom/server_general/src/CardTrait.php:127;167 modules/custom/server_general/src/Plugin/EntityViewBuilder/NodeNews.php:215
+msgid "News"
+msgstr ""
+
+#: modules/custom/server_general/src/CardTrait.php:184
+msgid "Read more"
+msgstr ""
+
+#: modules/custom/server_general/src/MediaVideoTrait.php:54
+msgid "Video frame for @url"
+msgstr ""
+
+#: themes/custom/server_theme/templates/html.html.twig:49
+msgid "Skip to main content"
+msgstr ""
+
+#: themes/custom/server_theme/templates/menu-local-tasks.html.twig:17
+msgid "Primary tabs"
+msgstr "Solapas principales"
+
+#: themes/custom/server_theme/templates/menu-local-tasks.html.twig:23
+msgid "Secondary tabs"
+msgstr "Solapas secundarias"
+
+#: themes/custom/server_theme/templates/server-theme-facets-title.html.twig:5
+msgid "Filters"
+msgstr ""
+
+#: themes/custom/server_theme/templates/server-theme-facets-title.html.twig:12
+msgid "Clear filters"
+msgstr ""
+
+#: themes/custom/server_theme/templates/server-theme-footer.html.twig:2
+msgid "Share on @name"
+msgstr ""
+
+#: themes/custom/server_theme/templates/server-theme-header.html.twig:21
+msgid "Menu"
+msgstr ""
+
+#: themes/custom/server_theme/templates/server-theme-search-term.html.twig:2
+msgid "Search results for: @search_term"
+msgstr ""
+
+#: themes/custom/server_theme/templates/server-theme-search.html.twig:4;5
+msgid "Search"
+msgstr ""
+
+#: themes/custom/server_theme/templates/server-theme-search.html.twig:9
+msgid "Search icon"
+msgstr ""
+
+#: themes/custom/server_theme/templates/facets/facets-item-list.html.twig:48
+msgid "Filter by @title"
+msgstr ""
+
+#: themes/custom/server_theme/templates/facets/facets-item-list.html.twig:66
+msgid "Facet"
+msgstr ""

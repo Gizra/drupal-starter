@@ -11,6 +11,7 @@ use Drupal\server_general\EntityDateTrait;
 use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
 use Drupal\server_general\LineSeparatorTrait;
 use Drupal\server_general\LinkTrait;
+use Drupal\server_general\PageLayoutTrait;
 use Drupal\server_general\SocialShareTrait;
 use Drupal\server_general\TitleAndLabelsTrait;
 
@@ -29,6 +30,7 @@ class NodeNews extends NodeViewBuilderAbstract {
   use EntityDateTrait;
   use LineSeparatorTrait;
   use LinkTrait;
+  use PageLayoutTrait;
   use SocialShareTrait;
   use TitleAndLabelsTrait;
 
@@ -87,10 +89,10 @@ class NodeNews extends NodeViewBuilderAbstract {
     $elements[] = $this->wrapTextResponsiveFontSize($element, 'lg');
 
     $elements = $this->wrapContainerVerticalSpacing($elements);
-    return [
-      '#theme' => 'server_theme_main_and_sidebar',
-      '#main' => $this->wrapContainerVerticalSpacingBig($elements),
-    ];
+
+    return $this->buildPageLayoutMainAndSidebar(
+      $this->wrapContainerVerticalSpacingBig($elements),
+    );
   }
 
   /**
@@ -127,12 +129,10 @@ class NodeNews extends NodeViewBuilderAbstract {
     $sidebar_elements[] = $this->wrapContainerVerticalSpacing($social_share_elements);
     $sidebar_elements = $this->wrapContainerVerticalSpacingBig($sidebar_elements);
 
-    return [
-      '#theme' => 'server_theme_main_and_sidebar',
-      '#main' => $this->wrapContainerVerticalSpacingBig($main_elements),
-      '#sidebar' => $this->buildCard($sidebar_elements),
-    ];
-
+    return $this->buildPageLayoutMainAndSidebar(
+      $this->wrapContainerVerticalSpacingBig($main_elements),
+      $this->buildCardLayout($sidebar_elements),
+    );
   }
 
   /**

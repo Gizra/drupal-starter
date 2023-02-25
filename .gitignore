@@ -29,6 +29,7 @@ web/sites/default/default.services.pantheon.preproduction.yml
 pantheon_config.sh
 .pantheon
 travis-key
+.bootstrap
 
 # Elasticsearch
 server.es.secrets.json

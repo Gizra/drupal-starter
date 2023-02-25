@@ -1,39 +1,49 @@
+label: 'Librería de bloques personalizada'
+description: 'Buscar y gestionar bloques personalizados.'
 display:
   default:
-    display_title: الافتراضي
+    display_title: 'Por defecto'
     display_options:
+      title: 'Librería de bloques personalizada'
       fields:
         info:
-          label: 'وصف الصندوق'
+          label: 'Descripción del bloque'
           separator: ', '
         type:
-          label: 'نوع الصندوق'
+          label: 'Tipo de bloque'
           separator: ', '
         changed:
-          label: التحديث
+          label: Actualizado
         operations:
-          label: عمليات
+          label: Operaciones
       pager:
         options:
           tags:
-            next: 'التالي ›'
-            previous: '‹ السابق'
+            next: 'Siguiente >'
+            previous: '‹ Anterior'
           expose:
-            items_per_page_options_all_label: '- الكل -'
-            offset_label: الإزاحة
+            items_per_page_label: 'Elementos por página'
+            items_per_page_options_all_label: '- Todo -'
+            offset_label: Desplazamiento
       exposed_form:
         options:
-          submit_button: تطبيق
-          reset_button_label: 'إعادة الضبط'
-          exposed_sorts_label: 'الترتيب حسب'
-          sort_asc_label: تصاعدي
-          sort_desc_label: تنازلي
+          submit_button: Aplicar
+          reset_button_label: Restablecer
+          exposed_sorts_label: 'Ordenar por'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      empty:
+        area_text_custom:
+          content: 'No hay bloques personalizados disponibles.'
       filters:
         info:
           expose:
-            label: 'وصف الصندوق'
+            label: 'Descripción del bloque'
         type:
           expose:
-            label: 'نوع الصندوق'
+            label: 'Tipo de bloque'
   page_1:
-    display_title: الصفحة
+    display_title: Página
+    display_options:
+      menu:
+        title: 'Librería de bloques personalizada'

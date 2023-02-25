@@ -125,10 +125,12 @@ function server_theme_theme() {
   ];
 
   // Used to place elements inside a main area, and other elements in a sidebar.
-  $info['server_theme_main_and_sidebar'] = [
+  $info['server_theme_page_layout__main_and_sidebar'] = [
     'variables' => [
-      'main' => NULL,
-      'sidebar' => NULL,
+      'main' => [],
+      'sidebar' => [],
+      // Set to TRUE to display sidebar first on mobile and tablet.
+      'is_sidebar_first' => NULL,
     ],
   ];
 
@@ -186,7 +188,7 @@ function server_theme_theme() {
   ];
 
   // Simple card.
-  $info['server_theme_card'] = [
+  $info['server_theme_card_layout'] = [
     'variables' => [
       // A render array.
       'items' => NULL,
@@ -194,7 +196,7 @@ function server_theme_theme() {
   ];
 
   // Card with elements positioned in the center of it.
-  $info['server_theme_card__centered'] = [
+  $info['server_theme_card_layout__centered'] = [
     'variables' => [
       // A render array.
       'items' => NULL,
@@ -202,7 +204,7 @@ function server_theme_theme() {
   ];
 
   // Card with a top image. Used often for content teasers/ cards.
-  $info['server_theme_card__with_image'] = [
+  $info['server_theme_card_layout__with_image'] = [
     'variables' => [
       'image' => NULL,
       // URL for the image.
@@ -214,7 +216,7 @@ function server_theme_theme() {
 
   // Card with horizontal alignment, where image is on the left (in LTR).
   // Used often for featured content.
-  $info['server_theme_card__with_image_horizontal'] = [
+  $info['server_theme_card_layout__with_image_horizontal'] = [
     'variables' => [
       'image' => NULL,
       // URL for the image.
@@ -268,7 +270,7 @@ function server_theme_theme() {
     'variables' => [],
   ];
 
-  $info['server_theme_related_content'] = [
+  $info['server_theme_carousel'] = [
     'variables' => [
       'title' => NULL,
       'items' => [],

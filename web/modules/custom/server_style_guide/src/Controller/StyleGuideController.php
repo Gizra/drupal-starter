@@ -235,6 +235,7 @@ class StyleGuideController extends ControllerBase {
       $element = [
         '#theme' => 'image',
         '#uri' => $this->getPlaceholderPersonImage(100),
+        '#alt' => 'Person image',
         '#width' => 100,
       ];
 
@@ -270,7 +271,7 @@ class StyleGuideController extends ControllerBase {
         $elements[] = $this->wrapTextColor($element, 'light-gray');
       }
 
-      $items[] = $this->buildCardCentered($elements);
+      $items[] = $this->buildCardLayoutCentered($elements);
     }
 
     return $this->buildCards($items);
@@ -284,7 +285,7 @@ class StyleGuideController extends ControllerBase {
    *   Render array.
    */
   protected function getMediaImage(): array {
-    $image = $this->buildImage($this->getPlaceholderImage(300, 200), 'Image');
+    $image = $this->buildImage($this->getPlaceholderImage(300, 200));
 
     $caption = [
       '#theme' => 'server_theme_media_caption',
@@ -510,14 +511,14 @@ class StyleGuideController extends ControllerBase {
 
     // Show button only if it's not featured content.
     $button = !$is_featured ? $this->buildButton('View more', $url) : NULL;
+    $items = $this->getRelatedContent(6, $is_featured);
 
-    return [
-      '#theme' => 'server_theme_related_content',
-      '#title' => $this->t('Related content'),
-      '#items' => $this->getRelatedContent(6, $is_featured),
-      '#button' => $button,
-      '#is_featured' => $is_featured,
-    ];
+    return $this->buildElementCarousel(
+      $items,
+      $is_featured,
+      $this->t('Related content'),
+      $button,
+    );
   }
 
   /**
@@ -541,17 +542,15 @@ class StyleGuideController extends ControllerBase {
    *
    * @param string $url
    *   The url of the image, internal or external.
-   * @param string $alt
-   *   Alt text.
    *
    * @return array
    *   An image render array.
    */
-  protected function buildImage(string $url, string $alt = '') {
+  protected function buildImage(string $url) {
     return [
       '#theme' => 'image',
       '#uri' => $url,
-      '#alt' => $alt,
+      '#alt' => 'Placeholder image',
     ];
   }
 
@@ -712,7 +711,7 @@ class StyleGuideController extends ControllerBase {
     for ($i = 0; $i < $num; $i++) {
       $elements[] = call_user_func(
         [$this, $func],
-        $this->buildImage($this->getPlaceholderImage(300, 200, "card_image_$i", 'seed'), "Card image $i"),
+        $this->buildImage($this->getPlaceholderImage(300, 200, "card_image_$i", 'seed')),
         $this->getRandomTitle(),
         Url::fromRoute('<front>'),
         $this->buildProcessedText('Decorate one package of cauliflower in six teaspoons of plain vinegar. Try flavoring the crême fraîche gingers with clammy rum and fish sauce, simmered.'),

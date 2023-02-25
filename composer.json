@@ -66,6 +66,8 @@
         "drupal/coder": "^8.3.1",
         "drupal/devel": "^4",
         "drupal/drupal_test_assertions": "1.0.x-dev",
+        "drupal/potx": "^1.0@alpha",
+        "gettext/gettext": "^5.7",
         "mglaman/phpstan-drupal": "1.1.10",
         "mpyw/phpunit-patch-serializable-comparison": "^0.0.2",
         "natxet/cssmin": "^3.0",
@@ -83,7 +85,8 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "RoboComponents\\": "./robo-components/"
+            "RoboComponents\\": "./robo-components/",
+            "TranslationManagement\\": "./translation_management/"
         }
     },
     "config": {

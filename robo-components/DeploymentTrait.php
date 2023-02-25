@@ -15,6 +15,59 @@ trait DeploymentTrait {
   public static int $deploymentWaitTime = 500000;
 
   /**
+   * The GitHub project slug.
+   *
+   * @var string
+   */
+  public static string $githubProject = 'Gizra/drupal-starter';
+
+  /**
+   * The files / directories to exclude from deployment.
+   *
+   * @var array|string[]
+   */
+  public static array $deploySyncExcludes = [
+    '.bootstrap-fast.php',
+    '.ddev',
+    '.editorconfig',
+    '.git',
+    '.idea',
+    '.pantheon',
+    '.phpunit.result.cache',
+    '.travis.yml',
+    'ci-scripts',
+    'pantheon.upstream.yml',
+    'phpstan.neon',
+    'phpunit.xml.dist',
+    'README.md',
+    'RoboFile.php',
+    'server.es.secrets.json',
+    'travis-key.enc',
+    'travis-key',
+    'web/.csslintrc',
+    'web/.eslintignore',
+    'web/.eslintrc.json',
+    'web/example.gitignore',
+    'web/INSTALL.txt',
+    'web/modules/README.txt',
+    'web/profiles/README.txt',
+    'web/README.md',
+    'web/README.txt',
+    'web/sites/default',
+    'web/sites/simpletest',
+    'web/sites/README.txt',
+    'web/themes/README.txt',
+    'web/themes/custom/server_theme/src',
+    'web/themes/custom/server_theme/node_modules',
+    'web/themes/custom/server_theme/package.json',
+    'web/themes/custom/server_theme/package-lock.json',
+    'web/themes/custom/server_theme/tailwind.config.js',
+    'web/themes/custom/server_theme/postcss.config.js',
+    'node_modules',
+    'mass_patch.sh',
+  ];
+
+  /**
    * Deploy a tag (specific release) to Pantheon.
    *
    * @param string $tag
@@ -157,47 +210,7 @@ trait DeploymentTrait {
     // Remove the dev dependencies before pushing up to Pantheon.
     $this->taskExec("composer install --no-dev")->run();
 
-    $rsync_exclude = [
-      '.bootstrap-fast.php',
-      '.ddev',
-      '.editorconfig',
-      '.git',
-      '.idea',
-      '.pantheon',
-      '.phpunit.result.cache',
-      '.travis.yml',
-      'ci-scripts',
-      'pantheon.upstream.yml',
-      'phpstan.neon',
-      'phpunit.xml.dist',
-      'README.md',
-      'RoboFile.php',
-      'server.es.secrets.json',
-      'travis-key.enc',
-      'travis-key',
-      'web/.csslintrc',
-      'web/.eslintignore',
-      'web/.eslintrc.json',
-      'web/example.gitignore',
-      'web/INSTALL.txt',
-      'web/modules/README.txt',
-      'web/profiles/README.txt',
-      'web/README.md',
-      'web/README.txt',
-      'web/sites/default',
-      'web/sites/simpletest',
-      'web/sites/README.txt',
-      'web/themes/README.txt',
-      'web/themes/custom/server_theme/src',
-      'web/themes/custom/server_theme/node_modules',
-      'web/themes/custom/server_theme/package.json',
-      'web/themes/custom/server_theme/package-lock.json',
-      'web/themes/custom/server_theme/tailwind.config.js',
-      'web/themes/custom/server_theme/postcss.config.js',
-      'mass_patch.sh',
-    ];
-
-    $rsync_exclude_string = '--exclude=' . implode(' --exclude=', $rsync_exclude);
+    $rsync_exclude_string = '--exclude=' . implode(' --exclude=', self::$deploySyncExcludes);
 
     // Copy all files and folders.
     $result = $this->_exec("rsync -az -q --delete $rsync_exclude_string . $pantheon_directory")->getExitCode();
@@ -372,10 +385,12 @@ trait DeploymentTrait {
    *
    * @param string $env
    *   The environment to install.
+   * @param string $pantheon_name
+   *   The Pantheon site name.
    *
    * @throws \Exception
    */
-  public function deployPantheonInstallEnv(string $env = 'qa'): void {
+  public function deployPantheonInstallEnv(string $env = 'qa', string $pantheon_name = NULL): void {
     $forbidden_envs = [
       'live',
     ];
@@ -383,8 +398,13 @@ trait DeploymentTrait {
       throw new \Exception("Reinstalling the site on `$env` environment is forbidden.");
     }
 
-    $pantheon_info = $this->getPantheonNameAndEnv();
-    $pantheon_terminus_environment = $pantheon_info['name'] . '.' . $env;
+    if ($pantheon_name === NULL) {
+      $pantheon_info = $this->getPantheonNameAndEnv();
+      $pantheon_terminus_environment = $pantheon_info['name'] . '.' . $env;
+    }
+    else {
+      $pantheon_terminus_environment = $pantheon_name . '.' . $env;
+    }
 
     // This set of commands should work, so expecting no failures
     // (tend to invoke the same flow as DDEV's `config.local.yaml`).
@@ -397,6 +417,7 @@ trait DeploymentTrait {
       ->exec("terminus remote:drush $pantheon_terminus_environment -- en server_migrate --no-interaction")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- migrate:import --group=server")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- pm:uninstall migrate -y")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- set-homepage")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- uli");
 
     $result = $task->run()->getExitCode();
