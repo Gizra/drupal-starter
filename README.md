@@ -150,6 +150,28 @@ See the [example](https://github.com/Gizra/drupal8-starter/blob/master/web/modul
 Follow the steps listed in `.ddev/providers/pantheon.yaml`.
 Make sure to add the correct site name under `environment_variables.project`.
 
+There's an experimental Robo command to do the full process of creating a new project:
+```
+ddev robo bootstrap:project newname git@github.com/newclient/newproject.git terminus_token github_token
+```
+See https://github.com/Gizra/drupal-starter/blob/main/robo-components/BootstrapTrait.php
+for details.
+
+Also as this repository gets copied several times, it gets tedious to port even small fixes.
+For larger-scale changes, due to conflicts and per-project considerations, we need to apply
+changes manually to the cloned repositories, but for tiny, trivial changes, we have the following tool:
+```
+cd /home/user/clientprojects
+export REPOSITORIES=[client1 client2 client3]
+/path/to/starter/scripts/mass_patch.sh [gh_token_that_can_create_prs] /tmp/our-little-patch
+```
+
+This needs to be executed natively.
+It will try to refresh the working copies there and apply the patch, if it succeeds, it opens
+a pull request in the repository.
+That provides a fast track to spread changes for those parts of the Starter Kit what typically
+remain unchanged after cloning (CI scripts, testing scripts, DDEV configuration and commands and so on).
+
 #### Create your site
 
 Then, you can create a new site in Pantheon which can also be done with a
