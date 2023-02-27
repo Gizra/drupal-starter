@@ -46,17 +46,19 @@ if [ -d .git ]; then
 fi
 
 # Convert the string to an array.
-mapfile -t REPOSITORIES <<< "$REPOSITORIES"
+# shellcheck disable=SC2206
+REPOSITORIES=($REPOSITORIES)
 
 # Clone or update each repository
 for REPO in "${REPOSITORIES[@]}"
 do
   cd "$BASE_DIR" || exit 1
-  SLUG=$(git remote get-url origin | awk 'BEGIN { FS = ":" } ; { print $2 }' | sed s/.git$//)
-  DEFAULT_BRANCH=$(curl -s -H "Authorization: token $GH_TOKEN" "https://api.github.com/repos/$SLUG" | jq -r '.default_branch')
   echo "Patching $REPO ($DEFAULT_BRANCH is the default branch)"
 
   cd "$REPO" || continue
+  SLUG=$(git remote get-url origin | awk 'BEGIN { FS = ":" } ; { print $2 }' | sed s/.git$//)
+  DEFAULT_BRANCH=$(curl -s -H "Authorization: token $GH_TOKEN" "https://api.github.com/repos/$SLUG" | jq -r '.default_branch')
+
   echo "Cleaning $REPO repository"
   git config pull.rebase false
   git checkout "$DEFAULT_BRANCH"
