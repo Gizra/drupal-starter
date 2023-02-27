@@ -28,12 +28,10 @@ if [[ "$BRANCH_NAME" == *" "* ]]; then
 fi
 
 # The list of repos to patch comes from an environment variable.
-# If the variable is not set, print instructions and exit.
+# If the variable is not set, ask for the user input.
 if [ -z "$REPOSITORIES" ]; then
-  echo "The REPOSITORIES environment variable is not set."
-  echo "For example:"
-  echo "export REPOSITORIES=\"client1 client2 client3\""
-  exit 1
+  echo "Please enter the list of repositories to patch, separated by space."
+  read -r REPOSITORIES
 fi
 
 # Make sure if are not in a repository root, if .git directory exists,
@@ -53,11 +51,11 @@ REPOSITORIES=($REPOSITORIES)
 for REPO in "${REPOSITORIES[@]}"
 do
   cd "$BASE_DIR" || exit 1
-  echo "Patching $REPO ($DEFAULT_BRANCH is the default branch)"
 
   cd "$REPO" || continue
   SLUG=$(git remote get-url origin | awk 'BEGIN { FS = ":" } ; { print $2 }' | sed s/.git$//)
   DEFAULT_BRANCH=$(curl -s -H "Authorization: token $GH_TOKEN" "https://api.github.com/repos/$SLUG" | jq -r '.default_branch')
+  echo "Patching $REPO ($DEFAULT_BRANCH is the default branch)"
 
   echo "Cleaning $REPO repository"
   git config pull.rebase false
