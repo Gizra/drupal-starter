@@ -24,18 +24,23 @@ trait ButtonTrait {
    *   The button's URL as Url object.
    * @param bool $is_primary
    *   Whether this is a primary button. Defaults to FALSE.
+   * @param string|null $icon
+   *   The name of the icon to add as prefix. Allowed values are:
+   *   - `download`.
+   *   If NULL, no icon would be added. Defaults to NULL.
    * @param bool $open_new_tab
    *   Whether the button should open in a new tab, defaults to FALSE.
    *
    * @return array
    *   The rendered button array.
    */
-  protected function buildButton(array|string|TranslatableMarkup $title, Url $url, bool $is_primary = FALSE, bool $open_new_tab = FALSE): array {
+  protected function buildButton(array|string|TranslatableMarkup $title, Url $url, bool $is_primary = FALSE, string $icon = NULL, bool $open_new_tab = FALSE): array {
     return [
       '#theme' => 'server_theme_button',
       '#url' => $url,
       '#title'  => $title,
       '#is_primary' => $is_primary,
+      '#icon' => $icon,
       '#open_new_tab' => $open_new_tab,
     ];
   }

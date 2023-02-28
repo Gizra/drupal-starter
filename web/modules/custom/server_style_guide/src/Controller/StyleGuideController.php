@@ -235,6 +235,7 @@ class StyleGuideController extends ControllerBase {
       $element = [
         '#theme' => 'image',
         '#uri' => $this->getPlaceholderPersonImage(100),
+        '#alt' => 'Person image',
         '#width' => 100,
       ];
 
@@ -284,7 +285,7 @@ class StyleGuideController extends ControllerBase {
    *   Render array.
    */
   protected function getMediaImage(): array {
-    $image = $this->buildImage($this->getPlaceholderImage(300, 200), 'Image');
+    $image = $this->buildImage($this->getPlaceholderImage(300, 200));
 
     $caption = [
       '#theme' => 'server_theme_media_caption',
@@ -414,8 +415,7 @@ class StyleGuideController extends ControllerBase {
     $url = Url::fromRoute('<front>');
 
     // Primary button with icon.
-    $element = $this->buildButton('Download file', $url, TRUE);
-    $element['#icon'] = 'download';
+    $element = $this->buildButton('Download file', $url, TRUE, 'download');
     $build[] = $this->wrapElementWideContainer($element, 'Primary button');
 
     // Secondary button.
@@ -541,17 +541,15 @@ class StyleGuideController extends ControllerBase {
    *
    * @param string $url
    *   The url of the image, internal or external.
-   * @param string $alt
-   *   Alt text.
    *
    * @return array
    *   An image render array.
    */
-  protected function buildImage(string $url, string $alt = '') {
+  protected function buildImage(string $url) {
     return [
       '#theme' => 'image',
       '#uri' => $url,
-      '#alt' => $alt,
+      '#alt' => 'Placeholder image',
     ];
   }
 
@@ -712,7 +710,7 @@ class StyleGuideController extends ControllerBase {
     for ($i = 0; $i < $num; $i++) {
       $elements[] = call_user_func(
         [$this, $func],
-        $this->buildImage($this->getPlaceholderImage(300, 200, "card_image_$i", 'seed'), "Card image $i"),
+        $this->buildImage($this->getPlaceholderImage(300, 200, "card_image_$i", 'seed')),
         $this->getRandomTitle(),
         Url::fromRoute('<front>'),
         $this->buildProcessedText('Decorate one package of cauliflower in six teaspoons of plain vinegar. Try flavoring the crême fraîche gingers with clammy rum and fish sauce, simmered.'),

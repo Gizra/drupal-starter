@@ -125,10 +125,12 @@ function server_theme_theme() {
   ];
 
   // Used to place elements inside a main area, and other elements in a sidebar.
-  $info['server_theme_main_and_sidebar'] = [
+  $info['server_theme_page_layout__main_and_sidebar'] = [
     'variables' => [
-      'main' => NULL,
-      'sidebar' => NULL,
+      'main' => [],
+      'sidebar' => [],
+      // Set to TRUE to display sidebar first on mobile and tablet.
+      'is_sidebar_first' => NULL,
     ],
   ];
 
@@ -255,11 +257,11 @@ function server_theme_theme() {
       'title'  => NULL,
       // Indicate if button should be primary or secondary.
       'is_primary' => NULL,
-      // If TRUE, it will open the link in a new tab.
-      'open_new_tab' => NULL,
       // Specify an icon. Any icon should be added as SVG in
       // `server-theme-button`.
       'icon' => NULL,
+      // If TRUE, it will open the link in a new tab.
+      'open_new_tab' => NULL,
     ],
   ];
 
