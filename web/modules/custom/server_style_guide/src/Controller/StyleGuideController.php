@@ -290,6 +290,7 @@ class StyleGuideController extends ControllerBase {
     $caption = [
       '#theme' => 'server_theme_media_caption',
       '#caption' => 'This is the caption of the image',
+      '#credit' => 'Photo Credits: John Doe',
     ];
 
     return [

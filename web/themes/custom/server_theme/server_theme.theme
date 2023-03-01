@@ -399,6 +399,7 @@ function server_theme_theme() {
   $info['server_theme_media_caption'] = [
     'variables' => [
       'caption' => NULL,
+      'credit' => NULL,
     ],
   ];
 
