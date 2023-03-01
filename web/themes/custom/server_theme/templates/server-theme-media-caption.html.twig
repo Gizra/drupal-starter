@@ -1,3 +1,23 @@
-<div class="text-gray-600 text-sm">
-  {{ caption }}
-</div>
+{% if caption_alignment == 'center' %}
+  {% set alignment_class = 'items-center' %}
+{% elseif caption_alignment == 'end' %}
+  {% set alignment_class = 'items-end' %}
+{% else %}
+  {% set alignment_class = 'items-start' %}
+{% endif %}
+
+
+{% if (caption or credit) %}
+  <div class="flex flex-col gap-y-1 text-wmo-blue-gray-900 text-xs md:text-sm lg:text-base {{ alignment_class }}">
+    {% if caption %}
+      <div>
+        {{ caption }}
+      </div>
+    {% endif %}
+    {% if credit %}
+      <div class="italic">
+        {{ credit }}
+      </div>
+    {% endif %}
+  </div>
+{% endif %}
