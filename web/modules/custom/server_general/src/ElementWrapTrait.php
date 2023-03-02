@@ -329,12 +329,12 @@ trait ElementWrapTrait {
    *   as  mobile first, when we implement the design that in reality we start
    *   from the desktop, and work our way down to the mobile. Furthermore, on
    *   mobile the font size  may remain bigger, and won't become smaller - to
-   *   keep things readable.
+   *   keep things readable. Defaults to `base`.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapTextResponsiveFontSize(array|string|TranslatableMarkup $element, string $size): array {
+  protected function wrapTextResponsiveFontSize(array|string|TranslatableMarkup $element, string $size = 'base'): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       return [];

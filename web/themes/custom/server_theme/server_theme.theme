@@ -395,20 +395,13 @@ function server_theme_theme() {
     ],
   ];
 
-  // The caption of a Media entity.
-  $info['server_theme_media_caption'] = [
-    'variables' => [
-      'caption' => NULL,
-    ],
-  ];
-
   // Media image.
   $info['server_theme_media__image'] = [
     'variables' => [
       // The responsive image render array.
       'image' => [],
-      // An optional caption, render array of `server_theme_media_caption`.
-      'caption' => [],
+      // A render array with optional credit and caption.
+      'items' => [],
     ],
   ];
 
@@ -416,8 +409,8 @@ function server_theme_theme() {
   $info['server_theme_media__video'] = [
     'variables' => [
       'video' => NULL,
-      // An optional caption, render array of `server_theme_media_caption`.
-      'caption' => [],
+      // A render array with optional credit and caption.
+      'items' => [],
     ],
   ];
 

@@ -32,9 +32,7 @@ trait ElementMediaVideoTrait {
    * @return array
    *   The render array.
    */
-  protected function buildElementVideo(string $url, int $width, int $height, bool $iframe_full_width = FALSE, array $credit = [], array $caption = []): array {
-    $elements = [];
-
+  protected function buildElementVideo(string $url, int $width, int $height, bool $iframe_full_width = FALSE, string $credit = NULL, string $caption = NULL): array {
     $url = Url::fromRoute('media.oembed_iframe', [], [
       'query' => [
         'url' => $url,
@@ -44,7 +42,7 @@ trait ElementMediaVideoTrait {
       ],
     ]);
 
-    $elements[] = [
+    $video = [
       '#type' => 'html_tag',
       '#tag' => 'iframe',
       '#attributes' => [
@@ -67,15 +65,24 @@ trait ElementMediaVideoTrait {
     ];
 
     // Photo credit and caption.
-    $element = [];
-    if ($credit) {
-      $element[] = '©' . $credit;
+    $items = [];
+    if (!empty($credit)) {
+      $element = $this->wrapTextResponsiveFontSize($credit, 'sm');
+      $element = $this->wrapTextItalic($element);
+      $items[] = $element;
     }
-    $element[] = $caption;
+    if (!empty($caption)) {
+      $element = $this->wrapTextResponsiveFontSize($caption);
+      $items[] = $element;
+    }
 
-    $elements[] = $this->wrapContainerVerticalSpacingTiny($element);
+    $items = $this->wrapContainerVerticalSpacingTiny($items);
 
-    return $this->wrapContainerVerticalSpacing($elements);
+    return [
+      '#theme' => 'server_theme_media__video',
+      '#video' => $video,
+      '#items' => $items,
+    ];
   }
 
 }

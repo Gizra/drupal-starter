@@ -306,16 +306,15 @@ class StyleGuideController extends ControllerBase {
    *   Render array.
    */
   protected function getMediaVideo(): array {
-    $caption = [
-      '#theme' => 'server_theme_media_caption',
-      '#caption' => 'This is the caption of the video',
-    ];
+    return $this->buildElementVideo(
+      'https://www.youtube.com/watch?v=dSZQNOvpszQ',
+      650,
+      400,
+      FALSE,
+      'This is the Credit of the video',
+      'This is the Caption of the video',
+    );
 
-    return [
-      '#theme' => 'server_theme_media__video',
-      '#video' => $this->buildElementMediaVideo('https://www.youtube.com/watch?v=dSZQNOvpszQ', 650, 400),
-      '#caption' => $caption,
-    ];
   }
 
   /**

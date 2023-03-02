@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
-use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\media\MediaInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
 use Drupal\server_general\ElementWrapTrait;
-use Drupal\server_general\MediaCaptionTrait;
 use Drupal\server_general\ElementMediaVideoTrait;
 use Drupal\server_general\ProcessedTextBuilderTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -26,8 +24,6 @@ class MediaVideo extends EntityViewBuilderPluginAbstract {
 
   use ElementMediaVideoTrait;
   use ElementWrapTrait;
-  use ProcessedTextBuilderTrait;
-
 
   // Update from design as needed.
   const VIDEO_FULL_MAX_WIDTH = 1920;
@@ -71,8 +67,8 @@ class MediaVideo extends EntityViewBuilderPluginAbstract {
       self::VIDEO_FULL_MAX_WIDTH,
       self::VIDEO_FULL_MAX_HEIGHT,
       TRUE,
-      $this->buildProcessedText($entity, 'field_credit'),
-      $this->buildProcessedText($entity, 'field_caption'),
+      $this->getTextFieldValue($entity, 'field_credit'),
+      $this->getTextFieldValue($entity, 'field_caption'),
     );
 
     $build[] = $element;
