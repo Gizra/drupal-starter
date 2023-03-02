@@ -395,6 +395,33 @@ function server_theme_theme() {
     ],
   ];
 
+  // The caption of a Media entity.
+  $info['server_theme_media_caption'] = [
+    'variables' => [
+      'caption' => NULL,
+      'credit' => NULL,
+    ],
+  ];
+
+  // Media image.
+  $info['server_theme_media__image'] = [
+    'variables' => [
+      // The responsive image render array.
+      'image' => [],
+      // An optional caption, render array of `server_theme_media_caption`.
+      'caption' => [],
+    ],
+  ];
+
+  // Media video.
+  $info['server_theme_media__video'] = [
+    'variables' => [
+      'video' => NULL,
+      // An optional caption, render array of `server_theme_media_caption`.
+      'caption' => [],
+    ],
+  ];
+
   // Facets wrapper on Search page.
   $info['server_theme_facets__search'] = [
     'variables' => [

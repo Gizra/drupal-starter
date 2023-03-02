@@ -285,23 +285,28 @@ class StyleGuideController extends ControllerBase {
    *   Render array.
    */
   protected function getMediaImage(): array {
-
     $elements = [];
 
     // Image.
     $image = $this->buildImage($this->getPlaceholderImage(300, 200));
-    $elements[] = $image;
 
     // Caption.
-    $element = $this->wrapTextResponsiveFontSize('This is the caption of the image', 'base');
-    $elements[] = $element;
+    $caption = $this->wrapTextResponsiveFontSize('This is the caption of the image', 'base');
+    $caption = $this->wrapTextColor($caption, 'dark-gray');
+    $elements[] = $caption;
 
-    // Credits.
-    $element = $this->wrapTextResponsiveFontSize('Photo Credits: John Doe', 'base');
-    $elements[] = $this->wrapTextItalic($element);
+    // Credit.
+    $credit = $this->wrapTextResponsiveFontSize('Photo Credits: John Doe', 'base');
+    $credit = $this->wrapTextColor($credit, 'dark-gray');
+    $elements[] = $this->wrapTextItalic($credit);
 
-    return $this->wrapContainerVerticalSpacingTiny($elements, 'start');
+    $items = $this->wrapContainerVerticalSpacingTiny($elements, 'start');
 
+    return [
+      '#theme' => 'server_theme_media__image',
+      '#image' => $image,
+      '#caption' => $items,
+    ];
   }
 
   /**
@@ -311,16 +316,14 @@ class StyleGuideController extends ControllerBase {
    *   Render array.
    */
   protected function getMediaVideo(): array {
-    $elements = [];
+    $caption = $this->wrapTextResponsiveFontSize('This is the caption of the video', 'base');
+    $caption = $this->wrapTextColor($caption, 'dark-gray');
 
-    // Video.
-    $elements[] = $this->buildVideo('https://www.youtube.com/watch?v=dSZQNOvpszQ', 650, 400);
-
-    // Caption.
-    $elements[] = $this->wrapTextResponsiveFontSize('This is the caption of the video', 'base');
-
-    return $this->wrapContainerVerticalSpacingTiny($elements, 'start');
-
+    return [
+      '#theme' => 'server_theme_media__video',
+      '#video' => $this->buildVideo('https://www.youtube.com/watch?v=dSZQNOvpszQ', 650, 400),
+      '#caption' => $caption,
+    ];
   }
 
   /**
