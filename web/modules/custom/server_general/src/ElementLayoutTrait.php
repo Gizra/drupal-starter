@@ -15,7 +15,7 @@ namespace Drupal\server_general;
  * Trait provides helper methods for each layout. One method equals one theme
  * file.
  */
-trait PageLayoutTrait {
+trait ElementLayoutTrait {
 
   /**
    * Build Main and sidebar layout.
@@ -31,9 +31,9 @@ trait PageLayoutTrait {
    * @return array
    *   The render array.
    */
-  protected function buildPageLayoutMainAndSidebar(array $main, array $sidebar = [], bool $is_sidebar_first = FALSE) {
+  protected function buildElementLayoutMainAndSidebar(array $main, array $sidebar = [], bool $is_sidebar_first = FALSE) {
     return [
-      '#theme' => 'server_theme_page_layout__main_and_sidebar',
+      '#theme' => 'server_theme_element_layout__main_and_sidebar',
       '#main' => $main,
       '#sidebar' => $sidebar,
       '#is_sidebar_first' => $is_sidebar_first,

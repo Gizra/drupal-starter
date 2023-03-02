@@ -125,7 +125,7 @@ function server_theme_theme() {
   ];
 
   // Used to place elements inside a main area, and other elements in a sidebar.
-  $info['server_theme_page_layout__main_and_sidebar'] = [
+  $info['server_theme_element_layout__main_and_sidebar'] = [
     'variables' => [
       'main' => [],
       'sidebar' => [],
