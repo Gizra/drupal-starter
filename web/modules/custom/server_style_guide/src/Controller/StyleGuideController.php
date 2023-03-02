@@ -13,7 +13,7 @@ use Drupal\server_general\CardTrait;
 use Drupal\server_general\ElementTrait;
 use Drupal\server_general\ElementWrapTrait;
 use Drupal\server_general\LinkTrait;
-use Drupal\server_general\ElementMediaVideoTrait;
+use Drupal\server_general\ElementMediaTrait;
 use Drupal\server_general\SocialShareTrait;
 use Drupal\server_general\TagTrait;
 use Drupal\server_general\TitleAndLabelsTrait;
@@ -32,7 +32,7 @@ class StyleGuideController extends ControllerBase {
   use ElementTrait;
   use ElementWrapTrait;
   use LinkTrait;
-  use ElementMediaVideoTrait;
+  use ElementMediaTrait;
   use SocialShareTrait;
   use StyleGuideElementWrapTrait;
   use TagTrait;
@@ -138,10 +138,10 @@ class StyleGuideController extends ControllerBase {
     $build[] = $this->wrapElementNoContainer($element, 'Element: Hero image');
 
     $element = $this->getMediaImage();
-    $build[] = $this->wrapElementWideContainer($element, 'Media: Image');
+    $build[] = $this->wrapElementWideContainer($element, 'Element: Media Image');
 
     $element = $this->getMediaVideo();
-    $build[] = $this->wrapElementWideContainer($element, 'Media: Video');
+    $build[] = $this->wrapElementWideContainer($element, 'Element: Media Video');
 
     return $build;
   }
@@ -287,16 +287,11 @@ class StyleGuideController extends ControllerBase {
   protected function getMediaImage(): array {
     $image = $this->buildImage($this->getPlaceholderImage(300, 200));
 
-    $caption = [
-      '#theme' => 'server_theme_media_caption',
-      '#caption' => 'This is the caption of the image',
-    ];
-
-    return [
-      '#theme' => 'server_theme_media__image',
-      '#image' => $image,
-      '#caption' => $caption,
-    ];
+    return $this->buildElementImage(
+      $image,
+      'This is the Credit of the image',
+      'This is the Caption of the image',
+    );
   }
 
   /**

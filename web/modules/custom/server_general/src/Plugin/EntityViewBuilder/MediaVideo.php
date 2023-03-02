@@ -7,8 +7,7 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 use Drupal\media\MediaInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
 use Drupal\server_general\ElementWrapTrait;
-use Drupal\server_general\ElementMediaVideoTrait;
-use Drupal\server_general\ProcessedTextBuilderTrait;
+use Drupal\server_general\ElementMediaTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -22,7 +21,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class MediaVideo extends EntityViewBuilderPluginAbstract {
 
-  use ElementMediaVideoTrait;
+  use ElementMediaTrait;
   use ElementWrapTrait;
 
   // Update from design as needed.

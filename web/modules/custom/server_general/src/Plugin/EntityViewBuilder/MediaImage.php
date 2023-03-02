@@ -6,8 +6,8 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\media\MediaInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
+use Drupal\server_general\ElementMediaTrait;
 use Drupal\server_general\ElementWrapTrait;
-use Drupal\server_general\MediaCaptionTrait;
 
 /**
  * The "Media: Image" plugin.
@@ -20,8 +20,8 @@ use Drupal\server_general\MediaCaptionTrait;
  */
 class MediaImage extends EntityViewBuilderPluginAbstract {
 
+  use ElementMediaTrait;
   use ElementWrapTrait;
-  use MediaCaptionTrait;
 
   /**
    * The responsive image style to use on Hero.
@@ -66,6 +66,7 @@ class MediaImage extends EntityViewBuilderPluginAbstract {
     $element = $this->getElement($entity, self::RESPONSIVE_IMAGE_STYLE_HERO);
 
     // Wrap the image with rounded corners.
+    // @todo: Where does this appear? If exists, need to extend method.
     $element['#image'] = $this->wrapRoundedCornersBig($element['#image']);
     $build[] = $element;
 
@@ -94,11 +95,11 @@ class MediaImage extends EntityViewBuilderPluginAbstract {
       ],
     ]);
 
-    return [
-      '#theme' => 'server_theme_media__image',
-      '#image' => $image,
-      '#caption' => $this->buildCaption($entity),
-    ];
+    return $this->buildElementImage(
+      $image,
+      $this->getTextFieldValue($entity, 'field_credit'),
+      $this->getTextFieldValue($entity, 'field_caption'),
+    );
   }
 
 }
