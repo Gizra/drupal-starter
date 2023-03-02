@@ -35,13 +35,13 @@ trait MediaCaptionTrait {
     // Caption.
     if ($entity->hasField($field_name)) {
       $caption = $this->wrapTextResponsiveFontSize($this->getTextFieldValue($entity, $field_name), 'base');
-      $elements[]  = $this->wrapTextColor($caption, 'dark-gray');
+      $elements[] = $this->wrapTextColor($caption, 'dark-gray');
 
     }
     // Credit.
     if ($entity->hasField($credit_field_name)) {
       $credit = $this->wrapTextResponsiveFontSize($this->getTextFieldValue($entity, $credit_field_name), 'base');
-      $elements[]  = $this->wrapTextColor($credit, 'dark-gray');
+      $elements[] = $this->wrapTextColor($credit, 'dark-gray');
     }
     if (empty($elements)) {
       // Nothing to output.
