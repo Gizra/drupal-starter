@@ -395,22 +395,11 @@ function server_theme_theme() {
     ],
   ];
 
-  // Media image.
-  $info['server_theme_media__image'] = [
+  // Wrap an image render array with the `figure` tag.
+  $info['server_theme_wrap_image_with_figure'] = [
     'variables' => [
-      // The responsive image render array.
-      'image' => [],
-      // A render array with optional credit and caption.
-      'items' => [],
-    ],
-  ];
-
-  // Media video.
-  $info['server_theme_media__video'] = [
-    'variables' => [
-      'video' => NULL,
-      // A render array with optional credit and caption.
-      'items' => [],
+      // The image render array.
+      'element' => [],
     ],
   ];
 

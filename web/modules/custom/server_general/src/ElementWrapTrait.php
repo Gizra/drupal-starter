@@ -294,6 +294,27 @@ trait ElementWrapTrait {
   }
 
   /**
+   * Wrap an image with the `figure` tag.
+   *
+   * @param array $element
+   *   The image render array.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapImageWithFigureTag(array $element): array {
+    $element = $this->filterEmptyElements($element);
+    if (empty($element)) {
+      return [];
+    }
+
+    return [
+      '#theme' => 'server_theme_wrap_image_with_figure',
+      '#element' => $element,
+    ];
+  }
+
+  /**
    * Wrap a text element with font weight.
    *
    * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
