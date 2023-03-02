@@ -285,19 +285,23 @@ class StyleGuideController extends ControllerBase {
    *   Render array.
    */
   protected function getMediaImage(): array {
+
+    $elements = [];
+
+    // Image.
     $image = $this->buildImage($this->getPlaceholderImage(300, 200));
+    $elements[] = $image;
 
-    $caption = [
-      '#theme' => 'server_theme_media_caption',
-      '#caption' => 'This is the caption of the image',
-      '#credit' => 'Photo Credits: John Doe',
-    ];
+    // Caption.
+    $element = $this->wrapTextResponsiveFontSize('This is the caption of the image', 'base');
+    $elements[] = $element;
 
-    return [
-      '#theme' => 'server_theme_media__image',
-      '#image' => $image,
-      '#caption' => $caption,
-    ];
+    // Credits.
+    $element = $this->wrapTextResponsiveFontSize('Photo Credits: John Doe', 'base');
+    $elements[] = $this->wrapTextItalic($element);
+
+    return $this->wrapContainerVerticalSpacingTiny($elements, 'start');
+
   }
 
   /**
@@ -307,16 +311,16 @@ class StyleGuideController extends ControllerBase {
    *   Render array.
    */
   protected function getMediaVideo(): array {
-    $caption = [
-      '#theme' => 'server_theme_media_caption',
-      '#caption' => 'This is the caption of the video',
-    ];
+    $elements = [];
 
-    return [
-      '#theme' => 'server_theme_media__video',
-      '#video' => $this->buildVideo('https://www.youtube.com/watch?v=dSZQNOvpszQ', 650, 400),
-      '#caption' => $caption,
-    ];
+    // Video.
+    $elements[] = $this->buildVideo('https://www.youtube.com/watch?v=dSZQNOvpszQ', 650, 400);
+
+    // Caption.
+    $elements[] = $this->wrapTextResponsiveFontSize('This is the caption of the video', 'base');
+
+    return $this->wrapContainerVerticalSpacingTiny($elements, 'start');
+
   }
 
   /**

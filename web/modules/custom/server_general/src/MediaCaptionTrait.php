@@ -30,19 +30,21 @@ trait MediaCaptionTrait {
    *   Render array.
    */
   public function buildCaption(MediaInterface $entity, string $field_name = 'field_caption', string $credit_field_name = 'field_photo_credit', string $caption_alignment = 'start'): array {
-    $caption = $entity->hasField($credit_field_name) ? $this->getTextFieldValue($entity, $field_name) : NULL;
-    $credit = $entity->hasField($credit_field_name) ? $this->getTextFieldValue($entity, $credit_field_name) : NULL;
-    if (empty($caption) && empty($credit)) {
+    $elements = [];
+
+    if ($entity->hasField($field_name)) {
+      $element[] = $this->wrapTextResponsiveFontSize($this->getTextFieldValue($entity, $field_name), 'base');
+    }
+    if ($entity->hasField($credit_field_name)) {
+      $element = $this->wrapTextResponsiveFontSize($this->getTextFieldValue($entity, $credit_field_name), 'base');
+      $elements[] = $this->wrapTextItalic($element);
+    }
+    if (empty($elements)) {
       // Nothing to output.
       return [];
     }
+    return $this->wrapContainerVerticalSpacingTiny($elements, 'start');
 
-    return [
-      '#theme' => 'server_theme_media_caption',
-      '#caption' => $caption,
-      '#credit' => $credit,
-      '#caption_alignment' => $caption_alignment,
-    ];
   }
 
 }
