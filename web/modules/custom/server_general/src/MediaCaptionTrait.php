@@ -15,7 +15,7 @@ trait MediaCaptionTrait {
   use BuildFieldTrait;
 
   /**
-   * Build a list of tags out of a field.
+   * Build media caption out of the fields.
    *
    * @param \Drupal\media\MediaInterface $entity
    *   The entity.
