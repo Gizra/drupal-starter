@@ -43,7 +43,7 @@ trait MediaCaptionTrait {
       // Nothing to output.
       return [];
     }
-    return $this->wrapContainerVerticalSpacingTiny($elements, 'start');
+    return $this->wrapContainerVerticalSpacingTiny($elements, $caption_alignment);
 
   }
 
