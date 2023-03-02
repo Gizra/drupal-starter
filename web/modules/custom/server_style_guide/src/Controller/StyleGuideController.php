@@ -13,7 +13,7 @@ use Drupal\server_general\CardTrait;
 use Drupal\server_general\ElementTrait;
 use Drupal\server_general\ElementWrapTrait;
 use Drupal\server_general\LinkTrait;
-use Drupal\server_general\MediaVideoTrait;
+use Drupal\server_general\ElementMediaVideoTrait;
 use Drupal\server_general\SocialShareTrait;
 use Drupal\server_general\TagTrait;
 use Drupal\server_general\TitleAndLabelsTrait;
@@ -32,7 +32,7 @@ class StyleGuideController extends ControllerBase {
   use ElementTrait;
   use ElementWrapTrait;
   use LinkTrait;
-  use MediaVideoTrait;
+  use ElementMediaVideoTrait;
   use SocialShareTrait;
   use StyleGuideElementWrapTrait;
   use TagTrait;
@@ -313,7 +313,7 @@ class StyleGuideController extends ControllerBase {
 
     return [
       '#theme' => 'server_theme_media__video',
-      '#video' => $this->buildVideo('https://www.youtube.com/watch?v=dSZQNOvpszQ', 650, 400),
+      '#video' => $this->buildElementMediaVideo('https://www.youtube.com/watch?v=dSZQNOvpszQ', 650, 400),
       '#caption' => $caption,
     ];
   }

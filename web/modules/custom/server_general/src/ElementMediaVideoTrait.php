@@ -13,7 +13,9 @@ use Drupal\Core\Url;
  *
  * To use this trait it is assumed above service is present.
  */
-trait MediaVideoTrait {
+trait ElementMediaVideoTrait {
+
+  use ElementWrapTrait;
 
   /**
    * Prepare video render array.
@@ -30,7 +32,9 @@ trait MediaVideoTrait {
    * @return array
    *   The render array.
    */
-  protected function buildVideo(string $url, int $width, int $height, bool $iframe_full_width = FALSE): array {
+  protected function buildElementVideo(string $url, int $width, int $height, bool $iframe_full_width = FALSE, array $credit = [], array $caption = []): array {
+    $elements = [];
+
     $url = Url::fromRoute('media.oembed_iframe', [], [
       'query' => [
         'url' => $url,
@@ -40,7 +44,7 @@ trait MediaVideoTrait {
       ],
     ]);
 
-    return [
+    $elements[] = [
       '#type' => 'html_tag',
       '#tag' => 'iframe',
       '#attributes' => [
@@ -61,6 +65,17 @@ trait MediaVideoTrait {
         ],
       ],
     ];
+
+    // Photo credit and caption.
+    $element = [];
+    if ($credit) {
+      $element[] = '©' . $credit;
+    }
+    $element[] = $caption;
+
+    $elements[] = $this->wrapContainerVerticalSpacingTiny($element);
+
+    return $this->wrapContainerVerticalSpacing($elements);
   }
 
 }
