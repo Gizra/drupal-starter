@@ -32,12 +32,16 @@ trait MediaCaptionTrait {
   public function buildCaption(MediaInterface $entity, string $field_name = 'field_caption', string $credit_field_name = 'field_photo_credit', string $caption_alignment = 'start'): array {
     $elements = [];
 
+    // Caption.
     if ($entity->hasField($field_name)) {
-      $element[] = $this->wrapTextResponsiveFontSize($this->getTextFieldValue($entity, $field_name), 'base');
+      $caption = $this->wrapTextResponsiveFontSize($this->getTextFieldValue($entity, $field_name), 'base');
+      $elements[]  = $this->wrapTextColor($caption, 'dark-gray');
+
     }
+    // Credit.
     if ($entity->hasField($credit_field_name)) {
-      $element = $this->wrapTextResponsiveFontSize($this->getTextFieldValue($entity, $credit_field_name), 'base');
-      $elements[] = $this->wrapTextItalic($element);
+      $credit = $this->wrapTextResponsiveFontSize($this->getTextFieldValue($entity, $credit_field_name), 'base');
+      $elements[]  = $this->wrapTextColor($credit, 'dark-gray');
     }
     if (empty($elements)) {
       // Nothing to output.
