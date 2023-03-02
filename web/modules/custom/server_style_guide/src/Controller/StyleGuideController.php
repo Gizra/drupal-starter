@@ -289,6 +289,7 @@ class StyleGuideController extends ControllerBase {
 
     return $this->buildElementImage(
       $image,
+      TRUE,
       'This is the Credit of the image',
       'This is the Caption of the image',
     );

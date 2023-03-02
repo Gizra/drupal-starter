@@ -32,7 +32,7 @@ trait ElementMediaTrait {
    * @return array
    *   The render array.
    */
-  protected function buildElementImage(array $image, string $credit = NULL, string $caption = NULL): array {
+  protected function buildElementImage(array $image, $wrap_image_rounded_corners = FALSE, string $credit = NULL, string $caption = NULL): array {
     // Photo credit and caption.
     $items = [];
     if (!empty($credit)) {
@@ -46,6 +46,10 @@ trait ElementMediaTrait {
     }
 
     $items = $this->wrapContainerVerticalSpacingTiny($items);
+
+    if ($wrap_image_rounded_corners) {
+      $image = $this->wrapRoundedCornersBig($image);
+    }
 
     return [
       '#theme' => 'server_theme_media__image',

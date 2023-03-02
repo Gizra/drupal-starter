@@ -63,11 +63,8 @@ class MediaImage extends EntityViewBuilderPluginAbstract {
    *   The render array.
    */
   public function buildHero(array $build, MediaInterface $entity): array {
-    $element = $this->getElement($entity, self::RESPONSIVE_IMAGE_STYLE_HERO);
+    $element = $this->getElement($entity, self::RESPONSIVE_IMAGE_STYLE_HERO, TRUE);
 
-    // Wrap the image with rounded corners.
-    // @todo: Where does this appear? If exists, need to extend method.
-    $element['#image'] = $this->wrapRoundedCornersBig($element['#image']);
     $build[] = $element;
 
     return $build;
@@ -85,7 +82,7 @@ class MediaImage extends EntityViewBuilderPluginAbstract {
    * @return array
    *   The render array.
    */
-  protected function getElement(MediaInterface $entity, string $responsive_image_style): array {
+  protected function getElement(MediaInterface $entity, string $responsive_image_style, bool $wrap_image_rounded_corners = FALSE): array {
     $image = $entity->get('field_media_image')->view([
       'label' => 'hidden',
       'type' => 'responsive_image',
@@ -97,7 +94,8 @@ class MediaImage extends EntityViewBuilderPluginAbstract {
 
     return $this->buildElementImage(
       $image,
-      $this->getTextFieldValue($entity, 'field_credit'),
+      $wrap_image_rounded_corners,
+      $this->getTextFieldValue($entity, 'field_media_credit'),
       $this->getTextFieldValue($entity, 'field_caption'),
     );
   }
