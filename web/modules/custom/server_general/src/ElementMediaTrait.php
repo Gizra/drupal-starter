@@ -42,18 +42,7 @@ trait ElementMediaTrait {
     $elements[] = $this->wrapImageWithFigureTag($image);
 
     // Photo credit and caption.
-    $items = [];
-    if (!empty($credit)) {
-      $element = $this->wrapTextResponsiveFontSize($credit, 'sm');
-      $element = $this->wrapTextItalic($element);
-      $items[] = $element;
-    }
-    if (!empty($caption)) {
-      $element = $this->wrapTextResponsiveFontSize($caption);
-      $items[] = $element;
-    }
-
-    $elements[] = $this->wrapContainerVerticalSpacingTiny($items);
+    $elements[] = $this->buildCreditAndCaption($credit, $caption);
 
     return $this->wrapContainerVerticalSpacing($elements);
   }
@@ -108,20 +97,36 @@ trait ElementMediaTrait {
     ];
 
     // Photo credit and caption.
-    $items = [];
+    $elements[] = $this->buildCreditAndCaption($credit, $caption);
+
+    return $this->wrapContainerVerticalSpacing($elements);
+  }
+
+  /**
+   * Build the optional credit and caption.
+   *
+   * @param string|NULL $credit
+   *   Optional; The credit.
+   * @param string|NULL $caption
+   *   Optional; The caption.
+   *
+   * @return array
+   *   The render array.
+   */
+  protected function buildCreditAndCaption(string $credit = NULL, string $caption = NULL): array {
+    $elements = [];
+
     if (!empty($credit)) {
-      $element = $this->wrapTextResponsiveFontSize($credit, 'sm');
+      $element = $this->wrapTextResponsiveFontSize('© ' . $credit, 'sm');
       $element = $this->wrapTextItalic($element);
-      $items[] = $element;
+      $elements[] = $element;
     }
     if (!empty($caption)) {
       $element = $this->wrapTextResponsiveFontSize($caption);
-      $items[] = $element;
+      $elements[] = $element;
     }
 
-    $elements[] = $this->wrapContainerVerticalSpacingTiny($items);
-
-    return $this->wrapContainerVerticalSpacing($elements);
+    return $this->wrapContainerVerticalSpacingTiny($elements);
   }
 
 }
