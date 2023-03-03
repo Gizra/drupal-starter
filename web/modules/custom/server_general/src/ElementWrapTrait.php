@@ -294,6 +294,27 @@ trait ElementWrapTrait {
   }
 
   /**
+   * Wrap an image with the `figure` tag.
+   *
+   * @param array $element
+   *   The image render array.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapImageWithFigureTag(array $element): array {
+    $element = $this->filterEmptyElements($element);
+    if (empty($element)) {
+      return [];
+    }
+
+    return [
+      '#theme' => 'server_theme_wrap_image_with_figure',
+      '#element' => $element,
+    ];
+  }
+
+  /**
    * Wrap a text element with font weight.
    *
    * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
@@ -329,12 +350,12 @@ trait ElementWrapTrait {
    *   as  mobile first, when we implement the design that in reality we start
    *   from the desktop, and work our way down to the mobile. Furthermore, on
    *   mobile the font size  may remain bigger, and won't become smaller - to
-   *   keep things readable.
+   *   keep things readable. Defaults to `base`.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapTextResponsiveFontSize(array|string|TranslatableMarkup $element, string $size): array {
+  protected function wrapTextResponsiveFontSize(array|string|TranslatableMarkup $element, string $size = 'base'): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       return [];

@@ -1,0 +1,9 @@
+<div class="relative">
+  <figure class="child-object-cover w-full overflow-hidden">
+    {{ image }}
+  </figure>
+
+  {% if credit %}
+    <div class="text-xs absolute left-0 rtl:left-auto rtl:right-0 bottom-0 bg-white opacity-70 p-2">© {{ credit }}</div>
+  {% endif %}
+</div>

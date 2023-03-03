@@ -13,7 +13,7 @@ use Drupal\server_general\CardTrait;
 use Drupal\server_general\ElementTrait;
 use Drupal\server_general\ElementWrapTrait;
 use Drupal\server_general\LinkTrait;
-use Drupal\server_general\MediaVideoTrait;
+use Drupal\server_general\ElementMediaTrait;
 use Drupal\server_general\SocialShareTrait;
 use Drupal\server_general\TagTrait;
 use Drupal\server_general\TitleAndLabelsTrait;
@@ -32,7 +32,7 @@ class StyleGuideController extends ControllerBase {
   use ElementTrait;
   use ElementWrapTrait;
   use LinkTrait;
-  use MediaVideoTrait;
+  use ElementMediaTrait;
   use SocialShareTrait;
   use StyleGuideElementWrapTrait;
   use TagTrait;
@@ -138,10 +138,13 @@ class StyleGuideController extends ControllerBase {
     $build[] = $this->wrapElementNoContainer($element, 'Element: Hero image');
 
     $element = $this->getMediaImage();
-    $build[] = $this->wrapElementWideContainer($element, 'Media: Image');
+    $build[] = $this->wrapElementWideContainer($element, 'Element: Media Image (Embed in text field)');
+
+    $element = $this->getMediaImageWithCreditOverlay();
+    $build[] = $this->wrapElementWideContainer($element, 'Element: Media Image with credit overlay (Hero on Node news)');
 
     $element = $this->getMediaVideo();
-    $build[] = $this->wrapElementWideContainer($element, 'Media: Video');
+    $build[] = $this->wrapElementWideContainer($element, 'Element: Media Video');
 
     return $build;
   }
@@ -279,7 +282,7 @@ class StyleGuideController extends ControllerBase {
   }
 
   /**
-   * Get Media image.
+   * Get Media image with credit and caption.
    *
    * @return array
    *   Render array.
@@ -287,16 +290,26 @@ class StyleGuideController extends ControllerBase {
   protected function getMediaImage(): array {
     $image = $this->buildImage($this->getPlaceholderImage(300, 200));
 
-    $caption = [
-      '#theme' => 'server_theme_media_caption',
-      '#caption' => 'This is the caption of the image',
-    ];
+    return $this->buildElementImage(
+      $image,
+      'This is the Credit of the image',
+      'This is the Caption of the image',
+    );
+  }
 
-    return [
-      '#theme' => 'server_theme_media__image',
-      '#image' => $image,
-      '#caption' => $caption,
-    ];
+  /**
+   * Get Media image with credit overlay.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getMediaImageWithCreditOverlay(): array {
+    $image = $this->buildImage($this->getPlaceholderImage(780, 250));
+
+    return $this->buildElementImageWithCreditOverlay(
+      $image,
+      'This is the Credit of the image',
+    );
   }
 
   /**
@@ -306,16 +319,15 @@ class StyleGuideController extends ControllerBase {
    *   Render array.
    */
   protected function getMediaVideo(): array {
-    $caption = [
-      '#theme' => 'server_theme_media_caption',
-      '#caption' => 'This is the caption of the video',
-    ];
+    return $this->buildElementVideo(
+      'https://www.youtube.com/watch?v=dSZQNOvpszQ',
+      650,
+      400,
+      FALSE,
+      'This is the Credit of the video',
+      'This is the Caption of the video',
+    );
 
-    return [
-      '#theme' => 'server_theme_media__video',
-      '#video' => $this->buildVideo('https://www.youtube.com/watch?v=dSZQNOvpszQ', 650, 400),
-      '#caption' => $caption,
-    ];
   }
 
   /**

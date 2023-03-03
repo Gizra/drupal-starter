@@ -11,7 +11,7 @@ use Drupal\server_general\EntityDateTrait;
 use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
 use Drupal\server_general\LineSeparatorTrait;
 use Drupal\server_general\LinkTrait;
-use Drupal\server_general\PageLayoutTrait;
+use Drupal\server_general\ElementLayoutTrait;
 use Drupal\server_general\SocialShareTrait;
 use Drupal\server_general\TitleAndLabelsTrait;
 
@@ -30,7 +30,7 @@ class NodeNews extends NodeViewBuilderAbstract {
   use EntityDateTrait;
   use LineSeparatorTrait;
   use LinkTrait;
-  use PageLayoutTrait;
+  use ElementLayoutTrait;
   use SocialShareTrait;
   use TitleAndLabelsTrait;
 
@@ -90,7 +90,7 @@ class NodeNews extends NodeViewBuilderAbstract {
 
     $elements = $this->wrapContainerVerticalSpacing($elements);
 
-    return $this->buildPageLayoutMainAndSidebar(
+    return $this->buildElementLayoutMainAndSidebar(
       $this->wrapContainerVerticalSpacingBig($elements),
     );
   }
@@ -129,7 +129,7 @@ class NodeNews extends NodeViewBuilderAbstract {
     $sidebar_elements[] = $this->wrapContainerVerticalSpacing($social_share_elements);
     $sidebar_elements = $this->wrapContainerVerticalSpacingBig($sidebar_elements);
 
-    return $this->buildPageLayoutMainAndSidebar(
+    return $this->buildElementLayoutMainAndSidebar(
       $this->wrapContainerVerticalSpacingBig($main_elements),
       $this->buildCardLayout($sidebar_elements),
     );
@@ -148,7 +148,7 @@ class NodeNews extends NodeViewBuilderAbstract {
    */
   public function buildTeaser(array $build, NodeInterface $entity) {
     $media = $this->getReferencedEntityFromField($entity, 'field_featured_image');
-    $image = $media instanceof MediaInterface ? $this->buildImageStyle($media, 'card', 'field_media_image') : NULL;
+    $image = $media instanceof MediaInterface ? $this->buildImageStyle($media, 'card', 'field_media_image') : [];
     $title = $entity->label();
     $url = $entity->toUrl();
     $summary = $this->buildProcessedText($entity, 'field_body', FALSE);

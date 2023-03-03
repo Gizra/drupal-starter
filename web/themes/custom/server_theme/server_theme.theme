@@ -125,7 +125,7 @@ function server_theme_theme() {
   ];
 
   // Used to place elements inside a main area, and other elements in a sidebar.
-  $info['server_theme_page_layout__main_and_sidebar'] = [
+  $info['server_theme_element_layout__main_and_sidebar'] = [
     'variables' => [
       'main' => [],
       'sidebar' => [],
@@ -376,6 +376,14 @@ function server_theme_theme() {
     ],
   ];
 
+  // An image, with the image credit overlay.
+  $info['server_theme_image_with_credit_overlay'] = [
+    'variables' => [
+      'image' => [],
+      'credit' => NULL,
+    ],
+  ];
+
   $info['server_theme_social_share_button'] = [
     'variables' => [
       'url' => NULL,
@@ -395,29 +403,11 @@ function server_theme_theme() {
     ],
   ];
 
-  // The caption of a Media entity.
-  $info['server_theme_media_caption'] = [
+  // Wrap an image render array with the `figure` tag.
+  $info['server_theme_wrap_image_with_figure'] = [
     'variables' => [
-      'caption' => NULL,
-    ],
-  ];
-
-  // Media image.
-  $info['server_theme_media__image'] = [
-    'variables' => [
-      // The responsive image render array.
-      'image' => [],
-      // An optional caption, render array of `server_theme_media_caption`.
-      'caption' => [],
-    ],
-  ];
-
-  // Media video.
-  $info['server_theme_media__video'] = [
-    'variables' => [
-      'video' => NULL,
-      // An optional caption, render array of `server_theme_media_caption`.
-      'caption' => [],
+      // The image render array.
+      'element' => [],
     ],
   ];
 
