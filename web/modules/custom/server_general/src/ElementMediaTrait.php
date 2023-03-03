@@ -33,6 +33,7 @@ trait ElementMediaTrait {
   protected function buildElementImage(array $image, string $credit = NULL, string $caption = NULL): array {
     $elements = [];
 
+    $image = $this->wrapRoundedCornersBig($image);
     $elements[] = $this->wrapImageWithFigureTag($image);
 
     // Photo credit and caption.
