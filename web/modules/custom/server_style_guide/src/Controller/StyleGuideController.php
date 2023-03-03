@@ -282,7 +282,7 @@ class StyleGuideController extends ControllerBase {
   }
 
   /**
-   * Get Media image.
+   * Get Media image with credit and caption.
    *
    * @return array
    *   Render array.
