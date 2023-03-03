@@ -177,7 +177,7 @@ trait ElementWrapTrait {
   }
 
   /**
-   * Wrap an element with a max width container and centers the element.
+   * Wrap an element with a max width container.
    *
    * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
    *   The render array, string or a TranslatableMarkup object.
