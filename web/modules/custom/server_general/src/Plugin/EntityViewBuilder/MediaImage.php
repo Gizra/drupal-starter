@@ -78,6 +78,8 @@ class MediaImage extends EntityViewBuilderPluginAbstract {
    *   The entity.
    * @param string $responsive_image_style
    *   The responsive image style.
+   * @param bool $wrap_image_rounded_corners
+   *   Determine if image should have rounded corners.
    *
    * @return array
    *   The render array.

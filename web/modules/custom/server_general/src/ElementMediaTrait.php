@@ -25,9 +25,9 @@ trait ElementMediaTrait {
    * @param bool $wrap_image_rounded_corners
    *   Determine if image should have rounded corners.
    * @param string|null $credit
-   *    Optional; The credit.
+   *   Optional; The credit.
    * @param string|null $caption
-   *    Optional; The caption.
+   *   Optional; The caption.
    *
    * @return array
    *   The render array.
@@ -58,6 +58,10 @@ trait ElementMediaTrait {
    *   Iframe height.
    * @param bool $iframe_full_width
    *   Defines if iframe has 100% width/height.
+   * @param string|null $credit
+   *   Optional; The credit.
+   * @param string|null $caption
+   *   Optional; The caption.
    *
    * @return array
    *   The render array.
@@ -105,9 +109,9 @@ trait ElementMediaTrait {
   /**
    * Build the optional credit and caption.
    *
-   * @param string|NULL $credit
+   * @param string|null $credit
    *   Optional; The credit.
-   * @param string|NULL $caption
+   * @param string|null $caption
    *   Optional; The caption.
    *
    * @return array
