@@ -20,19 +20,19 @@ trait ElementMediaTrait {
   /**
    * Build Media Image.
    *
-   * @param string $url
-   *   Video url.
-   * @param int $width
-   *   Iframe width.
-   * @param int $height
-   *   Iframe height.
-   * @param bool $iframe_full_width
-   *   Defines if iframe has 100% width/height.
+   * @param array $image
+   *   The image render array.
+   * @param bool $wrap_image_rounded_corners
+   *   Determine if image should have rounded corners.
+   * @param string|null $credit
+   *    Optional; The credit.
+   * @param string|null $caption
+   *    Optional; The caption.
    *
    * @return array
    *   The render array.
    */
-  protected function buildElementImage(array $image, $wrap_image_rounded_corners = FALSE, string $credit = NULL, string $caption = NULL): array {
+  protected function buildElementImage(array $image, bool $wrap_image_rounded_corners = FALSE, string $credit = NULL, string $caption = NULL): array {
     $elements = [];
 
     if ($wrap_image_rounded_corners) {
