@@ -96,6 +96,14 @@ function server_theme_theme() {
     ],
   ];
 
+  // Wrap with a max width container.
+  $info['server_theme_container_max_width'] = [
+    'variables' => [
+      'element' => [],
+      'width' => NULL,
+    ],
+  ];
+
   // The page's header.
   $info['server_theme_header'] = [
     'variables' => [

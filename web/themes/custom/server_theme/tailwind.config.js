@@ -15,6 +15,8 @@ module.exports = {
   content: [
     // Look in the twig files.
     './templates/**/*.html.twig',
+    // Look in the js files.
+    './src/js/**/*.js',
     // A preprocess function might inject a class.
     './server_theme.theme',
     // Custom module and the Style guide may have needed classes.
