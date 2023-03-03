@@ -138,10 +138,10 @@ class StyleGuideController extends ControllerBase {
     $build[] = $this->wrapElementNoContainer($element, 'Element: Hero image');
 
     $element = $this->getMediaImage();
-    $build[] = $this->wrapElementWideContainer($element, 'Element: Media Image');
+    $build[] = $this->wrapElementWideContainer($element, 'Element: Media Image (Embed in text field)');
 
     $element = $this->getMediaImageWithCreditOverlay();
-    $build[] = $this->wrapElementWideContainer($element, 'Element: Media Image with credit overlay');
+    $build[] = $this->wrapElementWideContainer($element, 'Element: Media Image with credit overlay (Hero on Node news)');
 
     $element = $this->getMediaVideo();
     $build[] = $this->wrapElementWideContainer($element, 'Element: Media Video');
@@ -304,7 +304,7 @@ class StyleGuideController extends ControllerBase {
    *   Render array.
    */
   protected function getMediaImageWithCreditOverlay(): array {
-    $image = $this->buildImage($this->getPlaceholderImage(300, 200));
+    $image = $this->buildImage($this->getPlaceholderImage(780, 250));
 
     return $this->buildElementImageWithCreditOverlay(
       $image,
