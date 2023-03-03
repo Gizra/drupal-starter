@@ -463,6 +463,31 @@ trait ElementWrapTrait {
   }
 
   /**
+   * Wrap an element with a max width container and centers the element.
+   *
+   * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
+   *   The render array, string or a TranslatableMarkup object.
+   * @param string $width
+   *   Max width. Allowed values are `lg`, `xl`, `2xl` and `3xl.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapContainerMaxWidth(array|string|TranslatableMarkup $element, string $width): array {
+    $element = $this->filterEmptyElements($element);
+    if (empty($element)) {
+      // Element is empty, so no need to wrap it.
+      return [];
+    }
+
+    return [
+      '#theme' => 'server_theme_container_max_width',
+      '#element' => $element,
+      '#width' => $width,
+    ];
+  }
+
+  /**
    * Remove nested empty arrays.
    *
    * If the element is an array of arrays, we'd like to remove empty ones.
