@@ -50,6 +50,7 @@ trait ElementMediaTrait {
    *   Optional; The credit.
    *
    * @return array
+   *   The render array.
    */
   protected function buildElementImageWithCreditOverlay(array $image, string $credit = NULL): array {
     return [
