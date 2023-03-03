@@ -376,6 +376,14 @@ function server_theme_theme() {
     ],
   ];
 
+  // An image, with the image credit overlay.
+  $info['server_theme_image_with_credit_overlay'] = [
+    'variables' => [
+      'image' => [],
+      'credit' => NULL,
+    ],
+  ];
+
   $info['server_theme_social_share_button'] = [
     'variables' => [
       'url' => NULL,

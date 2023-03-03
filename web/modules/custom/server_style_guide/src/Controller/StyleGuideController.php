@@ -140,6 +140,9 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getMediaImage();
     $build[] = $this->wrapElementWideContainer($element, 'Element: Media Image');
 
+    $element = $this->getMediaImageWithCreditOverlay();
+    $build[] = $this->wrapElementWideContainer($element, 'Element: Media Image with credit overlay');
+
     $element = $this->getMediaVideo();
     $build[] = $this->wrapElementWideContainer($element, 'Element: Media Video');
 
@@ -289,9 +292,23 @@ class StyleGuideController extends ControllerBase {
 
     return $this->buildElementImage(
       $image,
-      TRUE,
       'This is the Credit of the image',
       'This is the Caption of the image',
+    );
+  }
+
+  /**
+   * Get Media image with credit overlay.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getMediaImageWithCreditOverlay(): array {
+    $image = $this->buildImage($this->getPlaceholderImage(300, 200));
+
+    return $this->buildElementImageWithCreditOverlay(
+      $image,
+      'This is the Credit of the image',
     );
   }
 

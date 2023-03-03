@@ -22,8 +22,6 @@ trait ElementMediaTrait {
    *
    * @param array $image
    *   The image render array.
-   * @param bool $wrap_image_rounded_corners
-   *   Determine if image should have rounded corners.
    * @param string|null $credit
    *   Optional; The credit.
    * @param string|null $caption
@@ -32,12 +30,8 @@ trait ElementMediaTrait {
    * @return array
    *   The render array.
    */
-  protected function buildElementImage(array $image, bool $wrap_image_rounded_corners = FALSE, string $credit = NULL, string $caption = NULL): array {
+  protected function buildElementImage(array $image, string $credit = NULL, string $caption = NULL): array {
     $elements = [];
-
-    if ($wrap_image_rounded_corners) {
-      $image = $this->wrapRoundedCornersBig($image);
-    }
 
     $elements[] = $this->wrapImageWithFigureTag($image);
 
@@ -45,6 +39,24 @@ trait ElementMediaTrait {
     $elements[] = $this->buildCreditAndCaption($credit, $caption);
 
     return $this->wrapContainerVerticalSpacing($elements);
+  }
+
+  /**
+   * Build Media Image with credit overlay.
+   *
+   * @param array $image
+   *   The image render array.
+   * @param string|null $credit
+   *   Optional; The credit.
+   *
+   * @return array
+   */
+  protected function buildElementImageWithCreditOverlay(array $image, string $credit = NULL): array {
+    return [
+      '#theme' => 'server_theme_image_with_credit_overlay',
+      '#image' => $this->wrapRoundedCornersBig($image),
+      '#credit' => $credit,
+    ];
   }
 
   /**
