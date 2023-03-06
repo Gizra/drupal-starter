@@ -525,11 +525,11 @@ class StyleGuideController extends ControllerBase {
     $media = Media::create([
       'bundle' => 'document',
     ]);
-    $media->field_media_document->entity = $file;
+    $media->field_media_file->entity = $file;
     $i = 1;
     while ($i <= 8) {
       // Add documents.
-      $items[] = $this->buildCardMediaDocument($media);
+      $items[] = $this->buildCardMediaDocument($media, $file);
       ++$i;
     }
 

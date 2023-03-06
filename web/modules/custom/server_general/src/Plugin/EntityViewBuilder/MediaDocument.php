@@ -33,7 +33,10 @@ class MediaDocument extends EntityViewBuilderPluginAbstract {
    *   Render array.
    */
   public function buildCard(array $build, MediaInterface $entity): array {
-    $build[] = $this->buildCardMediaDocument($entity);
+    /** @var \Drupal\file\FileInterface $file */
+    $file = $this->getReferencedEntityFromField($entity, 'field_media_file');
+
+    $build[] = $this->buildCardMediaDocument($entity, $file);
 
     return $build;
   }

@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace Drupal\server_general;
 
 use Drupal\Core\Url;
+use Drupal\file\FileInterface;
 use Drupal\intl_date\IntlDate;
 use Drupal\media\MediaInterface;
 
@@ -158,14 +159,12 @@ trait CardTrait {
    * @param \Drupal\media\MediaInterface $entity
    *   The Media entity.
    */
-  protected function buildCardMediaDocument(MediaInterface $entity): array {
-    /** @var \Drupal\file\FileInterface $file */
-    $file = $this->getReferencedEntityFromField($entity, 'field_media_document');
+  protected function buildCardMediaDocument(MediaInterface $entity, FileInterface $file): array {
 
     return [
       '#theme' => 'server_theme_media_document_card',
       '#url' => $file->createFileUrl(),
-      '#title' => $this->getTextFieldValue($entity, 'field_document_name'),
+      '#title' => $this->getTextFieldValue($entity, 'field_media_name'),
     ];
   }
 

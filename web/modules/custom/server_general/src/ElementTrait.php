@@ -114,7 +114,7 @@ trait ElementTrait {
    * @return array
    *   Render array.
    */
-  protected function buildElementDocuments(string $title, array $documents, string $color_scheme): array {
+  protected function buildElementDocuments(string $title, array $documents): array {
     $elements = [];
 
     // Title.
@@ -122,7 +122,7 @@ trait ElementTrait {
 
     // Items and "View more" button.
     $button = $this->buildButton($this->t('View more'), Url::fromUserInput('#'));
-    $elements[] = $this->buildElementItemsWithViewMore($documents, $button, 2, $color_scheme);
+    $elements[] = $this->buildElementItemsWithViewMore($documents, $button, 2);
 
     return $this->wrapBackgroundColor($elements, 'light-gray');
   }
@@ -167,13 +167,11 @@ trait ElementTrait {
    *   The button with "View more".
    * @param int $limit_count
    *   Determine how many items to show initially.
-   * @param string $color_scheme
-   *   The color scheme.
    *
    * @return array
    *   The render array.
    */
-  protected function buildElementItemsWithViewMore(array $items, array $button, int $limit_count, string $color_scheme): array {
+  protected function buildElementItemsWithViewMore(array $items, array $button, int $limit_count): array {
     if (count($items) <= $limit_count) {
       // We don't need to hide any item.
       return $items;

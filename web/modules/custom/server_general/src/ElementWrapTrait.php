@@ -319,6 +319,27 @@ trait ElementWrapTrait {
   }
 
   /**
+   * Wrap an element with a div with `hidden` cless.
+   *
+   * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
+   *   The render array, string or a TranslatableMarkup object.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapHidden(array|string|TranslatableMarkup $element): array {
+    $element = $this->filterEmptyElements($element);
+    if (empty($element)) {
+      return [];
+    }
+
+    return [
+      '#theme' => 'server_theme_wrap_hidden',
+      '#element' => $element,
+    ];
+  }
+
+  /**
    * Wrap an image with the `figure` tag.
    *
    * @param array $element
