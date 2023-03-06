@@ -16,6 +16,7 @@ function server_theme_theme() {
   $info['server_theme_container_wide'] = [
     'variables' => [
       'element' => [],
+      'color' => NULL,
     ],
   ];
 
@@ -85,14 +86,6 @@ function server_theme_theme() {
   $info['server_theme_container_rounded_corners_full'] = [
     'variables' => [
       'items' => [],
-    ],
-  ];
-
-  // Wrap with a background color.
-  $info['server_theme_container_background_color'] = [
-    'variables' => [
-      'items' => [],
-      'color' => NULL,
     ],
   ];
 

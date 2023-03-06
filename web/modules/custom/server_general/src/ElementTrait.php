@@ -108,8 +108,6 @@ trait ElementTrait {
    *   The title.
    * @param array $documents
    *   Render array of documents.
-   * @param string $color_scheme
-   *   The color scheme.
    *
    * @return array
    *   Render array.
@@ -124,7 +122,9 @@ trait ElementTrait {
     $button = $this->buildButton($this->t('View more'), Url::fromUserInput('#'));
     $elements[] = $this->buildElementItemsWithViewMore($documents, $button, 2);
 
-    return $this->wrapBackgroundColor($elements, 'light-gray');
+    $elements = $this->wrapContainerVerticalSpacing($elements);
+
+    return $this->wrapContainerWide($elements, 'light-gray');
   }
 
   /**

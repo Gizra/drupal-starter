@@ -139,7 +139,7 @@ class StyleGuideController extends ControllerBase {
     $build[] = $this->wrapElementNoContainer($element, 'Element: Hero image');
 
     $element = $this->getDocuments();
-    $build[] = $this->wrapElementWideContainer($element, 'Element: Documents list');
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Documents list');
 
     $element = $this->getMediaImage();
     $build[] = $this->wrapElementWideContainer($element, 'Element: Media Image (Embed in text field)');
@@ -520,16 +520,13 @@ class StyleGuideController extends ControllerBase {
   protected function getDocuments(): array {
     $items = [];
 
-    // Mock a Media.
-    $file = $this->entityTypeManager()->getStorage('file')->load(1);
-    $media = Media::create([
-      'bundle' => 'document',
-    ]);
-    $media->field_media_file->entity = $file;
     $i = 1;
     while ($i <= 8) {
       // Add documents.
-      $items[] = $this->buildCardMediaDocument($media, $file);
+      $items[] = $this->buildCardMediaDocument(
+        $this->getRandomTitle(),
+        'https://google.com/',
+      );
       ++$i;
     }
 

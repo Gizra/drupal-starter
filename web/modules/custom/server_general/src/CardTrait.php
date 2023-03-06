@@ -156,15 +156,19 @@ trait CardTrait {
   /**
    * Build Media document card.
    *
-   * @param \Drupal\media\MediaInterface $entity
-   *   The Media entity.
+   * @param string $title
+   *   The title.
+   * @param string $url
+   *   The Url string.
+   *
+   * @return array
    */
-  protected function buildCardMediaDocument(MediaInterface $entity, FileInterface $file): array {
+  protected function buildCardMediaDocument(string $title, string $url): array {
 
     return [
-      '#theme' => 'server_theme_media_document_card',
-      '#url' => $file->createFileUrl(),
-      '#title' => $this->getTextFieldValue($entity, 'field_media_name'),
+      '#theme' => 'server_theme_media__document',
+      '#url' => $url,
+      '#title' => $title,
     ];
   }
 
