@@ -100,7 +100,6 @@ trait ElementTrait {
     ];
   }
 
-
   /**
    * Builds a "Document" list.
    *

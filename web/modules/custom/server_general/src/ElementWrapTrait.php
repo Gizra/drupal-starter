@@ -22,7 +22,6 @@ trait ElementWrapTrait {
    *   - 'light-gray'.
    *   If NULL, a transparent background will be added.
    *
-   *
    * @return array
    *   Render array.
    */
@@ -45,6 +44,7 @@ trait ElementWrapTrait {
    *
    * @param array $element
    *   The render array.
+   *
    * @return array
    *   Render array.
    */

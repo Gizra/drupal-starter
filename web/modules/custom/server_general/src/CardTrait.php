@@ -6,9 +6,7 @@ declare(strict_types=1);
 namespace Drupal\server_general;
 
 use Drupal\Core\Url;
-use Drupal\file\FileInterface;
 use Drupal\intl_date\IntlDate;
-use Drupal\media\MediaInterface;
 
 /**
  * Helper methods for rendering different Card types.
@@ -162,6 +160,7 @@ trait CardTrait {
    *   The Url string.
    *
    * @return array
+   *   The redner array.
    */
   protected function buildCardMediaDocument(string $title, string $url): array {
 

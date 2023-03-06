@@ -5,7 +5,6 @@ namespace Drupal\server_style_guide\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
 use Drupal\Core\Utility\LinkGenerator;
-use Drupal\media\Entity\Media;
 use Drupal\media\IFrameUrlHelper;
 use Drupal\node\Entity\Node;
 use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
@@ -532,6 +531,7 @@ class StyleGuideController extends ControllerBase {
 
     return $this->buildElementDocuments(
       $this->getRandomTitle(),
+      'Documents list subtitle is this line',
       $items,
     );
   }
