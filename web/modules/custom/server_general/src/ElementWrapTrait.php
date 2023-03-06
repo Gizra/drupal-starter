@@ -13,7 +13,7 @@ use Drupal\Core\StringTranslation\TranslatableMarkup;
 trait ElementWrapTrait {
 
   /**
-   * Wrap an element with a wide container.
+   * Wrap an element with a wide container, and optional background color.
    *
    * @param array $element
    *   The render array.
@@ -40,7 +40,7 @@ trait ElementWrapTrait {
   }
 
   /**
-   * Wrap an element with a narrow container.
+   * Wrap an element with a narrow container, and optional background color.
    *
    * @param array $element
    *   The render array.
@@ -48,7 +48,7 @@ trait ElementWrapTrait {
    * @return array
    *   Render array.
    */
-  protected function wrapContainerNarrow(array $element): array {
+  protected function wrapContainerNarrow(array $element, string $color = NULL): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
@@ -58,6 +58,7 @@ trait ElementWrapTrait {
     return [
       '#theme' => 'server_theme_container_narrow',
       '#element' => $element,
+      '#color' => $color,
     ];
   }
 
