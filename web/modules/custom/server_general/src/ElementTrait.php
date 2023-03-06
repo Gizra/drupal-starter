@@ -100,6 +100,33 @@ trait ElementTrait {
     ];
   }
 
+
+  /**
+   * Builds a "Document" list.
+   *
+   * @param string $title
+   *   The title.
+   * @param array $documents
+   *   Render array of documents.
+   * @param string $color_scheme
+   *   The color scheme.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function buildElementDocuments(string $title, array $documents, string $color_scheme): array {
+    $elements = [];
+
+    // Title.
+    $elements[] = $this->buildParagraphTitle($title);
+
+    // Items and "View more" button.
+    $button = $this->buildButton($this->t('View more'), Url::fromUserInput('#'));
+    $elements[] = $this->buildElementItemsWithViewMore($documents, $button, 2, $color_scheme);
+
+    return $this->wrapBackgroundColor($elements, 'light-gray');
+  }
+
   /**
    * Build a Carousel.
    *
@@ -128,6 +155,47 @@ trait ElementTrait {
       '#items' => $items,
       '#button' => $button,
       '#is_featured' => $is_featured,
+    ];
+  }
+
+  /**
+   * Render items with a View more button, that will reveal more items.
+   *
+   * @param array $items
+   *   The items to render.
+   * @param array $button
+   *   The button with "View more".
+   * @param int $limit_count
+   *   Determine how many items to show initially.
+   * @param string $color_scheme
+   *   The color scheme.
+   *
+   * @return array
+   *   The render array.
+   */
+  protected function buildElementItemsWithViewMore(array $items, array $button, int $limit_count, string $color_scheme): array {
+    if (count($items) <= $limit_count) {
+      // We don't need to hide any item.
+      return $items;
+    }
+
+    $wrapped_items = [];
+    foreach (array_values($items) as $key => $item) {
+      if ($key > $limit_count) {
+        // Hide the items that are over the limit count.
+        $item = $this->wrapHidden($item);
+      }
+      $wrapped_items[] = $item;
+    }
+
+    $elements = [];
+    $elements[] = $wrapped_items;
+    $elements[] = $button;
+    $elements = $this->wrapContainerVerticalSpacing($elements);
+
+    return [
+      '#theme' => 'server_theme_element_items_with_view_more',
+      '#items' => $elements,
     ];
   }
 

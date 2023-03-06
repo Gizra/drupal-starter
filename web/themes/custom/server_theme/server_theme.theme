@@ -104,6 +104,13 @@ function server_theme_theme() {
     ],
   ];
 
+  // Wrapper for "View more" items. Items over the limit will be hidden.
+  $info['server_theme_element_items_with_view_more'] = [
+    'variables' => [
+      'items' => [],
+    ],
+  ];
+
   // The page's header.
   $info['server_theme_header'] = [
     'variables' => [
@@ -308,6 +315,14 @@ function server_theme_theme() {
       'element' => [],
     ],
   ];
+
+  // Wrap an element a div with `hidden` class.
+  $info['server_theme_wrap_hidden'] = [
+    'variables' => [
+      'element' => [],
+    ],
+  ];
+
 
   // Wrapper for a text, adding font weight.
   $info['server_theme_text_decoration__font_weight'] = [
