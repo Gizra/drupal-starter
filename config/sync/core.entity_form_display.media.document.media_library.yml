@@ -5,19 +5,24 @@ dependencies:
   config:
     - core.entity_form_mode.media.media_library
     - field.field.media.document.field_media_file
-    - field.field.media.document.field_media_name
     - media.type.document
 id: media.document.media_library
 targetEntityType: media
 bundle: document
 mode: media_library
-content: {  }
+content:
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
 hidden:
   created: true
   field_media_file: true
-  field_media_name: true
   langcode: true
-  name: true
   path: true
   status: true
   uid: true

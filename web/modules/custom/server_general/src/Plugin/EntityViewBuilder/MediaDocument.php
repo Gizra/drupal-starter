@@ -37,7 +37,7 @@ class MediaDocument extends EntityViewBuilderPluginAbstract {
     $file = $this->getReferencedEntityFromField($entity, 'field_media_file');
 
     $build[] = $this->buildCardMediaDocument(
-      $this->getTextFieldValue($entity, 'field_media_name'),
+      $entity->getName(),
       $file->createFileUrl(),
     );
 

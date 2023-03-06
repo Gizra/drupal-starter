@@ -40,11 +40,12 @@ class ParagraphDocuments extends EntityViewBuilderPluginAbstract {
   public function buildFull(array $build, ParagraphInterface $entity): array {
     // Documents.
     /** @var \Drupal\Core\Field\EntityReferenceFieldItemListInterface $items */
-    $items = $entity->get('field_document');
+    $items = $entity->get('field_documents');
     $items = $this->buildReferencedEntities($items, 'card', $entity->language()->getId());
 
     $element = $this->buildElementDocuments(
-      $this->getTextFieldValue($entity, 'field_section_title'),
+      $this->getTextFieldValue($entity, 'field_title'),
+      $this->getTextFieldValue($entity, 'field_subtitle'),
       $items,
     );
 

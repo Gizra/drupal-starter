@@ -1,7 +1,12 @@
 uuid: ac1384bd-157c-453a-b078-408a12e67357
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - crop
+third_party_settings:
+  crop:
+    image_field: _none
 id: document
 label: Document
 description: ''

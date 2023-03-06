@@ -106,17 +106,22 @@ trait ElementTrait {
    *
    * @param string $title
    *   The title.
+   * @param string $subtitle
+   *   The subtitle.
    * @param array $documents
    *   Render array of documents.
    *
    * @return array
    *   Render array.
    */
-  protected function buildElementDocuments(string $title, array $documents): array {
+  protected function buildElementDocuments(string $title, string $subtitle, array $documents): array {
     $elements = [];
 
     // Title.
     $elements[] = $this->buildParagraphTitle($title);
+
+    // Subtitle.
+    $elements[] = $this->wrapTextColor($subtitle, 'dark-gray');
 
     // Items and "View more" button.
     $button = $this->buildButton($this->t('View more'), Url::fromUserInput('#'));

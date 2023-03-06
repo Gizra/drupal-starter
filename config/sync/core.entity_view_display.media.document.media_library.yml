@@ -5,7 +5,6 @@ dependencies:
   config:
     - core.entity_view_mode.media.media_library
     - field.field.media.document.field_media_file
-    - field.field.media.document.field_media_name
     - image.style.medium
     - media.type.document
   module:
@@ -29,7 +28,6 @@ content:
 hidden:
   created: true
   field_media_file: true
-  field_media_name: true
   langcode: true
   name: true
   search_api_excerpt: true
