@@ -1,0 +1,19 @@
+uuid: baf21beb-ec63-4b14-a156-05677b0c1fc3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_media_name
+    - media.type.document
+id: media.document.field_media_name
+field_name: field_media_name
+entity_type: media
+bundle: document
+label: Name
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

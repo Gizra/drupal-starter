@@ -7,6 +7,7 @@ namespace Drupal\server_general;
 
 use Drupal\Core\Url;
 use Drupal\intl_date\IntlDate;
+use Drupal\media\MediaInterface;
 
 /**
  * Helper methods for rendering different Card types.
@@ -149,6 +150,23 @@ trait CardTrait {
     $elements[] = $this->wrapTextResponsiveFontSize($element, 'sm');
 
     return $this->buildCardLayout($elements);
+  }
+
+  /**
+   * Build Media document card.
+   *
+   * @param \Drupal\media\MediaInterface $entity
+   *   The Media entity.
+   */
+  protected function buildCardMediaDocument(MediaInterface $entity): array {
+    /** @var \Drupal\file\FileInterface $file */
+    $file = $this->getReferencedEntityFromField($entity, 'field_media_document');
+
+    return [
+      '#theme' => 'server_theme_media_document',
+      '#url' => $file->createFileUrl(),
+      '#title' => $this->getTextFieldValue($entity, 'field_document_name'),
+    ];
   }
 
   /**

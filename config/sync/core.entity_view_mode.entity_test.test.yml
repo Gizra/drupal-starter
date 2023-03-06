@@ -1,0 +1,12 @@
+uuid: bdc2f8d4-2a08-4534-89bb-de4ade1cbaeb
+langcode: en
+status: false
+dependencies:
+  module:
+    - entity_test
+_core:
+  default_config_hash: qHmF35wFRfJx6biZGbXXgmAaZhStpYj5WdbBmqfNztM
+id: entity_test.test
+label: Test
+targetEntityType: entity_test
+cache: false
