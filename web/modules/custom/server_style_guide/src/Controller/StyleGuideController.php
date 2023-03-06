@@ -138,6 +138,9 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getHeroImage();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Hero image');
 
+    $element = $this->getDocuments();
+    $build[] = $this->wrapElementWideContainer($element, 'Element: Documents list');
+
     $element = $this->getMediaImage();
     $build[] = $this->wrapElementWideContainer($element, 'Element: Media Image (Embed in text field)');
 

@@ -434,6 +434,14 @@ function server_theme_theme() {
     ],
   ];
 
+  // Media document.
+  $info['server_theme_media__document'] = [
+    'variables' => [
+      'url' => NULL,
+      'title' => NULL,
+    ],
+  ];
+
   // Facets wrapper on Search page.
   $info['server_theme_facets__search'] = [
     'variables' => [

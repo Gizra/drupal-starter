@@ -163,7 +163,7 @@ trait CardTrait {
     $file = $this->getReferencedEntityFromField($entity, 'field_media_document');
 
     return [
-      '#theme' => 'server_theme_media_document',
+      '#theme' => 'server_theme_media_document_card',
       '#url' => $file->createFileUrl(),
       '#title' => $this->getTextFieldValue($entity, 'field_document_name'),
     ];
