@@ -1,8 +1,7 @@
-id: news
+id: node_news
 label: 'News'
 migration_group: server
 migration_tags:
-  - news
   - node
 source:
   plugin: csv
