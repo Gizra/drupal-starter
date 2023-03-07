@@ -6,7 +6,7 @@ migration_tags:
   - node
 source:
   plugin: csv
-  path: modules/custom/server_migrate/csv_files/news.csv
+  path: modules/custom/server_migrate/csv_files/node_news.csv
   ids: ['_id']
   header_offset: 0
 destination:
