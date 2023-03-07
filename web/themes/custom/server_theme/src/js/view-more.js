@@ -7,7 +7,7 @@
   Drupal.behaviors.showMore = {
     attach: function (context, settings) {
 
-      $('.view-more-wrapper button', context).once().click(function (e) {
+      $('.view-more-wrapper .button-wrapper', context).once().click(function (e) {
         e.preventDefault();
         $(this).addClass('hidden')
           .siblings()
