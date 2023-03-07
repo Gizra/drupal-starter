@@ -532,7 +532,7 @@ class StyleGuideController extends ControllerBase {
 
     return $this->buildElementDocuments(
       $this->getRandomTitle(),
-      'Documents list subtitle is this line',
+      $this->buildProcessedText('Documents list subtitle is this line'),
       $items,
     );
   }
