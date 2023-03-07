@@ -14,7 +14,7 @@ destination:
 process:
   type:
     plugin: default_value
-    default_value: related_content
+    default_value: documents
   field_title: _title
   field_body/value: _body
   field_documents:
