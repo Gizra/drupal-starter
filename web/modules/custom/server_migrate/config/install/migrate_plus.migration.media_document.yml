@@ -20,4 +20,4 @@ process:
 
 migration_dependencies:
   required:
-    - images
+    - documents

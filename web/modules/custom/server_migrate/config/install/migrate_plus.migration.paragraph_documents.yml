@@ -27,7 +27,6 @@ process:
       migration:
         - documents
       no_stub: true
-  field_is_featured: _is_featured
 
 
 migration_dependencies:
