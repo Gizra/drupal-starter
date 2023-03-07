@@ -105,15 +105,15 @@ trait ElementTrait {
    *
    * @param string $title
    *   The title.
-   * @param string $subtitle
-   *   The subtitle.
+   * @param array $subtitle
+   *   The subtitle render array.
    * @param array $documents
    *   Render array of documents.
    *
    * @return array
    *   Render array.
    */
-  protected function buildElementDocuments(string $title, string $subtitle, array $documents): array {
+  protected function buildElementDocuments(string $title, array $subtitle, array $documents): array {
     $elements = [];
 
     // Title.

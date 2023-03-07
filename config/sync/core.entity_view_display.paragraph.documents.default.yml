@@ -3,10 +3,13 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.documents.field_body
     - field.field.paragraph.documents.field_documents
-    - field.field.paragraph.documents.field_subtitle
     - field.field.paragraph.documents.field_title
     - paragraphs.paragraphs_type.documents
+  module:
+    - entity_test
+    - text
 third_party_settings:
   entity_test:
     foo: bar
@@ -15,6 +18,13 @@ targetEntityType: paragraph
 bundle: documents
 mode: default
 content:
+  field_body:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
   field_documents:
     type: entity_reference_entity_view
     label: above
@@ -23,14 +33,6 @@ content:
       link: false
     third_party_settings: {  }
     weight: 2
-    region: content
-  field_subtitle:
-    type: string
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 1
     region: content
   field_title:
     type: string
