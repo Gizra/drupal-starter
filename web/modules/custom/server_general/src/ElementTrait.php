@@ -183,7 +183,7 @@ trait ElementTrait {
 
     $wrapped_items = [];
     foreach (array_values($items) as $key => $item) {
-      if ($key > $limit_count) {
+      if ($key + 1 > $limit_count) {
         // Hide the items that are over the limit count.
         $item = $this->wrapHidden($item);
       }
