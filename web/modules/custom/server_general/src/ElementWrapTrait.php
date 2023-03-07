@@ -44,6 +44,10 @@ trait ElementWrapTrait {
    *
    * @param array $element
    *   The render array.
+   * @param string|null $color
+   *   Optional; The background color. Allowed values are:
+   *   - 'light-gray'.
+   *   If NULL, a transparent background will be added.
    *
    * @return array
    *   Render array.
