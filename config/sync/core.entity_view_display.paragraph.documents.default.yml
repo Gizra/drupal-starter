@@ -8,11 +8,7 @@ dependencies:
     - field.field.paragraph.documents.field_title
     - paragraphs.paragraphs_type.documents
   module:
-    - entity_test
     - text
-third_party_settings:
-  entity_test:
-    foo: bar
 id: paragraph.documents.default
 targetEntityType: paragraph
 bundle: documents
