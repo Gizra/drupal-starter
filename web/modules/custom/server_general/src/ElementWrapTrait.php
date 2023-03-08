@@ -184,12 +184,6 @@ trait ElementWrapTrait {
    *   Render array.
    */
   public function wrapConditionalContainerBottomPadding(array $element, EntityReferenceFieldItemListInterface $field_item_list) {
-    // The paragraph types that don't require a bottom padding, if they are
-    // the last paragraph on the page.
-    $paragraph_types_with_no_bottom_padding = [
-      'documents',
-    ];
-
     if ($field_item_list->isEmpty()) {
       return $element;
     }
@@ -200,6 +194,12 @@ trait ElementWrapTrait {
     if (!($paragraph instanceof ParagraphInterface)) {
       return $element;
     }
+
+    // The paragraph types that don't require a bottom padding, if they are
+    // the last paragraph on the page.
+    $paragraph_types_with_no_bottom_padding = [
+      'documents',
+    ];
 
     return in_array($paragraph->bundle(), $paragraph_types_with_no_bottom_padding) ? $element : $this->wrapContainerBottomPadding($element);
   }
