@@ -107,13 +107,13 @@ trait ElementTrait {
    *   The title.
    * @param array $subtitle
    *   The subtitle render array.
-   * @param array $documents
+   * @param array $items
    *   Render array of documents.
    *
    * @return array
    *   Render array.
    */
-  protected function buildElementDocuments(string $title, array $subtitle, array $documents): array {
+  protected function buildElementDocuments(string $title, array $subtitle, array $items): array {
     $elements = [];
 
     // Title.
@@ -123,8 +123,7 @@ trait ElementTrait {
     $elements[] = $this->wrapTextColor($subtitle, 'dark-gray');
 
     // Items and "View more" button.
-    $button = $this->buildButton($this->t('View more'), Url::fromUserInput('#'));
-    $elements[] = $this->buildElementItemsWithViewMore($documents, $button, 2);
+    $elements[] = $this->buildElementItemsWithViewMore($items, 2);
 
     $elements = $this->wrapContainerVerticalSpacing($elements);
 
@@ -167,15 +166,13 @@ trait ElementTrait {
    *
    * @param array $items
    *   The items to render.
-   * @param array $button
-   *   The button with "View more".
    * @param int $limit_count
    *   Determine how many items to show initially.
    *
    * @return array
    *   The render array.
    */
-  protected function buildElementItemsWithViewMore(array $items, array $button, int $limit_count): array {
+  protected function buildElementItemsWithViewMore(array $items, int $limit_count): array {
     if (count($items) <= $limit_count) {
       // We don't need to hide any item.
       return $items;
@@ -192,7 +189,8 @@ trait ElementTrait {
 
     $elements = [];
     $elements[] = $wrapped_items;
-    $elements[] = $button;
+    $elements[] = $this->buildButton($this->t('View more'), Url::fromUserInput('#'));
+    ;
     $elements = $this->wrapContainerVerticalSpacing($elements);
 
     return [
