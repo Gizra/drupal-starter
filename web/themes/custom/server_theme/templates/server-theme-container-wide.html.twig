@@ -1,3 +1,13 @@
-<div class="container-wide w-full">
-  {{ element }}
+{% if color == 'light-gray' %}
+  {% set color_class = 'bg-gray-100' %}
+  {% set py_class = 'py-8 md:py-10' %}
+{% else %}
+  {% set color_class = 'bg-transparent' %}
+  {% set py_class = '' %}
+{% endif %}
+
+<div class="{{ color_class }} {{ py_class }}">
+  <div class="container-wide w-full">
+    {{ element }}
+  </div>
 </div>

@@ -17,6 +17,16 @@ global-scripts:
     - core/drupal
     - core/jquery.once
 
+
+# "View more" button.
+view-more:
+  js:
+    dist/js/view-more.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/jquery.once
+
 roboto:
   css:
     base:

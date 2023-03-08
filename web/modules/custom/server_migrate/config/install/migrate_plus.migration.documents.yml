@@ -1,9 +1,9 @@
-id: images
-label: 'Images'
+id: documents
+label: 'Documents'
 migration_group: server
 source:
   plugin: csv
-  path: modules/custom/server_migrate/csv_files/images.csv
+  path: modules/custom/server_migrate/csv_files/documents.csv
   ids: ['_id']
   header_offset: 0
   constants:

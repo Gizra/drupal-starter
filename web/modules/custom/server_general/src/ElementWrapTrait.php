@@ -13,12 +13,19 @@ use Drupal\Core\StringTranslation\TranslatableMarkup;
 trait ElementWrapTrait {
 
   /**
-   * Wrap an element with a wide container.
+   * Wrap an element with a wide container, and optional background color.
+   *
+   * @param array $element
+   *   The render array.
+   * @param string|null $color
+   *   Optional; The background color. Allowed values are:
+   *   - 'light-gray'.
+   *   If NULL, a transparent background will be added.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapContainerWide(array $element): array {
+  protected function wrapContainerWide(array $element, string $color = NULL): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
@@ -28,16 +35,24 @@ trait ElementWrapTrait {
     return [
       '#theme' => 'server_theme_container_wide',
       '#element' => $element,
+      '#color' => $color,
     ];
   }
 
   /**
-   * Wrap an element with a narrow container.
+   * Wrap an element with a narrow container, and optional background color.
+   *
+   * @param array $element
+   *   The render array.
+   * @param string|null $color
+   *   Optional; The background color. Allowed values are:
+   *   - 'light-gray'.
+   *   If NULL, a transparent background will be added.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapContainerNarrow(array $element): array {
+  protected function wrapContainerNarrow(array $element, string $color = NULL): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
@@ -47,6 +62,7 @@ trait ElementWrapTrait {
     return [
       '#theme' => 'server_theme_container_narrow',
       '#element' => $element,
+      '#color' => $color,
     ];
   }
 
@@ -248,34 +264,6 @@ trait ElementWrapTrait {
   }
 
   /**
-   * Wrap an element with a background color.
-   *
-   * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
-   *   The render array, string or a TranslatableMarkup object.
-   * @param string $color
-   *   The background color. Possible values are:
-   *   - `light-gray`.
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function wrapBackgroundColor(array|string|TranslatableMarkup $element, string $color): array {
-    if (is_array($element)) {
-      $element = $this->filterEmptyElements($element);
-    }
-    if (empty($element)) {
-      // Element is empty, so no need to wrap it.
-      return [];
-    }
-
-    return [
-      '#theme' => 'server_theme_container_background_color',
-      '#color' => $color,
-      '#items' => $element,
-    ];
-  }
-
-  /**
    * Wrap an element with Prose text.
    *
    * @return array
@@ -314,6 +302,27 @@ trait ElementWrapTrait {
     return [
       '#theme' => 'server_theme_wrap_html_tag',
       '#tag' => $tag,
+      '#element' => $element,
+    ];
+  }
+
+  /**
+   * Wrap an element with a div with `hidden` cless.
+   *
+   * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
+   *   The render array, string or a TranslatableMarkup object.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapHidden(array|string|TranslatableMarkup $element): array {
+    $element = $this->filterEmptyElements($element);
+    if (empty($element)) {
+      return [];
+    }
+
+    return [
+      '#theme' => 'server_theme_wrap_hidden',
       '#element' => $element,
     ];
   }

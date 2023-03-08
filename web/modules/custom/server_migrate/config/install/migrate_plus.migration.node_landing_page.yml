@@ -5,7 +5,7 @@ migration_tags:
   - node
 source:
   plugin: csv
-  path: modules/custom/server_migrate/csv_files/landing_page.csv
+  path: modules/custom/server_migrate/csv_files/node_landing_page.csv
   ids: ['_id']
   header_offset: 0
 destination:
@@ -34,6 +34,7 @@ process:
     - plugin: migration_lookup
       migration:
         - paragraph_cta
+        - paragraph_documents
         - paragraph_news_teasers
         - paragraph_related_content
         - paragraph_search
@@ -46,6 +47,7 @@ process:
 migration_dependencies:
   required:
     - paragraph_cta
+    - paragraph_documents
     - paragraph_news_teasers
     - paragraph_related_content
     - paragraph_search

@@ -1,0 +1,42 @@
+uuid: a095c4c2-5c77-4ae8-8294-c8208e6906cc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.documents.field_body
+    - field.field.paragraph.documents.field_documents
+    - field.field.paragraph.documents.field_title
+    - paragraphs.paragraphs_type.documents
+  module:
+    - text
+id: paragraph.documents.default
+targetEntityType: paragraph
+bundle: documents
+mode: default
+content:
+  field_body:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_documents:
+    type: entity_reference_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

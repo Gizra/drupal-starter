@@ -152,6 +152,26 @@ trait CardTrait {
   }
 
   /**
+   * Build Media document card.
+   *
+   * @param string $title
+   *   The title.
+   * @param string $url
+   *   The Url string.
+   *
+   * @return array
+   *   The redner array.
+   */
+  protected function buildCardMediaDocument(string $title, string $url): array {
+
+    return [
+      '#theme' => 'server_theme_media__document',
+      '#url' => $url,
+      '#title' => $title,
+    ];
+  }
+
+  /**
    * Wrap multiple cards with a grid.
    *
    * @param array $items
