@@ -89,10 +89,9 @@ class NodeNews extends NodeViewBuilderAbstract {
     $elements[] = $this->wrapTextResponsiveFontSize($element, 'lg');
 
     $elements = $this->wrapContainerVerticalSpacing($elements);
+    $elements = $this->wrapContainerVerticalSpacingBig($elements);
 
-    return $this->buildElementLayoutMainAndSidebar(
-      $this->wrapContainerVerticalSpacingBig($elements),
-    );
+    return $this->wrapContainerMaxWidth($elements, '3xl');
   }
 
   /**

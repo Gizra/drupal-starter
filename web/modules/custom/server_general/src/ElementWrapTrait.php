@@ -182,7 +182,7 @@ trait ElementWrapTrait {
    * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
    *   The render array, string or a TranslatableMarkup object.
    * @param string $width
-   *   Max width. Allowed values are `lg`, `xl`, `2xl` and `3xl.
+   *   Max width. Allowed values are `lg`, `xl`, `2xl` and `3xl`.
    *
    * @return array
    *   Render array.
