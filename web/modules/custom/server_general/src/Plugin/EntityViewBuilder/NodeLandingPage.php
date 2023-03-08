@@ -3,6 +3,7 @@
 namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\node\NodeInterface;
+use Drupal\server_general\BottomPaddingTrait;
 use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
 use Drupal\server_general\TitleAndLabelsTrait;
 
@@ -17,6 +18,7 @@ use Drupal\server_general\TitleAndLabelsTrait;
  */
 class NodeLandingPage extends NodeViewBuilderAbstract {
 
+  use BottomPaddingTrait;
   use TitleAndLabelsTrait;
 
   /**
@@ -45,7 +47,7 @@ class NodeLandingPage extends NodeViewBuilderAbstract {
     $elements = $this->wrapContainerVerticalSpacingBig($elements);
     // Add bottom padding, so there's some padding between all the paragraphs
     // and the footer.
-    $build[] = $this->wrapContainerBottomPadding($elements);
+    $build[] = $this->wrapConditionalContainerBottomPadding($elements, $paragraphs);
 
     return $build;
   }
