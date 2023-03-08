@@ -17,6 +17,8 @@ trait BottomPaddingTrait {
    *
    * @param array $element
    *   Render array.
+   * @param \Drupal\Core\Field\EntityReferenceFieldItemListInterface $field_item_list
+   *   The field object where the referenced items are stored.
    *
    * @return array
    *   Render array.
@@ -40,9 +42,7 @@ trait BottomPaddingTrait {
       return $element;
     }
 
-
     return in_array($paragraph->bundle(), $paragraph_types_with_no_bottom_padding) ? $element : $this->wrapContainerBottomPadding($element);
-
 
   }
 
