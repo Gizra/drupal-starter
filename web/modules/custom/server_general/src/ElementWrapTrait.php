@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Drupal\server_general;
 
+use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\paragraphs\ParagraphInterface;
 
 /**
  * Helper method for wrapping an element.
@@ -171,7 +173,42 @@ trait ElementWrapTrait {
   }
 
   /**
+   * Conditionally wrap an element with bottom padding.
+   *
+   * @param array $element
+   *   Render array.
+   * @param \Drupal\Core\Field\EntityReferenceFieldItemListInterface $field_item_list
+   *   The field object where the referenced items are stored.
+   *
+   * @return array
+   *   Render array.
+   */
+  public function wrapConditionalContainerBottomPadding(array $element, EntityReferenceFieldItemListInterface $field_item_list) {
+    // The paragraph types that don't require a bottom padding, if they are
+    // the last paragraph on the page.
+    $paragraph_types_with_no_bottom_padding = [
+      'documents',
+    ];
+
+    if ($field_item_list->isEmpty()) {
+      return $element;
+    }
+
+    $paragraphs = $field_item_list->referencedEntities();
+    $count = count($paragraphs);
+    $paragraph = $paragraphs[$count - 1];
+
+    if (!($paragraph instanceof ParagraphInterface)) {
+      return $element;
+    }
+
+    return in_array($paragraph->bundle(), $paragraph_types_with_no_bottom_padding) ? $element : $this->wrapContainerBottomPadding($element);
+  }
+
+  /**
    * Wrap an element with bottom padding.
+   *
+   * You will likely want to use `wrapConditionalContainerBottomPadding`.
    *
    * @param array $element
    *   Render array.

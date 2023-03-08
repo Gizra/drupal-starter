@@ -3,7 +3,7 @@
 namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\node\NodeInterface;
-use Drupal\server_general\BottomPaddingTrait;
+use Drupal\server_general\ElementWrapTrait;
 use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
 use Drupal\server_general\TitleAndLabelsTrait;
 
@@ -18,7 +18,7 @@ use Drupal\server_general\TitleAndLabelsTrait;
  */
 class NodeLandingPage extends NodeViewBuilderAbstract {
 
-  use BottomPaddingTrait;
+  use ElementWrapTrait;
   use TitleAndLabelsTrait;
 
   /**
