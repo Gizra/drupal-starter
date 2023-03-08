@@ -45,7 +45,7 @@ class MediaImage extends EntityViewBuilderPluginAbstract {
    *   The render array.
    */
   public function buildEmbed(array $build, MediaInterface $entity): array {
-    $image = $this->getResponsiveImage($entity, self::RESPONSIVE_IMAGE_STYLE_PROSE);
+    $image = $this->buildResponsiveImage($entity, 'field_media_image', self::RESPONSIVE_IMAGE_STYLE_PROSE);
     $element = $this->buildElementImage(
       $image,
       $this->getTextFieldValue($entity, 'field_media_credit'),
@@ -69,7 +69,7 @@ class MediaImage extends EntityViewBuilderPluginAbstract {
    *   The render array.
    */
   public function buildHero(array $build, MediaInterface $entity): array {
-    $image = $this->getResponsiveImage($entity, self::RESPONSIVE_IMAGE_STYLE_HERO);
+    $image = $this->buildResponsiveImage($entity, 'field_media_image',  self::RESPONSIVE_IMAGE_STYLE_HERO);
     $element = $this->buildElementImageWithCreditOverlay(
       $image,
       $this->getTextFieldValue($entity, 'field_media_credit'),
@@ -78,30 +78,6 @@ class MediaImage extends EntityViewBuilderPluginAbstract {
     $build[] = $element;
 
     return $build;
-
-  }
-
-  /**
-   * Helper; Build the image, taking the responsive image style as argument.
-   *
-   * @param \Drupal\media\MediaInterface $entity
-   *   The entity.
-   * @param string $responsive_image_style
-   *   The responsive image style.
-   *
-   * @return array
-   *   The render array.
-   */
-  protected function getResponsiveImage(MediaInterface $entity, string $responsive_image_style): array {
-
-    return $entity->get('field_media_image')->view([
-      'label' => 'hidden',
-      'type' => 'responsive_image',
-      'settings' => [
-        'responsive_image_style' => $responsive_image_style,
-        'image_link' => '',
-      ],
-    ]);
   }
 
 }
