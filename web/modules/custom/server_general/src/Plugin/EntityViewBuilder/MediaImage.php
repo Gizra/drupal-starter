@@ -69,7 +69,7 @@ class MediaImage extends EntityViewBuilderPluginAbstract {
    *   The render array.
    */
   public function buildHero(array $build, MediaInterface $entity): array {
-    $image = $this->buildResponsiveImage($entity, 'field_media_image',  self::RESPONSIVE_IMAGE_STYLE_HERO);
+    $image = $this->buildResponsiveImage($entity, 'field_media_image', self::RESPONSIVE_IMAGE_STYLE_HERO);
     $element = $this->buildElementImageWithCreditOverlay(
       $image,
       $this->getTextFieldValue($entity, 'field_media_credit'),
