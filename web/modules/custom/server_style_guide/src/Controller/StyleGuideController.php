@@ -131,6 +131,9 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getRelatedContentCarousel(TRUE);
     $build[] = $this->wrapElementNoContainer($element, 'Cards: Carousel (Related content, featured)');
 
+    $element = $this->getAccordion();
+    $build[] = $this->wrapElementWideContainer($element, 'Element: Accordion');
+
     $element = $this->getCta();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Call to Action');
 
@@ -557,6 +560,30 @@ class StyleGuideController extends ControllerBase {
       $is_featured,
       $this->t('Related content'),
       $button,
+    );
+  }
+
+  /**
+   * Generate an Accordion element.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getAccordion(): array {
+    $items = [];
+
+    for ($i = 0; $i < 7; $i++) {
+      // Add accordion items.
+      $items[] = $this->buildElementAccordionItem(
+        $this->getRandomTitle(),
+        $this->buildProcessedText('Content ' . $i . ' Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'),
+      );
+    }
+
+    return $this->buildElementAccordion(
+      $this->getRandomTitle(),
+      $this->buildProcessedText('This is the main description of the FAQ section'),
+      $items,
     );
   }
 
