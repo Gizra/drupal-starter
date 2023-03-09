@@ -43,7 +43,7 @@ class ParagraphAccordionItem extends EntityViewBuilderPluginAbstract {
   public function buildFull(array $build, ParagraphInterface $entity): array {
     $element = $this->buildCardAccordionItem(
       $this->getTextFieldValue($entity, 'field_title'),
-      $this->buildProcessedText($entity, 'field_body', FALSE),
+      $this->buildProcessedText($entity, 'field_body'),
     );
 
     $build[] = $element;
