@@ -17,6 +17,7 @@ use Drupal\Core\Url;
 trait ElementTrait {
 
   use ButtonTrait;
+  use CardTrait;
   use ElementWrapTrait;
   use LineSeparatorTrait;
   use LinkTrait;
@@ -243,26 +244,6 @@ trait ElementTrait {
     $element = $this->wrapContainerVerticalSpacingBig($elements);
 
     return $this->wrapContainerWide($element);
-  }
-
-  /**
-   * Build an accordion item.
-   *
-   * @param string $title
-   *   The title.
-   * @param array $description
-   *   The description render array.
-   *
-   * @return array
-   *   The render array.
-   */
-  protected function buildElementAccordionItem(string $title, array $description): array {
-
-    return [
-      '#theme' => 'server_theme_element__accordion_item',
-      '#title' => $title,
-      '#brief' => $description,
-    ];
   }
 
 }

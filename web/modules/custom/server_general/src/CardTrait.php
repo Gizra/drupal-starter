@@ -172,6 +172,26 @@ trait CardTrait {
   }
 
   /**
+   * Build an accordion item.
+   *
+   * @param string $title
+   *   The title.
+   * @param array $description
+   *   The description render array.
+   *
+   * @return array
+   *   The render array.
+   */
+  protected function buildCardAccordionItem(string $title, array $description): array {
+
+    return [
+      '#theme' => 'server_theme_card__accordion_item',
+      '#title' => $title,
+      '#description' => $description,
+    ];
+  }
+
+  /**
    * Wrap multiple cards with a grid.
    *
    * @param array $items

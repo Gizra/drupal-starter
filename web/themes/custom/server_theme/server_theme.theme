@@ -432,16 +432,14 @@ function server_theme_theme() {
     'variables' => [
       // A render array built with `server_theme_element__accordion_item`.
       'items' => [],
-      'color_scheme' => NULL,
     ],
   ];
 
-  // A single "Accordion item" inside the Accordion element.
-  $info['server_theme_element__accordion_item'] = [
+  // A single "Accordion item" card inside the Accordion element.
+  $info['server_theme_card__accordion_item'] = [
     'variables' => [
       'title' => NULL,
-      'brief' => NULL,
-      'color_scheme' => NULL,
+      'description' => NULL,
     ],
   ];
 
