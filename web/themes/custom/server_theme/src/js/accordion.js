@@ -7,7 +7,7 @@
   Drupal.behaviors.accordion = {
     attach: function (context, settings) {
       // Hide all accordion item's descriptions.
-      let items = $('.accordion .accordion-brief').hide();
+      let items = $('.accordion .accordion-description').hide();
       // Get the accordion's title.
       let title = $('.accordion .accordion-title');
       // Add on click function.
