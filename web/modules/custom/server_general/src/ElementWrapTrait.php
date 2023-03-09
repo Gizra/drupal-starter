@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Drupal\server_general;
 
+use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\paragraphs\ParagraphInterface;
 
 /**
  * Helper method for wrapping an element.
@@ -13,12 +15,19 @@ use Drupal\Core\StringTranslation\TranslatableMarkup;
 trait ElementWrapTrait {
 
   /**
-   * Wrap an element with a wide container.
+   * Wrap an element with a wide container, and optional background color.
+   *
+   * @param array $element
+   *   The render array.
+   * @param string|null $color
+   *   Optional; The background color. Allowed values are:
+   *   - 'light-gray'.
+   *   If NULL, a transparent background will be added.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapContainerWide(array $element): array {
+  protected function wrapContainerWide(array $element, string $color = NULL): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
@@ -28,16 +37,24 @@ trait ElementWrapTrait {
     return [
       '#theme' => 'server_theme_container_wide',
       '#element' => $element,
+      '#color' => $color,
     ];
   }
 
   /**
-   * Wrap an element with a narrow container.
+   * Wrap an element with a narrow container, and optional background color.
+   *
+   * @param array $element
+   *   The render array.
+   * @param string|null $color
+   *   Optional; The background color. Allowed values are:
+   *   - 'light-gray'.
+   *   If NULL, a transparent background will be added.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapContainerNarrow(array $element): array {
+  protected function wrapContainerNarrow(array $element, string $color = NULL): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
@@ -47,6 +64,7 @@ trait ElementWrapTrait {
     return [
       '#theme' => 'server_theme_container_narrow',
       '#element' => $element,
+      '#color' => $color,
     ];
   }
 
@@ -155,7 +173,41 @@ trait ElementWrapTrait {
   }
 
   /**
+   * Conditionally wrap an element with bottom padding.
+   *
+   * @param array $element
+   *   Render array.
+   * @param \Drupal\Core\Field\EntityReferenceFieldItemListInterface $field_item_list
+   *   The field object where the referenced items are stored.
+   *
+   * @return array
+   *   Render array.
+   */
+  public function wrapConditionalContainerBottomPadding(array $element, EntityReferenceFieldItemListInterface $field_item_list) {
+    if ($field_item_list->isEmpty()) {
+      return $element;
+    }
+
+    $paragraphs = $field_item_list->referencedEntities();
+    $paragraph = $paragraphs[count($paragraphs) - 1];
+
+    if (!($paragraph instanceof ParagraphInterface)) {
+      return $element;
+    }
+
+    // The paragraph types that don't require a bottom padding, if they are
+    // the last paragraph on the page.
+    $paragraph_types_with_no_bottom_padding = [
+      'documents',
+    ];
+
+    return in_array($paragraph->bundle(), $paragraph_types_with_no_bottom_padding) ? $element : $this->wrapContainerBottomPadding($element);
+  }
+
+  /**
    * Wrap an element with bottom padding.
+   *
+   * You will likely want to use `wrapConditionalContainerBottomPadding`.
    *
    * @param array $element
    *   Render array.
@@ -248,34 +300,6 @@ trait ElementWrapTrait {
   }
 
   /**
-   * Wrap an element with a background color.
-   *
-   * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
-   *   The render array, string or a TranslatableMarkup object.
-   * @param string $color
-   *   The background color. Possible values are:
-   *   - `light-gray`.
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function wrapBackgroundColor(array|string|TranslatableMarkup $element, string $color): array {
-    if (is_array($element)) {
-      $element = $this->filterEmptyElements($element);
-    }
-    if (empty($element)) {
-      // Element is empty, so no need to wrap it.
-      return [];
-    }
-
-    return [
-      '#theme' => 'server_theme_container_background_color',
-      '#color' => $color,
-      '#items' => $element,
-    ];
-  }
-
-  /**
    * Wrap an element with Prose text.
    *
    * @return array
@@ -314,6 +338,27 @@ trait ElementWrapTrait {
     return [
       '#theme' => 'server_theme_wrap_html_tag',
       '#tag' => $tag,
+      '#element' => $element,
+    ];
+  }
+
+  /**
+   * Wrap an element with a div with `hidden` cless.
+   *
+   * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
+   *   The render array, string or a TranslatableMarkup object.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapHidden(array|string|TranslatableMarkup $element): array {
+    $element = $this->filterEmptyElements($element);
+    if (empty($element)) {
+      return [];
+    }
+
+    return [
+      '#theme' => 'server_theme_wrap_hidden',
       '#element' => $element,
     ];
   }

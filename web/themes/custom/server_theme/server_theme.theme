@@ -16,12 +16,14 @@ function server_theme_theme() {
   $info['server_theme_container_wide'] = [
     'variables' => [
       'element' => [],
+      'color' => NULL,
     ],
   ];
 
   $info['server_theme_container_narrow'] = [
     'variables' => [
       'element' => [],
+      'color' => NULL,
     ],
   ];
 
@@ -88,19 +90,18 @@ function server_theme_theme() {
     ],
   ];
 
-  // Wrap with a background color.
-  $info['server_theme_container_background_color'] = [
-    'variables' => [
-      'items' => [],
-      'color' => NULL,
-    ],
-  ];
-
   // Wrap with a max width container.
   $info['server_theme_container_max_width'] = [
     'variables' => [
       'element' => [],
       'width' => NULL,
+    ],
+  ];
+
+  // Wrapper for "View more" items. Items over the limit will be hidden.
+  $info['server_theme_element_items_with_view_more'] = [
+    'variables' => [
+      'items' => [],
     ],
   ];
 
@@ -309,6 +310,13 @@ function server_theme_theme() {
     ],
   ];
 
+  // Wrap an element a div with `hidden` class.
+  $info['server_theme_wrap_hidden'] = [
+    'variables' => [
+      'element' => [],
+    ],
+  ];
+
   // Wrapper for a text, adding font weight.
   $info['server_theme_text_decoration__font_weight'] = [
     'variables' => [
@@ -416,6 +424,14 @@ function server_theme_theme() {
     'variables' => [
       // The image render array.
       'element' => [],
+    ],
+  ];
+
+  // Media document.
+  $info['server_theme_media__document'] = [
+    'variables' => [
+      'url' => NULL,
+      'title' => NULL,
     ],
   ];
 

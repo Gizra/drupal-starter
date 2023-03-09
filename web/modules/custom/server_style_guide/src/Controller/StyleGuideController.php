@@ -137,6 +137,9 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getHeroImage();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Hero image');
 
+    $element = $this->getDocuments();
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Documents list');
+
     $element = $this->getMediaImage();
     $build[] = $this->wrapElementWideContainer($element, 'Element: Media Image (Embed in text field)');
 
@@ -504,6 +507,31 @@ class StyleGuideController extends ControllerBase {
       $this->getRandomTitle(),
       'Learn more',
       $url,
+    );
+  }
+
+  /**
+   * Get the Documents list.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getDocuments(): array {
+    $items = [];
+    $i = 1;
+    while ($i <= 8) {
+      // Add documents.
+      $items[] = $this->buildCardMediaDocument(
+        $this->getRandomTitle(),
+        Url::fromUserInput('/modules/custom/server_migrate/files/drupal-starter.pdf')->toString(),
+      );
+      ++$i;
+    }
+
+    return $this->buildElementDocuments(
+      $this->getRandomTitle(),
+      $this->buildProcessedText('Documents list subtitle is this line'),
+      $items,
     );
   }
 

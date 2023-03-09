@@ -1,0 +1,23 @@
+id: media_document
+label: 'Media: Document'
+migration_group: server
+source:
+  plugin: csv
+  path: modules/custom/server_migrate/csv_files/documents.csv
+  ids: ['_id']
+  header_offset: 0
+destination:
+  plugin: 'entity:media'
+  default_bundle: document
+process:
+  id: _id
+  name: _title
+  field_media_file/target_id:
+    - plugin: migration_lookup
+      migration: documents
+      source: _id
+  field_media_file/alt: _title
+
+migration_dependencies:
+  required:
+    - documents

@@ -101,6 +101,36 @@ trait ElementTrait {
   }
 
   /**
+   * Builds a "Document" list.
+   *
+   * @param string $title
+   *   The title.
+   * @param array $subtitle
+   *   The subtitle render array.
+   * @param array $items
+   *   Render array of documents.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function buildElementDocuments(string $title, array $subtitle, array $items): array {
+    $elements = [];
+
+    // Title.
+    $elements[] = $this->buildParagraphTitle($title);
+
+    // Subtitle.
+    $elements[] = $this->wrapTextColor($subtitle, 'dark-gray');
+
+    // Items and "View more" button.
+    $elements[] = $this->buildElementItemsWithViewMore($items, 2);
+
+    $elements = $this->wrapContainerVerticalSpacing($elements);
+
+    return $this->wrapContainerWide($elements, 'light-gray');
+  }
+
+  /**
    * Build a Carousel.
    *
    * @param array $items
@@ -128,6 +158,44 @@ trait ElementTrait {
       '#items' => $items,
       '#button' => $button,
       '#is_featured' => $is_featured,
+    ];
+  }
+
+  /**
+   * Render items with a View more button, that will reveal more items.
+   *
+   * @param array $items
+   *   The items to render.
+   * @param int $limit_count
+   *   Determine how many items to show initially.
+   *
+   * @return array
+   *   The render array.
+   */
+  protected function buildElementItemsWithViewMore(array $items, int $limit_count): array {
+    if (count($items) <= $limit_count) {
+      // We don't need to hide any item.
+      return $items;
+    }
+
+    $wrapped_items = [];
+    foreach (array_values($items) as $key => $item) {
+      if ($key + 1 > $limit_count) {
+        // Hide the items that are over the limit count.
+        $item = $this->wrapHidden($item);
+      }
+      $wrapped_items[] = $item;
+    }
+
+    $elements = [];
+    $elements[] = $wrapped_items;
+    $elements[] = $this->buildButton($this->t('View more'), Url::fromUserInput('#'));
+    ;
+    $elements = $this->wrapContainerVerticalSpacing($elements);
+
+    return [
+      '#theme' => 'server_theme_element_items_with_view_more',
+      '#items' => $elements,
     ];
   }
 
