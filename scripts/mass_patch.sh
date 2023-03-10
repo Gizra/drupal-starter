@@ -12,6 +12,10 @@ fi
 
 GH_TOKEN="$1"
 PATCH_FILE=$(realpath "$2")
+PR_TITLE="$3"
+if [ -z "$PR_TITLE" ]; then
+  PR_TITLE="Apply patch $PATCH_FILE"
+fi
 BRANCH_NAME=$(basename "$PATCH_FILE" .patch)
 BASE_DIR=$(pwd)
 
@@ -71,7 +75,7 @@ do
   git push origin "$BRANCH_NAME"
   curl -H "Authorization: token $GH_TOKEN" \
        -X POST \
-       -d '{"title":"Apply patch '"$PATCH_FILE"'", "head":"'"$BRANCH_NAME"'", "base":"'"$DEFAULT_BRANCH"'"}' \
+       -d '{"title":"'"$PR_TITLE"'", "head":"'"$BRANCH_NAME"'", "base":"'"$DEFAULT_BRANCH"'"}' \
        "https://api.github.com/repos/$SLUG/pulls"
   echo "$REPO is completed"
   echo ""

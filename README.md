@@ -163,7 +163,7 @@ changes manually., However for tiny, trivial changes, such as Travis fixes, we h
 # Go to the root of all the projects
 cd /home/user/your-projects
 export REPOSITORIES=[client1 client2 client3]
-/path/to/starter/scripts/mass_patch.sh [gh_token_that_can_create_prs] /tmp/our-little-patch
+/path/to/starter/scripts/mass_patch.sh [gh_token_that_can_create_prs] /tmp/our-little-patch "PR title"
 ```
 
 This must be executed natively (i.e. no inside `ddev ssh`).
