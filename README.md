@@ -154,8 +154,7 @@ There's a Robo command to do the entire process of creating a new project:
 ```
 ddev robo bootstrap:project newname git@github.com/newclient/newproject.git terminus_token github_token
 ```
-See https://github.com/Gizra/drupal-starter/blob/main/robo-components/BootstrapTrait.php
-for details.
+See the details [here](https://github.com/Gizra/drupal-starter/blob/main/robo-components/BootstrapTrait.php).
 
 Also as this repository gets copied several times, it gets tedious to port even small fixes.
 For larger-scale changes, due to conflicts and per-project considerations, we need to apply
