@@ -1,0 +1,36 @@
+id: paragraph_accordion
+label: 'Accordion Paragraph'
+migration_group: server
+migration_tags:
+  - paragraph
+source:
+  plugin: csv
+  path: modules/custom/server_migrate/csv_files/paragraph_accordion.csv
+  ids: ['_id']
+  header_offset: 0
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+  default_bundle: accordion
+process:
+  type:
+    plugin: default_value
+    default_value: accordion
+  field_title: _title
+  field_body/value: _body
+  field_body/format:
+    plugin: default_value
+    default_value: basic_html
+  field_accordion_items:
+    - plugin: skip_on_empty
+      method: process
+      source: _items
+    - plugin: explode
+      delimiter: '|'
+    - plugin: migration_lookup
+      migration:
+        - paragraph_accordion_item
+      no_stub: true
+
+migration_dependencies:
+  required:
+    - paragraph_accordion_item
