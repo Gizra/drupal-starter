@@ -30,6 +30,10 @@ process:
       migration:
         - paragraph_accordion_item
       no_stub: true
+    - plugin: sub_process
+      process:
+        target_id: '0'
+        target_revision_id: '1'
 
 migration_dependencies:
   required:
