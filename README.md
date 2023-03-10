@@ -150,7 +150,7 @@ See the [example](https://github.com/Gizra/drupal8-starter/blob/master/web/modul
 Follow the steps listed in `.ddev/providers/pantheon.yaml`.
 Make sure to add the correct site name under `environment_variables.project`.
 
-There's an experimental Robo command to do the full process of creating a new project:
+There's a Robo command to do the entire process of creating a new project:
 ```
 ddev robo bootstrap:project newname git@github.com/newclient/newproject.git terminus_token github_token
 ```
