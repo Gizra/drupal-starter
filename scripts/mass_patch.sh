@@ -34,8 +34,7 @@ if [ -z "$REPOSITORIES" ]; then
   read -r REPOSITORIES
 fi
 
-# Make sure if are not in a repository root, if .git directory exists,
-# ask to execute it from elsewhere.
+# Make sure we are not in a repository root, by checking if .git directory exists,
 if [ -d .git ]; then
   echo "You are in a repository root, please execute this script from"
   echo "a directory that contains your working copies. for example:"
