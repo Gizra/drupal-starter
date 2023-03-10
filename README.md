@@ -172,6 +172,12 @@ a pull request in the destination repository.
 That provides a fast track to spread changes for those parts of the Starter Kit that typically
 remain unchanged after cloning (CI scripts, testing scripts, DDEV configuration and commands, and so on).
 
+You can also specify the repositories using a configuration file:
+```
+cp scripts/mass_patch.example.config.sh scripts/mass_patch.config.sh
+```
+Then edit `scripts/mass_patch.config.sh` and add the proper project names.
+
 #### Create your site
 
 Then, you can create a new site in Pantheon which can also be done with a
