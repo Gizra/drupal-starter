@@ -17,6 +17,9 @@ process:
     default_value: documents
   field_title: _title
   field_body/value: _body
+  field_body/format:
+    plugin: default_value
+    default_value: basic_html
   field_documents:
     - plugin: skip_on_empty
       method: process

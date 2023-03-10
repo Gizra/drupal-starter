@@ -1,5 +1,5 @@
 id: paragraph_accordion
-label: 'Accordion Paragraph'
+label: 'Paragraph accordion'
 migration_group: server
 migration_tags:
   - paragraph
