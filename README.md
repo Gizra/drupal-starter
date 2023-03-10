@@ -160,7 +160,8 @@ As this repository gets copied several times, for different projects, it gets te
 For larger-scale changes, due to conflicts and per-project considerations, we need to apply
 changes manually., However for tiny, trivial changes, such as Travis fixes, we have the following tool:
 ```
-cd /home/user/clientprojects
+# Go to the root of all the projects
+cd /home/user/your-projects
 export REPOSITORIES=[client1 client2 client3]
 /path/to/starter/scripts/mass_patch.sh [gh_token_that_can_create_prs] /tmp/our-little-patch
 ```
