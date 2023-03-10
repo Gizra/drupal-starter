@@ -165,11 +165,11 @@ export REPOSITORIES=[client1 client2 client3]
 /path/to/starter/scripts/mass_patch.sh [gh_token_that_can_create_prs] /tmp/our-little-patch
 ```
 
-This needs to be executed natively.
-It will try to refresh the working copies there and apply the patch, if it succeeds, it opens
-a pull request in the repository.
-That provides a fast track to spread changes for those parts of the Starter Kit what typically
-remain unchanged after cloning (CI scripts, testing scripts, DDEV configuration and commands and so on).
+This must be executed natively (i.e. no inside `ddev ssh`).
+It will try to refresh the working copies there and apply the patch. If it succeeds, it opens
+a pull request in the destination repository.
+That provides a fast track to spread changes for those parts of the Starter Kit that typically
+remain unchanged after cloning (CI scripts, testing scripts, DDEV configuration and commands, and so on).
 
 #### Create your site
 
