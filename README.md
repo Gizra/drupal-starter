@@ -156,9 +156,9 @@ ddev robo bootstrap:project newname git@github.com/newclient/newproject.git term
 ```
 See the details [here](https://github.com/Gizra/drupal-starter/blob/main/robo-components/BootstrapTrait.php).
 
-Also as this repository gets copied several times, it gets tedious to port even small fixes.
+As this repository gets copied several times, for different projects, it gets tedious to port small fixes.
 For larger-scale changes, due to conflicts and per-project considerations, we need to apply
-changes manually to the cloned repositories, but for tiny, trivial changes, we have the following tool:
+changes manually., However for tiny, trivial changes, such as Travis fixes, we have the following tool:
 ```
 cd /home/user/clientprojects
 export REPOSITORIES=[client1 client2 client3]
