@@ -162,6 +162,7 @@ changes manually., However for tiny, trivial changes, such as Travis fixes, we h
 ```
 # Go to the root of all the projects
 cd /home/user/your-projects
+# If no export is provided, command will ask entering manually the names.
 export REPOSITORIES=[client1 client2 client3]
 /path/to/starter/scripts/mass_patch.sh [gh_token_that_can_create_prs] /tmp/our-little-patch "PR title"
 ```
