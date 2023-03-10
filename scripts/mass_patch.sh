@@ -31,7 +31,14 @@ if [[ "$BRANCH_NAME" == *" "* ]]; then
   exit 1
 fi
 
-# The list of repos to patch comes from an environment variable.
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+if [ -f "$SCRIPT_DIR/mass_patch.config.sh" ]; then
+  # shellcheck source=/dev/null
+  source "$SCRIPT_DIR/mass_patch.config.sh"
+fi
+
+# The list of repos to patch comes from an environment variable
+# or from the configfile.
 # If the variable is not set, ask for the user input.
 if [ -z "$REPOSITORIES" ]; then
   echo "Please enter the list of repositories to patch, separated by space."
