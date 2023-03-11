@@ -50,7 +50,7 @@ trait CardTrait {
     $elements[] = $this->wrapTextResponsiveFontSize($element, 'sm');
 
     // Date.
-    $element = ['#markup' => IntlDate::formatPattern($timestamp, 'short')];
+    $element = IntlDate::formatPattern($timestamp, 'short');
     $element = $this->wrapTextColor($element, 'gray');
     $elements[] = $this->wrapTextResponsiveFontSize($element, 'sm');
 

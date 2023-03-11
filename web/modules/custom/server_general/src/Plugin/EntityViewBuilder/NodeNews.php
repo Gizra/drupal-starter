@@ -150,7 +150,8 @@ class NodeNews extends NodeViewBuilderAbstract {
     $image = $media instanceof MediaInterface ? $this->buildImageStyle($media, 'card', 'field_media_image') : [];
     $title = $entity->label();
     $url = $entity->toUrl();
-    $summary = $this->buildProcessedText($entity, 'field_body', FALSE);
+    $summary = $this->buildProcessedTextTrimmed($entity, 'field_body');
+
     $timestamp = $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date');
 
     $element = $this->buildCardWithImageForNews(
