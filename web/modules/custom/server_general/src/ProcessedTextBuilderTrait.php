@@ -34,15 +34,6 @@ trait ProcessedTextBuilderTrait {
     // Hide the label.
     $options = ['label' => 'hidden'];
 
-    if ($trim_length) {
-      $options += [
-        'type' => 'smart_trim',
-        'settings' => [
-          'trim_length' => $trim_length,
-        ],
-      ];
-    }
-
     $element = $entity->get($field)->view($options);
     return $wrap_prose ? $this->wrapProseText($element) : $element;
   }
