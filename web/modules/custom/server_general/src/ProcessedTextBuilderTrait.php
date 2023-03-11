@@ -63,7 +63,6 @@ trait ProcessedTextBuilderTrait {
       return [];
     }
 
-    // Hide the label.
     $options = [
       'label' => 'hidden',
       'type' => 'smart_trim',
