@@ -151,7 +151,6 @@ class NodeNews extends NodeViewBuilderAbstract {
     $title = $entity->label();
     $url = $entity->toUrl();
     $summary = $this->buildProcessedTextTrimmed($entity, 'field_body');
-
     $timestamp = $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date');
 
     $element = $this->buildCardWithImageForNews(
