@@ -53,6 +53,9 @@ trait ProcessedTextBuilderTrait {
    * @param bool $strip_tags
    *   Determine if output should be stripped of most tags, and keep only a
    *   smaller set of tags. Defaults to TRUE.
+   * @param int $line_clamp
+   *   If set, `wrapTextLineClamp` will be used on the trimmed text. Defaults to
+   *   4.
    *
    * @return array
    *   Render array.
