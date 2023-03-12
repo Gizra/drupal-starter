@@ -57,12 +57,13 @@ trait ProcessedTextBuilderTrait {
    * @return array
    *   Render array.
    */
-  protected function buildProcessedTextTrimmed(FieldableEntityInterface $entity, string $field = 'field_body', bool $wrap_prose = FALSE, int $trim_length = 200, bool $strip_tags = TRUE) : array {
+  protected function buildProcessedTextTrimmed(FieldableEntityInterface $entity, string $field = 'field_body', bool $wrap_prose = FALSE, int $trim_length = 200, bool $strip_tags = TRUE, int $line_clamp = 4) : array {
     if (!$entity->hasField($field) || $entity->get($field)->isEmpty()) {
       // Field is empty or doesn't exist.
       return [];
     }
 
+    // Hide the label.
     $options = [
       'label' => 'hidden',
       'type' => 'smart_trim',
@@ -82,6 +83,10 @@ trait ProcessedTextBuilderTrait {
         'ul',
         'ol',
       ]);
+    }
+
+    if ($line_clamp) {
+      $element = $this->wrapTextLineClamp($element, 4);
     }
 
     return $wrap_prose ? $this->wrapProseText($element) : $element;
