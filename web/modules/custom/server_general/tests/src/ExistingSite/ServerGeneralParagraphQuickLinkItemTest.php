@@ -11,7 +11,7 @@ class ServerGeneralParagraphQuickLinkItemTest extends ServerGeneralParagraphTest
    * {@inheritdoc}
    */
   public function getEntityBundle(): string {
-    return 'quick_link';
+    return 'quick_link_item';
   }
 
   /**
