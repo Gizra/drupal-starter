@@ -270,10 +270,8 @@ trait ElementTrait {
     $element = $this->wrapContainerVerticalSpacing($element);
     $elements[] = $this->wrapContainerMaxWidth($element, '3xl');
 
-    $elements[] = $items;
-    $elements = $this->wrapContainerVerticalSpacing($elements);
-
-    return $this->wrapContainerWide($elements);
+    $elements[] = $this->buildCards($items);
+    return $this->wrapContainerVerticalSpacing($elements);
   }
 
 }

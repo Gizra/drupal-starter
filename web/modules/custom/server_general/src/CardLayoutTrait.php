@@ -53,24 +53,6 @@ trait CardLayoutTrait {
   }
 
   /**
-   * Build "Linkable card" layout.
-   *
-   * @param array $items
-   *   The rest of the items' render array.
-   * @param \Drupal\Core\Url $url
-   *   The URL to link to.
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function buildCardLayoutWithLink(array $items, Url $url): array {
-    return [
-      '#theme' => 'server_theme_card_layout__with_link',
-      '#items' => $this->wrapContainerVerticalSpacing($items),
-    ];
-  }
-
-  /**
    * Build "Card with image" layout.
    *
    * This is the "base" helper method for rendering a card with image. Specific

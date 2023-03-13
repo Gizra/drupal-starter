@@ -212,15 +212,6 @@ function server_theme_theme() {
     ],
   ];
 
-  // A card that is linkable.
-  $info['server_theme_card_layout__with_link'] = [
-    'variables' => [
-      // A render array.
-      'items' => [],
-      'url' => NULL,
-    ],
-  ];
-
   // Card with a top image. Used often for content teasers/ cards.
   $info['server_theme_card_layout__with_image'] = [
     'variables' => [
@@ -452,11 +443,12 @@ function server_theme_theme() {
     ],
   ];
 
-  // A single icon.
-  $info['server_theme_icon'] = [
+  // A card that is linkable.
+  $info['server_theme_card__quick_link_item'] = [
     'variables' => [
-      'name' => NULL,
-      'color_scheme' => NULL,
+      // A render array.
+      'items' => [],
+      'url' => NULL,
     ],
   ];
 

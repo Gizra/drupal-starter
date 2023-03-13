@@ -137,11 +137,11 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getCta();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Call to Action');
 
-    $element = $this->getHeroImage();
-    $build[] = $this->wrapElementNoContainer($element, 'Element: Hero image');
-
     $element = $this->getDocuments();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Documents list');
+
+    $element = $this->getHeroImage();
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Hero image');
 
     $element = $this->getMediaImage();
     $build[] = $this->wrapElementWideContainer($element, 'Element: Media Image (Embed in text field)');
@@ -151,6 +151,9 @@ class StyleGuideController extends ControllerBase {
 
     $element = $this->getMediaVideo();
     $build[] = $this->wrapElementWideContainer($element, 'Element: Media Video');
+
+    $element = $this->getQuickLinks();
+    $build[] = $this->wrapElementWideContainer($element, 'Element: Quick links');
 
     return $build;
   }
@@ -333,7 +336,34 @@ class StyleGuideController extends ControllerBase {
       'This is the Credit of the video',
       'This is the Caption of the video',
     );
+  }
 
+  /**
+   * Get Quick links element.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getQuickLinks(): array {
+    $items = [];
+    $i = 1;
+    while ($i <= 4) {
+      $description = $i == 2 ? $this->buildProcessedText('This is a quick link description') : [];
+
+      $items[] = $this->buildCardQuickLinkItem(
+        $this->getRandomTitle(),
+        $description,
+        Url::fromRoute('<front>'),
+      );
+
+      ++$i;
+    }
+
+    return $this->buildElementQuickLinks(
+      $this->t('Quick Links'),
+      $this->buildProcessedText('The Quick links description'),
+      $items,
+    );
   }
 
   /**

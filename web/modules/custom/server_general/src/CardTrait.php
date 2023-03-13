@@ -5,7 +5,6 @@ declare(strict_types=1);
 
 namespace Drupal\server_general;
 
-use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Drupal\intl_date\IntlDate;
 
@@ -196,20 +195,31 @@ trait CardTrait {
    * Builds a Quick Link element.
    *
    * @param string $title
-   *   The title of the quick link.
-   * @param \Drupal\Core\Link $link
-   *   The CTA link.
+   *   The title.
+   * @param array $description
+   *   The description render array.
+   * @param \Drupal\Core\Url $url
+   *   The URL to link the entire card link.
    *
    * @return array
    *   Render array.
    */
-  protected function buildCardQuickLink(string $title, Link $link): array {
-    $items[] = $this->wrapTextFontWeight($title, 'bold');
+  protected function buildCardQuickLinkItem(string $title, array $description, Url $url): array {
+    $items = [];
+    $items[] = $this->wrapTextResponsiveFontSize($title, 'xl');
+
+    $element = $this->wrapTextResponsiveFontSize($description, 'lg');
+    $element = $this->wrapTextColor($element, 'light-gray');
+    $items[] = $element;
+
+    $items = $this->wrapContainerVerticalSpacingTiny($items);
 
     return [
-      '#theme' => 'server_theme_card__quick_link',
-      '#items' => $items,
+      '#theme' => 'server_theme_card__quick_link_item',
+      '#items' => $this->wrapContainerVerticalSpacing($items),
+      '#url' => $url,
     ];
+
   }
 
   /**
