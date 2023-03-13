@@ -1,0 +1,35 @@
+uuid: b1d5c5d9-daca-439c-a1b0-43ebf6cc269c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.quick_links.field_quick_link_items
+    - paragraphs.paragraphs_type.quick_links
+  module:
+    - paragraphs
+id: paragraph.quick_links.default
+targetEntityType: paragraph
+bundle: quick_links
+mode: default
+content:
+  field_quick_link_items:
+    type: paragraphs
+    weight: 0
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      closed_mode: summary
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+      features:
+        collapse_edit_all: collapse_edit_all
+        duplicate: duplicate
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
