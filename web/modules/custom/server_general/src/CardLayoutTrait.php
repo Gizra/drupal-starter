@@ -21,7 +21,7 @@ use Drupal\Core\Url;
 trait CardLayoutTrait {
 
   /**
-   * Build "Card" - the simplest one.
+   * Build "Card" layout - the simplest one.
    *
    * @param array $items
    *   The elements as render array.
@@ -37,7 +37,7 @@ trait CardLayoutTrait {
   }
 
   /**
-   * Build "Centered card".
+   * Build "Centered card" layout.
    *
    * @param array $items
    *   The elements as render array.
@@ -53,7 +53,25 @@ trait CardLayoutTrait {
   }
 
   /**
-   * Build "Card with image".
+   * Build "Linkable card" layout.
+   *
+   * @param array $items
+   *   The rest of the items' render array.
+   * @param \Drupal\Core\Url $url
+   *   The URL to link to.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function buildCardLayoutWithLink(array $items, Url $url): array {
+    return [
+      '#theme' => 'server_theme_card_layout__with_link',
+      '#items' => $this->wrapContainerVerticalSpacing($items),
+    ];
+  }
+
+  /**
+   * Build "Card with image" layout.
    *
    * This is the "base" helper method for rendering a card with image. Specific
    * cards may implement own helper methods, that will use this one.
@@ -78,7 +96,7 @@ trait CardLayoutTrait {
   }
 
   /**
-   * Build "Card with image horizontal" base.
+   * Build "Card with image horizontal" layout.
    *
    * @param \Drupal\Core\Url $url
    *   The URL to link to.

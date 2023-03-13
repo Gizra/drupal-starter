@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 namespace Drupal\server_general;
 
+use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Drupal\intl_date\IntlDate;
 
@@ -188,6 +189,26 @@ trait CardTrait {
       '#theme' => 'server_theme_card__accordion_item',
       '#title' => $title,
       '#description' => $description,
+    ];
+  }
+
+  /**
+   * Builds a Quick Link element.
+   *
+   * @param string $title
+   *   The title of the quick link.
+   * @param \Drupal\Core\Link $link
+   *   The CTA link.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function buildCardQuickLink(string $title, Link $link): array {
+    $items[] = $this->wrapTextFontWeight($title, 'bold');
+
+    return [
+      '#theme' => 'server_theme_card__quick_link',
+      '#items' => $items,
     ];
   }
 

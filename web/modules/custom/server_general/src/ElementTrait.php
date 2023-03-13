@@ -209,7 +209,7 @@ trait ElementTrait {
    * @param array $description
    *   The description render array.
    * @param array $items
-   *   Items rendered with ::buildElementAccordionItem.
+   *   Items rendered with `CardTrait::buildElementAccordionItem`.
    *
    * @return array
    *   The render array.
@@ -244,6 +244,36 @@ trait ElementTrait {
     $element = $this->wrapContainerVerticalSpacingBig($elements);
 
     return $this->wrapContainerWide($element);
+  }
+
+  /**
+   * Build quick links as carousels.
+   *
+   * @param string $title
+   *   The title.
+   * @param array $description
+   *   The description render array.
+   * @param array $items
+   *   The quick links array rendered with `CardTrait::buildCardQuickLink`.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function buildElementQuickLinks(string $title, array $description, array $items): array {
+    $elements = [];
+
+    // Title and description.
+    $element = [];
+    $element[] = $this->buildParagraphTitle($title);
+    $element[] = $description;
+
+    $element = $this->wrapContainerVerticalSpacing($element);
+    $elements[] = $this->wrapContainerMaxWidth($element, '3xl');
+
+    $elements[] = $items;
+    $elements = $this->wrapContainerVerticalSpacing($elements);
+
+    return $this->wrapContainerWide($elements);
   }
 
 }
