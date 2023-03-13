@@ -1,8 +1,10 @@
 {% import '@server_theme/templates/server-theme-card-layout-base.html.twig' as base %}
 
-<div class="{{ base.getBaseClasses() }} flex flex-col md:flex-row gap-8 md:gap-10 p-6 overflow-hidden bg-white hover:bg-gray-50">
-  <a href="{{ url }}" class="group flex flex-col justify-between gap-y-3 md:gap-y-5">
-    {{ items }}
+<a href="{{ url }}" class="{{ base.getBaseClasses() }} group flex flex-col justify-between gap-y-3 md:gap-y-5 p-6 overflow-hidden bg-gray-200 hover:bg-gray-700">
+
+    <div class="group-hover:text-white">
+      {{ items }}
+    </div>
 
     <div class="h-12 w-12 bg-gray-50 group-hover:bg-gray-200 rounded-full grid place-content-center">
       {# Heroicons: arrow-right-circle #}
@@ -11,5 +13,4 @@
       </svg>
     </div>
 
-  </a>
-</div>
+</a>

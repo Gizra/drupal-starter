@@ -446,7 +446,7 @@ function server_theme_theme() {
   // A card that is linkable.
   $info['server_theme_card__quick_link_item'] = [
     'variables' => [
-      // A render array.
+      // The title and the optional description as a render array.
       'items' => [],
       'url' => NULL,
     ],

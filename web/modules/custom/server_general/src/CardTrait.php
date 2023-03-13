@@ -209,7 +209,6 @@ trait CardTrait {
     $items[] = $this->wrapTextResponsiveFontSize($title, 'xl');
 
     $element = $this->wrapTextResponsiveFontSize($description, 'lg');
-    $element = $this->wrapTextColor($element, 'light-gray');
     $items[] = $element;
 
     $items = $this->wrapContainerVerticalSpacingTiny($items);
