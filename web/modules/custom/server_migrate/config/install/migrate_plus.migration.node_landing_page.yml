@@ -37,6 +37,7 @@ process:
         - paragraph_cta
         - paragraph_documents
         - paragraph_news_teasers
+        - paragraph_quick_links
         - paragraph_related_content
         - paragraph_search
       no_stub: true
@@ -51,6 +52,7 @@ migration_dependencies:
     - paragraph_cta
     - paragraph_documents
     - paragraph_news_teasers
+    - paragraph_quick_links
     - paragraph_related_content
     - paragraph_search
     - user
