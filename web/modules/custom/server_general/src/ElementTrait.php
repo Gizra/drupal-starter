@@ -17,7 +17,9 @@ use Drupal\Core\Url;
 trait ElementTrait {
 
   use ButtonTrait;
+  use CardTrait;
   use ElementWrapTrait;
+  use LineSeparatorTrait;
   use LinkTrait;
   use TitleAndLabelsTrait;
 
@@ -197,6 +199,51 @@ trait ElementTrait {
       '#theme' => 'server_theme_element_items_with_view_more',
       '#items' => $elements,
     ];
+  }
+
+  /**
+   * Build an Accordion.
+   *
+   * @param string $title
+   *   The title.
+   * @param array $description
+   *   The description render array.
+   * @param array $items
+   *   Items rendered with ::buildElementAccordionItem.
+   *
+   * @return array
+   *   The render array.
+   */
+  protected function buildElementAccordion(string $title, array $description, array $items): array {
+    $elements = [];
+
+    // Title and description.
+    $element = [];
+    $element[] = $this->buildParagraphTitle($title);
+    $element[] = $description;
+
+    $element = $this->wrapContainerVerticalSpacing($element);
+    $elements[] = $this->wrapContainerMaxWidth($element, '3xl');
+
+    // Add line separators to items.
+    $items_wrapped = [];
+    foreach ($items as $key => $item) {
+      if ($key == array_key_first($items)) {
+        $items_wrapped[] = $this->buildLineSeparator();
+      }
+      $items_wrapped[] = $item;
+      $items_wrapped[] = $this->buildLineSeparator();
+    }
+
+    // Accordion.
+    $elements[] = [
+      '#theme' => 'server_theme_element__accordion',
+      '#items' => $items_wrapped,
+    ];
+
+    $element = $this->wrapContainerVerticalSpacingBig($elements);
+
+    return $this->wrapContainerWide($element);
   }
 
 }

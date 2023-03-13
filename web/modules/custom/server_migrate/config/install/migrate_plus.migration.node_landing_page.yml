@@ -33,6 +33,7 @@ process:
       delimiter: '|'
     - plugin: migration_lookup
       migration:
+        - paragraph_accordion
         - paragraph_cta
         - paragraph_documents
         - paragraph_news_teasers
@@ -46,6 +47,7 @@ process:
 
 migration_dependencies:
   required:
+    - paragraph_accordion
     - paragraph_cta
     - paragraph_documents
     - paragraph_news_teasers

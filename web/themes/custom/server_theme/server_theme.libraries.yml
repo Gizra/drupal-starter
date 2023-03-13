@@ -27,6 +27,14 @@ view-more:
     - core/drupal
     - core/jquery.once
 
+accordion:
+  js:
+    dist/js/accordion.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/jquery.once
+
 roboto:
   css:
     base:

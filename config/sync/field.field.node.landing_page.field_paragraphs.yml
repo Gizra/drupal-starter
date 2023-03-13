@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.storage.node.field_paragraphs
     - node.type.landing_page
+    - paragraphs.paragraphs_type.accordion
     - paragraphs.paragraphs_type.cta
     - paragraphs.paragraphs_type.documents
     - paragraphs.paragraphs_type.hero_image
@@ -28,6 +29,7 @@ settings:
   handler: 'default:paragraph'
   handler_settings:
     target_bundles:
+      accordion: accordion
       cta: cta
       documents: documents
       hero_image: hero_image
@@ -37,25 +39,31 @@ settings:
       text: text
     negate: 0
     target_bundles_drag_drop:
+      accordion:
+        weight: -19
+        enabled: true
+      accordion_item:
+        weight: -11
+        enabled: false
       cta:
-        weight: -15
+        weight: -18
         enabled: true
       documents:
-        weight: -14
+        weight: -17
         enabled: true
       hero_image:
-        weight: -13
+        weight: -16
         enabled: true
       news_teasers:
-        weight: -12
+        weight: -15
         enabled: true
       related_content:
-        weight: -11
+        weight: -14
         enabled: true
       search:
-        weight: -10
+        weight: -13
         enabled: true
       text:
-        weight: -9
+        weight: -12
         enabled: true
 field_type: entity_reference_revisions

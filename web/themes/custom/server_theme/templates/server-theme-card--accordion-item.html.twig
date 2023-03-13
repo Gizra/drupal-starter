@@ -1,0 +1,28 @@
+<div class="accordion-item group">
+  <div class="accordion-title flex flex-row justify-between gap-x-4 items-center cursor-pointer">
+    <div class="text-xl md:text-2xl py-6 group-hover:text-gray-800">
+      {{ title }}
+    </div>
+
+    <div>
+      {# Close #}
+      <div class="minus-circle hidden h-6 w-6 rounded-full grid place-content-center">
+        {# Heroicons: minus (mini) #}
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 fill-gray-500 group-hover:fill-gray-600">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM6.75 9.25a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5z" clip-rule="evenodd" />
+        </svg>
+      </div>
+
+      {# Open #}
+      <div class="plus-circle h-6 w-6 rounded-full grid place-content-center">
+        {# Heroicons: plus (mini) #}
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 fill-gray-500 group-hover:fill-gray-600">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-11.25a.75.75 0 00-1.5 0v2.5h-2.5a.75.75 0 000 1.5h2.5v2.5a.75.75 0 001.5 0v-2.5h2.5a.75.75 0 000-1.5h-2.5v-2.5z" clip-rule="evenodd" />
+        </svg>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="accordion-description hidden w-full pb-6 text-gray-500">{{ description }}</div>
+</div>

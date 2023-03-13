@@ -317,6 +317,14 @@ function server_theme_theme() {
     ],
   ];
 
+  // Wrap an image render array with the `figure` tag.
+  $info['server_theme_wrap_image_with_figure'] = [
+    'variables' => [
+      // The image render array.
+      'element' => [],
+    ],
+  ];
+
   // Wrapper for a text, adding font weight.
   $info['server_theme_text_decoration__font_weight'] = [
     'variables' => [
@@ -419,11 +427,27 @@ function server_theme_theme() {
     ],
   ];
 
-  // Wrap an image render array with the `figure` tag.
-  $info['server_theme_wrap_image_with_figure'] = [
+  // The "Accordion" element.
+  $info['server_theme_element__accordion'] = [
     'variables' => [
-      // The image render array.
-      'element' => [],
+      // A render array built with `server_theme_element__accordion_item`.
+      'items' => [],
+    ],
+  ];
+
+  // A single "Accordion item" card inside the Accordion element.
+  $info['server_theme_card__accordion_item'] = [
+    'variables' => [
+      'title' => NULL,
+      'description' => NULL,
+    ],
+  ];
+
+  // A single icon.
+  $info['server_theme_icon'] = [
+    'variables' => [
+      'name' => NULL,
+      'color_scheme' => NULL,
     ],
   ];
 
