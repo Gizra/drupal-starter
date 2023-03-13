@@ -27,7 +27,7 @@ class ServerGeneralParagraphTranslatability extends ExistingSiteBase {
         continue;
       }
 
-      $this->assertFalse($field_config->isTranslatable(), sprintf("%s must not be translatable", $id));
+      $this->assertFalse($field_config->isTranslatable(), sprintf("%s must not be translatable as it is a Paragraph field", $id));
     }
   }
 
