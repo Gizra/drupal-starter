@@ -39,7 +39,7 @@ class ParagraphQuickLinks extends EntityViewBuilderPluginAbstract {
    *   Render array.
    */
   public function buildFull(array $build, ParagraphInterface $entity): array {
-    /** @var \Drupal\Core\Field\EntityReferenceFieldItemListInterface $items */
+    /** @var \Drupal\Core\Field\EntityReferenceFieldItemListInterface $paragraphs */
     $paragraphs = $entity->get('field_quick_link_items');
     $items = $this->buildReferencedEntities($paragraphs, 'full', $entity->language()->getId());
 

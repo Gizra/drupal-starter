@@ -5,7 +5,6 @@ declare(strict_types=1);
 
 namespace Drupal\server_general;
 
-use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Drupal\intl_date\IntlDate;
 
