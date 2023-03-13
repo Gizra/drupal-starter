@@ -10,7 +10,7 @@ use weitzman\DrupalTestTraits\ExistingSiteBase;
 class ServerGeneralParagraphTranslatability extends ExistingSiteBase {
 
   /**
-   * Checks all entity reference fields to nodes use the select2 widget.
+   * Checks Paragraph reference sanity for translations.
    */
   public function testParagraphsTranslation() {
     $em = \Drupal::entityTypeManager();
