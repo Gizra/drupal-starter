@@ -55,6 +55,7 @@
         "drupal/search_api": "^1.18",
         "drupal/select2": "^1.13",
         "drupal/simple_sitemap": "^4",
+        "drupal/smart_trim": "^2.0",
         "drupal/stage_file_proxy": "^1.1",
         "drush/drush": "^11",
         "npm-asset/select2": "^4.0",
