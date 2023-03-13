@@ -27,7 +27,9 @@ class ServerGeneralParagraphQuickLinkItemTest extends ServerGeneralParagraphTest
    * {@inheritdoc}
    */
   public function getOptionalFields(): array {
-    return [];
+    return [
+      'field_subtitle',
+    ];
   }
 
 }

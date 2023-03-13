@@ -198,18 +198,19 @@ trait CardTrait {
    *   The title.
    * @param \Drupal\Core\Url $url
    *   The Url object.
-   * @param array $description
-   *   The description render array.
+   * @param string $subtitle
+   *   Optional; The subtitle.
    *
    * @return array
    *   Render array.
    */
-  protected function buildCardQuickLinkItem(string $title, Url $url, array $description = []): array {
+  protected function buildCardQuickLinkItem(string $title, Url $url, string $subtitle = NULL): array {
     $items = [];
     $items[] = $this->wrapTextResponsiveFontSize($title, 'xl');
 
-    $element = $this->wrapTextResponsiveFontSize($description, 'sm');
-    $items[] = $element;
+    if (!empty($subtitle)) {
+      $items[] = $this->wrapTextResponsiveFontSize($subtitle, 'sm');
+    }
 
     $items = $this->wrapContainerVerticalSpacingTiny($items);
 

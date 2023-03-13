@@ -349,12 +349,12 @@ class StyleGuideController extends ControllerBase {
     $items = [];
     $i = 1;
     while ($i <= 4) {
-      $description = $i == 2 ? $this->buildProcessedText('This is a quick link description') : [];
+      $subtitle = $i == 2 ? 'This is a quick link description' : NULL;
 
       $items[] = $this->buildCardQuickLinkItem(
         $this->getRandomTitle(),
         $url,
-        $description,
+        $subtitle,
       );
 
       ++$i;

@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.quick_link_item.field_link
+    - field.field.paragraph.quick_link_item.field_subtitle
     - paragraphs.paragraphs_type.quick_link_item
   module:
     - link
@@ -19,6 +20,14 @@ content:
     settings:
       placeholder_url: ''
       placeholder_title: ''
+    third_party_settings: {  }
+  field_subtitle:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
 hidden:
   created: true

@@ -17,4 +17,5 @@ process:
     default_value: quick_link_item
   field_link/title: _title
   field_link/uri: _url
+  field_subtitle: _subtitle
 
