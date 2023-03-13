@@ -3,6 +3,7 @@
 namespace Drupal\server_style_guide\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Drupal\Core\Utility\LinkGenerator;
 use Drupal\media\IFrameUrlHelper;
@@ -345,6 +346,7 @@ class StyleGuideController extends ControllerBase {
    *   Render array.
    */
   protected function getQuickLinks(): array {
+    $url = Url::fromRoute('<front>');
     $items = [];
     $i = 1;
     while ($i <= 4) {
@@ -352,8 +354,8 @@ class StyleGuideController extends ControllerBase {
 
       $items[] = $this->buildCardQuickLinkItem(
         $this->getRandomTitle(),
+        $url,
         $description,
-        Url::fromRoute('<front>'),
       );
 
       ++$i;

@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 namespace Drupal\server_general;
 
+use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Drupal\intl_date\IntlDate;
 
@@ -196,15 +197,15 @@ trait CardTrait {
    *
    * @param string $title
    *   The title.
+   * @param \Drupal\Core\Url $url
+   *   The Url object.
    * @param array $description
    *   The description render array.
-   * @param \Drupal\Core\Url $url
-   *   The URL to link the entire card link.
    *
    * @return array
    *   Render array.
    */
-  protected function buildCardQuickLinkItem(string $title, array $description, Url $url): array {
+  protected function buildCardQuickLinkItem(string $title, Url $url, array $description = []): array {
     $items = [];
     $items[] = $this->wrapTextResponsiveFontSize($title, 'xl');
 
