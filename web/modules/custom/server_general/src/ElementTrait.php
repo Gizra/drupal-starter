@@ -209,7 +209,11 @@ trait ElementTrait {
    * @param array $description
    *   The description render array.
    * @param array $items
+<<<<<<< HEAD
    *   Items rendered with `CardTrait::buildElementAccordionItem`.
+=======
+   *   Items rendered with ::buildElementAccordionItem.
+>>>>>>> main
    *
    * @return array
    *   The render array.

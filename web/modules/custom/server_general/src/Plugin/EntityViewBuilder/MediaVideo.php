@@ -66,7 +66,7 @@ class MediaVideo extends EntityViewBuilderPluginAbstract {
       self::VIDEO_FULL_MAX_WIDTH,
       self::VIDEO_FULL_MAX_HEIGHT,
       TRUE,
-      $this->getTextFieldValue($entity, 'field_credit'),
+      $this->getTextFieldValue($entity, 'field_media_credit'),
       $this->getTextFieldValue($entity, 'field_caption'),
     );
 

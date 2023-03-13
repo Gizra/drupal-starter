@@ -150,6 +150,35 @@ See the [example](https://github.com/Gizra/drupal8-starter/blob/master/web/modul
 Follow the steps listed in `.ddev/providers/pantheon.yaml`.
 Make sure to add the correct site name under `environment_variables.project`.
 
+There's a Robo command to do the entire process of creating a new project:
+```
+ddev robo bootstrap:project newname git@github.com/newclient/newproject.git terminus_token github_token
+```
+See the details [here](https://github.com/Gizra/drupal-starter/blob/main/robo-components/BootstrapTrait.php).
+
+As this repository gets copied several times, for different projects, it gets tedious to port small fixes.
+For larger-scale changes, due to conflicts and per-project considerations, we need to apply
+changes manually., However for tiny, trivial changes, such as Travis fixes, we have the following tool:
+```
+# Go to the root of all the projects
+cd /home/user/your-projects
+# If no export is provided, command will ask entering manually the names.
+export REPOSITORIES=[client1 client2 client3]
+/path/to/starter/scripts/mass_patch.sh [gh_token_that_can_create_prs] /tmp/our-little-patch "PR title"
+```
+
+This must be executed natively (i.e. no inside `ddev ssh`).
+It will try to refresh the working copies there and apply the patch. If it succeeds, it opens
+a pull request in the destination repository.
+That provides a fast track to spread changes for those parts of the Starter Kit that typically
+remain unchanged after cloning (CI scripts, testing scripts, DDEV configuration and commands, and so on).
+
+You can also specify the repositories using a configuration file:
+```
+cp scripts/mass_patch.example.config.sh scripts/mass_patch.config.sh
+```
+Then edit `scripts/mass_patch.config.sh` and add the proper project names.
+
 #### Create your site
 
 Then, you can create a new site in Pantheon which can also be done with a
