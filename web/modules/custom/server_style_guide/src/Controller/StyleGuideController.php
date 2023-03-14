@@ -156,7 +156,7 @@ class StyleGuideController extends ControllerBase {
     $build[] = $this->wrapElementNoContainer($element, 'Element: Quote');
 
     $element = $this->getQuote(TRUE);
-    $build[] = $this->wrapElementNoContainer($element, 'Element: Quote (image to the right)');
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Quote (image last)');
 
     $element = $this->getQuickLinks();
     $build[] = $this->wrapElementWideContainer($element, 'Element: Quick links');

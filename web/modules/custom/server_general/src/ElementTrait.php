@@ -279,7 +279,7 @@ trait ElementTrait {
 
     // The photo credit on top of the image.
     $image_items = [];
-    $image_items[] = '© ' . $photo_credit;
+    $image_items[] = ['#markup' => '© ' . $photo_credit];
 
     return [
       '#theme' => 'server_theme_element_layout__split_image_and_content',
