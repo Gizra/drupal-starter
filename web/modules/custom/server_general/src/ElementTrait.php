@@ -247,6 +247,50 @@ trait ElementTrait {
   }
 
   /**
+   * Build a Quote.
+   *
+   * @param string $quote
+   *   Quote text.
+   * @param string $author
+   *   Quote author name.
+   * @param string $image_url
+   *   Image URL to be used as a background url.
+   * @param string $photo_credit
+   *   Image caption or copyright text.
+   * @param bool $is_image_first
+   *   Determine if the image should appear first.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function buildElementQuote(string $quote, string $author, string $image_url, string $photo_credit, bool $is_image_first): array {
+    $items = [];
+
+    // Quotation sign.
+    $items[] = ['#theme' => 'server_theme_quotation_sign'];
+
+    // Quote.
+    $element = $this->wrapTextResponsiveFontSize($quote, '2xl');
+    $items[] = $this->wrapTextColor($element, 'gray');
+
+    // Quote by.
+    $element = $this->wrapTextResponsiveFontSize($author, 'sm');
+    $items[] = $this->wrapTextFontWeight($element, 'bold');
+
+    // The photo credit on top of the image.
+    $image_items = [];
+    $image_items[] = '© ' . $photo_credit;
+
+    return [
+      '#theme' => 'server_theme_element_layout__split_image_and_content',
+      '#items' => $this->wrapContainerVerticalSpacingBig($items),
+      '#image_url' => $image_url,
+      '#image_items' => $image_items,
+      '#is_image_first' => $is_image_first,
+    ];
+  }
+
+  /**
    * Build quick links as carousels.
    *
    * @param string $title
