@@ -277,8 +277,8 @@ trait ElementTrait {
     $items[] = $this->wrapTextItalic($element);
 
     // The photo credit on top of the image.
+    $image_items = [];
     if (!empty($image_credit)) {
-      $image_items = [];
       $image_items[] = ['#markup' => '© ' . $image_credit];
     }
 
