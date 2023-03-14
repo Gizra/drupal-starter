@@ -251,17 +251,18 @@ trait ElementTrait {
    *
    * @param array $image
    *   The image render array.
-   * @param string $quote
-   *   The text.
+   * @param array $quote
+   *   The quote render array.
    * @param string|null $subtitle
-   *   Optional; The subtitle could be for example the author name. Defaults to NULL.
+   *   Optional; The subtitle could be for example the author name. Defaults to
+   *   NULL.
    * @param string|null $image_credit
    *   Optional; The image credit. Defaults to NULL.
    *
    * @return array
    *   Render array.
    */
-  protected function buildElementQuote(array $image, string $quote, string $subtitle = NULL, string $image_credit = NULL): array {
+  protected function buildElementQuote(array $image, array $quote, string $subtitle = NULL, string $image_credit = NULL): array {
     $items = [];
 
     // Quotation sign.
@@ -276,8 +277,10 @@ trait ElementTrait {
     $items[] = $this->wrapTextItalic($element);
 
     // The photo credit on top of the image.
-    $image_items = [];
-    $image_items[] = ['#markup' => '© ' . $image_credit];
+    if (!empty($image_credit)) {
+      $image_items = [];
+      $image_items[] = ['#markup' => '© ' . $image_credit];
+    }
 
     return [
       '#theme' => 'server_theme_element_layout__split_image_and_content',

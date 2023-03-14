@@ -351,7 +351,7 @@ class StyleGuideController extends ControllerBase {
 
     return $this->buildElementQuote(
       $this->buildImage($this->getPlaceholderImage(950, 540)),
-      "I before parameters designer of the to separated of to part, price question in or of a there sleep.",
+      $this->buildProcessedText("I before parameters designer of the to separated of to part, price question in or of a there sleep."),
       'General Director, and Assistant to The Regional Manager',
       'This is a photo credit',
     );

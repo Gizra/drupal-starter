@@ -39,9 +39,16 @@ class ParagraphQuote extends EntityViewBuilderPluginAbstract {
    *   Render array.
    */
   public function buildFull(array $build, ParagraphInterface $entity): array {
+
+    /** @var \Drupal\media\MediaInterface $media */
+    $media = $this->getReferencedEntityFromField($entity, 'field_image');
+    $image_credit = $this->getTextFieldValue($media, 'field_media_credit');
+
     $element = $this->buildElementQuote(
+      $this->buildMediaResponsiveImage($entity, 'field_image', 'hero'),
       $this->buildProcessedText($entity, 'field_body', FALSE),
       $this->getTextFieldValue($entity, 'field_subtitle'),
+      $image_credit,
     );
 
     $build[] = $element;
