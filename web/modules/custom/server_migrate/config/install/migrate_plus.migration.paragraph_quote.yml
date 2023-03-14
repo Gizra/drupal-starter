@@ -34,5 +34,3 @@ process:
 migration_dependencies:
   required:
     - media_image
-
-
