@@ -20,3 +20,19 @@ process:
     plugin: default_value
     default_value: basic_html
   field_subtitle: _subtitle
+  field_image:
+    - plugin: skip_on_empty
+      method: process
+      source: _media_image
+    - plugin: explode
+      delimiter: '|'
+    - plugin: migration_lookup
+      migration:
+        - media_image
+      no_stub: true
+
+migration_dependencies:
+  required:
+    - media_image
+
+
