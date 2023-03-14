@@ -249,21 +249,19 @@ trait ElementTrait {
   /**
    * Build a Quote.
    *
-   * @param string $quote
-   *   Quote text.
-   * @param string $author
-   *   Quote author name.
    * @param string $image_url
    *   Image URL to be used as a background url.
-   * @param string $photo_credit
-   *   Image caption or copyright text.
-   * @param bool $is_image_first
-   *   Determine if the image should appear first. Defaults to TRUE.
+   * @param string $quote
+   *   The text.
+   * @param string|null $subtitle
+   *   Optional; The subtitle could be for example the author name. Defaults to NULL.
+   * @param string|null $image_credit
+   *   Optional; The image credit. Defaults to NULL.
    *
    * @return array
    *   Render array.
    */
-  protected function buildElementQuote(string $quote, string $author, string $image_url, string $photo_credit, bool $is_image_first = TRUE): array {
+  protected function buildElementQuote(string $image_url, string $quote, string $subtitle = NULL, string $image_credit = NULL): array {
     $items = [];
 
     // Quotation sign.
@@ -274,19 +272,19 @@ trait ElementTrait {
     $items[] = $this->wrapTextColor($element, 'gray');
 
     // Quote by.
-    $element = $this->wrapTextResponsiveFontSize($author, 'sm');
-    $items[] = $this->wrapTextFontWeight($element, 'bold');
+    $element = $this->wrapTextResponsiveFontSize($subtitle, 'sm');
+    $items[] = $this->wrapTextItalic($element);
 
     // The photo credit on top of the image.
     $image_items = [];
-    $image_items[] = ['#markup' => '© ' . $photo_credit];
+    $image_items[] = ['#markup' => '© ' . $image_credit];
 
     return [
       '#theme' => 'server_theme_element_layout__split_image_and_content',
-      '#items' => $this->wrapContainerVerticalSpacingBig($items),
+      '#items' => $this->wrapContainerVerticalSpacing($items),
+      // @todo: Change to Image render array.
       '#image_url' => $image_url,
       '#image_items' => $image_items,
-      '#is_image_first' => $is_image_first,
     ];
   }
 

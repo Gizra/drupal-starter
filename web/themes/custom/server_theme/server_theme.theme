@@ -152,7 +152,6 @@ function server_theme_theme() {
       'image_url' => NULL,
       // Render array of the photo credit.
       'image_items' => [],
-      'is_image_first' => NULL,
     ],
   ];
 

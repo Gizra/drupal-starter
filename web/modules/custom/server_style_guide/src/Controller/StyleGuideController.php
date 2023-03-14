@@ -155,9 +155,6 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getQuote();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Quote');
 
-    $element = $this->getQuote(FALSE);
-    $build[] = $this->wrapElementNoContainer($element, 'Element: Quote (image last)');
-
     $element = $this->getQuickLinks();
     $build[] = $this->wrapElementWideContainer($element, 'Element: Quick links');
 
@@ -347,20 +344,16 @@ class StyleGuideController extends ControllerBase {
   /**
    * Get the Quote element.
    *
-   * @param bool $is_image_first
-   *   Determine if the image should appear first. Defaults to TRUE.
-   *
    * @return array
    *   Render array.
    */
-  protected function getQuote(bool $is_image_first = TRUE): array {
+  protected function getQuote(): array {
 
     return $this->buildElementQuote(
+      $this->getPlaceholderImage(950, 540),
       "I before parameters designer of the to separated of to part. Price question in or of a there sleep. Who a deference and drew sleep written talk said which had. sel in small been cheating sounded times should and problem. Question. Explorations derived been him aged seal for gods team- manage he according the welcoming are cities part up stands careful so own the have how up, keep",
       'General Director, and Assistant to The Regional Manager',
-      $this->getPlaceholderImage(950, 540),
       'This is a photo credit',
-      $is_image_first,
     );
   }
 

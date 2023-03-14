@@ -1,15 +1,6 @@
-{#{% set padding_classes = 'pt-8 md:pt-10' %}#}
+<div class="flex md:grid md:grid-rows-1 lg:grid-cols-2 gap-2 lg:gap-10 overflow-hidden bg-gray-50">
 
-{% set classes = [
-  'flex md:grid md:grid-rows-1 lg:grid-cols-2 gap-2 md:gap-10 overflow-hidden bg-gray-50',
-  is_image_first ? 'flex-col justify-items-start' : 'flex-col-reverse justify-items-end ',
-] | join(' ') | trim %}
-
-{% set order_class = is_image_first ? 'order-first' : 'order-last' %}
-
-<div class="{{ classes }}">
-
-  <div class="w-full md:min-h-[28rem] relative {{ order_class }}">
+  <div class="w-full md:min-h-[12rem] relative">
     <figure class="child-object-cover h-full">
       <img src="{{ image_url }}" />
     </figure>
@@ -21,7 +12,7 @@
     {% endif %}
   </div>
 
-  <div class="pb-8 px-5 md:p-5 lg:py-8 lg:max-w-lg">
+  <div class="pt-5 pb-8 px-5 lg:py-8 lg:max-w-lg">
     {{ items }}
   </div>
 </div>
