@@ -258,12 +258,12 @@ trait ElementTrait {
    * @param string $photo_credit
    *   Image caption or copyright text.
    * @param bool $is_image_first
-   *   Determine if the image should appear first.
+   *   Determine if the image should appear first. Defaults to TRUE.
    *
    * @return array
    *   Render array.
    */
-  protected function buildElementQuote(string $quote, string $author, string $image_url, string $photo_credit, bool $is_image_first): array {
+  protected function buildElementQuote(string $quote, string $author, string $image_url, string $photo_credit, bool $is_image_first = TRUE): array {
     $items = [];
 
     // Quotation sign.

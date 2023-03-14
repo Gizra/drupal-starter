@@ -1,23 +1,27 @@
-{% if is_image_first %}
-  {% set justify_class = 'justify-items-end' %}
-  {% set order_class = 'order-last' %}
-  {% set padding_classes = 'pt-8 md:pt-10' %}
-{% else %}
-  {% set justify_class = 'justify-items-start' %}
-  {% set order_class = 'order-first' %}
-{% endif %}
+{#{% set padding_classes = 'pt-8 md:pt-10' %}#}
 
-<div class="flex flex-col md:grid md:grid-rows-1 lg:grid-cols-2 gap-8 md:gap-10 overflow-hidden bg-gray-50 {{ justify_class }}">
-  <div class="w-full min-h-[28rem] relative {{ order_class }}" style="background: url('{{ image_url }}') center center / cover no-repeat;">
+{% set classes = [
+  'flex md:grid md:grid-rows-1 lg:grid-cols-2 gap-2 md:gap-10 overflow-hidden bg-gray-50',
+  is_image_first ? 'flex-col justify-items-start' : 'flex-col-reverse justify-items-end ',
+] | join(' ') | trim %}
 
-      {% if image_items  %}
-        <div class="text-xs absolute left-0 rtl:left-auto bottom-0 bg-white opacity-70 p-2">
-          {{ image_items }}
-        </div>
-      {% endif %}
-    </div>
+{% set order_class = is_image_first ? 'order-first' : 'order-last' %}
 
-  <div class="pb-5 px-5 pt-5 md:p-5 lg:py-10 lg:max-w-lg {{ padding_classes }}">
+<div class="{{ classes }}">
+
+  <div class="w-full md:min-h-[28rem] relative {{ order_class }}">
+    <figure class="child-object-cover h-full">
+      <img src="{{ image_url }}" />
+    </figure>
+
+    {% if image_items  %}
+      <div class="text-xs absolute left-0 rtl:left-auto bottom-0 bg-white opacity-70 p-2">
+        {{ image_items }}
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="pb-8 px-5 md:p-5 lg:py-8 lg:max-w-lg">
     {{ items }}
   </div>
 </div>

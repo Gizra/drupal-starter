@@ -199,6 +199,7 @@ trait ElementWrapTrait {
     // the last paragraph on the page.
     $paragraph_types_with_no_bottom_padding = [
       'documents',
+      'quote',
     ];
 
     return in_array($paragraph->bundle(), $paragraph_types_with_no_bottom_padding) ? $element : $this->wrapContainerBottomPadding($element);
