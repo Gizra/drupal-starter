@@ -249,8 +249,8 @@ trait ElementTrait {
   /**
    * Build a Quote.
    *
-   * @param string $image_url
-   *   Image URL to be used as a background url.
+   * @param array $image
+   *   The image render array.
    * @param string $quote
    *   The text.
    * @param string|null $subtitle
@@ -261,7 +261,7 @@ trait ElementTrait {
    * @return array
    *   Render array.
    */
-  protected function buildElementQuote(string $image_url, string $quote, string $subtitle = NULL, string $image_credit = NULL): array {
+  protected function buildElementQuote(array $image, string $quote, string $subtitle = NULL, string $image_credit = NULL): array {
     $items = [];
 
     // Quotation sign.
@@ -282,8 +282,7 @@ trait ElementTrait {
     return [
       '#theme' => 'server_theme_element_layout__split_image_and_content',
       '#items' => $this->wrapContainerVerticalSpacing($items),
-      // @todo: Change to Image render array.
-      '#image_url' => $image_url,
+      '#image' => $image,
       '#image_items' => $image_items,
     ];
   }

@@ -148,8 +148,8 @@ function server_theme_theme() {
   $info['server_theme_element_layout__split_image_and_content'] = [
     'variables' => [
       'items' => NULL,
-      // Image URL to be used as a background url.
-      'image_url' => NULL,
+      // The image render array.
+      'image' => [],
       // Render array of the photo credit.
       'image_items' => [],
     ],

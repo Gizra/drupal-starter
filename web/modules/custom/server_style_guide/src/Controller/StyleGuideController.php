@@ -350,7 +350,7 @@ class StyleGuideController extends ControllerBase {
   protected function getQuote(): array {
 
     return $this->buildElementQuote(
-      $this->getPlaceholderImage(950, 540),
+      $this->buildImage($this->getPlaceholderImage(950, 540)),
       "I before parameters designer of the to separated of to part. Price question in or of a there sleep. Who a deference and drew sleep written talk said which had. sel in small been cheating sounded times should and problem. Question. Explorations derived been him aged seal for gods team- manage he according the welcoming are cities part up stands careful so own the have how up, keep",
       'General Director, and Assistant to The Regional Manager',
       'This is a photo credit',
