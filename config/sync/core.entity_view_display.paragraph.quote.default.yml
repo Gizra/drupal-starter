@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.quote.field_body
+    - field.field.paragraph.quote.field_image
     - field.field.paragraph.quote.field_subtitle
     - paragraphs.paragraphs_type.quote
   module:
@@ -19,6 +20,14 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 0
+    region: content
+  field_image:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 2
     region: content
   field_subtitle:
     type: string

@@ -4,9 +4,11 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.quote.field_body
+    - field.field.paragraph.quote.field_image
     - field.field.paragraph.quote.field_subtitle
     - paragraphs.paragraphs_type.quote
   module:
+    - media_library
     - text
 id: paragraph.quote.default
 targetEntityType: paragraph
@@ -20,6 +22,13 @@ content:
     settings:
       rows: 5
       placeholder: ''
+    third_party_settings: {  }
+  field_image:
+    type: media_library_widget
+    weight: 2
+    region: content
+    settings:
+      media_types: {  }
     third_party_settings: {  }
   field_subtitle:
     type: string_textfield
