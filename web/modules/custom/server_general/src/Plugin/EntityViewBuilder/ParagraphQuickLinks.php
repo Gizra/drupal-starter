@@ -46,7 +46,7 @@ class ParagraphQuickLinks extends EntityViewBuilderPluginAbstract {
     if (empty($items)) {
       // While building the quick link items, we checked and got that user has
       // no access to any item.
-      return [];
+      return $build;
     }
 
     $element = $this->buildElementQuickLinks(
