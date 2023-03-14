@@ -1,24 +1,22 @@
-id: paragraph_cta
-label: 'Paragraph Cta'
+id: paragraph_quote
+label: 'Paragraph quote'
 migration_group: server
 migration_tags:
   - paragraph
 source:
   plugin: csv
-  path: modules/custom/server_migrate/csv_files/paragraph_cta.csv
+  path: modules/custom/server_migrate/csv_files/paragraph_quote.csv
   ids: ['_id']
   header_offset: 0
 destination:
   plugin: 'entity_reference_revisions:paragraph'
-  default_bundle: cta
+  default_bundle: quote
 process:
   type:
     plugin: default_value
-    default_value: cta
-  field_title: _title
-  field_link/uri: _url
-  field_link/title: _url_title
+    default_value: quote
   field_body/value: _body
   field_body/format:
     plugin: default_value
     default_value: basic_html
+  field_subtitle: _subtitle
