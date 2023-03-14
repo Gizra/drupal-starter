@@ -443,11 +443,12 @@ function server_theme_theme() {
     ],
   ];
 
-  // A single icon.
-  $info['server_theme_icon'] = [
+  // A card that is linkable.
+  $info['server_theme_card__quick_link_item'] = [
     'variables' => [
-      'name' => NULL,
-      'color_scheme' => NULL,
+      // The title and the optional description as a render array.
+      'items' => [],
+      'url' => NULL,
     ],
   ];
 

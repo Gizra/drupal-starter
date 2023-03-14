@@ -10,6 +10,7 @@ dependencies:
     - paragraphs.paragraphs_type.documents
     - paragraphs.paragraphs_type.hero_image
     - paragraphs.paragraphs_type.news_teasers
+    - paragraphs.paragraphs_type.quick_links
     - paragraphs.paragraphs_type.related_content
     - paragraphs.paragraphs_type.search
     - paragraphs.paragraphs_type.text
@@ -37,6 +38,7 @@ settings:
       related_content: related_content
       search: search
       text: text
+      quick_links: quick_links
     negate: 0
     target_bundles_drag_drop:
       accordion:
@@ -56,6 +58,12 @@ settings:
         enabled: true
       news_teasers:
         weight: -15
+        enabled: true
+      quick_link_item:
+        weight: 15
+        enabled: false
+      quick_links:
+        weight: 10
         enabled: true
       related_content:
         weight: -14

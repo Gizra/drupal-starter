@@ -11,17 +11,17 @@ use Drupal\server_general\ElementWrapTrait;
 use Drupal\server_general\ProcessedTextBuilderTrait;
 
 /**
- * The "Accordion" paragraph plugin.
+ * The "Quick links" paragraph plugin.
  *
  * @EntityViewBuilder (
- *   id = "paragraph.accordion",
- *   label = @Translation("Paragraph - Accordion"),
- *   description = "Paragraph view builder for 'Accordion'."
+ *   id = "paragraph.quick_links",
+ *   label = @Translation("Paragraph - Quick links"),
+ *   description = "Paragraph view builder for 'Quick links'."
  * )
  *
  * @package Drupal\server_general\Plugin\EntityViewBuilder
  */
-class ParagraphAccordion extends EntityViewBuilderPluginAbstract {
+class ParagraphQuickLinks extends EntityViewBuilderPluginAbstract {
 
   use ElementTrait;
   use ElementWrapTrait;
@@ -40,15 +40,22 @@ class ParagraphAccordion extends EntityViewBuilderPluginAbstract {
    */
   public function buildFull(array $build, ParagraphInterface $entity): array {
     /** @var \Drupal\Core\Field\EntityReferenceFieldItemListInterface $paragraphs */
-    $paragraphs = $entity->get('field_accordion_items');
+    $paragraphs = $entity->get('field_quick_link_items');
     $items = $this->buildReferencedEntities($paragraphs, 'full', $entity->language()->getId());
 
-    $element = $this->buildElementAccordion(
+    if (empty($items)) {
+      // While building the quick link items, we checked and got that user has
+      // no access to any item.
+      return $build;
+    }
+
+    $element = $this->buildElementQuickLinks(
       $this->getTextFieldValue($entity, 'field_title'),
       $this->buildProcessedText($entity, 'field_body'),
       $items,
     );
 
+    $element = $this->wrapContainerWide($element);
     $build[] = $element;
 
     return $build;

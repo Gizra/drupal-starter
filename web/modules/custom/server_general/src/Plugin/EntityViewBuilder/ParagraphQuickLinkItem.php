@@ -11,17 +11,17 @@ use Drupal\server_general\ElementWrapTrait;
 use Drupal\server_general\ProcessedTextBuilderTrait;
 
 /**
- * The "Accordion" paragraph plugin.
+ * The "Quick link item" paragraph plugin.
  *
  * @EntityViewBuilder (
- *   id = "paragraph.accordion",
- *   label = @Translation("Paragraph - Accordion"),
- *   description = "Paragraph view builder for 'Accordion'."
+ *   id = "paragraph.quick_link_item",
+ *   label = @Translation("Paragraph - Quick link item"),
+ *   description = "Paragraph view builder for 'Quick link item'."
  * )
  *
  * @package Drupal\server_general\Plugin\EntityViewBuilder
  */
-class ParagraphAccordion extends EntityViewBuilderPluginAbstract {
+class ParagraphQuickLinkItem extends EntityViewBuilderPluginAbstract {
 
   use ElementTrait;
   use ElementWrapTrait;
@@ -37,16 +37,20 @@ class ParagraphAccordion extends EntityViewBuilderPluginAbstract {
    *
    * @return array
    *   Render array.
+   *
+   * @throws \Drupal\Core\TypedData\Exception\MissingDataException
    */
   public function buildFull(array $build, ParagraphInterface $entity): array {
-    /** @var \Drupal\Core\Field\EntityReferenceFieldItemListInterface $paragraphs */
-    $paragraphs = $entity->get('field_accordion_items');
-    $items = $this->buildReferencedEntities($paragraphs, 'full', $entity->language()->getId());
+    $link = $this->getLinkFieldValue($entity, 'field_link');
+    if (empty($link)) {
+      // We have no access to the link.
+      return [];
+    }
 
-    $element = $this->buildElementAccordion(
-      $this->getTextFieldValue($entity, 'field_title'),
-      $this->buildProcessedText($entity, 'field_body'),
-      $items,
+    $element = $this->buildCardQuickLinkItem(
+      $link['title'],
+      $link['url'],
+      $this->getTextFieldValue($entity, 'field_subtitle')
     );
 
     $build[] = $element;

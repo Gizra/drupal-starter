@@ -192,6 +192,37 @@ trait CardTrait {
   }
 
   /**
+   * Builds a Quick Link element.
+   *
+   * @param string $title
+   *   The title.
+   * @param \Drupal\Core\Url $url
+   *   The Url object.
+   * @param string $subtitle
+   *   Optional; The subtitle.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function buildCardQuickLinkItem(string $title, Url $url, string $subtitle = NULL): array {
+    $items = [];
+    $items[] = $this->wrapTextResponsiveFontSize($title, 'xl');
+
+    if (!empty($subtitle)) {
+      $items[] = $this->wrapTextResponsiveFontSize($subtitle, 'sm');
+    }
+
+    $items = $this->wrapContainerVerticalSpacingTiny($items);
+
+    return [
+      '#theme' => 'server_theme_card__quick_link_item',
+      '#items' => $this->wrapContainerVerticalSpacing($items),
+      '#url' => $url,
+    ];
+
+  }
+
+  /**
    * Wrap multiple cards with a grid.
    *
    * @param array $items
