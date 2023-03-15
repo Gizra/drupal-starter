@@ -5,7 +5,7 @@ dependencies:
   module:
     - focal_point
 name: quote_xl_1x
-label: 'Quote xl 1x (768x466)'
+label: 'Quote xl 1x (768x400)'
 effects:
   78b620b9-c83e-442f-a567-69ac44e15f61:
     uuid: 78b620b9-c83e-442f-a567-69ac44e15f61
@@ -13,5 +13,5 @@ effects:
     weight: 2
     data:
       width: 768
-      height: 466
+      height: 400
       crop_type: focal_point
