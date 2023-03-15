@@ -285,7 +285,6 @@ trait DeploymentTrait {
     // This "git push" above is as async operation, so prevent invoking
     // for instance drush cim before the new changes are there.
     usleep(self::$deploymentWaitTime);
-    $pantheon_info = $this->getPantheonNameAndEnv();
     $pantheon_env = $branch_name == 'master' ? 'dev' : $branch_name;
 
     $this->waitForCodeDeploy($pantheon_env);
