@@ -143,6 +143,18 @@ function server_theme_theme() {
     ],
   ];
 
+  // Split the screen in half. First the image, then content. Used for example
+  // for a "Quote" element.
+  $info['server_theme_element_layout__split_image_and_content'] = [
+    'variables' => [
+      'items' => NULL,
+      // The image render array.
+      'image' => [],
+      // Render array of the photo credit.
+      'image_items' => [],
+    ],
+  ];
+
   $info['server_theme_page_title'] = [
     'variables' => [
       'title' => NULL,
@@ -276,6 +288,11 @@ function server_theme_theme() {
 
   // A simple horizontal line separator.
   $info['server_theme_line_separator'] = [
+    'variables' => [],
+  ];
+
+  // A quotation sign, used on the Quote element.
+  $info['server_theme_quotation_sign'] = [
     'variables' => [],
   ];
 

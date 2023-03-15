@@ -199,6 +199,7 @@ trait ElementWrapTrait {
     // the last paragraph on the page.
     $paragraph_types_with_no_bottom_padding = [
       'documents',
+      'quote',
     ];
 
     return in_array($paragraph->bundle(), $paragraph_types_with_no_bottom_padding) ? $element : $this->wrapContainerBottomPadding($element);
@@ -415,12 +416,12 @@ trait ElementWrapTrait {
    * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
    *   The render array, string or a TranslatableMarkup object.
    * @param string $size
-   *   Font size of the text. Allowed values are `xs`, `sm`, `base`, `lg`, `xl`
-   *   and `3xl`. Those sizes refer to the size on desktop. While Tailwind works
-   *   as  mobile first, when we implement the design that in reality we start
-   *   from the desktop, and work our way down to the mobile. Furthermore, on
-   *   mobile the font size  may remain bigger, and won't become smaller - to
-   *   keep things readable. Defaults to `base`.
+   *   Font size of the text. Allowed values are `xs`, `sm`, `base`, `lg`, `xl`,
+   *   `2xl`, and `3xl`. Those sizes refer to the size on desktop. While
+   *   Tailwind works as  mobile first, when we implement the design that in
+   *   reality we start from the desktop, and work our way down to the mobile.
+   *   Furthermore, on mobile the font size may remain bigger, and won't become
+   *   smaller - to keep things readable. Defaults to `base`.
    *
    * @return array
    *   Render array.

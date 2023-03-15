@@ -1,0 +1,18 @@
+<div class="flex flex-col sm:grid sm:grid-rows-1 md:grid-cols-2 gap-2 md:gap-8 lg:gap-10 overflow-hidden bg-gray-50">
+
+  <div class="w-full relative">
+    <figure class="child-object-cover h-full">
+      {{ image }}
+    </figure>
+
+    {% if image_items  %}
+      <div class="text-xs absolute left-0 rtl:left-auto bottom-0 bg-white opacity-70 p-2">
+        {{ image_items }}
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="pt-5 pb-8 px-5 lg:py-8 lg:max-w-lg my-auto">
+    {{ items }}
+  </div>
+</div>

@@ -152,6 +152,9 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getMediaVideo();
     $build[] = $this->wrapElementWideContainer($element, 'Element: Media Video');
 
+    $element = $this->getQuote();
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Quote');
+
     $element = $this->getQuickLinks();
     $build[] = $this->wrapElementWideContainer($element, 'Element: Quick links');
 
@@ -335,6 +338,22 @@ class StyleGuideController extends ControllerBase {
       FALSE,
       'This is the Credit of the video',
       'This is the Caption of the video',
+    );
+  }
+
+  /**
+   * Get the Quote element.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getQuote(): array {
+
+    return $this->buildElementQuote(
+      $this->buildImage($this->getPlaceholderImage(1280, 400)),
+      $this->buildProcessedText("I before parameters designer of the to separated of to part, price question in or of a there sleep."),
+      'General Director, and Assistant to The Regional Manager',
+      'This is a photo credit',
     );
   }
 
