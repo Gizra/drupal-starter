@@ -1,0 +1,17 @@
+uuid: f49373ba-be1f-451c-9e43-83967dfd2b11
+langcode: en
+status: true
+dependencies:
+  module:
+    - focal_point
+name: quote_lg_2x
+label: 'Quote lg 2x (1280x800)'
+effects:
+  2964706b-2018-47e7-bfa0-328d35a1a0d1:
+    uuid: 2964706b-2018-47e7-bfa0-328d35a1a0d1
+    id: focal_point_scale_and_crop
+    weight: 2
+    data:
+      width: 1280
+      height: 800
+      crop_type: focal_point
