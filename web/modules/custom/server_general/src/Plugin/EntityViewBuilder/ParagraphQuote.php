@@ -45,7 +45,7 @@ class ParagraphQuote extends EntityViewBuilderPluginAbstract {
     $image_credit = $this->getTextFieldValue($media, 'field_media_credit');
 
     $element = $this->buildElementQuote(
-      $this->buildMediaResponsiveImage($entity, 'field_image', 'hero'),
+      $this->buildMediaResponsiveImage($entity, 'field_image', 'quote'),
       $this->buildProcessedText($entity, 'field_body', FALSE),
       $this->getTextFieldValue($entity, 'field_subtitle'),
       $image_credit,
