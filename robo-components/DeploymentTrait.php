@@ -288,11 +288,36 @@ trait DeploymentTrait {
     $pantheon_info = $this->getPantheonNameAndEnv();
     $pantheon_env = $branch_name == 'master' ? 'dev' : $branch_name;
 
-    do {
-      $code_sync_completed = $this->_exec("terminus workflow:list " . $pantheon_info['name'] . " --format=csv | grep " . $pantheon_env . " | grep Sync | awk -F',' '{print $5}' | grep running")->getExitCode();
-      usleep(self::$deploymentWaitTime);
-    } while (!$code_sync_completed);
+    $this->waitForCodeDeploy($pantheon_env);
     $this->deployPantheonSync($pantheon_env, FALSE);
+  }
+
+  /**
+   * Waits until no code sync is running.
+   *
+   * @param string $env
+   *   The environment to wait for.
+   */
+  protected function waitForCodeDeploy(string $env) {
+    $pantheon_info = $this->getPantheonNameAndEnv();
+    $max_attempts = 20;
+    $attempt = 0;
+    $code_sync_completed = FALSE;
+    do {
+      $attempt++;
+      $result = $this->taskExec("terminus workflow:list " . $pantheon_info['name'] . " --format=json --fields=env,status,workflow")->printOutput(FALSE)->run();
+      if ($result->getExitCode() !== 0) {
+        $this->yell('Getting workflow list failed');
+        continue;
+      }
+      $result = json_decode($result->getMessage(), TRUE);
+      $workflows = array_filter($result, function ($workflow) use ($env) {
+        return $workflow['env'] == $env && $workflow['status'] == 'running' && str_contains($workflow['workflow'], 'Sync ') !== FALSE;
+      });
+      $this->say(print_r($workflows, TRUE));
+      $code_sync_completed = empty($workflows);
+      usleep(self::DEPLOYMENT_WAIT_TIME);
+    } while (!$code_sync_completed && $attempt < $max_attempts);
   }
 
   /**
