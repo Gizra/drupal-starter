@@ -8,6 +8,7 @@ dependencies:
     - field.field.paragraph.quote.field_subtitle
     - paragraphs.paragraphs_type.quote
   module:
+    - maxlength
     - media_library
     - text
 id: paragraph.quote.default
@@ -22,7 +23,11 @@ content:
     settings:
       rows: 5
       placeholder: ''
-    third_party_settings: {  }
+    third_party_settings:
+      maxlength:
+        maxlength_js: 280
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+        maxlength_js_enforce: false
   field_image:
     type: media_library_widget
     weight: 2
