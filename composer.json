@@ -119,7 +119,10 @@
             },
             "drupal/core": {
               "d.o #3224254": "https://www.drupal.org/files/issues/2021-07-19/drupal-claro_dropdown-3224254-2.patch",
-              "d.o. 2719797": "https://www.drupal.org/files/issues/2022-09-20/2719797-144.patch"
+              "d.o. #2719797": "https://www.drupal.org/files/issues/2022-09-20/2719797-144.patch"
+            },
+            "drupal/lang_dropdown": {
+              "d.o. #3348277": "https://www.drupal.org/files/issues/2023-03-16/lang_dropdown-2-0-0--3348277-16.patch"
             },
             "drupal/entity_reference_revisions": {
               "d.o. 2799479": "https://www.drupal.org/files/issues/2022-06-01/entity_reference_revisions-relationship_host_id-2799479-176.patch"
