@@ -616,17 +616,34 @@ trait DeploymentTrait {
     }
 
     $pantheon_info = $this->getPantheonNameAndEnv();
-    $one_time_link = $this->taskExec("terminus remote:drush " . $pantheon_info['name'] . "." . $pantheon_environment . " uli")
+    // Let's figure out if the repository is public or not via GitHub API.
+    $repo = $this->taskExec("curl -H \"Authorization: token $github_token\" https://api.github.com/repos/" . self::$githubProject)
       ->printOutput(FALSE)
       ->run()
       ->getMessage();
+    $repo = json_decode($repo);
+    if (!isset($repo->private)) {
+      $this->yell("Could not determine if the repository is private or not.");
+      return;
+    }
+    if ($repo->private) {
+      // If the repository is private, we can put a login link into the comment.
+      $quick_link = $this->taskExec("terminus remote:drush " . $pantheon_info['name'] . "." . $pantheon_environment . " uli")
+        ->printOutput(FALSE)
+        ->run()
+        ->getMessage();
+    }
+    else {
+      // Otherwise, just link the environment.
+      $quick_link = "https://" . $pantheon_info['name'] . "-" . $pantheon_environment . ".pantheonsite.io";
+    }
 
     if (empty($issue_comment)) {
       if (empty($pr_number)) {
-        $issue_comment = "{\"body\": \"The latest merged PR just got deployed successfully to Pantheon [`$pantheon_environment`]($one_time_link) environment\"}";
+        $issue_comment = "{\"body\": \"The latest merged PR just got deployed successfully to Pantheon [`$pantheon_environment`]($quick_link) environment\"}";
       }
       else {
-        $issue_comment = "{\"body\": \"The latest merged PR #$pr_number just got deployed successfully to Pantheon [`$pantheon_environment`]($one_time_link) environment\"}";
+        $issue_comment = "{\"body\": \"The latest merged PR #$pr_number just got deployed successfully to Pantheon [`$pantheon_environment`]($quick_link) environment\"}";
       }
     }
     foreach ($issue_numbers as $issue_number) {
