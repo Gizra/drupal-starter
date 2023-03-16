@@ -615,13 +615,11 @@ trait DeploymentTrait {
       return;
     }
 
-     $pantheon_info = $this->getPantheonNameAndEnv();
-    // Retrieve environment domain name.
-    $domain = $this->taskExec("terminus env:info " . $pantheon_info['name'] . "." . $pantheon_environment . " --field=domain --format=list")
+    $pantheon_info = $this->getPantheonNameAndEnv();
+    $one_time_link = $this->taskExec("terminus remote:drush " . $pantheon_info['name'] . "." . $pantheon_environment . " uli")
       ->printOutput(FALSE)
       ->run()
       ->getMessage();
-
 
     if (empty($issue_comment)) {
       if (empty($pr_number)) {
