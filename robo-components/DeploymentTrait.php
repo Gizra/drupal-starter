@@ -11,8 +11,17 @@ trait DeploymentTrait {
 
   /**
    * The wait time between deployment checks in microseconds.
+   *
+   * @var int
    */
   public static int $deploymentWaitTime = 500000;
+
+  /**
+   * The maximum number of retries when waiting after git push.
+   *
+   * @var int
+   */
+  public static int $codeSyncWaitMaxRetries = 20;
 
   /**
    * The GitHub project slug.
@@ -285,14 +294,40 @@ trait DeploymentTrait {
     // This "git push" above is as async operation, so prevent invoking
     // for instance drush cim before the new changes are there.
     usleep(self::$deploymentWaitTime);
-    $pantheon_info = $this->getPantheonNameAndEnv();
     $pantheon_env = $branch_name == 'master' ? 'dev' : $branch_name;
 
-    do {
-      $code_sync_completed = $this->_exec("terminus workflow:list " . $pantheon_info['name'] . " --format=csv | grep " . $pantheon_env . " | grep Sync | awk -F',' '{print $5}' | grep running")->getExitCode();
-      usleep(self::$deploymentWaitTime);
-    } while (!$code_sync_completed);
+    $this->waitForCodeDeploy($pantheon_env);
     $this->deployPantheonSync($pantheon_env, FALSE);
+  }
+
+  /**
+   * Waits until no code sync is running.
+   *
+   * @param string $env
+   *   The environment to wait for.
+   */
+  protected function waitForCodeDeploy(string $env) {
+    $pantheon_info = $this->getPantheonNameAndEnv();
+    $attempt = 0;
+    $code_sync_completed = FALSE;
+    do {
+      $attempt++;
+      $result = $this->taskExec("terminus workflow:list " . $pantheon_info['name'] . " --format=json --fields=env,status,workflow")->printOutput(FALSE)->run();
+      if ($result->getExitCode() !== 0) {
+        $this->yell('Getting workflow list failed');
+        continue;
+      }
+      $result = json_decode($result->getMessage(), TRUE);
+      $workflows = array_filter($result, function ($workflow) use ($env) {
+        // When there's a git push, there's a "Sync code" workflow that
+        // needs to be completed, before we can rely on the code being
+        // present.
+        return $workflow['env'] == $env && $workflow['status'] == 'running' && str_contains($workflow['workflow'], 'Sync ') !== FALSE;
+      });
+      $this->say(print_r($workflows, TRUE));
+      $code_sync_completed = empty($workflows);
+      usleep(self::$deploymentWaitTime);
+    } while (!$code_sync_completed && $attempt < self::$codeSyncWaitMaxRetries);
   }
 
   /**
@@ -352,7 +387,9 @@ trait DeploymentTrait {
       ->run()
       ->getExitCode();
     if ($result !== 0) {
-      throw new \Exception('The site could not be fully updated at Pantheon. Try "ddev robo deploy:pantheon-install-env" manually.');
+      $message = "The site could not be fully updated at Pantheon at $env. Try fixing manually.";
+      $this->deployNotify($env, $message);
+      throw new \Exception($message);
     }
 
     $result = $this->taskExecStack()
@@ -363,7 +400,9 @@ trait DeploymentTrait {
       ->getExitCode();
 
     if ($result !== 0) {
-      throw new \Exception('The deployment went well, but the re-indexing to ElasticSearchTrait failed. Try to perform manually later.');
+      $message = "The deployment went well to $env, but the re-indexing to ElasticSearch failed. Try to perform manually later.";
+      $this->deployNotify($env, $message);
+      throw new \Exception($message);
     }
 
     $result = $this->taskExecStack()
@@ -373,7 +412,9 @@ trait DeploymentTrait {
       ->getExitCode();
 
     if ($result !== 0) {
-      throw new \Exception('Could not generate a login link. Try again manually or check earlier errors.');
+      $message = "Could not generate a login link at $env. Try again manually or check earlier errors.";
+      $this->deployNotify($env, $message);
+      throw new \Exception($message);
     }
   }
 
@@ -522,8 +563,10 @@ trait DeploymentTrait {
    *
    * @param string $pantheon_environment
    *   The Pantheon environment where the code was deployed.
+   * @param string $issue_comment
+   *   The comment to post on the issue.
    */
-  public function deployNotify(string $pantheon_environment = 'qa') {
+  public function deployNotify(string $pantheon_environment = 'qa', string $issue_comment = '') {
     $github_token = getenv('GITHUB_TOKEN');
     $git_commit_message = getenv('TRAVIS_COMMIT_MESSAGE');
     if (strstr($git_commit_message, 'Merge pull request') === FALSE && strstr($git_commit_message, ' (#') === FALSE) {
@@ -532,6 +575,7 @@ trait DeploymentTrait {
     }
 
     $issue_matches = [];
+    $issue_numbers = [];
     // If the PR was simply merged, then we have this:
     preg_match_all('!from [a-zA-Z-_0-9]+/([0-9]+)!', $git_commit_message, $issue_matches);
     if (!isset($issue_matches[1][0])) {
@@ -557,47 +601,70 @@ trait DeploymentTrait {
         $this->say("Could not determine the issue number from the PR: $git_commit_message");
         return;
       }
-      // The issue number should be the first #1234 in the PR description.
-      preg_match_all('!#([0-9]+)!', $pr->body, $issue_matches);
+      // The issue number should be the "#1234"-like reference in the PR body.
+      preg_match_all('!#([0-9]+)\s+!', $pr->body, $issue_matches);
       if (!isset($issue_matches[1][0])) {
         $this->say("Could not determine the issue number from the PR description: $pr->body");
         return;
       }
-      $issue_number = $issue_matches[1][0];
-
+      foreach ($issue_matches[1] as $issue_match) {
+        if (!is_numeric($issue_match)) {
+          continue;
+        }
+        $issue_numbers[] = $issue_match;
+      }
     }
     else {
-      $issue_number = $issue_matches[1][0];
-      if (empty($issue_number) || !is_numeric($issue_number)) {
+      $issue_numbers[] = $issue_matches[1][0];
+      if (empty($issue_numbers) || !is_numeric($issue_numbers[0])) {
         throw new \Exception("Could not determine the issue number from the branch name in the commit message: $git_commit_message");
       }
     }
 
-    if (empty($issue_number)) {
+    if (empty($issue_numbers)) {
       $this->say("Giving up, no notification sent to GitHub");
       return;
     }
 
     $pantheon_info = $this->getPantheonNameAndEnv();
-    // Retrieve environment domain name.
-    $domain = $this->taskExec("terminus env:info " . $pantheon_info['name'] . "." . $pantheon_environment . " --field=domain --format=list")
+    // Let's figure out if the repository is public or not via GitHub API.
+    $repo = $this->taskExec("curl -H \"Authorization: token $github_token\" https://api.github.com/repos/" . self::$githubProject)
       ->printOutput(FALSE)
       ->run()
       ->getMessage();
-
-    $this->say("Notifying GitHub of the deployment");
-    if (empty($pr_number)) {
-      $issue_comment = "{\"body\": \"The latest merged PR just got deployed successfully to Pantheon [`$pantheon_environment`](https://" . $domain . "/) environment\"}";
+    $repo = json_decode($repo);
+    if (!isset($repo->private)) {
+      $this->yell("Could not determine if the repository is private or not.");
+      return;
+    }
+    if ($repo->private) {
+      // If the repository is private, we can put a login link into the comment.
+      $quick_link = $this->taskExec("terminus remote:drush " . $pantheon_info['name'] . "." . $pantheon_environment . " uli")
+        ->printOutput(FALSE)
+        ->run()
+        ->getMessage();
     }
     else {
-      $issue_comment = "{\"body\": \"The latest merged PR #$pr_number just got deployed successfully to Pantheon [`$pantheon_environment`](https://" . $domain . "/) environment\"}";
+      // Otherwise, just link the environment.
+      $quick_link = "https://" . $pantheon_info['name'] . "-" . $pantheon_environment . ".pantheonsite.io";
     }
-    $exit_code = $this->taskExec("curl -X POST -H 'Authorization: token $github_token' -d '$issue_comment' https://api.github.com/repos/" . self::$githubProject . "/issues/$issue_number/comments")
-      ->printOutput(FALSE)
-      ->run()
-      ->getExitCode();
-    if ($exit_code) {
-      throw new \Exception("Could not notify GitHub of the deployment, GitHub API error.");
+
+    if (empty($issue_comment)) {
+      if (empty($pr_number)) {
+        $issue_comment = "{\"body\": \"The latest merged PR just got deployed successfully to Pantheon [`$pantheon_environment`]($quick_link) environment\"}";
+      }
+      else {
+        $issue_comment = "{\"body\": \"The latest merged PR #$pr_number just got deployed successfully to Pantheon [`$pantheon_environment`]($quick_link) environment\"}";
+      }
+    }
+    foreach ($issue_numbers as $issue_number) {
+      $result = $this->taskExec("curl -X POST -H 'Authorization: token $github_token' -d '$issue_comment' https://api.github.com/repos/" . self::$githubProject . "/issues/$issue_number/comments")
+        ->printOutput(FALSE)
+        ->run();
+      $exit_code = $result->getExitCode();
+      if ($exit_code) {
+        throw new \Exception("Could not notify GitHub of the deployment, GitHub API error: " . $result->getMessage());
+      }
     }
   }
 
