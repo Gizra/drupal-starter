@@ -11,8 +11,17 @@ trait DeploymentTrait {
 
   /**
    * The wait time between deployment checks in microseconds.
+   *
+   * @var int
    */
   public static int $deploymentWaitTime = 500000;
+
+  /**
+   * The maximum number of retries when waiting after git push.
+   *
+   * @var int
+   */
+  public static int $codeSyncWaitMaxRetries = 20;
 
   /**
    * The GitHub project slug.
@@ -299,7 +308,6 @@ trait DeploymentTrait {
    */
   protected function waitForCodeDeploy(string $env) {
     $pantheon_info = $this->getPantheonNameAndEnv();
-    $max_attempts = 20;
     $attempt = 0;
     $code_sync_completed = FALSE;
     do {
@@ -311,12 +319,15 @@ trait DeploymentTrait {
       }
       $result = json_decode($result->getMessage(), TRUE);
       $workflows = array_filter($result, function ($workflow) use ($env) {
+        // When there's a git push, there's a "Sync code" workflow that
+        // needs to be completed, before we can rely on the code being
+        // present.
         return $workflow['env'] == $env && $workflow['status'] == 'running' && str_contains($workflow['workflow'], 'Sync ') !== FALSE;
       });
       $this->say(print_r($workflows, TRUE));
       $code_sync_completed = empty($workflows);
-      usleep(self::DEPLOYMENT_WAIT_TIME);
-    } while (!$code_sync_completed && $attempt < $max_attempts);
+      usleep(self::$deploymentWaitTime);
+    } while (!$code_sync_completed && $attempt < self::$codeSyncWaitMaxRetries);
   }
 
   /**
@@ -378,7 +389,7 @@ trait DeploymentTrait {
     if ($result !== 0) {
       $message = "The site could not be fully updated at Pantheon at $env. Try fixing manually.";
       $this->deployNotify($env, $message);
-      throw new Exception($message);
+      throw new \Exception($message);
     }
 
     $result = $this->taskExecStack()
@@ -391,7 +402,7 @@ trait DeploymentTrait {
     if ($result !== 0) {
       $message = "The deployment went well to $env, but the re-indexing to ElasticSearch failed. Try to perform manually later.";
       $this->deployNotify($env, $message);
-      throw new Exception($message);
+      throw new \Exception($message);
     }
 
     $result = $this->taskExecStack()
@@ -403,7 +414,7 @@ trait DeploymentTrait {
     if ($result !== 0) {
       $message = "Could not generate a login link at $env. Try again manually or check earlier errors.";
       $this->deployNotify($env, $message);
-      throw new Exception($message);
+      throw new \Exception($message);
     }
   }
 
