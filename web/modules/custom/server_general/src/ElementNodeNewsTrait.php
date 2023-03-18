@@ -21,7 +21,27 @@ trait ElementNodeNewsTrait {
   use TitleAndLabelsTrait;
 
   /**
+   * Build the Node news element.
    *
+   * @param string $title
+   *   The node title.
+   * @param string $label
+   *   The label (e.g. `News`).
+   * @param int $timestamp
+   *   The timestamp.
+   * @param array $image
+   *   The responsive image render array.
+   * @param array $body
+   *   The body render array.
+   * @param array $tags
+   *   The tags, rendered with `TagTrait::buildElementTags`.
+   * @param \Drupal\Core\Url $url
+   *   The Url of the node.
+   *
+   * @return array
+   *   The render array.
+   *
+   * @throws \IntlException
    */
   protected function buildElementNodeNews(
     string $title,
@@ -60,11 +80,14 @@ trait ElementNodeNewsTrait {
    * Build the header.
    *
    * @param string $title
+   *   The node title.
    * @param string $label
+   *   The label (e.g. `News`).
    * @param int $timestamp
+   *   The timestamp.
    *
    * @return array
-   *   Render array
+   *   Render array.
    *
    * @throws \IntlException
    */
@@ -90,10 +113,16 @@ trait ElementNodeNewsTrait {
   /**
    * Build the Main content and the sidebar.
    *
+   * @param string $title
+   *   The node title.
    * @param array $image
+   *   The responsive image render array.
    * @param array $body
+   *   The body render array.
    * @param array $tags
+   *   The tags, rendered with `TagTrait::buildElementTags`.
    * @param \Drupal\Core\Url $url
+   *   The Url of the node.
    *
    * @return array
    *   Render array
@@ -101,7 +130,6 @@ trait ElementNodeNewsTrait {
   protected function buildMainAndSidebar(string $title, array $image, array $body, array $tags, Url $url): array {
     $main_elements = [];
     $sidebar_elements = [];
-    $social_share_elements = [];
 
     $main_elements[] = $image;
     $main_elements[] = $body;
