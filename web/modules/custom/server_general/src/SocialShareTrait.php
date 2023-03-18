@@ -26,23 +26,23 @@ trait SocialShareTrait {
     $url = $entity->isNew() ? '' : $entity->toUrl('canonical', ['absolute' => TRUE]);
 
     return $this->buildElementSocialShare(
-      $url,
       $entity->label(),
+      $url,
     );
   }
 
   /**
    * Build the social media buttons element.
    *
+   * @param string $title
+   *   The email subject for the "Email" service.
    * @param \Drupal\Core\Url $url
    *   The URL of the entity.
-   * @param string $email_subject
-   *   The email subject for the "Email" service.
    *
    * @return array
    *   The render array.
    */
-  protected function buildElementSocialShare(Url $url, string $email_subject): array {
+  protected function buildElementSocialShare(string $title, Url $url): array {
     $items = [];
     $services = [
       'twitter',
@@ -55,11 +55,11 @@ trait SocialShareTrait {
         '#theme' => 'server_theme_social_share_button',
         '#url' => $url,
         '#service' => $service,
-        '#email_subject' => $email_subject,
+        '#email_subject' => $title,
       ];
 
       if ($service === 'email') {
-        $item['#email_subject'] = $email_subject;
+        $item['#email_subject'] = $title;
       }
       $items[] = $item;
     }
