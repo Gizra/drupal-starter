@@ -32,7 +32,6 @@ trait TitleAndLabelsTrait {
 
     return $this->buildPageTitle($entity->label());
 
-
   }
 
   /**

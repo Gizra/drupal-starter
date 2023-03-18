@@ -4,7 +4,6 @@ namespace Drupal\server_general;
 
 use Drupal\Core\Url;
 use Drupal\intl_date\IntlDate;
-use Drupal\node\NodeInterface;
 
 /**
  * Helper method for building the Node news element.
@@ -21,9 +20,11 @@ trait ElementNodeNewsTrait {
   use TagTrait;
   use TitleAndLabelsTrait;
 
+  /**
+   *
+   */
   protected function buildElementNodeNews(
     string $title,
-    bool $show_title,
     string $label,
     int $timestamp,
     array $image,
@@ -36,7 +37,6 @@ trait ElementNodeNewsTrait {
     // Header.
     $element = $this->buildHeader(
       $title,
-      $show_title,
       $label,
       $timestamp
     );
@@ -45,9 +45,10 @@ trait ElementNodeNewsTrait {
     // Main content and sidebar.
     $element = $this->buildMainAndSidebar(
       $title,
-      $show_title,
-      $label,
-      $timestamp,
+      $image,
+      $body,
+      $tags,
+      $url,
     );
     $elements[] = $this->wrapContainerWide($element);
 
@@ -68,12 +69,10 @@ trait ElementNodeNewsTrait {
    *
    * @throws \IntlException
    */
-  protected function buildHeader(string $title, bool $show_title, string $label, int $timestamp): array {
+  protected function buildHeader(string $title, string $label, int $timestamp): array {
     $elements = [];
 
-    if ($show_title) {
-      $elements[] = $this->buildPageTitle($title);
-    }
+    $elements[] = $this->buildPageTitle($title);
 
     // Show the node type as a label.
     $elements[] = $this->buildLabelsFromText([$label]);
@@ -123,6 +122,5 @@ trait ElementNodeNewsTrait {
       $this->buildCardLayout($sidebar_elements),
     );
   }
-
 
 }

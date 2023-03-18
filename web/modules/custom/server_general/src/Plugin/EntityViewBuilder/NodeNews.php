@@ -2,11 +2,11 @@
 
 namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
-use Drupal\intl_date\IntlDate;
 use Drupal\media\MediaInterface;
 use Drupal\node\Entity\NodeType;
 use Drupal\node\NodeInterface;
 use Drupal\server_general\CardTrait;
+use Drupal\server_general\ElementNodeNewsTrait;
 use Drupal\server_general\EntityDateTrait;
 use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
 use Drupal\server_general\LineSeparatorTrait;
@@ -27,10 +27,11 @@ use Drupal\server_general\TitleAndLabelsTrait;
 class NodeNews extends NodeViewBuilderAbstract {
 
   use CardTrait;
+  use ElementLayoutTrait;
   use EntityDateTrait;
   use LineSeparatorTrait;
   use LinkTrait;
-  use ElementLayoutTrait;
+  use ElementNodeNewsTrait;
   use SocialShareTrait;
   use TitleAndLabelsTrait;
 
@@ -46,18 +47,25 @@ class NodeNews extends NodeViewBuilderAbstract {
    *   Render array.
    */
   public function buildFull(array $build, NodeInterface $entity) {
-    $elements = [];
+    // The node's label.
+    $node_type = NodeType::load($entity->bundle());
+    $label = $node_type->label();
 
-    // Header.
-    $element = $this->buildHeader($entity);
-    $elements[] = $this->wrapContainerWide($element);
+    // The hero responsive image.
+    $medias = $entity->get('field_featured_image')->referencedEntities();
+    $image = $this->buildEntities($medias, 'hero');
 
-    // Main content and sidebar.
-    $element = $this->buildMainAndSidebar($entity);
-    $elements[] = $this->wrapContainerWide($element);
+    $element = $this->buildElementNodeNews(
+      $entity->label(),
+      $label,
+      $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date'),
+      $image,
+      $this->buildProcessedText($entity),
+      $this->buildTags($entity),
+      $entity->toUrl(),
+    );
 
-    $elements = $this->wrapContainerVerticalSpacingBig($elements);
-    $build[] = $this->wrapContainerBottomPadding($elements);
+    $build[] = $element;
 
     return $build;
   }
