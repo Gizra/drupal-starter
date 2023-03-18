@@ -25,7 +25,7 @@ trait SocialShareTrait {
     // In preview state, since we don't have any URL for the entity yet.
     $url = $entity->isNew() ? '' : $entity->toUrl('canonical', ['absolute' => TRUE]);
 
-    $this->buildElementSocialShare(
+    return $this->buildElementSocialShare(
       $url,
       $entity->label(),
     );
