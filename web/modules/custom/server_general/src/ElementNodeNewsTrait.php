@@ -60,7 +60,6 @@ trait ElementNodeNewsTrait {
    * Build the header.
    *
    * @param string $title
-   * @param bool $show_title
    * @param string $label
    * @param int $timestamp
    *

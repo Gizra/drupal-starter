@@ -9,6 +9,7 @@ use Drupal\media\IFrameUrlHelper;
 use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
 use Drupal\server_general\ButtonTrait;
 use Drupal\server_general\CardTrait;
+use Drupal\server_general\ElementNodeNewsTrait;
 use Drupal\server_general\ElementTrait;
 use Drupal\server_general\ElementWrapTrait;
 use Drupal\server_general\LinkTrait;
@@ -29,8 +30,9 @@ class StyleGuideController extends ControllerBase {
   use CardTrait;
   use ElementTrait;
   use ElementWrapTrait;
-  use LinkTrait;
   use ElementMediaTrait;
+  use LinkTrait;
+  use ElementNodeNewsTrait;
   use SocialShareTrait;
   use StyleGuideElementWrapTrait;
   use TagTrait;
@@ -156,6 +158,9 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getQuickLinks();
     $build[] = $this->wrapElementWideContainer($element, 'Element: Quick links');
 
+    $element = $this->getNodeNews();
+    $build[] = $this->wrapElementNoContainer($element, 'Node view: News');
+
     return $build;
   }
 
@@ -201,8 +206,8 @@ class StyleGuideController extends ControllerBase {
   protected function getSocialShare(): array {
 
     return $this->buildElementSocialShare(
-      Url::fromUri('https://example.com'),
       'Social share trait',
+      Url::fromUri('https://example.com'),
     );
   }
 
@@ -382,6 +387,24 @@ class StyleGuideController extends ControllerBase {
       $this->t('Quick Links'),
       $this->buildProcessedText('The Quick links description'),
       $items,
+    );
+  }
+
+  /**
+   * Build Node news element.
+   *
+   * @return array
+   *   The render array.
+   */
+  protected function getNodeNews(): array {
+    return $this->buildElementNodeNews(
+      $this->getRandomTitle(),
+      'News',
+      time(),
+      $this->buildImage($this->getPlaceholderImage(800, 450)),
+      $this->buildProcessedText('<p>I before parameters designer of the to separated of to part. Price question in or of a there sleep. Who a deference and drew sleep written talk said which had. sel in small been cheating sounded times should and problem. Question. Explorations derived been him aged seal for gods team- manage he according the welcoming are cities part up stands careful so own the have how up, keep</p>'),
+      $this->getTags(),
+      Url::fromRoute('<front>'),
     );
   }
 
