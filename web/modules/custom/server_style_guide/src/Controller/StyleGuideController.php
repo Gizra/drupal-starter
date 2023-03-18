@@ -181,16 +181,17 @@ class StyleGuideController extends ControllerBase {
    *   Render array.
    */
   protected function getTags(): array {
+    $url = Url::fromRoute('<front>');
+
     $items = [
-      $this->buildMockedTag('The transporter'),
-      $this->buildMockedTag('Is more girl'),
+      $this->buildTag('The transporter', $url),
+      $this->buildTag('Is more girl', $url),
     ];
 
-    return [
-      '#theme' => 'server_theme_tags',
-      '#title' => 'Tags',
-      '#items' => $items,
-    ];
+    return $this->buildElementTags(
+      'Tags',
+      $items,
+    );
   }
 
   /**
@@ -725,66 +726,6 @@ class StyleGuideController extends ControllerBase {
   protected function getPlaceholderPersonImage(int $width_and_height) {
     $unique_id = substr(str_shuffle(md5(microtime())), 0, 10);
     return "https://i.pravatar.cc/{$width_and_height}?u=" . $unique_id;
-  }
-
-  /**
-   * Get placeholder responsive image.
-   *
-   * @param string $responsive_image_style_id
-   *   The responsive image style ID.
-   *
-   * @return array
-   *   Render array
-   */
-  protected function getPlaceholderResponsiveImageStyle(string $responsive_image_style_id = 'hero'): array {
-    // Load the first media image on the site.
-    /** @var \Drupal\media\MediaStorage $media_storage */
-    $media_storage = $this->entityTypeManager()->getStorage('media');
-    $media_ids = $media_storage->getQuery()
-      ->condition('bundle', 'image')
-      // Get a single image.
-      ->range(0, 1)
-      ->execute();
-
-    if (empty($media_ids)) {
-      // No Image media.
-      return [];
-    }
-
-    $media_id = key($media_ids);
-    /** @var \Drupal\media\MediaInterface $media */
-    $media = $media_storage->load($media_id);
-
-    /** @var ?\Drupal\file\FileInterface $image */
-    $image = $this->getReferencedEntityFromField($media, 'field_media_image');
-    if (empty($image)) {
-      // Image doesn't exist, or no access to it.
-      return [];
-    }
-
-    return [
-      '#theme' => 'responsive_image',
-      '#uri' => $image->getFileUri(),
-      '#responsive_image_style_id' => $responsive_image_style_id,
-    ];
-  }
-
-  /**
-   * Get a tag.
-   *
-   * @param string $title
-   *   The title of the tag.
-   *
-   * @return array
-   *   The renderable array.
-   */
-  public function buildMockedTag($title) {
-    $dummy_term = Term::create([
-      'vid' => 'example_vocabulary_machine_name',
-      'name' => $title,
-    ]);
-
-    return $this->buildTag($dummy_term);
   }
 
   /**

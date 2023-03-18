@@ -14,26 +14,7 @@ use Drupal\taxonomy\TermInterface;
 trait TagTrait {
 
   /**
-   * Get a tag.
-   *
-   * @param \Drupal\taxonomy\TermInterface $term
-   *   The term to render.
-   *
-   * @return array
-   *   Render array.
-   */
-  public function buildTag(TermInterface $term) {
-    return [
-      '#theme' => 'server_theme_tag',
-      '#title' => $term->label(),
-      // As the style guide is using this with mocked terms (i.e. terms which
-      // are not saved), we fallback to a link to the homepage.
-      '#url' => !$term->isNew() ? $term->toUrl() : Url::fromRoute('<front>'),
-    ];
-  }
-
-  /**
-   * Build a list of tags out of a field.
+   * Build the tags element out of a field.
    *
    * @param \Drupal\Core\Entity\FieldableEntityInterface $entity
    *   The referencing entity.
@@ -43,7 +24,7 @@ trait TagTrait {
    * @return array
    *   Render array.
    */
-  public function buildTags(FieldableEntityInterface $entity, string $field_name = 'field_tags'): array {
+  protected function buildTags(FieldableEntityInterface $entity, string $field_name = 'field_tags'): array {
     if (empty($entity->{$field_name}) || $entity->{$field_name}->isEmpty()) {
       return [];
     }
@@ -51,11 +32,45 @@ trait TagTrait {
     $items = [];
     /** @var \Drupal\taxonomy\TermInterface $term */
     foreach ($entity->{$field_name}->referencedEntities() as $term) {
-      $items[] = $this->buildTag($term);
+      $items[] = $this->buildTag($term->label(), $term->toUrl());
     }
 
     $title = $entity->{$field_name}->getFieldDefinition()->getLabel();
 
+    return $this->buildElementTags($title, $items);
+  }
+
+  /**
+   * Build a tag.
+   *
+   * @param string $title
+   *   The title.
+   * @param \Drupal\Core\Url $url
+   *   The Url object.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function buildTag(string $title, Url $url): array {
+    return [
+      '#theme' => 'server_theme_tag',
+      '#title' => $title,
+      '#url' => $url,
+    ];
+  }
+
+  /**
+   * Build the Tags element.
+   *
+   * @param string $title
+   *   The title.
+   * @param array $items
+   *   The render array built with `::buildTag`.
+   *
+   * @return array
+   *   The render array.
+   */
+  protected function buildElementTags(string $title, array $items): array {
     return [
       '#theme' => 'server_theme_tags',
       '#title' => $title,
