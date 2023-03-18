@@ -1,0 +1,5 @@
+<?php
+function homeassignment_preprocess_node(&$variables) {
+    //echo "hello";exit;
+  $variables['#cache']['max-age'] = 0;
+}

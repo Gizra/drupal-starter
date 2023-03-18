@@ -1,0 +1,5 @@
+name: "Gizra Home Assignment"
+type: module
+description: "File changes for home assignment are done in this module"
+core_version_requirement: ^8 || ^9
+package: "Home Assignment"

@@ -158,6 +158,9 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getQuickLinks();
     $build[] = $this->wrapElementWideContainer($element, 'Element: Quick links');
 
+    $element = $this->getPersonCards();
+    $build[] = $this->wrapElementWideContainer($element, 'Cards: Person Card');
+
     return $build;
   }
 
@@ -835,6 +838,69 @@ class StyleGuideController extends ControllerBase {
       );
     }
     return $elements;
+  }
+
+  protected function getPersonCards(): array {
+    $items = [];
+    $url = Url::fromRoute('<front>');
+
+    $names = ['Obito', 'Itachi Uchiha', 'Orochimaru', 'Kisami', 'Kakuzu'
+              ,'Deidara', 'Konan', 'Sasori', 'Pain', 'Madara'];
+    foreach ($names as $key => $name) {
+      $elements = [];
+      $element = [
+        '#theme' => 'image',
+        '#uri' => $this->getPlaceholderPersonImage(100),
+        '#alt' => 'Person image',
+        '#width' => 100,
+      ];
+
+      // Image should be clickable.
+      $element = [
+        '#type' => 'html_tag',
+        '#tag' => 'a',
+        '#value' => render($element),
+        '#attributes' => ['href' => $url->toString()],
+      ];
+
+      $elements[] = $this->wrapRoundedCornersFull($element);
+
+      $inner_elements = [];
+
+      $element = $this->buildLink($name, $url);
+      $element = $this->wrapTextFontWeight($element, 'bold');
+      $element = $this->wrapTextCenter($element);
+      $inner_elements[] = $this->wrapTextColor($element, 'light-gray');
+
+      $element = ['#markup' => 'Akatsuki Member'];
+      $element = $this->wrapTextResponsiveFontSize($element, 'sm');
+      $element = $this->wrapTextCenter($element);
+      $inner_elements[] = $this->wrapTextColor($element, 'light-gray');
+
+      $element = ['#markup' => "<span id='role'>Admin</span>"];
+      $element = $this->wrapTextResponsiveFontSize($element, 'bold');
+      $element = $this->wrapTextCenter($element);
+      $inner_elements[] = $this->wrapTextColor($element, 'gray');
+
+      $svg_email_icon = '';
+      $element = ['#markup' => "<div id='bottom-section'>
+                                  <div id='email'><img src='modules/custom/server_style_guide/assets/Email_Icon.svg'/> <span>Email</span></div>
+                                  <div id='call'><img src='modules/custom/server_style_guide/assets/Call_Icon.svg'/> <span>Call</span></div>
+                                </div>"];
+      $element = $this->wrapTextResponsiveFontSize($element, 'bold');
+      $element = $this->wrapTextCenter($element);
+      $inner_elements[] = $this->wrapTextColor($element, 'gray');
+
+      //kint($inner_elements);exit;
+
+      $elements[] = $this->wrapContainerVerticalSpacingTiny($inner_elements, 'center');
+      
+
+      $items[] = $this->buildCardLayoutPersonCards($elements);
+    }
+
+    return $this->buildCards($items);
+
   }
 
 }

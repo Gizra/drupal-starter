@@ -99,4 +99,11 @@ trait CardLayoutTrait {
     ];
   }
 
+  protected function buildCardLayoutPersonCards(array $items): array {
+    return [
+      '#theme' => 'server_theme_card_layout__person_card',
+      '#items' => $this->wrapContainerVerticalSpacing($items, 'center'),
+    ];
+  }
+
 }

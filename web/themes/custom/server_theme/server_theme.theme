@@ -495,6 +495,14 @@ function server_theme_theme() {
     'variables' => [],
   ];
 
+  // Card with elements positioned in the center of it.
+  $info['server_theme_card_layout__person_card'] = [
+    'variables' => [
+      // A render array.
+      'items' => NULL,
+    ],
+  ];
+
   return $info;
 }
 
