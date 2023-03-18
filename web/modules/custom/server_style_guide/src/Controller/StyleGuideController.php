@@ -397,6 +397,8 @@ class StyleGuideController extends ControllerBase {
    *   The render array.
    */
   protected function getNodeNews(): array {
+    // Image (Media) and Tags are referenced entities, so we have to render them
+    // before passing them on.
     $image = $this->buildElementImageWithCreditOverlay(
       $this->buildImage($this->getPlaceholderImage(800, 450)),
       'This is the photo credit',
