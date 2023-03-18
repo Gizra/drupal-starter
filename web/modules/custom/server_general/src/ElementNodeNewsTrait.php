@@ -43,15 +43,7 @@ trait ElementNodeNewsTrait {
    *
    * @throws \IntlException
    */
-  protected function buildElementNodeNews(
-    string $title,
-    string $label,
-    int $timestamp,
-    array $image,
-    array $body,
-    array $tags,
-    Url $url,
-  ): array {
+  protected function buildElementNodeNews(string $title, string $label, int $timestamp, array $image, array $body, array $tags, Url $url): array {
     $elements = [];
 
     // Header.
