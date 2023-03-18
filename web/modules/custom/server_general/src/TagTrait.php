@@ -2,6 +2,7 @@
 
 namespace Drupal\server_general;
 
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\Core\Url;
 
@@ -31,7 +32,12 @@ trait TagTrait {
     $items = [];
     /** @var \Drupal\taxonomy\TermInterface $term */
     foreach ($entity->{$field_name}->referencedEntities() as $term) {
-      $items[] = $this->buildTag($term->label(), $term->toUrl());
+      $element = $this->buildTag($term->label(), $term->toUrl());
+
+      $cache = CacheableMetadata::createFromRenderArray($element);
+      $cache->addCacheableDependency($term);
+
+      $items[] = $element;
     }
 
     $title = $entity->{$field_name}->getFieldDefinition()->getLabel();
