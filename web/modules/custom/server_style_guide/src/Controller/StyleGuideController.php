@@ -413,7 +413,7 @@ class StyleGuideController extends ControllerBase {
       $image,
       $this->buildProcessedText('<p>I before parameters designer of the to separated of to part. Price question in or of a there sleep. Who a deference and drew sleep written talk said which had. sel in small been cheating sounded times should and problem. Question. Explorations derived been him aged seal for gods team- manage he according the welcoming are cities part up stands careful so own the have how up, keep</p>'),
       $tags,
-      Url::fromRoute('<front>'),
+      Url::fromRoute('<front>', [], ['absolute' => TRUE]),
     );
   }
 
