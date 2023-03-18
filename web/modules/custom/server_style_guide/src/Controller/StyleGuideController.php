@@ -201,7 +201,7 @@ class StyleGuideController extends ControllerBase {
   protected function getSocialShare(): array {
 
     return $this->buildElementSocialShare(
-      Url::fromRoute('<front>'),
+      Url::fromUri('https://example.com'),
       'Social share trait',
     );
   }
