@@ -6,7 +6,6 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
 use Drupal\Core\Utility\LinkGenerator;
 use Drupal\media\IFrameUrlHelper;
-use Drupal\node\Entity\Node;
 use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
 use Drupal\server_general\ButtonTrait;
 use Drupal\server_general\CardTrait;
@@ -18,7 +17,6 @@ use Drupal\server_general\SocialShareTrait;
 use Drupal\server_general\TagTrait;
 use Drupal\server_general\TitleAndLabelsTrait;
 use Drupal\server_style_guide\StyleGuideElementWrapTrait;
-use Drupal\taxonomy\Entity\Term;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -201,11 +199,11 @@ class StyleGuideController extends ControllerBase {
    *   Render array.
    */
   protected function getSocialShare(): array {
-    $entity = Node::create([
-      'label' => 'Social share trait',
-      'type' => 'news',
-    ]);
-    return $this->buildSocialShare($entity);
+
+    return $this->buildElementSocialShare(
+      Url::fromRoute('<front>'),
+      'Social share trait',
+    );
   }
 
   /**

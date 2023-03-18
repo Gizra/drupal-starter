@@ -4,7 +4,6 @@ namespace Drupal\server_general;
 
 use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\Core\Url;
-use Drupal\taxonomy\TermInterface;
 
 /**
  * Trait TagBuilderTrait.
