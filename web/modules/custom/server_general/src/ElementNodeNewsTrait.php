@@ -91,7 +91,7 @@ trait ElementNodeNewsTrait {
    *
    * @throws \IntlException
    */
-  protected function buildHeader(string $title, string $label, int $timestamp): array {
+  private function buildHeader(string $title, string $label, int $timestamp): array {
     $elements = [];
 
     $elements[] = $this->buildPageTitle($title);
@@ -127,7 +127,7 @@ trait ElementNodeNewsTrait {
    * @return array
    *   Render array
    */
-  protected function buildMainAndSidebar(string $title, array $image, array $body, array $tags, Url $url): array {
+  private function buildMainAndSidebar(string $title, array $image, array $body, array $tags, Url $url): array {
     $main_elements = [];
     $sidebar_elements = [];
 
