@@ -400,7 +400,7 @@ class StyleGuideController extends ControllerBase {
     // Image (Media) and Tags are referenced entities, so we have to render them
     // before passing them on.
     $image = $this->buildElementImageWithCreditOverlay(
-      $this->buildImage($this->getPlaceholderImage(800, 450)),
+      $this->buildImage($this->getPlaceholderImage(800, 240)),
       'This is the photo credit',
     );
 
