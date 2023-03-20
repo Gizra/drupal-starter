@@ -55,7 +55,6 @@ class ParagraphQuickLinks extends EntityViewBuilderPluginAbstract {
       $items,
     );
 
-    $element = $this->wrapContainerWide($element);
     $build[] = $element;
 
     return $build;

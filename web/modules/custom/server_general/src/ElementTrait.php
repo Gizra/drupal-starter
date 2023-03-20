@@ -315,7 +315,32 @@ trait ElementTrait {
     $elements[] = $this->wrapContainerMaxWidth($element, '3xl');
 
     $elements[] = $this->buildCards($items);
-    return $this->wrapContainerVerticalSpacing($elements);
+    $elements = $this->wrapContainerVerticalSpacing($elements);
+    return $this->wrapContainerWide($elements);
+  }
+
+  /**
+   * Build a Title and text element.
+   *
+   * This is used by the Text paragraph type.
+   *
+   * @param string $title
+   *   The title.
+   * @param array $body
+   *   The body render array.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function buildElementTitleAndText(string $title, array $body): array {
+    $element = $this->wrapHtmlTag($title, 'h2');
+    $element = $this->wrapTextResponsiveFontSize($element, 'xl');
+    $elements[] = $element;
+
+    $elements[] = $body;
+
+    $elements = $this->wrapContainerVerticalSpacing($elements);
+    return $this->wrapContainerWide($elements);
   }
 
 }
