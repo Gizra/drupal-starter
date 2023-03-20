@@ -123,7 +123,7 @@ class StyleGuideController extends ControllerBase {
     $build[] = $this->wrapElementWideContainer($element, 'Cards: With image (News cards)');
 
     $element = $this->getCardsWithImageHorizontalForNews();
-    $build[] = $this->wrapElementWideContainer($element, 'Cards: Horizontal with image (Featured content)');
+    $build[] = $this->wrapElementNoContainer($element, 'Cards: Horizontal with image (Featured content)');
 
     $element = $this->getRelatedContentCarousel(FALSE);
     $build[] = $this->wrapElementNoContainer($element, 'Cards: Carousel (Related content, not featured)');
