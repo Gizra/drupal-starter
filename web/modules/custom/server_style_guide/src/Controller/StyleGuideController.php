@@ -6,10 +6,10 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
 use Drupal\Core\Utility\LinkGenerator;
 use Drupal\media\IFrameUrlHelper;
-use Drupal\node\Entity\Node;
 use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
 use Drupal\server_general\ButtonTrait;
 use Drupal\server_general\CardTrait;
+use Drupal\server_general\ElementNodeNewsTrait;
 use Drupal\server_general\ElementTrait;
 use Drupal\server_general\ElementWrapTrait;
 use Drupal\server_general\LinkTrait;
@@ -18,7 +18,6 @@ use Drupal\server_general\SocialShareTrait;
 use Drupal\server_general\TagTrait;
 use Drupal\server_general\TitleAndLabelsTrait;
 use Drupal\server_style_guide\StyleGuideElementWrapTrait;
-use Drupal\taxonomy\Entity\Term;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -31,8 +30,9 @@ class StyleGuideController extends ControllerBase {
   use CardTrait;
   use ElementTrait;
   use ElementWrapTrait;
-  use LinkTrait;
   use ElementMediaTrait;
+  use LinkTrait;
+  use ElementNodeNewsTrait;
   use SocialShareTrait;
   use StyleGuideElementWrapTrait;
   use TagTrait;
@@ -158,6 +158,9 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getQuickLinks();
     $build[] = $this->wrapElementWideContainer($element, 'Element: Quick links');
 
+    $element = $this->getNodeNews();
+    $build[] = $this->wrapElementNoContainer($element, 'Node view: News');
+
     return $build;
   }
 
@@ -181,16 +184,17 @@ class StyleGuideController extends ControllerBase {
    *   Render array.
    */
   protected function getTags(): array {
+    $url = Url::fromRoute('<front>');
+
     $items = [
-      $this->buildMockedTag('The transporter'),
-      $this->buildMockedTag('Is more girl'),
+      $this->buildTag('The transporter', $url),
+      $this->buildTag('Is more girl', $url),
     ];
 
-    return [
-      '#theme' => 'server_theme_tags',
-      '#title' => 'Tags',
-      '#items' => $items,
-    ];
+    return $this->buildElementTags(
+      'Tags',
+      $items,
+    );
   }
 
   /**
@@ -200,11 +204,11 @@ class StyleGuideController extends ControllerBase {
    *   Render array.
    */
   protected function getSocialShare(): array {
-    $entity = Node::create([
-      'label' => 'Social share trait',
-      'type' => 'news',
-    ]);
-    return $this->buildSocialShare($entity);
+
+    return $this->buildElementSocialShare(
+      'Social share trait',
+      Url::fromUri('https://example.com'),
+    );
   }
 
   /**
@@ -383,6 +387,33 @@ class StyleGuideController extends ControllerBase {
       $this->t('Quick Links'),
       $this->buildProcessedText('The Quick links description'),
       $items,
+    );
+  }
+
+  /**
+   * Build Node news element.
+   *
+   * @return array
+   *   The render array.
+   */
+  protected function getNodeNews(): array {
+    // Image (Media) and Tags are referenced entities, so we have to render them
+    // before passing them on.
+    $image = $this->buildElementImageWithCreditOverlay(
+      $this->buildImage($this->getPlaceholderImage(800, 240)),
+      'This is the photo credit',
+    );
+
+    $tags = $this->getTags();
+
+    return $this->buildElementNodeNews(
+      $this->getRandomTitle(),
+      'News',
+      time(),
+      $image,
+      $this->buildProcessedText('<p>I before parameters designer of the to separated of to part. Price question in or of a there sleep. Who a deference and drew sleep written talk said which had. sel in small been cheating sounded times should and problem. Question. Explorations derived been him aged seal for gods team- manage he according the welcoming are cities part up stands careful so own the have how up, keep</p>'),
+      $tags,
+      Url::fromRoute('<front>', [], ['absolute' => TRUE]),
     );
   }
 
@@ -725,66 +756,6 @@ class StyleGuideController extends ControllerBase {
   protected function getPlaceholderPersonImage(int $width_and_height) {
     $unique_id = substr(str_shuffle(md5(microtime())), 0, 10);
     return "https://i.pravatar.cc/{$width_and_height}?u=" . $unique_id;
-  }
-
-  /**
-   * Get placeholder responsive image.
-   *
-   * @param string $responsive_image_style_id
-   *   The responsive image style ID.
-   *
-   * @return array
-   *   Render array
-   */
-  protected function getPlaceholderResponsiveImageStyle(string $responsive_image_style_id = 'hero'): array {
-    // Load the first media image on the site.
-    /** @var \Drupal\media\MediaStorage $media_storage */
-    $media_storage = $this->entityTypeManager()->getStorage('media');
-    $media_ids = $media_storage->getQuery()
-      ->condition('bundle', 'image')
-      // Get a single image.
-      ->range(0, 1)
-      ->execute();
-
-    if (empty($media_ids)) {
-      // No Image media.
-      return [];
-    }
-
-    $media_id = key($media_ids);
-    /** @var \Drupal\media\MediaInterface $media */
-    $media = $media_storage->load($media_id);
-
-    /** @var ?\Drupal\file\FileInterface $image */
-    $image = $this->getReferencedEntityFromField($media, 'field_media_image');
-    if (empty($image)) {
-      // Image doesn't exist, or no access to it.
-      return [];
-    }
-
-    return [
-      '#theme' => 'responsive_image',
-      '#uri' => $image->getFileUri(),
-      '#responsive_image_style_id' => $responsive_image_style_id,
-    ];
-  }
-
-  /**
-   * Get a tag.
-   *
-   * @param string $title
-   *   The title of the tag.
-   *
-   * @return array
-   *   The renderable array.
-   */
-  public function buildMockedTag($title) {
-    $dummy_term = Term::create([
-      'vid' => 'example_vocabulary_machine_name',
-      'name' => $title,
-    ]);
-
-    return $this->buildTag($dummy_term);
   }
 
   /**

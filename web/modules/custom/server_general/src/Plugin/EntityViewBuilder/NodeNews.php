@@ -2,11 +2,11 @@
 
 namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
-use Drupal\intl_date\IntlDate;
 use Drupal\media\MediaInterface;
 use Drupal\node\Entity\NodeType;
 use Drupal\node\NodeInterface;
 use Drupal\server_general\CardTrait;
+use Drupal\server_general\ElementNodeNewsTrait;
 use Drupal\server_general\EntityDateTrait;
 use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
 use Drupal\server_general\LineSeparatorTrait;
@@ -27,10 +27,11 @@ use Drupal\server_general\TitleAndLabelsTrait;
 class NodeNews extends NodeViewBuilderAbstract {
 
   use CardTrait;
+  use ElementLayoutTrait;
   use EntityDateTrait;
   use LineSeparatorTrait;
   use LinkTrait;
-  use ElementLayoutTrait;
+  use ElementNodeNewsTrait;
   use SocialShareTrait;
   use TitleAndLabelsTrait;
 
@@ -46,92 +47,27 @@ class NodeNews extends NodeViewBuilderAbstract {
    *   Render array.
    */
   public function buildFull(array $build, NodeInterface $entity) {
-    $elements = [];
+    // The node's label.
+    $node_type = NodeType::load($entity->bundle());
+    $label = $node_type->label();
 
-    // Header.
-    $element = $this->buildHeader($entity);
-    $elements[] = $this->wrapContainerWide($element);
+    // The hero responsive image.
+    $medias = $entity->get('field_featured_image')->referencedEntities();
+    $image = $this->buildEntities($medias, 'hero');
 
-    // Main content and sidebar.
-    $element = $this->buildMainAndSidebar($entity);
-    $elements[] = $this->wrapContainerWide($element);
+    $element = $this->buildElementNodeNews(
+      $entity->label(),
+      $label,
+      $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date'),
+      $image,
+      $this->buildProcessedText($entity),
+      $this->buildTags($entity),
+      $entity->toUrl('canonical', ['absolute' => TRUE]),
+    );
 
-    $elements = $this->wrapContainerVerticalSpacingBig($elements);
-    $build[] = $this->wrapContainerBottomPadding($elements);
+    $build[] = $element;
 
     return $build;
-  }
-
-  /**
-   * Build the header.
-   *
-   * @param \Drupal\node\NodeInterface $entity
-   *   The entity.
-   *
-   * @return array
-   *   Render array
-   *
-   * @throws \IntlException
-   */
-  protected function buildHeader(NodeInterface $entity): array {
-    $elements = [];
-
-    $elements[] = $this->buildConditionalPageTitle($entity);
-
-    // Show the node type as a label.
-    $node_type = NodeType::load($entity->bundle());
-    $elements[] = $this->buildLabelsFromText([$node_type->label()]);
-
-    // Date.
-    $timestamp = $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date');
-    $element = IntlDate::formatPattern($timestamp, 'long');
-    // Make text bigger.
-    $elements[] = $this->wrapTextResponsiveFontSize($element, 'lg');
-
-    $elements = $this->wrapContainerVerticalSpacing($elements);
-    $elements = $this->wrapContainerVerticalSpacingBig($elements);
-
-    return $this->wrapContainerMaxWidth($elements, '3xl');
-  }
-
-  /**
-   * Build the Main content and the sidebar.
-   *
-   * @param \Drupal\node\NodeInterface $entity
-   *   The entity.
-   *
-   * @return array
-   *   Render array
-   *
-   * @throws \IntlException
-   */
-  protected function buildMainAndSidebar(NodeInterface $entity): array {
-    $main_elements = [];
-    $sidebar_elements = [];
-    $social_share_elements = [];
-
-    // Show the featured image using the `hero` view mode.
-    // See MediaImage::buildHero.
-    $medias = $entity->get('field_featured_image')->referencedEntities();
-    $main_elements[] = $this->buildEntities($medias, 'hero');
-
-    // Get the body text, wrap it with `prose` so it's styled.
-    $main_elements[] = $this->buildProcessedText($entity);
-
-    // Get the tags, and social share.
-    $sidebar_elements[] = $this->buildTags($entity);
-
-    // Add a line separator above the social share buttons.
-    $social_share_elements[] = $this->buildLineSeparator();
-    $social_share_elements[] = $this->buildSocialShare($entity);
-
-    $sidebar_elements[] = $this->wrapContainerVerticalSpacing($social_share_elements);
-    $sidebar_elements = $this->wrapContainerVerticalSpacingBig($sidebar_elements);
-
-    return $this->buildElementLayoutMainAndSidebar(
-      $this->wrapContainerVerticalSpacingBig($main_elements),
-      $this->buildCardLayout($sidebar_elements),
-    );
   }
 
   /**
