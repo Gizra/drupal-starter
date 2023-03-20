@@ -212,11 +212,9 @@ trait CardTrait {
       $items[] = $this->wrapTextResponsiveFontSize($subtitle, 'sm');
     }
 
-    $items = $this->wrapContainerVerticalSpacingTiny($items);
-
     return [
       '#theme' => 'server_theme_card__quick_link_item',
-      '#items' => $this->wrapContainerVerticalSpacing($items),
+      '#items' => $this->wrapContainerVerticalSpacingTiny($items),
       '#url' => $url,
     ];
 
