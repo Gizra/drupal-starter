@@ -13,28 +13,6 @@ trait TitleAndLabelsTrait {
   use BuildFieldTrait;
 
   /**
-   * Build the page title and hide it if it's set to be hidden.
-   *
-   * The decision whether to hide it or not depends on the value of
-   * `field_is_title_hidden` field on the entity.
-   *
-   * @param \Drupal\node\NodeInterface $entity
-   *   The entity that's being built.
-   *
-   * @return array
-   *   The render array.
-   */
-  protected function buildConditionalPageTitle(NodeInterface $entity): array {
-    if ($entity->hasField('field_is_title_hidden') && $this->getBooleanFieldValue($entity, 'field_is_title_hidden')) {
-      // Title should be hidden.
-      return [];
-    }
-
-    return $this->buildPageTitle($entity->label());
-
-  }
-
-  /**
    * Build the page title element.
    *
    * @param string $title
