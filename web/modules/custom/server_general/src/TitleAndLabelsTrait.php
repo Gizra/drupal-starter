@@ -2,7 +2,6 @@
 
 namespace Drupal\server_general;
 
-use Drupal\node\NodeInterface;
 use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
 
 /**
