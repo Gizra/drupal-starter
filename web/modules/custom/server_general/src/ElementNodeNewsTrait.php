@@ -58,7 +58,7 @@ trait ElementNodeNewsTrait {
     $element = $this->buildMainAndSidebar(
       $title,
       $image,
-      $body,
+      $this->wrapProseText($body),
       $tags,
       $url,
     );
