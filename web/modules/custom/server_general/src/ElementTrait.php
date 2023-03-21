@@ -279,11 +279,13 @@ trait ElementTrait {
       ];
     }
 
-    $element[] = [
-      '#theme' => 'server_theme_facets__search',
-      '#items' => $facets_items,
-      '#has_filters' => $has_filters,
-    ];
+    if ($facets_items) {
+      $element[] = [
+        '#theme' => 'server_theme_facets__search',
+        '#items' => $facets_items,
+        '#has_filters' => $has_filters,
+      ];
+    }
 
     $elements[] = $this->wrapContainerVerticalSpacing($element);
 
