@@ -334,7 +334,7 @@ class StyleGuideController extends ControllerBase {
       'News',
       $this->getRandomTitle(),
       Url::fromRoute('<front>'),
-      $this->buildProcessedText("Both refute. Of their its it funny children into good origin into self-interest, my she were bad of chosen stage italic, fame, is must didn't evaluate little may picture the didn't is not there of high accustomed. Him great those the sort alphabet she were workmen. Reflection bad the external gloomy not we it yet any them. What's late showed picture attached duck usual. To of actual writer fame. Prepared on was to stairs basically, the see would hadn't easier searching watched in and someone his where of the and written fly being a be his the to visuals was."),
+      $this->buildProcessedText("Both refute. Of their its it funny children into good origin into self-interest, my she were bad of chosen stage italic, fame, is must didn't evaluate little may picture the didn't is not there of high accustomed. Him great those the sort alphabet she were workmen. Reflection bad the external gloomy not we it yet any them. What's late showed picture attached duck usual. To of actual writer fame. Prepared on was to stairs basically, the see would hadn't easier searching watched in and someone his where of the and written fly being a be his the to visuals was.", FALSE),
       time()
     );
 
@@ -342,7 +342,7 @@ class StyleGuideController extends ControllerBase {
       'News',
       $this->getRandomTitle(),
       Url::fromRoute('<front>'),
-      $this->buildProcessedText("How does the system generate all this custom content?"),
+      $this->buildProcessedText("How does the system generate all this custom content?", FALSE),
       time()
     );
 
@@ -730,16 +730,21 @@ class StyleGuideController extends ControllerBase {
    *
    * @param string $text
    *   The text.
+   * @param bool $wrap_prose
+   *   Optional; If TRUE then wrap the text with the `prose` classes.
+   *   Defaults to TRUE.
    *
    * @return array
    *   A render array.
    */
-  protected function buildProcessedText(string $text) {
-    return [
+  protected function buildProcessedText(string $text, bool $wrap_prose = TRUE) {
+    $element = [
       '#type' => 'processed_text',
       '#text' => $text,
       '#format' => filter_default_format(),
     ];
+
+    return $wrap_prose ? $this->wrapProseText($element) : $element;
   }
 
   /**
