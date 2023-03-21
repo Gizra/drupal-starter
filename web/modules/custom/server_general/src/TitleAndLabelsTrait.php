@@ -2,14 +2,10 @@
 
 namespace Drupal\server_general;
 
-use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
-
 /**
  * Helper method for building Title and labels of a content.
  */
 trait TitleAndLabelsTrait {
-
-  use BuildFieldTrait;
 
   /**
    * Build the page title element.
