@@ -46,14 +46,11 @@ trait ProcessedTextBuilderTrait {
    * @param bool $strip_tags
    *   Determine if output should be stripped of most tags, and keep only a
    *   smaller set of tags. Defaults to TRUE.
-   * @param int $line_clamp
-   *   If set, `wrapTextLineClamp` will be used on the trimmed text. Defaults to
-   *   4.
    *
    * @return array
    *   Render array.
    */
-  protected function buildProcessedTextTrimmed(FieldableEntityInterface $entity, string $field = 'field_body', int $trim_length = 200, bool $strip_tags = TRUE, int $line_clamp = 4) : array {
+  protected function buildProcessedTextTrimmed(FieldableEntityInterface $entity, string $field = 'field_body', int $trim_length = 200, bool $strip_tags = TRUE) : array {
     if (!$entity->hasField($field) || $entity->get($field)->isEmpty()) {
       // Field is empty or doesn't exist.
       return [];
@@ -79,10 +76,6 @@ trait ProcessedTextBuilderTrait {
         'ul',
         'ol',
       ]);
-    }
-
-    if ($line_clamp) {
-      $element = $this->wrapTextLineClamp($element, 4);
     }
 
     return $element;
