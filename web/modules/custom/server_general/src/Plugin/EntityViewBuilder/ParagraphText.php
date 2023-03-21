@@ -19,7 +19,6 @@ use Drupal\server_general\ProcessedTextBuilderTrait;
 class ParagraphText extends EntityViewBuilderPluginAbstract {
 
   use ElementTrait;
-  use ProcessedTextBuilderTrait;
 
   /**
    * Build full view mode.

@@ -60,7 +60,7 @@ trait CardTrait {
     $elements[] = $this->wrapTextFontWeight($element, 'bold');
 
     // Body teaser.
-    $elements[] = $summary;
+    $elements[] = $this->wrapProseText($summary);
 
     return $this->buildCardLayoutWithImage($url, $image, $elements);
   }
@@ -187,7 +187,7 @@ trait CardTrait {
     return [
       '#theme' => 'server_theme_card__accordion_item',
       '#title' => $title,
-      '#description' => $description,
+      '#description' => $this->wrapProseText($description),
     ];
   }
 

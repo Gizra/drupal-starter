@@ -149,8 +149,8 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getMediaVideo();
     $build[] = $this->wrapElementWideContainer($element, 'Element: Media Video');
 
-    $element = $this->getParagraphTitleAndContent();
-    $build[] = $this->wrapElementNoContainer($element, 'Element: Paragraph title and content');
+    $element = $this->getParagraphTitleAndText();
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Paragraph title and text');
 
     $element = $this->getSearchTermFacetsAndResults();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Search term, facets and results');
@@ -334,7 +334,7 @@ class StyleGuideController extends ControllerBase {
       'News',
       $this->getRandomTitle(),
       Url::fromRoute('<front>'),
-      $this->buildProcessedText("Both refute. Of their its it funny children into good origin into self-interest, my she were bad of chosen stage italic, fame, is must didn't evaluate little may picture the didn't is not there of high accustomed. Him great those the sort alphabet she were workmen. Reflection bad the external gloomy not we it yet any them. What's late showed picture attached duck usual. To of actual writer fame. Prepared on was to stairs basically, the see would hadn't easier searching watched in and someone his where of the and written fly being a be his the to visuals was.", FALSE),
+      $this->buildProcessedText("Both refute. Of their its it funny children into good origin into self-interest, my she were bad of chosen stage italic, fame, is must didn't evaluate little may picture the didn't is not there of high accustomed. Him great those the sort alphabet she were workmen. Reflection bad the external gloomy not we it yet any them. What's late showed picture attached duck usual. To of actual writer fame. Prepared on was to stairs basically, the see would hadn't easier searching watched in and someone his where of the and written fly being a be his the to visuals was."),
       time()
     );
 
@@ -342,7 +342,7 @@ class StyleGuideController extends ControllerBase {
       'News',
       $this->getRandomTitle(),
       Url::fromRoute('<front>'),
-      $this->buildProcessedText("How does the system generate all this custom content?", FALSE),
+      $this->buildProcessedText("How does the system generate all this custom content?"),
       time()
     );
 
@@ -402,13 +402,13 @@ class StyleGuideController extends ControllerBase {
   }
 
   /**
-   * Get Paragraph title and content element.
+   * Get Paragraph title and text element.
    *
    * @return array
    *   Render array.
    */
-  protected function getParagraphTitleAndContent(): array {
-    return $this->buildElementParagraphTitleAndContent(
+  protected function getParagraphTitleAndText(): array {
+    return $this->buildElementParagraphTitleAndText(
       $this->getRandomTitle(),
       $this->buildProcessedText('<p>I before parameters designer of the to separated of to part. Price question in or of a there sleep. Who a deference and drew sleep written talk said which had. sel in small been cheating sounded times should and problem. Question. Explorations derived been him aged seal for gods team- manage he according the welcoming are cities part up stands careful so own the have how up, keep</p>'),
     );
@@ -730,21 +730,16 @@ class StyleGuideController extends ControllerBase {
    *
    * @param string $text
    *   The text.
-   * @param bool $wrap_prose
-   *   Optional; If TRUE then wrap the text with the `prose` classes.
-   *   Defaults to TRUE.
    *
    * @return array
    *   A render array.
    */
-  protected function buildProcessedText(string $text, bool $wrap_prose = TRUE) {
-    $element = [
+  protected function buildProcessedText(string $text) {
+    return [
       '#type' => 'processed_text',
       '#text' => $text,
       '#format' => filter_default_format(),
     ];
-
-    return $wrap_prose ? $this->wrapProseText($element) : $element;
   }
 
   /**

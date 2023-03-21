@@ -28,8 +28,8 @@ trait ElementTrait {
    *
    * @param string $title
    *   The title.
-   * @param array $text
-   *   Processed text.
+   * @param array $body
+   *   The body render array.
    * @param string $button_text
    *   The button text.
    * @param \Drupal\Core\Url $url
@@ -38,16 +38,16 @@ trait ElementTrait {
    * @return array
    *   Render array.
    */
-  protected function buildElementCta(string $title, array $text, string $button_text, Url $url): array {
+  protected function buildElementCta(string $title, array $body, string $button_text, Url $url): array {
     $elements = [];
 
     // Title.
-    $element = ['#markup' => $title];
+    $element = $title;
     $element = $this->wrapTextResponsiveFontSize($element, '3xl');
     $elements[] = $this->wrapTextFontWeight($element, 'bold');
 
     // Text.
-    $elements[] = $text;
+    $elements[] = $this->wrapProseText($body);
 
     // Button.
     $elements[] = $this->buildButton($button_text, $url);
@@ -209,21 +209,21 @@ trait ElementTrait {
    *
    * @param string $title
    *   The title.
-   * @param array $description
-   *   The description render array.
+   * @param array $body
+   *   The body render array.
    * @param array $items
    *   Items rendered with `CardTrait::buildElementAccordionItem`.
    *
    * @return array
    *   The render array.
    */
-  protected function buildElementAccordion(string $title, array $description, array $items): array {
+  protected function buildElementAccordion(string $title, array $body, array $items): array {
     $elements = [];
 
     // Title and description.
     $element = [];
     $element[] = $this->buildParagraphTitle($title);
-    $element[] = $description;
+    $element[] = $this->wrapProseText($body);
 
     $element = $this->wrapContainerVerticalSpacing($element);
     $elements[] = $this->wrapContainerMaxWidth($element, '3xl');
@@ -359,7 +359,7 @@ trait ElementTrait {
     // Title and description.
     $element = [];
     $element[] = $this->buildParagraphTitle($title);
-    $element[] = $description;
+    $element[] = $this->wrapProseText($description);
 
     $element = $this->wrapContainerVerticalSpacing($element);
     $elements[] = $this->wrapContainerMaxWidth($element, '3xl');
@@ -370,22 +370,41 @@ trait ElementTrait {
   }
 
   /**
-   * Build a Title and content element.
+   * Build a Paragraph title and text element.
+   *
+   * @param string $title
+   *   The title.
+   * @param array $body
+   *   The body render array.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function buildElementParagraphTitleAndText(string $title, array $body): array {
+    return $this->buildElementLayoutParagraphTitleAndContent(
+      $title,
+      $this->wrapProseText($body),
+    );
+  }
+
+  /**
+   * Build a Paragraph title and content element.
+   *
+   * This is a more generic instance of `buildElementParagraphTitleAndText`.
    *
    * @param string $title
    *   The title.
    * @param array $items
-   *   The content render array.
+   *   The items render array.
    *
    * @return array
    *   Render array.
    */
   protected function buildElementParagraphTitleAndContent(string $title, array $items): array {
-    $elements[] = $this->buildParagraphTitle($title);
-    $elements[] = $items;
-
-    $elements = $this->wrapContainerVerticalSpacingBig($elements);
-    return $this->wrapContainerWide($elements);
+    return $this->buildElementLayoutParagraphTitleAndContent(
+      $title,
+      $items,
+    );
   }
 
 }

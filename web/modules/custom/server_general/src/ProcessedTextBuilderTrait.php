@@ -18,14 +18,11 @@ trait ProcessedTextBuilderTrait {
    *   The entity.
    * @param string $field
    *   Optional; The name of the field. Defaults to "field_body".
-   * @param bool $wrap_prose
-   *   Optional; If TRUE then wrap the text with the `prose` classes.
-   *   Defaults to TRUE.
    *
    * @return array
    *   Render array.
    */
-  protected function buildProcessedText(FieldableEntityInterface $entity, string $field = 'field_body', bool $wrap_prose = TRUE) : array {
+  protected function buildProcessedText(FieldableEntityInterface $entity, string $field = 'field_body') : array {
     if (!$entity->hasField($field) || $entity->get($field)->isEmpty()) {
       // Field is empty or doesn't exist.
       return [];
@@ -34,8 +31,7 @@ trait ProcessedTextBuilderTrait {
     // Hide the label.
     $options = ['label' => 'hidden'];
 
-    $element = $entity->get($field)->view($options);
-    return $wrap_prose ? $this->wrapProseText($element) : $element;
+    return $entity->get($field)->view($options);
   }
 
   /**
@@ -45,9 +41,6 @@ trait ProcessedTextBuilderTrait {
    *   The entity.
    * @param string $field
    *   Optional; The name of the field. Defaults to "field_body".
-   * @param bool $wrap_prose
-   *   Optional; If TRUE then wrap the text with the `prose` classes.
-   *   Defaults to FALSE.
    * @param int $trim_length
    *   The trim length. Defaults to 200 chars.
    * @param bool $strip_tags
@@ -60,7 +53,7 @@ trait ProcessedTextBuilderTrait {
    * @return array
    *   Render array.
    */
-  protected function buildProcessedTextTrimmed(FieldableEntityInterface $entity, string $field = 'field_body', bool $wrap_prose = FALSE, int $trim_length = 200, bool $strip_tags = TRUE, int $line_clamp = 4) : array {
+  protected function buildProcessedTextTrimmed(FieldableEntityInterface $entity, string $field = 'field_body', int $trim_length = 200, bool $strip_tags = TRUE, int $line_clamp = 4) : array {
     if (!$entity->hasField($field) || $entity->get($field)->isEmpty()) {
       // Field is empty or doesn't exist.
       return [];
@@ -92,7 +85,7 @@ trait ProcessedTextBuilderTrait {
       $element = $this->wrapTextLineClamp($element, 4);
     }
 
-    return $wrap_prose ? $this->wrapProseText($element) : $element;
+    return $element;
   }
 
 }

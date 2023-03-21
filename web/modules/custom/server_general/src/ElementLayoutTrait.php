@@ -17,6 +17,8 @@ namespace Drupal\server_general;
  */
 trait ElementLayoutTrait {
 
+  use TitleAndLabelsTrait;
+
   /**
    * Build Main and sidebar layout.
    *
@@ -38,6 +40,25 @@ trait ElementLayoutTrait {
       '#sidebar' => $sidebar,
       '#is_sidebar_first' => $is_sidebar_first,
     ];
+  }
+
+  /**
+   * Build a Paragraph title and content element layout.
+   *
+   * @param string $title
+   *   The title.
+   * @param array $items
+   *   The content render array.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function buildElementLayoutParagraphTitleAndContent(string $title, array $items): array {
+    $elements[] = $this->buildParagraphTitle($title);
+    $elements[] = $items;
+
+    $elements = $this->wrapContainerVerticalSpacingBig($elements);
+    return $this->wrapContainerWide($elements);
   }
 
 }

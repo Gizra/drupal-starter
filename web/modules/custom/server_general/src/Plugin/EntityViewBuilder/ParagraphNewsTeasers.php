@@ -4,6 +4,7 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
+use Drupal\server_general\ElementLayoutTrait;
 use Drupal\server_general\ElementTrait;
 use Drupal\views\Views;
 
