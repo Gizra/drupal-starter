@@ -113,9 +113,6 @@ class StyleGuideController extends ControllerBase {
 
     $build[] = $this->getTextDecorations();
 
-    $element = $this->getCards();
-    $build[] = $this->wrapElementWideContainer($element, 'Card: Simple (Search result)');
-
     $element = $this->getCardsCentered();
     $build[] = $this->wrapElementWideContainer($element, 'Card: Centered (Profile info)');
 
@@ -151,6 +148,9 @@ class StyleGuideController extends ControllerBase {
 
     $element = $this->getMediaVideo();
     $build[] = $this->wrapElementWideContainer($element, 'Element: Media Video');
+
+    $element = $this->getSearchTermFacetsAndResults();
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Search term, facets and results');
 
     $element = $this->getQuote();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Quote');
@@ -212,33 +212,6 @@ class StyleGuideController extends ControllerBase {
       'Social share trait',
       Url::fromUri('https://example.com'),
     );
-  }
-
-  /**
-   * Get Simple cards.
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function getCards(): array {
-    $elements = [];
-    $elements[] = $this->buildCardSearchResult(
-      'News',
-      $this->getRandomTitle(),
-      Url::fromRoute('<front>'),
-      $this->buildProcessedText("Both refute. Of their its it funny children into good origin into self-interest, my she were bad of chosen stage italic, fame, is must didn't evaluate little may picture the didn't is not there of high accustomed. Him great those the sort alphabet she were workmen. Reflection bad the external gloomy not we it yet any them. What's late showed picture attached duck usual. To of actual writer fame. Prepared on was to stairs basically, the see would hadn't easier searching watched in and someone his where of the and written fly being a be his the to visuals was."),
-      time()
-    );
-
-    $elements[] = $this->buildCardSearchResult(
-      'News',
-      $this->getRandomTitle(),
-      Url::fromRoute('<front>'),
-      $this->buildProcessedText("How does the system generate all this custom content?"),
-      time()
-    );
-
-    return $this->wrapContainerVerticalSpacingBig($elements);
   }
 
   /**
@@ -338,6 +311,7 @@ class StyleGuideController extends ControllerBase {
    *   Render array.
    */
   protected function getMediaVideo(): array {
+
     return $this->buildElementVideo(
       'https://www.youtube.com/watch?v=dSZQNOvpszQ',
       650,
@@ -345,6 +319,40 @@ class StyleGuideController extends ControllerBase {
       FALSE,
       'This is the Credit of the video',
       'This is the Caption of the video',
+    );
+  }
+
+  /**
+   * Get Search term, facets and results.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getSearchTermFacetsAndResults(): array {
+    $result_items = [];
+    $result_items[] = $this->buildCardSearchResult(
+      'News',
+      $this->getRandomTitle(),
+      Url::fromRoute('<front>'),
+      $this->buildProcessedText("Both refute. Of their its it funny children into good origin into self-interest, my she were bad of chosen stage italic, fame, is must didn't evaluate little may picture the didn't is not there of high accustomed. Him great those the sort alphabet she were workmen. Reflection bad the external gloomy not we it yet any them. What's late showed picture attached duck usual. To of actual writer fame. Prepared on was to stairs basically, the see would hadn't easier searching watched in and someone his where of the and written fly being a be his the to visuals was."),
+      time()
+    );
+
+    $result_items[] = $this->buildCardSearchResult(
+      'News',
+      $this->getRandomTitle(),
+      Url::fromRoute('<front>'),
+      $this->buildProcessedText("How does the system generate all this custom content?"),
+      time()
+    );
+
+    return $this->buildElementSearchTermFacetsAndResults(
+      // We can't easily theme the facets, so we skip that part on the style
+      // guide.
+      [],
+      FALSE,
+      $result_items,
+      'The search query',
     );
   }
 
