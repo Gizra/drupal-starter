@@ -298,7 +298,9 @@ function server_theme_theme() {
 
   $info['server_theme_carousel'] = [
     'variables' => [
-      'title' => NULL,
+      // Render array of the header items. For example, the paragraph title.
+      'header_items' => NULL,
+      // The items of the carousel.
       'items' => [],
       // Indicate if cards are featured, thus we show only a single card at a
       // time.

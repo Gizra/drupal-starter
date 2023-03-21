@@ -154,9 +154,12 @@ trait ElementTrait {
       return [];
     }
 
+    $header_items = [];
+    $header_items[] = $this->buildParagraphTitle($title);
+
     return [
       '#theme' => 'server_theme_carousel',
-      '#title' => $title,
+      '#header_items' => $header_items,
       '#items' => $items,
       '#button' => $button,
       '#is_featured' => $is_featured,
@@ -365,26 +368,21 @@ trait ElementTrait {
   }
 
   /**
-   * Build a Title and text element.
-   *
-   * This is used by the Text paragraph type.
+   * Build a Title and content element.
    *
    * @param string $title
    *   The title.
-   * @param array $body
-   *   The body render array.
+   * @param array $items
+   *   The content render array.
    *
    * @return array
    *   Render array.
    */
-  protected function buildElementTitleAndText(string $title, array $body): array {
-    $element = $this->wrapHtmlTag($title, 'h2');
-    $element = $this->wrapTextResponsiveFontSize($element, 'xl');
-    $elements[] = $element;
+  protected function buildElementParagraphTitleAndContent(string $title, array $items): array {
+    $elements[] = $this->buildParagraphTitle($title);
+    $elements[] = $items;
 
-    $elements[] = $body;
-
-    $elements = $this->wrapContainerVerticalSpacing($elements);
+    $elements = $this->wrapContainerVerticalSpacingBig($elements);
     return $this->wrapContainerWide($elements);
   }
 

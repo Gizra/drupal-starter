@@ -4,8 +4,7 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
-use Drupal\server_general\ElementWrapTrait;
-use Drupal\server_general\TitleAndLabelsTrait;
+use Drupal\server_general\ElementTrait;
 use Drupal\views\Views;
 
 /**
@@ -19,8 +18,7 @@ use Drupal\views\Views;
  */
 class ParagraphNewsTeasers extends EntityViewBuilderPluginAbstract {
 
-  use ElementWrapTrait;
-  use TitleAndLabelsTrait;
+  use ElementTrait;
 
   /**
    * Build full view mode.
@@ -36,26 +34,22 @@ class ParagraphNewsTeasers extends EntityViewBuilderPluginAbstract {
   public function buildFull(array $build, ParagraphInterface $entity): array {
     $view = Views::getView('news');
     if (empty($view)) {
-      return [];
+      return $build;
     }
 
     $view->preview('embed_1');
     $view->execute();
     if (empty($view->result)) {
       // No results. Do not render.
-      return [];
+      return $build;
     }
 
-    $element = $this->getTextFieldValue($entity, 'field_title');
-    $element = $this->buildParagraphTitle($element);
-    $elements[] = $element;
+    $element = $this->buildElementParagraphTitleAndContent(
+      $this->getTextFieldValue($entity, 'field_title'),
+      $view->buildRenderable('embed_1'),
+    );
 
-    $elements[] = $view->buildRenderable('embed_1');
-
-    $elements = $this->wrapContainerVerticalSpacingBig($elements);
-    $elements = $this->wrapContainerWide($elements);
-
-    $build[] = $elements;
+    $build[] = $element;
     return $build;
   }
 
