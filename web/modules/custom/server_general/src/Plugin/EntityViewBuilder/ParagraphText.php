@@ -33,7 +33,7 @@ class ParagraphText extends EntityViewBuilderPluginAbstract {
    *   Render array.
    */
   public function buildFull(array $build, ParagraphInterface $entity): array {
-    $element = $this->buildElementParagraphTitleAndContent(
+    $element = $this->buildElementParagraphTitleAndText(
       $this->getTextFieldValue($entity, 'field_title'),
       $this->buildProcessedText($entity, 'field_body'),
     );
