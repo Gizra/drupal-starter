@@ -18,6 +18,7 @@ use Drupal\server_general\ProcessedTextBuilderTrait;
  */
 class ParagraphText extends EntityViewBuilderPluginAbstract {
 
+  use ProcessedTextBuilderTrait;
   use ElementTrait;
 
   /**

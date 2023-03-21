@@ -18,6 +18,7 @@ trait ElementTrait {
 
   use ButtonTrait;
   use CardTrait;
+  use ElementLayoutTrait;
   use ElementWrapTrait;
   use LineSeparatorTrait;
   use LinkTrait;
