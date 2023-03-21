@@ -60,7 +60,7 @@ trait CardTrait {
     $elements[] = $this->wrapTextFontWeight($element, 'bold');
 
     // Body teaser.
-    $elements[] = $this->wrapProseText($summary);
+    $elements[] = $summary;
 
     return $this->buildCardLayoutWithImage($url, $image, $elements);
   }
