@@ -221,9 +221,11 @@ trait CardTrait {
     $element = $this->wrapTextCenter($element);
     $inner_elements[] = $this->wrapTextColor($element, 'light-gray');
 
-    $element = $this->wrapTextResponsiveFontSize($subtitle, 'sm');
-    $element = $this->wrapTextCenter($element);
-    $inner_elements[] = $this->wrapTextColor($element, 'gray');
+    if ($subtitle) {
+      $element = $this->wrapTextResponsiveFontSize($subtitle, 'sm');
+      $element = $this->wrapTextCenter($element);
+      $inner_elements[] = $this->wrapTextColor($element, 'gray');
+    }
 
     $elements[] = $this->wrapContainerVerticalSpacingTiny($inner_elements, 'center');
 
