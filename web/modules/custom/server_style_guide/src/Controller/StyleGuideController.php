@@ -150,7 +150,7 @@ class StyleGuideController extends ControllerBase {
     $build[] = $this->wrapElementNoContainer($element, 'Element: Paragraph title and text');
 
     $element = $this->getPeopleTeasers();
-    $build[] = $this->wrapElementWideContainer($element, 'Element: People teasers');
+    $build[] = $this->wrapElementNoContainer($element, 'Element: People teasers');
 
     $element = $this->getSearchTermFacetsAndResults();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Search term, facets and results');
@@ -223,7 +223,12 @@ class StyleGuideController extends ControllerBase {
   protected function getPeopleTeasers(): array {
     $items = [];
 
-    $names = ['Jon Doe', 'Smith Allen', 'David Bowie'];
+    $names = [
+      'Jon Doe',
+      'Smith Allen',
+      'David Bowie',
+      'Rick Morty',
+    ];
     foreach ($names as $key => $name) {
       $items[] = $this->buildCardPersonTeaser(
         $this->getPlaceholderPersonImage(100),

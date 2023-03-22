@@ -199,7 +199,7 @@ trait CardTrait {
    * @param string $name
    *   The name.
    * @param string|null $subtitle
-   *   Optional; The subtitle (e.g. work title)
+   *   Optional; The subtitle (e.g. work title).
    *
    * @return array
    *   The render array.
@@ -218,8 +218,7 @@ trait CardTrait {
     $inner_elements = [];
 
     $element = $this->wrapTextFontWeight($name, 'bold');
-    $element = $this->wrapTextCenter($element);
-    $inner_elements[] = $this->wrapTextColor($element, 'light-gray');
+    $inner_elements[] = $this->wrapTextCenter($element);
 
     if ($subtitle) {
       $element = $this->wrapTextResponsiveFontSize($subtitle, 'sm');
@@ -239,7 +238,7 @@ trait CardTrait {
    *   The title.
    * @param \Drupal\Core\Url $url
    *   The Url object.
-   * @param string $subtitle
+   * @param string|null $subtitle
    *   Optional; The subtitle.
    *
    * @return array
