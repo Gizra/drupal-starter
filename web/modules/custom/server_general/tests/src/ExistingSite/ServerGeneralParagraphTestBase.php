@@ -4,7 +4,6 @@ namespace Drupal\Tests\server_general\ExistingSite;
 
 use Drupal\file\Entity\File;
 use Drupal\media\Entity\Media;
-use Drupal\media\MediaInterface;
 
 /**
  * Abstract class to hold shared logic to check various paragraph types.
@@ -21,10 +20,12 @@ abstract class ServerGeneralParagraphTestBase extends ServerGeneralFieldableEnti
   /**
    * Create a media image.
    *
-   * @return \Drupal\media\Entity\MediaInterface
+   * @return \Drupal\media\Entity\Media
    *   The saved Media object.
+   *
+   * @throws \Drupal\Core\Entity\EntityStorageException
    */
-  protected function createMediaImage(): MediaInterface {
+  protected function createMediaImage(): Media {
     $file = File::create([
       'uri' => 'https://i.pravatar.cc/300',
     ]);
