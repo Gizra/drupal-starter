@@ -42,7 +42,7 @@ class ParagraphPersonTeaser extends EntityViewBuilderPluginAbstract {
     $image = $this->getMediaImageAndAlt($entity, 'field_image', 'thumbnail');
 
     $element = $this->buildCardPersonTeaser(
-      $image['url'],
+      !empty($image['url']) ? $image['url'] : '',
       $this->getTextFieldValue($entity, 'field_title'),
       $this->getTextFieldValue($entity, 'field_subtitle'),
     );

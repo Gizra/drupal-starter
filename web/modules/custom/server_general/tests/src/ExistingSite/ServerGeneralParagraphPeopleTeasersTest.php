@@ -92,7 +92,7 @@ class ServerGeneralParagraphPeopleTeasersTest extends ServerGeneralParagraphTest
     // Assert all person teasers' titles and subtitle are there.
     foreach (range(1, 5) as $key) {
       $title = 'This is the Person teaser title ' . $key;
-      $subtitle = 'This is the Person teaser description ' . $key;
+      $subtitle = 'This is the Person teaser subtitle ' . $key;
       $this->assertSession()->elementTextContains('css', '.paragraph--type--people-teasers', $title);
       $this->assertSession()->elementTextContains('css', '.paragraph--type--people-teasers', $subtitle);
     }
