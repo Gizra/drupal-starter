@@ -10,6 +10,7 @@ dependencies:
     - paragraphs.paragraphs_type.documents
     - paragraphs.paragraphs_type.hero_image
     - paragraphs.paragraphs_type.news_teasers
+    - paragraphs.paragraphs_type.people_teasers
     - paragraphs.paragraphs_type.quick_links
     - paragraphs.paragraphs_type.quote
     - paragraphs.paragraphs_type.related_content
@@ -36,47 +37,54 @@ settings:
       documents: documents
       hero_image: hero_image
       news_teasers: news_teasers
+      people_teasers: people_teasers
+      quick_links: quick_links
+      quote: quote
       related_content: related_content
       search: search
       text: text
-      quick_links: quick_links
-      quote: quote
     negate: 0
     target_bundles_drag_drop:
       accordion:
-        weight: -19
+        weight: -29
         enabled: true
       accordion_item:
-        weight: -11
+        weight: -18
         enabled: false
       cta:
-        weight: -18
+        weight: -28
         enabled: true
       documents:
-        weight: -17
+        weight: -27
         enabled: true
       hero_image:
-        weight: -16
+        weight: -26
         enabled: true
       news_teasers:
-        weight: -15
+        weight: -25
         enabled: true
+      people_teasers:
+        weight: -24
+        enabled: true
+      person_teaser:
+        weight: -16
+        enabled: false
       quick_link_item:
-        weight: 15
+        weight: -17
         enabled: false
       quick_links:
-        weight: 10
+        weight: -23
         enabled: true
       quote:
-        weight: 13
+        weight: -22
         enabled: true
       related_content:
-        weight: -14
+        weight: -21
         enabled: true
       search:
-        weight: -13
+        weight: -20
         enabled: true
       text:
-        weight: -12
+        weight: -19
         enabled: true
 field_type: entity_reference_revisions
