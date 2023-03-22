@@ -1,0 +1,10 @@
+uuid: e4f203cf-5596-46de-9c70-ec931dd79066
+langcode: en
+status: true
+dependencies: {  }
+id: person_teaser
+label: 'Person teaser'
+icon_uuid: null
+icon_default: null
+description: 'The information of a single person.'
+behavior_plugins: {  }

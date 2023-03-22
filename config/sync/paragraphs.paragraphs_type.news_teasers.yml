@@ -6,5 +6,5 @@ id: news_teasers
 label: 'News teasers'
 icon_uuid: null
 icon_default: null
-description: 'Show News teasers as grid of cards.'
+description: 'Show News teasers as a grid of cards.'
 behavior_plugins: {  }
