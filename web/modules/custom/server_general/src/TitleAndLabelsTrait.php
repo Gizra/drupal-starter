@@ -7,6 +7,8 @@ namespace Drupal\server_general;
  */
 trait TitleAndLabelsTrait {
 
+  use ElementWrapTrait;
+
   /**
    * Build the page title element.
    *
