@@ -2,8 +2,6 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
-use Drupal\file\Entity\File;
-use Drupal\media\Entity\Media;
 use Drupal\paragraphs\Entity\Paragraph;
 use Symfony\Component\HttpFoundation\Response;
 

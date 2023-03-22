@@ -18,6 +18,12 @@ abstract class ServerGeneralParagraphTestBase extends ServerGeneralFieldableEnti
     return 'paragraph';
   }
 
+  /**
+   * Create a media image.
+   *
+   * @return \Drupal\media\Entity\MediaInterface
+   *   The saved Media object.
+   */
   protected function createMediaImage(): MediaInterface {
     $file = File::create([
       'uri' => 'https://i.pravatar.cc/300',
