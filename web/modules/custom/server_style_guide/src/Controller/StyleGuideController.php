@@ -232,6 +232,7 @@ class StyleGuideController extends ControllerBase {
     foreach ($names as $key => $name) {
       $items[] = $this->buildCardPersonTeaser(
         $this->getPlaceholderPersonImage(100),
+        'The image alt ' . $name,
         $name,
         $key === 1 ? 'General Director, and Assistant to The Regional Manager' : NULL,
       );

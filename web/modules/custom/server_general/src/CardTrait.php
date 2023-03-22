@@ -194,8 +194,10 @@ trait CardTrait {
   /**
    * Build a Person teaser.
    *
-   * @param string $image_uri
-   *   The image Uri.
+   * @param string $image_url
+   *   The image Url.
+   * @param string $alt
+   *   The image alt.
    * @param string $name
    *   The name.
    * @param string|null $subtitle
@@ -204,12 +206,12 @@ trait CardTrait {
    * @return array
    *   The render array.
    */
-  protected function buildCardPersonTeaser(string $image_uri, string $name, string $subtitle = NULL): array {
+  protected function buildCardPersonTeaser(string $image_url, string $alt, string $name, string $subtitle = NULL): array {
     $elements = [];
     $element = [
       '#theme' => 'image',
-      '#uri' => $image_uri,
-      '#alt' => $name,
+      '#uri' => $image_url,
+      '#alt' => $alt,
       '#width' => 100,
     ];
 

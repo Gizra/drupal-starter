@@ -39,11 +39,16 @@ class ParagraphPersonTeaser extends EntityViewBuilderPluginAbstract {
    *   Render array.
    */
   public function buildFull(array $build, ParagraphInterface $entity): array {
+    $name = $this->getTextFieldValue($entity, 'field_title');
+
     $image = $this->getMediaImageAndAlt($entity, 'field_image', 'thumbnail');
+    $image_url = !empty($image['url']) ? $image['url'] : '';
+    $image_alt = !empty($image['alt']) ? $image['alt'] : $name;
 
     $element = $this->buildCardPersonTeaser(
-      !empty($image['url']) ? $image['url'] : '',
-      $this->getTextFieldValue($entity, 'field_title'),
+      $image_url,
+      $image_alt,
+      $name,
       $this->getTextFieldValue($entity, 'field_subtitle'),
     );
 
