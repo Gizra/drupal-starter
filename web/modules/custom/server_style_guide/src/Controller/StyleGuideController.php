@@ -113,9 +113,6 @@ class StyleGuideController extends ControllerBase {
 
     $build[] = $this->getTextDecorations();
 
-    $element = $this->getCardsCentered();
-    $build[] = $this->wrapElementWideContainer($element, 'Card: Centered (Profile info)');
-
     $element = $this->getCardsWithImageForNews();
     $build[] = $this->wrapElementWideContainer($element, 'Cards: With image (News cards)');
 
@@ -151,6 +148,9 @@ class StyleGuideController extends ControllerBase {
 
     $element = $this->getParagraphTitleAndText();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Paragraph title and text');
+
+    $element = $this->getPeopleTeasers();
+    $build[] = $this->wrapElementWideContainer($element, 'Element: People teasers');
 
     $element = $this->getSearchTermFacetsAndResults();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Search term, facets and results');
@@ -215,62 +215,30 @@ class StyleGuideController extends ControllerBase {
   }
 
   /**
-   * Get Centered cards.
+   * Get People teasers element.
    *
    * @return array
    *   Render array.
    */
-  protected function getCardsCentered(): array {
+  protected function getPeopleTeasers(): array {
     $items = [];
-    $url = Url::fromRoute('<front>');
 
     $names = ['Jon Doe', 'Smith Allen', 'David Bowie'];
     foreach ($names as $key => $name) {
-      $elements = [];
-      $element = [
-        '#theme' => 'image',
-        '#uri' => $this->getPlaceholderPersonImage(100),
-        '#alt' => 'Person image',
-        '#width' => 100,
-      ];
+      $items[] = $this->buildCardPersonTeaser(
+        $this->getPlaceholderPersonImage(100),
+        $name,
+        $key === 1 ? 'General Director, and Assistant to The Regional Manager' : NULL,
+        Url::fromRoute('<front>'),
+      );
 
-      // Image should be clickable.
-      $element = [
-        '#type' => 'html_tag',
-        '#tag' => 'a',
-        '#value' => render($element),
-        '#attributes' => ['href' => $url->toString()],
-      ];
-
-      $elements[] = $this->wrapRoundedCornersFull($element);
-
-      if ($key === 1) {
-        $inner_elements = [];
-
-        $element = $this->buildLink($name, $url);
-        $element = $this->wrapTextFontWeight($element, 'bold');
-        $element = $this->wrapTextCenter($element);
-        $inner_elements[] = $this->wrapTextColor($element, 'light-gray');
-
-        $element = ['#markup' => 'General Director, and Assistant to The Regional Manager'];
-        $element = $this->wrapTextResponsiveFontSize($element, 'sm');
-        $element = $this->wrapTextCenter($element);
-        $inner_elements[] = $this->wrapTextColor($element, 'gray');
-
-        $elements[] = $this->wrapContainerVerticalSpacingTiny($inner_elements, 'center');
-      }
-      else {
-        $element = $this->buildLink($name, $url);
-        $element = $this->wrapTextFontWeight($element, 'bold');
-        $element = $this->wrapTextCenter($element);
-        $elements[] = $this->wrapTextColor($element, 'light-gray');
-      }
-
-      $items[] = $this->buildCardLayoutCentered($elements);
     }
 
-    return $this->buildCards($items);
-
+    return $this->buildElementPeopleTeasers(
+      $this->getRandomTitle(),
+      $this->buildProcessedText('This is a directory list of awesome people'),
+      $items,
+    );
   }
 
   /**
