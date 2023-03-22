@@ -27,7 +27,7 @@ abstract class ServerGeneralParagraphTestBase extends ServerGeneralFieldableEnti
    */
   protected function createMediaImage(): Media {
     $file = File::create([
-      'uri' => 'https://i.pravatar.cc/300',
+      'uri' => 'https://exmaple.com',
     ]);
     $file->save();
     $this->markEntityForCleanup($file);
