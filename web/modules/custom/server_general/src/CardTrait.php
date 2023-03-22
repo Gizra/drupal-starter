@@ -200,13 +200,11 @@ trait CardTrait {
    *   The name.
    * @param string|null $subtitle
    *   Optional; The subtitle (e.g. work title)
-   * @param \Drupal\Core\Url|null $url
-   *   Optional; The URL object to link to.
    *
    * @return array
    *   The render array.
    */
-  protected function buildCardPersonTeaser(string $image_uri, string $name, string $subtitle = NULL, Url $url = NULL): array {
+  protected function buildCardPersonTeaser(string $image_uri, string $name, string $subtitle = NULL): array {
     $elements = [];
     $element = [
       '#theme' => 'image',
@@ -215,30 +213,17 @@ trait CardTrait {
       '#width' => 100,
     ];
 
-    if ($url) {
-      // Image should be clickable.
-      $element = [
-        '#type' => 'html_tag',
-        '#tag' => 'a',
-        '#value' => render($element),
-        '#attributes' => ['href' => $url->toString()],
-      ];
-    }
-
     $elements[] = $this->wrapRoundedCornersFull($element);
 
     $inner_elements = [];
 
-    $element = $url ? $this->buildLink($name, $url) : $name;
-    $element = $this->wrapTextFontWeight($element, 'bold');
+    $element = $this->wrapTextFontWeight($name, 'bold');
     $element = $this->wrapTextCenter($element);
     $inner_elements[] = $this->wrapTextColor($element, 'light-gray');
 
-    if ($subtitle) {
-      $element = $this->wrapTextResponsiveFontSize($subtitle, 'sm');
-      $element = $this->wrapTextCenter($element);
-      $inner_elements[] = $this->wrapTextColor($element, 'gray');
-    }
+    $element = $this->wrapTextResponsiveFontSize($subtitle, 'sm');
+    $element = $this->wrapTextCenter($element);
+    $inner_elements[] = $this->wrapTextColor($element, 'gray');
 
     $elements[] = $this->wrapContainerVerticalSpacingTiny($inner_elements, 'center');
 

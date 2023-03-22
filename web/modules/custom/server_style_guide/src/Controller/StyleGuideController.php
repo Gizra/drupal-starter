@@ -229,7 +229,6 @@ class StyleGuideController extends ControllerBase {
         $this->getPlaceholderPersonImage(100),
         $name,
         $key === 1 ? 'General Director, and Assistant to The Regional Manager' : NULL,
-        Url::fromRoute('<front>'),
       );
 
     }
