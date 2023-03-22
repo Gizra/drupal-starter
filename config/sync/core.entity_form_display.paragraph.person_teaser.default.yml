@@ -8,21 +8,18 @@ dependencies:
     - field.field.paragraph.person_teaser.field_title
     - paragraphs.paragraphs_type.person_teaser
   module:
-    - select2
+    - media_library
 id: paragraph.person_teaser.default
 targetEntityType: paragraph
 bundle: person_teaser
 mode: default
 content:
   field_image:
-    type: select2_entity_reference
+    type: media_library_widget
     weight: 2
     region: content
     settings:
-      width: 100%
-      autocomplete: false
-      match_operator: CONTAINS
-      match_limit: 10
+      media_types: {  }
     third_party_settings: {  }
   field_subtitle:
     type: string_textfield

@@ -265,7 +265,8 @@ trait ElementTrait {
     $elements[] = $this->buildParagraphTitleAndDescription($title, $body);
     $elements[] = $this->buildCards($items);
 
-    return $this->wrapContainerVerticalSpacingBig($elements);
+    $elements = $this->wrapContainerVerticalSpacingBig($elements);
+    return $this->wrapContainerWide($elements);
   }
 
   /**
