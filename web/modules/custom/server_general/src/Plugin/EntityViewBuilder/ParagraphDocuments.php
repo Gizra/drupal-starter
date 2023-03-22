@@ -44,7 +44,7 @@ class ParagraphDocuments extends EntityViewBuilderPluginAbstract {
 
     $element = $this->buildElementDocuments(
       $this->getTextFieldValue($entity, 'field_title'),
-      $this->buildProcessedText($entity, 'field_body', FALSE),
+      $this->buildProcessedText($entity, 'field_body'),
       $items,
     );
 

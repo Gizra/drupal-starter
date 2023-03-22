@@ -18,6 +18,7 @@ trait ElementTrait {
 
   use ButtonTrait;
   use CardTrait;
+  use ElementLayoutTrait;
   use ElementWrapTrait;
   use LineSeparatorTrait;
   use LinkTrait;
@@ -28,8 +29,8 @@ trait ElementTrait {
    *
    * @param string $title
    *   The title.
-   * @param array $text
-   *   Processed text.
+   * @param array $body
+   *   The body render array.
    * @param string $button_text
    *   The button text.
    * @param \Drupal\Core\Url $url
@@ -38,16 +39,16 @@ trait ElementTrait {
    * @return array
    *   Render array.
    */
-  protected function buildElementCta(string $title, array $text, string $button_text, Url $url): array {
+  protected function buildElementCta(string $title, array $body, string $button_text, Url $url): array {
     $elements = [];
 
     // Title.
-    $element = ['#markup' => $title];
+    $element = $title;
     $element = $this->wrapTextResponsiveFontSize($element, '3xl');
     $elements[] = $this->wrapTextFontWeight($element, 'bold');
 
     // Text.
-    $elements[] = $text;
+    $elements[] = $this->wrapProseText($body);
 
     // Button.
     $elements[] = $this->buildButton($button_text, $url);
@@ -154,9 +155,12 @@ trait ElementTrait {
       return [];
     }
 
+    $header_items = [];
+    $header_items[] = $this->buildParagraphTitle($title);
+
     return [
       '#theme' => 'server_theme_carousel',
-      '#title' => $title,
+      '#header_items' => $header_items,
       '#items' => $items,
       '#button' => $button,
       '#is_featured' => $is_featured,
@@ -206,21 +210,21 @@ trait ElementTrait {
    *
    * @param string $title
    *   The title.
-   * @param array $description
-   *   The description render array.
+   * @param array $body
+   *   The body render array.
    * @param array $items
    *   Items rendered with `CardTrait::buildElementAccordionItem`.
    *
    * @return array
    *   The render array.
    */
-  protected function buildElementAccordion(string $title, array $description, array $items): array {
+  protected function buildElementAccordion(string $title, array $body, array $items): array {
     $elements = [];
 
     // Title and description.
     $element = [];
     $element[] = $this->buildParagraphTitle($title);
-    $element[] = $description;
+    $element[] = $this->wrapProseText($body);
 
     $element = $this->wrapContainerVerticalSpacing($element);
     $elements[] = $this->wrapContainerMaxWidth($element, '3xl');
@@ -244,6 +248,53 @@ trait ElementTrait {
     $element = $this->wrapContainerVerticalSpacingBig($elements);
 
     return $this->wrapContainerWide($element);
+  }
+
+  /**
+   * Build a Search term, facets and results element.
+   *
+   * This is used by the Search paragraph type.
+   *
+   * @param array $facets_items
+   *   The facets render array.
+   * @param bool $has_filters
+   *   Indicate if there are facet filters. That is, if a user has selected some
+   *   values in one or more of the facets.
+   * @param array $result_items
+   *   The render array of the results.
+   * @param string|null $search_term
+   *   The search term if exists. Defaults to NULL.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function buildElementSearchTermFacetsAndResults(array $facets_items, bool $has_filters, array $result_items, string $search_term = NULL): array {
+    $elements = [];
+
+    // Show the search term and facets if they exist.
+    $element = [];
+    if ($search_term) {
+      $element[] = [
+        '#theme' => 'server_theme_search_term',
+        '#search_term' => $search_term,
+      ];
+    }
+
+    if ($facets_items) {
+      $element[] = [
+        '#theme' => 'server_theme_facets__search',
+        '#items' => $facets_items,
+        '#has_filters' => $has_filters,
+      ];
+    }
+
+    $elements[] = $this->wrapContainerVerticalSpacing($element);
+
+    // Add the results.
+    $elements[] = $result_items;
+
+    $elements = $this->wrapContainerVerticalSpacingBig($elements);
+    return $this->wrapContainerWide($elements);
   }
 
   /**
@@ -309,13 +360,52 @@ trait ElementTrait {
     // Title and description.
     $element = [];
     $element[] = $this->buildParagraphTitle($title);
-    $element[] = $description;
+    $element[] = $this->wrapProseText($description);
 
     $element = $this->wrapContainerVerticalSpacing($element);
     $elements[] = $this->wrapContainerMaxWidth($element, '3xl');
 
     $elements[] = $this->buildCards($items);
-    return $this->wrapContainerVerticalSpacing($elements);
+    $elements = $this->wrapContainerVerticalSpacing($elements);
+    return $this->wrapContainerWide($elements);
+  }
+
+  /**
+   * Build a Paragraph title and text element.
+   *
+   * @param string $title
+   *   The title.
+   * @param array $body
+   *   The body render array.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function buildElementParagraphTitleAndText(string $title, array $body): array {
+    return $this->buildElementLayoutParagraphTitleAndContent(
+      $title,
+      $this->wrapProseText($body),
+    );
+  }
+
+  /**
+   * Build a Paragraph title and content element.
+   *
+   * This is a more generic instance of `buildElementParagraphTitleAndText`.
+   *
+   * @param string $title
+   *   The title.
+   * @param array $items
+   *   The items render array.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function buildElementParagraphTitleAndContent(string $title, array $items): array {
+    return $this->buildElementLayoutParagraphTitleAndContent(
+      $title,
+      $items,
+    );
   }
 
 }

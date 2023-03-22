@@ -113,9 +113,6 @@ class StyleGuideController extends ControllerBase {
 
     $build[] = $this->getTextDecorations();
 
-    $element = $this->getCards();
-    $build[] = $this->wrapElementWideContainer($element, 'Card: Simple (Search result)');
-
     $element = $this->getCardsCentered();
     $build[] = $this->wrapElementWideContainer($element, 'Card: Centered (Profile info)');
 
@@ -123,7 +120,7 @@ class StyleGuideController extends ControllerBase {
     $build[] = $this->wrapElementWideContainer($element, 'Cards: With image (News cards)');
 
     $element = $this->getCardsWithImageHorizontalForNews();
-    $build[] = $this->wrapElementWideContainer($element, 'Cards: Horizontal with image (Featured content)');
+    $build[] = $this->wrapElementNoContainer($element, 'Cards: Horizontal with image (Featured content)');
 
     $element = $this->getRelatedContentCarousel(FALSE);
     $build[] = $this->wrapElementNoContainer($element, 'Cards: Carousel (Related content, not featured)');
@@ -152,11 +149,17 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getMediaVideo();
     $build[] = $this->wrapElementWideContainer($element, 'Element: Media Video');
 
+    $element = $this->getParagraphTitleAndText();
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Paragraph title and text');
+
+    $element = $this->getSearchTermFacetsAndResults();
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Search term, facets and results');
+
     $element = $this->getQuote();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Quote');
 
     $element = $this->getQuickLinks();
-    $build[] = $this->wrapElementWideContainer($element, 'Element: Quick links');
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Quick links');
 
     $element = $this->getNodeNews();
     $build[] = $this->wrapElementNoContainer($element, 'Node view: News');
@@ -209,33 +212,6 @@ class StyleGuideController extends ControllerBase {
       'Social share trait',
       Url::fromUri('https://example.com'),
     );
-  }
-
-  /**
-   * Get Simple cards.
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function getCards(): array {
-    $elements = [];
-    $elements[] = $this->buildCardSearchResult(
-      'News',
-      $this->getRandomTitle(),
-      Url::fromRoute('<front>'),
-      $this->buildProcessedText("Both refute. Of their its it funny children into good origin into self-interest, my she were bad of chosen stage italic, fame, is must didn't evaluate little may picture the didn't is not there of high accustomed. Him great those the sort alphabet she were workmen. Reflection bad the external gloomy not we it yet any them. What's late showed picture attached duck usual. To of actual writer fame. Prepared on was to stairs basically, the see would hadn't easier searching watched in and someone his where of the and written fly being a be his the to visuals was."),
-      time()
-    );
-
-    $elements[] = $this->buildCardSearchResult(
-      'News',
-      $this->getRandomTitle(),
-      Url::fromRoute('<front>'),
-      $this->buildProcessedText("How does the system generate all this custom content?"),
-      time()
-    );
-
-    return $this->wrapContainerVerticalSpacingBig($elements);
   }
 
   /**
@@ -335,6 +311,7 @@ class StyleGuideController extends ControllerBase {
    *   Render array.
    */
   protected function getMediaVideo(): array {
+
     return $this->buildElementVideo(
       'https://www.youtube.com/watch?v=dSZQNOvpszQ',
       650,
@@ -342,6 +319,40 @@ class StyleGuideController extends ControllerBase {
       FALSE,
       'This is the Credit of the video',
       'This is the Caption of the video',
+    );
+  }
+
+  /**
+   * Get Search term, facets and results.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getSearchTermFacetsAndResults(): array {
+    $result_items = [];
+    $result_items[] = $this->buildCardSearchResult(
+      'News',
+      $this->getRandomTitle(),
+      Url::fromRoute('<front>'),
+      $this->buildProcessedText("Both refute. Of their its it funny children into good origin into self-interest, my she were bad of chosen stage italic, fame, is must didn't evaluate little may picture the didn't is not there of high accustomed. Him great those the sort alphabet she were workmen. Reflection bad the external gloomy not we it yet any them. What's late showed picture attached duck usual. To of actual writer fame. Prepared on was to stairs basically, the see would hadn't easier searching watched in and someone his where of the and written fly being a be his the to visuals was."),
+      time()
+    );
+
+    $result_items[] = $this->buildCardSearchResult(
+      'News',
+      $this->getRandomTitle(),
+      Url::fromRoute('<front>'),
+      $this->buildProcessedText("How does the system generate all this custom content?"),
+      time()
+    );
+
+    return $this->buildElementSearchTermFacetsAndResults(
+      // We can't easily theme the facets, so we skip that part on the style
+      // guide.
+      [],
+      FALSE,
+      $result_items,
+      'The search query',
     );
   }
 
@@ -387,6 +398,19 @@ class StyleGuideController extends ControllerBase {
       $this->t('Quick Links'),
       $this->buildProcessedText('The Quick links description'),
       $items,
+    );
+  }
+
+  /**
+   * Get Paragraph title and text element.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getParagraphTitleAndText(): array {
+    return $this->buildElementParagraphTitleAndText(
+      $this->getRandomTitle(),
+      $this->buildProcessedText('<p>I before parameters designer of the to separated of to part. Price question in or of a there sleep. Who a deference and drew sleep written talk said which had. sel in small been cheating sounded times should and problem. Question. Explorations derived been him aged seal for gods team- manage he according the welcoming are cities part up stands careful so own the have how up, keep</p>'),
     );
   }
 

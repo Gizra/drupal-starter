@@ -60,7 +60,7 @@ trait CardTrait {
     $elements[] = $this->wrapTextFontWeight($element, 'bold');
 
     // Body teaser.
-    $elements[] = $summary;
+    $elements[] = $this->wrapTextLineClamp($summary, 4);
 
     return $this->buildCardLayoutWithImage($url, $image, $elements);
   }
@@ -187,7 +187,7 @@ trait CardTrait {
     return [
       '#theme' => 'server_theme_card__accordion_item',
       '#title' => $title,
-      '#description' => $description,
+      '#description' => $this->wrapProseText($description),
     ];
   }
 
@@ -212,11 +212,9 @@ trait CardTrait {
       $items[] = $this->wrapTextResponsiveFontSize($subtitle, 'sm');
     }
 
-    $items = $this->wrapContainerVerticalSpacingTiny($items);
-
     return [
       '#theme' => 'server_theme_card__quick_link_item',
-      '#items' => $this->wrapContainerVerticalSpacing($items),
+      '#items' => $this->wrapContainerVerticalSpacingTiny($items),
       '#url' => $url,
     ];
 

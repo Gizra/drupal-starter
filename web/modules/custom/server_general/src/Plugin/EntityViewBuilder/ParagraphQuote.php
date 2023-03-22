@@ -46,7 +46,7 @@ class ParagraphQuote extends EntityViewBuilderPluginAbstract {
 
     $element = $this->buildElementQuote(
       $this->buildMediaResponsiveImage($entity, 'field_image', 'quote'),
-      $this->buildProcessedText($entity, 'field_body', FALSE),
+      $this->buildProcessedText($entity, 'field_body'),
       $this->getTextFieldValue($entity, 'field_subtitle'),
       $image_credit,
     );
