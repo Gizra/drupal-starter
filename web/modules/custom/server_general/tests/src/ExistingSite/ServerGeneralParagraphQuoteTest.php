@@ -43,25 +43,7 @@ class ServerGeneralParagraphQuoteTest extends ServerGeneralParagraphTestBase {
    */
   public function testRender() {
     // Create Media image.
-    // Create several Media documents.
-    $file = File::create([
-      'uri' => 'https://example.com',
-    ]);
-    $file->save();
-    $this->markEntityForCleanup($file);
-
-    $media = Media::create([
-      'bundle' => 'image',
-      'name' => 'Media item',
-      'field_media_file' => [
-        [
-          'target_id' => $file->id(),
-          'alt' => 'default alt',
-          'title' => 'default title',
-        ],
-      ],
-    ]);
-    $this->markEntityForCleanup($media);
+    $media = $this->createMediaImage();
 
     // Create Quote.
     $body = 'This is the body';
