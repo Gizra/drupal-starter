@@ -1,36 +1,35 @@
-id: paragraph_related_content
-label: 'Paragraph related content'
+id: paragraph_hero_image
+label: 'Paragraph hero image'
 migration_group: server
 migration_tags:
   - paragraph
 source:
   plugin: csv
-  path: modules/custom/server_migrate/csv_files/paragraph_related_content.csv
+  path: modules/custom/server_migrate/csv_files/paragraph_hero_image.csv
   ids: ['_id']
   header_offset: 0
 destination:
   plugin: 'entity_reference_revisions:paragraph'
-  default_bundle: related_content
+  default_bundle: hero_image
 process:
   type:
     plugin: default_value
-    default_value: related_content
+    default_value: hero_image
   field_title: _title
-  field_related_content:
+  field_subtitle: _subtitle
+  field_image:
     - plugin: skip_on_empty
       method: process
-      source: _items
+      source: _media_image
     - plugin: explode
       delimiter: '|'
     - plugin: migration_lookup
       migration:
-        - node_news
+        - media_image
       no_stub: true
-  field_is_featured: _is_featured
   field_link/uri: _url
   field_link/title: _url_title
 
-
 migration_dependencies:
   required:
-    - node_news
+    - media_image
