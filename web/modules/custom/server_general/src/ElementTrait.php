@@ -81,13 +81,11 @@ trait ElementTrait {
     $elements = [];
 
     // Title.
-    $element = ['#markup' => $title];
-    $element = $this->wrapHtmlTag($element, 'h1');
+    $element = $this->wrapHtmlTag($title, 'h1');
     $elements[] = $this->wrapTextFontWeight($element, 'bold');
 
     // Subtitle.
-    $element = ['#markup' => $subtitle];
-    $element = $this->wrapTextResponsiveFontSize($element, 'xl');
+    $element = $this->wrapTextResponsiveFontSize($subtitle, 'xl');
     $elements[] = $this->wrapTextFontWeight($element, 'medium');
 
     // Button.

@@ -1,6 +1,6 @@
 {% import '@server_theme/templates/server-theme-bg-color-base.html.twig' as bgColorBase %}
 
-{% set color_class = bgColorBase.getBgColor(color) %}
+{% set color_class = bgColorBase.getBgColor(bg_color) %}
 
 {% if color_class != 'bg-transparent' %}
   {% set py_class = 'py-8 md:py-10' %}
