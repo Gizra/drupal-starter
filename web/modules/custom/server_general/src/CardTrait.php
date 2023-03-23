@@ -226,7 +226,7 @@ trait CardTrait {
 
     $elements = $this->wrapContainerVerticalSpacing($elements, 'center');
 
-    return $this->buildCardLayoutCentered($elements);
+    return $this->buildCardLayout($elements);
   }
 
   /**
