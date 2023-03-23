@@ -103,19 +103,15 @@ trait ElementTrait {
   /**
    * Build a Hero image.
    *
-   * @param array $image
-   *   The render array of the image.
    * @param string $title
    *   The title.
-   * @param string $subtitle
-   *   The subtitle.
-   * @param string $button_text
-   *   The button text.
-   * @param \Drupal\Core\Url $url
-   *   The URL to link the button to.
+   * @param array $body
+   *   The body render array.
+   * @param array $items
+   *   The render array built with `CardTrait::buildCardInfoCard`.
    *
    * @return array
-   *   Render array.
+   *   The render array.
    */
   protected function buildElementInfoCards(string $title, array $body, array $items): array {
     $elements = [];

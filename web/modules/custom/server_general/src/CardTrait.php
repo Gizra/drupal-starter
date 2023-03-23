@@ -194,14 +194,12 @@ trait CardTrait {
   /**
    * Build a Person teaser.
    *
-   * @param string $image_url
-   *   The image Url.
-   * @param string $alt
-   *   The image alt.
-   * @param string $name
-   *   The name.
+   * @param string $header
+   *   The header. Usually used for the number (e.g. "100%").
+   * @param string $title
+   *   The title.
    * @param string|null $subtitle
-   *   Optional; The subtitle (e.g. work title).
+   *   Optional; The subtitle.
    *
    * @return array
    *   The render array.
