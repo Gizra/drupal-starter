@@ -213,6 +213,8 @@ function server_theme_theme() {
     'variables' => [
       // A render array.
       'items' => NULL,
+      // The background color.
+      'color' => NULL,
     ],
   ];
 
@@ -251,14 +253,6 @@ function server_theme_theme() {
   $info['server_theme_cards'] = [
     'variables' => [
       // A list of cards.
-      'items' => [],
-    ],
-  ];
-
-  // "Call to action" element.
-  $info['server_theme_element__cta'] = [
-    'variables' => [
-      // Render array.
       'items' => [],
     ],
   ];

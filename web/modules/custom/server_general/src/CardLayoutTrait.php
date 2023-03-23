@@ -25,14 +25,19 @@ trait CardLayoutTrait {
    *
    * @param array $items
    *   The elements as render array.
+   * @param string|null $color
+   *   Optional; The background color. Allowed values are:
+   *   - 'light-gray'.
+   *   If NULL, a transparent background will be added.
    *
    * @return array
    *   Render array.
    */
-  protected function buildCardLayout(array $items): array {
+  protected function buildCardLayout(array $items, string $color = NULL): array {
     return [
       '#theme' => 'server_theme_card_layout',
       '#items' => $this->wrapContainerVerticalSpacing($items),
+      '#color' => $color,
     ];
   }
 

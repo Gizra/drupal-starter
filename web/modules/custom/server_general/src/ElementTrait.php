@@ -45,6 +45,7 @@ trait ElementTrait {
     // Title.
     $element = $title;
     $element = $this->wrapTextResponsiveFontSize($element, '3xl');
+    $element = $this->wrapTextCenter($element);
     $elements[] = $this->wrapTextFontWeight($element, 'bold');
 
     // Text.
@@ -55,10 +56,8 @@ trait ElementTrait {
 
     $elements = $this->wrapContainerVerticalSpacingBig($elements, 'center');
 
-    return [
-      '#theme' => 'server_theme_element__cta',
-      '#items' => $elements,
-    ];
+    $elements = $this->buildCardLayout($elements, 'light-gray');
+    return $this->wrapContainerNarrow($elements);
   }
 
   /**
