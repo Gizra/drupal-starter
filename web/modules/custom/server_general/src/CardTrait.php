@@ -208,15 +208,16 @@ trait CardTrait {
     $elements = [];
 
     $element = $this->wrapTextFontWeight($header, 'bold');
-    $element = $this->wrapTextResponsiveFontSize($element, '2xl');
+    $element = $this->wrapTextResponsiveFontSize($element, '3xl');
     $elements[] = $element;
 
     $bottom_elements = [];
-    $element = $this->wrapTextResponsiveFontSize($title, 'xl');
+    $element = $this->wrapTextResponsiveFontSize($title, '2xl');
+    $element = $this->wrapTextCenter($element);
     $bottom_elements[] = $element;
 
     if ($subtitle) {
-      $element = $this->wrapTextResponsiveFontSize($subtitle, 'sm');
+      $element = $this->wrapTextResponsiveFontSize($subtitle, 'lg');
       $element = $this->wrapTextCenter($element);
       $bottom_elements[] = $this->wrapTextColor($element, 'gray');
     }
@@ -226,7 +227,7 @@ trait CardTrait {
 
     $elements = $this->wrapContainerVerticalSpacing($elements, 'center');
 
-    return $this->buildCardLayout($elements);
+    return $this->buildCardLayout($elements, 'light-gray');
   }
 
   /**

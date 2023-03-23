@@ -614,6 +614,18 @@ class StyleGuideController extends ControllerBase {
       'Every few days there is a new PR',
     );
 
+    $items[] = $this->buildCardInfoCard(
+      '350',
+      'Is a number that is likeable',
+      'But there are other numbers as well, some people like',
+    );
+
+    $items[] = $this->buildCardInfoCard(
+      '2 - 5 commits',
+      'Every few days there is a new PR',
+      'Sometimes there are even more!',
+    );
+
     return $this->buildElementInfoCards(
       $this->getRandomTitle(),
       $this->buildProcessedText('This is the <strong>description</strong> of the info cards element'),
