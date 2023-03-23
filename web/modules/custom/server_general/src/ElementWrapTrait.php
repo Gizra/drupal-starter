@@ -19,7 +19,7 @@ trait ElementWrapTrait {
    *
    * @param array $element
    *   The render array.
-   * @param string|null $color
+   * @param string|null $bg_color
    *   Optional; The background color. Allowed values are:
    *   - 'light-gray'.
    *   If NULL, a transparent background will be added.
@@ -27,7 +27,7 @@ trait ElementWrapTrait {
    * @return array
    *   Render array.
    */
-  protected function wrapContainerWide(array $element, string $color = NULL): array {
+  protected function wrapContainerWide(array $element, string $bg_color = NULL): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
@@ -37,7 +37,7 @@ trait ElementWrapTrait {
     return [
       '#theme' => 'server_theme_container_wide',
       '#element' => $element,
-      '#color' => $color,
+      '#bg_color' => $bg_color,
     ];
   }
 
@@ -46,7 +46,7 @@ trait ElementWrapTrait {
    *
    * @param array $element
    *   The render array.
-   * @param string|null $color
+   * @param string|null $bg_color
    *   Optional; The background color. Allowed values are:
    *   - 'light-gray'.
    *   If NULL, a transparent background will be added.
@@ -54,7 +54,7 @@ trait ElementWrapTrait {
    * @return array
    *   Render array.
    */
-  protected function wrapContainerNarrow(array $element, string $color = NULL): array {
+  protected function wrapContainerNarrow(array $element, string $bg_color = NULL): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
@@ -64,7 +64,7 @@ trait ElementWrapTrait {
     return [
       '#theme' => 'server_theme_container_narrow',
       '#element' => $element,
-      '#color' => $color,
+      '#bg_color' => $bg_color,
     ];
   }
 
@@ -73,7 +73,7 @@ trait ElementWrapTrait {
    *
    * @param array $element
    *   Render array.
-   * @param string $align
+   * @param string|null $align
    *   Determine if flex should also have an alignment. Possible values are
    *   `start`, `center`, `end` or NULL to have no change.
    *
