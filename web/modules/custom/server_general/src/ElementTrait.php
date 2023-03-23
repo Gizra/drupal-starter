@@ -222,12 +222,7 @@ trait ElementTrait {
     $elements = [];
 
     // Title and description.
-    $element = [];
-    $element[] = $this->buildParagraphTitle($title);
-    $element[] = $this->wrapProseText($body);
-
-    $element = $this->wrapContainerVerticalSpacing($element);
-    $elements[] = $this->wrapContainerMaxWidth($element, '3xl');
+    $elements[] = $this->buildParagraphTitleAndDescription($title, $body);
 
     // Add line separators to items.
     $items_wrapped = [];
@@ -248,6 +243,30 @@ trait ElementTrait {
     $element = $this->wrapContainerVerticalSpacingBig($elements);
 
     return $this->wrapContainerWide($element);
+  }
+
+  /**
+   * Build People teasers element.
+   *
+   * @param string $title
+   *   The title.
+   * @param array $body
+   *   The body render array.
+   * @param array $items
+   *   Items rendered with `CardTrait::buildElementAccordionItem`.
+   *
+   * @return array
+   *   The render array.
+   */
+  protected function buildElementPeopleTeasers(string $title, array $body, array $items): array {
+    $elements = [];
+
+    // Title and description.
+    $elements[] = $this->buildParagraphTitleAndDescription($title, $body);
+    $elements[] = $this->buildCards($items);
+
+    $elements = $this->wrapContainerVerticalSpacingBig($elements);
+    return $this->wrapContainerWide($elements);
   }
 
   /**
@@ -346,7 +365,7 @@ trait ElementTrait {
    *
    * @param string $title
    *   The title.
-   * @param array $description
+   * @param array $body
    *   The description render array.
    * @param array $items
    *   The quick links array rendered with `CardTrait::buildCardQuickLink`.
@@ -354,16 +373,11 @@ trait ElementTrait {
    * @return array
    *   Render array.
    */
-  protected function buildElementQuickLinks(string $title, array $description, array $items): array {
+  protected function buildElementQuickLinks(string $title, array $body, array $items): array {
     $elements = [];
 
     // Title and description.
-    $element = [];
-    $element[] = $this->buildParagraphTitle($title);
-    $element[] = $this->wrapProseText($description);
-
-    $element = $this->wrapContainerVerticalSpacing($element);
-    $elements[] = $this->wrapContainerMaxWidth($element, '3xl');
+    $elements[] = $this->buildParagraphTitleAndDescription($title, $body);
 
     $elements[] = $this->buildCards($items);
     $elements = $this->wrapContainerVerticalSpacing($elements);

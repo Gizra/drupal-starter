@@ -16,3 +16,8 @@ process:
     plugin: default_value
     default_value: news_teasers
   field_title: _title
+  field_subtitle: _subtitle
+
+migration_dependencies:
+  required:
+    - media_image

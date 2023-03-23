@@ -192,13 +192,55 @@ trait CardTrait {
   }
 
   /**
+   * Build a Person teaser.
+   *
+   * @param string $image_url
+   *   The image Url.
+   * @param string $alt
+   *   The image alt.
+   * @param string $name
+   *   The name.
+   * @param string|null $subtitle
+   *   Optional; The subtitle (e.g. work title).
+   *
+   * @return array
+   *   The render array.
+   */
+  protected function buildCardPersonTeaser(string $image_url, string $alt, string $name, string $subtitle = NULL): array {
+    $elements = [];
+    $element = [
+      '#theme' => 'image',
+      '#uri' => $image_url,
+      '#alt' => $alt,
+      '#width' => 100,
+    ];
+
+    $elements[] = $this->wrapRoundedCornersFull($element);
+
+    $inner_elements = [];
+
+    $element = $this->wrapTextFontWeight($name, 'bold');
+    $inner_elements[] = $this->wrapTextCenter($element);
+
+    if ($subtitle) {
+      $element = $this->wrapTextResponsiveFontSize($subtitle, 'sm');
+      $element = $this->wrapTextCenter($element);
+      $inner_elements[] = $this->wrapTextColor($element, 'gray');
+    }
+
+    $elements[] = $this->wrapContainerVerticalSpacingTiny($inner_elements, 'center');
+
+    return $this->buildCardLayoutCentered($elements);
+  }
+
+  /**
    * Builds a Quick Link element.
    *
    * @param string $title
    *   The title.
    * @param \Drupal\Core\Url $url
    *   The Url object.
-   * @param string $subtitle
+   * @param string|null $subtitle
    *   Optional; The subtitle.
    *
    * @return array

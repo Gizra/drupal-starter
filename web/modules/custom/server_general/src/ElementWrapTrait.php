@@ -199,6 +199,7 @@ trait ElementWrapTrait {
     // the last paragraph on the page.
     $paragraph_types_with_no_bottom_padding = [
       'documents',
+      'related_content',
       'quote',
     ];
 

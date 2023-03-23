@@ -45,7 +45,7 @@ class ServerGeneralParagraphAccordionTest extends ServerGeneralParagraphTestBase
 
     foreach (range(1, 5) as $key) {
       $title = 'This is the Accordion item title ' . $key;
-      $body = 'This is the Accordion description ' . $key;
+      $body = 'This is the Accordion item description ' . $key;
 
       /** @var \Drupal\paragraphs\ParagraphInterface $paragraph */
       $paragraph = Paragraph::create(['type' => 'accordion_item']);
@@ -89,7 +89,7 @@ class ServerGeneralParagraphAccordionTest extends ServerGeneralParagraphTestBase
     // Assert all accordion items' titles and body are there.
     foreach (range(1, 5) as $key) {
       $title = 'This is the Accordion item title ' . $key;
-      $body = 'This is the Accordion description ' . $key;
+      $body = 'This is the Accordion item description ' . $key;
       $this->assertSession()->elementTextContains('css', '.paragraph--type--accordion', $title);
       $this->assertSession()->elementTextContains('css', '.paragraph--type--accordion', $body);
     }

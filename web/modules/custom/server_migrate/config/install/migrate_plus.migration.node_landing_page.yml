@@ -37,6 +37,7 @@ process:
         - paragraph_cta
         - paragraph_documents
         - paragraph_news_teasers
+        - paragraph_people_teasers
         - paragraph_related_content
         - paragraph_search
         - paragraph_quick_links
@@ -53,6 +54,7 @@ migration_dependencies:
     - paragraph_cta
     - paragraph_documents
     - paragraph_news_teasers
+    - paragraph_people_teasers
     - paragraph_related_content
     - paragraph_search
     - paragraph_quick_links
