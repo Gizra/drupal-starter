@@ -101,6 +101,36 @@ trait ElementTrait {
   }
 
   /**
+   * Build a Hero image.
+   *
+   * @param array $image
+   *   The render array of the image.
+   * @param string $title
+   *   The title.
+   * @param string $subtitle
+   *   The subtitle.
+   * @param string $button_text
+   *   The button text.
+   * @param \Drupal\Core\Url $url
+   *   The URL to link the button to.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function buildElementInfoCards(string $title, array $body, array $items): array {
+    $elements = [];
+
+    // Title and description.
+    $elements[] = $this->buildParagraphTitleAndDescription($title, $body);
+
+    // Card items.
+    $elements[] = $this->buildCards($items);
+
+    $elements = $this->wrapContainerVerticalSpacing($elements);
+    return $this->wrapContainerWide($elements);
+  }
+
+  /**
    * Builds a "Document" list.
    *
    * @param string $title

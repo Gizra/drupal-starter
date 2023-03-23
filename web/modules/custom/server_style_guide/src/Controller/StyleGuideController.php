@@ -137,6 +137,9 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getHeroImage();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Hero image');
 
+    $element = $this->getInfoCards();
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Info cards');
+
     $element = $this->getMediaImage();
     $build[] = $this->wrapElementWideContainer($element, 'Element: Media Image (Embed in text field)');
 
@@ -574,7 +577,7 @@ class StyleGuideController extends ControllerBase {
   }
 
   /**
-   * Get the Related content carousel.
+   * Get the Hero image element.
    *
    * @return array
    *   Render array.
@@ -588,6 +591,33 @@ class StyleGuideController extends ControllerBase {
       $this->getRandomTitle(),
       'Learn more',
       $url,
+    );
+  }
+
+  /**
+   * Get the Info cards element.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getInfoCards(): array {
+    $items = [];
+
+    $items[] = $this->buildCardInfoCard(
+      '100%',
+      'Developers like this',
+      'It saves lots of dev hours, so they like to stick to it',
+    );
+
+    $items[] = $this->buildCardInfoCard(
+      '2 - 5 commits',
+      'Every few days there is a new PR',
+    );
+
+    return $this->buildElementInfoCards(
+      $this->getRandomTitle(),
+      $this->buildProcessedText('This is the <strong>description</strong> of the info cards element'),
+      $items,
     );
   }
 

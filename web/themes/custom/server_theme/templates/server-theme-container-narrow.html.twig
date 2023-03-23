@@ -2,7 +2,7 @@
 
 {% set color_class = bgColorBase.getBgColor(bg_color) %}
 
-{% if color_class != 'bg-transparent' %}
+{% if not color_class == 'bg-transparent' %}
   {% set py_class = 'py-8 md:py-10' %}
 {% endif %}
 

@@ -78,6 +78,8 @@ trait TitleAndLabelsTrait {
   protected function buildParagraphTitleAndDescription(string $title = NULL, array $body = []): array {
     $elements = [];
     $elements[] = $this->buildParagraphTitle($title);
+
+    $body = $this->wrapTextColor($body, 'dark-gray');
     $elements[] = $this->wrapProseText($body);
 
     $elements = $this->wrapContainerVerticalSpacing($elements);

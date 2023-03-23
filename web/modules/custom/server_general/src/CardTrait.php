@@ -206,6 +206,42 @@ trait CardTrait {
    * @return array
    *   The render array.
    */
+  protected function buildCardInfoCard(string $header, string $title, string $subtitle = NULL): array {
+    $elements = [];
+
+    $element = $this->wrapTextFontWeight($header, 'bold');
+    $element = $this->wrapTextResponsiveFontSize($element, '2xl');
+    $elements[] = $element;
+
+    $element = $this->wrapTextResponsiveFontSize($title, 'xl');
+    $elements[] = $element;
+
+    if ($subtitle) {
+      $element = $this->wrapTextResponsiveFontSize($subtitle, 'sm');
+      $element = $this->wrapTextCenter($element);
+      $elements[] = $this->wrapTextColor($element, 'gray');
+    }
+
+    $elements = $this->wrapContainerVerticalSpacing($elements, 'center');
+
+    return $this->buildCardLayoutCentered($elements);
+  }
+
+  /**
+   * Build a Person teaser.
+   *
+   * @param string $image_url
+   *   The image Url.
+   * @param string $alt
+   *   The image alt.
+   * @param string $name
+   *   The name.
+   * @param string|null $subtitle
+   *   Optional; The subtitle (e.g. work title).
+   *
+   * @return array
+   *   The render array.
+   */
   protected function buildCardPersonTeaser(string $image_url, string $alt, string $name, string $subtitle = NULL): array {
     $elements = [];
     $element = [
