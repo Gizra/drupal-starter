@@ -6,7 +6,7 @@ use Drupal\paragraphs\Entity\Paragraph;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Test 'cta' paragraph type.
+ * Test 'Cta' paragraph type.
  */
 class ServerGeneralParagraphCtaTest extends ServerGeneralParagraphTestBase {
 

@@ -52,7 +52,7 @@ trait ElementTrait {
     $elements[] = $this->wrapProseText($body);
 
     // Button.
-    $elements[] = $this->buildButton($button_text, $url);
+    $elements[] = $this->buildButton($button_text, $url, TRUE);
 
     $elements = $this->wrapContainerVerticalSpacingBig($elements, 'center');
 
