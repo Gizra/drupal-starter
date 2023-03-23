@@ -91,7 +91,7 @@ trait ElementTrait {
     $elements[] = $this->wrapTextFontWeight($element, 'medium');
 
     // Button.
-    $elements[] = $this->buildButton($button_text, $url);
+    $elements[] = $this->buildButton($button_text, $url, TRUE);
 
     $elements = $this->wrapContainerVerticalSpacingBig($elements);
 
