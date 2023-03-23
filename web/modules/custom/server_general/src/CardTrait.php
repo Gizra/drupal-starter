@@ -211,14 +211,18 @@ trait CardTrait {
     $element = $this->wrapTextResponsiveFontSize($element, '2xl');
     $elements[] = $element;
 
+    $bottom_elements = [];
     $element = $this->wrapTextResponsiveFontSize($title, 'xl');
-    $elements[] = $element;
+    $bottom_elements[] = $element;
 
     if ($subtitle) {
       $element = $this->wrapTextResponsiveFontSize($subtitle, 'sm');
       $element = $this->wrapTextCenter($element);
-      $elements[] = $this->wrapTextColor($element, 'gray');
+      $bottom_elements[] = $this->wrapTextColor($element, 'gray');
     }
+
+    $bottom_elements = $this->wrapContainerVerticalSpacingTiny($bottom_elements, 'center');
+    $elements[] = $bottom_elements;
 
     $elements = $this->wrapContainerVerticalSpacing($elements, 'center');
 
