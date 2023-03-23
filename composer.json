@@ -58,6 +58,7 @@
         "drupal/simple_sitemap": "^4",
         "drupal/smart_trim": "^2.0",
         "drupal/stage_file_proxy": "^1.1",
+        "drupal/username_enumeration_prevention": "^1.3",
         "drush/drush": "^11",
         "npm-asset/select2": "^4.0",
         "npm-asset/slick-carousel": "^1.8",
