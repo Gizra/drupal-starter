@@ -122,7 +122,7 @@ trait ElementTrait {
     // Card items.
     $elements[] = $this->buildCards($items);
 
-    $elements = $this->wrapContainerVerticalSpacing($elements);
+    $elements = $this->wrapContainerVerticalSpacingBig($elements);
     return $this->wrapContainerWide($elements);
   }
 
