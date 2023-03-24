@@ -49,7 +49,6 @@ class ParagraphRelatedContent extends EntityViewBuilderPluginAbstract {
       $this->buildProcessedText($entity, 'field_body'),
       $this->buildReferencedEntities($related_content, $view_mode),
       $is_featured,
-
       $this->buildLinkButton($entity),
     );
     $build[] = $element;

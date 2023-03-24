@@ -113,12 +113,6 @@ class StyleGuideController extends ControllerBase {
 
     $build[] = $this->getTextDecorations();
 
-    $element = $this->getRelatedContentCarousel(FALSE);
-    $build[] = $this->wrapElementNoContainer($element, 'Cards: Carousel (Related content, not featured)');
-
-    $element = $this->getRelatedContentCarousel(TRUE);
-    $build[] = $this->wrapElementNoContainer($element, 'Cards: Carousel (Related content, featured)');
-
     $element = $this->getAccordion();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Accordion');
 
@@ -152,14 +146,20 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getPeopleTeasers();
     $build[] = $this->wrapElementNoContainer($element, 'Element: People teasers');
 
-    $element = $this->getSearchTermFacetsAndResults();
-    $build[] = $this->wrapElementNoContainer($element, 'Element: Search term, facets and results');
-
     $element = $this->getQuote();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Quote');
 
     $element = $this->getQuickLinks();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Quick links');
+
+    $element = $this->getRelatedContentCarousel(FALSE);
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Related content (Carousel, not featured)');
+
+    $element = $this->getRelatedContentCarousel(TRUE);
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Related content (Carousel, featured)');
+
+    $element = $this->getSearchTermFacetsAndResults();
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Search term, facets and results');
 
     $element = $this->getNodeNews();
     $build[] = $this->wrapElementNoContainer($element, 'Node view: News');
