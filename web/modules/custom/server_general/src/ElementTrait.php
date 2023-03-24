@@ -168,17 +168,25 @@ trait ElementTrait {
       return [];
     }
 
-    $header_items = [];
-    $header_items[] = $this->buildParagraphTitle($title);
-    $header_items[] = $this->wrapProseText($body);
-
-    return [
+    $elements = [];
+    $elements[] = [
       '#theme' => 'server_theme_carousel',
-      '#header_items' => $this->wrapContainerVerticalSpacingTiny($header_items),
       '#items' => $items,
-      '#button' => $button,
       '#is_featured' => $is_featured,
     ];
+
+    if ($button) {
+      $elements[] = $this->wrapTextCenter($button);
+    }
+
+    $elements = $this->wrapContainerVerticalSpacing($elements);
+
+    return $this->buildParagraphTitleBodyAndItems(
+      $title,
+      $body,
+      $elements,
+      'light-gray',
+    );
   }
 
   /**
