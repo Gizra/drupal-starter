@@ -1,0 +1,41 @@
+uuid: 91a2c2c8-f096-499f-83af-0c62c585be6e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.info_card.field_info_card_header
+    - field.field.paragraph.info_card.field_subtitle
+    - field.field.paragraph.info_card.field_title
+    - paragraphs.paragraphs_type.info_card
+id: paragraph.info_card.default
+targetEntityType: paragraph
+bundle: info_card
+mode: default
+content:
+  field_info_card_header:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_subtitle:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_title:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

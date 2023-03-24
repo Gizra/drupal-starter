@@ -131,7 +131,7 @@ trait ElementTrait {
    *
    * @param string $title
    *   The title.
-   * @param array $subtitle
+   * @param array $body
    *   The subtitle render array.
    * @param array $items
    *   Render array of documents.
@@ -139,19 +139,16 @@ trait ElementTrait {
    * @return array
    *   Render array.
    */
-  protected function buildElementDocuments(string $title, array $subtitle, array $items): array {
+  protected function buildElementDocuments(string $title, array $body, array $items): array {
     $elements = [];
 
-    // Title.
-    $elements[] = $this->buildParagraphTitle($title);
-
-    // Subtitle.
-    $elements[] = $this->wrapTextColor($subtitle, 'dark-gray');
+    // Title and description.
+    $elements[] = $this->buildParagraphTitleAndDescription($title, $body);
 
     // Items and "View more" button.
     $elements[] = $this->buildElementItemsWithViewMore($items, 2);
 
-    $elements = $this->wrapContainerVerticalSpacing($elements);
+    $elements = $this->wrapContainerVerticalSpacingBig($elements);
 
     return $this->wrapContainerWide($elements, 'light-gray');
   }
