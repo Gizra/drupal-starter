@@ -457,8 +457,9 @@ trait ElementTrait {
     $elements = [];
     $top_elements[] = $this->buildParagraphTitle($title);
 
+    $body = $this->wrapProseText($body);
     $body = $this->wrapTextColor($body, 'dark-gray');
-    $top_elements[] = $this->wrapProseText($body);
+    $top_elements[] = $body;
 
     $top_elements = $this->wrapContainerVerticalSpacingTiny($top_elements);
     $top_elements = $this->wrapContainerMaxWidth($top_elements, '3xl');
