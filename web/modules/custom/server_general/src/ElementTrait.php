@@ -265,6 +265,27 @@ trait ElementTrait {
   }
 
   /**
+   * Build News teasers element.
+   *
+   * @param string $title
+   *   The title.
+   * @param array $body
+   *   The body render array.
+   * @param array $items
+   *   The quick links array rendered with `CardTrait::buildCardQuickLink`.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function buildElementNewsTeasers(string $title, array $body, array $items): array {
+    return $this->buildParagraphTitleBodyAndItems(
+      $title,
+      $body,
+      $items,
+    );
+  }
+
+  /**
    * Build People teasers element.
    *
    * @param string $title
@@ -382,7 +403,7 @@ trait ElementTrait {
    * @param string $title
    *   The title.
    * @param array $body
-   *   The description render array.
+   *   The body render array.
    * @param array $items
    *   The quick links array rendered with `CardTrait::buildCardQuickLink`.
    *

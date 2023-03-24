@@ -46,7 +46,7 @@ class ParagraphNewsTeasers extends EntityViewBuilderPluginAbstract {
       return $build;
     }
 
-    $element = $this->buildParagraphTitleBodyAndItems(
+    $element = $this->buildElementNewsTeasers(
       $this->getTextFieldValue($entity, 'field_title'),
       $this->buildProcessedText($entity, 'field_body'),
       $view->buildRenderable('embed_1'),
