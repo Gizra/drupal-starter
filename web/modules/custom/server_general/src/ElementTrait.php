@@ -467,7 +467,7 @@ trait ElementTrait {
     $elements[] = $top_elements;
     $elements[] = $items;
 
-    $elements = $this->wrapContainerVerticalSpacingBig($elements);
+    $elements = $this->wrapContainerVerticalSpacing($elements);
     return $this->wrapContainerWide($elements, $bg_color);
   }
 
