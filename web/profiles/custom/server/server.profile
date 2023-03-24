@@ -2,7 +2,6 @@
 
 /**
  * @file
- *
  * Server install profile.
  */
 
