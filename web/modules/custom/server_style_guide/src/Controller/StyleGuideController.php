@@ -572,7 +572,7 @@ class StyleGuideController extends ControllerBase {
     $items[] = $this->buildCardInfoCard(
       '350',
       'Is a number that is likeable',
-      'But there are other numbers as well, some people like',
+      'But there are other numbers as well',
     );
 
     $items[] = $this->buildCardInfoCard(
