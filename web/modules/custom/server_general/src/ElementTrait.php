@@ -114,16 +114,12 @@ trait ElementTrait {
    *   The render array.
    */
   protected function buildElementInfoCards(string $title, array $body, array $items): array {
-    $elements = [];
+    return $this->buildParagraphTitleBodyAndItems(
+      $title,
+      $body,
+      $this->buildCards($items),
+    );
 
-    // Title and description.
-    $elements[] = $this->buildParagraphTitleAndDescription($title, $body);
-
-    // Card items.
-    $elements[] = $this->buildCards($items);
-
-    $elements = $this->wrapContainerVerticalSpacingBig($elements);
-    return $this->wrapContainerWide($elements);
   }
 
   /**
@@ -140,17 +136,12 @@ trait ElementTrait {
    *   Render array.
    */
   protected function buildElementDocuments(string $title, array $body, array $items): array {
-    $elements = [];
-
-    // Title and description.
-    $elements[] = $this->buildParagraphTitleAndDescription($title, $body);
-
-    // Items and "View more" button.
-    $elements[] = $this->buildElementItemsWithViewMore($items, 2);
-
-    $elements = $this->wrapContainerVerticalSpacingBig($elements);
-
-    return $this->wrapContainerWide($elements, 'light-gray');
+    return $this->buildParagraphTitleBodyAndItems(
+      $title,
+      $body,
+      $this->buildElementItemsWithViewMore($items, 2),
+      'light-gray'
+    );
   }
 
   /**
@@ -239,11 +230,6 @@ trait ElementTrait {
    *   The render array.
    */
   protected function buildElementAccordion(string $title, array $body, array $items): array {
-    $elements = [];
-
-    // Title and description.
-    $elements[] = $this->buildParagraphTitleAndDescription($title, $body);
-
     // Add line separators to items.
     $items_wrapped = [];
     foreach ($items as $key => $item) {
@@ -255,14 +241,16 @@ trait ElementTrait {
     }
 
     // Accordion.
-    $elements[] = [
+    $items_wrapped = [
       '#theme' => 'server_theme_element__accordion',
       '#items' => $items_wrapped,
     ];
 
-    $element = $this->wrapContainerVerticalSpacingBig($elements);
-
-    return $this->wrapContainerWide($element);
+    return $this->buildParagraphTitleBodyAndItems(
+      $title,
+      $body,
+      $items_wrapped,
+    );
   }
 
   /**
@@ -279,14 +267,11 @@ trait ElementTrait {
    *   The render array.
    */
   protected function buildElementPeopleTeasers(string $title, array $body, array $items): array {
-    $elements = [];
-
-    // Title and description.
-    $elements[] = $this->buildParagraphTitleAndDescription($title, $body);
-    $elements[] = $this->buildCards($items);
-
-    $elements = $this->wrapContainerVerticalSpacingBig($elements);
-    return $this->wrapContainerWide($elements);
+    return $this->buildParagraphTitleBodyAndItems(
+      $title,
+      $body,
+      $this->buildCards($items),
+    );
   }
 
   /**
@@ -394,14 +379,11 @@ trait ElementTrait {
    *   Render array.
    */
   protected function buildElementQuickLinks(string $title, array $body, array $items): array {
-    $elements = [];
-
-    // Title and description.
-    $elements[] = $this->buildParagraphTitleAndDescription($title, $body);
-
-    $elements[] = $this->buildCards($items);
-    $elements = $this->wrapContainerVerticalSpacing($elements);
-    return $this->wrapContainerWide($elements);
+    return $this->buildParagraphTitleBodyAndItems(
+      $title,
+      $body,
+      $this->buildCards($items),
+    );
   }
 
   /**
@@ -440,6 +422,40 @@ trait ElementTrait {
       $title,
       $items,
     );
+  }
+
+  /**
+   * Helper; Build the paragraph title and description and the items.
+   *
+   * @param string $title
+   *   The title. Maybe empty.
+   * @param array $body
+   *   The body render array. Maybe empty.
+   * @param array $items
+   *   The items render array.
+   * @param string|null $bg_color
+   *   Optional; The background color. See `ElementWrapTrait::wrapContainerWide`
+   *   for the allowed values.
+   *
+   * @return array
+   *   The render array.
+   */
+  protected function buildParagraphTitleBodyAndItems(string $title, array $body, array $items, string $bg_color = NULL): array {
+    $top_elements = [];
+    $elements = [];
+    $top_elements[] = $this->buildParagraphTitle($title);
+
+    $body = $this->wrapTextColor($body, 'dark-gray');
+    $top_elements[] = $this->wrapProseText($body);
+
+    $top_elements = $this->wrapContainerVerticalSpacing($top_elements);
+    $top_elements = $this->wrapContainerMaxWidth($top_elements, '3xl');
+
+    $elements[] = $top_elements;
+    $elements[] = $items;
+
+    $elements = $this->wrapContainerVerticalSpacingBig($elements);
+    return $this->wrapContainerWide($elements, $bg_color);
   }
 
 }
