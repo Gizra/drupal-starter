@@ -631,9 +631,10 @@ class StyleGuideController extends ControllerBase {
     $items = $this->getRelatedContent(6, $is_featured);
 
     return $this->buildElementCarousel(
+      $this->t('Related content'),
+      $this->buildProcessedText('Description of the related content'),
       $items,
       $is_featured,
-      $this->t('Related content'),
       $button,
     );
   }

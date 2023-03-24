@@ -147,13 +147,15 @@ trait ElementTrait {
   /**
    * Build a Carousel.
    *
+   * @param string $title
+   *   Optional; The title.
+   * @param array $body
+   *   The body render array.
    * @param array $items
    *   The items to render inside the carousel.
    * @param bool $is_featured
    *   Determine if items inside the carousel are "featured". Usually a featured
    *   item means that only a single card should appear at a time.
-   * @param string|null $title
-   *   Optional; The title.
    * @param array|null $button
    *   Optional; The render array of the button, likely created with
    *   ButtonTrait::buildButton.
@@ -161,7 +163,7 @@ trait ElementTrait {
    * @return array
    *   Render array.
    */
-  protected function buildElementCarousel(array $items, bool $is_featured = FALSE, string $title = NULL, array $button = NULL): array {
+  protected function buildElementCarousel(string $title, array $body, array $items, bool $is_featured = FALSE, array $button = NULL): array {
     if (empty($items)) {
       return [];
     }
@@ -401,26 +403,6 @@ trait ElementTrait {
     return $this->buildElementLayoutParagraphTitleAndContent(
       $title,
       $this->wrapProseText($body),
-    );
-  }
-
-  /**
-   * Build a Paragraph title and content element.
-   *
-   * This is a more generic instance of `buildElementParagraphTitleAndText`.
-   *
-   * @param string $title
-   *   The title.
-   * @param array $items
-   *   The items render array.
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function buildElementParagraphTitleAndContent(string $title, array $items): array {
-    return $this->buildElementLayoutParagraphTitleAndContent(
-      $title,
-      $items,
     );
   }
 
