@@ -6,7 +6,7 @@ use Drupal\paragraphs\Entity\Paragraph;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Test 'cta' paragraph type.
+ * Test 'Cta' paragraph type.
  */
 class ServerGeneralParagraphCtaTest extends ServerGeneralParagraphTestBase {
 
@@ -65,9 +65,9 @@ class ServerGeneralParagraphCtaTest extends ServerGeneralParagraphTestBase {
     $this->drupalGet($node->toUrl());
     $this->assertSession()->statusCodeEquals(Response::HTTP_OK);
 
-    $this->assertSession()->elementTextContains('css', '.cta', 'Lorem ipsum dolor sit amet');
-    $this->assertSession()->elementTextContains('css', '.cta', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
-    $this->assertSession()->elementTextContains('css', '.cta', 'Button text');
+    $this->assertSession()->elementTextContains('css', '.paragraph--type--cta', 'Lorem ipsum dolor sit amet');
+    $this->assertSession()->elementTextContains('css', '.paragraph--type--cta', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
+    $this->assertSession()->elementTextContains('css', '.paragraph--type--cta', 'Button text');
     $this->assertSession()->linkExists('Button text');
     $this->assertSession()->linkByHrefExists('https://example.com');
   }

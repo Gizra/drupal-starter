@@ -45,20 +45,19 @@ trait ElementTrait {
     // Title.
     $element = $title;
     $element = $this->wrapTextResponsiveFontSize($element, '3xl');
+    $element = $this->wrapTextCenter($element);
     $elements[] = $this->wrapTextFontWeight($element, 'bold');
 
     // Text.
     $elements[] = $this->wrapProseText($body);
 
     // Button.
-    $elements[] = $this->buildButton($button_text, $url);
+    $elements[] = $this->buildButton($button_text, $url, TRUE);
 
     $elements = $this->wrapContainerVerticalSpacingBig($elements, 'center');
 
-    return [
-      '#theme' => 'server_theme_element__cta',
-      '#items' => $elements,
-    ];
+    $elements = $this->buildCardLayout($elements, 'light-gray');
+    return $this->wrapContainerNarrow($elements);
   }
 
   /**
@@ -82,17 +81,15 @@ trait ElementTrait {
     $elements = [];
 
     // Title.
-    $element = ['#markup' => $title];
-    $element = $this->wrapHtmlTag($element, 'h1');
+    $element = $this->wrapHtmlTag($title, 'h1');
     $elements[] = $this->wrapTextFontWeight($element, 'bold');
 
     // Subtitle.
-    $element = ['#markup' => $subtitle];
-    $element = $this->wrapTextResponsiveFontSize($element, 'xl');
+    $element = $this->wrapTextResponsiveFontSize($subtitle, 'xl');
     $elements[] = $this->wrapTextFontWeight($element, 'medium');
 
     // Button.
-    $elements[] = $this->buildButton($button_text, $url);
+    $elements[] = $this->buildButton($button_text, $url, TRUE);
 
     $elements = $this->wrapContainerVerticalSpacingBig($elements);
 
