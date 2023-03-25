@@ -74,6 +74,10 @@ trait DeploymentTrait {
     'web/themes/custom/server_theme/postcss.config.js',
     'node_modules',
     'mass_patch.sh',
+    'package.json',
+    'package-lock.json',
+    'composer.json',
+    'composer.lock',
   ];
 
   /**
