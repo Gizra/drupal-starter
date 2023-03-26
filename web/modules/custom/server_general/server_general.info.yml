@@ -3,3 +3,5 @@ type: module
 description: "General and common functionality"
 core_version_requirement: ^8 || ^9
 package: "server"
+dependencies:
+  - intl_date:intl_date

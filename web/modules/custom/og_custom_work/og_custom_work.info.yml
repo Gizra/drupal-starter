@@ -1,0 +1,9 @@
+name: OG Custom Work
+type: module
+description: Provides additional functionality for the site.
+package: Custom
+core_version_requirement: ^9 || ^10
+dependencies:
+  - og:og
+  - og_ui:og_ui
+  - pluggable_entity_view_builder:pluggable_entity_view_builder

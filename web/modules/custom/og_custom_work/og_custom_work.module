@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for OG Custom Work module.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function og_custom_work_theme($existing, $type, $theme, $path) {
+  $info = [];
+
+  $info['og_custom_work_group_body'] = [
+    'variables' => [
+      'name' => NULL,
+      'label' => NULL,
+    ],
+  ];
+
+  return $info;
+
+}
