@@ -388,3 +388,15 @@ To import the config translations:
 - Run `ddev robo locale:import-to-config`
 - Run `ddev drush config:export`
 - Review & commit the config changes
+
+## Two-factor Authentication (TFA)
+
+TFA is enabled for the Administrator and Content editor users.
+The default settings under `/admin/config/people/tfa` define "Skip Validation" is 1. That is,
+when a privileged user will login, they must enable their TFA. Otherwise, on a second
+login, they will already be blocked. A site admin may reset their validation tries
+under the `/admin/people` page.
+The TFA method that is enabled is one that uses Google authenticator (or similar).
+
+The TFA private key is created under `/var/www/tfa.key`.
+
