@@ -46,6 +46,16 @@ function server_style_guide_theme() {
     ],
   ];
 
+  // Person card.
+  $info['server_theme_person_card'] = [
+    'variables' => [],
+  ];
+
+  // Responsive Person card.
+  $info['server_theme_person_cards'] = [
+    'variables' => [],
+  ];
+
   return $info;
 }
 

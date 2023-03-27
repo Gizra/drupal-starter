@@ -98,6 +98,12 @@ class StyleGuideController extends ControllerBase {
   protected function getAllElements() : array {
     $build = [];
 
+    $element = $this->getPersonCard();
+    $build[] = $this->wrapElementWideContainer($element, 'Person card');
+
+    $element = $this->getPersonCards();
+    $build[] = $this->wrapElementWideContainer($element, 'Responsive Person card');
+
     $element = $this->getPageTitle();
     $build[] = $this->wrapElementWideContainer($element, 'Page title');
 
@@ -807,6 +813,18 @@ class StyleGuideController extends ControllerBase {
       );
     }
     return $elements;
+  }
+
+  protected function getPersonCard(): array {
+    return [
+      '#theme' => 'server_theme_person_card',
+    ];
+  }
+
+  protected function getPersonCards(): array {
+    return [
+      '#theme' => 'server_theme_person_cards',
+    ];
   }
 
 }
