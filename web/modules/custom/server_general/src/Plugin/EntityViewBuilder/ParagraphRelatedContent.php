@@ -6,6 +6,7 @@ use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
 use Drupal\server_general\ButtonTrait;
 use Drupal\server_general\ElementTrait;
+use Drupal\server_general\ProcessedTextBuilderTrait;
 
 /**
  * The "Related content" paragraph plugin.
@@ -20,6 +21,7 @@ class ParagraphRelatedContent extends EntityViewBuilderPluginAbstract {
 
   use ButtonTrait;
   use ElementTrait;
+  use ProcessedTextBuilderTrait;
 
   /**
    * Build full view mode.
@@ -43,9 +45,10 @@ class ParagraphRelatedContent extends EntityViewBuilderPluginAbstract {
     $view_mode = $is_featured ? 'featured' : 'teaser';
 
     $element = $this->buildElementCarousel(
+      $this->getTextFieldValue($entity, 'field_title'),
+      $this->buildProcessedText($entity, 'field_body'),
       $this->buildReferencedEntities($related_content, $view_mode),
       $is_featured,
-      $this->getTextFieldValue($entity, 'field_title'),
       $this->buildLinkButton($entity),
     );
     $build[] = $element;

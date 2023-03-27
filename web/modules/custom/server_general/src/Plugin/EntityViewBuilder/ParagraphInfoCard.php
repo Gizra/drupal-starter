@@ -1,25 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
 use Drupal\server_general\ElementTrait;
+use Drupal\server_general\ElementWrapTrait;
 use Drupal\server_general\ProcessedTextBuilderTrait;
-use Drupal\views\Views;
 
 /**
- * The "News teasers" paragraph plugin.
+ * The "Info card" paragraph plugin.
  *
- * @EntityViewBuilder(
- *   id = "paragraph.news_teasers",
- *   label = @Translation("Paragraph - News teasers"),
- *   description = "Paragraph view builder for 'News teasers' bundle."
+ * @EntityViewBuilder (
+ *   id = "paragraph.info_card",
+ *   label = @Translation("Paragraph - Info card"),
+ *   description = "Paragraph view builder for 'Info card'."
  * )
+ *
+ * @package Drupal\server_general\Plugin\EntityViewBuilder
  */
-class ParagraphNewsTeasers extends EntityViewBuilderPluginAbstract {
+class ParagraphInfoCard extends EntityViewBuilderPluginAbstract {
 
   use ElementTrait;
+  use ElementWrapTrait;
   use ProcessedTextBuilderTrait;
 
   /**
@@ -32,27 +37,18 @@ class ParagraphNewsTeasers extends EntityViewBuilderPluginAbstract {
    *
    * @return array
    *   Render array.
+   *
+   * @throws \Drupal\Core\TypedData\Exception\MissingDataException
    */
   public function buildFull(array $build, ParagraphInterface $entity): array {
-    $view = Views::getView('news');
-    if (empty($view)) {
-      return $build;
-    }
-
-    $view->preview('embed_1');
-    $view->execute();
-    if (empty($view->result)) {
-      // No results. Do not render.
-      return $build;
-    }
-
-    $element = $this->buildElementNewsTeasers(
+    $element = $this->buildCardInfoCard(
+      $this->getTextFieldValue($entity, 'field_info_card_header'),
       $this->getTextFieldValue($entity, 'field_title'),
-      $this->buildProcessedText($entity, 'field_body'),
-      $view->buildRenderable('embed_1'),
+      $this->getTextFieldValue($entity, 'field_subtitle'),
     );
 
     $build[] = $element;
+
     return $build;
   }
 

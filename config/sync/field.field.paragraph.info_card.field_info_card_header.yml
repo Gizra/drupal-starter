@@ -1,0 +1,19 @@
+uuid: 441f29fb-62f3-4886-8c66-78f4f5473d6b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_info_card_header
+    - paragraphs.paragraphs_type.info_card
+id: paragraph.info_card.field_info_card_header
+field_name: field_info_card_header
+entity_type: paragraph
+bundle: info_card
+label: Header
+description: 'The value that should appear on the top of the card (e.g. "100%").'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

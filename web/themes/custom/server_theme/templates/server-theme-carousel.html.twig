@@ -1,20 +1,9 @@
-<div class="bg-gray-100 py-4 md:py-5">
-  <div class="container-wide flex flex-col gap-6 md:gap-8 lg:gap-10">
-    {{ header_items }}
+{% embed '@server_theme/server-theme-carousel-base.html.twig' %}
+  {% set dots = 'true' %}
+  {% if is_featured %}
+    {% set slides_laptop = 1 %}
+    {% set slides_tablet = 1 %}
+    {% set slides_desktop = 1 %}
+  {% endif %}
+{% endembed %}
 
-    {% embed '@server_theme/server-theme-carousel-base.html.twig' %}
-      {% set dots = 'true' %}
-      {% if is_featured %}
-        {% set slides_laptop = 1 %}
-        {% set slides_tablet = 1 %}
-        {% set slides_desktop = 1 %}
-      {% endif %}
-    {% endembed %}
-
-    {% if button %}
-    <div class="flex justify-center pb-10">
-      {{ button }}
-    </div>
-    {% endif %}
-  </div>
-</div>

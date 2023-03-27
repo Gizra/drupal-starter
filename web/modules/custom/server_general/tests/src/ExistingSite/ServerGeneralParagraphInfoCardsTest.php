@@ -6,15 +6,15 @@ use Drupal\paragraphs\Entity\Paragraph;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Test 'Quick link' paragraph type.
+ * Test 'Info cards' paragraph type.
  */
-class ServerGeneralParagraphQuickLinksTest extends ServerGeneralParagraphTestBase {
+class ServerGeneralParagraphInfoCardsTest extends ServerGeneralParagraphTestBase {
 
   /**
    * {@inheritdoc}
    */
   public function getEntityBundle(): string {
-    return 'quick_links';
+    return 'info_cards';
   }
 
   /**
@@ -22,7 +22,7 @@ class ServerGeneralParagraphQuickLinksTest extends ServerGeneralParagraphTestBas
    */
   public function getRequiredFields(): array {
     return [
-      'field_quick_link_items',
+      'field_info_cards',
     ];
   }
 
@@ -44,28 +44,27 @@ class ServerGeneralParagraphQuickLinksTest extends ServerGeneralParagraphTestBas
     $paragraphs = [];
 
     foreach (range(1, 5) as $key) {
-      $title = 'This is the Quick link item title ' . $key;
-      $body = 'This is the Quick link subtitle ' . $key;
+      $header = 'This is the Info card header ' . $key;
+      $title = 'This is the Info card title ' . $key;
+      $subtitle = 'This is the Info card subtitle ' . $key;
 
       /** @var \Drupal\paragraphs\ParagraphInterface $paragraph */
-      $paragraph = Paragraph::create(['type' => 'quick_link_item']);
-      $paragraph->set('field_link', [
-        'uri' => 'https://example.com',
-        'title' => $title,
-      ]);
-      $paragraph->set('field_subtitle', $body);
+      $paragraph = Paragraph::create(['type' => 'info_card']);
+      $paragraph->set('field_info_card_header', $header);
+      $paragraph->set('field_title', $title);
+      $paragraph->set('field_subtitle', $subtitle);
       $paragraph->save();
       $this->markEntityForCleanup($paragraph);
       $paragraphs[] = $paragraph;
     }
 
-    // Create Quick links.
-    $title = 'This is the Quick links title';
-    $body = 'This is the Quick links description';
+    // Create accordion.
+    $title = 'This is the Info cards title';
+    $body = 'This is the Info cards body';
     $paragraph = Paragraph::create(['type' => $this->getEntityBundle()]);
     $paragraph->set('field_title', $title);
     $paragraph->set('field_body', $body);
-    $paragraph->set('field_quick_link_items', $paragraphs);
+    $paragraph->set('field_info_cards', $paragraphs);
     $paragraph->save();
     $this->markEntityForCleanup($paragraph);
 
@@ -83,18 +82,20 @@ class ServerGeneralParagraphQuickLinksTest extends ServerGeneralParagraphTestBas
     $this->drupalGet($node->toUrl());
     $this->assertSession()->statusCodeEquals(Response::HTTP_OK);
 
-    $this->assertSession()->elementTextContains('css', '.paragraph--type--quick-links', $title);
-    $this->assertSession()->elementTextContains('css', '.paragraph--type--quick-links', $body);
+    $this->assertSession()->elementTextContains('css', '.paragraph--type--info-cards', $title);
+    $this->assertSession()->elementTextContains('css', '.paragraph--type--info-cards', $body);
 
-    // Assert all quick link items are there.
-    $this->assertSession()->elementsCount('css', '.paragraph--type--quick-link-item', 5);
+    // Assert all accordion items are there and hidden.
+    $this->assertSession()->elementsCount('css', '.paragraph--type--info-card', 5);
 
     // Assert all accordion items' titles and body are there.
     foreach (range(1, 5) as $key) {
-      $title = 'This is the Quick link item title ' . $key;
-      $body = 'This is the Quick link subtitle ' . $key;
-      $this->assertSession()->elementTextContains('css', '.paragraph--type--quick-links', $title);
-      $this->assertSession()->elementTextContains('css', '.paragraph--type--quick-links', $body);
+      $header = 'This is the Info card header ' . $key;
+      $title = 'This is the Info card title ' . $key;
+      $subtitle = 'This is the Info card subtitle ' . $key;
+      $this->assertSession()->elementTextContains('css', '.paragraph--type--info-cards', $header);
+      $this->assertSession()->elementTextContains('css', '.paragraph--type--info-cards', $title);
+      $this->assertSession()->elementTextContains('css', '.paragraph--type--info-cards', $subtitle);
     }
   }
 
