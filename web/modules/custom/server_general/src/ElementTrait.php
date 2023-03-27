@@ -101,7 +101,7 @@ trait ElementTrait {
   }
 
   /**
-   * Build a Hero image.
+   * Build an Info cards element.
    *
    * @param string $title
    *   The title.
