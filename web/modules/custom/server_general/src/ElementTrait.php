@@ -147,13 +147,15 @@ trait ElementTrait {
   /**
    * Build a Carousel.
    *
+   * @param string $title
+   *   Optional; The title.
+   * @param array $body
+   *   The body render array.
    * @param array $items
    *   The items to render inside the carousel.
    * @param bool $is_featured
    *   Determine if items inside the carousel are "featured". Usually a featured
    *   item means that only a single card should appear at a time.
-   * @param string|null $title
-   *   Optional; The title.
    * @param array|null $button
    *   Optional; The render array of the button, likely created with
    *   ButtonTrait::buildButton.
@@ -161,21 +163,30 @@ trait ElementTrait {
    * @return array
    *   Render array.
    */
-  protected function buildElementCarousel(array $items, bool $is_featured = FALSE, string $title = NULL, array $button = NULL): array {
+  protected function buildElementCarousel(string $title, array $body, array $items, bool $is_featured = FALSE, array $button = NULL): array {
     if (empty($items)) {
       return [];
     }
 
-    $header_items = [];
-    $header_items[] = $this->buildParagraphTitle($title);
-
-    return [
+    $elements = [];
+    $elements[] = [
       '#theme' => 'server_theme_carousel',
-      '#header_items' => $header_items,
       '#items' => $items,
-      '#button' => $button,
       '#is_featured' => $is_featured,
     ];
+
+    if ($button) {
+      $elements[] = $this->wrapTextCenter($button);
+    }
+
+    $elements = $this->wrapContainerVerticalSpacing($elements);
+
+    return $this->buildParagraphTitleBodyAndItems(
+      $title,
+      $body,
+      $elements,
+      'light-gray',
+    );
   }
 
   /**
@@ -250,6 +261,27 @@ trait ElementTrait {
       $title,
       $body,
       $items_wrapped,
+    );
+  }
+
+  /**
+   * Build News teasers element.
+   *
+   * @param string $title
+   *   The title.
+   * @param array $body
+   *   The body render array.
+   * @param array $items
+   *   The quick links array rendered with `CardTrait::buildCardQuickLink`.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function buildElementNewsTeasers(string $title, array $body, array $items): array {
+    return $this->buildParagraphTitleBodyAndItems(
+      $title,
+      $body,
+      $items,
     );
   }
 
@@ -371,7 +403,7 @@ trait ElementTrait {
    * @param string $title
    *   The title.
    * @param array $body
-   *   The description render array.
+   *   The body render array.
    * @param array $items
    *   The quick links array rendered with `CardTrait::buildCardQuickLink`.
    *
@@ -405,26 +437,6 @@ trait ElementTrait {
   }
 
   /**
-   * Build a Paragraph title and content element.
-   *
-   * This is a more generic instance of `buildElementParagraphTitleAndText`.
-   *
-   * @param string $title
-   *   The title.
-   * @param array $items
-   *   The items render array.
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function buildElementParagraphTitleAndContent(string $title, array $items): array {
-    return $this->buildElementLayoutParagraphTitleAndContent(
-      $title,
-      $items,
-    );
-  }
-
-  /**
    * Helper; Build the paragraph title and description and the items.
    *
    * @param string $title
@@ -445,8 +457,9 @@ trait ElementTrait {
     $elements = [];
     $top_elements[] = $this->buildParagraphTitle($title);
 
+    $body = $this->wrapProseText($body);
     $body = $this->wrapTextColor($body, 'dark-gray');
-    $top_elements[] = $this->wrapProseText($body);
+    $top_elements[] = $body;
 
     $top_elements = $this->wrapContainerVerticalSpacingTiny($top_elements);
     $top_elements = $this->wrapContainerMaxWidth($top_elements, '3xl');
@@ -454,7 +467,7 @@ trait ElementTrait {
     $elements[] = $top_elements;
     $elements[] = $items;
 
-    $elements = $this->wrapContainerVerticalSpacingBig($elements);
+    $elements = $this->wrapContainerVerticalSpacing($elements);
     return $this->wrapContainerWide($elements, $bg_color);
   }
 

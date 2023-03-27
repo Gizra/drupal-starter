@@ -113,17 +113,8 @@ class StyleGuideController extends ControllerBase {
 
     $build[] = $this->getTextDecorations();
 
-    $element = $this->getCardsWithImageForNews();
-    $build[] = $this->wrapElementWideContainer($element, 'Cards: With image (News cards)');
-
-    $element = $this->getRelatedContentCarousel(FALSE);
-    $build[] = $this->wrapElementNoContainer($element, 'Cards: Carousel (Related content, not featured)');
-
-    $element = $this->getRelatedContentCarousel(TRUE);
-    $build[] = $this->wrapElementNoContainer($element, 'Cards: Carousel (Related content, featured)');
-
     $element = $this->getAccordion();
-    $build[] = $this->wrapElementWideContainer($element, 'Element: Accordion');
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Accordion');
 
     $element = $this->getCta();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Call to Action');
@@ -146,20 +137,29 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getMediaVideo();
     $build[] = $this->wrapElementWideContainer($element, 'Element: Media Video');
 
+    $element = $this->getNewsTeasers();
+    $build[] = $this->wrapElementNoContainer($element, 'Element: News teasers');
+
     $element = $this->getParagraphTitleAndText();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Paragraph title and text');
 
     $element = $this->getPeopleTeasers();
     $build[] = $this->wrapElementNoContainer($element, 'Element: People teasers');
 
-    $element = $this->getSearchTermFacetsAndResults();
-    $build[] = $this->wrapElementNoContainer($element, 'Element: Search term, facets and results');
-
     $element = $this->getQuote();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Quote');
 
     $element = $this->getQuickLinks();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Quick links');
+
+    $element = $this->getRelatedContentCarousel(FALSE);
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Related content (Carousel, not featured)');
+
+    $element = $this->getRelatedContentCarousel(TRUE);
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Related content (Carousel, featured)');
+
+    $element = $this->getSearchTermFacetsAndResults();
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Search term, facets and results');
 
     $element = $this->getNodeNews();
     $build[] = $this->wrapElementNoContainer($element, 'Node view: News');
@@ -415,12 +415,12 @@ class StyleGuideController extends ControllerBase {
   }
 
   /**
-   * Get cards with image.
+   * Get "News teasers" element.
    *
    * @return array
    *   Render array.
    */
-  protected function getCardsWithImageForNews(): array {
+  protected function getNewsTeasers(): array {
     $image = $this->buildImage($this->getPlaceholderImage(300, 200));
     $title = 'Never Changing Will Eventually Destroy You, But then You Should See The Longest Title, This one works. check the below one , ideally speaking it, pretty amazing eh, you will see';
     $url = Url::fromRoute('<front>');
@@ -454,7 +454,13 @@ class StyleGuideController extends ControllerBase {
       $card2,
     ];
 
-    return $this->buildCards($items);
+    return $this->buildElementNewsTeasers(
+      $this->getRandomTitle(),
+      $this->buildProcessedText('The News teasers <em>description</em>'),
+      // We're mimicking what we have in
+      // `views-view-unformatted--news.html.twig`.
+      $this->buildCards($items),
+    );
   }
 
   /**
@@ -631,9 +637,10 @@ class StyleGuideController extends ControllerBase {
     $items = $this->getRelatedContent(6, $is_featured);
 
     return $this->buildElementCarousel(
+      $this->t('Related content'),
+      $this->buildProcessedText('Description of the related content'),
       $items,
       $is_featured,
-      $this->t('Related content'),
       $button,
     );
   }
