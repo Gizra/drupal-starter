@@ -30,7 +30,7 @@ validation_plugin_settings:
     site_name_prefix: 1
     name_prefix: TFA
     issuer: Drupal
-validation_skip: 3
+validation_skip: 1
 encryption: tfa
 tfa_flood_uid_only: 1
 tfa_flood_window: 300
