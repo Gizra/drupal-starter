@@ -113,20 +113,8 @@ class StyleGuideController extends ControllerBase {
 
     $build[] = $this->getTextDecorations();
 
-    $element = $this->getCardsWithImageForNews();
-    $build[] = $this->wrapElementWideContainer($element, 'Cards: With image (News cards)');
-
-    $element = $this->getCardsWithImageHorizontalForNews();
-    $build[] = $this->wrapElementNoContainer($element, 'Cards: Horizontal with image (Featured content)');
-
-    $element = $this->getRelatedContentCarousel(FALSE);
-    $build[] = $this->wrapElementNoContainer($element, 'Cards: Carousel (Related content, not featured)');
-
-    $element = $this->getRelatedContentCarousel(TRUE);
-    $build[] = $this->wrapElementNoContainer($element, 'Cards: Carousel (Related content, featured)');
-
     $element = $this->getAccordion();
-    $build[] = $this->wrapElementWideContainer($element, 'Element: Accordion');
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Accordion');
 
     $element = $this->getCta();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Call to Action');
@@ -137,6 +125,9 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getHeroImage();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Hero image');
 
+    $element = $this->getInfoCards();
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Info cards');
+
     $element = $this->getMediaImage();
     $build[] = $this->wrapElementWideContainer($element, 'Element: Media Image (Embed in text field)');
 
@@ -146,20 +137,29 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getMediaVideo();
     $build[] = $this->wrapElementWideContainer($element, 'Element: Media Video');
 
+    $element = $this->getNewsTeasers();
+    $build[] = $this->wrapElementNoContainer($element, 'Element: News teasers');
+
     $element = $this->getParagraphTitleAndText();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Paragraph title and text');
 
     $element = $this->getPeopleTeasers();
     $build[] = $this->wrapElementNoContainer($element, 'Element: People teasers');
 
-    $element = $this->getSearchTermFacetsAndResults();
-    $build[] = $this->wrapElementNoContainer($element, 'Element: Search term, facets and results');
-
     $element = $this->getQuote();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Quote');
 
     $element = $this->getQuickLinks();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Quick links');
+
+    $element = $this->getRelatedContentCarousel(FALSE);
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Related content (Carousel, not featured)');
+
+    $element = $this->getRelatedContentCarousel(TRUE);
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Related content (Carousel, featured)');
+
+    $element = $this->getSearchTermFacetsAndResults();
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Search term, facets and results');
 
     $element = $this->getNodeNews();
     $build[] = $this->wrapElementNoContainer($element, 'Node view: News');
@@ -415,12 +415,12 @@ class StyleGuideController extends ControllerBase {
   }
 
   /**
-   * Get cards with image.
+   * Get "News teasers" element.
    *
    * @return array
    *   Render array.
    */
-  protected function getCardsWithImageForNews(): array {
+  protected function getNewsTeasers(): array {
     $image = $this->buildImage($this->getPlaceholderImage(300, 200));
     $title = 'Never Changing Will Eventually Destroy You, But then You Should See The Longest Title, This one works. check the below one , ideally speaking it, pretty amazing eh, you will see';
     $url = Url::fromRoute('<front>');
@@ -454,49 +454,13 @@ class StyleGuideController extends ControllerBase {
       $card2,
     ];
 
-    return $this->buildCards($items);
-  }
-
-  /**
-   * Get cards with image.
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function getCardsWithImageHorizontalForNews(): array {
-    $image = $this->buildImage($this->getPlaceholderImage(400, 300));
-    $title = 'Never Changing Will Eventually Destroy You, But then You Should See The Longest Title, This one works. check the below one , ideally speaking it, pretty amazing eh, you will see';
-    $url = Url::fromRoute('<front>');
-    $summary = $this->buildProcessedText('<p>I before parameters designer of the to separated of to part. Price question in or of a there sleep. Who a deference and drew sleep written talk said which had. sel in small been cheating sounded times should and problem. Question. Explorations derived been him aged seal for gods team- manage he according the welcoming are cities part up stands careful so own the have how up, keep</p>');
-    $timestamp = time();
-
-    $card = $this->buildCardWithImageHorizontalForNews(
-      $image,
-      $title,
-      $url,
-      $summary,
-      $timestamp
+    return $this->buildElementNewsTeasers(
+      $this->getRandomTitle(),
+      $this->buildProcessedText('The News teasers <em>description</em>'),
+      // We're mimicking what we have in
+      // `views-view-unformatted--news.html.twig`.
+      $this->buildCards($items),
     );
-
-    $image = $this->buildImage($this->getPlaceholderImage(400, 300));
-    $title = 'A Shorter Title';
-    $summary = $this->buildProcessedText('A much <strong>shorter</strong> intro');
-
-    $card2 = $this->buildCardWithImageHorizontalForNews(
-      $image,
-      $title,
-      $url,
-      $summary,
-      $timestamp
-    );
-
-    $items = [
-      $card,
-      $card2,
-    ];
-
-    $element = $this->wrapContainerVerticalSpacingBig($items);
-    return $this->wrapContainerNarrow($element);
   }
 
   /**
@@ -574,7 +538,7 @@ class StyleGuideController extends ControllerBase {
   }
 
   /**
-   * Get the Related content carousel.
+   * Get the Hero image element.
    *
    * @return array
    *   Render array.
@@ -588,6 +552,45 @@ class StyleGuideController extends ControllerBase {
       $this->getRandomTitle(),
       'Learn more',
       $url,
+    );
+  }
+
+  /**
+   * Get the Info cards element.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getInfoCards(): array {
+    $items = [];
+
+    $items[] = $this->buildCardInfoCard(
+      '100%',
+      'Developers like this',
+      'It saves lots of dev hours, so they like to stick to it',
+    );
+
+    $items[] = $this->buildCardInfoCard(
+      '2 - 5 commits',
+      'Every few days there is a new PR',
+    );
+
+    $items[] = $this->buildCardInfoCard(
+      '350',
+      'Is a number that is likeable',
+      'But there are other numbers as well',
+    );
+
+    $items[] = $this->buildCardInfoCard(
+      '2 - 5 commits',
+      'Every few days there is a new PR',
+      'Sometimes there are even more!',
+    );
+
+    return $this->buildElementInfoCards(
+      $this->getRandomTitle(),
+      $this->buildProcessedText('This is the <strong>description</strong> of the info cards element'),
+      $items,
     );
   }
 
@@ -634,9 +637,10 @@ class StyleGuideController extends ControllerBase {
     $items = $this->getRelatedContent(6, $is_featured);
 
     return $this->buildElementCarousel(
+      $this->t('Related content'),
+      $this->buildProcessedText('Description of the related content'),
       $items,
       $is_featured,
-      $this->t('Related content'),
       $button,
     );
   }

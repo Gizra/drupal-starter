@@ -1,25 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
 use Drupal\server_general\ElementTrait;
+use Drupal\server_general\ElementWrapTrait;
 use Drupal\server_general\ProcessedTextBuilderTrait;
-use Drupal\views\Views;
 
 /**
- * The "News teasers" paragraph plugin.
+ * The "Info cards" paragraph plugin.
  *
- * @EntityViewBuilder(
- *   id = "paragraph.news_teasers",
- *   label = @Translation("Paragraph - News teasers"),
- *   description = "Paragraph view builder for 'News teasers' bundle."
+ * @EntityViewBuilder (
+ *   id = "paragraph.info_cards",
+ *   label = @Translation("Paragraph - Info cards"),
+ *   description = "Paragraph view builder for 'Info cards'."
  * )
+ *
+ * @package Drupal\server_general\Plugin\EntityViewBuilder
  */
-class ParagraphNewsTeasers extends EntityViewBuilderPluginAbstract {
+class ParagraphInfoCards extends EntityViewBuilderPluginAbstract {
 
   use ElementTrait;
+  use ElementWrapTrait;
   use ProcessedTextBuilderTrait;
 
   /**
@@ -34,25 +39,18 @@ class ParagraphNewsTeasers extends EntityViewBuilderPluginAbstract {
    *   Render array.
    */
   public function buildFull(array $build, ParagraphInterface $entity): array {
-    $view = Views::getView('news');
-    if (empty($view)) {
-      return $build;
-    }
+    /** @var \Drupal\Core\Field\EntityReferenceFieldItemListInterface $paragraphs */
+    $paragraphs = $entity->get('field_info_cards');
+    $items = $this->buildReferencedEntities($paragraphs, 'full', $entity->language()->getId());
 
-    $view->preview('embed_1');
-    $view->execute();
-    if (empty($view->result)) {
-      // No results. Do not render.
-      return $build;
-    }
-
-    $element = $this->buildElementNewsTeasers(
+    $element = $this->buildElementInfoCards(
       $this->getTextFieldValue($entity, 'field_title'),
       $this->buildProcessedText($entity, 'field_body'),
-      $view->buildRenderable('embed_1'),
+      $items,
     );
 
     $build[] = $element;
+
     return $build;
   }
 
