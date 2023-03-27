@@ -9,6 +9,9 @@ hooks:
     # Private files directory.
     - exec: mkdir /var/www/private
 
+    # Create a private key for Two-factor Authentication (TFA).
+    - exec: openssl rand -base64 32 > /var/www/tfa.key
+
     # Install profile
     - exec: drush site-install server -y --existing-config
 
