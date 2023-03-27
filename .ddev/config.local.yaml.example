@@ -10,6 +10,7 @@ hooks:
     - exec: mkdir /var/www/private
 
     # Create a private key for Two-factor Authentication (TFA).
+    # Created with `openssl rand -base64 32 > /var/www/tfa.key`
     - exec: openssl rand -base64 32 > /var/www/tfa.key
 
     # Install profile
