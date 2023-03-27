@@ -192,7 +192,7 @@ trait CardTrait {
   }
 
   /**
-   * Build a Person teaser.
+   * Build an Info card element.
    *
    * @param string $header
    *   The header. Usually used for the number (e.g. "100%").
