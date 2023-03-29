@@ -151,7 +151,7 @@ function server_theme_theme() {
       // The image render array.
       'image' => [],
       // Render array of the photo credit.
-      'image_items' => [],
+      'credit' => [],
     ],
   ];
 

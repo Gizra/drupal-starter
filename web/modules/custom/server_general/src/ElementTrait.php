@@ -384,16 +384,16 @@ trait ElementTrait {
     $items[] = $this->wrapTextItalic($element);
 
     // The photo credit on top of the image.
-    $image_items = [];
+    $credit = [];
     if (!empty($image_credit)) {
-      $image_items[] = ['#markup' => '© ' . $image_credit];
+      $credit[] = ['#markup' => '© ' . $image_credit];
     }
 
     return [
       '#theme' => 'server_theme_element_layout__split_image_and_content',
       '#items' => $this->wrapContainerVerticalSpacing($items),
       '#image' => $image,
-      '#image_items' => $image_items,
+      '#credit' => $credit,
     ];
   }
 
