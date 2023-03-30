@@ -240,7 +240,7 @@ In order to provide verbose release notes, it is required to [create a personal
 access token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token).
 At the token [creation page](https://github.com/settings/tokens/new), grant `repo` scope (all permissions) to the new token.
 
-To have the token for all projects in one step, you might edit the global DDEV configuration file instead:
+To have the token for all projects in one step, you can edit the global DDEV configuration file:
 ```bash
 ddev config global --web-environment-add="GITHUB_USERNAME=your_github_username"
 ddev config global --web-environment-add="GITHUB_ACCESS_TOKEN=your_github_access_token"
