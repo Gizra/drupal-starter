@@ -31,7 +31,7 @@
         "drupal/core-composer-scaffold": "^9.0.0",
         "drupal/core-project-message": "^9.0.0",
         "drupal/core-recommended": "^9.0.0",
-        "drupal/elasticsearch_connector": "^7.0@alpha",
+        "drupal/elasticsearch_connector": "7.0.0-alpha3",
         "drupal/emptyparagraphkiller": "^1.0@alpha",
         "drupal/entity_browser": "^2.9",
         "drupal/environment_indicator": "^4.0",
