@@ -238,9 +238,13 @@ Deployments should imply a release, you can generate a release notes based on
 tags.
 In order to provide verbose release notes, it is required to [create a personal
 access token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token).
-Then specify two [new environment variables for DDEV web container](https://ddev.readthedocs.io/en/stable/users/extend/customization-extendibility/#providing-custom-environment-variables-to-a-container):
- - `GITHUB_USERNAME`
- - `GITHUB_ACCESS_TOKEN`
+At the token [creation page](https://github.com/settings/tokens/new), grant `repo` scope (all permissions) to the new token.
+
+To have the token for all projects in one step, you can edit the global DDEV configuration file:
+```bash
+ddev config global --web-environment-add="GITHUB_USERNAME=your_github_username"
+ddev config global --web-environment-add="GITHUB_ACCESS_TOKEN=your_github_access_token"
+```
 
 Then you can generate a changelog using
 
