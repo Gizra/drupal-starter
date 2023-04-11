@@ -7,3 +7,4 @@ RUN apt-get update
 # packages that would increase the image size.
 RUN DEBIAN_FRONTEND=noninteractive apt --fix-missing update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -o Dpkg::Options::="--force-confold" --no-install-recommends --no-install-suggests optipng jpegoptim
+RUN terminus self:plugin:install terminus-secrets-manager-plugin
