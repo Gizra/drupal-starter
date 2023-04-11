@@ -97,3 +97,5 @@ $settings['config_exclude_modules'] = [
   'webprofiler',
   'stage_file_proxy',
 ];
+
+putenv('TFA_KEY="' . file_get_contents('/var/www/tfa.key') . "\"");
