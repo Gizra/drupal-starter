@@ -54,10 +54,11 @@ trait ElementMediaTrait {
    *   The render array.
    */
   protected function buildElementImageWithCreditOverlay(array $image, string $credit = NULL): array {
+
     return [
       '#theme' => 'server_theme_image_with_credit_overlay',
       '#image' => $this->wrapRoundedCornersBig($image),
-      '#credit' => $credit,
+      '#credit' => $credit ? '© ' . $credit : NULL,
     ];
   }
 
