@@ -230,7 +230,7 @@ class StyleGuideController extends ControllerBase {
       'Rick Morty',
     ];
     foreach ($names as $key => $name) {
-      $items[] = $this->buildCardPersonTeaser(
+      $items[] = $this->buildInnerElementPersonTeaser(
         $this->getPlaceholderPersonImage(100),
         'The image alt ' . $name,
         $name,
@@ -303,7 +303,7 @@ class StyleGuideController extends ControllerBase {
    */
   protected function getSearchTermFacetsAndResults(): array {
     $result_items = [];
-    $result_items[] = $this->buildCardSearchResult(
+    $result_items[] = $this->buildInnerElementSearchResult(
       'News',
       $this->getRandomTitle(),
       Url::fromRoute('<front>'),
@@ -311,7 +311,7 @@ class StyleGuideController extends ControllerBase {
       time()
     );
 
-    $result_items[] = $this->buildCardSearchResult(
+    $result_items[] = $this->buildInnerElementSearchResult(
       'News',
       $this->getRandomTitle(),
       Url::fromRoute('<front>'),
@@ -358,7 +358,7 @@ class StyleGuideController extends ControllerBase {
     while ($i <= 4) {
       $subtitle = $i == 2 ? 'This is a quick link description' : NULL;
 
-      $items[] = $this->buildCardQuickLinkItem(
+      $items[] = $this->buildInnerElementQuickLinkItem(
         $this->getRandomTitle(),
         $url,
         $subtitle,
@@ -427,7 +427,7 @@ class StyleGuideController extends ControllerBase {
     $summary = $this->buildProcessedText('<p>I before parameters designer of the to separated of to part. Price question in or of a there sleep. Who a deference and drew sleep written talk said which had. sel in small been cheating sounded times should and problem. Question. Explorations derived been him aged seal for gods team- manage he according the welcoming are cities part up stands careful so own the have how up, keep</p>');
     $timestamp = time();
 
-    $card = $this->buildCardWithImageForNews(
+    $card = $this->buildInnerElementWithImageForNews(
       $image,
       $title,
       $url,
@@ -439,7 +439,7 @@ class StyleGuideController extends ControllerBase {
     $title = 'A Shorter Title';
     $summary = $this->buildProcessedText('A much <strong>shorter</strong> intro');
 
-    $card2 = $this->buildCardWithImageForNews(
+    $card2 = $this->buildInnerElementWithImageForNews(
       $image,
       $title,
       $url,
@@ -564,24 +564,24 @@ class StyleGuideController extends ControllerBase {
   protected function getInfoCards(): array {
     $items = [];
 
-    $items[] = $this->buildCardInfoCard(
+    $items[] = $this->buildInnerElementInfoCard(
       '100%',
       'Developers like this',
       'It saves lots of dev hours, so they like to stick to it',
     );
 
-    $items[] = $this->buildCardInfoCard(
+    $items[] = $this->buildInnerElementInfoCard(
       '2 - 5 commits',
       'Every few days there is a new PR',
     );
 
-    $items[] = $this->buildCardInfoCard(
+    $items[] = $this->buildInnerElementInfoCard(
       '350',
       'Is a number that is likeable',
       'But there are other numbers as well',
     );
 
-    $items[] = $this->buildCardInfoCard(
+    $items[] = $this->buildInnerElementInfoCard(
       '2 - 5 commits',
       'Every few days there is a new PR',
       'Sometimes there are even more!',
@@ -605,7 +605,7 @@ class StyleGuideController extends ControllerBase {
     $i = 1;
     while ($i <= 8) {
       // Add documents.
-      $items[] = $this->buildCardMediaDocument(
+      $items[] = $this->buildInnerElementMediaDocument(
         $this->getRandomTitle(),
         Url::fromUserInput('/modules/custom/server_migrate/files/drupal-starter.pdf')->toString(),
       );
@@ -656,7 +656,7 @@ class StyleGuideController extends ControllerBase {
 
     for ($i = 0; $i < 7; $i++) {
       // Add accordion items.
-      $items[] = $this->buildCardAccordionItem(
+      $items[] = $this->buildInnerElementAccordionItem(
         $this->getRandomTitle(),
         $this->buildProcessedText('Content ' . $i . ' Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'),
       );

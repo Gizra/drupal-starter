@@ -36,7 +36,7 @@ class MediaDocument extends EntityViewBuilderPluginAbstract {
     /** @var \Drupal\file\FileInterface $file */
     $file = $this->getReferencedEntityFromField($entity, 'field_media_file');
 
-    $build[] = $this->buildCardMediaDocument(
+    $build[] = $this->buildInnerElementMediaDocument(
       $entity->getName(),
       $file->createFileUrl(),
     );

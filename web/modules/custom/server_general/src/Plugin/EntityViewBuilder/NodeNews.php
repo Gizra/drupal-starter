@@ -89,7 +89,7 @@ class NodeNews extends NodeViewBuilderAbstract {
     $summary = $this->buildProcessedTextTrimmed($entity, 'field_body');
     $timestamp = $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date');
 
-    $element = $this->buildCardWithImageForNews(
+    $element = $this->buildInnerElementWithImageForNews(
       $image,
       $title,
       $url,
@@ -121,7 +121,7 @@ class NodeNews extends NodeViewBuilderAbstract {
     $summary = $this->buildProcessedText($entity, 'field_body');
     $timestamp = $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date');
 
-    $element = $this->buildCardWithImageHorizontalForNews(
+    $element = $this->buildInnerElementWithImageHorizontalForNews(
       $image,
       $title,
       $url,
@@ -146,7 +146,7 @@ class NodeNews extends NodeViewBuilderAbstract {
    *   Render array.
    */
   public function buildSearchIndex(array $build, NodeInterface $entity) {
-    $element = $this->buildCardSearchResult(
+    $element = $this->buildInnerElementSearchResult(
       $this->t('News'),
       $entity->label(),
       $entity->toUrl(),
