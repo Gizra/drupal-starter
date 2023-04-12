@@ -137,7 +137,7 @@ trait ElementNodeNewsTrait {
 
     return $this->buildElementLayoutMainAndSidebar(
       $this->wrapContainerVerticalSpacingBig($main_elements),
-      $this->buildCardLayout($sidebar_elements),
+      $this->buildInnerElementLayout($sidebar_elements),
     );
   }
 

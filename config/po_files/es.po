@@ -14,11 +14,11 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
-#: modules/custom/server_general/src/CardTrait.php:127;167 modules/custom/server_general/src/Plugin/EntityViewBuilder/NodeNews.php:215
+#: modules/custom/server_general/src/InnerElementTrait.php:127;167 modules/custom/server_general/src/Plugin/EntityViewBuilder/NodeNews.php:215
 msgid "News"
 msgstr ""
 
-#: modules/custom/server_general/src/CardTrait.php:184
+#: modules/custom/server_general/src/InnerElementTrait.php:184
 msgid "Read more"
 msgstr ""
 

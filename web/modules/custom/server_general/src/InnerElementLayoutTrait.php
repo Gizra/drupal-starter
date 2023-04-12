@@ -11,9 +11,9 @@ use Drupal\Core\Url;
  * Helper methods for rendering different Card layouts.
  *
  * A card layout can be for example a card with an image, or a card with
- * centered items. This trait should only be used by `CardTrait`. You should not
- * try to call this trait's methods directly from the Style guide or PEVB,
- * instead you should be calling the methods from `CardTrait`.
+ * centered items. This trait should only be used by `InnerElementTrait`.
+ * You should not try to call this trait's methods directly from the Style guide
+ * or PEVB, instead you should be calling the methods from `InnerElementTrait`.
  *
  * Trait is providing helper methods for each card. One method equals one theme
  * file.
@@ -33,9 +33,9 @@ trait InnerElementLayoutTrait {
    * @return array
    *   Render array.
    */
-  protected function buildCardLayout(array $items, string $bg_color = NULL): array {
+  protected function buildInnerElementLayout(array $items, string $bg_color = NULL): array {
     return [
-      '#theme' => 'server_theme_card_layout',
+      '#theme' => 'server_theme_inner_element_layout',
       '#items' => $this->wrapContainerVerticalSpacing($items),
       '#bg_color' => $bg_color,
     ];
@@ -50,9 +50,9 @@ trait InnerElementLayoutTrait {
    * @return array
    *   Render array.
    */
-  protected function buildCardLayoutCentered(array $items): array {
+  protected function buildInnerElementLayoutCentered(array $items): array {
     return [
-      '#theme' => 'server_theme_card_layout__centered',
+      '#theme' => 'server_theme_inner_element_layout__centered',
       '#items' => $this->wrapContainerVerticalSpacing($items, 'center'),
     ];
   }
@@ -73,9 +73,9 @@ trait InnerElementLayoutTrait {
    * @return array
    *   Render array.
    */
-  protected function buildCardLayoutWithImage(Url $url, array $image, array $items): array {
+  protected function buildInnerElementLayoutWithImage(Url $url, array $image, array $items): array {
     return [
-      '#theme' => 'server_theme_card_layout__with_image',
+      '#theme' => 'server_theme_inner_element_layout__with_image',
       '#image' => $image,
       '#url' => $url,
       '#items' => $this->wrapContainerVerticalSpacing($items),
@@ -95,9 +95,9 @@ trait InnerElementLayoutTrait {
    * @return array
    *   Render array.
    */
-  protected function buildCardLayoutWithImageHorizontal(Url $url, array $image, array $items): array {
+  protected function buildInnerElementLayoutWithImageHorizontal(Url $url, array $image, array $items): array {
     return [
-      '#theme' => 'server_theme_card_layout__with_image_horizontal',
+      '#theme' => 'server_theme_inner_element_layout__with_image_horizontal',
       '#image' => $image,
       '#url' => $url,
       '#items' => $this->wrapContainerVerticalSpacing($items),

@@ -62,7 +62,7 @@ trait InnerElementTrait {
     // Body teaser.
     $elements[] = $this->wrapTextLineClamp($summary, 4);
 
-    return $this->buildCardLayoutWithImage($url, $image, $elements);
+    return $this->buildInnerElementLayoutWithImage($url, $image, $elements);
   }
 
   /**
@@ -105,7 +105,7 @@ trait InnerElementTrait {
     // Read more button.
     $elements[] = $this->buildButton($this->t('Read more'), $url);
 
-    return $this->buildCardLayoutWithImageHorizontal($url, $image, $elements);
+    return $this->buildInnerElementLayoutWithImageHorizontal($url, $image, $elements);
   }
 
   /**
@@ -148,7 +148,7 @@ trait InnerElementTrait {
     $element = $this->wrapTextColor($element, 'light-gray');
     $elements[] = $this->wrapTextResponsiveFontSize($element, 'sm');
 
-    return $this->buildCardLayout($elements);
+    return $this->buildInnerElementLayout($elements);
   }
 
   /**
@@ -227,7 +227,7 @@ trait InnerElementTrait {
 
     $elements = $this->wrapContainerVerticalSpacing($elements, 'center');
 
-    return $this->buildCardLayout($elements, 'light-gray');
+    return $this->buildInnerElementLayout($elements, 'light-gray');
   }
 
   /**
@@ -269,7 +269,7 @@ trait InnerElementTrait {
 
     $elements[] = $this->wrapContainerVerticalSpacingTiny($inner_elements, 'center');
 
-    return $this->buildCardLayoutCentered($elements);
+    return $this->buildInnerElementLayoutCentered($elements);
   }
 
   /**

@@ -56,7 +56,7 @@ trait ElementTrait {
 
     $elements = $this->wrapContainerVerticalSpacingBig($elements, 'center');
 
-    $elements = $this->buildCardLayout($elements, 'light-gray');
+    $elements = $this->buildInnerElementLayout($elements, 'light-gray');
     return $this->wrapContainerNarrow($elements);
   }
 
@@ -108,7 +108,7 @@ trait ElementTrait {
    * @param array $body
    *   The body render array.
    * @param array $items
-   *   The render array built with `CardTrait::buildCardInfoCard`.
+   *   The render array built with `InnerElementTrait::buildCardInfoCard`.
    *
    * @return array
    *   The render array.
@@ -235,7 +235,7 @@ trait ElementTrait {
    * @param array $body
    *   The body render array.
    * @param array $items
-   *   Items rendered with `CardTrait::buildElementAccordionItem`.
+   *   Items rendered with `InnerElementTrait::buildElementAccordionItem`.
    *
    * @return array
    *   The render array.
@@ -272,7 +272,7 @@ trait ElementTrait {
    * @param array $body
    *   The body render array.
    * @param array $items
-   *   The quick links array rendered with `CardTrait::buildCardQuickLink`.
+   *   The quick links array rendered with `InnerElementTrait::buildCardQuickLink`.
    *
    * @return array
    *   Render array.
@@ -293,7 +293,7 @@ trait ElementTrait {
    * @param array $body
    *   The body render array.
    * @param array $items
-   *   Items rendered with `CardTrait::buildElementAccordionItem`.
+   *   Items rendered with `InnerElementTrait::buildElementAccordionItem`.
    *
    * @return array
    *   The render array.
@@ -405,7 +405,7 @@ trait ElementTrait {
    * @param array $body
    *   The body render array.
    * @param array $items
-   *   The quick links array rendered with `CardTrait::buildCardQuickLink`.
+   *   The quick links array rendered with `InnerElementTrait::buildCardQuickLink`.
    *
    * @return array
    *   Render array.
