@@ -5,7 +5,7 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 use Drupal\media\MediaInterface;
 use Drupal\node\Entity\NodeType;
 use Drupal\node\NodeInterface;
-use Drupal\server_general\CardTrait;
+use Drupal\server_general\InnerElementTrait;
 use Drupal\server_general\ElementNodeNewsTrait;
 use Drupal\server_general\EntityDateTrait;
 use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
@@ -26,7 +26,7 @@ use Drupal\server_general\TitleAndLabelsTrait;
  */
 class NodeNews extends NodeViewBuilderAbstract {
 
-  use CardTrait;
+  use InnerElementTrait;
   use ElementLayoutTrait;
   use EntityDateTrait;
   use LineSeparatorTrait;

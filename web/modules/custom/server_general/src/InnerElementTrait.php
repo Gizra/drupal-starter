@@ -17,11 +17,11 @@ use Drupal\intl_date\IntlDate;
  * Trait is providing helper methods for each card. One method equals one theme
  * file.
  */
-trait CardTrait {
+trait InnerElementTrait {
 
   use ButtonTrait;
-  use CardLayoutTrait;
   use ElementWrapTrait;
+  use InnerElementLayoutTrait;
   use LinkTrait;
   use TitleAndLabelsTrait;
 

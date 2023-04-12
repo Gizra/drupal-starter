@@ -17,9 +17,9 @@ use Drupal\Core\Url;
 trait ElementTrait {
 
   use ButtonTrait;
-  use CardTrait;
   use ElementLayoutTrait;
   use ElementWrapTrait;
+  use InnerElementTrait;
   use LineSeparatorTrait;
   use LinkTrait;
   use TitleAndLabelsTrait;

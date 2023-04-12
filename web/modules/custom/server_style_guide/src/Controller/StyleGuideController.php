@@ -8,7 +8,7 @@ use Drupal\Core\Utility\LinkGenerator;
 use Drupal\media\IFrameUrlHelper;
 use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
 use Drupal\server_general\ButtonTrait;
-use Drupal\server_general\CardTrait;
+use Drupal\server_general\InnerElementTrait;
 use Drupal\server_general\ElementNodeNewsTrait;
 use Drupal\server_general\ElementTrait;
 use Drupal\server_general\ElementWrapTrait;
@@ -27,7 +27,7 @@ class StyleGuideController extends ControllerBase {
 
   use BuildFieldTrait;
   use ButtonTrait;
-  use CardTrait;
+  use InnerElementTrait;
   use ElementTrait;
   use ElementWrapTrait;
   use ElementMediaTrait;

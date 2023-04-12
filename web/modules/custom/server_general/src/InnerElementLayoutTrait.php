@@ -18,7 +18,7 @@ use Drupal\Core\Url;
  * Trait is providing helper methods for each card. One method equals one theme
  * file.
  */
-trait CardLayoutTrait {
+trait InnerElementLayoutTrait {
 
   /**
    * Build "Card" layout - the simplest one.
