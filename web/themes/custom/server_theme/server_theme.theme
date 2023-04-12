@@ -449,7 +449,7 @@ function server_theme_theme() {
   ];
 
   // A single "Accordion item" card inside the Accordion element.
-  $info['server_theme_card__accordion_item'] = [
+  $info['server_theme_inner_element__accordion_item'] = [
     'variables' => [
       'title' => NULL,
       'description' => NULL,
@@ -457,7 +457,7 @@ function server_theme_theme() {
   ];
 
   // A card that is linkable.
-  $info['server_theme_card__quick_link_item'] = [
+  $info['server_theme_inner_element__quick_link_item'] = [
     'variables' => [
       // The title and the optional description as a render array.
       'items' => [],

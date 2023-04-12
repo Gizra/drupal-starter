@@ -185,7 +185,7 @@ trait InnerElementTrait {
   protected function buildCardAccordionItem(string $title, array $description): array {
 
     return [
-      '#theme' => 'server_theme_card__accordion_item',
+      '#theme' => 'server_theme_inner_element__accordion_item',
       '#title' => $title,
       '#description' => $this->wrapProseText($description),
     ];
@@ -294,7 +294,7 @@ trait InnerElementTrait {
     }
 
     return [
-      '#theme' => 'server_theme_card__quick_link_item',
+      '#theme' => 'server_theme_inner_element__quick_link_item',
       '#items' => $this->wrapContainerVerticalSpacingTiny($items),
       '#url' => $url,
     ];
