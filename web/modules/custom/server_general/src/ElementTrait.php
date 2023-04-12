@@ -272,7 +272,8 @@ trait ElementTrait {
    * @param array $body
    *   The body render array.
    * @param array $items
-   *   The quick links array rendered with `InnerElementTrait::buildCardQuickLink`.
+   *   The quick links array rendered with
+   *   `InnerElementTrait::buildCardQuickLink`.
    *
    * @return array
    *   Render array.
@@ -405,7 +406,8 @@ trait ElementTrait {
    * @param array $body
    *   The body render array.
    * @param array $items
-   *   The quick links array rendered with `InnerElementTrait::buildCardQuickLink`.
+   *   The quick links array rendered with
+   *   `InnerElementTrait::buildCardQuickLink`.
    *
    * @return array
    *   Render array.
