@@ -64,24 +64,4 @@ trait TitleAndLabelsTrait {
     return $this->wrapHtmlTag($title, 'h2');
   }
 
-  /**
-   * Build the paragraph title and description.
-   *
-   * @param string|null $title
-   *   Optional; The title.
-   * @param array $body
-   *   Optional; The body render array.
-   *
-   * @return array
-   *   The render array.
-   */
-  protected function buildParagraphTitleAndDescription(string $title = NULL, array $body = []): array {
-    $elements = [];
-    $elements[] = $this->buildParagraphTitle($title);
-    $elements[] = $this->wrapProseText($body);
-
-    $elements = $this->wrapContainerVerticalSpacing($elements);
-    return $this->wrapContainerMaxWidth($elements, '3xl');
-  }
-
 }

@@ -40,8 +40,8 @@ class ServerGeneralParagraphQuickLinksTest extends ServerGeneralParagraphTestBas
    * Test render of the paragraph.
    */
   public function testRender() {
-    // Create accordion items.
-    $accordion_items = [];
+    // Create referenced paragraphs.
+    $paragraphs = [];
 
     foreach (range(1, 5) as $key) {
       $title = 'This is the Quick link item title ' . $key;
@@ -56,7 +56,7 @@ class ServerGeneralParagraphQuickLinksTest extends ServerGeneralParagraphTestBas
       $paragraph->set('field_subtitle', $body);
       $paragraph->save();
       $this->markEntityForCleanup($paragraph);
-      $accordion_items[] = $paragraph;
+      $paragraphs[] = $paragraph;
     }
 
     // Create Quick links.
@@ -65,7 +65,7 @@ class ServerGeneralParagraphQuickLinksTest extends ServerGeneralParagraphTestBas
     $paragraph = Paragraph::create(['type' => $this->getEntityBundle()]);
     $paragraph->set('field_title', $title);
     $paragraph->set('field_body', $body);
-    $paragraph->set('field_quick_link_items', $accordion_items);
+    $paragraph->set('field_quick_link_items', $paragraphs);
     $paragraph->save();
     $this->markEntityForCleanup($paragraph);
 

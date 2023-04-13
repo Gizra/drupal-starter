@@ -101,11 +101,33 @@ trait ElementTrait {
   }
 
   /**
+   * Build an Info cards element.
+   *
+   * @param string $title
+   *   The title.
+   * @param array $body
+   *   The body render array.
+   * @param array $items
+   *   The render array built with `CardTrait::buildCardInfoCard`.
+   *
+   * @return array
+   *   The render array.
+   */
+  protected function buildElementInfoCards(string $title, array $body, array $items): array {
+    return $this->buildParagraphTitleBodyAndItems(
+      $title,
+      $body,
+      $this->buildCards($items),
+    );
+
+  }
+
+  /**
    * Builds a "Document" list.
    *
    * @param string $title
    *   The title.
-   * @param array $subtitle
+   * @param array $body
    *   The subtitle render array.
    * @param array $items
    *   Render array of documents.
@@ -113,33 +135,27 @@ trait ElementTrait {
    * @return array
    *   Render array.
    */
-  protected function buildElementDocuments(string $title, array $subtitle, array $items): array {
-    $elements = [];
-
-    // Title.
-    $elements[] = $this->buildParagraphTitle($title);
-
-    // Subtitle.
-    $elements[] = $this->wrapTextColor($subtitle, 'dark-gray');
-
-    // Items and "View more" button.
-    $elements[] = $this->buildElementItemsWithViewMore($items, 2);
-
-    $elements = $this->wrapContainerVerticalSpacing($elements);
-
-    return $this->wrapContainerWide($elements, 'light-gray');
+  protected function buildElementDocuments(string $title, array $body, array $items): array {
+    return $this->buildParagraphTitleBodyAndItems(
+      $title,
+      $body,
+      $this->buildElementItemsWithViewMore($items, 2),
+      'light-gray'
+    );
   }
 
   /**
    * Build a Carousel.
    *
+   * @param string $title
+   *   Optional; The title.
+   * @param array $body
+   *   The body render array.
    * @param array $items
    *   The items to render inside the carousel.
    * @param bool $is_featured
    *   Determine if items inside the carousel are "featured". Usually a featured
    *   item means that only a single card should appear at a time.
-   * @param string|null $title
-   *   Optional; The title.
    * @param array|null $button
    *   Optional; The render array of the button, likely created with
    *   ButtonTrait::buildButton.
@@ -147,21 +163,30 @@ trait ElementTrait {
    * @return array
    *   Render array.
    */
-  protected function buildElementCarousel(array $items, bool $is_featured = FALSE, string $title = NULL, array $button = NULL): array {
+  protected function buildElementCarousel(string $title, array $body, array $items, bool $is_featured = FALSE, array $button = NULL): array {
     if (empty($items)) {
       return [];
     }
 
-    $header_items = [];
-    $header_items[] = $this->buildParagraphTitle($title);
-
-    return [
+    $elements = [];
+    $elements[] = [
       '#theme' => 'server_theme_carousel',
-      '#header_items' => $header_items,
       '#items' => $items,
-      '#button' => $button,
       '#is_featured' => $is_featured,
     ];
+
+    if ($button) {
+      $elements[] = $this->wrapTextCenter($button);
+    }
+
+    $elements = $this->wrapContainerVerticalSpacing($elements);
+
+    return $this->buildParagraphTitleBodyAndItems(
+      $title,
+      $body,
+      $elements,
+      'light-gray',
+    );
   }
 
   /**
@@ -216,11 +241,6 @@ trait ElementTrait {
    *   The render array.
    */
   protected function buildElementAccordion(string $title, array $body, array $items): array {
-    $elements = [];
-
-    // Title and description.
-    $elements[] = $this->buildParagraphTitleAndDescription($title, $body);
-
     // Add line separators to items.
     $items_wrapped = [];
     foreach ($items as $key => $item) {
@@ -232,14 +252,37 @@ trait ElementTrait {
     }
 
     // Accordion.
-    $elements[] = [
+    $items_wrapped = [
       '#theme' => 'server_theme_element__accordion',
       '#items' => $items_wrapped,
     ];
 
-    $element = $this->wrapContainerVerticalSpacingBig($elements);
+    return $this->buildParagraphTitleBodyAndItems(
+      $title,
+      $body,
+      $items_wrapped,
+    );
+  }
 
-    return $this->wrapContainerWide($element);
+  /**
+   * Build News teasers element.
+   *
+   * @param string $title
+   *   The title.
+   * @param array $body
+   *   The body render array.
+   * @param array $items
+   *   The quick links array rendered with `CardTrait::buildCardQuickLink`.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function buildElementNewsTeasers(string $title, array $body, array $items): array {
+    return $this->buildParagraphTitleBodyAndItems(
+      $title,
+      $body,
+      $items,
+    );
   }
 
   /**
@@ -256,14 +299,11 @@ trait ElementTrait {
    *   The render array.
    */
   protected function buildElementPeopleTeasers(string $title, array $body, array $items): array {
-    $elements = [];
-
-    // Title and description.
-    $elements[] = $this->buildParagraphTitleAndDescription($title, $body);
-    $elements[] = $this->buildCards($items);
-
-    $elements = $this->wrapContainerVerticalSpacingBig($elements);
-    return $this->wrapContainerWide($elements);
+    return $this->buildParagraphTitleBodyAndItems(
+      $title,
+      $body,
+      $this->buildCards($items),
+    );
   }
 
   /**
@@ -344,16 +384,16 @@ trait ElementTrait {
     $items[] = $this->wrapTextItalic($element);
 
     // The photo credit on top of the image.
-    $image_items = [];
+    $credit = [];
     if (!empty($image_credit)) {
-      $image_items[] = ['#markup' => '© ' . $image_credit];
+      $credit[] = ['#markup' => '© ' . $image_credit];
     }
 
     return [
       '#theme' => 'server_theme_element_layout__split_image_and_content',
       '#items' => $this->wrapContainerVerticalSpacing($items),
       '#image' => $image,
-      '#image_items' => $image_items,
+      '#credit' => $credit,
     ];
   }
 
@@ -363,7 +403,7 @@ trait ElementTrait {
    * @param string $title
    *   The title.
    * @param array $body
-   *   The description render array.
+   *   The body render array.
    * @param array $items
    *   The quick links array rendered with `CardTrait::buildCardQuickLink`.
    *
@@ -371,14 +411,11 @@ trait ElementTrait {
    *   Render array.
    */
   protected function buildElementQuickLinks(string $title, array $body, array $items): array {
-    $elements = [];
-
-    // Title and description.
-    $elements[] = $this->buildParagraphTitleAndDescription($title, $body);
-
-    $elements[] = $this->buildCards($items);
-    $elements = $this->wrapContainerVerticalSpacing($elements);
-    return $this->wrapContainerWide($elements);
+    return $this->buildParagraphTitleBodyAndItems(
+      $title,
+      $body,
+      $this->buildCards($items),
+    );
   }
 
   /**
@@ -400,23 +437,38 @@ trait ElementTrait {
   }
 
   /**
-   * Build a Paragraph title and content element.
-   *
-   * This is a more generic instance of `buildElementParagraphTitleAndText`.
+   * Helper; Build the paragraph title and description and the items.
    *
    * @param string $title
-   *   The title.
+   *   The title. Maybe empty.
+   * @param array $body
+   *   The body render array. Maybe empty.
    * @param array $items
    *   The items render array.
+   * @param string|null $bg_color
+   *   Optional; The background color. See `ElementWrapTrait::wrapContainerWide`
+   *   for the allowed values.
    *
    * @return array
-   *   Render array.
+   *   The render array.
    */
-  protected function buildElementParagraphTitleAndContent(string $title, array $items): array {
-    return $this->buildElementLayoutParagraphTitleAndContent(
-      $title,
-      $items,
-    );
+  protected function buildParagraphTitleBodyAndItems(string $title, array $body, array $items, string $bg_color = NULL): array {
+    $top_elements = [];
+    $elements = [];
+    $top_elements[] = $this->buildParagraphTitle($title);
+
+    $body = $this->wrapProseText($body);
+    $body = $this->wrapTextColor($body, 'dark-gray');
+    $top_elements[] = $body;
+
+    $top_elements = $this->wrapContainerVerticalSpacingTiny($top_elements);
+    $top_elements = $this->wrapContainerMaxWidth($top_elements, '3xl');
+
+    $elements[] = $top_elements;
+    $elements[] = $items;
+
+    $elements = $this->wrapContainerVerticalSpacing($elements);
+    return $this->wrapContainerWide($elements, $bg_color);
   }
 
 }

@@ -40,8 +40,8 @@ class ServerGeneralParagraphAccordionTest extends ServerGeneralParagraphTestBase
    * Test render of the paragraph.
    */
   public function testRender() {
-    // Create accordion items.
-    $accordion_items = [];
+    // Create referenced paragraphs.
+    $paragraphs = [];
 
     foreach (range(1, 5) as $key) {
       $title = 'This is the Accordion item title ' . $key;
@@ -53,7 +53,7 @@ class ServerGeneralParagraphAccordionTest extends ServerGeneralParagraphTestBase
       $paragraph->set('field_body', $body);
       $paragraph->save();
       $this->markEntityForCleanup($paragraph);
-      $accordion_items[] = $paragraph;
+      $paragraphs[] = $paragraph;
     }
 
     // Create accordion.
@@ -62,7 +62,7 @@ class ServerGeneralParagraphAccordionTest extends ServerGeneralParagraphTestBase
     $paragraph = Paragraph::create(['type' => $this->getEntityBundle()]);
     $paragraph->set('field_title', $title);
     $paragraph->set('field_body', $body);
-    $paragraph->set('field_accordion_items', $accordion_items);
+    $paragraph->set('field_accordion_items', $paragraphs);
     $paragraph->save();
     $this->markEntityForCleanup($paragraph);
 

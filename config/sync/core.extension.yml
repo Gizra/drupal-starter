@@ -24,6 +24,7 @@ module:
   editor: 0
   elasticsearch_connector: 0
   emptyparagraphkiller: 0
+  encrypt: 0
   entity_browser: 0
   entity_browser_entity_form: 0
   entity_reference_revisions: 0
@@ -39,6 +40,7 @@ module:
   image: 0
   inline_entity_form: 0
   intl_date: 0
+  key: 0
   lang_dropdown: 0
   language: 0
   link: 0
@@ -60,6 +62,7 @@ module:
   pluggable_entity_view_builder: 0
   quickedit: 0
   rdf: 0
+  real_aes: 0
   redirect: 0
   redis: 0
   responsive_image: 0
@@ -74,6 +77,7 @@ module:
   system: 0
   taxonomy: 0
   text: 0
+  tfa: 0
   token: 0
   toolbar: 0
   update: 0
