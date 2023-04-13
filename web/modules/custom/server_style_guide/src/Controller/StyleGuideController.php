@@ -3,6 +3,7 @@
 namespace Drupal\server_style_guide\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Drupal\Core\Utility\LinkGenerator;
 use Drupal\media\IFrameUrlHelper;
@@ -676,11 +677,11 @@ class StyleGuideController extends ControllerBase {
    *   Render array.
    */
   protected function getCta(): array {
+
     return $this->buildElementCta(
       $this->getRandomTitle(),
       $this->buildProcessedText('How does the system generate all this custom content? It actually skims Wikipedia pages related to your search'),
-      'View more',
-      Url::fromRoute('<front>'),
+      Link::createFromRoute('View more', '<front>'),
     );
 
   }
