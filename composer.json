@@ -64,6 +64,7 @@
         "drush/drush": "^11",
         "npm-asset/select2": "^4.0",
         "npm-asset/slick-carousel": "^1.8",
+        "npm-asset/swiper": "^9.2",
         "oomphinc/composer-installers-extender": "^2.0"
     },
     "require-dev": {

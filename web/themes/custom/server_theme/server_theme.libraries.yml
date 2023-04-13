@@ -58,13 +58,10 @@ font-awesome:
 
 slick:
   js:
-    /libraries/slick-carousel/slick/slick.js: {}
+    /libraries/swiper/swiper-bundle.min.js: { minified: true }
     dist/js/slick-carousel.js: {}
   css:
-    theme:
+    component:
       # Lower weight, as we'd want our custom css to be able to override slick's
       # default CSS.
-      /libraries/slick-carousel/slick/slick.css: { weight: -10 }
-      /libraries/slick-carousel/slick/slick-theme.css: { weight: -9 }
-  dependencies:
-    - core/jquery
+      /libraries/swiper/swiper-bundle.min.css: { minified: true, weight: -10}

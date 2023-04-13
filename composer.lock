@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9947dfbb47fb237b691c52b80d19f9b0",
+    "content-hash": "b0d7f40fe361ff7fb8634177b8815bbc",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -5947,6 +5947,33 @@
             "dist": {
                 "type": "tar",
                 "url": "https://registry.npmjs.org/slick-carousel/-/slick-carousel-1.8.1.tgz"
+            },
+            "type": "npm-asset",
+            "license": [
+                "MIT"
+            ]
+        },
+        {
+            "name": "npm-asset/ssr-window",
+            "version": "4.0.2",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/ssr-window/-/ssr-window-4.0.2.tgz"
+            },
+            "type": "npm-asset",
+            "license": [
+                "MIT"
+            ]
+        },
+        {
+            "name": "npm-asset/swiper",
+            "version": "9.2.0",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/swiper/-/swiper-9.2.0.tgz"
+            },
+            "require": {
+                "npm-asset/ssr-window": ">=4.0.2,<5.0.0"
             },
             "type": "npm-asset",
             "license": [
