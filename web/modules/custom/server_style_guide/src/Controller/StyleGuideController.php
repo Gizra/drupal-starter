@@ -548,7 +548,6 @@ class StyleGuideController extends ControllerBase {
   protected function getTextStyles(): array {
     $build = [];
 
-    // Font weight for a string.
     $element = ['#theme' => 'server_style_guide_text_styles'];
     $build[] = $this->wrapElementWideContainer($element, 'Text styles');
 
