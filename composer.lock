@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "47e968b5e20d97a6a8e8134d81cc207b",
+    "content-hash": "e6dddb6bdec85d56eaac6c6041a1ed4a",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3676,10 +3676,6 @@
                     "name": "Mark Casias (markie)",
                     "homepage": "https://www.drupal.org/u/markie",
                     "role": "Maintainer"
-                },
-                {
-                    "name": "newsignature",
-                    "homepage": "https://www.drupal.org/user/765518"
                 },
                 {
                     "name": "ultimike",
@@ -10480,6 +10476,7 @@
                 "issues": "https://github.com/FriendsOfPHP/Goutte/issues",
                 "source": "https://github.com/FriendsOfPHP/Goutte/tree/v3.3.1"
             },
+            "abandoned": "symfony/browser-kit",
             "time": "2020-11-01T09:30:18+00:00"
         },
         {

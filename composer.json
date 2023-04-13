@@ -127,9 +127,6 @@
             },
             "drupal/entity_reference_revisions": {
               "d.o. 2799479": "https://www.drupal.org/files/issues/2022-06-01/entity_reference_revisions-relationship_host_id-2799479-176.patch"
-            },
-            "drupal/environment_indicator": {
-              "d.o. 3324429": "https://www.drupal.org/files/issues/2022-12-08/3324429-16.patch"
             }
         },
         "drupal-scaffold": {
