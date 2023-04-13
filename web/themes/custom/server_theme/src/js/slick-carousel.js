@@ -34,24 +34,8 @@
 
       $elements.each(function () {
         const $element = $(this);
-        const singleSlide = $element.data('carousel-single-slide');
-        const showDots = $element.data('carousel-dots');
-        const showArrows = $element.data('carousel-arrows');
-        const isResponsive = $element.data('carousel-responsive');
-        const centerMode = $element.data('carousel-center-mode-mobile');
-        const variableWidth = $element.data('carousel-fixed-width-on-mobile');
-        const hasPadding = $element.data('carousel-padding');
-        const slidesToShowTablet = $element.data('slides-tablet') || 2;
-        const slidesToShowLaptop = $element.data('slides-laptop') || 2;
-        const slidesToShowDesktop = $element.data('slides-desktop') || 3;
-        const slidesToScroll = $element.data('slides-to-scroll') || 1;
-        const $parent = $element.parent();
-        const $prevArrow = $parent.find('.slick-arrow-prev');
-        const $nextArrow = $parent.find('.slick-arrow-next');
 
         const swiper = new Swiper('.swiper', {
-          // Optional parameters
-          direction: 'horizontal',
           loop: true,
 
           // If we need pagination
@@ -70,9 +54,6 @@
             el: '.swiper-scrollbar',
           },
         });
-
-        console.log(swiper);
-
       });
     }
 
