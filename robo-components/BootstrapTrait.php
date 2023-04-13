@@ -45,6 +45,14 @@ trait BootstrapTrait {
 
     $this->lockPantheonEnvironments($project_machine_name, $http_basic_auth_user, $http_basic_auth_password);
 
+    $tfa_secret = $this->taskExec("openssl rand -base64 32")
+      ->printOutput(FALSE)
+      ->run()
+      ->getMessage();
+    $this->taskExec('terminus self:plugin:install pantheon-systems/terminus-secrets-plugin')->run();
+    $this->taskExec("terminus secrets:set $project_machine_name.qa tfa $tfa_secret")->run();
+    $this->taskExec("terminus secrets:set $project_machine_name.dev tfa $tfa_secret")->run();
+
     $this->say("Bootstrap completed successfully.");
     $this->say("You might want to run the following commands to properly place the project:");
     $this->say("mv .bootstrap ../$project_machine_name");

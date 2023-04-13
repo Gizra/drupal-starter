@@ -94,3 +94,10 @@ if (!empty($pantheon_env) && !empty($_ENV['CACHE_HOST'])) {
   // Use the database for forms.
   $settings['cache']['bins']['form'] = 'cache.backend.database';
 }
+
+if (file_exists('/files/private/secrets.json')) {
+  $secrets = json_decode(file_get_contents('/files/private/secrets.json'), TRUE);
+  if (isset($secrets['tfa'])) {
+    putenv('TFA_KEY="' . $secrets['tfa'] . "\"");
+  }
+}

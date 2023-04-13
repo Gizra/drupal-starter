@@ -1,0 +1,15 @@
+#!/bin/bash
+
+## Description: Set TFA_KEY in global config if not exists
+## Usage: set-tfa-key
+## Example: "ddev set-tfa-key"
+
+echo "Checking if TFA_KEY exists in global config..."
+
+if grep -q 'TFA_KEY' ~/.ddev/global_config.yaml; then
+    echo "TFA_KEY already exists in global config."
+else
+    echo "TFA_KEY not found in global config. Generating and adding a new TFA_KEY..."
+    ddev config global --web-environment-add="TFA_KEY=$(openssl rand -base64 32)"
+    echo "TFA_KEY has been added to global config."
+fi
