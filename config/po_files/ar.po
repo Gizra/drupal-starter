@@ -12,23 +12,23 @@ msgstr ""
 
 #: modules/custom/server_general/src/ButtonTrait.php:92
 msgid "Download"
-msgstr ""
+msgstr "تحميل"
 
 #: modules/custom/server_general/src/CardTrait.php:127;167 modules/custom/server_general/src/Plugin/EntityViewBuilder/NodeNews.php:215
 msgid "News"
-msgstr ""
+msgstr "أخبار"
 
 #: modules/custom/server_general/src/CardTrait.php:184
 msgid "Read more"
-msgstr ""
+msgstr "اقرأ المزيد"
 
 #: modules/custom/server_general/src/MediaVideoTrait.php:54
 msgid "Video frame for @url"
-msgstr ""
+msgstr "إطار الفيديو لـ @url"
 
 #: themes/custom/server_theme/templates/html.html.twig:49
 msgid "Skip to main content"
-msgstr ""
+msgstr "الانتقال إلى المحتوى الرئيسي"
 
 #: themes/custom/server_theme/templates/menu-local-tasks.html.twig:17
 msgid "Primary tabs"
@@ -40,36 +40,36 @@ msgstr "التبويبات الفرعية"
 
 #: themes/custom/server_theme/templates/server-theme-facets-title.html.twig:5
 msgid "Filters"
-msgstr ""
+msgstr "المرشحات"
 
 #: themes/custom/server_theme/templates/server-theme-facets-title.html.twig:12
 msgid "Clear filters"
-msgstr ""
+msgstr "مسح المرشحات"
 
 #: themes/custom/server_theme/templates/server-theme-footer.html.twig:2
 msgid "Share on @name"
-msgstr ""
+msgstr "شارك على @name"
 
 #: themes/custom/server_theme/templates/server-theme-header.html.twig:21
 msgid "Menu"
-msgstr ""
+msgstr "قائمة"
 
 #: themes/custom/server_theme/templates/server-theme-search-term.html.twig:2
 msgid "Search results for: @search_term"
-msgstr ""
+msgstr "نتائج البحث عن: @search_term"
 
 #: themes/custom/server_theme/templates/server-theme-search.html.twig:4;5
 msgid "Search"
-msgstr ""
+msgstr "بحث"
 
 #: themes/custom/server_theme/templates/server-theme-search.html.twig:9
 msgid "Search icon"
-msgstr ""
+msgstr "أيقونة البحث"
 
 #: themes/custom/server_theme/templates/facets/facets-item-list.html.twig:48
 msgid "Filter by @title"
-msgstr ""
+msgstr "تصفية حسب @title"
 
 #: themes/custom/server_theme/templates/facets/facets-item-list.html.twig:66
 msgid "Facet"
-msgstr ""
+msgstr "جانب"
