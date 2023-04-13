@@ -552,6 +552,7 @@ class StyleGuideController extends ControllerBase {
     $element = ['#theme' => 'server_style_guide_text_styles'];
     $build[] = $this->wrapElementWideContainer($element, 'Text styles');
 
+    $element = $this->wrapProseText($element);
     $build[] = $this->wrapElementWideContainer($element, 'Text styles (Prose)');
 
     return $build;
