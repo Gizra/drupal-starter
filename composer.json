@@ -127,6 +127,9 @@
             },
             "drupal/entity_reference_revisions": {
               "d.o. 2799479": "https://www.drupal.org/files/issues/2022-06-01/entity_reference_revisions-relationship_host_id-2799479-176.patch"
+            },
+            "guzzlehttp/guzzle": {
+              "fix": "https://github.com/guzzle/guzzle/files/8833885/guzzle-3020.patch.txt"
             }
         },
         "drupal-scaffold": {
