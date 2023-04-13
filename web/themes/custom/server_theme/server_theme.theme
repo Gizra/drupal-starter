@@ -448,7 +448,7 @@ function server_theme_theme() {
     ],
   ];
 
-  // A single "Accordion item" card inside the Accordion element.
+  // A single "Accordion item" inside the Accordion element.
   $info['server_theme_inner_element__accordion_item'] = [
     'variables' => [
       'title' => NULL,
