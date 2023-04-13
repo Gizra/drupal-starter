@@ -13,6 +13,11 @@ use Drupal\Core\Url;
 function server_style_guide_theme() {
   $info = [];
 
+  // A helper twig showing the available text styles.
+  $info['server_style_guide_text_styles'] = [
+    'variables' => [],
+  ];
+
   $info['server_style_guide_header'] = [
     'variables' => [
       'title' => NULL,
