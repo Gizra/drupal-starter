@@ -1,7 +1,7 @@
 {{ attach_library('server_theme/slick') }}
 {% if items is not empty %}
 {# Slider main container #}
-<div class="swiper w-full">
+<div class="swiper w-full flex flex-col gap-y-4">
   {# Additional required wrapper #}
   <div class="swiper-wrapper"
        data-carousel-dots="{{ dots ?? 'false' }}"
@@ -26,8 +26,8 @@
   <div class="swiper-button-prev"></div>
   <div class="swiper-button-next"></div>
 
-  <!-- If we need scrollbar -->
-  <div class="swiper-scrollbar"></div>
+{#  <!-- If we need scrollbar -->#}
+{#  <div class="swiper-scrollbar"></div>#}
 
 </div>
 {% endif %}
