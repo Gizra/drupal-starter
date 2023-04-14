@@ -795,7 +795,7 @@ class StyleGuideController extends ControllerBase {
    */
   protected function getRelatedContent(int $num = 5, bool $is_featured = FALSE): array {
     $elements = [];
-    $func = $is_featured ? 'buildCardWithImageHorizontalForNews' : 'buildCardWithImageForNews';
+    $func = $is_featured ? 'buildInnerElementWithImageHorizontalForNews' : 'buildInnerElementWithImageForNews';
     for ($i = 0; $i < $num; $i++) {
       $elements[] = call_user_func(
         [$this, $func],
