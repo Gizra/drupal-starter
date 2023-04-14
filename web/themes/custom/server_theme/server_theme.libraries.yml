@@ -16,6 +16,7 @@ global-scripts:
     - core/jquery
     - core/drupal
     - core/jquery.once
+    - server_theme/anchor
 
 
 # "View more" button.
@@ -68,3 +69,12 @@ slick:
       /libraries/slick-carousel/slick/slick-theme.css: { weight: -9 }
   dependencies:
     - core/jquery
+
+# Add anchors to headings.
+anchor:
+  js:
+    /libraries/anchor-js/anchor.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/jquery.once

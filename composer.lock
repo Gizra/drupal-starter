@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9947dfbb47fb237b691c52b80d19f9b0",
+    "content-hash": "0ff8b3c5c64600a4bd2fb9dccfcfefbd",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -5928,6 +5928,18 @@
                 "source": "https://github.com/nodespark/des-connector"
             },
             "time": "2022-12-05T15:45:43+00:00"
+        },
+        {
+            "name": "npm-asset/anchor-js",
+            "version": "5.0.0",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/anchor-js/-/anchor-js-5.0.0.tgz"
+            },
+            "type": "npm-asset",
+            "license": [
+                "MIT"
+            ]
         },
         {
             "name": "npm-asset/select2",
