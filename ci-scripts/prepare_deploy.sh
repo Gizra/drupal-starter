@@ -20,9 +20,10 @@ ddev stop
 # Expose some environment variables to DDEV to be able to notify on auto-deploy.
 # Make sure TRAVIS_COMMIT_MESSAGE variable does not contain special characters:
 # { , } , [ , ] , & , * , # , ? , | , - , < , > , = , ! , % , @ , ", ', `
+# and comma itself.
 # These could break the YAML/Bash syntax.
 # shellcheck disable=SC2001
-TRAVIS_COMMIT_MESSAGE=$(echo "$TRAVIS_COMMIT_MESSAGE" | sed -e 's/[{}&*?|<>=%@\"'\''`-]//g')
+TRAVIS_COMMIT_MESSAGE=$(echo "$TRAVIS_COMMIT_MESSAGE" | sed -e 's/[{},&*?|<>=%@\"'\''`-]//g')
 ddev config global --web-environment-add="TRAVIS_COMMIT_MESSAGE=$TRAVIS_COMMIT_MESSAGE"
 ddev config global --web-environment-add="GITHUB_TOKEN=$GITHUB_TOKEN"
 
