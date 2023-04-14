@@ -26,12 +26,12 @@ use Drupal\server_general\TitleAndLabelsTrait;
  */
 class NodeNews extends NodeViewBuilderAbstract {
 
-  use InnerElementTrait;
   use ElementLayoutTrait;
+  use ElementNodeNewsTrait;
   use EntityDateTrait;
+  use InnerElementTrait;
   use LineSeparatorTrait;
   use LinkTrait;
-  use ElementNodeNewsTrait;
   use SocialShareTrait;
   use TitleAndLabelsTrait;
 

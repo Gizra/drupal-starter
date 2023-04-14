@@ -10,9 +10,9 @@ use Drupal\intl_date\IntlDate;
  */
 trait ElementNodeNewsTrait {
 
-  use InnerElementLayoutTrait;
   use ElementWrapTrait;
   use EntityDateTrait;
+  use InnerElementLayoutTrait;
   use LineSeparatorTrait;
   use LinkTrait;
   use ElementLayoutTrait;

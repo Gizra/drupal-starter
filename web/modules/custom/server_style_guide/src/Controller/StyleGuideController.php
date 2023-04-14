@@ -27,10 +27,10 @@ class StyleGuideController extends ControllerBase {
 
   use BuildFieldTrait;
   use ButtonTrait;
-  use InnerElementTrait;
   use ElementTrait;
   use ElementWrapTrait;
   use ElementMediaTrait;
+  use InnerElementTrait;
   use LinkTrait;
   use ElementNodeNewsTrait;
   use SocialShareTrait;
