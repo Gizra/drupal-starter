@@ -10,9 +10,9 @@ use Drupal\intl_date\IntlDate;
  */
 trait ElementNodeNewsTrait {
 
-  use CardLayoutTrait;
   use ElementWrapTrait;
   use EntityDateTrait;
+  use InnerElementLayoutTrait;
   use LineSeparatorTrait;
   use LinkTrait;
   use ElementLayoutTrait;
@@ -137,7 +137,7 @@ trait ElementNodeNewsTrait {
 
     return $this->buildElementLayoutMainAndSidebar(
       $this->wrapContainerVerticalSpacingBig($main_elements),
-      $this->buildCardLayout($sidebar_elements),
+      $this->buildInnerElementLayout($sidebar_elements),
     );
   }
 

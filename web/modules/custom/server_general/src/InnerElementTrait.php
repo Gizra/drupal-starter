@@ -17,11 +17,11 @@ use Drupal\intl_date\IntlDate;
  * Trait is providing helper methods for each card. One method equals one theme
  * file.
  */
-trait CardTrait {
+trait InnerElementTrait {
 
   use ButtonTrait;
-  use CardLayoutTrait;
   use ElementWrapTrait;
+  use InnerElementLayoutTrait;
   use LinkTrait;
   use TitleAndLabelsTrait;
 
@@ -42,7 +42,7 @@ trait CardTrait {
    * @return array
    *   Render array.
    */
-  protected function buildCardWithImageForNews(array $image, string $title, Url $url, array $summary, int $timestamp): array {
+  protected function buildInnerElementWithImageForNews(array $image, string $title, Url $url, array $summary, int $timestamp): array {
     $elements = [];
 
     // Labels.
@@ -62,7 +62,7 @@ trait CardTrait {
     // Body teaser.
     $elements[] = $this->wrapTextLineClamp($summary, 4);
 
-    return $this->buildCardLayoutWithImage($url, $image, $elements);
+    return $this->buildInnerElementLayoutWithImage($url, $image, $elements);
   }
 
   /**
@@ -82,7 +82,7 @@ trait CardTrait {
    * @return array
    *   Render array.
    */
-  protected function buildCardWithImageHorizontalForNews(array $image, string $title, Url $url, array $summary, int $timestamp): array {
+  protected function buildInnerElementWithImageHorizontalForNews(array $image, string $title, Url $url, array $summary, int $timestamp): array {
     $elements = [];
 
     // Labels.
@@ -105,7 +105,7 @@ trait CardTrait {
     // Read more button.
     $elements[] = $this->buildButton($this->t('Read more'), $url);
 
-    return $this->buildCardLayoutWithImageHorizontal($url, $image, $elements);
+    return $this->buildInnerElementLayoutWithImageHorizontal($url, $image, $elements);
   }
 
   /**
@@ -125,7 +125,7 @@ trait CardTrait {
    * @return array
    *   Render array.
    */
-  protected function buildCardSearchResult(string $label, string $title, Url $url, array $summary, int $timestamp): array {
+  protected function buildInnerElementSearchResult(string $label, string $title, Url $url, array $summary, int $timestamp): array {
     $elements = [];
     // Labels.
     $elements[] = $this->buildLabelsFromText([$label]);
@@ -148,7 +148,7 @@ trait CardTrait {
     $element = $this->wrapTextColor($element, 'light-gray');
     $elements[] = $this->wrapTextResponsiveFontSize($element, 'sm');
 
-    return $this->buildCardLayout($elements);
+    return $this->buildInnerElementLayout($elements);
   }
 
   /**
@@ -162,7 +162,7 @@ trait CardTrait {
    * @return array
    *   The redner array.
    */
-  protected function buildCardMediaDocument(string $title, string $url): array {
+  protected function buildInnerElementMediaDocument(string $title, string $url): array {
 
     return [
       '#theme' => 'server_theme_media__document',
@@ -182,10 +182,10 @@ trait CardTrait {
    * @return array
    *   The render array.
    */
-  protected function buildCardAccordionItem(string $title, array $description): array {
+  protected function buildInnerElementAccordionItem(string $title, array $description): array {
 
     return [
-      '#theme' => 'server_theme_card__accordion_item',
+      '#theme' => 'server_theme_inner_element__accordion_item',
       '#title' => $title,
       '#description' => $this->wrapProseText($description),
     ];
@@ -204,7 +204,7 @@ trait CardTrait {
    * @return array
    *   The render array.
    */
-  protected function buildCardInfoCard(string $header, string $title, string $subtitle = NULL): array {
+  protected function buildInnerElementInfoCard(string $header, string $title, string $subtitle = NULL): array {
     $elements = [];
 
     $element = $this->wrapTextFontWeight($header, 'bold');
@@ -227,7 +227,7 @@ trait CardTrait {
 
     $elements = $this->wrapContainerVerticalSpacing($elements, 'center');
 
-    return $this->buildCardLayout($elements, 'light-gray');
+    return $this->buildInnerElementLayout($elements, 'light-gray');
   }
 
   /**
@@ -245,7 +245,7 @@ trait CardTrait {
    * @return array
    *   The render array.
    */
-  protected function buildCardPersonTeaser(string $image_url, string $alt, string $name, string $subtitle = NULL): array {
+  protected function buildInnerElementPersonTeaser(string $image_url, string $alt, string $name, string $subtitle = NULL): array {
     $elements = [];
     $element = [
       '#theme' => 'image',
@@ -269,7 +269,7 @@ trait CardTrait {
 
     $elements[] = $this->wrapContainerVerticalSpacingTiny($inner_elements, 'center');
 
-    return $this->buildCardLayoutCentered($elements);
+    return $this->buildInnerElementLayoutCentered($elements);
   }
 
   /**
@@ -285,7 +285,7 @@ trait CardTrait {
    * @return array
    *   Render array.
    */
-  protected function buildCardQuickLinkItem(string $title, Url $url, string $subtitle = NULL): array {
+  protected function buildInnerElementQuickLinkItem(string $title, Url $url, string $subtitle = NULL): array {
     $items = [];
     $items[] = $this->wrapTextResponsiveFontSize($title, 'xl');
 
@@ -294,7 +294,7 @@ trait CardTrait {
     }
 
     return [
-      '#theme' => 'server_theme_card__quick_link_item',
+      '#theme' => 'server_theme_inner_element__quick_link_item',
       '#items' => $this->wrapContainerVerticalSpacingTiny($items),
       '#url' => $url,
     ];

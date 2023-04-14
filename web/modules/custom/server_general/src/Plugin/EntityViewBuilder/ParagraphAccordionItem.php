@@ -41,7 +41,7 @@ class ParagraphAccordionItem extends EntityViewBuilderPluginAbstract {
    * @throws \Drupal\Core\TypedData\Exception\MissingDataException
    */
   public function buildFull(array $build, ParagraphInterface $entity): array {
-    $element = $this->buildCardAccordionItem(
+    $element = $this->buildInnerElementAccordionItem(
       $this->getTextFieldValue($entity, 'field_title'),
       $this->buildProcessedText($entity, 'field_body'),
     );
