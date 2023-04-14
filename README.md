@@ -402,5 +402,3 @@ login, they will already be blocked. A site admin may reset their validation tri
 under the `/admin/people` page.
 The TFA method that is enabled is one that uses Google authenticator (or similar).
 
-The TFA private key is created under `/var/www/tfa.key`.
-

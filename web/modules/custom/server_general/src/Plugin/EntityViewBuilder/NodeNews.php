@@ -5,7 +5,7 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 use Drupal\media\MediaInterface;
 use Drupal\node\Entity\NodeType;
 use Drupal\node\NodeInterface;
-use Drupal\server_general\CardTrait;
+use Drupal\server_general\InnerElementTrait;
 use Drupal\server_general\ElementNodeNewsTrait;
 use Drupal\server_general\EntityDateTrait;
 use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
@@ -26,12 +26,12 @@ use Drupal\server_general\TitleAndLabelsTrait;
  */
 class NodeNews extends NodeViewBuilderAbstract {
 
-  use CardTrait;
   use ElementLayoutTrait;
+  use ElementNodeNewsTrait;
   use EntityDateTrait;
+  use InnerElementTrait;
   use LineSeparatorTrait;
   use LinkTrait;
-  use ElementNodeNewsTrait;
   use SocialShareTrait;
   use TitleAndLabelsTrait;
 
@@ -89,7 +89,7 @@ class NodeNews extends NodeViewBuilderAbstract {
     $summary = $this->buildProcessedTextTrimmed($entity, 'field_body');
     $timestamp = $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date');
 
-    $element = $this->buildCardWithImageForNews(
+    $element = $this->buildInnerElementWithImageForNews(
       $image,
       $title,
       $url,
@@ -121,7 +121,7 @@ class NodeNews extends NodeViewBuilderAbstract {
     $summary = $this->buildProcessedText($entity, 'field_body');
     $timestamp = $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date');
 
-    $element = $this->buildCardWithImageHorizontalForNews(
+    $element = $this->buildInnerElementWithImageHorizontalForNews(
       $image,
       $title,
       $url,
@@ -146,7 +146,7 @@ class NodeNews extends NodeViewBuilderAbstract {
    *   Render array.
    */
   public function buildSearchIndex(array $build, NodeInterface $entity) {
-    $element = $this->buildCardSearchResult(
+    $element = $this->buildInnerElementSearchResult(
       $this->t('News'),
       $entity->label(),
       $entity->toUrl(),

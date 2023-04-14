@@ -47,7 +47,7 @@ class ParagraphQuickLinkItem extends EntityViewBuilderPluginAbstract {
       return [];
     }
 
-    $element = $this->buildCardQuickLinkItem(
+    $element = $this->buildInnerElementQuickLinkItem(
       $link['title'],
       $link['url'],
       $this->getTextFieldValue($entity, 'field_subtitle')

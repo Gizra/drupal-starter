@@ -45,7 +45,7 @@ class ParagraphPersonTeaser extends EntityViewBuilderPluginAbstract {
     $image_url = !empty($image['url']) ? $image['url'] : '';
     $image_alt = !empty($image['alt']) ? $image['alt'] : $name;
 
-    $element = $this->buildCardPersonTeaser(
+    $element = $this->buildInnerElementPersonTeaser(
       $image_url,
       $image_alt,
       $name,
