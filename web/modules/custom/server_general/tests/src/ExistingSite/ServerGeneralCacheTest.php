@@ -13,12 +13,8 @@ class ServerGeneralCacheTest extends ExistingSiteBase {
    * Test Search API-based views, they should use Search API tag-based caching.
    */
   public function testSearchApiBasedViewsCache() {
-    // Load all views definition.
     $views = Views::getAllViews();
-
-    // Iterate through each view.
     foreach ($views as $view) {
-      // Check if the view uses the Search API.
       $this->checkViewForSearchApiTagBasedCaching($view);
     }
   }
