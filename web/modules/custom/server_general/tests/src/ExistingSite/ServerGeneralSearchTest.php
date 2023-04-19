@@ -52,7 +52,6 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
    * Test freetext search.
    */
   public function testFreetextSearch() {
-    // Create an English node.
     $english_node_title = 'Support to National Development Priorities';
     $this->createNode([
       'title' => $english_node_title,
