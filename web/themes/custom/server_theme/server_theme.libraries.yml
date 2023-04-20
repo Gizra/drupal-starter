@@ -75,6 +75,4 @@ anchor:
   js:
     /libraries/anchor-js/anchor.js: {}
   dependencies:
-    - core/jquery
     - core/drupal
-    - core/jquery.once
