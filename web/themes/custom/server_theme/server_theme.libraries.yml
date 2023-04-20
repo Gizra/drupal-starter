@@ -73,6 +73,6 @@ slick:
 # Add anchors to headings.
 anchor:
   js:
-    /libraries/anchor-js/anchor.js: {}
+    /libraries/anchor-js/anchor.min.js: {}
   dependencies:
     - core/drupal
