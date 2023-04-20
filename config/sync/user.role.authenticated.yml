@@ -8,6 +8,7 @@ dependencies:
     - comment
     - contact
     - filter
+    - google_analytics
     - media
     - shortcut
     - system
@@ -22,6 +23,7 @@ permissions:
   - 'access content'
   - 'access shortcuts'
   - 'access site-wide contact form'
+  - 'opt-in or out of google analytics tracking'
   - 'post comments'
   - 'search content'
   - 'skip comment approval'
