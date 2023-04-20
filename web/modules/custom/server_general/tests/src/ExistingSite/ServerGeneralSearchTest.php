@@ -52,7 +52,7 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
    * Test freetext search.
    */
   public function testFreetextSearch() {
-    $english_node_title = 'Support to National Development Priorities';
+    $english_node_title = 'This is a test';
     $this->createNode([
       'title' => $english_node_title,
       'type' => 'news',
@@ -62,7 +62,7 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
     $this->waitForElasticSearchIndex(function () use ($english_node_title) {
       $this->drupalGet('/search', [
         'query' => [
-          'key' => 'Support to',
+          'key' => 'This is',
         ],
       ]);
       $session = $this->assertSession();
