@@ -37,6 +37,7 @@
         "drupal/environment_indicator": "^4.0",
         "drupal/facets": "^2.0",
         "drupal/focal_point": "^1.5",
+        "drupal/google_analytics": "^4.0",
         "drupal/intl_date": "^1.1",
         "drupal/lang_dropdown": "^2.0",
         "drupal/maxlength": "^2.1",
