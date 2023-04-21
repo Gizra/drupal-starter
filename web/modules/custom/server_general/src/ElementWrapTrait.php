@@ -320,12 +320,16 @@ trait ElementWrapTrait {
   }
 
   /**
-   * Wrap an element with a tag.
+   * Wrap an element with a tag, e.g. `<h1></h1>` or `<p></p>`.
+   *
+   * If the tag is h1 to h5, the element will be wrapped with `::wrapProseText`.
+   * This ensures that the heading is styled the same for prose and non-prose.
+   * The non-prose version should not have a margin applied to it.
    *
    * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
    *   The render array, string or a TranslatableMarkup object.
    * @param string $tag
-   *   The number of the heading. For example `h1` would result with a
+   *   The name of the tag. For example `h1` would result with a
    *   `<h1></h1>` tag.
    *
    * @return array
@@ -337,11 +341,17 @@ trait ElementWrapTrait {
       return [];
     }
 
-    return [
+    $element = [
       '#theme' => 'server_theme_wrap_html_tag',
       '#tag' => $tag,
       '#element' => $element,
     ];
+
+    if (in_array($tag, ['h1', 'h2', 'h3', 'h4', 'h5'])) {
+      $element = $this->wrapProseText($element);
+    }
+
+    return $element;
   }
 
   /**

@@ -113,6 +113,8 @@ class StyleGuideController extends ControllerBase {
 
     $build[] = $this->getTextDecorations();
 
+    $build[] = $this->getTextStyles();
+
     $element = $this->getAccordion();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Accordion');
 
@@ -533,6 +535,32 @@ class StyleGuideController extends ControllerBase {
     // Underline.
     $element = $this->wrapTextUnderline($this->getRandomTitle());
     $build[] = $this->wrapElementWideContainer($element, 'Text decoration - Underline');
+
+    return $build;
+  }
+
+  /**
+   * Get text styles prose, and non-prose.
+   *
+   * @return array
+   *   A render array.
+   */
+  protected function getTextStyles(): array {
+    $build = [];
+
+    // For non-prose text we will use the element wrappers.
+    $elements = [];
+
+    // Wrap Html tag from h1 to h5.
+    foreach (range(1, 5) as $index) {
+      $tag = 'h' . $index;
+      $elements[] = $this->wrapHtmlTag('This is an example for ' . $tag, $tag);
+    }
+    $build[] = $this->wrapElementWideContainer($elements, 'Headings (h1 - h5)');
+
+    $element = ['#theme' => 'server_style_guide_text_styles'];
+    $element = $this->wrapProseText($element);
+    $build[] = $this->wrapElementWideContainer($element, 'Text styles (Prose)');
 
     return $build;
   }
