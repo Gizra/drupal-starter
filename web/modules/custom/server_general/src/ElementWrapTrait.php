@@ -329,7 +329,7 @@ trait ElementWrapTrait {
    * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
    *   The render array, string or a TranslatableMarkup object.
    * @param string $tag
-   *   The number of the heading. For example `h1` would result with a
+   *   The name of the tag. For example `h1` would result with a
    *   `<h1></h1>` tag.
    *
    * @return array
