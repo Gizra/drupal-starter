@@ -320,7 +320,7 @@ trait ElementWrapTrait {
   }
 
   /**
-   * Wrap an element with a tag.
+   * Wrap an element with a tag, e.g. `<h1></h1>` or `<p></p>`.
    *
    * If the tag is h1 to h5, the element will be wrapped with `::wrapProseText`.
    * This ensures that the heading is styled the same for prose and non-prose.
