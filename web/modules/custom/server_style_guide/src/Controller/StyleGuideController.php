@@ -548,9 +548,17 @@ class StyleGuideController extends ControllerBase {
   protected function getTextStyles(): array {
     $build = [];
 
-    $element = ['#theme' => 'server_style_guide_text_styles'];
-    $build[] = $this->wrapElementWideContainer($element, 'Text styles');
+    // For non-prose text we will use the element wrappers.
+    $elements = [];
 
+    // Wrap Html tag from h1 to h5.
+    foreach (range(1, 5) as $index) {
+      $tag = 'h' . $index;
+      $elements[] = $this->wrapHtmlTag('This is an example for ' . $tag, $tag);
+    }
+    $build[] = $this->wrapElementWideContainer($elements, 'Headings (h1 - h5)');
+
+    $element = ['#theme' => 'server_style_guide_text_styles'];
     $element = $this->wrapProseText($element);
     $build[] = $this->wrapElementWideContainer($element, 'Text styles (Prose)');
 

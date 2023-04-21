@@ -337,11 +337,17 @@ trait ElementWrapTrait {
       return [];
     }
 
-    return [
+    $element = [
       '#theme' => 'server_theme_wrap_html_tag',
       '#tag' => $tag,
       '#element' => $element,
     ];
+
+    if (in_array($tag, ['h1', 'h2', 'h3', 'h4', 'h5'])) {
+      $element = $this->wrapProseText($element);
+    }
+
+    return $element;
   }
 
   /**
