@@ -35,6 +35,7 @@ module:
   file: 0
   filter: 0
   focal_point: 0
+  google_analytics: 0
   help: 0
   history: 0
   image: 0

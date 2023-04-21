@@ -49,6 +49,28 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
   }
 
   /**
+   * Test freetext search.
+   */
+  public function testFreetextSearch() {
+    $english_node_title = 'This is a test';
+    $this->createNode([
+      'title' => $english_node_title,
+      'type' => 'news',
+      'langcode' => 'en',
+    ]);
+    $this->triggerPostRequestIndexing();
+    $this->waitForElasticSearchIndex(function () use ($english_node_title) {
+      $this->drupalGet('/search', [
+        'query' => [
+          'key' => 'This is',
+        ],
+      ]);
+      $session = $this->assertSession();
+      $session->elementTextContains('css', '.view-search', $english_node_title);
+    });
+  }
+
+  /**
    * Test the relevance sort, boosting of title should be the highest.
    */
   public function testRelevanceSort() {
