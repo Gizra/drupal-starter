@@ -324,7 +324,7 @@ trait ElementWrapTrait {
    *
    * If the tag is h1 to h5, the element will be wrapped with `::wrapProseText`.
    * This ensures that the heading is styled the same for prose and non-prose.
-   * The non-prose version should not have margin applied to it.
+   * The non-prose version should not have a margin applied to it.
    *
    * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
    *   The render array, string or a TranslatableMarkup object.
