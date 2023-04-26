@@ -396,6 +396,13 @@ trait DeploymentTrait {
       throw new \Exception($message);
     }
 
+    $result = $this->localeImport(FALSE, $env);
+    if ($result->getExitCode() !== 0) {
+      $message = "The deployment went well to $env, but the locale import failed. Try to perform manually later.";
+      $this->notifyDeploy($env, $message);
+      throw new Exception($message);
+    }
+
     $result = $this->taskExecStack()
       ->stopOnFail()
       ->exec("terminus remote:drush $pantheon_terminus_environment -- sapi-r")
