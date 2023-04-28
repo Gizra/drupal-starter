@@ -46,8 +46,9 @@ opensans:
       '//fonts.googleapis.com/css?family=Open+Sans:400,400i,700': { external: true }
 
 font-awesome:
-  js:
-    /libraries/fontawesome/js/all.min.js: {}
+  css:
+    theme:
+      /libraries/fontawesome/css/all.min.css: {}
 
 slick:
   js:
