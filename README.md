@@ -301,6 +301,8 @@ you will need to re-sync the config, and re-run the migrations.
     ddev drush config-import --partial --source=modules/custom/server_migrate/config/install/ -y
     ddev drush migrate:rollback --all
     ddev drush migrate:import --group server
+    # Set the homepage.
+    ddev drush set-homepage
 
 ## Flood Control
 
