@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d598b9943d52e05758e67f639a48067a",
+    "content-hash": "167c03b7ab3c1160ce7e707771a8b771",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -61,6 +61,21 @@
                 "source": "https://github.com/asm89/stack-cors/tree/1.3.0"
             },
             "time": "2019-12-24T22:41:47+00:00"
+        },
+        {
+            "name": "bower-asset/fontawesome",
+            "version": "6.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FortAwesome/Font-Awesome.git",
+                "reference": "0698449d50f2b95517562295a59d414afc68b369"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/0698449d50f2b95517562295a59d414afc68b369",
+                "reference": "0698449d50f2b95517562295a59d414afc68b369"
+            },
+            "type": "bower-asset"
         },
         {
             "name": "chi-teck/drupal-code-generator",
@@ -4105,12 +4120,8 @@
             "authors": [
                 {
                     "name": "Christian Fritsch",
-                    "homepage": "https://www.drupal.org/user/157725",
+                    "homepage": "https://www.drupal.org/user/2103716",
                     "email": "christian.fritsch@burda.com"
-                },
-                {
-                    "name": "chr.fritsch",
-                    "homepage": "https://www.drupal.org/user/2103716"
                 }
             ],
             "description": "Integration with the select2 JavaScript library.",

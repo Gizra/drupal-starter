@@ -47,15 +47,9 @@ opensans:
       '//fonts.googleapis.com/css?family=Open+Sans:400,400i,700': { external: true }
 
 font-awesome:
-  remote: https://fortawesome.github.io/Font-Awesome/
-  version: 6.2.0
-  license:
-    name: MIT
-    url: https://fortawesome.github.io/Font-Awesome/license/
-    gpl-compatible: true
   css:
     theme:
-      https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css: { type: external, minified: true }
+      /libraries/fontawesome/css/all.min.css: {}
 
 slick:
   js:
