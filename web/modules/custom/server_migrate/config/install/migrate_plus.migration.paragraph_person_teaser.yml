@@ -16,10 +16,7 @@ process:
     plugin: default_value
     default_value: person_teaser
   field_title: _title
-  field_body/value: _body
-  field_body/format:
-    plugin: default_value
-    default_value: basic_html
+  field_subtitle: _subtitle
   field_image:
     - plugin: skip_on_empty
       method: process
