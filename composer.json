@@ -136,6 +136,9 @@
             },
             "guzzlehttp/guzzle": {
               "https://github.com/composer/composer/issues/10008": "https://github.com/guzzle/guzzle/files/8833885/guzzle-3020.patch.txt"
+            },
+            "npm-asset/anchor-js": {
+                "remove font-face": "patches/remove-anchorjs-fontface.patch"
             }
         },
         "drupal-scaffold": {
