@@ -108,10 +108,7 @@ trait ReleaseNotesTrait {
       }
 
       $log_messages[1] = trim(str_replace('* ', '', $log_messages[1]));
-      if (empty($log_messages[1])) {
-        // Whitespace-only log message, not meaningful for changelog.
-        continue;
-      }
+
       $pr_number = $pr_matches[1][0];
       if (!empty($github_org) && !empty($github_project)) {
         $pr_details = $this->githubApiGet("repos/$github_org/$github_project/pulls/$pr_number");
@@ -120,7 +117,16 @@ trait ReleaseNotesTrait {
           $additions += $pr_details->additions;
           $deletions += $pr_details->deletions;
           $changed_files += $pr_details->changed_files;
+
+          if (empty($log_messages[1])) {
+            $log_messages[1] = $pr_details->title;
+          }
         }
+      }
+
+      if (empty($log_messages[1])) {
+        // Whitespace-only log message, not meaningful for changelog.
+        continue;
       }
 
       // The issue number is a required part of the branch name,
