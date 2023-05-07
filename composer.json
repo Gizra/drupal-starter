@@ -65,6 +65,7 @@
         "drupal/username_enumeration_prevention": "^1.3",
         "drush/drush": "^11",
         "longwave/laminas-diactoros": "^2.14",
+        "npm-asset/anchor-js": "^5.0",
         "npm-asset/select2": "^4.0",
         "npm-asset/slick-carousel": "^1.8",
         "oomphinc/composer-installers-extender": "^2.0"
@@ -135,6 +136,9 @@
             },
             "guzzlehttp/guzzle": {
               "https://github.com/composer/composer/issues/10008": "https://github.com/guzzle/guzzle/files/8833885/guzzle-3020.patch.txt"
+            },
+            "npm-asset/anchor-js": {
+                "remove font-face": "patches/remove-anchorjs-fontface.patch"
             }
         },
         "drupal-scaffold": {
