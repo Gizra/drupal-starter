@@ -32,7 +32,7 @@ jobs:
     name: 'Drupal coding standard'
     script:
     - composer install || travis_terminate 1;
-    - robo phpcs || travis_terminate 1;
+    - vendor/bin/robo phpcs || travis_terminate 1;
   - stage: Lint
     name: 'Shell coding standard: shellcheck'
     script:
