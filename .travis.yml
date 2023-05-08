@@ -29,15 +29,10 @@ jobs:
     - composer install
     - vendor/bin/phpstan analyse -c phpstan.neon
   - stage: Lint
-    name: 'Drupal coding standard: phpcs'
+    name: 'Drupal coding standard'
     script:
-    - "$TRAVIS_BUILD_DIR/ci-scripts/install_coder.sh || travis_terminate 1;"
-    - export REVIEW_STANDARD="Drupal" && $TRAVIS_BUILD_DIR/ci-scripts/test_coder.sh
-  - stage: Lint
-    name: 'Drupal coding best practices: phpcs'
-    script:
-    - "$TRAVIS_BUILD_DIR/ci-scripts/install_coder.sh || travis_terminate 1;"
-    - export REVIEW_STANDARD="DrupalPractice" && $TRAVIS_BUILD_DIR/ci-scripts/test_coder.sh
+    - composer install || travis_terminate 1;
+    - vendor/bin/robo phpcs || travis_terminate 1;
   - stage: Lint
     name: 'Shell coding standard: shellcheck'
     script:
