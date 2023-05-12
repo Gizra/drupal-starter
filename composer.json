@@ -95,8 +95,7 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "RoboComponents\\": "./robo-components/",
-            "TranslationManagement\\": "./translation_management/"
+            "RoboComponents\\": "./robo-components/"
         }
     },
     "config": {

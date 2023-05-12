@@ -1,6 +1,6 @@
 <?php
 
-namespace TranslationManagement;
+namespace RoboComponents\TranslationManagement;
 
 use Drupal\Component\Utility\Tags;
 use Gettext\Generator\PoGenerator;
