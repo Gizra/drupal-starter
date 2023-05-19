@@ -1,6 +1,6 @@
 <?php
 
-namespace TranslationManagement;
+namespace RoboComponents\TranslationManagement;
 
 use Gettext\Loader\PoLoader;
 use Gettext\Translations;

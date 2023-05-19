@@ -1,6 +1,6 @@
 <?php
 
-namespace TranslationManagement;
+namespace RoboComponents\TranslationManagement;
 
 use Robo\ResultData;
 use RoboComponents\DeploymentTrait;

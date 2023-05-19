@@ -9,11 +9,11 @@ use RoboComponents\ReleaseNotesTrait;
 use RoboComponents\ThemeTrait;
 use RoboComponents\DeploymentTrait;
 use RoboComponents\PhpcsTrait;
+use RoboComponents\TranslationManagement\ExportFromConfig;
+use RoboComponents\TranslationManagement\ImportToConfig;
+use RoboComponents\TranslationManagement\ImportToUi;
 use RoboComponents\ElasticSearchTrait;
 use Symfony\Component\HttpFoundation\Request;
-use TranslationManagement\ExportFromConfig;
-use TranslationManagement\ImportToConfig;
-use TranslationManagement\ImportToUi;
 
 $GLOBALS['drupal_autoloader'] = require_once 'web/autoload.php';
 

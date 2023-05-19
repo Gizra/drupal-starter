@@ -1,8 +1,7 @@
 <?php
 
-namespace TranslationManagement;
+namespace RoboComponents\TranslationManagement;
 
-use Drupal\Component\Utility\Tags;
 use Gettext\Generator\PoGenerator;
 use Gettext\Translation;
 use Gettext\Translations;
@@ -130,6 +129,8 @@ trait ExportFromConfig {
    *   A prefix to load configs. Example 'field.field.node.'.
    * @param array $keys
    *   An array of keys to extract the value. Example: ['label', 'menu.title'].
+   * @param string $langcode
+   *   The langcode of the translations to fetch.
    *
    * @return array
    *   A list of original value and the ID.
