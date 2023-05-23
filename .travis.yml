@@ -1,6 +1,6 @@
 version: "~> 1.0"
 language: php
-dist: focal
+dist: jammy
 php:
 - 8.1
 services:
