@@ -132,7 +132,7 @@ To take a look, you can check these first:
 ## Tests
 
 For testing we use [Drupal Test Traits](https://medium.com/massgovdigital/introducing-drupal-test-traits-9fe09e84384c) (DTT), as it allows a very fast and convinent way of testing existing installation profiles.
-See the [example](https://github.com/Gizra/drupal8-starter/blob/master/web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralExampleTest.php) test.
+See the [example](https://github.com/Gizra/drupal-starter/blob/main/web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralExampleTest.php) test.
 
     # Run all tests
     ddev phpunit
@@ -142,6 +142,15 @@ See the [example](https://github.com/Gizra/drupal8-starter/blob/master/web/modul
 
     # Run a single method from a test file.
     ddev phpunit --filter testHomepageCache web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralHomepageTest.php
+
+## Debugging
+
+## Visual Studio Code instructions
+
+1. Enable `xdebug` by running `ddev xdebug on`
+1. Copy `.vscode/launch.json.example` to `.vscode/launch.json`
+1. Run Visual Studio Code and load the project folder. `File -> Open Folder...`
+1. Enabled the debugger by selecting the command: `Debug: Start Debbuging`
 
 ## Deploy to Pantheon
 
