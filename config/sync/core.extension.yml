@@ -68,6 +68,7 @@ module:
   redis: 0
   responsive_image: 0
   search_api: 0
+  seckit: 0
   select2: 0
   server_general: 0
   server_search: 0
