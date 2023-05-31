@@ -37,9 +37,9 @@ seckit_clickjacking:
   x_frame_allow_from: ''
 seckit_ssl:
   hsts: true
-  hsts_subdomains: false
-  hsts_max_age: 1000
-  hsts_preload: false
+  hsts_subdomains: true
+  hsts_max_age: 31536000
+  hsts_preload: true
 seckit_ct:
   expect_ct: false
   max_age: 86400
