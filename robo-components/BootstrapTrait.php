@@ -92,12 +92,12 @@ trait BootstrapTrait {
 
     $this->taskReplaceInFile('.bootstrap/.ddev/config.yaml')
       ->from('8880')
-      ->to(rand(6000, 8000))
+      ->to((string) rand(6000, 8000))
       ->run();
 
     $this->taskReplaceInFile('.bootstrap/.ddev/config.yaml')
       ->from('4443')
-      ->to(rand(3000, 5000))
+      ->to((string) rand(3000, 5000))
       ->run();
 
     $host_user = $this->taskExec("whoami")

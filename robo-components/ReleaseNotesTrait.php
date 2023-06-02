@@ -111,6 +111,7 @@ trait ReleaseNotesTrait {
 
       $pr_number = $pr_matches[1][0];
       if (!empty($github_org) && !empty($github_project)) {
+        /** @var \stdClass $pr_details */
         $pr_details = $this->githubApiGet("repos/$github_org/$github_project/pulls/$pr_number");
         if (!empty($pr_details->user)) {
           $contributors[] = '@' . $pr_details->user->login;
@@ -141,7 +142,7 @@ trait ReleaseNotesTrait {
       else {
         // Retrieve the issue number from the PR description via GitHub API.
         $pr = NULL;
-        if (!empty($github_project) && !empty($github_org) && !empty($github_project)) {
+        if (!empty($github_project) && !empty($github_org)) {
           $pr = $this->githubApiGet("repos/$github_org/$github_project/pulls/$pr_number");
         }
         if (!isset($pr->body)) {
@@ -158,6 +159,7 @@ trait ReleaseNotesTrait {
 
       if (!empty($issue_number)) {
         if (!isset($issue_titles[$issue_number]) && !empty($github_org) && !empty($github_project)) {
+          /** @var \stdClass $issue_details */
           $issue_details = $this->githubApiGet("repos/$github_org/$github_project/issues/$issue_number");
           if (!empty($issue_details->title)) {
             $issue_titles[$issue_number] = $issue_details->title;
