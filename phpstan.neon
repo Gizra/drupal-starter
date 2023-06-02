@@ -10,6 +10,8 @@ parameters:
     - '#Access to an undefined property Drupal\\Core\\Field\\FieldItemInterface::\$value.#'
   paths:
     - web
+    - RoboFile.php
+    - robo-components
   excludePaths:
     - '*.api.php'
     - '*/tests/fixtures/*.php'
