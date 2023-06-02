@@ -116,7 +116,7 @@ trait ExportFromConfig {
    *   Returns the translated version of the $name:$key config in $langcode.
    */
   protected function configKeyTranslated(string $name, string $key, string $langcode) {
-    /** @var \Drupal\Core\Language\LanguageManagerInterface $language_manager */
+    /** @var \Drupal\language\ConfigurableLanguageManager $language_manager */
     $language_manager = \Drupal::service('language_manager');
     $config = $language_manager->getLanguageConfigOverride($langcode, $name);
     return $config->get($key);

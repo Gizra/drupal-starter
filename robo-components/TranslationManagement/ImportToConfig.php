@@ -60,6 +60,7 @@ trait ImportToConfig {
    *   The text to use as translation.
    */
   protected function translateConfig($name, $key, $langcode, $translation) {
+    /** @var \Drupal\language\ConfigurableLanguageManager $languageManager */
     $languageManager = \Drupal::service('language_manager');
     $config_translation = $languageManager->getLanguageConfigOverride($langcode, $name);
     $config_translation->set($key, $translation);

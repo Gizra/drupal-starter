@@ -399,8 +399,8 @@ trait DeploymentTrait {
     $result = $this->localeImport(FALSE, $env);
     if ($result->getExitCode() !== 0) {
       $message = "The deployment went well to $env, but the locale import failed. Try to perform manually later.";
-      $this->notifyDeploy($env, $message);
-      throw new Exception($message);
+      $this->deployNotify($env, $message);
+      throw new \Exception($message);
     }
 
     $result = $this->taskExecStack()
@@ -627,7 +627,7 @@ trait DeploymentTrait {
     }
     else {
       $issue_numbers[] = $issue_matches[1][0];
-      if (empty($issue_numbers) || !is_numeric($issue_numbers[0])) {
+      if (!is_numeric($issue_numbers[0])) {
         throw new \Exception("Could not determine the issue number from the branch name in the commit message: $git_commit_message");
       }
     }
