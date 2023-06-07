@@ -35,6 +35,45 @@ deployments. See more under ["Deploy to Pantheon"](#deploy-to-pantheon) section
 Once the Drupal installation is complete you can use `ddev login` to
 log in to the site as user 1 using your default browser.
 
+## Default content management
+
+This project uses `drupal/default_content` module to manage the installation
+(default) content. The following entity types are currently managed by the
+default_content module:
+
+- node
+- menu_link_content
+- block_content
+- taxonomy_term
+- user
+- media
+- file
+
+### Export new content
+
+If you wish to add new content to be installed on the next installation of the
+site, for example a node, follow these steps:
+
+1. Create the entity in the freshly installed site.
+2. Verify that it's complete and finalized for exporting.
+3. Get the new entity's UUID (you may wish to enable devel, or use `ddev mysql`)
+4. Add the new entity's UUID to `server_default_content.info.yml` under the correct
+   heading
+5. Enable `server_default_content` module
+6. Run `ddev drush dcem server_default_content`
+7. Check git, ensure the new yml file is created. Now simply commit the new file.
+
+### Updating existing content
+
+If you wish to update an existing default content then simply run the steps 5-7
+above. The only thing to be aware of is that the above steps use a mass export
+functionality of default_content module. If you wish to re-export only a single
+node without including the changes to other entities, there's a different drush
+command which allows you to export a single entity. However this method is not
+recommended, as things can get inconsistent and potentially out of sync.
+
+Please refer to the [Default content documentation](https://www.drupal.org/docs/contributed-modules/default-content-for-d8/overview)
+
 ## Theme Development
 
 By default, `ddev restart` compiles the theme using Robo (`ddev robo theme:compile-debug`)
