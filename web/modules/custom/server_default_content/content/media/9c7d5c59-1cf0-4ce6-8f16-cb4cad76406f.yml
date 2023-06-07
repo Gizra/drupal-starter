@@ -1,0 +1,40 @@
+_meta:
+  version: '1.0'
+  entity_type: media
+  uuid: 9c7d5c59-1cf0-4ce6-8f16-cb4cad76406f
+  bundle: document
+  default_langcode: en
+  depends:
+    fee140e9-175b-4a13-a1d1-0b206e855cf8: file
+default:
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 0
+  name:
+    -
+      value: 'Drupal starter'
+  created:
+    -
+      value: 1686167785
+  revision_translation_affected:
+    -
+      value: true
+  path:
+    -
+      alias: ''
+      langcode: en
+      pathauto: 1
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  field_media_file:
+    -
+      entity: fee140e9-175b-4a13-a1d1-0b206e855cf8
+      display: false
+      description: ''

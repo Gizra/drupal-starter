@@ -1,0 +1,40 @@
+_meta:
+  version: '1.0'
+  entity_type: media
+  uuid: 711d4c28-2c02-4064-b78c-1480b9e66d8d
+  bundle: document
+  default_langcode: en
+  depends:
+    dc24d0dd-420e-49a4-8ef5-63606fb36767: file
+default:
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 0
+  name:
+    -
+      value: 'Look at this document title'
+  created:
+    -
+      value: 1686167785
+  revision_translation_affected:
+    -
+      value: true
+  path:
+    -
+      alias: ''
+      langcode: en
+      pathauto: 1
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  field_media_file:
+    -
+      entity: dc24d0dd-420e-49a4-8ef5-63606fb36767
+      display: false
+      description: ''

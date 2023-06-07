@@ -1,0 +1,24 @@
+_meta:
+  version: '1.0'
+  entity_type: file
+  uuid: 419a7df5-25a3-4f9a-8b7f-2e382f3b6d20
+  default_langcode: en
+default:
+  filename:
+    -
+      value: statue-800x600_55.jpg
+  uri:
+    -
+      value: 'public://statue-800x600_55.jpg'
+  filemime:
+    -
+      value: image/jpeg
+  filesize:
+    -
+      value: 38209
+  status:
+    -
+      value: true
+  created:
+    -
+      value: 1686167785

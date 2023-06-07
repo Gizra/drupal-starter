@@ -1,0 +1,47 @@
+_meta:
+  version: '1.0'
+  entity_type: user
+  uuid: 9e29bc67-aa63-44fd-a740-ce8a38db9de0
+  default_langcode: en
+  depends:
+    b409bbf1-c62e-4940-9a76-f8b56117ac13: file
+default:
+  preferred_langcode:
+    -
+      value: en
+  name:
+    -
+      value: JaneDoe
+  pass:
+    -
+      value: U$S$Eu4620kWfYkoM5t.MJfJLn7VFJPoHcLn.RCoV855E.Mwmcfj15Io
+      existing: ''
+      pre_hashed: false
+  mail:
+    -
+      value: jane@example.com
+  timezone:
+    -
+      value: UTC
+  status:
+    -
+      value: true
+  created:
+    -
+      value: 1686167785
+  access:
+    -
+      value: 0
+  login:
+    -
+      value: 0
+  roles:
+    -
+      target_id: ''
+  user_picture:
+    -
+      entity: b409bbf1-c62e-4940-9a76-f8b56117ac13
+      alt: ''
+      title: ''
+      width: 800
+      height: 533

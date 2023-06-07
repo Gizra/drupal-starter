@@ -1,0 +1,37 @@
+_meta:
+  version: '1.0'
+  entity_type: media
+  uuid: b8be42f2-8de1-445d-855d-5ec549e06e9e
+  bundle: image
+  default_langcode: en
+  depends:
+    3d348c2e-091c-4cd9-a6f5-fe2040030871: file
+default:
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 0
+  name:
+    -
+      value: 'User photo'
+  created:
+    -
+      value: 1686167785
+  revision_translation_affected:
+    -
+      value: true
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  field_media_image:
+    -
+      entity: 3d348c2e-091c-4cd9-a6f5-fe2040030871
+      alt: 'User photo'
+      title: ''
+      width: 850
+      height: 625
