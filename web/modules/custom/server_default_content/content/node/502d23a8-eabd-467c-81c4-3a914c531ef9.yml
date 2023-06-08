@@ -1,0 +1,75 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: 502d23a8-eabd-467c-81c4-3a914c531ef9
+  bundle: landing_page
+  default_langcode: en
+  depends:
+    49afcccd-7be9-4b3b-9bc5-0b56ed065fa0: user
+default:
+  revision_uid:
+    -
+      entity: 49afcccd-7be9-4b3b-9bc5-0b56ed065fa0
+  status:
+    -
+      value: true
+  uid:
+    -
+      entity: 49afcccd-7be9-4b3b-9bc5-0b56ed065fa0
+  title:
+    -
+      value: Search
+  created:
+    -
+      value: 1686167785
+  promote:
+    -
+      value: true
+  sticky:
+    -
+      value: false
+  revision_translation_affected:
+    -
+      value: true
+  path:
+    -
+      alias: /search
+      langcode: en
+      pathauto: 0
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  field_is_title_hidden:
+    -
+      value: true
+  field_paragraphs:
+    -
+      entity:
+        _meta:
+          version: '1.0'
+          entity_type: paragraph
+          uuid: bb69f959-54e2-448f-b143-9204cb8df0a8
+          bundle: search
+          default_langcode: en
+        default:
+          status:
+            -
+              value: true
+          created:
+            -
+              value: 1686167785
+          behavior_settings:
+            -
+              value: {  }
+          revision_translation_affected:
+            -
+              value: true
+          content_translation_source:
+            -
+              value: und
+          content_translation_outdated:
+            -
+              value: false

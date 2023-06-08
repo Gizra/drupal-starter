@@ -1,0 +1,56 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: a405be40-26d1-4059-a32f-b3a653df32e8
+  bundle: news
+  default_langcode: en
+  depends:
+    49afcccd-7be9-4b3b-9bc5-0b56ed065fa0: user
+    6ab2e407-f7f3-4148-bf24-0a1b9ea48d6a: media
+    3d7c7e0b-1322-42b5-8b3e-e83fd05adb63: taxonomy_term
+default:
+  revision_uid:
+    -
+      entity: 49afcccd-7be9-4b3b-9bc5-0b56ed065fa0
+  status:
+    -
+      value: true
+  uid:
+    -
+      entity: 49afcccd-7be9-4b3b-9bc5-0b56ed065fa0
+  title:
+    -
+      value: 'Worrying Study Finds Today''s Tutorial Levels Not Adequately Preparing Players For Challenges Of World 8'
+  created:
+    -
+      value: 1686167785
+  promote:
+    -
+      value: true
+  sticky:
+    -
+      value: false
+  revision_translation_affected:
+    -
+      value: true
+  path:
+    -
+      alias: /news/worrying-study-finds-todays-tutorial-levels-not-adequately-preparing-players-challenges-world-8
+      langcode: en
+      pathauto: 1
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  field_body:
+    -
+      value: '<p>Offering a bleak assessment of gamers'' readiness for the future, a concerning study from Harvard University released Thursday found that today''s tutorial levels are not adequately preparing players for the challenges of World 8. "Our data have shown that despite completing the requisite time in practice stages, the current crop of gamers simply does not possess the skills necessary to defeat enemies, collect coins, and level up as they go out into World 8," said lead researcher Michelle Gideon, telling reporters that a jaw-dropping 79% of tutorial levels failed to teach basic abilities such as crafting items and upgrading weapons that are crucial after finishing the Ice World. "What''s worse is that these tutorials often give players the illusion of preparedness, which leads to feelings of demoralization when they are then left to fend for themselves without any hint blocks or pop-up screens to help them. Sometimes, things can get so bad that they''ll even just give up playing the game entirely." Gideon added that the research highlighted significant economic disparity as well, as wealthier gamers could afford the DLCs and in-game purchases needed to reach the boss''s castle.</p> '
+      format: basic_html
+  field_featured_image:
+    -
+      entity: 6ab2e407-f7f3-4148-bf24-0a1b9ea48d6a
+  field_tags:
+    -
+      entity: 3d7c7e0b-1322-42b5-8b3e-e83fd05adb63

@@ -1,0 +1,24 @@
+_meta:
+  version: '1.0'
+  entity_type: file
+  uuid: bef9ed9a-41f1-4fc7-9ea9-9c33b41e7be3
+  default_langcode: en
+default:
+  filename:
+    -
+      value: onion-1440x760_55.jpg
+  uri:
+    -
+      value: 'public://onion-1440x760_55.jpg'
+  filemime:
+    -
+      value: image/jpeg
+  filesize:
+    -
+      value: 107619
+  status:
+    -
+      value: true
+  created:
+    -
+      value: 1686167785

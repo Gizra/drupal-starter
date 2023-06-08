@@ -1,0 +1,40 @@
+_meta:
+  version: '1.0'
+  entity_type: media
+  uuid: 693dea86-8bc7-455e-b113-918d3a8353cb
+  bundle: document
+  default_langcode: en
+  depends:
+    61c2811c-7e3a-4492-a651-2a6b32a9fd95: file
+default:
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 0
+  name:
+    -
+      value: 'Another great document'
+  created:
+    -
+      value: 1686167785
+  revision_translation_affected:
+    -
+      value: true
+  path:
+    -
+      alias: ''
+      langcode: en
+      pathauto: 1
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  field_media_file:
+    -
+      entity: 61c2811c-7e3a-4492-a651-2a6b32a9fd95
+      display: false
+      description: ''

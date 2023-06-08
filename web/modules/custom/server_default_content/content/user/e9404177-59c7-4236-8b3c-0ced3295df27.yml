@@ -1,0 +1,38 @@
+_meta:
+  version: '1.0'
+  entity_type: user
+  uuid: e9404177-59c7-4236-8b3c-0ced3295df27
+  default_langcode: en
+default:
+  preferred_langcode:
+    -
+      value: en
+  name:
+    -
+      value: '<script>alert(''XSS attack!'');</script>'
+  pass:
+    -
+      value: U$S$EUSshCwNnhurSVj37Ht6F/aisWJpkSIFC4auu3mOj7YuomGZ3NpS
+      existing: ''
+      pre_hashed: false
+  mail:
+    -
+      value: attacker@example.com
+  timezone:
+    -
+      value: UTC
+  status:
+    -
+      value: true
+  created:
+    -
+      value: 1686167785
+  access:
+    -
+      value: 0
+  login:
+    -
+      value: 0
+  roles:
+    -
+      target_id: ''

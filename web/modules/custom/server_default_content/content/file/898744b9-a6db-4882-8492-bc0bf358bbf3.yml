@@ -1,0 +1,24 @@
+_meta:
+  version: '1.0'
+  entity_type: file
+  uuid: 898744b9-a6db-4882-8492-bc0bf358bbf3
+  default_langcode: en
+default:
+  filename:
+    -
+      value: sand-1980x1060_55.jpg
+  uri:
+    -
+      value: 'public://sand-1980x1060_55.jpg'
+  filemime:
+    -
+      value: image/jpeg
+  filesize:
+    -
+      value: 139490
+  status:
+    -
+      value: true
+  created:
+    -
+      value: 1686167785
