@@ -427,6 +427,55 @@ trait DeploymentTrait {
       $this->deployNotify($env, $message);
       throw new \Exception($message);
     }
+
+    try {
+      $this->deployCheckRequirementErrors($env);
+    }
+    catch (\Exception $e) {
+      $message = "The deployment went well to $env, but there are requirement errors. Address these:" . PHP_EOL . $e->getMessage();
+      $this->deployNotify($env, $message);
+      throw new \Exception($message);
+    }
+  }
+
+  /**
+   * Check for requirement errors on the given environment.
+   *
+   * @param string $environment
+   *   The environment to check.
+   *
+   * @throws \Exception
+   */
+  public function deployCheckRequirementErrors(string $environment): void {
+    $pantheon_info = $this->getPantheonNameAndEnv();
+    $pantheon_terminus_environment = $pantheon_info['name'] . '.' . $environment;
+    $task = $this->taskExecStack()
+      ->stopOnFail();
+    $output = $task
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- rq --format=csv")
+      ->printOutput(FALSE)
+      ->run()
+      ->getMessage();
+
+    $errors = [];
+    $parsed_output = str_getcsv($output, "\n");
+    if (empty($parsed_output)) {
+      return;
+    }
+    foreach ($parsed_output as $row) {
+      $row = str_getcsv($row, ",");
+      if (empty($row[1])) {
+        continue;
+      }
+      if ($row[1] !== 'Error') {
+        continue;
+      }
+      $errors[] = $row[2];
+    }
+    if (empty($errors)) {
+      return;
+    }
+    throw new \Exception(print_r($errors, TRUE));
   }
 
   /**
