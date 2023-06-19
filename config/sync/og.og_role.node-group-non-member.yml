@@ -1,0 +1,16 @@
+uuid: 1621b886-9373-46ee-a0b6-9934878d0332
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.group
+id: node-group-non-member
+label: Non-member
+weight: null
+group_id: null
+group_type: node
+group_bundle: group
+is_admin: null
+permissions:
+  - subscribe
+role_type: required

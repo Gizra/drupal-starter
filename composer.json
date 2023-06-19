@@ -47,6 +47,7 @@
         "drupal/migrate_plus": "^5.1",
         "drupal/migrate_source_csv": "^3.4",
         "drupal/migrate_tools": "^5.0",
+        "drupal/og": "^1.0@alpha",
         "drupal/pantheon_advanced_page_cache": "^2.1",
         "drupal/paragraphs": "^1.12",
         "drupal/paragraphs_edit": "^2.0",
@@ -78,6 +79,7 @@
         "drupal/drupal_test_assertions": "1.0.x-dev",
         "drupal/potx": "^1.0@alpha",
         "gettext/gettext": "^5.7",
+        "kint-php/kint": "^5.0",
         "mglaman/phpstan-drupal": "1.1.10",
         "mpyw/phpunit-patch-serializable-comparison": "^0.0.2",
         "natxet/cssmin": "^3.0",
@@ -126,6 +128,9 @@
             "drupal/core": {
               "d.o #3224254": "https://www.drupal.org/files/issues/2021-07-19/drupal-claro_dropdown-3224254-2.patch",
               "d.o. #2719797": "https://www.drupal.org/files/issues/2022-09-20/2719797-144.patch"
+            },
+            "drupal/og": {
+                "d.o. OG patch ": "https://git.drupalcode.org/project/og/-/merge_requests/4.patch"
             },
             "drupal/lang_dropdown": {
               "d.o. #3348277": "https://www.drupal.org/files/issues/2023-03-16/lang_dropdown-2-0-0--3348277-16.patch"

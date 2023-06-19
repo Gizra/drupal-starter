@@ -1,0 +1,7 @@
+uuid: 2faebd11-f7f1-41ab-90eb-97444aff5584
+langcode: en
+status: true
+dependencies: {  }
+type: vip_member
+name: 'VIP Member'
+description: null

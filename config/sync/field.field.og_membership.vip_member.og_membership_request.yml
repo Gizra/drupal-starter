@@ -1,0 +1,19 @@
+uuid: e49fea8e-b665-4d9f-ab38-db94ee69a769
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.og_membership.og_membership_request
+    - og.og_membership_type.vip_member
+id: og_membership.vip_member.og_membership_request
+field_name: og_membership_request
+entity_type: og_membership
+bundle: vip_member
+label: 'Request Membership'
+description: 'Explain the motivation for your request to join this group.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

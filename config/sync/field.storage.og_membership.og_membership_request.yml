@@ -1,0 +1,21 @@
+uuid: 281cc1e6-1d67-4d59-990b-4b19a0359f4e
+langcode: en
+status: true
+dependencies:
+  module:
+    - og
+_core:
+  default_config_hash: 5712dAes1LfhZC-TRQb-2h4elYVUxfniVafaKRVOg5Q
+id: og_membership.og_membership_request
+field_name: og_membership_request
+entity_type: og_membership
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

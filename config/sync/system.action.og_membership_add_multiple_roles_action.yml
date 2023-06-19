@@ -1,0 +1,13 @@
+uuid: f83f3347-6a45-4fd8-8dda-1de790dce02a
+langcode: en
+status: true
+dependencies:
+  module:
+    - og
+_core:
+  default_config_hash: F75n1v-BedKlOHARAWrmPevbBDfwZ1D1abXmyzna5IE
+id: og_membership_add_multiple_roles_action
+label: 'Add roles to the selected membership(s)'
+type: og_membership
+plugin: og_membership_add_multiple_roles_action
+configuration: {  }

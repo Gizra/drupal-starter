@@ -1,0 +1,13 @@
+uuid: 8f7d658e-3ec5-4083-9db2-df45c9200790
+langcode: en
+status: true
+dependencies:
+  module:
+    - og
+_core:
+  default_config_hash: 6cd42ENzMv0J03pur_bmzP6i89rguku-oGJdm_tCOfc
+id: og_membership_block_action
+label: 'Block the selected membership(s)'
+type: og_membership
+plugin: og_membership_block_action
+configuration: {  }

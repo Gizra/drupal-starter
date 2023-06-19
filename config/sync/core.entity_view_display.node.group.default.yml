@@ -1,0 +1,38 @@
+uuid: 4cf3e829-896d-4b1b-a172-e74e2287bb16
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.group.field_body
+    - node.type.group
+  module:
+    - og
+    - text
+    - user
+id: node.group.default
+targetEntityType: node
+bundle: group
+mode: default
+content:
+  field_body:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+  og_group:
+    type: og_group_subscribe
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true

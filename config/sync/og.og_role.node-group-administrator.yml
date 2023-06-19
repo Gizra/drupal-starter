@@ -1,0 +1,15 @@
+uuid: 9fbeafd2-ab2f-4050-a9f5-b844a0520cbc
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.group
+id: node-group-administrator
+label: Administrator
+weight: 2
+group_id: null
+group_type: node
+group_bundle: group
+is_admin: true
+permissions: {  }
+role_type: null
