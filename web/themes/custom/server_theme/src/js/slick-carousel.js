@@ -55,13 +55,17 @@
         const centerMode = $element.data('carousel-center-mode-mobile');
         const variableWidth = $element.data('carousel-fixed-width-on-mobile');
         const hasPadding = $element.data('carousel-padding');
-        const slidesToShowTablet = $element.data('slides-tablet') || 2;
-        const slidesToShowLaptop = $element.data('slides-laptop') || 2;
-        const slidesToShowDesktop = $element.data('slides-desktop') || 3;
-        const slidesToScroll = $element.data('slides-to-scroll') || 1;
         const $parent = $element.parent();
         const $prevArrow = $parent.find('.slick-arrow-prev');
         const $nextArrow = $parent.find('.slick-arrow-next');
+        // Determine if the carousel should be an infinite loop.
+        const infiniteLoop = $element.data('carousel-infinite');
+        // Determine how many slides to show per breakpoint and how many to scroll.
+        const slidesToShow = 1;
+        const slidesToShowTablet = $element.data('slides-tablet') || 2;
+        const slidesToShowLaptop = $element.data('slides-laptop') || 2;
+        const slidesToShowDesktop = $element.data('slides-desktop') || 3;
+        const slidesToScroll = $element.data('slides-to-scroll');
 
         // Get the number of total cards we have.
         const numSlides = getTotalCardsCount($element);
@@ -74,28 +78,15 @@
           return;
         }
 
-        // We'd like to show only a single slide on mobile.
-        let slidesToShow;
-
-        if (singleSlide) {
-          slidesToShow = 1;
-        }
-        else if (isResponsive) {
-          slidesToShow = 1;
-        }
-        else {
-          slidesToShow = numSlides > 3 ? 3 : numSlides;
-        }
-
         const config = {
-          infinite: true,
+          infinite: infiniteLoop,
           // Set the direction based on the current language.
           rtl: drupalSettings.language.direction === 'rtl',
           focusOnSelect: false,
           arrows: showArrows,
           mobileFirst: true,
           slidesToShow: slidesToShow,
-          slidesToScroll: slidesToScroll || slidesToShow,
+          slidesToScroll: slidesToScroll ? slidesToScroll : slidesToShow,
           dots: showDots,
           variableWidth: variableWidth,
           // This defaults to 1 in slick, which in conjunction with slidesPerRow
@@ -116,7 +107,7 @@
               breakpoint: 1279,
               settings: {
                 slidesToShow: slidesToShowDesktop,
-                slidesToScroll: slidesToShowDesktop,
+                slidesToScroll: slidesToScroll ? slidesToScroll : slidesToShowDesktop,
                 arrows: showArrows,
                 prevArrow: $prevArrow,
                 nextArrow: $nextArrow,
@@ -128,7 +119,7 @@
               breakpoint: 1023,
               settings: {
                 slidesToShow: slidesToShowLaptop,
-                slidesToScroll: slidesToShowLaptop,
+                slidesToScroll: slidesToScroll ? slidesToScroll : slidesToShowLaptop,
                 arrows: showArrows,
                 prevArrow: $prevArrow,
                 nextArrow: $nextArrow,
@@ -140,7 +131,7 @@
               breakpoint: 639,
               settings: {
                 slidesToShow: slidesToShowTablet,
-                slidesToScroll: slidesToShowTablet,
+                slidesToScroll: slidesToScroll ? slidesToScroll : slidesToShowTablet,
                 arrows: showArrows,
                 variableWidth: variableWidth,
                 centerPadding: hasPadding ? '50px' : '0',
