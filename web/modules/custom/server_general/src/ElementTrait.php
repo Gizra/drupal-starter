@@ -159,6 +159,8 @@ trait ElementTrait {
    * @param array|null $button
    *   Optional; The render array of the button, likely created with
    *   ButtonTrait::buildButton.
+   * @param bool $is_infinite
+   *   Optional; Indicate whether the carousel should be infinite or not.
    *
    * @return array
    *   Render array.
