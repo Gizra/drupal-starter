@@ -299,6 +299,7 @@ function server_theme_theme() {
       // Indicate if cards are featured, thus we show only a single card at a
       // time.
       'is_featured' => FALSE,
+      // Indicate if the carousel is infinite, or reaches the end and stops.
       'is_infinite' => FALSE,
       // The render array of `server_theme_button`.
       'button' => NULL,
