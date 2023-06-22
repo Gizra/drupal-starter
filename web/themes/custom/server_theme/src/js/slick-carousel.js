@@ -59,7 +59,7 @@
         const $prevArrow = $parent.find('.slick-arrow-prev');
         const $nextArrow = $parent.find('.slick-arrow-next');
         // Determine if the carousel should be an infinite loop.
-        const infiniteLoop = $element.data('carousel-infinite');
+        const infiniteLoop = $element.data('carousel-infinite') || false;
         // Determine how many slides to show per breakpoint and how many to scroll.
         const slidesToShow = 1;
         const slidesToShowTablet = $element.data('slides-tablet') || 2;

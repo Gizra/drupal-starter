@@ -1,6 +1,7 @@
 {{ attach_library('server_theme/slick') }}
 {% if items is not empty %}
   <div class="carousel-wrapper"
+       data-carousel-infinite="{{ is_infinite ? 'true' : 'false' }}"
        data-carousel-dots="{{ dots ?? 'false' }}"
        data-carousel-arrows="{{ arrows ?? 'false' }}"
        data-carousel-fixed-width-on-mobile="{{ fixed_width_on_mobile ?? 'false' }}"

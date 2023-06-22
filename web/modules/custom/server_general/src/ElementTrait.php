@@ -163,7 +163,7 @@ trait ElementTrait {
    * @return array
    *   Render array.
    */
-  protected function buildElementCarousel(string $title, array $body, array $items, bool $is_featured = FALSE, array $button = NULL): array {
+  protected function buildElementCarousel(string $title, array $body, array $items, bool $is_featured = FALSE, array $button = NULL, $is_infinite = FALSE): array {
     if (empty($items)) {
       return [];
     }
@@ -173,6 +173,7 @@ trait ElementTrait {
       '#theme' => 'server_theme_carousel',
       '#items' => $items,
       '#is_featured' => $is_featured,
+      '#is_infinite' => $is_infinite,
     ];
 
     if ($button) {
