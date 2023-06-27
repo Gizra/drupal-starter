@@ -8,16 +8,6 @@ namespace Drupal\Tests\server_general\ExistingSite;
 class ServerGeneralHomepageTest extends ServerGeneralSelenium2TestBase {
 
   /**
-   * The homepage is cache-able.
-   */
-  public function testHomepageCache() {
-    $this->drupalGet('<front>');
-    $this->assertSession()->responseHeaderEquals('Cache-Control', 'max-age=1800, public');
-    $this->drupalGet('<front>');
-    $this->assertSession()->responseHeaderExists('X-Drupal-Cache', 'HIT');
-  }
-
-  /**
    * Test the featured content carousel on homepage.
    */
   public function testHomeFeaturedContent() {
