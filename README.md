@@ -183,6 +183,14 @@ See the [example](https://github.com/Gizra/drupal8-starter/blob/master/web/modul
     # Run a single method from a test file.
     ddev phpunit --filter testHomepageCache web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralHomepageTest.php
 
+We also have capability to write tests which run on a headless chrome browser with
+Javascript capabilities. See `Drupal\Tests\server_general\ExistingSite\ServerGeneralSelenium2TestBase`
+for the test base, and `Drupal\Tests\server_general\ExistingSite\ServerGeneralHomepageTest` for the
+example implementation. By extending the above base class you can also take screenshots using the
+`takeScreenshot()` method. This captures, and saves the screenshot in `/web/sites/simpletest/screenshots`.
+Please note that you should not leave calls to `takeScreenshot` in the codebase, this is meant only for
+local debugging purposes.
+
 ## Deploy to Pantheon
 
 ### Pantheon Setup
