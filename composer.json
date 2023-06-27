@@ -73,6 +73,7 @@
         "oomphinc/composer-installers-extender": "^2.0"
     },
     "require-dev": {
+        "behat/mink-selenium2-driver": "^1.6",
         "consolidation/robo": "^3",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
         "drupal/coder": "^8.3.1",
