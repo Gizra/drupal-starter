@@ -25,6 +25,10 @@ class ServerGeneralSelenium2TestBase extends ExistingSiteSelenium2DriverTestBase
    * @throws \Behat\Mink\Exception\UnsupportedDriverActionException
    */
   protected function takeScreenshot(string $screenshot_file_base_name): void {
+    if (getenv('CI') === 'true') {
+      // Screenshots not allowed CI envs.
+      return;
+    }
     $working_dir = getcwd();
     // Prepare the directories.
     $dirs = [
