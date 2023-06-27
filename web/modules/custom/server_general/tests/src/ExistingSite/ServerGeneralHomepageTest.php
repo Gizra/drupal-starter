@@ -2,8 +2,6 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
-use weitzman\DrupalTestTraits\ExistingSiteBase;
-
 /**
  * Tests for the Homepage.
  */
@@ -24,6 +22,7 @@ class ServerGeneralHomepageTest extends ServerGeneralSelenium2TestBase {
    */
   public function testHomeFeaturedContent() {
     $this->drupalGet('<front>');
+    /** @var \Drupal\FunctionalJavascriptTests\JSWebAssert $web_assert */
     $web_assert = $this->assertSession();
 
     $featured_content = $web_assert->waitForElement('css', '.paragraph--type--related-content');
