@@ -29,6 +29,7 @@ deployments. See more under ["Deploy to Pantheon"](#deploy-to-pantheon) section
 ## Installation
 
     ddev composer install
+    ddev get ddev/ddev-selenium-standalone-chrome
     cp .ddev/config.local.yaml.example .ddev/config.local.yaml
     ddev restart
 
