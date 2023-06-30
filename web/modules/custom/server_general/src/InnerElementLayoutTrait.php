@@ -28,6 +28,8 @@ trait InnerElementLayoutTrait {
    * @param string|null $bg_color
    *   Optional; The background color. Allowed values are:
    *   - 'light-gray'.
+   *   - 'light-green'.
+   *   - 'white'.
    *   If NULL, a transparent background will be added.
    *
    * @return array
@@ -54,6 +56,28 @@ trait InnerElementLayoutTrait {
     return [
       '#theme' => 'server_theme_inner_element_layout__centered',
       '#items' => $this->wrapContainerVerticalSpacing($items, 'center'),
+    ];
+  }
+
+  /**
+   * Build "Centered card" layout.
+   *
+   * @param array $items
+   *   The elements as render array.
+   * @param array $bg_color
+   *   Optional; The background color. Allowed values are:
+   *    - 'light-gray'.
+   *    - 'light-green'.
+   *    - 'white'.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function buildInnerElementLayoutCard(array $items, string $bg_color = NULL): array {
+    return [
+      '#theme' => 'server_theme_inner_element_layout__card',
+      '#items' => $items,
+      '#bg_color' => $bg_color,
     ];
   }
 

@@ -273,6 +273,87 @@ trait InnerElementTrait {
   }
 
   /**
+   * Build a Person Card.
+   *
+   * @param string $image_url
+   *   The image Url.
+   * @param string $name
+   *   The name.
+   * @param string|null $subtitle
+   *   Optional; The subtitle (e.g. work title).
+   * @param string $badge
+   * The badge title.
+   * @param string $email
+   *   The email address.
+   * @param string $phone
+   *   The phone number.
+   *
+   * @return array
+   *   The render array.
+   */
+  protected function buildInnerElementPersonCard(string $image_url, string $name, string $subtitle = NULL, string $badge = NULL, $email= NULL, $phone = NULL): array {
+    $elements = [];
+    $image = [
+      '#theme' => 'image',
+      '#uri' => $image_url,
+      '#alt' => 'The image alt ' . $name,
+      '#width' => 128,
+    ];
+
+    // Image markup.
+    $image = $this->wrapRoundedCornersFull($image);
+    $inner_elements[] = $this->wrapContainerBottomPadding($image);
+
+    // Text elements in the cards.
+    $element = $this->wrapTextFontWeight($name, 'medium');
+    $element = $this->wrapTextResponsiveFontSize($element, 'sm');
+    $element = $this->wrapTextCenter($element);
+    $text_elements[] = $this->wrapTextColor($element, 'darker-gray');
+
+    if ($subtitle) {
+      $element = $this->wrapTextResponsiveFontSize($subtitle, 'sm');
+      $element = $this->wrapTextCenter($element);
+      $text_elements[] = $this->wrapTextColor($element, 'gray');
+    }
+    if ($badge) {
+      $badge = $this->wrapTextResponsiveFontSize($badge, 'sm');
+      $badge = $this->wrapRoundedCornersBadge($badge, 'light-green');
+      $text_elements[] = $this->wrapTextColor($badge, 'dark-green');
+    }
+    // Wrap all the text elements together.
+    $inner_elements[] = $this->wrapCardText($text_elements);
+    $elements[] = $this->wrapContainerVerticalSpacingCard($inner_elements, 'center');
+
+    // Build Contact CTAs.
+    $email_text = $this->getCardCtaText($this->t('Email'));
+    $phone_text = $this->getCardCtaText($this->t('Phone'));
+    $email_element = ['url' => "mailto::{$email}", 'text' => $email_text ];
+    $phone_element = ['url' => "mailto::{$phone}", 'text' => $phone_text ];
+    $elements[] = $this->buildInnerElementContactCta($email_element, $phone_element);
+    return $this->buildInnerElementLayoutCard($elements, 'white');
+  }
+
+  /**
+   * Wrap an element with a tiny vertical spacing (8px).
+   *
+   * @param array $element
+   *   Render array.
+   * @param string $align
+   *   Determine if flex should also have an alignment. Possible values are
+   *   `start`, `center`, `end` or NULL to have no change.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function buildInnerElementContactCta($email = [], $phone = []): array {
+    return [
+      '#theme' => 'server_theme_inner_element_contact_cta',
+      '#email' => $email,
+      '#phone' => $phone,
+    ];
+  }
+
+  /**
    * Builds a Quick Link element.
    *
    * @param string $title

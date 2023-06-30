@@ -1,0 +1,13 @@
+{%
+  set classes = [
+  'flex flex-col gap-y-2',
+  align == 'start' ? 'items-start',
+  align == 'center' ? 'items-center',
+  align == 'end' ? 'items-end',
+  'w-[280px]  p-8',
+]
+%}
+
+<div {{ attributes.addClass(classes) }}>
+  {{ items }}
+</div>

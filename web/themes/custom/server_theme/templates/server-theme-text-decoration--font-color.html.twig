@@ -4,6 +4,10 @@
   {% set color_class = 'text-gray-500' %}
 {% elseif color == 'dark-gray' %}
   {% set color_class = 'text-gray-700' %}
+{% elseif color == 'darker-gray' %}
+  {% set color_class = 'text-gray-900' %}
+{% elseif color == 'dark-green' %}
+  {% set color_class = 'text-green-800' %}
 {% endif %}
 
 <div class="{{ color_class }}">
