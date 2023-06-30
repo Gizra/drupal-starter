@@ -184,12 +184,12 @@ See the [example](https://github.com/Gizra/drupal8-starter/blob/master/web/modul
     ddev phpunit --filter testHomepageCache web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralHomepageTest.php
 
 We also have capability to write tests which run on a headless chrome browser with
-Javascript capabilities. See `Drupal\Tests\server_general\ExistingSite\ServerGeneralSelenium2TestBase`
-for the test base, and `Drupal\Tests\server_general\ExistingSite\ServerGeneralHomepageTest` for the
+Javascript capabilities. See [`Drupal\Tests\server_general\ExistingSite\ServerGeneralSelenium2TestBase`](https://github.com/Gizra/drupal-starter/blob/aa3c204dc7ac279964a694c675c35062c7fbcd9f/web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralSelenium2TestBase.php)
+for the test base, and [`Drupal\Tests\server_general\ExistingSite\ServerGeneralHomepageTest`](https://github.com/Gizra/drupal-starter/blob/aa3c204dc7ac279964a694c675c35062c7fbcd9f/web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralHomepageTest.php) for the
 example implementation. By extending the above base class you can also take screenshots using the
-`takeScreenshot()` method. This captures, and saves the screenshot in `/web/sites/simpletest/screenshots`.
-Please note that you should not leave calls to `takeScreenshot` in the codebase, this is meant only for
-local debugging purposes.
+`takeScreenshot()` method. This captures and saves the screenshot in `/web/sites/simpletest/screenshots`.
+**Note: You should not leave calls to `takeScreenshot` in the codebase when committing, this is meant only for
+local debugging purposes.**
 
 ## Deploy to Pantheon
 
