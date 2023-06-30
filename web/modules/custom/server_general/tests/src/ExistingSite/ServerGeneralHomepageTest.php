@@ -29,7 +29,7 @@ class ServerGeneralHomepageTest extends ServerGeneralSelenium2TestBase {
     $this->assertNotNull($dots_2);
     $dots_2->click();
     // Wait 1 sec for the JS and animation.
-    $this->getSession()->wait(1000);
+    $this->getSession()->wait(500);
     // Assert that the active slide is now different.
     $web_assert->elementTextContains('css', '.paragraph--type--related-content .carousel-slide.slick-current', 'Pandemic Moves Education Online');
   }
