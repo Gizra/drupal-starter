@@ -1,0 +1,11 @@
+{% import '@server_theme/templates/server-theme-bg-color-base.html.twig' as bgColorBase %}
+
+{% set color_class = bgColorBase.getBgColor(bg_color) %}
+{%
+  set classes = [
+  'relative rounded-lg  w-full h-full overflow-hidden shadow'
+] | join(' ') | trim %}
+
+<div class="{{ classes }} grid grid-cols-1 divide-y divide-gray-200 place-items-center {{ color_class }}">
+  {{ items }}
+</div>

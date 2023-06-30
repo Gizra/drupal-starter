@@ -22,6 +22,8 @@ trait ElementWrapTrait {
    * @param string|null $bg_color
    *   Optional; The background color. Allowed values are:
    *   - 'light-gray'.
+   *   - 'light-green'.
+   *   - 'white'.
    *   If NULL, a transparent background will be added.
    *
    * @return array
@@ -49,6 +51,8 @@ trait ElementWrapTrait {
    * @param string|null $bg_color
    *   Optional; The background color. Allowed values are:
    *   - 'light-gray'.
+   *   - 'light-green'.
+   *   - 'white'.
    *   If NULL, a transparent background will be added.
    *
    * @return array
@@ -121,6 +125,32 @@ trait ElementWrapTrait {
   }
 
   /**
+   * Wrap an element for card with fix width and custom spacing.
+   *
+   * @param array $element
+   *   Render array.
+   * @param string $align
+   *   Determine if flex should also have an alignment. Possible values are
+   *   `start`, `center`, `end` or NULL to have no change.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapContainerVerticalSpacingCard(array $element, string $align = NULL): array {
+    $element = $this->filterEmptyElements($element);
+    if (empty($element)) {
+      // Element is empty, so no need to wrap it.
+      return [];
+    }
+
+    return [
+      '#theme' => 'server_theme_container_vertical_spacing_card',
+      '#items' => $element,
+      '#align' => $align,
+    ];
+  }
+
+  /**
    * Wrap an element with a big vertical spacing.
    *
    * @param array $element
@@ -169,6 +199,37 @@ trait ElementWrapTrait {
       '#theme' => 'server_theme_container_vertical_spacing_huge',
       '#items' => $element,
       '#align' => $align,
+    ];
+  }
+
+  /**
+   * Wrap an element with a tiny vertical spacing (8px).
+   *
+   * @param array $element
+   *   Render array.
+   * @param string $align
+   *   Determine if flex should also have an alignment. Possible values are
+   *   `start`, `center`, `end` or NULL to have no change.
+   * @param string $bg_color
+   *   Optional; The background color. Allowed values are:
+   *    - 'light-gray'.
+   *    - 'light-green'.
+   *    - 'white'.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapContainerCardCta(array $element, string $align = NULL, $bg_color): array {
+    $element = $this->filterEmptyElements($element);
+    if (empty($element)) {
+      // Element is empty, so no need to wrap it.
+      return [];
+    }
+    return [
+      '#theme' => 'server_theme_container_card_cta',
+      '#items' => $element,
+      '#align' => $align,
+      '#bg_color' => $bg_color,
     ];
   }
 
@@ -274,6 +335,32 @@ trait ElementWrapTrait {
     return [
       '#theme' => 'server_theme_container_rounded_corners_big',
       '#items' => $element,
+    ];
+  }
+  /**
+   * Wrap an element with `lg` rounded corners.
+   *
+   * @param array $element
+   *   The render array.
+   * @param array $bg_color
+   *   Optional; The background color. Allowed values are:
+   *    - 'light-gray'.
+   *    - 'light-green'.
+   *    - 'white'.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapRoundedCornersBadge(array $items, $bg_color = NULL): array {
+    $items = $this->filterEmptyElements($items);
+    if (empty($items)) {
+      // Element is empty, so no need to wrap it.
+      return [];
+    }
+    return [
+      '#theme' => 'server_theme_container_rounded_corners_badge',
+      '#element' => $items,
+      '#bg_color' => $bg_color,
     ];
   }
 
@@ -392,6 +479,27 @@ trait ElementWrapTrait {
 
     return [
       '#theme' => 'server_theme_wrap_image_with_figure',
+      '#element' => $element,
+    ];
+  }
+
+  /**
+   * Wrap person card text with styles.
+   *
+   * @param array $element
+   *   The image render array.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function wrapCardText(array $element): array {
+    $element = $this->filterEmptyElements($element);
+    if (empty($element)) {
+      return [];
+    }
+
+    return [
+      '#theme' => 'server_theme_wrap_card_text',
       '#element' => $element,
     ];
   }

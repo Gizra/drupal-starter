@@ -308,6 +308,27 @@ trait ElementTrait {
   }
 
   /**
+   * Build People Cards element.
+   *
+   * @param string $title
+   *   The title.
+   * @param array $body
+   *   The body render array.
+   * @param array $items
+   *   Person card Items.
+   *
+   * @return array
+   *   The render array.
+   */
+  protected function buildElementPeopleCards(string $title, array $body, array $items): array {
+    return $this->buildParagraphTitleBodyAndItems(
+      $title,
+      $body,
+      $this->buildCards($items),
+    );
+  }
+
+  /**
    * Build a Search term, facets and results element.
    *
    * This is used by the Search paragraph type.

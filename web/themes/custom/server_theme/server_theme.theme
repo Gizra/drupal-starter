@@ -49,6 +49,13 @@ function server_theme_theme() {
     ],
   ];
 
+  $info['server_theme_container_vertical_spacing_card'] = [
+    'variables' => [
+      'items' => [],
+      'align' => NULL,
+    ],
+  ];
+
   // A wrapper that has a `gap-y-10` (40px) between all elements.
   $info['server_theme_container_vertical_spacing_big'] = [
     'variables' => [
@@ -80,6 +87,14 @@ function server_theme_theme() {
   $info['server_theme_container_rounded_corners_big'] = [
     'variables' => [
       'items' => [],
+    ],
+  ];
+
+  // Wrap with rounded corners and background color.
+  $info['server_theme_container_rounded_corners_badge'] = [
+    'variables' => [
+      'element' => [],
+      'bg_color' => NULL,
     ],
   ];
 
@@ -218,11 +233,30 @@ function server_theme_theme() {
     ],
   ];
 
+  // Simple card.
+  $info['server_theme_inner_element_contact_cta'] = [
+    'variables' => [
+      // A render array.
+      'email' => [],
+      // The background color.
+      'phone' => [],
+    ],
+  ];
+
   // Card with elements positioned in the center of it.
   $info['server_theme_inner_element_layout__centered'] = [
     'variables' => [
       // A render array.
       'items' => NULL,
+    ],
+  ];
+
+  // Card with elements positioned in the center of it.
+  $info['server_theme_inner_element_layout__card'] = [
+    'variables' => [
+      // A render array.
+      'items' => NULL,
+      'bg_color' => NULL,
     ],
   ];
 
@@ -332,6 +366,14 @@ function server_theme_theme() {
 
   // Wrap an image render array with the `figure` tag.
   $info['server_theme_wrap_image_with_figure'] = [
+    'variables' => [
+      // The image render array.
+      'element' => [],
+    ],
+  ];
+
+  // Wrap an image render array with the `figure` tag.
+  $info['server_theme_wrap_card_text'] = [
     'variables' => [
       // The image render array.
       'element' => [],

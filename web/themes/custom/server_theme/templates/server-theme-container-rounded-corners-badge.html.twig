@@ -1,0 +1,15 @@
+{% import '@server_theme/templates/server-theme-bg-color-base.html.twig' as bgColorBase %}
+
+{% set color_class = bgColorBase.getBgColor(bg_color) %}
+{%
+  set classes = [
+  bgColorBase.getBgColor(bg_color),
+  'rounded-xl overflow-hidden w-fit',
+  'p-1',
+  color_class,
+]
+%}
+
+<div {{ attributes.addClass(classes) }}>
+  {{ element }}
+</div>
