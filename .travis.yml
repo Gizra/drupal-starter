@@ -24,14 +24,10 @@ git:
 jobs:
   include:
   - stage: Lint
-    name: PhpStan
+    name: PhpStan + PhpCS
     script:
     - composer install
-    - vendor/bin/phpstan analyse -c phpstan.neon
-  - stage: Lint
-    name: 'Drupal coding standard'
-    script:
-    - composer install || travis_terminate 1;
+    - vendor/bin/phpstan analyse -c phpstan.neon || travis_terminate 1;
     - vendor/bin/robo phpcs || travis_terminate 1;
   - stage: Lint
     name: 'Shell coding standard: shellcheck'
