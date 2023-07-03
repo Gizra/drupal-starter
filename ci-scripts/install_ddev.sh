@@ -17,3 +17,4 @@ cp "ci-scripts/global_config.yaml" ~/.ddev/
 docker network create ddev_default || ddev logs
 
 ddev composer install || ddev logs
+
