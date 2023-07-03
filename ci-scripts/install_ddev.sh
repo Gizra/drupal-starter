@@ -18,4 +18,3 @@ docker network create ddev_default || ddev logs
 
 ddev composer install || ddev logs
 
-ddev get ddev/ddev-selenium-standalone-chrome || ddev logs
