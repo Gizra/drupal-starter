@@ -38,6 +38,7 @@
         "drupal/entity_browser": "^2.9",
         "drupal/environment_indicator": "^4.0",
         "drupal/facets": "^2.0",
+        "drupal/fast_404": "^3.0",
         "drupal/focal_point": "^1.5",
         "drupal/google_analytics": "^4.0",
         "drupal/intl_date": "^1.1",

@@ -31,6 +31,7 @@ module:
   entity_reference_revisions: 0
   environment_indicator: 0
   facets: 0
+  fast404: 1
   field: 0
   field_ui: 0
   file: 0
