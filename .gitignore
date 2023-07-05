@@ -53,3 +53,5 @@ web/sites/all/drush
 # Patching leftover.
 *.orig
 *.rej
+
+travis_wait*log
