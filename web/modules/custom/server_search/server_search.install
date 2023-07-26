@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains server_search.module.
+ * Contains server_search.install.
  */
 
 use Drupal\Core\Site\Settings;
@@ -16,12 +16,12 @@ function server_search_requirements(string $phase) {
     return $requirements;
   }
 
-  // Return early if "PANTHEON_ENVIRONMENT" environment variable is null
+  // Return early if "PANTHEON_ENVIRONMENT" environment variable is null.
   if (!getenv("PANTHEON_ENVIRONMENT")) {
     return $requirements;
   }
 
-  // Define the base directory and site id
+  // Define the base directory and site id.
   $base_private_dir = DRUPAL_ROOT . '/config/elasticsearch';
 
   // Define the path to the JSON file.
