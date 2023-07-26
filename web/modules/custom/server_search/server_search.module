@@ -1,0 +1,69 @@
+<?php
+
+/**
+ * @file
+ * Contains server_search.module.
+ */
+
+use Drupal\Core\Site\Settings;
+
+/**
+ * Implements hook_requirements().
+ */
+function server_search_requirements(string $phase) {
+  $requirements = [];
+  if ($phase !== 'runtime') {
+    return $requirements;
+  }
+
+  // Return early if "PANTHEON_ENVIRONMENT" environment variable is null
+  if (!getenv("PANTHEON_ENVIRONMENT")) {
+    return $requirements;
+  }
+
+  // Define the base directory and site id
+  $base_private_dir = DRUPAL_ROOT . '/config/elasticsearch';
+
+  // Define the path to the JSON file.
+  $json_file_path = $base_private_dir . '/' . Settings::get('site_id') . '.es.secrets.json';
+
+  // Check if JSON file exists in the "config/elasticsearch" directory.
+  if (!file_exists($json_file_path)) {
+    // If JSON file does not exist, set requirement error.
+    $requirements['server_search_json'] = [
+      'title' => t('Server Search JSON'),
+      'value' => t('Not found'),
+      'description' => t('The required JSON file does not exist in the "config/elasticsearch" directory.'),
+      'severity' => REQUIREMENT_ERROR,
+    ];
+
+    return $requirements;
+  }
+
+  // If JSON file exists, check if it has the required keys.
+  $json_data = json_decode(file_get_contents($json_file_path), TRUE);
+
+  $required_keys = ['qa', 'live', 'dev', 'test'];
+  $missing_keys = array_diff($required_keys, array_keys($json_data));
+
+  if (!empty($missing_keys)) {
+    $requirements['server_search_json'] = [
+      'title' => t('Server Search JSON'),
+      'value' => t('Keys missing'),
+      'description' => t('The JSON file is missing the following keys: @keys', ['@keys' => implode(', ', $missing_keys)]),
+      'severity' => REQUIREMENT_ERROR,
+    ];
+
+    return $requirements;
+  }
+
+  // If JSON file exists and has all the required keys, set requirement info.
+  $requirements['server_search_json'] = [
+    'title' => t('Server Search JSON'),
+    'value' => t('All required keys found'),
+    'description' => t('The required JSON file exists in the "config/elasticsearch" directory and contains all required keys.'),
+    'severity' => REQUIREMENT_OK,
+  ];
+
+  return $requirements;
+}
