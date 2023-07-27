@@ -54,9 +54,9 @@ function server_search_requirements(string $phase) {
 
   $required_keys = array_unique([
     'qa',
-    'live',
     'dev',
     'test',
+    'live',
     getenv("PANTHEON_ENVIRONMENT"),
   ]);
   $missing_keys = array_diff($required_keys, array_keys($json_data));
