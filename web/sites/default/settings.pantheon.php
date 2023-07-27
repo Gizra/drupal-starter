@@ -27,9 +27,9 @@ if (file_exists($local_settings)) {
 }
 
 $base_private_dir = '../config/elasticsearch';
-$site_id = 'drupal_starter';
-if (file_exists($base_private_dir . '/' . $site_id . '.es.secrets.json')) {
-  $es_credentials = json_decode(file_get_contents($base_private_dir . '/' . $site_id . '.es.secrets.json'), TRUE);
+$settings['site_id'] = 'drupal_starter';
+if (file_exists($base_private_dir . '/' . $settings['site_id'] . '.es.secrets.json')) {
+  $es_credentials = json_decode(file_get_contents($base_private_dir . '/' . $settings['site_id'] . '.es.secrets.json'), TRUE);
   if (is_array($es_credentials)) {
     $fallback = 'dev';
     $pantheon_env = getenv('PANTHEON_ENVIRONMENT');
@@ -47,7 +47,7 @@ if (file_exists($base_private_dir . '/' . $site_id . '.es.secrets.json')) {
     $config['elasticsearch_connector.cluster.server']['options']['use_authentication'] = TRUE;
 
     if (isset($es_credentials[$env])) {
-      $config['elasticsearch_connector.cluster.server']['options']['username'] = $site_id . '_' . $env;
+      $config['elasticsearch_connector.cluster.server']['options']['username'] = $settings['site_id'] . '_' . $env;
       $config['elasticsearch_connector.cluster.server']['options']['password'] = $es_credentials[$env];
     }
   }
