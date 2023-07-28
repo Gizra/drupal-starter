@@ -2,6 +2,7 @@ id: media_image
 label: 'Media: Image'
 migration_group: server
 migration_tags:
+  - default_content
   - media_image
 source:
   plugin: csv

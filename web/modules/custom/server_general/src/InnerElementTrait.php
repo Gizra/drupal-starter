@@ -137,7 +137,7 @@ trait InnerElementTrait {
     $elements[] = [
       '#type' => 'html_tag',
       '#tag' => 'h3',
-      '#value' => render($element),
+      '#value' => \Drupal::service('renderer')->render($element),
     ];
 
     // Summary.
