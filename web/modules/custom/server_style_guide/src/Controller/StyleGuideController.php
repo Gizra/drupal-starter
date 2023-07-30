@@ -3,6 +3,7 @@
 namespace Drupal\server_style_guide\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Render\Renderer;
 use Drupal\Core\Url;
 use Drupal\Core\Utility\LinkGenerator;
 use Drupal\media\IFrameUrlHelper;
@@ -53,11 +54,19 @@ class StyleGuideController extends ControllerBase {
   protected $iFrameUrlHelper;
 
   /**
+   * The renderer.
+   *
+   * @var \Drupal\Core\Render\RendererInterface
+   */
+  protected $renderer;
+
+  /**
    * Class constructor.
    */
-  public function __construct(LinkGenerator $link_generator, IFrameUrlHelper $iframe_url_helper) {
+  public function __construct(LinkGenerator $link_generator, IFrameUrlHelper $iframe_url_helper, Renderer $renderer) {
     $this->linkGenerator = $link_generator;
     $this->iFrameUrlHelper = $iframe_url_helper;
+    $this->renderer = $renderer;
   }
 
   /**
@@ -67,6 +76,7 @@ class StyleGuideController extends ControllerBase {
     return new self(
       $container->get('link_generator'),
       $container->get('media.oembed.iframe_url_helper'),
+      $container->get('renderer'),
     );
   }
 
@@ -258,7 +268,7 @@ class StyleGuideController extends ControllerBase {
       $element = [
         '#type' => 'html_tag',
         '#tag' => 'a',
-        '#value' => render($element),
+        '#value' => $this->renderer->render($element),
         '#attributes' => ['href' => $url->toString()],
       ];
 

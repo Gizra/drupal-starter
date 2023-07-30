@@ -26,6 +26,13 @@ trait CardTrait {
   use TitleAndLabelsTrait;
 
   /**
+   * The renderer.
+   *
+   * @var \Drupal\Core\Render\RendererInterface
+   */
+  protected $renderer;
+
+  /**
    * Build "Card with image" for News content type.
    *
    * @param array $image
@@ -137,7 +144,7 @@ trait CardTrait {
     $elements[] = [
       '#type' => 'html_tag',
       '#tag' => 'h3',
-      '#value' => render($element),
+      '#value' => $this->renderer->render($element),
     ];
 
     // Summary.

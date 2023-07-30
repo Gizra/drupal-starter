@@ -61,7 +61,8 @@
         "drush/drush": "^11",
         "npm-asset/select2": "^4.0",
         "npm-asset/slick-carousel": "^1.8",
-        "oomphinc/composer-installers-extender": "^2.0"
+        "oomphinc/composer-installers-extender": "^2.0",
+        "phpstan/phpstan-deprecation-rules": "^1.0"
     },
     "require-dev": {
         "consolidation/robo": "^3",

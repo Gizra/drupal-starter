@@ -1,5 +1,6 @@
 includes:
-	- vendor/mglaman/phpstan-drupal/extension.neon
+  - vendor/mglaman/phpstan-drupal/extension.neon
+  - vendor/phpstan/phpstan-deprecation-rules/rules.neon
 parameters:
   level: 6
   checkMissingIterableValueType: false
