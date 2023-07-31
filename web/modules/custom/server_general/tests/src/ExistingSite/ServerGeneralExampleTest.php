@@ -3,7 +3,6 @@
 namespace Drupal\Tests\server_general\ExistingSite;
 
 use Drupal\taxonomy\Entity\Vocabulary;
-use weitzman\DrupalTestTraits\ExistingSiteBase;
 
 /**
  * A model test case using traits from Drupal Test Traits.

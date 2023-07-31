@@ -2,8 +2,6 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
-use weitzman\DrupalTestTraits\ExistingSiteBase;
-
 /**
  * Basic Seckit tests.
  */

@@ -3,7 +3,6 @@
 namespace Drupal\Tests\server_general\ExistingSite;
 
 use Symfony\Component\HttpFoundation\Response;
-use weitzman\DrupalTestTraits\ExistingSiteBase;
 
 /**
  * Test input formats.

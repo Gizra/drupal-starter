@@ -3,7 +3,6 @@
 namespace Drupal\Tests\server_general\ExistingSite;
 
 use Drupal\server_general\ElementWrapTrait;
-use weitzman\DrupalTestTraits\ExistingSiteBase;
 
 /**
  * ElementWrapTrait tests.
