@@ -2,6 +2,7 @@ id: node_landing_page
 label: 'Landing Page'
 migration_group: server
 migration_tags:
+  - default_content
   - node
 source:
   plugin: csv

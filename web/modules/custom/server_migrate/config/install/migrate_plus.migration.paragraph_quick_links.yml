@@ -2,6 +2,7 @@ id: paragraph_quick_links
 label: 'Paragraph quick_links'
 migration_group: server
 migration_tags:
+  - default_content
   - paragraph
 source:
   plugin: csv

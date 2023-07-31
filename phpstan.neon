@@ -18,6 +18,7 @@ parameters:
     - '*/tests/fixtures/*.php'
     - 'web/core/*'
     - 'web/modules/contrib/*'
+    - 'web/themes/contrib/*'
     - 'web/libraries/*'
     - 'web/sites/default/*'
     - 'web/sites/simpletest/*'
