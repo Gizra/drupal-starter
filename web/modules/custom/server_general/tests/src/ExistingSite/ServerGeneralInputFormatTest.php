@@ -8,7 +8,7 @@ use weitzman\DrupalTestTraits\ExistingSiteBase;
 /**
  * Test input formats.
  */
-class ServerGeneralInputFormatTest extends ExistingSiteBase {
+class ServerGeneralInputFormatTest extends ServerGeneralTestBase {
 
   /**
    * Test Full HTML input format.

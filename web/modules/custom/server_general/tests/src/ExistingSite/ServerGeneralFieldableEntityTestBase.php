@@ -10,7 +10,7 @@ use weitzman\DrupalTestTraits\ExistingSiteBase;
 /**
  * Abstract class to hold shared logic to check various content-types.
  */
-abstract class ServerGeneralFieldableEntityTestBase extends ExistingSiteBase implements RequiredAndOptionalFieldTestInterface {
+abstract class ServerGeneralFieldableEntityTestBase extends ServerGeneralTestBase implements RequiredAndOptionalFieldTestInterface {
 
   use EntityTrait;
   use FieldsTrait;

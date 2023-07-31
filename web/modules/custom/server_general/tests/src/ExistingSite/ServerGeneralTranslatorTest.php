@@ -10,7 +10,7 @@ use weitzman\DrupalTestTraits\ExistingSiteBase;
 /**
  * Test for Translator role.
  */
-class ServerGeneralTranslatorTest extends ExistingSiteBase {
+class ServerGeneralTranslatorTest extends ServerGeneralTestBase {
 
   use MediaCreationTrait;
 

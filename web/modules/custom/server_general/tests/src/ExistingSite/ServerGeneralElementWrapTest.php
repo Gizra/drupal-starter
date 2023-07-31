@@ -11,7 +11,7 @@ use weitzman\DrupalTestTraits\ExistingSiteBase;
  * Could have been a functional test, but we already have everything setup, so
  * easier to write it as `ExistingSite` test.
  */
-class ServerGeneralElementWrapTest extends ExistingSiteBase {
+class ServerGeneralElementWrapTest extends ServerGeneralTestBase {
 
   use ElementWrapTrait;
 

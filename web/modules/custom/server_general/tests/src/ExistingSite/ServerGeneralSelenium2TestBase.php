@@ -8,8 +8,28 @@ use weitzman\DrupalTestTraits\ExistingSiteSelenium2DriverTestBase;
 
 /**
  * Base test class for writing ExistingSite tests with JS capability.
+ *
+ * All JS tests should extend this class instead of
+ * ExistingSiteSelenium2DriverTestBase.
  */
 class ServerGeneralSelenium2TestBase extends ExistingSiteSelenium2DriverTestBase {
+
+  /**
+   * Tear down and unset variables.
+   */
+  public function tearDown(): void {
+    parent::tearDown();
+    $refl = new \ReflectionObject($this);
+    foreach ($refl->getProperties() as $prop) {
+      if (!$prop->isStatic()
+        && 0 !== strpos($prop->getDeclaringClass()->getName(), 'PHPUnit_')
+        && $prop->getType()?->allowsNull() !== FALSE
+      ) {
+        $prop->setAccessible(TRUE);
+        $prop->setValue($this, NULL);
+      }
+    }
+  }
 
   /**
    * Take a screenshot and save it in sites/simpletest/screenshots.

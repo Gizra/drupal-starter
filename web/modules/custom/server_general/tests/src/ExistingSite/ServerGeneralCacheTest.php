@@ -7,7 +7,7 @@ use Drupal\views\Views;
 /**
  * Cache-related assertions.
  */
-class ServerGeneralCacheTest extends ExistingSiteBase {
+class ServerGeneralCacheTest extends ServerGeneralTestBase {
 
   /**
    * Test Search API-based views, they should use Search API tag-based caching.

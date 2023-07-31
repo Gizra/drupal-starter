@@ -7,7 +7,7 @@ use weitzman\DrupalTestTraits\ExistingSiteBase;
 /**
  * Tests for the Homepage caching.
  */
-class ServerGeneralHomepageCacheTest extends ExistingSiteBase {
+class ServerGeneralHomepageCacheTest extends ServerGeneralTestBase {
 
   /**
    * The homepage is cache-able.
