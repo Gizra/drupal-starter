@@ -13,6 +13,10 @@ abstract class ServerGeneralTestBase extends ExistingSiteBase {
 
   /**
    * Tear down and unset variables.
+   *
+   * This is needed in order to reduce the memory usage by PHPUnit.
+   *
+   * @see https://stackoverflow.com/questions/13537545/clear-memory-being-used-by-php
    */
   public function tearDown(): void {
     parent::tearDown();
