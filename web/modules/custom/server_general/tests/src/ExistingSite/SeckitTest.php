@@ -2,12 +2,10 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
-use weitzman\DrupalTestTraits\ExistingSiteBase;
-
 /**
  * Basic Seckit tests.
  */
-class SeckitTest extends ExistingSiteBase {
+class SeckitTest extends ServerGeneralTestBase {
 
   /**
    * Check HSTS is correctly enabled.

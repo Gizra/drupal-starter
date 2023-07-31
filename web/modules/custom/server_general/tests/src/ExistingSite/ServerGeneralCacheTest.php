@@ -1,13 +1,14 @@
 <?php
 
+namespace Drupal\Tests\server_general\ExistingSite;
+
 use Drupal\views\Entity\View;
-use weitzman\DrupalTestTraits\ExistingSiteBase;
 use Drupal\views\Views;
 
 /**
  * Cache-related assertions.
  */
-class ServerGeneralCacheTest extends ExistingSiteBase {
+class ServerGeneralCacheTest extends ServerGeneralTestBase {
 
   /**
    * Test Search API-based views, they should use Search API tag-based caching.

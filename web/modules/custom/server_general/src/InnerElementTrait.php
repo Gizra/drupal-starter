@@ -26,6 +26,13 @@ trait InnerElementTrait {
   use TitleAndLabelsTrait;
 
   /**
+   * The renderer.
+   *
+   * @var \Drupal\Core\Render\RendererInterface
+   */
+  protected $renderer;
+
+  /**
    * Build "Card with image" for News content type.
    *
    * @param array $image
@@ -137,7 +144,7 @@ trait InnerElementTrait {
     $elements[] = [
       '#type' => 'html_tag',
       '#tag' => 'h3',
-      '#value' => \Drupal::service('renderer')->render($element),
+      '#value' => $this->renderer->render($element),
     ];
 
     // Summary.
