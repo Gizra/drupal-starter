@@ -5,12 +5,11 @@ namespace Drupal\Tests\server_general\ExistingSite;
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\Tests\drupal_test_assertions\Assertions\EntityTrait;
 use Drupal\Tests\drupal_test_assertions\Assertions\FieldsTrait;
-use weitzman\DrupalTestTraits\ExistingSiteBase;
 
 /**
  * Abstract class to hold shared logic to check various content-types.
  */
-abstract class ServerGeneralFieldableEntityTestBase extends ExistingSiteBase implements RequiredAndOptionalFieldTestInterface {
+abstract class ServerGeneralFieldableEntityTestBase extends ServerGeneralTestBase implements RequiredAndOptionalFieldTestInterface {
 
   use EntityTrait;
   use FieldsTrait;

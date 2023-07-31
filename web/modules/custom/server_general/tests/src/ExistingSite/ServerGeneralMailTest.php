@@ -3,12 +3,11 @@
 namespace Drupal\Tests\server_general\ExistingSite;
 
 use Drupal\Tests\server_general\Traits\ServerGeneralMailTestTrait;
-use weitzman\DrupalTestTraits\ExistingSiteBase;
 
 /**
  * A model test case for email-testing using traits from Drupal Test Traits.
  */
-class ServerGeneralMailTest extends ExistingSiteBase {
+class ServerGeneralMailTest extends ServerGeneralTestBase {
 
   use ServerGeneralMailTestTrait;
 
