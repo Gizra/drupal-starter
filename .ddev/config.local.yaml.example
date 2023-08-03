@@ -29,9 +29,10 @@ hooks:
     - exec-host: ddev robo theme:compile-debug
 
     # Install the default content.
+    - exec: drush pm-enable default_content --no-interaction
     - exec: drush pm-enable server_default_content --no-interaction
     # Uninstall the default content module (it is no longer needed).
-    - exec: drush pm-uninstall server_default_content --no-interaction
+    - exec: drush pm-uninstall server_default_content default_content --no-interaction
 
     # Set the homepage.
     - exec: drush set-homepage
