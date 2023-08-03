@@ -33,6 +33,7 @@ trait PhpcsTrait {
       'profiles/custom',
       '../RoboFile.php',
       '../robo-components',
+      'sites/default/settings.pantheon.php',
     ];
 
     $error_code = NULL;
