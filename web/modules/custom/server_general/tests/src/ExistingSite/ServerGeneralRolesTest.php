@@ -4,12 +4,11 @@ namespace Drupal\Tests\server_general\ExistingSite;
 
 use Drupal\Tests\drupal_test_assertions\Assertions\UsersTrait;
 use Drupal\Tests\drupal_test_assertions\Assertions\RolesTrait;
-use weitzman\DrupalTestTraits\ExistingSiteBase;
 
 /**
  * User and roles tests.
  */
-class ServerGeneralRolesTest extends ExistingSiteBase {
+class ServerGeneralRolesTest extends ServerGeneralTestBase {
 
   use UsersTrait;
   use RolesTrait;

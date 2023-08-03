@@ -3,12 +3,11 @@
 namespace Drupal\Tests\server_general\ExistingSite;
 
 use Symfony\Component\HttpFoundation\Response;
-use weitzman\DrupalTestTraits\ExistingSiteBase;
 
 /**
  * Test input formats.
  */
-class ServerGeneralInputFormatTest extends ExistingSiteBase {
+class ServerGeneralInputFormatTest extends ServerGeneralTestBase {
 
   /**
    * Test Full HTML input format.

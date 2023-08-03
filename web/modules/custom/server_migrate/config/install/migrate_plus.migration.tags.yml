@@ -2,6 +2,7 @@ id: tags
 label: 'Tags'
 migration_group: server
 migration_tags:
+  - default_content
   - tags
   - taxonomy_term
   - taxonomy

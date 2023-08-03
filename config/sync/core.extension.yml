@@ -9,7 +9,6 @@ module:
   block_content: 0
   breakpoint: 0
   ckeditor5: 0
-  color: 0
   comment: 0
   config: 0
   config_filter: 0
@@ -86,6 +85,7 @@ module:
   user: 0
   username_enumeration_prevention: 0
   views_ui: 0
+  fast404: 1
   menu_link_content: 1
   pathauto: 1
   content_translation: 10

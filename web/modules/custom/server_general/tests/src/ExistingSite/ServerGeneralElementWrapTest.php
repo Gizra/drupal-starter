@@ -3,7 +3,6 @@
 namespace Drupal\Tests\server_general\ExistingSite;
 
 use Drupal\server_general\ElementWrapTrait;
-use weitzman\DrupalTestTraits\ExistingSiteBase;
 
 /**
  * ElementWrapTrait tests.
@@ -11,7 +10,7 @@ use weitzman\DrupalTestTraits\ExistingSiteBase;
  * Could have been a functional test, but we already have everything setup, so
  * easier to write it as `ExistingSite` test.
  */
-class ServerGeneralElementWrapTest extends ExistingSiteBase {
+class ServerGeneralElementWrapTest extends ServerGeneralTestBase {
 
   use ElementWrapTrait;
 

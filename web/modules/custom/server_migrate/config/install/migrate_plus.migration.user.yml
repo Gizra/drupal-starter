@@ -2,6 +2,7 @@ id: user
 label: 'User'
 migration_group: server
 migration_tags:
+  - default_content
   - users
 source:
   plugin: csv

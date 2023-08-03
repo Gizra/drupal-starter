@@ -2,6 +2,7 @@ id: paragraph_documents
 label: 'Paragraph documents'
 migration_group: server
 migration_tags:
+  - default_content
   - paragraph
 source:
   plugin: csv
