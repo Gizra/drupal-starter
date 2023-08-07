@@ -269,7 +269,7 @@ trait BootstrapTrait {
       ->textFromFile('.bootstrap/web/sites/default/settings.pantheon.php')
       ->run();
 
-    $result = $this->taskExec("cd .pantheon && git add . && git commit -m 'Bootstrap project $project_name' && git push origin master")
+    $result = $this->taskExec("cd .pantheon && git add . && git commit -m 'Bootstrap project $project_name' && git push origin main")
       ->run()
       ->getExitCode();
 
