@@ -193,7 +193,7 @@ trait BootstrapTrait {
       throw new \Exception("Failed to login to Terminus.");
     }
 
-    $result = $this->taskExec("terminus site:create $project_machine_name \"$project_name\" \"Drupal 9\" --org=\"$organization\"")
+    $result = $this->taskExec("terminus site:create $project_machine_name \"$project_name\" \"bde48795-b16d-443f-af01-8b1790caa1af\" --org=\"$organization\"")
       ->run()
       ->getExitCode();
 
