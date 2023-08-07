@@ -85,6 +85,14 @@ trait BootstrapTrait {
     $this->taskExec("git clone $github_repository_url .bootstrap")
       ->run();
 
+    if (!file_exists('.bootstrap')) {
+      throw new \Exception("Failed to clone the GitHub repository. You might need to execute: `ddev auth ssh` beforehand.");
+    }
+
+    if (!file_exists('.bootstrap/.ddev/config.yaml')) {
+      throw new \Exception("The GitHub repository is not in the expected format.");
+    }
+
     $this->taskReplaceInFile('.bootstrap/.ddev/config.yaml')
       ->from('drupal-starter')
       ->to($project_machine_name)
@@ -144,16 +152,25 @@ trait BootstrapTrait {
       ->to($docker_mirror_url)
       ->run();
 
-    $this->taskExec("cd .bootstrap && composer update --lock")
-      ->run();
+    $result = $this->taskExec("cd .bootstrap && composer update --lock")
+      ->run()
+      ->getExitCode();
+    if ($result !== 0) {
+      throw new \Exception("Failed to run composer update in GH repository.");
+    }
 
     $this->taskReplaceInFile('.bootstrap/config/sync/system.site.yml')
       ->from('Drupal Starter')
       ->to($project_name)
       ->run();
 
-    $this->taskExec("cd .bootstrap && git add . && git commit -m 'Bootstrap project $project_name by $host_user' && git push origin main")
-      ->run();
+    $result = $this->taskExec("cd .bootstrap && git add . && git commit -m 'Bootstrap project $project_name by $host_user' && git push origin main")
+      ->run()
+      ->getExitCode();
+
+    if ($result !== 0) {
+      throw new \Exception("Failed to push to GH repository the result of the transformation.");
+    }
   }
 
   /**
@@ -169,14 +186,28 @@ trait BootstrapTrait {
    *   The GitHub/Pantheon organization.
    */
   protected function createPantheonProject(string $terminus_token, string $project_name, string $project_machine_name, string $organization) {
-    $this->taskExec("terminus auth:login --machine-token=\"$terminus_token\"")
-      ->run();
+    $result = $this->taskExec("terminus auth:login --machine-token=\"$terminus_token\"")
+      ->run()
+      ->getExitCode();
+    if ($result !== 0) {
+      throw new \Exception("Failed to login to Terminus.");
+    }
 
-    $this->taskExec("terminus site:create $project_machine_name \"$project_name\" \"Drupal 9\" --org=\"$organization\"")
-      ->run();
+    $result = $this->taskExec("terminus site:create $project_machine_name \"$project_name\" \"Drupal 9\" --org=\"$organization\"")
+      ->run()
+      ->getExitCode();
 
-    $this->taskExec("terminus connection:set $project_machine_name.dev git")
-      ->run();
+    if ($result !== 0) {
+      throw new \Exception("Failed to create the Pantheon project.");
+    }
+
+    $result = $this->taskExec("terminus connection:set $project_machine_name.dev git")
+      ->run()
+      ->getExitCode();
+
+    if ($result !== 0) {
+      throw new \Exception("Failed to set the Pantheon project connection mode to Git.");
+    }
 
     // Retrieve Git repository from Pantheon, then clone the artifact repository
     // to .pantheon directory.
@@ -184,6 +215,10 @@ trait BootstrapTrait {
       ->printOutput(FALSE)
       ->run()
       ->getMessage();
+
+    if (empty($pantheon_repository_url)) {
+      throw new \Exception("Failed to retrieve the Pantheon project Git repository URL.");
+    }
 
     $this->taskExec("git clone $pantheon_repository_url .pantheon")
       ->run();
@@ -234,15 +269,30 @@ trait BootstrapTrait {
       ->textFromFile('.bootstrap/web/sites/default/settings.pantheon.php')
       ->run();
 
-    $this->taskExec("cd .pantheon && git add . && git commit -m 'Bootstrap project $project_name' && git push origin master")
-      ->run();
+    $result = $this->taskExec("cd .pantheon && git add . && git commit -m 'Bootstrap project $project_name' && git push origin master")
+      ->run()
+      ->getExitCode();
+
+    if ($result !== 0) {
+      throw new \Exception('Failed to push to Pantheon.');
+    }
 
     // Create QA environment on Pantheon.
-    $this->taskExec("terminus multidev:create $project_machine_name.dev qa")
-      ->run();
+    $result = $this->taskExec("terminus multidev:create $project_machine_name.dev qa")
+      ->run()
+      ->getExitCode();
 
-    $this->taskExec("terminus connection:set $project_machine_name.qa git")
-      ->run();
+    if ($result !== 0) {
+      throw new \Exception('Failed to create the Pantheon QA environment.');
+    }
+
+    $result = $this->taskExec("terminus connection:set $project_machine_name.qa git")
+      ->run()
+      ->getExitCode();
+
+    if ($result !== 0) {
+      throw new \Exception('Failed to set the Pantheon QA environment connection mode to Git.');
+    }
   }
 
   /**
@@ -267,10 +317,18 @@ trait BootstrapTrait {
 
     $pantheon_environments = explode(PHP_EOL, $pantheon_environments);
     foreach ($pantheon_environments as $pantheon_environment) {
-      $this->taskExec("terminus env:wake $project_machine_name.$pantheon_environment")
+      $result = $this->taskExec("terminus env:wake $project_machine_name.$pantheon_environment")
+        ->run()
+        ->getExitCode();
+      if ($result !== 0) {
+        $this->say("Failed to wake up the Pantheon $pantheon_environment environment.");
+        continue;
+      }
+      $result = $this->taskExec("terminus lock:enable $project_machine_name.$pantheon_environment $http_basic_auth_user $http_basic_auth_password")
         ->run();
-      $this->taskExec("terminus lock:enable $project_machine_name.$pantheon_environment $http_basic_auth_user $http_basic_auth_password")
-        ->run();
+      if ($result !== 0) {
+        $this->say("Failed to lock the Pantheon $pantheon_environment environment.");
+      }
     }
   }
 
@@ -294,7 +352,7 @@ trait BootstrapTrait {
    * @param string $http_basic_auth_password
    *   The HTTP basic auth password.
    */
-  protected function verifyRequirements($project_name, $organization, $project_machine_name, $terminus_token, $github_token, $docker_mirror_url, $http_basic_auth_user, $http_basic_auth_password) {
+  protected function verifyRequirements(string $project_name, string $organization, string $project_machine_name, string $terminus_token, string $github_token, string $docker_mirror_url, $http_basic_auth_user, $http_basic_auth_password) {
     if (is_dir('.bootstrap')) {
       throw new \Exception('The .bootstrap directory already exists. Please remove / move it and try again.');
     }
@@ -312,6 +370,18 @@ trait BootstrapTrait {
     }
     if (str_contains($project_machine_name, ' ')) {
       throw new \Exception('The project machine name contains spaces.');
+    }
+    if (empty(trim($terminus_token))) {
+      throw new \Exception('The Pantheon machine token is empty.');
+    }
+    if (empty(trim($github_token))) {
+      throw new \Exception('The GitHub token is empty.');
+    }
+    if (empty(trim($docker_mirror_url))) {
+      throw new \Exception('The Docker mirror URL is empty.');
+    }
+    if (!empty($docker_mirror_url) && !filter_var($docker_mirror_url, FILTER_VALIDATE_URL)) {
+      throw new \Exception('The Docker mirror URL is not a valid URL.');
     }
   }
 
