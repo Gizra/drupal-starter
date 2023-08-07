@@ -220,7 +220,7 @@ trait BootstrapTrait {
       throw new \Exception("Failed to retrieve the Pantheon project Git repository URL.");
     }
 
-    $this->taskExec("git clone $pantheon_repository_url .pantheon")
+    $this->taskExec("git clone $pantheon_repository_url -b master .pantheon")
       ->run();
 
     // Ensure the dev dependencies are installed before compiling the theme in
