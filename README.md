@@ -199,7 +199,7 @@ Make sure to add the correct site name under `environment_variables.project`.
 
 There's a Robo command to do the entire process of creating a new project:
 ```
-ddev robo bootstrap:project newname git@github.com/newclient/newproject.git terminus_token github_token
+ddev robo bootstrap:project <project_name> <github_repository_url> <terminus_token> <github_token> [<docker_mirror_url> [<http_basic_auth_user> [<http_basic_auth_password>]]]
 ```
 See the details [here](https://github.com/Gizra/drupal-starter/blob/main/robo-components/BootstrapTrait.php).
 

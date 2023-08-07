@@ -380,7 +380,7 @@ trait BootstrapTrait {
     if (empty(trim($docker_mirror_url))) {
       throw new \Exception('The Docker mirror URL is empty.');
     }
-    if (!filter_var($docker_mirror_url, FILTER_VALIDATE_URL)) {
+    if (!empty($docker_mirror_url) && !filter_var($docker_mirror_url, FILTER_VALIDATE_URL)) {
       throw new \Exception('The Docker mirror URL is not a valid URL.');
     }
   }
