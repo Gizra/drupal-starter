@@ -92,7 +92,7 @@ trait DeploymentTrait {
    *
    * @throws \Exception
    */
-  public function deployTagPantheon(string $tag, string $branch_name = 'main', ?string $commit_message = NULL): void {
+  public function deployTagPantheon(string $tag, string $branch_name = 'master', ?string $commit_message = NULL): void {
     $result = $this
       ->taskExec('git status -s')
       ->printOutput(FALSE)
@@ -141,7 +141,7 @@ trait DeploymentTrait {
    *
    * @throws \Exception
    */
-  public function deployPantheon(string $branch_name = 'main', ?string $commit_message = NULL): void {
+  public function deployPantheon(string $branch_name = 'master', ?string $commit_message = NULL): void {
     $pantheon_directory = '.pantheon';
     $deployment_version_path = $pantheon_directory . '/.deployment';
 
