@@ -256,10 +256,6 @@ trait BootstrapTrait {
       ->append(FALSE)
       ->textFromFile('pantheon_template/pantheon.yml')
       ->run();
-    $this->taskWriteToFile('.pantheon/pantheon.upstream.yml')
-      ->append(FALSE)
-      ->textFromFile('pantheon_template/pantheon.upstream.yml')
-      ->run();
     $this->taskWriteToFile('.pantheon/web/sites/default/settings.pantheon.php')
       ->append(FALSE)
       ->textFromFile('pantheon_template/settings.pantheon.php')
