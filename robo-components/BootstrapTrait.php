@@ -193,7 +193,7 @@ trait BootstrapTrait {
       throw new \Exception("Failed to login to Terminus.");
     }
 
-    $result = $this->taskExec("terminus site:create $project_machine_name \"$project_name\" \"Drupal 9\" --org=\"$organization\"")
+    $result = $this->taskExec("terminus site:create $project_machine_name \"$project_name\" \"bde48795-b16d-443f-af01-8b1790caa1af\" --org=\"$organization\"")
       ->run()
       ->getExitCode();
 
@@ -220,7 +220,7 @@ trait BootstrapTrait {
       throw new \Exception("Failed to retrieve the Pantheon project Git repository URL.");
     }
 
-    $this->taskExec("git clone $pantheon_repository_url .pantheon")
+    $this->taskExec("git clone $pantheon_repository_url -b master .pantheon")
       ->run();
 
     // Ensure the dev dependencies are installed before compiling the theme in
@@ -255,10 +255,6 @@ trait BootstrapTrait {
     $this->taskWriteToFile('.pantheon/pantheon.yml')
       ->append(FALSE)
       ->textFromFile('pantheon_template/pantheon.yml')
-      ->run();
-    $this->taskWriteToFile('.pantheon/pantheon.upstream.yml')
-      ->append(FALSE)
-      ->textFromFile('pantheon_template/pantheon.upstream.yml')
       ->run();
     $this->taskWriteToFile('.pantheon/web/sites/default/settings.pantheon.php')
       ->append(FALSE)
