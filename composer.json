@@ -141,6 +141,9 @@
             "drupal/entity_reference_revisions": {
               "d.o. 2799479": "https://www.drupal.org/files/issues/2022-06-01/entity_reference_revisions-relationship_host_id-2799479-176.patch"
             },
+            "drupal/intl_date": {
+              "twig": "https://www.drupal.org/files/issues/2023-04-05/3352428-01.twig-classes.patch"
+            },
             "npm-asset/anchor-js": {
                 "remove font-face": "patches/remove-anchorjs-fontface.patch"
             }
