@@ -2,8 +2,8 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
-use Drupal\Tests\drupal_test_assertions\Assertions\UsersTrait;
 use Drupal\Tests\drupal_test_assertions\Assertions\RolesTrait;
+use Drupal\Tests\drupal_test_assertions\Assertions\UsersTrait;
 
 /**
  * User and roles tests.
