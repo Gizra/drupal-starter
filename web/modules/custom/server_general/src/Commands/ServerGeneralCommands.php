@@ -70,7 +70,7 @@ class ServerGeneralCommands extends DrushCommands {
     $config = $this->configFactory->getEditable('system.site');
     $config->set('page.front', $front);
     $config->save();
-    $logger->success(dt('Homepage set to @front.', [
+    $logger->notice(dt('Homepage set to @front.', [
       '@front' => $front,
     ]));
   }
