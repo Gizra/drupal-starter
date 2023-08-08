@@ -1,8 +1,8 @@
-name: Drupal 8 Starter Theme
+name: Drupal 10 Starter Theme
 type: theme
 description: 'A foundation for building a theme for Drupal Starter.'
 package: Server
-core_version_requirement: ^8 || ^9 | ^10
+core_version_requirement: ^9 | ^10
 libraries:
   - server_theme/global-styling
   - server_theme/global-scripts
