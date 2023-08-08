@@ -23,7 +23,7 @@ class ServerGeneralTranslatorTest extends ServerGeneralTestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
     $user = $this->createUser();
     $user->addRole('translator');

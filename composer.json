@@ -97,7 +97,7 @@
         "scssphp/scssphp": "^1.0.0",
         "symfony/phpunit-bridge": "^5.0",
         "totten/lurkerlite": "^1",
-        "weitzman/drupal-test-traits": "^1.3"
+        "weitzman/drupal-test-traits": "^2"
     },
     "conflict": {
         "drupal/drupal": "*"
