@@ -1,6 +1,6 @@
 {
     "name": "gizra/drupal-starter",
-    "description": "Project template for Drupal 9 projects at Gizra",
+    "description": "Project template for Drupal 10 projects at Gizra",
     "type": "project",
     "license": "GPL-2.0-or-later",
     "homepage": "https://www.drupal.org/project/drupal",
