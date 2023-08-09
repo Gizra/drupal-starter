@@ -153,6 +153,9 @@
             "nodespark/des-connector": {
               "php 8.1 compatibility": "patches/des-connector-php-compat.patch"
             },
+            "drupal/fast_404": {
+              "d.o. #3373845": "patches/fast_404_3373845.patch"
+            }
             "npm-asset/anchor-js": {
                 "remove font-face": "patches/remove-anchorjs-fontface.patch"
             }
