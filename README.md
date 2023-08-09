@@ -1,8 +1,8 @@
 [![Build Status](https://app.travis-ci.com/Gizra/drupal-starter.svg?branch=main)](https://app.travis-ci.com/Gizra/drupal-starter)
 
-# Drupal 9 Starter
+# Drupal 10 Starter
 
-Starter repo for Drupal 9 development. This starter is an opinionated approach,
+Starter repo for Drupal 10 development. This starter is an opinionated approach,
 with the following concepts and tools:
 
 1. [ddev](https://ddev.readthedocs.io/) should be the only requirement, and
