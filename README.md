@@ -451,3 +451,18 @@ login, they will already be blocked. A site admin may reset their validation tri
 under the `/admin/people` page.
 The TFA method that is enabled is one that uses Google authenticator (or similar).
 
+
+## Multidev environment and search
+
+For client projects, often we need to create new Pantheon environment for various purposes.
+Sometimes we need search in those environments.
+
+Steps to cover this use-case:
+1. Look up the ElasticSearch server URL and credentials.
+1. If present, remove `$site . '.es.secrets.json'` file from repository root (backup it before)
+1. Edit `robo-components/ElasticSearchTrait.php` (formerly it was in the `RoboFile.php`), replace `private array $environments = ["qa", "dev", "test", "live"];`, to hold only one item: `private array $environments = ["newenvironment"];`
+1. `ddev robo elasticsearch:provision [url] [user] [password]` - use the `elastic` super-user for this operation. It will do the index and user creation on ElasticSearch side.
+1. Copy the resulting `$site . '.es.secrets.json'` file in the GitHub repository root to `.pantheon/config/elasticsearch` directory, only in the branch that is the target of the auto-deployment for `newenvironment`.
+1. Test if ElasticSearch connector has a connection to the new index.
+1. Do a `sapi-c` and `sapi-i` on the new Pantheon multidev.
+1. You might want to check if the new index contains items. Go to `[ES server URL]/_cat/indices`, you will see how much data the new index holds.
