@@ -627,6 +627,10 @@ trait DeploymentTrait {
    *   The comment to post on the issue.
    */
   public function deployNotify(string $pantheon_environment = 'qa', string $issue_comment = '') {
+    if (!empty($issue_comment)) {
+      $data = ['body' => $issue_comment];
+      $issue_comment = json_encode($data);
+    }
     $github_token = getenv('GITHUB_TOKEN');
     $git_commit_message = getenv('TRAVIS_COMMIT_MESSAGE');
     if (strstr($git_commit_message, 'Merge pull request') === FALSE && strstr($git_commit_message, ' (#') === FALSE) {

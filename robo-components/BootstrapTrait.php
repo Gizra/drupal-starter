@@ -93,6 +93,11 @@ trait BootstrapTrait {
       throw new \Exception("The GitHub repository is not in the expected format.");
     }
 
+    $this->taskReplaceInFile('.bootstrap/robo-components/DeploymentTrait.php')
+      ->from('Gizra/drupal-starter')
+      ->to("$organization/$project_machine_name")
+      ->run();
+
     $this->taskReplaceInFile('.bootstrap/.ddev/config.yaml')
       ->from('drupal-starter')
       ->to($project_machine_name)
