@@ -144,9 +144,6 @@
             "drupal/entity_reference_revisions": {
               "d.o. 2799479": "https://www.drupal.org/files/issues/2022-06-01/entity_reference_revisions-relationship_host_id-2799479-176.patch"
             },
-            "drupal/intl_date": {
-              "d.o #3352428": "https://www.drupal.org/files/issues/2023-04-05/3352428-01.twig-classes.patch"
-            },
             "drupal/google_analytics": {
               "d.o #3373921": "https://www.drupal.org/files/issues/2023-08-07/google-analytics-issues-3373921-cannot-install-from-existing-config-11.patch"
             },
