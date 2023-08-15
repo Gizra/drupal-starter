@@ -134,7 +134,7 @@ trait BootstrapTrait {
       ->run();
 
     $this->taskReplaceInFile('.bootstrap/.ddev/providers/pantheon.yaml')
-      ->from('yourproject.dev')
+      ->from('gizra-drupal-starter.qa')
       ->to($project_name . '.qa')
       ->run();
 
