@@ -26,6 +26,9 @@ ddev stop
 TRAVIS_COMMIT_MESSAGE=$(echo "$TRAVIS_COMMIT_MESSAGE" | sed -e 's/[{},&*?|<>=%@\"'\''`-]//g')
 ddev config global --web-environment-add="TRAVIS_COMMIT_MESSAGE=$TRAVIS_COMMIT_MESSAGE"
 ddev config global --web-environment-add="GITHUB_TOKEN=$GITHUB_TOKEN"
+if [ -n "${DEPLOY_EXCLUDE_WARNING}" ]; then
+  ddev config global --web-environment-add="DEPLOY_EXCLUDE_WARNING=$DEPLOY_EXCLUDE_WARNING"
+fi
 
 rm .ddev/config.local.yaml || true
 ddev start
