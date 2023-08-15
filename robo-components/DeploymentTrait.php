@@ -463,7 +463,7 @@ trait DeploymentTrait {
       return;
     }
 
-    $exclude = getenv('DEPLOY_EXCLUDE_WARNING', '');
+    $exclude = (string) getenv('DEPLOY_EXCLUDE_WARNING');
     $exclude_list = explode('|', $exclude);
 
     foreach ($parsed_output as $row) {
