@@ -515,9 +515,9 @@ trait DeploymentTrait {
 
     $task
       ->exec("terminus remote:drush $pantheon_terminus_environment -- si server --no-interaction --existing-config")
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- en server_migrate --no-interaction")
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- migrate:import --group=server")
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- pm:uninstall migrate -y")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- pm-enable default_content --no-interaction")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- pm-enable server_default_content --no-interaction")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- pm:uninstall server_default_content default_content --no-interaction")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- set-homepage")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- uli");
 
