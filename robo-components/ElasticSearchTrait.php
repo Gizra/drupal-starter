@@ -78,7 +78,7 @@ trait ElasticSearchTrait {
    * @param string|null $environment
    *   The environment ID. To test changes in the index config selectively.
    * @param bool $needs_users_override
-   *   If set to 1 or TRUE, we do create a secrets.json file.
+   *   Set to TRUE to create a secrets.json file.
    *
    * @throws \Exception
    */
