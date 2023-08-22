@@ -515,9 +515,9 @@ trait DeploymentTrait {
 
     $task
       ->exec("terminus remote:drush $pantheon_terminus_environment -- si server --no-interaction --existing-config")
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- en server_migrate --no-interaction")
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- migrate:import --group=server")
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- pm:uninstall migrate -y")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- pm-enable default_content --no-interaction")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- pm-enable server_default_content --no-interaction")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- pm:uninstall server_default_content default_content --no-interaction")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- set-homepage")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- uli");
 
@@ -627,6 +627,10 @@ trait DeploymentTrait {
    *   The comment to post on the issue.
    */
   public function deployNotify(string $pantheon_environment = 'qa', string $issue_comment = '') {
+    if (!empty($issue_comment)) {
+      $data = ['body' => $issue_comment];
+      $issue_comment = json_encode($data);
+    }
     $github_token = getenv('GITHUB_TOKEN');
     $git_commit_message = getenv('TRAVIS_COMMIT_MESSAGE');
     if (strstr($git_commit_message, 'Merge pull request') === FALSE && strstr($git_commit_message, ' (#') === FALSE) {
