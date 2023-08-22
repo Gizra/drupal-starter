@@ -82,7 +82,7 @@ trait ElasticSearchTrait {
    *
    * @throws \Exception
    */
-  public function elasticsearchProvision(string $es_url, string $username, string $password, ?string $environment = NULL, ?bool $needs_users_override = NULL): void {
+  public function elasticsearchProvision(string $es_url, string $username, string $password, ?string $environment = NULL, ?bool $needs_users_override = FALSE): void {
     $needs_users = TRUE;
 
     $es_url = rtrim($es_url, '/');
