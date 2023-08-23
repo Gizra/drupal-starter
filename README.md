@@ -457,7 +457,7 @@ The TFA method that is enabled is one that uses Google authenticator (or similar
 We often need to create a new Pantheon environment,  along with its own Elasticsearch index.
 Sometimes we need search in those environments.
 
-Steps to cover this use-case:
+Steps to cover this use case:
 1. Look up the ElasticSearch server URL and credentials.
 1. If present, remove `$site . '.es.secrets.json'` file from repository root (backup it before)
 1. `ddev robo elasticsearch:provision [url] [user] [password] [newenvironment] true` - use the `elastic` super-user for this operation. It will do the index and user creation on ElasticSearch side, newenvironment is the new Pantheon environment machine name. See `ddev robo elasticsearch:provision --help` for usage.
