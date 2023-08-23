@@ -454,7 +454,7 @@ The TFA method that is enabled is one that uses Google authenticator (or similar
 
 ## Multidev environment and search
 
-For client projects, often we need to create new Pantheon environment for various purposes.
+We often need to create a new Pantheon environment,  along with its own Elasticsearch index.
 Sometimes we need search in those environments.
 
 Steps to cover this use-case:
