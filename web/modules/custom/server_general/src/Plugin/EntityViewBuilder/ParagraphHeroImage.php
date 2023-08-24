@@ -2,6 +2,7 @@
 
 namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
+use Drupal\Core\Link;
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
@@ -43,8 +44,7 @@ class ParagraphHeroImage extends EntityViewBuilderPluginAbstract {
       $this->buildMediaResponsiveImage($entity, 'field_image', self::RESPONSIVE_IMAGE_STYLE_ID),
       $this->getTextFieldValue($entity, 'field_title'),
       $this->getTextFieldValue($entity, 'field_subtitle'),
-      $value['title'],
-      $value['url'],
+      $value ? Link::fromTextAndUrl($value['title'], $value['url']) : NULL,
     );
     $build[] = $element;
 
