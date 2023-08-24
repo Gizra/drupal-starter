@@ -1,8 +1,6 @@
 _core:
   default_config_hash: R4IF-ClDHXxblLcG0L7MgsLvfBIMAvi_skumNFQwkDc
 module:
-  advagg: 0
-  advagg_bundler: 0
   automated_cron: 0
   big_pipe: 0
   block: 0
@@ -19,7 +17,6 @@ module:
   crop: 0
   datetime: 0
   dblog: 0
-  default_content: 0
   dynamic_page_cache: 0
   editor: 0
   elasticsearch_connector: 0
@@ -62,7 +59,6 @@ module:
   permissions_filter: 0
   pluggable_entity_view_builder: 0
   quickedit: 0
-  rdf: 0
   real_aes: 0
   redirect: 0
   redis: 0

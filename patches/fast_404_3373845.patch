@@ -1,0 +1,30 @@
+diff --git a/src/Fast404.php b/src/Fast404.php
+index 66626a4e41d263523b6d03729a93302dcb997a54..50b3741d51110d4963cd0ba6e6f7baea1af53298 100644
+--- a/src/Fast404.php
++++ b/src/Fast404.php
+@@ -6,6 +6,7 @@ use Drupal\Core\Site\Settings;
+ use Drupal\Core\Database\Database;
+ use Drupal\Core\StringTranslation\StringTranslationTrait;
+ use Drupal\Component\Render\FormattableMarkup;
++use Drupal\Core\StreamWrapper\AssetsStream;
+ use Symfony\Component\HttpFoundation\Request;
+ use Symfony\Component\HttpFoundation\Response;
+ use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
+@@ -98,6 +99,17 @@ class Fast404 {
+       }
+     }
+ 
++    // Check to see if the URL is that of an assets file.
++    // Drupal 10.1 changes the way assets are handled, the files
++    // are generated if they responded with a 404,
++    // we should not block these requests.
++    if (version_compare(\Drupal::VERSION, '10.1', '>=')) {
++      $assets_path = AssetsStream::basePath();
++      if (strstr($path, $assets_path . '/css') !== FALSE || strstr($path, $assets_path . '/js') !== FALSE) {
++        return;
++      }
++    }
++
+     // If we are using URL whitelisting then determine if the current URL is
+     // whitelisted before running the extension check.
+     // Check for exact URL matches and assume it's fine if we get one.

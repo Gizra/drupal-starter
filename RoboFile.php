@@ -5,14 +5,14 @@ declare(strict_types = 1);
 use Drupal\Core\DrupalKernel;
 use Robo\Tasks;
 use RoboComponents\BootstrapTrait;
+use RoboComponents\DeploymentTrait;
+use RoboComponents\ElasticSearchTrait;
+use RoboComponents\PhpcsTrait;
 use RoboComponents\ReleaseNotesTrait;
 use RoboComponents\ThemeTrait;
-use RoboComponents\DeploymentTrait;
-use RoboComponents\PhpcsTrait;
 use RoboComponents\TranslationManagement\ExportFromConfig;
 use RoboComponents\TranslationManagement\ImportToConfig;
 use RoboComponents\TranslationManagement\ImportToUi;
-use RoboComponents\ElasticSearchTrait;
 use Symfony\Component\HttpFoundation\Request;
 
 $GLOBALS['drupal_autoloader'] = require_once 'web/autoload.php';

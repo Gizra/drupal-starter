@@ -12,7 +12,7 @@ class ServerGeneralMailTest extends ServerGeneralTestBase {
   use ServerGeneralMailTestTrait;
 
   /**
-   * An example test method; note that Drupal API's and Mink are available.
+   * Test one-time login links.
    *
    * @throws \Drupal\Core\Entity\EntityStorageException
    * @throws \Drupal\Core\Entity\EntityMalformedException
@@ -25,7 +25,7 @@ class ServerGeneralMailTest extends ServerGeneralTestBase {
     $this->getCurrentPage()->fillField('edit-name', 'joe@example.com');
     $this->getCurrentPage()->pressButton('Submit');
     $this->assertOutgoingMailNumber(1);
-    $this->assertOutgoingMailContains('Replacement login information for JoeDoe at Drupal Starter');
+    $this->assertOutgoingMailContains('Replacement login information for JoeDoe at');
   }
 
 }

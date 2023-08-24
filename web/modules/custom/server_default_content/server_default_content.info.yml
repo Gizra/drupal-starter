@@ -1,8 +1,10 @@
 name: "Server Default Content"
 type: module
 description: "Provides the default content for the site."
-core_version_requirement: ^8 || ^9 || ^10
+core_version_requirement: ^9 || ^10
 package: "server"
+dependencies:
+  default_content:default_content
 
 default_content:
   node:
