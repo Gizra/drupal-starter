@@ -324,6 +324,26 @@ After you have automatic deployment for a project, you are able to deploy to Pan
 `git tag 0.1.2` will imply a deployment to the `test` environment (and `dev` - as enforced by Pantheon).
 `git tag 0.1.2_live` will imply a deployment to `live`. In order to make it fast, you need to first create the tag that deploy to `test`, then you need to tag the same commit with a tag suffixed with `_live`.
 
+### Excluding Warnings in Deployment
+
+During deployment, Drupal status page warnings are [posted](https://github.com/Gizra/drupal-starter/blob/958cacc357e55b9bdf99d287cba69043236c673f/robo-components/DeploymentTrait.php#L449C19-L449C47) to GitHub as a comment. However, there might be some warnings
+that are deemed acceptable or are already acknowledged and do not need to be posted.  To maintain a cleaner feedback
+loop, you can maintain an exclude list to filter out these acceptable warnings.
+
+To set up an exclude list:
+
+In your .travis.yml, set the `DEPLOY_EXCLUDE_WARNING` environment variable with a list of warnings to exclude.
+The warning names should be separated by a | character.
+
+Example:
+```yml
+env:
+global:
+- DEPLOY_EXCLUDE_WARNING="Search API|Server Search ElasticSearch Credentials"
+```
+
+The deployment script will read this environment variable and exclude the specified warnings when posting to GitHub.
+
 ## Pulling DB & Files From Pantheon
 
     ddev auth ssh
