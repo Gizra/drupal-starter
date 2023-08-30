@@ -199,6 +199,9 @@ local debugging purposes.**
 1. Run Visual Studio Code and load the project folder. `File -> Open Folder...`
 1. Enabled the debugger by selecting the command: `Debug: Start Debbuging`
 
+Check the [DDEV documentation](https://ddev.readthedocs.io/en/latest/users/debugging-profiling/step-debugging/)
+if you are using other IDE or want to know more about this feature.
+
 ## Deploy to Pantheon
 
 ### Pantheon Setup
