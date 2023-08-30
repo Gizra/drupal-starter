@@ -3,6 +3,7 @@
 namespace Drupal\server_style_guide\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Link;
 use Drupal\Core\Render\Renderer;
 use Drupal\Core\Url;
 use Drupal\Core\Utility\LinkGenerator;
@@ -588,8 +589,7 @@ class StyleGuideController extends ControllerBase {
       $this->buildImage($this->getPlaceholderImage(1600, 400)),
       $this->getRandomTitle(),
       $this->getRandomTitle(),
-      'Learn more',
-      $url,
+      Link::fromTextAndUrl('Learn more', $url),
     );
   }
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 namespace Drupal\server_general;
 
+use Drupal\Core\Link;
 use Drupal\Core\Url;
 
 /**
@@ -69,15 +70,14 @@ trait ElementTrait {
    *   The title.
    * @param string $subtitle
    *   The subtitle.
-   * @param string $button_text
-   *   The button text.
-   * @param \Drupal\Core\Url $url
-   *   The URL to link the button to.
+   * @param \Drupal\Core\Link|null $link
+   *   The button Link object.
+   *   If NULL, no button is rendered. Defaults to NULL.
    *
    * @return array
    *   Render array.
    */
-  protected function buildElementHeroImage(array $image, string $title, string $subtitle, string $button_text, Url $url): array {
+  protected function buildElementHeroImage(array $image, string $title, string $subtitle, Link $link = NULL): array {
     $elements = [];
 
     // Title.
@@ -89,7 +89,9 @@ trait ElementTrait {
     $elements[] = $this->wrapTextFontWeight($element, 'medium');
 
     // Button.
-    $elements[] = $this->buildButton($button_text, $url, TRUE);
+    if ($link) {
+      $elements[] = $this->buildButton($link->getText(), $link->getUrl(), TRUE);
+    }
 
     $elements = $this->wrapContainerVerticalSpacingBig($elements);
 
