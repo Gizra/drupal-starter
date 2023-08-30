@@ -1,8 +1,8 @@
 [![Build Status](https://app.travis-ci.com/Gizra/drupal-starter.svg?branch=main)](https://app.travis-ci.com/Gizra/drupal-starter)
 
-# Drupal 9 Starter
+# Drupal 10 Starter
 
-Starter repo for Drupal 9 development. This starter is an opinionated approach,
+Starter repo for Drupal 10 development. This starter is an opinionated approach,
 with the following concepts and tools:
 
 1. [ddev](https://ddev.readthedocs.io/) should be the only requirement, and
@@ -34,6 +34,45 @@ deployments. See more under ["Deploy to Pantheon"](#deploy-to-pantheon) section
 
 Once the Drupal installation is complete you can use `ddev login` to
 log in to the site as user 1 using your default browser.
+
+## Default content management
+
+This project uses `drupal/default_content` module to manage the installation
+(default) content. The following entity types are currently managed by the
+default_content module:
+
+- node
+- menu_link_content
+- block_content
+- taxonomy_term
+- user
+- media
+- file
+
+### Export new content
+
+If you wish to add new content to be installed on the next installation of the
+site, for example a node, follow these steps:
+
+1. Create the entity in the freshly installed site.
+2. Verify that it's complete and finalized for exporting.
+3. Get the new entity's UUID (you may wish to enable devel, or use `ddev mysql`)
+4. Add the new entity's UUID to `server_default_content.info.yml` under the correct
+   heading
+5. Enable `server_default_content` module
+6. Run `ddev drush dcem server_default_content`
+7. Check git, ensure the new yml file is created. Now simply commit the new file.
+
+### Updating existing content
+
+If you wish to update an existing default content then simply run the steps 5-7
+above. The only thing to be aware of is that the above steps use a mass export
+functionality of default_content module. If you wish to re-export only a single
+node without including the changes to other entities, there's a different drush
+command which allows you to export a single entity. However this method is not
+recommended, as things can get inconsistent and potentially out of sync.
+
+Please refer to the [Default content documentation](https://www.drupal.org/docs/contributed-modules/default-content-for-d8/overview)
 
 ## Theme Development
 
@@ -143,6 +182,14 @@ See the [example](https://github.com/Gizra/drupal-starter/blob/main/web/modules/
     # Run a single method from a test file.
     ddev phpunit --filter testHomepageCache web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralHomepageTest.php
 
+We also have capability to write tests which run on a headless chrome browser with
+Javascript capabilities. See [`Drupal\Tests\server_general\ExistingSite\ServerGeneralSelenium2TestBase`](https://github.com/Gizra/drupal-starter/blob/aa3c204dc7ac279964a694c675c35062c7fbcd9f/web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralSelenium2TestBase.php)
+for the test base, and [`Drupal\Tests\server_general\ExistingSite\ServerGeneralHomepageTest`](https://github.com/Gizra/drupal-starter/blob/aa3c204dc7ac279964a694c675c35062c7fbcd9f/web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralHomepageTest.php) for the
+example implementation. By extending the above base class you can also take screenshots using the
+`takeScreenshot()` method. This captures and saves the screenshot in `/web/sites/simpletest/screenshots`.
+**Note: You should not leave calls to `takeScreenshot` in the codebase when committing, this is meant only for
+local debugging purposes.**
+
 ## Debugging
 
 ## Visual Studio Code instructions
@@ -161,7 +208,7 @@ Make sure to add the correct site name under `environment_variables.project`.
 
 There's a Robo command to do the entire process of creating a new project:
 ```
-ddev robo bootstrap:project newname git@github.com/newclient/newproject.git terminus_token github_token
+ddev robo bootstrap:project <project_name> <github_repository_url> <terminus_token> <github_token> [<docker_mirror_url> [<http_basic_auth_user> [<http_basic_auth_password>]]]
 ```
 See the details [here](https://github.com/Gizra/drupal-starter/blob/main/robo-components/BootstrapTrait.php).
 
@@ -285,6 +332,26 @@ Optionally you can specify which target branch you'd like to push on Pantheon, b
 After you have automatic deployment for a project, you are able to deploy to Pantheon `test` and `live` using Git tags.
 `git tag 0.1.2` will imply a deployment to the `test` environment (and `dev` - as enforced by Pantheon).
 `git tag 0.1.2_live` will imply a deployment to `live`. In order to make it fast, you need to first create the tag that deploy to `test`, then you need to tag the same commit with a tag suffixed with `_live`.
+
+### Excluding Warnings in Deployment
+
+During deployment, Drupal status page warnings are [posted](https://github.com/Gizra/drupal-starter/blob/958cacc357e55b9bdf99d287cba69043236c673f/robo-components/DeploymentTrait.php#L449C19-L449C47) to GitHub as a comment. However, there might be some warnings
+that are deemed acceptable or are already acknowledged and do not need to be posted.  To maintain a cleaner feedback
+loop, you can maintain an exclude list to filter out these acceptable warnings.
+
+To set up an exclude list:
+
+In your .travis.yml, set the `DEPLOY_EXCLUDE_WARNING` environment variable with a list of warnings to exclude.
+The warning names should be separated by a | character.
+
+Example:
+```yml
+env:
+global:
+- DEPLOY_EXCLUDE_WARNING="Search API|Server Search ElasticSearch Credentials"
+```
+
+The deployment script will read this environment variable and exclude the specified warnings when posting to GitHub.
 
 ## Pulling DB & Files From Pantheon
 
@@ -413,3 +480,17 @@ login, they will already be blocked. A site admin may reset their validation tri
 under the `/admin/people` page.
 The TFA method that is enabled is one that uses Google authenticator (or similar).
 
+
+## Multidev environment and search
+
+We often need to create a new Pantheon environment,  along with its own Elasticsearch index.
+Sometimes we need search in those environments.
+
+Steps to cover this use case:
+1. Look up the ElasticSearch server URL and credentials.
+1. If present, remove `$site . '.es.secrets.json'` file from the repository root (backup it before)
+1. `ddev robo elasticsearch:provision [url] [user] [password] [newenvironment] true` - use the `elastic` super-user for this operation. It will do the index and user creation on ElasticSearch side, `newenvironment` is the new Pantheon environment machine name. See `ddev robo elasticsearch:provision --help` for usage.
+1. Copy the resulting `$site . '.es.secrets.json'` file in the GitHub repository root to `.pantheon/config/elasticsearch` directory, only in the branch that is the target of the auto-deployment for `newenvironment`.
+1. Test if ElasticSearch connector has a connection to the new index.
+1. Do a `sapi-c` and `sapi-i` on the new Pantheon multidev.
+1. You might want to check if the new index contains items. Go to `[ES server URL]/_cat/indices`, you will see how much data the new index holds.

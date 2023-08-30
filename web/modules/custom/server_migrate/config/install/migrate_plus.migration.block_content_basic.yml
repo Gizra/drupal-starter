@@ -2,6 +2,7 @@ id: block_content_basic
 label: 'Block Content: Basic'
 migration_group: server
 migration_tags:
+  - default_content
   - block_content_basic
   - block_content
   - block

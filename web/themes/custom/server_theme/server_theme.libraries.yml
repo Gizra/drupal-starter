@@ -15,7 +15,7 @@ global-scripts:
   dependencies:
     - core/jquery
     - core/drupal
-    - core/jquery.once
+    - core/once
     - server_theme/anchor
 
 
@@ -26,15 +26,15 @@ view-more:
   dependencies:
     - core/jquery
     - core/drupal
-    - core/jquery.once
+    - core/once
 
 accordion:
   js:
     dist/js/accordion.js: {}
   dependencies:
-    - core/jquery
     - core/drupal
-    - core/jquery.once
+    - core/jquery
+    - core/once
 
 roboto:
   css:

@@ -2,6 +2,7 @@ id: paragraph_news_teasers
 label: 'News teasers'
 migration_group: server
 migration_tags:
+  - default_content
   - paragraph
 source:
   plugin: csv

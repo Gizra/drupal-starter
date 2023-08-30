@@ -2,6 +2,7 @@ id: paragraph_hero_image
 label: 'Paragraph hero image'
 migration_group: server
 migration_tags:
+  - default_content
   - paragraph
 source:
   plugin: csv

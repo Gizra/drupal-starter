@@ -2,12 +2,10 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
-use weitzman\DrupalTestTraits\ExistingSiteBase;
-
 /**
  * Tests entity references.
  */
-class ServerGeneralParagraphTranslatability extends ExistingSiteBase {
+class ServerGeneralParagraphTranslatability extends ServerGeneralTestBase {
 
   /**
    * Checks Paragraph reference sanity for translations.

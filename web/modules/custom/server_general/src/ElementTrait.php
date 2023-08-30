@@ -159,11 +159,13 @@ trait ElementTrait {
    * @param array|null $button
    *   Optional; The render array of the button, likely created with
    *   ButtonTrait::buildButton.
+   * @param bool $is_infinite
+   *   Optional; Indicate whether the carousel should be infinite or not.
    *
    * @return array
    *   Render array.
    */
-  protected function buildElementCarousel(string $title, array $body, array $items, bool $is_featured = FALSE, array $button = NULL): array {
+  protected function buildElementCarousel(string $title, array $body, array $items, bool $is_featured = FALSE, array $button = NULL, $is_infinite = FALSE): array {
     if (empty($items)) {
       return [];
     }
@@ -173,6 +175,7 @@ trait ElementTrait {
       '#theme' => 'server_theme_carousel',
       '#items' => $items,
       '#is_featured' => $is_featured,
+      '#is_infinite' => $is_infinite,
     ];
 
     if ($button) {

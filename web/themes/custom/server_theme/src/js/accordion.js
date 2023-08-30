@@ -7,7 +7,7 @@
   Drupal.behaviors.accordion = {
     attach: function (context, settings) {
 
-      $('.accordion .accordion-title').once().click(function() {
+      $(once('accordion-toogle', '.accordion .accordion-title')).click(function() {
         const $this = $(this);
         const $target = $this.next();
 

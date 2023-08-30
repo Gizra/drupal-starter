@@ -77,10 +77,12 @@ trait ElasticSearchTrait {
    *   The password of the ES admin user.
    * @param string|null $environment
    *   The environment ID. To test changes in the index config selectively.
+   * @param bool|null $needs_users_override
+   *   Set to TRUE to create a secrets.json file.
    *
    * @throws \Exception
    */
-  public function elasticsearchProvision(string $es_url, string $username, string $password, ?string $environment = NULL): void {
+  public function elasticsearchProvision(string $es_url, string $username, string $password, ?string $environment = NULL, ?bool $needs_users_override = FALSE): void {
     $needs_users = TRUE;
 
     $es_url = rtrim($es_url, '/');
@@ -165,7 +167,7 @@ END;
     }
 
     $index_creation->run();
-    if ($needs_users) {
+    if ($needs_users || $needs_users_override) {
       $role_creation->run();
       $user_creation->run();
 

@@ -5,15 +5,16 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 use Drupal\media\MediaInterface;
 use Drupal\node\Entity\NodeType;
 use Drupal\node\NodeInterface;
-use Drupal\server_general\InnerElementTrait;
+use Drupal\server_general\ElementLayoutTrait;
 use Drupal\server_general\ElementNodeNewsTrait;
 use Drupal\server_general\EntityDateTrait;
 use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
+use Drupal\server_general\InnerElementTrait;
 use Drupal\server_general\LineSeparatorTrait;
 use Drupal\server_general\LinkTrait;
-use Drupal\server_general\ElementLayoutTrait;
 use Drupal\server_general\SocialShareTrait;
 use Drupal\server_general\TitleAndLabelsTrait;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * The "Node News" plugin.
@@ -34,6 +35,23 @@ class NodeNews extends NodeViewBuilderAbstract {
   use LinkTrait;
   use SocialShareTrait;
   use TitleAndLabelsTrait;
+
+  /**
+   * The renderer.
+   *
+   * @var \Drupal\Core\Render\RendererInterface
+   */
+  protected $renderer;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    $plugin = parent::create($container, $configuration, $plugin_id, $plugin_definition);
+    $plugin->renderer = $container->get('renderer');
+
+    return $plugin;
+  }
 
   /**
    * Build full view mode.

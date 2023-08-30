@@ -6,7 +6,6 @@ dependencies:
     - core.entity_view_mode.media.embed
   module:
     - editor
-    - emptyparagraphkiller
     - media
 _core:
   default_config_hash: P8ddpAIKtawJDi5SzOwCzVnnNYqONewSTJ6Xn0dW_aQ
@@ -20,7 +19,7 @@ filters:
     status: true
     weight: -10
     settings:
-      allowed_html: '<a href hreflang> <em> <strong> <cite> <blockquote cite> <code> <ul type> <ol start type> <li> <dl> <dt> <dd> <h2 id> <h3 id> <h4 id> <h5 id> <h6 id> <p> <br> <span> <img src alt height width data-entity-type data-entity-uuid data-align data-caption> <drupal-entity data-entity-type data-entity-uuid data-entity-embed-display data-entity-embed-display-settings data-align data-caption data-embed-button data-langcode alt title> <drupal-media data-entity-type data-entity-uuid data-view-mode data-align data-caption alt title>'
+      allowed_html: '<br> <p> <h2 id> <h3 id> <h4 id> <h5 id> <h6 id> <cite> <dl> <dt> <dd> <span> <img src alt data-entity-type data-entity-uuid data-align data-caption width height> <drupal-entity data-entity-type data-entity-uuid data-entity-embed-display data-entity-embed-display-settings data-align data-caption data-embed-button data-langcode alt title> <a hreflang href> <blockquote cite> <ul type> <ol type start> <drupal-media data-align data-caption title data-entity-type data-entity-uuid alt> <strong> <em> <code> <li>'
       filter_html_help: false
       filter_html_nofollow: false
   filter_align:
@@ -46,12 +45,6 @@ filters:
     provider: editor
     status: true
     weight: 11
-    settings: {  }
-  emptyparagraphkiller:
-    id: emptyparagraphkiller
-    provider: emptyparagraphkiller
-    status: true
-    weight: 0
     settings: {  }
   media_embed:
     id: media_embed

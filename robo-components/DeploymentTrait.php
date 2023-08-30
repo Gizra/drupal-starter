@@ -399,8 +399,8 @@ trait DeploymentTrait {
     $result = $this->localeImport(FALSE, $env);
     if ($result->getExitCode() !== 0) {
       $message = "The deployment went well to $env, but the locale import failed. Try to perform manually later.";
-      $this->notifyDeploy($env, $message);
-      throw new Exception($message);
+      $this->deployNotify($env, $message);
+      throw new \Exception($message);
     }
 
     $result = $this->taskExecStack()
@@ -427,6 +427,65 @@ trait DeploymentTrait {
       $this->deployNotify($env, $message);
       throw new \Exception($message);
     }
+
+    try {
+      $this->deployCheckRequirementErrors($env);
+    }
+    catch (\Exception $e) {
+      $message = "The deployment went well to $env, but there are requirement errors. Address these:" . PHP_EOL . $e->getMessage();
+      $this->deployNotify($env, $message);
+      throw new \Exception($message);
+    }
+  }
+
+  /**
+   * Check for requirement errors on the given environment.
+   *
+   * @param string $environment
+   *   The environment to check.
+   *
+   * @throws \Exception
+   */
+  public function deployCheckRequirementErrors(string $environment): void {
+    $pantheon_info = $this->getPantheonNameAndEnv();
+    $pantheon_terminus_environment = $pantheon_info['name'] . '.' . $environment;
+    $task = $this->taskExecStack()
+      ->stopOnFail();
+    $output = $task
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- rq --format=csv")
+      ->printOutput(FALSE)
+      ->run()
+      ->getMessage();
+
+    $errors = [];
+    $parsed_output = str_getcsv($output, "\n");
+    if (empty($parsed_output)) {
+      return;
+    }
+
+    $exclude = (string) getenv('DEPLOY_EXCLUDE_WARNING');
+    $exclude_list = explode('|', $exclude);
+
+    foreach ($parsed_output as $row) {
+      $row = str_getcsv($row, ",");
+      if (empty($row[0])) {
+        continue;
+      }
+      if (empty($row[1])) {
+        continue;
+      }
+      if ($row[1] !== 'Error') {
+        continue;
+      }
+      if (in_array($row[0], $exclude_list)) {
+        continue;
+      }
+      $errors[] = $row[2];
+    }
+    if (empty($errors)) {
+      return;
+    }
+    throw new \Exception(print_r($errors, TRUE));
   }
 
   /**
@@ -466,9 +525,9 @@ trait DeploymentTrait {
 
     $task
       ->exec("terminus remote:drush $pantheon_terminus_environment -- si server --no-interaction --existing-config")
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- en server_migrate --no-interaction")
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- migrate:import --group=server")
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- pm:uninstall migrate -y")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- pm-enable default_content --no-interaction")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- pm-enable server_default_content --no-interaction")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- pm:uninstall server_default_content default_content --no-interaction")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- set-homepage")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- uli");
 
@@ -578,6 +637,10 @@ trait DeploymentTrait {
    *   The comment to post on the issue.
    */
   public function deployNotify(string $pantheon_environment = 'qa', string $issue_comment = '') {
+    if (!empty($issue_comment)) {
+      $data = ['body' => $issue_comment];
+      $issue_comment = json_encode($data);
+    }
     $github_token = getenv('GITHUB_TOKEN');
     $git_commit_message = getenv('TRAVIS_COMMIT_MESSAGE');
     if (strstr($git_commit_message, 'Merge pull request') === FALSE && strstr($git_commit_message, ' (#') === FALSE) {
@@ -627,7 +690,7 @@ trait DeploymentTrait {
     }
     else {
       $issue_numbers[] = $issue_matches[1][0];
-      if (empty($issue_numbers) || !is_numeric($issue_numbers[0])) {
+      if (!is_numeric($issue_numbers[0])) {
         throw new \Exception("Could not determine the issue number from the branch name in the commit message: $git_commit_message");
       }
     }

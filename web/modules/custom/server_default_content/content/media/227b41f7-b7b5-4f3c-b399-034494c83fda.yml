@@ -1,0 +1,37 @@
+_meta:
+  version: '1.0'
+  entity_type: media
+  uuid: 227b41f7-b7b5-4f3c-b399-034494c83fda
+  bundle: image
+  default_langcode: en
+  depends:
+    72ef50cf-b600-4e6e-9fa2-87b5067b288a: file
+default:
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 0
+  name:
+    -
+      value: 'Photo 1'
+  created:
+    -
+      value: 1686167785
+  revision_translation_affected:
+    -
+      value: true
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  field_media_image:
+    -
+      entity: 72ef50cf-b600-4e6e-9fa2-87b5067b288a
+      alt: 'Photo 1'
+      title: ''
+      width: 1600
+      height: 900

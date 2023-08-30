@@ -1,0 +1,37 @@
+_meta:
+  version: '1.0'
+  entity_type: media
+  uuid: 89031cfe-05c0-4aba-9dac-2ed7866daf91
+  bundle: image
+  default_langcode: en
+  depends:
+    b409bbf1-c62e-4940-9a76-f8b56117ac13: file
+default:
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 0
+  name:
+    -
+      value: 'User photo 2'
+  created:
+    -
+      value: 1686167785
+  revision_translation_affected:
+    -
+      value: true
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  field_media_image:
+    -
+      entity: b409bbf1-c62e-4940-9a76-f8b56117ac13
+      alt: 'User photo 2'
+      title: ''
+      width: 800
+      height: 533

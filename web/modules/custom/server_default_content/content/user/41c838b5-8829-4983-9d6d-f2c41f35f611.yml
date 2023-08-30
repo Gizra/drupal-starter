@@ -1,0 +1,38 @@
+_meta:
+  version: '1.0'
+  entity_type: user
+  uuid: 41c838b5-8829-4983-9d6d-f2c41f35f611
+  default_langcode: en
+default:
+  preferred_langcode:
+    -
+      value: en
+  name:
+    -
+      value: Editor
+  pass:
+    -
+      value: U$S$EfohMIgA/nac9/3aphs7QYR91xfq3SKuH/EDmykjGwoJPLICTOo2
+      existing: ''
+      pre_hashed: false
+  mail:
+    -
+      value: editor@example.com
+  timezone:
+    -
+      value: UTC
+  status:
+    -
+      value: true
+  created:
+    -
+      value: 1686167785
+  access:
+    -
+      value: 0
+  login:
+    -
+      value: 0
+  roles:
+    -
+      target_id: content_editor

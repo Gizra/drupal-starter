@@ -1,0 +1,37 @@
+_meta:
+  version: '1.0'
+  entity_type: media
+  uuid: 6ab2e407-f7f3-4148-bf24-0a1b9ea48d6a
+  bundle: image
+  default_langcode: en
+  depends:
+    bef9ed9a-41f1-4fc7-9ea9-9c33b41e7be3: file
+default:
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 0
+  name:
+    -
+      value: 'Random photo'
+  created:
+    -
+      value: 1686167785
+  revision_translation_affected:
+    -
+      value: true
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  field_media_image:
+    -
+      entity: bef9ed9a-41f1-4fc7-9ea9-9c33b41e7be3
+      alt: 'Random photo'
+      title: ''
+      width: 1440
+      height: 760

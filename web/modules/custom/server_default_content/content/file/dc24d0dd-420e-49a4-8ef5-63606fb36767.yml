@@ -1,0 +1,24 @@
+_meta:
+  version: '1.0'
+  entity_type: file
+  uuid: dc24d0dd-420e-49a4-8ef5-63606fb36767
+  default_langcode: en
+default:
+  filename:
+    -
+      value: drupal-starter_10.pdf
+  uri:
+    -
+      value: 'public://drupal-starter_10.pdf'
+  filemime:
+    -
+      value: application/pdf
+  filesize:
+    -
+      value: 12062
+  status:
+    -
+      value: true
+  created:
+    -
+      value: 1686167785

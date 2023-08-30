@@ -1,0 +1,907 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: 59aaa9d4-8a47-436a-b8f3-00484c08c124
+  bundle: landing_page
+  default_langcode: en
+  depends:
+    49afcccd-7be9-4b3b-9bc5-0b56ed065fa0: user
+    881b4f95-54f7-485e-9999-a90d1e05208b: media
+    f1dd02df-ef2f-4cc2-bd41-cf4ff0c34e01: node
+    fdfc2b97-a826-4887-8218-fb3a3add5f72: node
+    a405be40-26d1-4059-a32f-b3a653df32e8: node
+    0cfc425c-cd0e-426d-8dc2-e8f123dc8cb9: media
+    41dc893a-878a-4d96-be28-5580d2701ea5: media
+    8765a3d3-713b-4c71-996e-2f27f2dee3b2: media
+    2a1b0bba-94ee-42ef-8889-b6d76aaf9658: media
+    5770c310-d0e1-4ae9-84c0-852c32a1a69b: media
+    9c7d5c59-1cf0-4ce6-8f16-cb4cad76406f: media
+    693dea86-8bc7-455e-b113-918d3a8353cb: media
+    2dbe0924-95be-46f6-9293-643ad046c02b: media
+    711d4c28-2c02-4064-b78c-1480b9e66d8d: media
+default:
+  revision_uid:
+    -
+      entity: 49afcccd-7be9-4b3b-9bc5-0b56ed065fa0
+  status:
+    -
+      value: true
+  uid:
+    -
+      entity: 49afcccd-7be9-4b3b-9bc5-0b56ed065fa0
+  title:
+    -
+      value: Homepage
+  created:
+    -
+      value: 1686167785
+  promote:
+    -
+      value: true
+  sticky:
+    -
+      value: false
+  revision_translation_affected:
+    -
+      value: true
+  path:
+    -
+      alias: /homepage
+      langcode: en
+      pathauto: 0
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  field_is_title_hidden:
+    -
+      value: true
+  field_paragraphs:
+    -
+      entity:
+        _meta:
+          version: '1.0'
+          entity_type: paragraph
+          uuid: 4fd363bc-76aa-4f8d-8c37-84c86c627e2e
+          bundle: hero_image
+          default_langcode: en
+        default:
+          status:
+            -
+              value: true
+          created:
+            -
+              value: 1686167785
+          behavior_settings:
+            -
+              value: {  }
+          revision_translation_affected:
+            -
+              value: true
+          content_translation_source:
+            -
+              value: und
+          content_translation_outdated:
+            -
+              value: false
+          field_image:
+            -
+              entity: 881b4f95-54f7-485e-9999-a90d1e05208b
+          field_link:
+            -
+              uri: 'https://example.com'
+              title: 'Dive in'
+              options: {  }
+          field_subtitle:
+            -
+              value: 'Drupal devs love it'
+          field_title:
+            -
+              value: 'Drupal Starter'
+    -
+      entity:
+        _meta:
+          version: '1.0'
+          entity_type: paragraph
+          uuid: b46db3e7-c5c8-4e8c-97ac-67517017023a
+          bundle: cta
+          default_langcode: en
+        default:
+          status:
+            -
+              value: true
+          created:
+            -
+              value: 1686167785
+          behavior_settings:
+            -
+              value: {  }
+          revision_translation_affected:
+            -
+              value: true
+          content_translation_source:
+            -
+              value: und
+          content_translation_outdated:
+            -
+              value: false
+          field_body:
+            -
+              value: 'Share new ideas, lessons learned, proven practices, insights, and practical suggestions.'
+              format: basic_html
+          field_link:
+            -
+              uri: 'https://example.com'
+              title: 'Learn More'
+              options: {  }
+          field_title:
+            -
+              value: 'Join our community'
+    -
+      entity:
+        _meta:
+          version: '1.0'
+          entity_type: paragraph
+          uuid: 79c106e5-44da-4dac-9dfb-2d70603d1265
+          bundle: related_content
+          default_langcode: en
+        default:
+          status:
+            -
+              value: true
+          created:
+            -
+              value: 1686167785
+          behavior_settings:
+            -
+              value: {  }
+          revision_translation_affected:
+            -
+              value: true
+          content_translation_source:
+            -
+              value: und
+          content_translation_outdated:
+            -
+              value: false
+          field_is_featured:
+            -
+              value: true
+          field_related_content:
+            -
+              entity: f1dd02df-ef2f-4cc2-bd41-cf4ff0c34e01
+            -
+              entity: fdfc2b97-a826-4887-8218-fb3a3add5f72
+            -
+              entity: a405be40-26d1-4059-a32f-b3a653df32e8
+          field_title:
+            -
+              value: 'Featured Content'
+    -
+      entity:
+        _meta:
+          version: '1.0'
+          entity_type: paragraph
+          uuid: 5846f08e-a2d2-4581-8621-e90a5198b198
+          bundle: info_cards
+          default_langcode: en
+        default:
+          status:
+            -
+              value: true
+          created:
+            -
+              value: 1686167785
+          behavior_settings:
+            -
+              value: {  }
+          revision_translation_affected:
+            -
+              value: true
+          content_translation_source:
+            -
+              value: und
+          content_translation_outdated:
+            -
+              value: false
+          field_body:
+            -
+              value: 'Learn about <em>interesting</em> stuff'
+              format: basic_html
+          field_info_cards:
+            -
+              entity:
+                _meta:
+                  version: '1.0'
+                  entity_type: paragraph
+                  uuid: 90a6cb33-8488-4e40-b87e-6232a8e16062
+                  bundle: info_card
+                  default_langcode: en
+                default:
+                  status:
+                    -
+                      value: true
+                  created:
+                    -
+                      value: 1686167785
+                  behavior_settings:
+                    -
+                      value: {  }
+                  revision_translation_affected:
+                    -
+                      value: true
+                  content_translation_source:
+                    -
+                      value: und
+                  content_translation_outdated:
+                    -
+                      value: false
+                  field_info_card_header:
+                    -
+                      value: 100%
+                  field_subtitle:
+                    -
+                      value: 'It saves lots of dev hours, so they like to stick to it'
+                  field_title:
+                    -
+                      value: 'Developers like this'
+            -
+              entity:
+                _meta:
+                  version: '1.0'
+                  entity_type: paragraph
+                  uuid: 5a4aee9b-308b-4743-ad25-832a2d4b4d6e
+                  bundle: info_card
+                  default_langcode: en
+                default:
+                  status:
+                    -
+                      value: true
+                  created:
+                    -
+                      value: 1686167785
+                  behavior_settings:
+                    -
+                      value: {  }
+                  revision_translation_affected:
+                    -
+                      value: true
+                  content_translation_source:
+                    -
+                      value: und
+                  content_translation_outdated:
+                    -
+                      value: false
+                  field_info_card_header:
+                    -
+                      value: '2 - 5 commits'
+                  field_title:
+                    -
+                      value: 'Every few days there is a new PR'
+            -
+              entity:
+                _meta:
+                  version: '1.0'
+                  entity_type: paragraph
+                  uuid: 762887bd-79b2-4d78-b506-9ab05792e642
+                  bundle: info_card
+                  default_langcode: en
+                default:
+                  status:
+                    -
+                      value: true
+                  created:
+                    -
+                      value: 1686167785
+                  behavior_settings:
+                    -
+                      value: {  }
+                  revision_translation_affected:
+                    -
+                      value: true
+                  content_translation_source:
+                    -
+                      value: und
+                  content_translation_outdated:
+                    -
+                      value: false
+                  field_info_card_header:
+                    -
+                      value: '350'
+                  field_subtitle:
+                    -
+                      value: 'But there are other numbers as well'
+                  field_title:
+                    -
+                      value: 'Is a number that is likeable'
+          field_title:
+            -
+              value: 'Info cards'
+    -
+      entity:
+        _meta:
+          version: '1.0'
+          entity_type: paragraph
+          uuid: fd4808c0-049b-4090-9334-23629f33c795
+          bundle: news_teasers
+          default_langcode: en
+        default:
+          status:
+            -
+              value: true
+          created:
+            -
+              value: 1686167785
+          behavior_settings:
+            -
+              value: {  }
+          revision_translation_affected:
+            -
+              value: true
+          content_translation_source:
+            -
+              value: und
+          content_translation_outdated:
+            -
+              value: false
+          field_title:
+            -
+              value: 'News highlights'
+    -
+      entity:
+        _meta:
+          version: '1.0'
+          entity_type: paragraph
+          uuid: b6d1a72e-6aa4-427d-800f-f8c2bd3c570f
+          bundle: people_teasers
+          default_langcode: en
+        default:
+          status:
+            -
+              value: true
+          created:
+            -
+              value: 1686167785
+          behavior_settings:
+            -
+              value: {  }
+          revision_translation_affected:
+            -
+              value: true
+          content_translation_source:
+            -
+              value: und
+          content_translation_outdated:
+            -
+              value: false
+          field_body:
+            -
+              value: 'See all the <strong>great</strong> people involved'
+              format: basic_html
+          field_person_teasers:
+            -
+              entity:
+                _meta:
+                  version: '1.0'
+                  entity_type: paragraph
+                  uuid: b62308ef-0cec-4e3b-b5f1-253f894ce7ca
+                  bundle: person_teaser
+                  default_langcode: en
+                default:
+                  status:
+                    -
+                      value: true
+                  created:
+                    -
+                      value: 1686167785
+                  behavior_settings:
+                    -
+                      value: {  }
+                  revision_translation_affected:
+                    -
+                      value: true
+                  content_translation_source:
+                    -
+                      value: und
+                  content_translation_outdated:
+                    -
+                      value: false
+                  field_image:
+                    -
+                      entity: 0cfc425c-cd0e-426d-8dc2-e8f123dc8cb9
+                  field_subtitle:
+                    -
+                      value: 'Chief edtior'
+                  field_title:
+                    -
+                      value: 'Jennie Smith'
+            -
+              entity:
+                _meta:
+                  version: '1.0'
+                  entity_type: paragraph
+                  uuid: 41b404e0-384c-4706-a955-a710a4a66433
+                  bundle: person_teaser
+                  default_langcode: en
+                default:
+                  status:
+                    -
+                      value: true
+                  created:
+                    -
+                      value: 1686167785
+                  behavior_settings:
+                    -
+                      value: {  }
+                  revision_translation_affected:
+                    -
+                      value: true
+                  content_translation_source:
+                    -
+                      value: und
+                  content_translation_outdated:
+                    -
+                      value: false
+                  field_image:
+                    -
+                      entity: 41dc893a-878a-4d96-be28-5580d2701ea5
+                  field_title:
+                    -
+                      value: 'David Bowie'
+            -
+              entity:
+                _meta:
+                  version: '1.0'
+                  entity_type: paragraph
+                  uuid: 3c74a38b-9da0-44e7-8479-b70cef239701
+                  bundle: person_teaser
+                  default_langcode: en
+                default:
+                  status:
+                    -
+                      value: true
+                  created:
+                    -
+                      value: 1686167785
+                  behavior_settings:
+                    -
+                      value: {  }
+                  revision_translation_affected:
+                    -
+                      value: true
+                  content_translation_source:
+                    -
+                      value: und
+                  content_translation_outdated:
+                    -
+                      value: false
+                  field_image:
+                    -
+                      entity: 8765a3d3-713b-4c71-996e-2f27f2dee3b2
+                  field_title:
+                    -
+                      value: 'Dr. Nicole Ryan'
+            -
+              entity:
+                _meta:
+                  version: '1.0'
+                  entity_type: paragraph
+                  uuid: 55938446-a140-488f-861b-f7a44c4b8a4d
+                  bundle: person_teaser
+                  default_langcode: en
+                default:
+                  status:
+                    -
+                      value: true
+                  created:
+                    -
+                      value: 1686167785
+                  behavior_settings:
+                    -
+                      value: {  }
+                  revision_translation_affected:
+                    -
+                      value: true
+                  content_translation_source:
+                    -
+                      value: und
+                  content_translation_outdated:
+                    -
+                      value: false
+                  field_image:
+                    -
+                      entity: 2a1b0bba-94ee-42ef-8889-b6d76aaf9658
+                  field_subtitle:
+                    -
+                      value: 'Assitant to the regional manager'
+                  field_title:
+                    -
+                      value: 'Stewart Flin'
+          field_title:
+            -
+              value: 'People teasers'
+    -
+      entity:
+        _meta:
+          version: '1.0'
+          entity_type: paragraph
+          uuid: 23f52932-2d42-4951-8348-78e1ae1f9598
+          bundle: quote
+          default_langcode: en
+        default:
+          status:
+            -
+              value: true
+          created:
+            -
+              value: 1686167785
+          behavior_settings:
+            -
+              value: {  }
+          revision_translation_affected:
+            -
+              value: true
+          content_translation_source:
+            -
+              value: und
+          content_translation_outdated:
+            -
+              value: false
+          field_body:
+            -
+              value: 'Working with Drupal starter is <strong>so much</strong> better than starting from scratch'
+              format: basic_html
+          field_image:
+            -
+              entity: 5770c310-d0e1-4ae9-84c0-852c32a1a69b
+          field_subtitle:
+            -
+              value: 'A wise person'
+    -
+      entity:
+        _meta:
+          version: '1.0'
+          entity_type: paragraph
+          uuid: 66ee5f8c-b0ce-4c1d-bdf9-a11903e6343e
+          bundle: documents
+          default_langcode: en
+        default:
+          status:
+            -
+              value: true
+          created:
+            -
+              value: 1686167785
+          behavior_settings:
+            -
+              value: {  }
+          revision_translation_affected:
+            -
+              value: true
+          content_translation_source:
+            -
+              value: und
+          content_translation_outdated:
+            -
+              value: false
+          field_body:
+            -
+              value: 'Checkout the following great documents'
+              format: basic_html
+          field_documents:
+            -
+              entity: 9c7d5c59-1cf0-4ce6-8f16-cb4cad76406f
+            -
+              entity: 693dea86-8bc7-455e-b113-918d3a8353cb
+            -
+              entity: 2dbe0924-95be-46f6-9293-643ad046c02b
+            -
+              entity: 711d4c28-2c02-4064-b78c-1480b9e66d8d
+          field_title:
+            -
+              value: 'My Documents'
+    -
+      entity:
+        _meta:
+          version: '1.0'
+          entity_type: paragraph
+          uuid: 0c9e817b-9234-4ab6-8668-d51c4c48a80f
+          bundle: accordion
+          default_langcode: en
+        default:
+          status:
+            -
+              value: true
+          created:
+            -
+              value: 1686167785
+          behavior_settings:
+            -
+              value: {  }
+          revision_translation_affected:
+            -
+              value: true
+          content_translation_source:
+            -
+              value: und
+          content_translation_outdated:
+            -
+              value: false
+          field_accordion_items:
+            -
+              entity:
+                _meta:
+                  version: '1.0'
+                  entity_type: paragraph
+                  uuid: c266ff38-71a1-4b3f-8317-941d79d6670f
+                  bundle: accordion_item
+                  default_langcode: en
+                default:
+                  status:
+                    -
+                      value: true
+                  created:
+                    -
+                      value: 1686167785
+                  behavior_settings:
+                    -
+                      value: {  }
+                  revision_translation_affected:
+                    -
+                      value: true
+                  content_translation_source:
+                    -
+                      value: und
+                  content_translation_outdated:
+                    -
+                      value: false
+                  field_body:
+                    -
+                      value: '<Strong>One morning</strong>, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections.'
+                      format: basic_html
+                  field_title:
+                    -
+                      value: 'How to build a Drupal website?'
+            -
+              entity:
+                _meta:
+                  version: '1.0'
+                  entity_type: paragraph
+                  uuid: 3dbfb1e4-0a09-42eb-9f37-6b54298e84c3
+                  bundle: accordion_item
+                  default_langcode: en
+                default:
+                  status:
+                    -
+                      value: true
+                  created:
+                    -
+                      value: 1686167785
+                  behavior_settings:
+                    -
+                      value: {  }
+                  revision_translation_affected:
+                    -
+                      value: true
+                  content_translation_source:
+                    -
+                      value: und
+                  content_translation_outdated:
+                    -
+                      value: false
+                  field_body:
+                    -
+                      value: 'The bedding was hardly able to cover it and seemed ready to slide off any moment. His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as he looked. What''s happened to me? " he thought. It wasn''t a dream. His room'
+                      format: basic_html
+                  field_title:
+                    -
+                      value: 'When should I learn about PEVB?'
+            -
+              entity:
+                _meta:
+                  version: '1.0'
+                  entity_type: paragraph
+                  uuid: 2409b8ba-c9ed-4107-838c-c18ec371ed5f
+                  bundle: accordion_item
+                  default_langcode: en
+                default:
+                  status:
+                    -
+                      value: true
+                  created:
+                    -
+                      value: 1686167785
+                  behavior_settings:
+                    -
+                      value: {  }
+                  revision_translation_affected:
+                    -
+                      value: true
+                  content_translation_source:
+                    -
+                      value: und
+                  content_translation_outdated:
+                    -
+                      value: false
+                  field_body:
+                    -
+                      value: 'A <strong>collection of textile</strong> samples lay spread out on the table - Samsa was a travelling salesman - and above it there hung a picture that he had recently cut out of an illustrated magazine and housed in a nice, gilded frame.'
+                      format: basic_html
+                  field_title:
+                    -
+                      value: 'Can everybody create a Pull request for this project?'
+          field_body:
+            -
+              value: 'Got <em>interesting</em> questions? Read below'
+              format: basic_html
+          field_title:
+            -
+              value: FAQ
+    -
+      entity:
+        _meta:
+          version: '1.0'
+          entity_type: paragraph
+          uuid: f356ca22-1afa-4d39-a114-372584b9b7d7
+          bundle: quick_links
+          default_langcode: en
+        default:
+          status:
+            -
+              value: true
+          created:
+            -
+              value: 1686167785
+          behavior_settings:
+            -
+              value: {  }
+          revision_translation_affected:
+            -
+              value: true
+          content_translation_source:
+            -
+              value: und
+          content_translation_outdated:
+            -
+              value: false
+          field_body:
+            -
+              value: 'Check our <em>super</em> quick links'
+              format: basic_html
+          field_quick_link_items:
+            -
+              entity:
+                _meta:
+                  version: '1.0'
+                  entity_type: paragraph
+                  uuid: 18816801-0bed-4ea9-bef1-f0c6692c1ced
+                  bundle: quick_link_item
+                  default_langcode: en
+                default:
+                  status:
+                    -
+                      value: true
+                  created:
+                    -
+                      value: 1686167785
+                  behavior_settings:
+                    -
+                      value: {  }
+                  revision_translation_affected:
+                    -
+                      value: true
+                  content_translation_source:
+                    -
+                      value: und
+                  content_translation_outdated:
+                    -
+                      value: false
+                  field_link:
+                    -
+                      uri: 'https://example.com'
+                      title: 'Join our community'
+                      options: {  }
+            -
+              entity:
+                _meta:
+                  version: '1.0'
+                  entity_type: paragraph
+                  uuid: 14acad56-ae93-4c05-b9d3-f168817323c9
+                  bundle: quick_link_item
+                  default_langcode: en
+                default:
+                  status:
+                    -
+                      value: true
+                  created:
+                    -
+                      value: 1686167785
+                  behavior_settings:
+                    -
+                      value: {  }
+                  revision_translation_affected:
+                    -
+                      value: true
+                  content_translation_source:
+                    -
+                      value: und
+                  content_translation_outdated:
+                    -
+                      value: false
+                  field_link:
+                    -
+                      uri: 'https://example.com'
+                      title: 'Learn Drupal'
+                      options: {  }
+                  field_subtitle:
+                    -
+                      value: 'It''s a great CMS'
+            -
+              entity:
+                _meta:
+                  version: '1.0'
+                  entity_type: paragraph
+                  uuid: 6896f940-0af9-4f13-910c-a905bc96dbf1
+                  bundle: quick_link_item
+                  default_langcode: en
+                default:
+                  status:
+                    -
+                      value: true
+                  created:
+                    -
+                      value: 1686167785
+                  behavior_settings:
+                    -
+                      value: {  }
+                  revision_translation_affected:
+                    -
+                      value: true
+                  content_translation_source:
+                    -
+                      value: und
+                  content_translation_outdated:
+                    -
+                      value: false
+                  field_link:
+                    -
+                      uri: 'https://example.com'
+                      title: 'Start with Drupal starter'
+                      options: {  }
+            -
+              entity:
+                _meta:
+                  version: '1.0'
+                  entity_type: paragraph
+                  uuid: 2467cea0-9e70-4225-b769-19eac8914845
+                  bundle: quick_link_item
+                  default_langcode: en
+                default:
+                  status:
+                    -
+                      value: true
+                  created:
+                    -
+                      value: 1686167785
+                  behavior_settings:
+                    -
+                      value: {  }
+                  revision_translation_affected:
+                    -
+                      value: true
+                  content_translation_source:
+                    -
+                      value: und
+                  content_translation_outdated:
+                    -
+                      value: false
+                  field_link:
+                    -
+                      uri: 'https://example.com'
+                      title: 'Learn to love PEVB'
+                      options: {  }
+          field_title:
+            -
+              value: 'Quick links'
