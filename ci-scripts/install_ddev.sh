@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -e
 
 echo "Logging into Docker Hub if the password is set"
 if [ -z "${DOCKER_PASSWORD}" ]; then
@@ -14,7 +13,13 @@ curl -s -L https://raw.githubusercontent.com/drud/ddev/master/scripts/install_dd
 echo "Configuring ddev."
 mkdir ~/.ddev
 cp "ci-scripts/global_config.yaml" ~/.ddev/
-docker network create ddev_default || ddev logs
 
-ddev composer install || ddev logs
+if ! docker network create ddev_default; then
+ddev logs
+  exit 1
+fi
 
+if ! ddev composer install; then
+  ddev logs
+  exit 1
+fi
