@@ -77,7 +77,7 @@ trait ElasticSearchTrait {
    *   The password of the ES admin user.
    * @param string|null $environment
    *   The environment ID. To test changes in the index config selectively.
-   * @param bool $needs_users_override
+   * @param bool|null $needs_users_override
    *   Set to TRUE to create a secrets.json file.
    *
    * @throws \Exception

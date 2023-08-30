@@ -27,6 +27,7 @@
         "bower-asset/fontawesome": "^6.4",
         "composer/installers": "^1.9",
         "cweagans/composer-patches": "^1.7",
+        "drupal/admin_toolbar": "^3.4",
         "drupal/advagg": "^6.0@alpha",
         "drupal/classy": "^1.0",
         "drupal/config_filter": "^2.4",

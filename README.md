@@ -171,7 +171,7 @@ To take a look, you can check these first:
 ## Tests
 
 For testing we use [Drupal Test Traits](https://medium.com/massgovdigital/introducing-drupal-test-traits-9fe09e84384c) (DTT), as it allows a very fast and convinent way of testing existing installation profiles.
-See the [example](https://github.com/Gizra/drupal8-starter/blob/master/web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralExampleTest.php) test.
+See the [example](https://github.com/Gizra/drupal-starter/blob/main/web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralExampleTest.php) test.
 
     # Run all tests
     ddev phpunit
@@ -189,6 +189,18 @@ example implementation. By extending the above base class you can also take scre
 `takeScreenshot()` method. This captures and saves the screenshot in `/web/sites/simpletest/screenshots`.
 **Note: You should not leave calls to `takeScreenshot` in the codebase when committing, this is meant only for
 local debugging purposes.**
+
+## Debugging
+
+## Visual Studio Code instructions
+
+1. Enable `xdebug` by running `ddev xdebug on`
+1. Copy `.vscode/launch.json.example` to `.vscode/launch.json`
+1. Run Visual Studio Code and load the project folder. `File -> Open Folder...`
+1. Enabled the debugger by selecting the command: `Debug: Start Debbuging`
+
+Check the [DDEV documentation](https://ddev.readthedocs.io/en/latest/users/debugging-profiling/step-debugging/)
+if you are using other IDE or want to know more about this feature.
 
 ## Deploy to Pantheon
 
