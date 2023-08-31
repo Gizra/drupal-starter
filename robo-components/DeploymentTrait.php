@@ -720,7 +720,7 @@ trait DeploymentTrait {
     }
     else {
       // Otherwise, just link the environment.
-      $quick_link = "https://" . $pantheon_info['name'] . "-" . $pantheon_environment . ".pantheonsite.io";
+      $quick_link = "https://" . $pantheon_environment . "-" . $pantheon_info['name'] . ".pantheonsite.io";
     }
 
     if (empty($issue_comment)) {
