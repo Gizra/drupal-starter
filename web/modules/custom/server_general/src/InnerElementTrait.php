@@ -216,6 +216,7 @@ trait InnerElementTrait {
 
     $element = $this->wrapTextFontWeight($header, 'bold');
     $element = $this->wrapTextResponsiveFontSize($element, '3xl');
+    $element = $this->wrapTextCenter($element);
     $elements[] = $element;
 
     $bottom_elements = [];
