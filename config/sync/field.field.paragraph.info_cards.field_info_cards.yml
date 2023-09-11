@@ -1,0 +1,76 @@
+uuid: 29de056b-c732-4044-b0da-fa5218d51205
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_info_cards
+    - paragraphs.paragraphs_type.info_card
+    - paragraphs.paragraphs_type.info_cards
+  module:
+    - entity_reference_revisions
+id: paragraph.info_cards.field_info_cards
+field_name: field_info_cards
+entity_type: paragraph
+bundle: info_cards
+label: 'Info cards'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      info_card: info_card
+    negate: 0
+    target_bundles_drag_drop:
+      accordion:
+        weight: 18
+        enabled: false
+      accordion_item:
+        weight: 19
+        enabled: false
+      cta:
+        weight: 20
+        enabled: false
+      documents:
+        weight: 21
+        enabled: false
+      hero_image:
+        weight: 22
+        enabled: false
+      info_card:
+        weight: 17
+        enabled: true
+      info_cards:
+        weight: 23
+        enabled: false
+      news_teasers:
+        weight: 24
+        enabled: false
+      people_teasers:
+        weight: 25
+        enabled: false
+      person_teaser:
+        weight: 26
+        enabled: false
+      quick_link_item:
+        weight: 28
+        enabled: false
+      quick_links:
+        weight: 27
+        enabled: false
+      quote:
+        weight: 29
+        enabled: false
+      related_content:
+        weight: 30
+        enabled: false
+      search:
+        weight: 31
+        enabled: false
+      text:
+        weight: 32
+        enabled: false
+field_type: entity_reference_revisions

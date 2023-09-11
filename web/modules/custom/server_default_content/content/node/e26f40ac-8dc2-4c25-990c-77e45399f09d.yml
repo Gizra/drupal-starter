@@ -1,0 +1,62 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: e26f40ac-8dc2-4c25-990c-77e45399f09d
+  bundle: news
+  default_langcode: en
+  depends:
+    49afcccd-7be9-4b3b-9bc5-0b56ed065fa0: user
+    20e0c193-81fb-4de1-a876-0986f5dde59a: media
+    3d7c7e0b-1322-42b5-8b3e-e83fd05adb63: taxonomy_term
+    e021e646-55ed-455b-add6-3e635008173b: taxonomy_term
+    36e37c28-d3d4-45df-88ba-0ef7f9e82fe4: taxonomy_term
+default:
+  revision_uid:
+    -
+      entity: 49afcccd-7be9-4b3b-9bc5-0b56ed065fa0
+  status:
+    -
+      value: true
+  uid:
+    -
+      entity: 49afcccd-7be9-4b3b-9bc5-0b56ed065fa0
+  title:
+    -
+      value: 'Li Europan lingues'
+  created:
+    -
+      value: 1686167785
+  promote:
+    -
+      value: true
+  sticky:
+    -
+      value: false
+  revision_translation_affected:
+    -
+      value: true
+  path:
+    -
+      alias: /news/li-europan-lingues
+      langcode: en
+      pathauto: 1
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  field_body:
+    -
+      value: '<p>Li Europan lingues es membres del sam familie. Lor separat existentie es un myth. Por scientie, musica, sport etc, litot Europa usa li sam vocabular. Li lingues differe solmen in li grammatica, li pronunciation e li plu commun vocabules. Omnicos directe al desirabilite de un nov lingua franca: On refusa continuar payar custosi traductores. At solmen va esser necessi far uniform grammatica, pronunciation e plu sommun paroles. Ma quande lingues coalesce, li grammatica del resultant lingue es plu simplic e regulari quam ti del coalescent lingues. Li nov lingua franca va esser plu simplic e regulari quam li existent Europan lingues.</p>  <p>It va esser tam simplic quam Occidental in fact, it va esser Occidental. A un Angleso it va semblar un simplificat Angles, quam un skeptic Cambridge amico dit me que Occidental es. Li Europan lingues es membres del sam familie. Lor separat existentie es un myth. Por scientie, musica, sport etc, litot Europa usa li sam vocabular. Li lingues differe solmen in li grammatica, li pronunciation e li plu commun vocabules. Omnicos directe al desirabilite de un nov lingua franca: On refusa continuar payar custosi traductores. At solmen va esser necessi far uniform grammatica, pronunciation e plu sommun paroles.</p>  <p>Ma quande lingues coalesce, li grammatica del resultant lingue es plu simplic e regulari quam ti del coalescent lingues. Li nov lingua franca va esser plu simplic e regulari quam li existent Europan lingues. It va esser tam simplic quam Occidental in fact, it va esser Occidental. A un Angleso it va semblar un simplificat Angles, quam un skeptic Cambridge amico dit me que Occidental es. Li Europan lingues es membres del sam familie. Lor separat existentie es un myth. Por scientie, musica, sport etc, litot Europa usa li sam vocabular. Li lingues differe solmen in li grammatica, li pronunciation e li plu commun vocabules.</p>'
+      format: basic_html
+  field_featured_image:
+    -
+      entity: 20e0c193-81fb-4de1-a876-0986f5dde59a
+  field_tags:
+    -
+      entity: 3d7c7e0b-1322-42b5-8b3e-e83fd05adb63
+    -
+      entity: e021e646-55ed-455b-add6-3e635008173b
+    -
+      entity: 36e37c28-d3d4-45df-88ba-0ef7f9e82fe4

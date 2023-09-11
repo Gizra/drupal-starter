@@ -1,0 +1,17 @@
+uuid: 18e0b01f-b218-469b-a027-3fce68860bd1
+langcode: en
+status: true
+dependencies:
+  module:
+    - focal_point
+name: quote_sm_1x
+label: 'Quote sm 1x (768x240)'
+effects:
+  99e6f34e-484a-4850-acd2-7fbae13a1881:
+    uuid: 99e6f34e-484a-4850-acd2-7fbae13a1881
+    id: focal_point_scale_and_crop
+    weight: 2
+    data:
+      width: 768
+      height: 240
+      crop_type: focal_point

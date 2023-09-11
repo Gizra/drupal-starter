@@ -1,0 +1,10 @@
+uuid: 2818ae0c-9898-4d68-a4e1-f9c242427596
+langcode: en
+status: true
+dependencies: {  }
+id: documents
+label: Documents
+icon_uuid: null
+icon_default: null
+description: 'Show a list of Media documents.'
+behavior_plugins: {  }

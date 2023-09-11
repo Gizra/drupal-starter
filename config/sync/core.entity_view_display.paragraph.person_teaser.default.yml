@@ -1,0 +1,40 @@
+uuid: 974a2fcf-8ec3-452f-aca6-a68d813eb6c8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.person_teaser.field_image
+    - field.field.paragraph.person_teaser.field_subtitle
+    - field.field.paragraph.person_teaser.field_title
+    - paragraphs.paragraphs_type.person_teaser
+id: paragraph.person_teaser.default
+targetEntityType: paragraph
+bundle: person_teaser
+mode: default
+content:
+  field_image:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_subtitle:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

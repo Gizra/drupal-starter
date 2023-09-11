@@ -1,0 +1,38 @@
+_meta:
+  version: '1.0'
+  entity_type: user
+  uuid: 11318276-1099-48d3-ae54-1e4746558d2e
+  default_langcode: en
+default:
+  preferred_langcode:
+    -
+      value: en
+  name:
+    -
+      value: AdminOne
+  pass:
+    -
+      value: U$S$Ernu.yu2.gkkgDDXaXZL.yjdzO8fxRpGLJs1lWGSAxBVhzE0yfvp
+      existing: ''
+      pre_hashed: false
+  mail:
+    -
+      value: admin_1@example.com
+  timezone:
+    -
+      value: UTC
+  status:
+    -
+      value: true
+  created:
+    -
+      value: 1686167785
+  access:
+    -
+      value: 0
+  login:
+    -
+      value: 0
+  roles:
+    -
+      target_id: administrator

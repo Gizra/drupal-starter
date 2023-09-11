@@ -1,0 +1,37 @@
+_meta:
+  version: '1.0'
+  entity_type: media
+  uuid: 8765a3d3-713b-4c71-996e-2f27f2dee3b2
+  bundle: image
+  default_langcode: en
+  depends:
+    41733c64-03e4-43a5-9780-c65a21040980: file
+default:
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 0
+  name:
+    -
+      value: 'Profile pic'
+  created:
+    -
+      value: 1686167785
+  revision_translation_affected:
+    -
+      value: true
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  field_media_image:
+    -
+      entity: 41733c64-03e4-43a5-9780-c65a21040980
+      alt: 'Profile pic'
+      title: ''
+      width: 500
+      height: 500

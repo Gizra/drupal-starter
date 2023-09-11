@@ -1,0 +1,22 @@
+id: paragraph_quick_link_item
+label: 'Paragraph quick_link item'
+migration_group: server
+migration_tags:
+  - default_content
+  - paragraph
+source:
+  plugin: csv
+  path: modules/custom/server_migrate/csv_files/paragraph_quick_link_item.csv
+  ids: ['_id']
+  header_offset: 0
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+  default_bundle: quick_link_item
+process:
+  type:
+    plugin: default_value
+    default_value: quick_link_item
+  field_link/title: _title
+  field_link/uri: _url
+  field_subtitle: _subtitle
+

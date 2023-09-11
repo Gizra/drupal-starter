@@ -1,8 +1,8 @@
 [![Build Status](https://app.travis-ci.com/Gizra/drupal-starter.svg?branch=main)](https://app.travis-ci.com/Gizra/drupal-starter)
 
-# Drupal 9 Starter
+# Drupal 10 Starter
 
-Starter repo for Drupal 9 development. This starter is an opinionated approach,
+Starter repo for Drupal 10 development. This starter is an opinionated approach,
 with the following concepts and tools:
 
 1. [ddev](https://ddev.readthedocs.io/) should be the only requirement, and
@@ -34,6 +34,45 @@ deployments. See more under ["Deploy to Pantheon"](#deploy-to-pantheon) section
 
 Once the Drupal installation is complete you can use `ddev login` to
 log in to the site as user 1 using your default browser.
+
+## Default content management
+
+This project uses `drupal/default_content` module to manage the installation
+(default) content. The following entity types are currently managed by the
+default_content module:
+
+- node
+- menu_link_content
+- block_content
+- taxonomy_term
+- user
+- media
+- file
+
+### Export new content
+
+If you wish to add new content to be installed on the next installation of the
+site, for example a node, follow these steps:
+
+1. Create the entity in the freshly installed site.
+2. Verify that it's complete and finalized for exporting.
+3. Get the new entity's UUID (you may wish to enable devel, or use `ddev mysql`)
+4. Add the new entity's UUID to `server_default_content.info.yml` under the correct
+   heading
+5. Enable `server_default_content` module
+6. Run `ddev drush dcem server_default_content`
+7. Check git, ensure the new yml file is created. Now simply commit the new file.
+
+### Updating existing content
+
+If you wish to update an existing default content then simply run the steps 5-7
+above. The only thing to be aware of is that the above steps use a mass export
+functionality of default_content module. If you wish to re-export only a single
+node without including the changes to other entities, there's a different drush
+command which allows you to export a single entity. However this method is not
+recommended, as things can get inconsistent and potentially out of sync.
+
+Please refer to the [Default content documentation](https://www.drupal.org/docs/contributed-modules/default-content-for-d8/overview)
 
 ## Theme Development
 
@@ -132,7 +171,7 @@ To take a look, you can check these first:
 ## Tests
 
 For testing we use [Drupal Test Traits](https://medium.com/massgovdigital/introducing-drupal-test-traits-9fe09e84384c) (DTT), as it allows a very fast and convinent way of testing existing installation profiles.
-See the [example](https://github.com/Gizra/drupal8-starter/blob/master/web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralExampleTest.php) test.
+See the [example](https://github.com/Gizra/drupal-starter/blob/main/web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralExampleTest.php) test.
 
     # Run all tests
     ddev phpunit
@@ -143,12 +182,61 @@ See the [example](https://github.com/Gizra/drupal8-starter/blob/master/web/modul
     # Run a single method from a test file.
     ddev phpunit --filter testHomepageCache web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralHomepageTest.php
 
+We also have capability to write tests which run on a headless chrome browser with
+Javascript capabilities. See [`Drupal\Tests\server_general\ExistingSite\ServerGeneralSelenium2TestBase`](https://github.com/Gizra/drupal-starter/blob/aa3c204dc7ac279964a694c675c35062c7fbcd9f/web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralSelenium2TestBase.php)
+for the test base, and [`Drupal\Tests\server_general\ExistingSite\ServerGeneralHomepageTest`](https://github.com/Gizra/drupal-starter/blob/aa3c204dc7ac279964a694c675c35062c7fbcd9f/web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralHomepageTest.php) for the
+example implementation. By extending the above base class you can also take screenshots using the
+`takeScreenshot()` method. This captures and saves the screenshot in `/web/sites/simpletest/screenshots`.
+**Note: You should not leave calls to `takeScreenshot` in the codebase when committing, this is meant only for
+local debugging purposes.**
+
+## Debugging
+
+## Visual Studio Code instructions
+
+1. Enable `xdebug` by running `ddev xdebug on`
+1. Copy `.vscode/launch.json.example` to `.vscode/launch.json`
+1. Run Visual Studio Code and load the project folder. `File -> Open Folder...`
+1. Enabled the debugger by selecting the command: `Debug: Start Debbuging`
+
+Check the [DDEV documentation](https://ddev.readthedocs.io/en/latest/users/debugging-profiling/step-debugging/)
+if you are using other IDE or want to know more about this feature.
+
 ## Deploy to Pantheon
 
 ### Pantheon Setup
 
 Follow the steps listed in `.ddev/providers/pantheon.yaml`.
 Make sure to add the correct site name under `environment_variables.project`.
+
+There's a Robo command to do the entire process of creating a new project:
+```
+ddev robo bootstrap:project <project_name> <github_repository_url> <terminus_token> <github_token> [<docker_mirror_url> [<http_basic_auth_user> [<http_basic_auth_password>]]]
+```
+See the details [here](https://github.com/Gizra/drupal-starter/blob/main/robo-components/BootstrapTrait.php).
+
+As this repository gets copied several times, for different projects, it gets tedious to port small fixes.
+For larger-scale changes, due to conflicts and per-project considerations, we need to apply
+changes manually., However for tiny, trivial changes, such as Travis fixes, we have the following tool:
+```
+# Go to the root of all the projects
+cd /home/user/your-projects
+# If no export is provided, command will ask entering manually the names.
+export REPOSITORIES=[client1 client2 client3]
+/path/to/starter/scripts/mass_patch.sh [gh_token_that_can_create_prs] /tmp/our-little-patch "PR title"
+```
+
+This must be executed natively (i.e. no inside `ddev ssh`).
+It will try to refresh the working copies there and apply the patch. If it succeeds, it opens
+a pull request in the destination repository.
+That provides a fast track to spread changes for those parts of the Starter Kit that typically
+remain unchanged after cloning (CI scripts, testing scripts, DDEV configuration and commands, and so on).
+
+You can also specify the repositories using a configuration file:
+```
+cp scripts/mass_patch.example.config.sh scripts/mass_patch.config.sh
+```
+Then edit `scripts/mass_patch.config.sh` and add the proper project names.
 
 #### Create your site
 
@@ -209,9 +297,13 @@ Deployments should imply a release, you can generate a release notes based on
 tags.
 In order to provide verbose release notes, it is required to [create a personal
 access token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token).
-Then specify two [new environment variables for DDEV web container](https://ddev.readthedocs.io/en/stable/users/extend/customization-extendibility/#providing-custom-environment-variables-to-a-container):
- - `GITHUB_USERNAME`
- - `GITHUB_ACCESS_TOKEN`
+At the token [creation page](https://github.com/settings/tokens/new), grant `repo` scope (all permissions) to the new token.
+
+To have the token for all projects in one step, you can edit the global DDEV configuration file:
+```bash
+ddev config global --web-environment-add="GITHUB_USERNAME=your_github_username"
+ddev config global --web-environment-add="GITHUB_ACCESS_TOKEN=your_github_access_token"
+```
 
 Then you can generate a changelog using
 
@@ -231,13 +323,38 @@ In order to deploy upon every merge automatically by Travis, you shall:
 1. Initiate QA (`qa` branch) multidev environment for the given project.
 1. Double-check if `./.ddev/providers/pantheon.yaml` contains the proper Pantheon project name.
 1. Get a [Pantheon machine token](https://pantheon.io/docs/machine-tokens) (using a dummy new Pantheon user ideally, one user per project for the sake of security)
-1. Get a GitHub Personal access token, it is needed for [Travis CLI to authenticate](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token). It will be used like this: `travis login --pro --github-token=`.
+1. Get a GitHub Personal access token, it is needed for [Travis CLI to authenticate](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token). It will be used like this: `travis login --pro --github-token=`. Also it will be used to post a comment to GitHub to the relevant issue when a merged PR is deployed, so set the expiry date far in the future enough for this.
 1. `ddev robo deploy:config-autodeploy [your terminus token] [your github token]`
 1. `git commit -m "Deployment secrets and configuration"`
 1. Add the public key in `travis-key.pub` to the newly created dummy [Pantheon user](https://pantheon.io/docs/ssh-keys)
+1. Actualize `public static string $githubProject = 'Gizra/the-client';` in the `RoboFile.php`.
 
 Optionally you can specify which target branch you'd like to push on Pantheon, by default it's `master`, so the target is the DEV environment, but alternatively you can issue:
 `ddev robo deploy:config-autodeploy [your terminus token] [your github token] [pantheon project name] [gh_branch] [pantheon_branch]`
+
+After you have automatic deployment for a project, you are able to deploy to Pantheon `test` and `live` using Git tags.
+`git tag 0.1.2` will imply a deployment to the `test` environment (and `dev` - as enforced by Pantheon).
+`git tag 0.1.2_live` will imply a deployment to `live`. In order to make it fast, you need to first create the tag that deploy to `test`, then you need to tag the same commit with a tag suffixed with `_live`.
+
+### Excluding Warnings in Deployment
+
+During deployment, Drupal status page warnings are [posted](https://github.com/Gizra/drupal-starter/blob/958cacc357e55b9bdf99d287cba69043236c673f/robo-components/DeploymentTrait.php#L449C19-L449C47) to GitHub as a comment. However, there might be some warnings
+that are deemed acceptable or are already acknowledged and do not need to be posted.  To maintain a cleaner feedback
+loop, you can maintain an exclude list to filter out these acceptable warnings.
+
+To set up an exclude list:
+
+In your .travis.yml, set the `DEPLOY_EXCLUDE_WARNING` environment variable with a list of warnings to exclude.
+The warning names should be separated by a | character.
+
+Example:
+```yml
+env:
+global:
+- DEPLOY_EXCLUDE_WARNING="Search API|Server Search ElasticSearch Credentials"
+```
+
+The deployment script will read this environment variable and exclude the specified warnings when posting to GitHub.
 
 ## Pulling DB & Files From Pantheon
 
@@ -259,9 +376,12 @@ There are existing migrations that help setup a typical site, and act as an
 example. Whenever working on the migration, and changing their configuration
 you will need to re-sync the config, and re-run the migrations.
 
+    ddev drush en server_migrate -y
     ddev drush config-import --partial --source=modules/custom/server_migrate/config/install/ -y
     ddev drush migrate:rollback --all
     ddev drush migrate:import --group server
+    # Set the homepage.
+    ddev drush set-homepage
 
 ## Flood Control
 
@@ -287,3 +407,93 @@ ddev ddev-flood-flush 193.165.2.3
 ```
 
 Purges entries related to IP `193.165.2.3` from Pantheon's `test` environment, or alternatively from DDEV's own Redis.
+
+
+## Importing/Exporting translations
+
+There are 2 types of translations that we manage in this site by code. These are:
+
+- UI translations
+- Config translations
+
+### UI translations
+
+UI translations are strings that pass through `TranslatableMarkup` basically. They are defined mostly in twig files and
+in PHP classes. The UI translations files are in `config/po_files` directory:
+
+- `ar.po`
+- `es.po`
+
+#### Exporting UI translations
+
+When new translatable strings are added, a dev should:
+
+- Enable potx module `ddev drush en potx`
+- Export the translation strings from the file. For example, if you added a new string in server_general.module:
+  - `drush potx --files modules/server_general/server_general.module`
+  - Open `web/general.pot` file, copy the new translatable string you added and paste it into each language po file.
+- Provide the updated po file to the translators.
+
+Once these are translated by translators and provided back to devs, devs will need to simply commit the changes.
+
+#### Importing UI translations
+
+These files are imported automatically on deploys to Pantheon. And on ddev if you have `exec: robo locale:import` in
+your ddev's `config.local.yaml` they will be imported on ddev start.
+
+To run the import manually on ddev: `ddev robo locale:import`.
+
+### Config translations
+
+Config translations are for translating config entities, such as a Node Type. The Config translations files are in
+`config/po_files` directory and the file names end with `_config`:
+
+- `ar_config.po`
+- `es_config.po`
+
+#### Exporting Config translations
+
+When new modules are installed, or new configuration is added to the site, a dev should re-export the config
+translations and provide it to a translator for updating.
+
+First you must identify the strings which will need to be added to the list of translatable config strings.
+To do this simply update the `managed-config.txt` file and add the config name (without the `.yml`) followed by a colon
+and the config key that you want to translate. For example, to add "News" node type's bundle label to the list,
+simply add `node.type.news:name` to the file in a new line.
+
+Then you need to run `ddev robo locale:export-from-config` which will update the config po files.
+
+#### Importing Config translations
+
+These files are __*not*__ imported automatically. When a dev receives updated `*_config.po` file, they need to manually
+import the po file.
+
+To import the config translations:
+
+- Run `ddev robo locale:import-to-config`
+- Run `ddev drush config:export`
+- Review & commit the config changes
+
+## Two-factor Authentication (TFA)
+
+TFA is enabled for the Administrator and Content editor users.
+The default settings under `/admin/config/people/tfa` define "Skip Validation" is 1. That is,
+when a privileged user will login, they must enable their TFA. Otherwise, on a second
+login, they will already be blocked. A site admin may reset their validation tries
+under the `/admin/people` page.
+The TFA method that is enabled is one that uses Google authenticator (or similar).
+
+
+## Multidev environment and search
+
+We often need to create a new Pantheon environment,  along with its own Elasticsearch index.
+Sometimes we need search in those environments.
+
+Steps to cover this use case:
+1. Look up the ElasticSearch server URL and credentials.
+1. If present, remove `$site . '.es.secrets.json'` file from the repository root (backup it before)
+1. `ddev robo elasticsearch:provision [url] [user] [password] [newenvironment] true` - use the `elastic` super-user for this operation. It will do the index and user creation on ElasticSearch side, `newenvironment` is the new Pantheon environment machine name. See `ddev robo elasticsearch:provision --help` for usage.
+1. Copy the resulting `$site . '.es.secrets.json'` file in the GitHub repository root to `.pantheon/config/elasticsearch` directory, only in the branch that is the target of the auto-deployment for `newenvironment`.
+1. Test if ElasticSearch connector has a connection to the new index.
+1. Do a `sapi-c` and `sapi-i` on the new Pantheon multidev.
+1. You might want to check if the new index contains items. Go to `[ES server URL]/_cat/indices`, you will see how much data the new index holds.

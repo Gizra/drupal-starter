@@ -1,0 +1,9 @@
+{% embed '@server_theme/server-theme-carousel-base.html.twig' %}
+  {% set dots = 'true' %}
+  {% if is_featured %}
+    {% set slides_laptop = 1 %}
+    {% set slides_tablet = 1 %}
+    {% set slides_desktop = 1 %}
+  {% endif %}
+{% endembed %}
+

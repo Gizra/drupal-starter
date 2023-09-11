@@ -1,0 +1,75 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2023-01-27 17:31+0000\n"
+"PO-Revision-Date: 2023-01-27 17:31+0000\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: modules/custom/server_general/src/ButtonTrait.php:92
+msgid "Download"
+msgstr "Descargar"
+
+#: modules/custom/server_general/src/InnerElementTrait.php:127;167 modules/custom/server_general/src/Plugin/EntityViewBuilder/NodeNews.php:215
+msgid "News"
+msgstr "Noticias"
+
+#: modules/custom/server_general/src/InnerElementTrait.php:184
+msgid "Read more"
+msgstr "Leer más"
+
+#: modules/custom/server_general/src/MediaVideoTrait.php:54
+msgid "Video frame for @url"
+msgstr "Marco de video para @url"
+
+#: themes/custom/server_theme/templates/html.html.twig:49
+msgid "Skip to main content"
+msgstr "Saltar al contenido principal"
+
+#: themes/custom/server_theme/templates/menu-local-tasks.html.twig:17
+msgid "Primary tabs"
+msgstr "Pestañas principales"
+
+#: themes/custom/server_theme/templates/menu-local-tasks.html.twig:23
+msgid "Secondary tabs"
+msgstr "Pestañas secundarias"
+
+#: themes/custom/server_theme/templates/server-theme-facets-title.html.twig:5
+msgid "Filters"
+msgstr "Filtros"
+
+#: themes/custom/server_theme/templates/server-theme-facets-title.html.twig:12
+msgid "Clear filters"
+msgstr "Borrar filtros"
+
+#: themes/custom/server_theme/templates/server-theme-footer.html.twig:2
+msgid "Share on @name"
+msgstr "Compartir en @name"
+
+#: themes/custom/server_theme/templates/server-theme-header.html.twig:21
+msgid "Menu"
+msgstr "Menú"
+
+#: themes/custom/server_theme/templates/server-theme-search-term.html.twig:2
+msgid "Search results for: @search_term"
+msgstr "Resultados de búsqueda para: @search_term"
+
+#: themes/custom/server_theme/templates/server-theme-search.html.twig:4;5
+msgid "Search"
+msgstr "Buscar"
+
+#: themes/custom/server_theme/templates/server-theme-search.html.twig:9
+msgid "Search icon"
+msgstr "Icono de búsqueda"
+
+#: themes/custom/server_theme/templates/facets/facets-item-list.html.twig:48
+msgid "Filter by @title"
+msgstr "Filtrar por @title"
+
+#: themes/custom/server_theme/templates/facets/facets-item-list.html.twig:66
+msgid "Facet"
+msgstr "Faceta"

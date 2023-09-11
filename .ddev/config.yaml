@@ -1,7 +1,7 @@
 name: drupal-starter
-type: drupal9
+type: drupal10
 docroot: web
-php_version: "8.0"
+php_version: "8.1"
 webserver_type: nginx-fpm
 router_http_port: "8880"
 router_https_port: "4443"
@@ -13,7 +13,7 @@ mysql_version: ""
 nfs_mount_enabled: false
 mutagen_enabled: false
 use_dns_when_possible: true
-composer_version: "2.4.4"
+composer_version: "2"
 web_environment:
   - COMPOSER_EXIT_ON_PATCH_FAILURE=1
 

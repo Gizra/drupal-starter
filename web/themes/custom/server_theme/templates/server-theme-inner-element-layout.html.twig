@@ -1,0 +1,7 @@
+{% import '@server_theme/templates/server-theme-bg-color-base.html.twig' as bgColorBase %}
+{% import '@server_theme/templates/server-theme-inner-element-layout-base.html.twig' as base %}
+
+
+<div class="{{ base.getBaseClasses() }} {{ bgColorBase.getBgColor(bg_color) }} p-6 md:px-8">
+  {{ items }}
+</div>

@@ -1,0 +1,17 @@
+uuid: 78b479d6-b687-4998-98bc-5da77b410921
+langcode: en
+status: true
+dependencies:
+  module:
+    - focal_point
+name: quote_mobile_2x
+label: 'Quote mobile 2x (1280x400)'
+effects:
+  81b089b0-c819-4b35-83d8-db2e3529d111:
+    uuid: 81b089b0-c819-4b35-83d8-db2e3529d111
+    id: focal_point_scale_and_crop
+    weight: 2
+    data:
+      width: 1280
+      height: 400
+      crop_type: focal_point

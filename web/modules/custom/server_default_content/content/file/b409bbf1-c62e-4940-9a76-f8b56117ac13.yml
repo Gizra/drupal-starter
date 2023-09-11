@@ -1,0 +1,24 @@
+_meta:
+  version: '1.0'
+  entity_type: file
+  uuid: b409bbf1-c62e-4940-9a76-f8b56117ac13
+  default_langcode: en
+default:
+  filename:
+    -
+      value: dog-800x533_55.jpg
+  uri:
+    -
+      value: 'public://dog-800x533_55.jpg'
+  filemime:
+    -
+      value: image/jpeg
+  filesize:
+    -
+      value: 70524
+  status:
+    -
+      value: true
+  created:
+    -
+      value: 1686167785

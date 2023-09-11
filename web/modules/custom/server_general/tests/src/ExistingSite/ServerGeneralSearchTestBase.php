@@ -5,12 +5,11 @@ declare(strict_types = 1);
 namespace Drupal\Tests\server_general\ExistingSite;
 
 use Drupal\Tests\search_api\Kernel\PostRequestIndexingTrait;
-use weitzman\DrupalTestTraits\ExistingSiteBase;
 
 /**
  * Base class for search tests involving ElasticSearch and Search API.
  */
-class ServerGeneralSearchTestBase extends ExistingSiteBase {
+class ServerGeneralSearchTestBase extends ServerGeneralTestBase {
 
   use PostRequestIndexingTrait;
 

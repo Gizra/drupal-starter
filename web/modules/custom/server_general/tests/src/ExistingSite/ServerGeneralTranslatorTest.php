@@ -5,12 +5,11 @@ namespace Drupal\Tests\server_general\ExistingSite;
 use Drupal\taxonomy\Entity\Vocabulary;
 use Symfony\Component\HttpFoundation\Response;
 use weitzman\DrupalTestTraits\Entity\MediaCreationTrait;
-use weitzman\DrupalTestTraits\ExistingSiteBase;
 
 /**
  * Test for Translator role.
  */
-class ServerGeneralTranslatorTest extends ExistingSiteBase {
+class ServerGeneralTranslatorTest extends ServerGeneralTestBase {
 
   use MediaCreationTrait;
 
@@ -24,7 +23,7 @@ class ServerGeneralTranslatorTest extends ExistingSiteBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
     $user = $this->createUser();
     $user->addRole('translator');

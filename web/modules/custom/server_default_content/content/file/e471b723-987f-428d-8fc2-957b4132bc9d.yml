@@ -1,0 +1,24 @@
+_meta:
+  version: '1.0'
+  entity_type: file
+  uuid: e471b723-987f-428d-8fc2-957b4132bc9d
+  default_langcode: en
+default:
+  filename:
+    -
+      value: profile-1-600x600_1.jpg
+  uri:
+    -
+      value: 'public://profile-1-600x600_1.jpg'
+  filemime:
+    -
+      value: image/jpeg
+  filesize:
+    -
+      value: 43421
+  status:
+    -
+      value: true
+  created:
+    -
+      value: 1686167785

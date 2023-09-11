@@ -1,0 +1,34 @@
+id: paragraph_person_teaser
+label: 'Paragraph person teaser'
+migration_group: server
+migration_tags:
+  - default_content
+  - paragraph
+source:
+  plugin: csv
+  path: modules/custom/server_migrate/csv_files/paragraph_person_teaser.csv
+  ids: ['_id']
+  header_offset: 0
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+  default_bundle: person_teaser
+process:
+  type:
+    plugin: default_value
+    default_value: person_teaser
+  field_title: _title
+  field_subtitle: _subtitle
+  field_image:
+    - plugin: skip_on_empty
+      method: process
+      source: _media_image
+    - plugin: explode
+      delimiter: '|'
+    - plugin: migration_lookup
+      migration:
+        - media_image
+      no_stub: true
+
+migration_dependencies:
+  required:
+    - media_image

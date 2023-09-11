@@ -13,7 +13,7 @@
   Drupal.behaviors.toggleMobileMenuVisibility = {
     attach: function (context, settings) {
       // Toggles visibility for mobile menu with hamburger.
-      $('.js-hide-mobile-menu-trigger', context).once('hide-mobile-menu').click(function () {
+      $(once('hide-mobile-menu', '.js-hide-mobile-menu-trigger', context)).click(function () {
         $('.js-hide-mobile-menu')
           .toggleClass('hidden')
           .toggleClass('flex');

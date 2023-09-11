@@ -1,0 +1,10 @@
+uuid: 652a0671-abf9-49e9-8a82-a55a3aa930e4
+langcode: en
+status: true
+dependencies: {  }
+id: quick_link_item
+label: 'Quick link item'
+icon_uuid: null
+icon_default: null
+description: 'A single Quick link.'
+behavior_plugins: {  }

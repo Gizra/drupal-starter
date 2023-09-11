@@ -1,0 +1,17 @@
+uuid: d8b9c4ce-5986-44a6-a0bb-a8f92fbaa0c1
+langcode: en
+status: true
+dependencies:
+  module:
+    - focal_point
+name: quote_md_2x
+label: 'Quote md 2x (1024x640)'
+effects:
+  282fd3ba-ff15-4121-91d0-9ce30ac48101:
+    uuid: 282fd3ba-ff15-4121-91d0-9ce30ac48101
+    id: focal_point_scale_and_crop
+    weight: 2
+    data:
+      width: 1024
+      height: 640
+      crop_type: focal_point

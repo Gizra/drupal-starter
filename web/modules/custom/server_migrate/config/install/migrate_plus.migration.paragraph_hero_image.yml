@@ -1,0 +1,36 @@
+id: paragraph_hero_image
+label: 'Paragraph hero image'
+migration_group: server
+migration_tags:
+  - default_content
+  - paragraph
+source:
+  plugin: csv
+  path: modules/custom/server_migrate/csv_files/paragraph_hero_image.csv
+  ids: ['_id']
+  header_offset: 0
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+  default_bundle: hero_image
+process:
+  type:
+    plugin: default_value
+    default_value: hero_image
+  field_title: _title
+  field_subtitle: _subtitle
+  field_image:
+    - plugin: skip_on_empty
+      method: process
+      source: _media_image
+    - plugin: explode
+      delimiter: '|'
+    - plugin: migration_lookup
+      migration:
+        - media_image
+      no_stub: true
+  field_link/uri: _url
+  field_link/title: _url_title
+
+migration_dependencies:
+  required:
+    - media_image

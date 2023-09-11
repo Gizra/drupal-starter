@@ -1,0 +1,7 @@
+{
+  "js": {
+    "mangle": {
+      "reserved": ["Drupal"]
+    }
+  }
+}

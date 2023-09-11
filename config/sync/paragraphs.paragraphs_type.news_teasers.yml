@@ -1,0 +1,10 @@
+uuid: 75080418-4770-4a82-8887-70b4019f561a
+langcode: en
+status: true
+dependencies: {  }
+id: news_teasers
+label: 'News teasers'
+icon_uuid: null
+icon_default: null
+description: 'Show News teasers as a grid of cards.'
+behavior_plugins: {  }

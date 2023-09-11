@@ -71,7 +71,8 @@ field_settings:
     label: Title
     datasource_id: 'entity:node'
     property_path: title
-    type: string
+    type: text
+    boost: !!float 3
     dependencies:
       module:
         - node
@@ -115,27 +116,6 @@ processor_settings:
   entity_type: {  }
   language_with_fallback: {  }
   rendered_item: {  }
-  stemmer:
-    weights:
-      preprocess_index: 0
-      preprocess_query: 0
-    all_fields: true
-    fields:
-      - field_body
-    exceptions:
-      mexican: mexic
-      texan: texa
-  tokenizer:
-    weights:
-      preprocess_index: -6
-      preprocess_query: -6
-    all_fields: true
-    fields:
-      - field_body
-    spaces: ''
-    ignored: ._-
-    overlap_cjk: 1
-    minimum_word_size: '3'
 tracker_settings:
   default:
     indexing_order: fifo

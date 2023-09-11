@@ -1,0 +1,24 @@
+_meta:
+  version: '1.0'
+  entity_type: file
+  uuid: 41733c64-03e4-43a5-9780-c65a21040980
+  default_langcode: en
+default:
+  filename:
+    -
+      value: profile-3-500x500_1.jpg
+  uri:
+    -
+      value: 'public://profile-3-500x500_1.jpg'
+  filemime:
+    -
+      value: image/jpeg
+  filesize:
+    -
+      value: 31495
+  status:
+    -
+      value: true
+  created:
+    -
+      value: 1686167785

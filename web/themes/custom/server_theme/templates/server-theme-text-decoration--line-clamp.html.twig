@@ -1,0 +1,13 @@
+{% if lines == '1' %}
+  {% set lines_class = 'line-clamp-1' %}
+{% elseif lines == '2' %}
+  {% set lines_class = 'line-clamp-2' %}
+{% elseif lines == '3' %}
+  {% set lines_class = 'line-clamp-3' %}
+{% elseif lines == '4' %}
+  {% set lines_class = 'line-clamp-4' %}
+{% endif %}
+
+<div class="{{ lines_class }}">
+  {{ element }}
+</div>

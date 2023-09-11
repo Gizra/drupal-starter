@@ -1,0 +1,7 @@
+translation:
+  default_filename: '%project-%version.%language.po'
+  overwrite_customized: false
+  overwrite_not_customized: false
+  path: sites/default/files/translations
+  update_interval_days: 0
+  use_source: local

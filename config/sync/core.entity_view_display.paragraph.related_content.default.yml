@@ -3,17 +3,37 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.related_content.field_body
+    - field.field.paragraph.related_content.field_is_featured
     - field.field.paragraph.related_content.field_link
     - field.field.paragraph.related_content.field_related_content
     - field.field.paragraph.related_content.field_title
     - paragraphs.paragraphs_type.related_content
   module:
     - link
+    - text
 id: paragraph.related_content.default
 targetEntityType: paragraph
 bundle: related_content
 mode: default
 content:
+  field_body:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_is_featured:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 3
+    region: content
   field_link:
     type: link
     label: above

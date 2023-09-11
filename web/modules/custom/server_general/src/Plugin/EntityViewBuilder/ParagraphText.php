@@ -4,7 +4,7 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
-use Drupal\server_general\ElementWrapTrait;
+use Drupal\server_general\ElementTrait;
 use Drupal\server_general\ProcessedTextBuilderTrait;
 
 /**
@@ -18,8 +18,8 @@ use Drupal\server_general\ProcessedTextBuilderTrait;
  */
 class ParagraphText extends EntityViewBuilderPluginAbstract {
 
-  use ElementWrapTrait;
   use ProcessedTextBuilderTrait;
+  use ElementTrait;
 
   /**
    * Build full view mode.
@@ -33,14 +33,12 @@ class ParagraphText extends EntityViewBuilderPluginAbstract {
    *   Render array.
    */
   public function buildFull(array $build, ParagraphInterface $entity): array {
-    $element[] = [
-      '#theme' => 'server_theme_paragraph__text',
-      '#title' => $this->getTextFieldValue($entity, 'field_title'),
-      '#body' => $this->buildProcessedText($entity, 'field_body'),
-    ];
+    $element = $this->buildElementParagraphTitleAndText(
+      $this->getTextFieldValue($entity, 'field_title'),
+      $this->buildProcessedText($entity, 'field_body'),
+    );
 
-    $build[] = $this->wrapContainerWide($element);
-
+    $build[] = $element;
     return $build;
   }
 

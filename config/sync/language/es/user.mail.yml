@@ -1,4 +1,0 @@
-cancel_confirm:
-  subject: 'طلب إلغاء الحساب لـ [user:display-name] على [site:name]'
-register_admin_created:
-  subject: 'أنشأ مدير حساب لك في [site:name]'

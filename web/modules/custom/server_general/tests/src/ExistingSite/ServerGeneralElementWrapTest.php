@@ -3,7 +3,6 @@
 namespace Drupal\Tests\server_general\ExistingSite;
 
 use Drupal\server_general\ElementWrapTrait;
-use weitzman\DrupalTestTraits\ExistingSiteBase;
 
 /**
  * ElementWrapTrait tests.
@@ -11,7 +10,7 @@ use weitzman\DrupalTestTraits\ExistingSiteBase;
  * Could have been a functional test, but we already have everything setup, so
  * easier to write it as `ExistingSite` test.
  */
-class ServerGeneralElementWrapTest extends ExistingSiteBase {
+class ServerGeneralElementWrapTest extends ServerGeneralTestBase {
 
   use ElementWrapTrait;
 
@@ -28,9 +27,13 @@ class ServerGeneralElementWrapTest extends ExistingSiteBase {
     // Non-nested array.
     $element = [
       '#foo' => FALSE,
+      0 => FALSE,
+      '' => FALSE,
     ];
     $expected = [
       '#foo' => FALSE,
+      0 => FALSE,
+      '' => FALSE,
     ];
     $result = $this->filterEmptyElements($element);
     $this->assertEquals($expected, $result);
@@ -40,10 +43,12 @@ class ServerGeneralElementWrapTest extends ExistingSiteBase {
     $element = [
       '#foo' => FALSE,
       0 => [],
+      '' => [],
     ];
     $expected = [
       '#foo' => FALSE,
       0 => [],
+      '' => [],
     ];
     $result = $this->filterEmptyElements($element);
     $this->assertEquals($expected, $result);
@@ -52,6 +57,7 @@ class ServerGeneralElementWrapTest extends ExistingSiteBase {
     $element = [
       0 => [],
       1 => [],
+      '' => [],
     ];
     $expected = [];
     $result = $this->filterEmptyElements($element);
@@ -61,6 +67,7 @@ class ServerGeneralElementWrapTest extends ExistingSiteBase {
     $element = [
       0 => [],
       1 => ['#foo' => FALSE],
+      '' => [],
     ];
     $expected = [
       1 => ['#foo' => FALSE],

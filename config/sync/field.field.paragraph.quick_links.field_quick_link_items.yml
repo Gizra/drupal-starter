@@ -1,0 +1,55 @@
+uuid: 7a647257-82df-4e28-85b7-5aa1d953323c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_quick_link_items
+    - paragraphs.paragraphs_type.quick_link_item
+    - paragraphs.paragraphs_type.quick_links
+  module:
+    - entity_reference_revisions
+id: paragraph.quick_links.field_quick_link_items
+field_name: field_quick_link_items
+entity_type: paragraph
+bundle: quick_links
+label: 'Quick link items'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      quick_link_item: quick_link_item
+    negate: 0
+    target_bundles_drag_drop:
+      cta:
+        weight: 11
+        enabled: false
+      documents:
+        weight: 12
+        enabled: false
+      hero_image:
+        weight: 13
+        enabled: false
+      news_teasers:
+        weight: 14
+        enabled: false
+      quick_link_item:
+        weight: 15
+        enabled: true
+      quick_links:
+        weight: 10
+        enabled: false
+      related_content:
+        weight: 16
+        enabled: false
+      search:
+        weight: 17
+        enabled: false
+      text:
+        weight: 18
+        enabled: false
+field_type: entity_reference_revisions

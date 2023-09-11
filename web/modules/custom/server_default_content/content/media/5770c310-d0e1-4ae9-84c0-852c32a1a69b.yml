@@ -1,0 +1,37 @@
+_meta:
+  version: '1.0'
+  entity_type: media
+  uuid: 5770c310-d0e1-4ae9-84c0-852c32a1a69b
+  bundle: image
+  default_langcode: en
+  depends:
+    88a3c978-9a56-4f76-be86-63f8c5334ff4: file
+default:
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 0
+  name:
+    -
+      value: Benches
+  created:
+    -
+      value: 1686167785
+  revision_translation_affected:
+    -
+      value: true
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  field_media_image:
+    -
+      entity: 88a3c978-9a56-4f76-be86-63f8c5334ff4
+      alt: Benches
+      title: ''
+      width: 800
+      height: 600

@@ -15,6 +15,26 @@ global-scripts:
   dependencies:
     - core/jquery
     - core/drupal
+    - core/once
+    - server_theme/anchor
+
+
+# "View more" button.
+view-more:
+  js:
+    dist/js/view-more.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/once
+
+accordion:
+  js:
+    dist/js/accordion.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/once
 
 roboto:
   css:
@@ -27,15 +47,9 @@ opensans:
       '//fonts.googleapis.com/css?family=Open+Sans:400,400i,700': { external: true }
 
 font-awesome:
-  remote: https://fortawesome.github.io/Font-Awesome/
-  version: 6.2.0
-  license:
-    name: MIT
-    url: https://fortawesome.github.io/Font-Awesome/license/
-    gpl-compatible: true
   css:
     theme:
-      https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css: { type: external, minified: true }
+      /libraries/fontawesome/css/all.min.css: {}
 
 slick:
   js:
@@ -49,3 +63,10 @@ slick:
       /libraries/slick-carousel/slick/slick-theme.css: { weight: -9 }
   dependencies:
     - core/jquery
+
+# Add anchors to headings.
+anchor:
+  js:
+    /libraries/anchor-js/anchor.min.js: {}
+  dependencies:
+    - core/drupal

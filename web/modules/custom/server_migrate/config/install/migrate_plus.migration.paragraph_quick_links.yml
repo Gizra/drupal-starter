@@ -1,0 +1,41 @@
+id: paragraph_quick_links
+label: 'Paragraph quick_links'
+migration_group: server
+migration_tags:
+  - default_content
+  - paragraph
+source:
+  plugin: csv
+  path: modules/custom/server_migrate/csv_files/paragraph_quick_links.csv
+  ids: ['_id']
+  header_offset: 0
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+  default_bundle: quick_links
+process:
+  type:
+    plugin: default_value
+    default_value: quick_links
+  field_title: _title
+  field_body/value: _body
+  field_body/format:
+    plugin: default_value
+    default_value: basic_html
+  field_quick_link_items:
+    - plugin: skip_on_empty
+      method: process
+      source: _items
+    - plugin: explode
+      delimiter: '|'
+    - plugin: migration_lookup
+      migration:
+        - paragraph_quick_link_item
+      no_stub: true
+    - plugin: sub_process
+      process:
+        target_id: '0'
+        target_revision_id: '1'
+
+migration_dependencies:
+  required:
+    - paragraph_quick_link_item

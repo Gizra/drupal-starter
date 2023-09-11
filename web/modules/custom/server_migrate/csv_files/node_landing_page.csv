@@ -1,0 +1,3 @@
+_id,_title,_is_title_hidden,_uid,_items,_alias
+1,Homepage,1,1,hero_image_1|cta_1|related_content_1|info_cards_1|news_teasers_1|people_teasers_1|quote_1|documents_1|accordion_1|quick_links_1,/homepage
+2,Search,1,1,search_1,/search

@@ -1,0 +1,55 @@
+uuid: 71998286-15cf-4fbe-87dc-49761487f24b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_accordion_items
+    - paragraphs.paragraphs_type.accordion
+    - paragraphs.paragraphs_type.accordion_item
+  module:
+    - entity_reference_revisions
+id: paragraph.accordion.field_accordion_items
+field_name: field_accordion_items
+entity_type: paragraph
+bundle: accordion
+label: 'Accordion items'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      accordion_item: accordion_item
+    negate: 0
+    target_bundles_drag_drop:
+      accordion:
+        weight: 10
+        enabled: false
+      accordion_item:
+        weight: 11
+        enabled: true
+      cta:
+        weight: 12
+        enabled: false
+      documents:
+        weight: 13
+        enabled: false
+      hero_image:
+        weight: 14
+        enabled: false
+      news_teasers:
+        weight: 15
+        enabled: false
+      related_content:
+        weight: 16
+        enabled: false
+      search:
+        weight: 17
+        enabled: false
+      text:
+        weight: 18
+        enabled: false
+field_type: entity_reference_revisions

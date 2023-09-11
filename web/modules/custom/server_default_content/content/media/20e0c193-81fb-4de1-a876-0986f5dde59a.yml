@@ -1,0 +1,37 @@
+_meta:
+  version: '1.0'
+  entity_type: media
+  uuid: 20e0c193-81fb-4de1-a876-0986f5dde59a
+  bundle: image
+  default_langcode: en
+  depends:
+    419a7df5-25a3-4f9a-8b7f-2e382f3b6d20: file
+default:
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 0
+  name:
+    -
+      value: 'Statue of Liberty'
+  created:
+    -
+      value: 1686167785
+  revision_translation_affected:
+    -
+      value: true
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  field_media_image:
+    -
+      entity: 419a7df5-25a3-4f9a-8b7f-2e382f3b6d20
+      alt: 'Statue of Liberty'
+      title: ''
+      width: 800
+      height: 600

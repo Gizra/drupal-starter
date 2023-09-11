@@ -1,0 +1,24 @@
+_meta:
+  version: '1.0'
+  entity_type: file
+  uuid: 72ef50cf-b600-4e6e-9fa2-87b5067b288a
+  default_langcode: en
+default:
+  filename:
+    -
+      value: skyline-1600x900_55.jpg
+  uri:
+    -
+      value: 'public://skyline-1600x900_55.jpg'
+  filemime:
+    -
+      value: image/jpeg
+  filesize:
+    -
+      value: 35340
+  status:
+    -
+      value: true
+  created:
+    -
+      value: 1686167785

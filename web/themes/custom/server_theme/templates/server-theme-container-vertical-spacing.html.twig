@@ -1,3 +1,10 @@
-<div class="flex flex-col gap-y-3 md:gap-y-5">
+{% set classes = [
+  'flex flex-col gap-y-3 md:gap-y-5',
+  align == 'start' ? 'items-start',
+  align == 'center' ? 'items-center',
+  align == 'end' ? 'items-end',
+] | join(' ') | trim %}
+
+<div class="{{ classes }}">
   {{ items }}
 </div>

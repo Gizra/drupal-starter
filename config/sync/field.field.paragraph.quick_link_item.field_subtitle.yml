@@ -1,0 +1,19 @@
+uuid: 144ce8d6-34f1-4b77-8795-315c589be021
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_subtitle
+    - paragraphs.paragraphs_type.quick_link_item
+id: paragraph.quick_link_item.field_subtitle
+field_name: field_subtitle
+entity_type: paragraph
+bundle: quick_link_item
+label: Subtitle
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

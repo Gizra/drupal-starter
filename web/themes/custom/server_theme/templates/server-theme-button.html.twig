@@ -8,13 +8,13 @@
 {% endmacro %}
 
 {% set classes = [
-  'flex flex-row items-center space-x-6 rounded-lg px-6 py-3 text-xl border-2 border-blue-500 hover:bg-blue-600 w-fit',
+  'flex flex-row items-center gap-x-4 rounded-lg px-6 py-3 text-xl border-2 border-blue-500 hover:bg-blue-600 w-fit',
   is_primary ? 'bg-blue-500 text-white' : 'text-blue-900 bg-white hover:text-white',
 ] | join(' ') | trim %}
 
 {% set target = open_new_tab ? '_blank' : '_self' %}
 
-<div class="inline-block">
+<div class="inline-block button-wrapper">
   <a class="{{ classes }}" href="{{ url }}" target="{{ target }}">
     {% if icon %}
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">

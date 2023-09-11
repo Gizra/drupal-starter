@@ -1,0 +1,13 @@
+uuid: 10cbfe78-cc64-4dfd-895f-72be8b1a15e5
+langcode: en
+status: true
+dependencies:
+  config:
+    - key.key.tfa
+  module:
+    - real_aes
+id: tfa
+label: TFA
+encryption_method: real_aes
+encryption_method_configuration: {  }
+encryption_key: tfa

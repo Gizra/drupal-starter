@@ -1,0 +1,27 @@
+{#
+/**
+ * @file
+ * Theme override to display a node.
+ *
+ * This serves the purpose of making sure all view modes are using the full
+ * height of the container. This is usually apparent when using the `teaser` or
+   `card` view modes, and composing cards inside a grid container. We can't just
+   forgo this template completely as that will break contextual links for logged
+   in users.
+ */
+#}
+{%
+  set classes = [
+  'node',
+  'node--type-' ~ node.bundle|clean_class,
+  node.isPromoted() ? 'node--promoted',
+  node.isSticky() ? 'node--sticky',
+  not node.isPublished() ? 'node--unpublished',
+  view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+]
+%}
+<article{{ attributes.addClass(classes) }}>
+  {{ title_prefix }}
+  {{ title_suffix }}
+  {{ content }}
+</article>
