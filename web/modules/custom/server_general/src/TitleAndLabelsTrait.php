@@ -18,7 +18,7 @@ trait TitleAndLabelsTrait {
    * @return array
    *   The render array.
    */
-  protected function buildPageTitle(string $title): array
+  protected function buildPageTitle(string $title): array {
     return [
       '#theme' => 'server_theme_page_title',
       '#title' => $title,
