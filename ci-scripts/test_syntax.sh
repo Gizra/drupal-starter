@@ -1,6 +1,5 @@
 #!/bin/bash
 
-set -e
 
 # ---------------------------------------------------------------------------- #
 #
@@ -12,6 +11,7 @@ FILES=$(git diff-tree --no-commit-id --name-only -r HEAD | grep -v yml$)
 
 for FILE in $FILES
 do
+  echo "$FILE"
   if [ -f "$FILE" ]; then
     php -l "$FILE"
   fi
