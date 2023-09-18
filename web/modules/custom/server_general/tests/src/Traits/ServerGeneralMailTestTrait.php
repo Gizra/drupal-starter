@@ -14,21 +14,32 @@ trait ServerGeneralMailTestTrait {
    *   Fully qualified URL of Mailhog.
    */
   public function getMailhogBaseUrl() {
-    return 'https://' . getenv('DDEV_HOSTNAME') . ':8026';
+    $hostnames = getenv('DDEV_HOSTNAME');
+    $hostnames = explode(',', $hostnames);
+    return 'https://' . reset($hostnames) . ':8026';
   }
 
   /**
    * Asserts that a string appears in the output of Mailhog.
    */
-  public function assertOutgoingMailContains(string $needle) {
+  public function assertOutgoingMailContains(string $needle): void {
     $messages = $this->decodeSoftReturns(\Drupal::httpClient()->get($this->getMailhogBaseUrl() . '/api/v2/messages')->getBody()->getContents());
     $this->assertStringContainsString($needle, $messages);
   }
 
   /**
+   * Asserts that a header equals a value.
+   */
+  public function assertOutgoingMailHeader(string $header, string $expected): void {
+    $messages = json_decode(\Drupal::httpClient()->get($this->getMailhogBaseUrl() . '/api/v2/messages')->getBody());
+    $header_value = $messages->items[0]->Content->Headers->$header[0];
+    $this->assertEquals($expected, $header_value);
+  }
+
+  /**
    * Asserts that a string does not appear in the output of Mailhog.
    */
-  public function assertOutgoingMailNotContains(string $needle) {
+  public function assertOutgoingMailNotContains(string $needle): void {
     $messages = $this->decodeSoftReturns(\Drupal::httpClient()->get($this->getMailhogBaseUrl() . '/api/v2/messages')->getBody()->getContents());
     $this->assertStringNotContainsString($needle, $messages);
   }
@@ -36,7 +47,7 @@ trait ServerGeneralMailTestTrait {
   /**
    * Drops the collected outgoing emails in Mailhog.
    */
-  public function resetOutgoingMails() {
+  public function resetOutgoingMails(): void {
     \Drupal::httpClient()->delete($this->getMailhogBaseUrl() . '/api/v1/messages');
   }
 
@@ -46,7 +57,7 @@ trait ServerGeneralMailTestTrait {
    * @param int $amount
    *   The amount of emails.
    */
-  public function assertOutgoingMailNumber($amount) {
+  public function assertOutgoingMailNumber($amount): void {
     $messages = json_decode(\Drupal::httpClient()->get($this->getMailhogBaseUrl() . '/api/v2/messages')->getBody());
     $this->assertCount($amount, $messages->items);
   }
