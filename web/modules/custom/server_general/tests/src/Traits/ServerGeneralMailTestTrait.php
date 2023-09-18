@@ -8,36 +8,45 @@ namespace Drupal\Tests\server_general\Traits;
 trait ServerGeneralMailTestTrait {
 
   /**
-   * Mailhog base URL as provided by DDEV.
+   * Mailpit base URL as provided by DDEV.
    *
    * @return string
    *   Fully qualified URL of Mailhog.
    */
-  public function getMailhogBaseUrl() {
-    return 'https://' . getenv('DDEV_HOSTNAME') . ':8026';
+  public function getMailpitBaseUrl() {
+    $hostnames = getenv('DDEV_HOSTNAME');
+    $hostnames = explode(',', $hostnames);
+    return 'https://' . reset($hostnames) . ':8026';
   }
 
   /**
    * Asserts that a string appears in the output of Mailhog.
    */
   public function assertOutgoingMailContains(string $needle) {
-    $messages = $this->decodeSoftReturns(\Drupal::httpClient()->get($this->getMailhogBaseUrl() . '/api/v2/messages')->getBody()->getContents());
-    $this->assertStringContainsString($needle, $messages);
+    $messages = json_decode(\Drupal::httpClient()->get($this->getMailpitBaseUrl() . '/api/v1/messages')->getBody());
+    $messages_item_string = '';
+    foreach ($messages->messages as $message) {
+      $messages_item_string .= $this->decodeSoftReturns(\Drupal::httpClient()->get($this->getMailpitBaseUrl() . '/api/v1/message/' . $message->ID)->getBody()->getContents());
+    }
+    $this->assertStringContainsString($needle, $messages_item_string);
   }
 
   /**
    * Asserts that a string does not appear in the output of Mailhog.
    */
   public function assertOutgoingMailNotContains(string $needle) {
-    $messages = $this->decodeSoftReturns(\Drupal::httpClient()->get($this->getMailhogBaseUrl() . '/api/v2/messages')->getBody()->getContents());
-    $this->assertStringNotContainsString($needle, $messages);
+    $messages = json_decode(\Drupal::httpClient()->get($this->getMailpitBaseUrl() . '/api/v1/messages')->getBody());
+    foreach ($messages->messages as $message) {
+      $message_item = $this->decodeSoftReturns(\Drupal::httpClient()->get($this->getMailpitBaseUrl() . '/api/v1/message/' . $message->ID)->getBody()->getContents());
+      $this->assertStringNotContainsString($needle, $message_item);
+    }
   }
 
   /**
    * Drops the collected outgoing emails in Mailhog.
    */
   public function resetOutgoingMails() {
-    \Drupal::httpClient()->delete($this->getMailhogBaseUrl() . '/api/v1/messages');
+    \Drupal::httpClient()->delete($this->getMailpitBaseUrl() . '/api/v1/messages');
   }
 
   /**
@@ -47,8 +56,8 @@ trait ServerGeneralMailTestTrait {
    *   The amount of emails.
    */
   public function assertOutgoingMailNumber($amount) {
-    $messages = json_decode(\Drupal::httpClient()->get($this->getMailhogBaseUrl() . '/api/v2/messages')->getBody());
-    $this->assertCount($amount, $messages->items);
+    $messages = json_decode(\Drupal::httpClient()->get($this->getMailpitBaseUrl() . '/api/v1/messages')->getBody());
+    $this->assertCount($amount, $messages->messages);
   }
 
   /**
