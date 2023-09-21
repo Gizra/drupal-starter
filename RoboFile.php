@@ -3,12 +3,12 @@
 declare(strict_types = 1);
 
 use Drupal\Core\DrupalKernel;
+use GizraRobo\ReleaseNotesTasks;
 use Robo\Tasks;
 use RoboComponents\BootstrapTrait;
 use RoboComponents\DeploymentTrait;
 use RoboComponents\ElasticSearchTrait;
 use RoboComponents\PhpcsTrait;
-use GizraRobo\ReleaseNotesTasks;
 use RoboComponents\ThemeTrait;
 use RoboComponents\TranslationManagement\ExportFromConfig;
 use RoboComponents\TranslationManagement\ImportToConfig;
