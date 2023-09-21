@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "76a715497d8f7dc20c8ec00aae9bde9f",
+    "content-hash": "d6e3b976579322a2d8ce23f6dda2e4bf",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -5749,6 +5749,37 @@
                 "source": "https://github.com/ezimuel/ringphp/tree/1.2.2"
             },
             "time": "2022-12-07T11:28:53+00:00"
+        },
+        {
+            "name": "gizra/robo-release-notes",
+            "version": "0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Gizra/robo-release-notes.git",
+                "reference": "e78220652c7e5318b6c8f8537fced142bd3bff9b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Gizra/robo-release-notes/zipball/e78220652c7e5318b6c8f8537fced142bd3bff9b",
+                "reference": "e78220652c7e5318b6c8f8537fced142bd3bff9b",
+                "shasum": ""
+            },
+            "require": {
+                "consolidation/robo": "^4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "GizraRobo\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Release notes Robo command as PHP trait",
+            "support": {
+                "issues": "https://github.com/Gizra/robo-release-notes/issues",
+                "source": "https://github.com/Gizra/robo-release-notes/tree/0.1.1"
+            },
+            "time": "2023-09-21T08:08:42+00:00"
         },
         {
             "name": "grasmash/expander",

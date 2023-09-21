@@ -8,7 +8,7 @@ use RoboComponents\BootstrapTrait;
 use RoboComponents\DeploymentTrait;
 use RoboComponents\ElasticSearchTrait;
 use RoboComponents\PhpcsTrait;
-use RoboComponents\ReleaseNotesTrait;
+use GizraRobo\ReleaseNotesTasks;
 use RoboComponents\ThemeTrait;
 use RoboComponents\TranslationManagement\ExportFromConfig;
 use RoboComponents\TranslationManagement\ImportToConfig;
@@ -29,7 +29,7 @@ class RoboFile extends Tasks {
   use ImportToConfig;
   use ImportToUi;
   use PhpcsTrait;
-  use ReleaseNotesTrait;
+  use ReleaseNotesTasks;
   use ThemeTrait;
 
   /**
