@@ -6086,16 +6086,16 @@
         },
         {
             "name": "gizra/robo-translation",
-            "version": "0.1.0",
+            "version": "0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Gizra/robo-translation.git",
-                "reference": "a4630db5617ebdcec01bf070b906ae49e6bf5f15"
+                "reference": "5593c7491f45ea0d61569b90300b7b05732c44a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Gizra/robo-translation/zipball/a4630db5617ebdcec01bf070b906ae49e6bf5f15",
-                "reference": "a4630db5617ebdcec01bf070b906ae49e6bf5f15",
+                "url": "https://api.github.com/repos/Gizra/robo-translation/zipball/5593c7491f45ea0d61569b90300b7b05732c44a0",
+                "reference": "5593c7491f45ea0d61569b90300b7b05732c44a0",
                 "shasum": ""
             },
             "require": {
@@ -6112,9 +6112,9 @@
             "description": "PO-file based translation workflow Robo command as PHP trait",
             "support": {
                 "issues": "https://github.com/Gizra/robo-translation/issues",
-                "source": "https://github.com/Gizra/robo-translation/tree/0.1.0"
+                "source": "https://github.com/Gizra/robo-translation/tree/0.1.1"
             },
-            "time": "2023-09-22T08:53:41+00:00"
+            "time": "2023-09-22T09:23:38+00:00"
         },
         {
             "name": "grasmash/expander",
