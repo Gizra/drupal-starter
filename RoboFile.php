@@ -3,12 +3,12 @@
 declare(strict_types = 1);
 
 use Drupal\Core\DrupalKernel;
+use GizraRobo\PhpcsTasks;
 use GizraRobo\ReleaseNotesTasks;
 use Robo\Tasks;
 use RoboComponents\BootstrapTrait;
 use RoboComponents\DeploymentTrait;
 use RoboComponents\ElasticSearchTrait;
-use RoboComponents\PhpcsTrait;
 use RoboComponents\ThemeTrait;
 use RoboComponents\TranslationManagement\ExportFromConfig;
 use RoboComponents\TranslationManagement\ImportToConfig;
@@ -28,7 +28,7 @@ class RoboFile extends Tasks {
   use ExportFromConfig;
   use ImportToConfig;
   use ImportToUi;
-  use PhpcsTrait;
+  use PhpcsTasks;
   use ReleaseNotesTasks;
   use ThemeTrait;
 

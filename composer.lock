@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d6e3b976579322a2d8ce23f6dda2e4bf",
+    "content-hash": "e58b99a347df58c70481d4e644ec49ad",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -5749,6 +5749,37 @@
                 "source": "https://github.com/ezimuel/ringphp/tree/1.2.2"
             },
             "time": "2022-12-07T11:28:53+00:00"
+        },
+        {
+            "name": "gizra/robo-phpcs",
+            "version": "0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Gizra/robo-phpcs.git",
+                "reference": "3e0a095526091c4454eba5b214de145d85557ae9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Gizra/robo-phpcs/zipball/3e0a095526091c4454eba5b214de145d85557ae9",
+                "reference": "3e0a095526091c4454eba5b214de145d85557ae9",
+                "shasum": ""
+            },
+            "require": {
+                "consolidation/robo": "^4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "GizraRobo\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Coding standard check Robo command as PHP trait",
+            "support": {
+                "issues": "https://github.com/Gizra/robo-phpcs/issues",
+                "source": "https://github.com/Gizra/robo-phpcs/tree/0.1.1"
+            },
+            "time": "2023-09-22T04:09:45+00:00"
         },
         {
             "name": "gizra/robo-release-notes",

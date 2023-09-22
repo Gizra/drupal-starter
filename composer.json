@@ -74,6 +74,7 @@
         "drupal/upgrade_status": "^4.0",
         "drupal/username_enumeration_prevention": "^1.3",
         "drush/drush": "^11",
+        "gizra/robo-phpcs": "^0.1.0",
         "gizra/robo-release-notes": "^0.1.0",
         "longwave/laminas-diactoros": "^2.14",
         "npm-asset/anchor-js": "^5.0",
