@@ -5,14 +5,12 @@ declare(strict_types = 1);
 use Drupal\Core\DrupalKernel;
 use GizraRobo\PhpcsTasks;
 use GizraRobo\ReleaseNotesTasks;
+use GizraRobo\BootstrapTasks;
+use GizraRobo\DeploymentTasks;
+use GizraRobo\ElasticSearchTasks;
+use GizraRobo\ThemeTasks;
+use GizraRobo\TranslationTasks;
 use Robo\Tasks;
-use RoboComponents\BootstrapTrait;
-use RoboComponents\DeploymentTrait;
-use RoboComponents\ElasticSearchTrait;
-use RoboComponents\ThemeTrait;
-use RoboComponents\TranslationManagement\ExportFromConfig;
-use RoboComponents\TranslationManagement\ImportToConfig;
-use RoboComponents\TranslationManagement\ImportToUi;
 use Symfony\Component\HttpFoundation\Request;
 
 $GLOBALS['drupal_autoloader'] = require_once 'web/autoload.php';
@@ -22,15 +20,13 @@ $GLOBALS['drupal_autoloader'] = require_once 'web/autoload.php';
  */
 class RoboFile extends Tasks {
 
-  use BootstrapTrait;
-  use DeploymentTrait;
-  use ElasticSearchTrait;
-  use ExportFromConfig;
-  use ImportToConfig;
-  use ImportToUi;
+  use BootstrapTasks;
+  use DeploymentTasks;
+  use ElasticSearchTasks;
+  use TranslationTasks;
   use PhpcsTasks;
   use ReleaseNotesTasks;
-  use ThemeTrait;
+  use ThemeTasks;
 
   /**
    * Defines a list of languages installed on the site.
