@@ -7,6 +7,10 @@ else
   docker login --password "$DOCKER_PASSWORD" --username amitaibu
 fi
 
+# Make sure we can repeat this script using travis_retry.
+docker network rm ddev_default || true
+rm -rf ~/.ddev || true
+
 echo "Install ddev."
 curl -s -L https://raw.githubusercontent.com/drud/ddev/master/scripts/install_ddev.sh | bash
 
@@ -15,7 +19,7 @@ mkdir ~/.ddev
 cp "ci-scripts/global_config.yaml" ~/.ddev/
 
 if ! docker network create ddev_default; then
-ddev logs
+  ddev logs
   exit 1
 fi
 
