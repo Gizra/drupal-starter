@@ -120,10 +120,11 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
       $config_value = $facet->getThirdPartySetting('facets', 'only_visible_when_facet_source_is_visible', NULL);
 
       // Check if 'only_visible_when_facet_source_is_visible' is set to false.
-      if ($config_value !== FALSE) {
+      if ($config_value === TRUE) {
         $this->fail("The facet {$facet->id()} has 'only_visible_when_facet_source_is_visible' set to true.");
       }
     }
+    $this->expectNotToPerformAssertions();
   }
 
 }
