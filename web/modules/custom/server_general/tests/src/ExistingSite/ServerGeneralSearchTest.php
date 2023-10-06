@@ -103,4 +103,28 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
     });
   }
 
+  /**
+   * Tests the sanity of facet configurations.
+   */
+  public function testFacetConfigSanity() {
+    $facets = \Drupal::entityTypeManager()
+      ->getStorage('facets_facet')
+      ->loadMultiple();
+
+    if (empty($facets)) {
+      return;
+    }
+
+    /** @var \Drupal\facets\FacetInterface $facet */
+    foreach ($facets as $facet) {
+      $config_value = $facet->get('only_visible_when_facet_source_is_visible');
+
+      if (!$config_value) {
+        continue;
+      }
+      $this->fail("The facet {$facet->id()} has 'only_visible_when_facet_source_is_visible' set to true. It is not compatible with Paragraphs-based embedding and rendering.");
+    }
+    $this->expectNotToPerformAssertions();
+  }
+
 }
