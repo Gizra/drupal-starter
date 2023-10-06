@@ -2,8 +2,6 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
-use Drupal\facets\FacetInterface;
-
 /**
  * A test case to test search integration.
  */
@@ -117,7 +115,7 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
       return;
     }
 
-    /** @var FacetInterface $facet */
+    /** @var \Drupal\facets\FacetInterface $facet */
     foreach ($facets as $facet) {
       $config_value = $facet->getThirdPartySetting('facets', 'only_visible_when_facet_source_is_visible', NULL);
 
