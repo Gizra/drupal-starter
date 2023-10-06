@@ -2,6 +2,8 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
+use Drupal\facets\FacetInterface;
+
 /**
  * A test case to test search integration.
  */
@@ -101,6 +103,29 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
       // The second result should be the one with the word in the body.
       $assert->elementTextEquals('xpath', "(//div[contains(@class, 'views-row')])[2]//a", 'something else in the title');
     });
+  }
+
+  /**
+   * Tests the sanity of facet configurations.
+   */
+  public function testFacetConfigSanity() {
+    $facets = \Drupal::entityTypeManager()
+      ->getStorage('facets_facet')
+      ->loadMultiple();
+
+    if (empty($facets)) {
+      return;
+    }
+
+    /** @var FacetInterface $facet */
+    foreach ($facets as $facet) {
+      $config_value = $facet->getThirdPartySetting('facets', 'only_visible_when_facet_source_is_visible', NULL);
+
+      // Check if 'only_visible_when_facet_source_is_visible' is set to false.
+      if ($config_value !== FALSE) {
+        $this->fail("The facet {$facet->id()} has 'only_visible_when_facet_source_is_visible' set to true.");
+      }
+    }
   }
 
 }
