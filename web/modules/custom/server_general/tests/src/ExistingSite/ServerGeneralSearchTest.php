@@ -117,12 +117,12 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
 
     /** @var \Drupal\facets\FacetInterface $facet */
     foreach ($facets as $facet) {
-      $config_value = $facet->getThirdPartySetting('facets', 'only_visible_when_facet_source_is_visible', NULL);
+      $config_value = $facet->get('only_visible_when_facet_source_is_visible');
 
-      // Check if 'only_visible_when_facet_source_is_visible' is set to false.
-      if ($config_value === TRUE) {
-        $this->fail("The facet {$facet->id()} has 'only_visible_when_facet_source_is_visible' set to true.");
+      if (!$config_value) {
+        continue;
       }
+      $this->fail("The facet {$facet->id()} has 'only_visible_when_facet_source_is_visible' set to true. It is not compatible with Paragraphs-based embedding and rendering.");
     }
     $this->expectNotToPerformAssertions();
   }
