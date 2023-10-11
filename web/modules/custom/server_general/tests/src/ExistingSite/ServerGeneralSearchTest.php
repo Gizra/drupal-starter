@@ -153,7 +153,7 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
       'langcode' => 'en',
       'type' => 'landing_page',
       'field_publish_date' => time(),
-      'moderation_state' => 'published',
+      'status' => 1,
       'field_paragraphs' => [
         $paragraph,
       ],
@@ -162,6 +162,7 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
         'alias' => $path_alias,
       ],
     ]);
+    $landing_page->setPublished()->save();
 
     // Trigger indexing.
     $this->triggerPostRequestIndexing();
