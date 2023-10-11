@@ -148,11 +148,10 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
     $title = 'Search_6KmX9x99aG5o13xvqjkO868iR';
 
     // Create a search LP with a specific title and path.
-    $landing_page = $this->createNode([
+    $node = $this->createNode([
       'title' => $title,
       'langcode' => 'en',
-      'type' => 'landing_page',
-      'field_publish_date' => time(),
+      'type' => 'news',
       'status' => 1,
       'field_paragraphs' => [
         $paragraph,
@@ -162,22 +161,20 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
         'alias' => $path_alias,
       ],
     ]);
-    $landing_page->setPublished()->save();
+    $node->setPublished()->save();
 
     // Trigger indexing.
     $this->triggerPostRequestIndexing();
 
-    // Wait for indexing to complete.
-    $this->waitForElasticSearchIndex(function () use ($path_alias, $landing_page): void {
-      // Search using the LP node title.
-      $this->drupalGet($path_alias, [
+    $this->waitForElasticSearchIndex(function () use ($node): void {
+      $this->drupalGet('/search', [
         'query' => [
-          'key' => $landing_page->label(),
+          'key' => $node->label(),
         ],
       ]);
       $session = $this->assertSession();
       // Without search index processor this page should be in the results.
-      $session->elementTextContains('css', '.view-search h3', $landing_page->label());
+      $session->elementTextContains('css', '.view-search', $node->label());
     });
 
     // Get the configuration factory service.
@@ -201,17 +198,17 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
     }
 
     // Save LP again so that cache gets cleared.
-    $landing_page->save();
+    $node->save();
 
     // Trigger indexing.
     $this->triggerPostRequestIndexing();
 
     // Wait for indexing to complete.
-    $this->waitForElasticSearchIndex(function () use ($path_alias, $landing_page): void {
+    $this->waitForElasticSearchIndex(function () use ($node): void {
       // First search using the exact long phrase.
-      $this->drupalGet($path_alias, [
+      $this->drupalGet('/search', [
         'query' => [
-          'key' => $landing_page->label(),
+          'key' => $node->label(),
         ],
       ]);
       $session = $this->assertSession();
