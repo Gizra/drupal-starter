@@ -9,6 +9,7 @@ dependencies:
   module:
     - node
     - search_api
+    - server_search
 id: server_dev
 name: server_dev
 description: ''
@@ -72,7 +73,7 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: title
     type: text
-    boost: !!float 3
+    boost: 3.0
     dependencies:
       module:
         - node
@@ -114,6 +115,9 @@ processor_settings:
       preprocess_query: -30
   entity_status: {  }
   entity_type: {  }
+  exclude_nodes_by_path_alias:
+    excluded_nodes:
+      - /search
   language_with_fallback: {  }
   rendered_item: {  }
 tracker_settings:
