@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "76a715497d8f7dc20c8ec00aae9bde9f",
+    "content-hash": "4a0b816de72869d4de07102961992655",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -5749,6 +5749,372 @@
                 "source": "https://github.com/ezimuel/ringphp/tree/1.2.2"
             },
             "time": "2022-12-07T11:28:53+00:00"
+        },
+        {
+            "name": "gettext/gettext",
+            "version": "v5.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-gettext/Gettext.git",
+                "reference": "8657e580747bb3baacccdcebe69cac094661e404"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-gettext/Gettext/zipball/8657e580747bb3baacccdcebe69cac094661e404",
+                "reference": "8657e580747bb3baacccdcebe69cac094661e404",
+                "shasum": ""
+            },
+            "require": {
+                "gettext/languages": "^2.3",
+                "php": "^7.2|^8.0"
+            },
+            "require-dev": {
+                "brick/varexporter": "^0.3.5",
+                "friendsofphp/php-cs-fixer": "^3.2",
+                "oscarotero/php-cs-fixer-config": "^2.0",
+                "phpunit/phpunit": "^8.0|^9.0",
+                "squizlabs/php_codesniffer": "^3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Gettext\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Oscar Otero",
+                    "email": "oom@oscarotero.com",
+                    "homepage": "http://oscarotero.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP gettext manager",
+            "homepage": "https://github.com/php-gettext/Gettext",
+            "keywords": [
+                "JS",
+                "gettext",
+                "i18n",
+                "mo",
+                "po",
+                "translation"
+            ],
+            "support": {
+                "email": "oom@oscarotero.com",
+                "issues": "https://github.com/php-gettext/Gettext/issues",
+                "source": "https://github.com/php-gettext/Gettext/tree/v5.7.0"
+            },
+            "funding": [
+                {
+                    "url": "https://paypal.me/oscarotero",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/oscarotero",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.patreon.com/misteroom",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2022-07-27T19:54:55+00:00"
+        },
+        {
+            "name": "gettext/languages",
+            "version": "2.10.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-gettext/Languages.git",
+                "reference": "4d61d67fe83a2ad85959fe6133d6d9ba7dddd1ab"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-gettext/Languages/zipball/4d61d67fe83a2ad85959fe6133d6d9ba7dddd1ab",
+                "reference": "4d61d67fe83a2ad85959fe6133d6d9ba7dddd1ab",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8 || ^5.7 || ^6.5 || ^7.5 || ^8.4"
+            },
+            "bin": [
+                "bin/export-plural-rules"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Gettext\\Languages\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michele Locati",
+                    "email": "mlocati@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "gettext languages with plural rules",
+            "homepage": "https://github.com/php-gettext/Languages",
+            "keywords": [
+                "cldr",
+                "i18n",
+                "internationalization",
+                "l10n",
+                "language",
+                "languages",
+                "localization",
+                "php",
+                "plural",
+                "plural rules",
+                "plurals",
+                "translate",
+                "translations",
+                "unicode"
+            ],
+            "support": {
+                "issues": "https://github.com/php-gettext/Languages/issues",
+                "source": "https://github.com/php-gettext/Languages/tree/2.10.0"
+            },
+            "funding": [
+                {
+                    "url": "https://paypal.me/mlocati",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/mlocati",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-10-18T15:00:10+00:00"
+        },
+        {
+            "name": "gizra/robo-bootstrap",
+            "version": "0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Gizra/robo-bootstrap.git",
+                "reference": "709e214704f16a6d30c7ba8fed0b326f08a3a46a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Gizra/robo-bootstrap/zipball/709e214704f16a6d30c7ba8fed0b326f08a3a46a",
+                "reference": "709e214704f16a6d30c7ba8fed0b326f08a3a46a",
+                "shasum": ""
+            },
+            "require": {
+                "consolidation/robo": "^4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "GizraRobo\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Bootstraps a new Drupal project on Pantheon: Robo command as PHP trait",
+            "support": {
+                "issues": "https://github.com/Gizra/robo-bootstrap/issues",
+                "source": "https://github.com/Gizra/robo-bootstrap/tree/0.1.1"
+            },
+            "time": "2023-09-22T07:56:27+00:00"
+        },
+        {
+            "name": "gizra/robo-deployment",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Gizra/robo-deployment.git",
+                "reference": "041d097590144c5f169129ce2ca1e7031ddba579"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Gizra/robo-deployment/zipball/041d097590144c5f169129ce2ca1e7031ddba579",
+                "reference": "041d097590144c5f169129ce2ca1e7031ddba579",
+                "shasum": ""
+            },
+            "require": {
+                "consolidation/robo": "^4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "GizraRobo\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Pantheon-specific deployment Robo commands as PHP trait",
+            "support": {
+                "issues": "https://github.com/Gizra/robo-deployment/issues",
+                "source": "https://github.com/Gizra/robo-deployment/tree/0.1.0"
+            },
+            "time": "2023-09-22T09:06:25+00:00"
+        },
+        {
+            "name": "gizra/robo-elasticsearch",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Gizra/robo-elasticsearch.git",
+                "reference": "32783c43e508c198ebe5759224a54c176ba69be4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Gizra/robo-elasticsearch/zipball/32783c43e508c198ebe5759224a54c176ba69be4",
+                "reference": "32783c43e508c198ebe5759224a54c176ba69be4",
+                "shasum": ""
+            },
+            "require": {
+                "consolidation/robo": "^4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "GizraRobo\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "ElasticSearch provision for Drupal Robo command as PHP trait",
+            "support": {
+                "issues": "https://github.com/Gizra/robo-elasticsearch/issues",
+                "source": "https://github.com/Gizra/robo-elasticsearch/tree/0.1.0"
+            },
+            "time": "2023-09-22T07:37:20+00:00"
+        },
+        {
+            "name": "gizra/robo-phpcs",
+            "version": "0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Gizra/robo-phpcs.git",
+                "reference": "3e0a095526091c4454eba5b214de145d85557ae9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Gizra/robo-phpcs/zipball/3e0a095526091c4454eba5b214de145d85557ae9",
+                "reference": "3e0a095526091c4454eba5b214de145d85557ae9",
+                "shasum": ""
+            },
+            "require": {
+                "consolidation/robo": "^4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "GizraRobo\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Coding standard check Robo command as PHP trait",
+            "support": {
+                "issues": "https://github.com/Gizra/robo-phpcs/issues",
+                "source": "https://github.com/Gizra/robo-phpcs/tree/0.1.1"
+            },
+            "time": "2023-09-22T04:09:45+00:00"
+        },
+        {
+            "name": "gizra/robo-release-notes",
+            "version": "0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Gizra/robo-release-notes.git",
+                "reference": "e78220652c7e5318b6c8f8537fced142bd3bff9b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Gizra/robo-release-notes/zipball/e78220652c7e5318b6c8f8537fced142bd3bff9b",
+                "reference": "e78220652c7e5318b6c8f8537fced142bd3bff9b",
+                "shasum": ""
+            },
+            "require": {
+                "consolidation/robo": "^4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "GizraRobo\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Release notes Robo command as PHP trait",
+            "support": {
+                "issues": "https://github.com/Gizra/robo-release-notes/issues",
+                "source": "https://github.com/Gizra/robo-release-notes/tree/0.1.1"
+            },
+            "time": "2023-09-21T08:08:42+00:00"
+        },
+        {
+            "name": "gizra/robo-theme",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Gizra/robo-theme.git",
+                "reference": "1e38549b744f06218fbf20285e466f3e32bea7f2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Gizra/robo-theme/zipball/1e38549b744f06218fbf20285e466f3e32bea7f2",
+                "reference": "1e38549b744f06218fbf20285e466f3e32bea7f2",
+                "shasum": ""
+            },
+            "require": {
+                "consolidation/robo": "^4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "GizraRobo\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Theme compilation Robo command as PHP trait",
+            "support": {
+                "issues": "https://github.com/Gizra/robo-theme/issues",
+                "source": "https://github.com/Gizra/robo-theme/tree/0.1.0"
+            },
+            "time": "2023-09-22T07:10:57+00:00"
+        },
+        {
+            "name": "gizra/robo-translation",
+            "version": "0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Gizra/robo-translation.git",
+                "reference": "5593c7491f45ea0d61569b90300b7b05732c44a0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Gizra/robo-translation/zipball/5593c7491f45ea0d61569b90300b7b05732c44a0",
+                "reference": "5593c7491f45ea0d61569b90300b7b05732c44a0",
+                "shasum": ""
+            },
+            "require": {
+                "consolidation/robo": "^4.0",
+                "gettext/gettext": "^5.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "GizraRobo\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "PO-file based translation workflow Robo command as PHP trait",
+            "support": {
+                "issues": "https://github.com/Gizra/robo-translation/issues",
+                "source": "https://github.com/Gizra/robo-translation/tree/0.1.1"
+            },
+            "time": "2023-09-22T09:23:38+00:00"
         },
         {
             "name": "grasmash/expander",
@@ -12245,154 +12611,6 @@
             "support": {
                 "source": "https://git.drupalcode.org/project/potx"
             }
-        },
-        {
-            "name": "gettext/gettext",
-            "version": "v5.7.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-gettext/Gettext.git",
-                "reference": "8657e580747bb3baacccdcebe69cac094661e404"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-gettext/Gettext/zipball/8657e580747bb3baacccdcebe69cac094661e404",
-                "reference": "8657e580747bb3baacccdcebe69cac094661e404",
-                "shasum": ""
-            },
-            "require": {
-                "gettext/languages": "^2.3",
-                "php": "^7.2|^8.0"
-            },
-            "require-dev": {
-                "brick/varexporter": "^0.3.5",
-                "friendsofphp/php-cs-fixer": "^3.2",
-                "oscarotero/php-cs-fixer-config": "^2.0",
-                "phpunit/phpunit": "^8.0|^9.0",
-                "squizlabs/php_codesniffer": "^3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Gettext\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Oscar Otero",
-                    "email": "oom@oscarotero.com",
-                    "homepage": "http://oscarotero.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "PHP gettext manager",
-            "homepage": "https://github.com/php-gettext/Gettext",
-            "keywords": [
-                "JS",
-                "gettext",
-                "i18n",
-                "mo",
-                "po",
-                "translation"
-            ],
-            "support": {
-                "email": "oom@oscarotero.com",
-                "issues": "https://github.com/php-gettext/Gettext/issues",
-                "source": "https://github.com/php-gettext/Gettext/tree/v5.7.0"
-            },
-            "funding": [
-                {
-                    "url": "https://paypal.me/oscarotero",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/oscarotero",
-                    "type": "github"
-                },
-                {
-                    "url": "https://www.patreon.com/misteroom",
-                    "type": "patreon"
-                }
-            ],
-            "time": "2022-07-27T19:54:55+00:00"
-        },
-        {
-            "name": "gettext/languages",
-            "version": "2.10.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-gettext/Languages.git",
-                "reference": "4d61d67fe83a2ad85959fe6133d6d9ba7dddd1ab"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-gettext/Languages/zipball/4d61d67fe83a2ad85959fe6133d6d9ba7dddd1ab",
-                "reference": "4d61d67fe83a2ad85959fe6133d6d9ba7dddd1ab",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^4.8 || ^5.7 || ^6.5 || ^7.5 || ^8.4"
-            },
-            "bin": [
-                "bin/export-plural-rules"
-            ],
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Gettext\\Languages\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Michele Locati",
-                    "email": "mlocati@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "gettext languages with plural rules",
-            "homepage": "https://github.com/php-gettext/Languages",
-            "keywords": [
-                "cldr",
-                "i18n",
-                "internationalization",
-                "l10n",
-                "language",
-                "languages",
-                "localization",
-                "php",
-                "plural",
-                "plural rules",
-                "plurals",
-                "translate",
-                "translations",
-                "unicode"
-            ],
-            "support": {
-                "issues": "https://github.com/php-gettext/Languages/issues",
-                "source": "https://github.com/php-gettext/Languages/tree/2.10.0"
-            },
-            "funding": [
-                {
-                    "url": "https://paypal.me/mlocati",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/mlocati",
-                    "type": "github"
-                }
-            ],
-            "time": "2022-10-18T15:00:10+00:00"
         },
         {
             "name": "instaclick/php-webdriver",
