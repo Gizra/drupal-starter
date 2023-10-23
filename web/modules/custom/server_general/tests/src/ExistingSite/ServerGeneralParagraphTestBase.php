@@ -2,13 +2,18 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
-use Drupal\file\Entity\File;
-use Drupal\media\Entity\Media;
+use Drupal\Core\File\FileSystemInterface;
+use Drupal\media\MediaInterface;
+use weitzman\DrupalTestTraits\Entity\MediaCreationTrait;
 
 /**
  * Abstract class to hold shared logic to check various paragraph types.
  */
 abstract class ServerGeneralParagraphTestBase extends ServerGeneralFieldableEntityTestBase {
+
+  use MediaCreationTrait;
+
+  const IMAGES_PATH = 'modules/custom/server_general/tests/images/';
 
   /**
    * {@inheritdoc}
@@ -18,32 +23,57 @@ abstract class ServerGeneralParagraphTestBase extends ServerGeneralFieldableEnti
   }
 
   /**
+   * Creates a File entity.
+   *
+   * @param string $uri
+   *   The path of the image to import.
+   *
+   * @return \Drupal\file\FileInterface
+   *   A file entity.
+   */
+  protected function createFileEntity($uri) {
+    $filename = basename($uri);
+    $uri = \Drupal::service('file_system')
+      ->copy($uri, 'public://' . $filename, FileSystemInterface::EXISTS_REPLACE);
+    /** @var \Drupal\file\FileInterface $file */
+    $file = \Drupal::entityTypeManager()
+      ->getStorage('file')
+      ->create([
+        'uri' => $uri,
+        'status' => 1,
+      ]);
+    $file->setPermanent();
+    $this->markEntityForCleanup($file);
+    $file->save();
+
+    return $file;
+  }
+
+  /**
    * Create a media image.
    *
-   * @return \Drupal\media\Entity\Media
+   * @param string $filename
+   *   File name of the image.
+   *   This file should be present in the directory defined as the IMAGES_PATH
+   *   constant in this class.
+   *
+   * @return \Drupal\media\MediaInterface
    *   The saved Media object.
    *
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
-  protected function createMediaImage(): Media {
-    $file = File::create([
-      'uri' => 'https://exmaple.com',
-    ]);
-    $file->save();
-    $this->markEntityForCleanup($file);
+  protected function createMediaImage($filename = 'test.png'): MediaInterface {
+    $file = $this->createFileEntity(self::IMAGES_PATH . $filename);
 
-    $media = Media::create([
+    $media = $this->createMedia([
       'bundle' => 'image',
-      'name' => 'Media item',
-      'field_media_file' => [
-        [
-          'target_id' => $file->id(),
-          'alt' => 'default alt',
-          'title' => 'default title',
-        ],
+      'name' => $filename,
+      'field_media_image' => [
+        'target_id' => $file->id(),
+        'alt' => $filename,
+        'title' => $filename,
       ],
     ]);
-    $this->markEntityForCleanup($media);
 
     return $media;
   }
