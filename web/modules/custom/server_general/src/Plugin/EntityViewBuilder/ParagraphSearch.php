@@ -85,11 +85,19 @@ class ParagraphSearch extends EntityViewBuilderPluginAbstract {
       $facets_items[] = $this->embedBlock('facet_block:' . $facet_name);
     }
 
+    try {
+      $search_key = (string) $this->request->query->get('key');
+    }
+    catch (\Exception $e) {
+      // For instance, we have this on malicious input.
+      $search_key = '';
+    }
+
     $element = $this->buildElementSearchTermFacetsAndResults(
       $facets_items,
       $this->hasFilters('key'),
       views_embed_view('search', 'embed_1'),
-      $this->request->query->get('key'),
+      $search_key,
     );
 
     $build[] = $element;
