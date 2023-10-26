@@ -511,12 +511,21 @@ function server_theme_preprocess_page(array &$variables) {
   ];
 
   $messages = !empty($variables['page']['header']['server_theme_messages']) ? $variables['page']['header']['server_theme_messages'] : NULL;
+
+  try {
+    $search_key = \Drupal::request()->query->get('key');
+  }
+  catch (Exception $e) {
+    // For instance, we have this on malicious input.
+    $search_key = '';
+  }
+
   $variables['page']['header'] = [
     '#theme' => 'server_theme_header',
     '#search_block' => [
       '#theme' => 'server_theme_search',
       // Pass the search term, in case one was entered.
-      '#search_term' => \Drupal::request()->query->get('key'),
+      '#search_term' => $search_key,
       '#search_url' => Url::fromUserInput('/search', [
         'language' => $language,
       ]),

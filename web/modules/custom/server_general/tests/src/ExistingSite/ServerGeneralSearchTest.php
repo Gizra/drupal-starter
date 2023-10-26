@@ -127,4 +127,20 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
     $this->expectNotToPerformAssertions();
   }
 
+  /**
+   * Tests that special query parameters don't crash the search.
+   *
+   * @see https://stackoverflow.com/questions/77230889/how-do-i-fix-symfony-6-error-input-value-contains-a-non-scalar-value
+   */
+  public function testSpecialQueryParameter() {
+    $this->failOnPhpWatchdogMessages = FALSE;
+    $this->drupalGet('/search', [
+      'query' => [
+        'key[$testing]' => '1',
+      ],
+    ]);
+    $this->assertSession()->statusCodeEquals(400);
+    $this->assertSession()->elementExists('css', '#search-input');
+  }
+
 }
