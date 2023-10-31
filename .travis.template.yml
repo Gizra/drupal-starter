@@ -46,7 +46,7 @@ jobs:
     - "$TRAVIS_BUILD_DIR/ci-scripts/install_drupal.sh || travis_terminate 1;"
     - "$TRAVIS_BUILD_DIR/ci-scripts/test_phpunit.sh || travis_terminate 1;"
   - stage: Deploy
-    name: 'Backend tests: Functional tests and deploy to Pantheon'
+    name: 'Backend tests: Functional tests and deploy to Pantheon QA'
     if: branch = "{{ GITHUB_DEPLOY_BRANCH }}" AND type = push AND tag IS blank
     script:
     - "(travis_retry $TRAVIS_BUILD_DIR/ci-scripts/install_ddev.sh) || travis_terminate 1;"
@@ -65,6 +65,7 @@ jobs:
     - "$TRAVIS_BUILD_DIR/ci-scripts/test_phpunit.sh || travis_terminate 1;"
     - "(travis_retry $TRAVIS_BUILD_DIR/ci-scripts/prepare_deploy.sh) || travis_terminate 1;"
     - "(travis_retry ddev robo deploy:tag-pantheon --no-interaction $TRAVIS_TAG master) || travis_terminate 1;"
+    - "ddev composer install || travis_terminate 1;"
     - "(travis_retry ddev robo deploy:pantheon-sync) || travis_terminate 1;"
   - stage: Deploy
     name: 'Backend tests: Functional tests and deploy to Pantheon LIVE'
