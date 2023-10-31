@@ -50,6 +50,7 @@ trait DeploymentTrait {
     'phpunit.xml.dist',
     'README.md',
     'RoboFile.php',
+    'robo-components',
     'server.es.secrets.json',
     'travis-key.enc',
     'travis-key',
@@ -126,8 +127,7 @@ trait DeploymentTrait {
     }
     // Check out the original branch regardless of success or failure.
     $this->taskExec("git checkout -")->run();
-    // Exit.
-    $this->taskExec("exit $exit")->run();
+    exit($exit);
   }
 
   /**
@@ -205,7 +205,7 @@ trait DeploymentTrait {
         ->run();
 
       if ($result->getMessage() !== 'commit') {
-        $this->yell(strtr('This current commit @current-commit cannot be deployed, since new commits have been created since, so we don\'t want to deploy an older version. Result was: @result', [
+        $this->yell(strtr('This current commit @current-commit cannot be deployed, as new commits have been created since, so we don\'t want to deploy an older version. Result was: @result', [
           '@current-commit' => $current_version,
           '@result' => $result->getMessage(),
         ]));
@@ -432,9 +432,17 @@ trait DeploymentTrait {
       $this->deployCheckRequirementErrors($env);
     }
     catch (\Exception $e) {
+      // On purpose, we do not halt the process here or make the build red.
+      // Requirement errors are bad, we would like to know about them via
+      // a GitHub message, but it should not abort a live deployment
+      // for instance.
       $message = "The deployment went well to $env, but there are requirement errors. Address these:" . PHP_EOL . $e->getMessage();
-      $this->deployNotify($env, $message);
-      throw new \Exception($message);
+      try {
+        $this->deployNotify($env, $message);
+      }
+      catch (\Exception $e) {
+        $this->yell($e->getMessage());
+      }
     }
   }
 
@@ -529,6 +537,7 @@ trait DeploymentTrait {
       ->exec("terminus remote:drush $pantheon_terminus_environment -- pm-enable server_default_content --no-interaction")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- pm:uninstall server_default_content default_content --no-interaction")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- set-homepage")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- cr")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- uli");
 
     $result = $task->run()->getExitCode();
