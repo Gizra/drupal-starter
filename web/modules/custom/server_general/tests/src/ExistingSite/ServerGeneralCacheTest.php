@@ -51,7 +51,7 @@ class ServerGeneralCacheTest extends ServerGeneralTestBase {
   }
 
   /**
-   * Assert the presence of a menu link in the homepage menu.
+   * Assert the presence of a menu link.
    *
    * @param string $link_title
    *   The menu link title to check for.
