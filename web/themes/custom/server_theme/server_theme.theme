@@ -535,6 +535,15 @@ function server_theme_preprocess_page(array &$variables) {
     '#menu' => [
       '#theme' => 'server_theme_header_menu',
       '#items' => server_theme_prepare_menu_links('main'),
+      '#cache' => [
+        'tags' => [
+          'config:system.menu.main',
+        ],
+        'contexts' => [
+          'languages:language_interface',
+          'user.roles',
+        ],
+      ],
     ],
     '#messages' => $messages,
   ];
