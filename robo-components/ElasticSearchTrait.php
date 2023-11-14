@@ -150,7 +150,7 @@ trait ElasticSearchTrait {
 }
 END;
 
-        $role_creation->process("curl -u $username:$password -X POST $es_url/_security/role/${site}_$environment -H 'Content-Type: application/json' --data '$role_data'");
+        $role_creation->process("curl -u $username:$password -X POST $es_url/_security/role/{$site}_$environment -H 'Content-Type: application/json' --data '$role_data'");
 
         // Generate random password or re-use an existing one from the JSON.
         $existing_password = $this->getUserPassword($site, $environment);
