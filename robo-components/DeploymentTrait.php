@@ -282,7 +282,7 @@ trait DeploymentTrait {
       }
     }
     $commit_message = escapeshellarg($commit_message);
-    $result = $this->taskExec("cd $pantheon_directory && git pull && git add . && git commit -am $commit_message && git push")
+    $result = $this->taskExec("cd $pantheon_directory && git config pull.rebase false && git pull && git add . && git commit -am $commit_message && git push")
       ->printOutput(FALSE)
       ->run();
     if (str_contains($result->getMessage(), 'nothing to commit, working tree clean')) {
