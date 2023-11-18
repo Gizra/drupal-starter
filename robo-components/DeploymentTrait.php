@@ -509,7 +509,7 @@ trait DeploymentTrait {
    * @param array $options
    *   Extra options for this command.
    *
-   * @option backup Will create a multidev environment named envYYMMDD with the database and files of the environment being reinstalled.
+   * @option backup Will create a multidev environment named env-YYMMDD with the database and files of the environment being reinstalled.
    *
    * @throws \Exception
    */
