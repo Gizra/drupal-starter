@@ -506,10 +506,14 @@ trait DeploymentTrait {
    *   The environment to install.
    * @param string $pantheon_name
    *   The Pantheon site name.
+   * @param array $options
+   *   Extra options for this command.
+   *
+   * @option backup Will create a multidev environment named env-YYMMDD with the database and files of the environment being reinstalled.
    *
    * @throws \Exception
    */
-  public function deployPantheonInstallEnv(string $env = 'qa', string $pantheon_name = NULL): void {
+  public function deployPantheonInstallEnv(string $env = 'qa', string $pantheon_name = NULL, array $options = ['backup' => FALSE]): void {
     $forbidden_envs = [
       'live',
     ];
@@ -530,6 +534,13 @@ trait DeploymentTrait {
     $task = $this
       ->taskExecStack()
       ->stopOnFail();
+
+    // If --backup is specified, backup the environment before reinstalling it.
+    if (!empty($options['backup'])) {
+      // Example qa-231230, or test-231230.
+      $backup_name = sprintf("%s-%s", $env, date('ymd'));
+      $task->exec("terminus multidev:create $pantheon_terminus_environment $backup_name");
+    }
 
     $task
       ->exec("terminus remote:drush $pantheon_terminus_environment -- si server --no-interaction --existing-config")
