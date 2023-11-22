@@ -12,7 +12,7 @@ web_environment:
   # Use disable-dev-shm-usage instead of setting shm_usage
   # https://developers.google.com/web/tools/puppeteer/troubleshooting#tips
   # The format of chromeOptions is defined at https://chromedriver.chromium.org/capabilities
-  - MINK_DRIVER_ARGS_WEBDRIVER=[\"chrome\", {\"browserName\":\"chrome\",\"chromeOptions\":{\"w3c\":false,\"args\":[\"--disable-gpu\",\"--headless\", \"--no-sandbox\", \"--disable-dev-shm-usage\"]}}, \"http://selenium-chrome:4444/wd/hub\"]
+  - MINK_DRIVER_ARGS_WEBDRIVER=[\"chrome\", {\"browserName\":\"chrome\",\"chromeOptions\":{\"w3c\":false,\"args\":[\"--window-size=1920,1080\",\"--disable-gpu\",\"--headless\", \"--no-sandbox\", \"--disable-dev-shm-usage\"]}}, \"http://selenium-chrome:4444/wd/hub\"]
   # Nightwatch
   - DRUPAL_TEST_BASE_URL=http://web
   - DRUPAL_TEST_DB_URL=mysql://db:db@db/db
@@ -24,4 +24,4 @@ web_environment:
   - DRUPAL_NIGHTWATCH_IGNORE_DIRECTORIES=node_modules,vendor,.*,sites/*/files,sites/*/private,sites/simpletest
   - DRUPAL_NIGHTWATCH_OUTPUT=reports/nightwatch
   - DTT_BASE_URL=http://web
-  - DTT_MINK_DRIVER_ARGS=[\"chrome\", {\"browserName\":\"chrome\",\"chromeOptions\":{\"w3c\":false,\"args\":[\"--disable-gpu\",\"--headless\", \"--no-sandbox\", \"--disable-dev-shm-usage\"]}}, \"http://selenium-chrome:4444/wd/hub\"]
+  - DTT_MINK_DRIVER_ARGS=[\"chrome\", {\"browserName\":\"chrome\",\"chromeOptions\":{\"w3c\":false,\"args\":[\"--window-size=1920,1080\",\"--disable-gpu\",\"--headless\", \"--no-sandbox\", \"--disable-dev-shm-usage\"]}}, \"http://selenium-chrome:4444/wd/hub\"]
