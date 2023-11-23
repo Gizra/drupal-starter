@@ -233,43 +233,6 @@ trait ElementTrait {
   }
 
   /**
-   * Build an Accordion.
-   *
-   * @param string $title
-   *   The title.
-   * @param array $body
-   *   The body render array.
-   * @param array $items
-   *   Items rendered with `InnerElementTrait::buildElementAccordionItem`.
-   *
-   * @return array
-   *   The render array.
-   */
-  protected function buildElementAccordion(string $title, array $body, array $items): array {
-    // Add line separators to items.
-    $items_wrapped = [];
-    foreach ($items as $key => $item) {
-      if ($key == array_key_first($items)) {
-        $items_wrapped[] = $this->buildLineSeparator();
-      }
-      $items_wrapped[] = $item;
-      $items_wrapped[] = $this->buildLineSeparator();
-    }
-
-    // Accordion.
-    $items_wrapped = [
-      '#theme' => 'server_theme_element__accordion',
-      '#items' => $items_wrapped,
-    ];
-
-    return $this->buildParagraphTitleBodyAndItems(
-      $title,
-      $body,
-      $items_wrapped,
-    );
-  }
-
-  /**
    * Build News teasers element.
    *
    * @param string $title

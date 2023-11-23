@@ -179,26 +179,6 @@ trait InnerElementTrait {
   }
 
   /**
-   * Build an accordion item.
-   *
-   * @param string $title
-   *   The title.
-   * @param array $description
-   *   The description render array.
-   *
-   * @return array
-   *   The render array.
-   */
-  protected function buildInnerElementAccordionItem(string $title, array $description): array {
-
-    return [
-      '#theme' => 'server_theme_inner_element__accordion_item',
-      '#title' => $title,
-      '#description' => $this->wrapProseText($description),
-    ];
-  }
-
-  /**
    * Build an Info card element.
    *
    * @param string $header

@@ -12,6 +12,8 @@ global-scripts:
     dist/js/header-menu.js: {}
     # Search
     dist/js/search.js: {}
+    # Toggle hide/show using button.
+    dist/js/toggler.js: {}
   dependencies:
     - core/jquery
     - core/drupal
@@ -26,14 +28,6 @@ view-more:
   dependencies:
     - core/jquery
     - core/drupal
-    - core/once
-
-accordion:
-  js:
-    dist/js/accordion.js: {}
-  dependencies:
-    - core/drupal
-    - core/jquery
     - core/once
 
 roboto:
