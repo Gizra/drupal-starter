@@ -28,19 +28,19 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class StyleGuideController extends ControllerBase {
 
+  use AccordionTrait;
   use BuildFieldTrait;
   use ButtonTrait;
+  use ElementMediaTrait;
+  use ElementNodeNewsTrait;
   use ElementTrait;
   use ElementWrapTrait;
-  use ElementMediaTrait;
   use InnerElementTrait;
   use LinkTrait;
-  use ElementNodeNewsTrait;
   use SocialShareTrait;
   use StyleGuideElementWrapTrait;
   use TagTrait;
   use TitleAndLabelsTrait;
-  use AccordionTrait;
 
 
   /**
