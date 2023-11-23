@@ -1,0 +1,23 @@
+diff --git a/tooltip.info.yml b/tooltip.info.yml
+index 60a5f91..b848e21 100644
+--- a/tooltip.info.yml
++++ b/tooltip.info.yml
+@@ -3,9 +3,6 @@ type: module
+ description: Provides advanced HTML tooltip with PopperJS library.
+ core: 8.x
+ core_version_requirement: ^8 || ^9 || ^10
+-dependencies:
+-  - drupal:editor
+-  - drupal:ckeditor
+
+ # Information added by Drupal.org packaging script on 2023-08-07
+ version: '1.1.1'
+diff --git a/tooltip.routing.yml b/tooltip.routing.yml
+index 07aab50..234cb19 100644
+--- a/tooltip.routing.yml
++++ b/tooltip.routing.yml
+@@ -17,3 +17,4 @@ tooltip.editor_dialog:
+         type: entity:editor
+   requirements:
+     _entity_access: 'editor.use'
++    _module_dependencies: 'editor + ckeditor'

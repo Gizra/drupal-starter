@@ -82,6 +82,7 @@ module:
   tfa: 0
   token: 0
   toolbar: 0
+  tooltip: 0
   update: 0
   user: 0
   username_enumeration_prevention: 0
