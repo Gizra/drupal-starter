@@ -45,9 +45,11 @@ class ParagraphAccordion extends EntityViewBuilderPluginAbstract {
     $paragraphs = $entity->get('field_accordion_items');
     $items = $this->buildReferencedEntities($paragraphs, 'full', $entity->language()->getId());
 
-    $element = $this->buildElementAccordion($items);
-
-    $build[] = $element;
+    $build[] = $this->buildParagraphTitleBodyAndItems(
+      $this->getTextFieldValue($entity, 'field_title'),
+      $this->buildProcessedText($entity, 'field_body'),
+      $this->buildElementAccordion($items),
+    );
 
     return $build;
   }
