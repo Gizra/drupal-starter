@@ -9,6 +9,7 @@ use Drupal\Core\Url;
 use Drupal\Core\Utility\LinkGenerator;
 use Drupal\media\IFrameUrlHelper;
 use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
+use Drupal\server_general\AccordionTrait;
 use Drupal\server_general\ButtonTrait;
 use Drupal\server_general\ElementMediaTrait;
 use Drupal\server_general\ElementNodeNewsTrait;
@@ -27,18 +28,20 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class StyleGuideController extends ControllerBase {
 
+  use AccordionTrait;
   use BuildFieldTrait;
   use ButtonTrait;
+  use ElementMediaTrait;
+  use ElementNodeNewsTrait;
   use ElementTrait;
   use ElementWrapTrait;
-  use ElementMediaTrait;
   use InnerElementTrait;
   use LinkTrait;
-  use ElementNodeNewsTrait;
   use SocialShareTrait;
   use StyleGuideElementWrapTrait;
   use TagTrait;
   use TitleAndLabelsTrait;
+
 
   /**
    * The link generator service.
@@ -127,7 +130,7 @@ class StyleGuideController extends ControllerBase {
     $build[] = $this->getTextStyles();
 
     $element = $this->getAccordion();
-    $build[] = $this->wrapElementNoContainer($element, 'Element: Accordion');
+    $build[] = $this->wrapElementWideContainer($element, 'Element: Accordion');
 
     $element = $this->getCta();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Call to Action');
@@ -701,8 +704,6 @@ class StyleGuideController extends ControllerBase {
     }
 
     return $this->buildElementAccordion(
-      $this->getRandomTitle(),
-      $this->buildProcessedText('This is the main description of the FAQ section'),
       $items,
     );
   }
