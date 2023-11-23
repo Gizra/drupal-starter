@@ -71,10 +71,12 @@
         "drupal/smart_trim": "^2.1",
         "drupal/stage_file_proxy": "^2.1",
         "drupal/tfa": "^1.0",
+        "drupal/tooltip": "^1.1",
         "drupal/upgrade_status": "^4.0",
         "drupal/username_enumeration_prevention": "^1.3",
         "drush/drush": "^11",
         "longwave/laminas-diactoros": "^2.14",
+        "mglaman/composer-drupal-lenient": "^1",
         "npm-asset/anchor-js": "^5.0",
         "npm-asset/select2": "^4.0",
         "npm-asset/slick-carousel": "^1.8",
@@ -121,7 +123,8 @@
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "drupal/core-composer-scaffold": true,
             "drupal/core-project-message": true,
-            "oomphinc/composer-installers-extender": true
+            "oomphinc/composer-installers-extender": true,
+            "mglaman/composer-drupal-lenient": true
         },
         "platform": {
             "php": "8.1"
@@ -156,6 +159,9 @@
             },
             "npm-asset/anchor-js": {
                 "remove font-face": "patches/remove-anchorjs-fontface.patch"
+            },
+            "drupal/tooltip": {
+                "Remove hard dependency on CKEditor": "patches/tooltip.patch"
             }
         },
         "drupal-scaffold": {
@@ -202,9 +208,13 @@
                 "  * Remove the plugin that prints this message:",
                 "      composer remove drupal/core-project-message"
             ]
+        },
+        "drupal-lenient": {
+            "allowed-list": ["drupal/tooltip"]
         }
     },
     "replace": {
-        "drupal/ctools": "*"
+        "drupal/ctools": "*",
+        "drupal/ckeditor": "*"
     }
 }

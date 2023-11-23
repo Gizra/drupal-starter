@@ -17,9 +17,11 @@ use Drupal\server_general\ElementTrait;
 use Drupal\server_general\ElementWrapTrait;
 use Drupal\server_general\InnerElementTrait;
 use Drupal\server_general\LinkTrait;
+use Drupal\server_general\ListTrait;
 use Drupal\server_general\SocialShareTrait;
 use Drupal\server_general\TagTrait;
 use Drupal\server_general\TitleAndLabelsTrait;
+use Drupal\server_general\TooltipTrait;
 use Drupal\server_style_guide\StyleGuideElementWrapTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -37,10 +39,12 @@ class StyleGuideController extends ControllerBase {
   use ElementWrapTrait;
   use InnerElementTrait;
   use LinkTrait;
+  use ListTrait;
   use SocialShareTrait;
   use StyleGuideElementWrapTrait;
   use TagTrait;
   use TitleAndLabelsTrait;
+  use TooltipTrait;
 
 
   /**
@@ -179,6 +183,9 @@ class StyleGuideController extends ControllerBase {
 
     $element = $this->getNodeNews();
     $build[] = $this->wrapElementNoContainer($element, 'Node view: News');
+
+    $element = $this->getTooltip();
+    $build[] = $this->wrapElementWideContainer($element, 'Element: Tooltip');
 
     return $build;
   }
@@ -846,6 +853,22 @@ class StyleGuideController extends ControllerBase {
       );
     }
     return $elements;
+  }
+
+  /**
+   * Renders a tooltip.
+   *
+   * @return array
+   *   A render array.
+   */
+  protected function getTooltip() : array {
+    $content = $this->getMediaImageWithCreditOverlay();
+    $elements[] = $this->buildElementSpanWithTooltip('This element has a tooltip', $content, ['placement' => 'top']);
+
+    $content = ['#markup' => 'An example site'];
+    $elements[] = $this->buildElementLinkWithTooltip('This element is a link with tooltip', 'https://example.com', $content, ['placement' => 'top']);
+
+    return $this->buildElementUnorderedList($elements);
   }
 
 }

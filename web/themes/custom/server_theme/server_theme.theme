@@ -458,6 +458,28 @@ function server_theme_theme() {
     ],
   ];
 
+  // The "Tooltip span" element.
+  $info['server_theme_element__tooltip_span'] = [
+    'variables' => [
+      // The text inside the span.
+      'text' => '',
+      // The settings to render the tooltip. Json encoded.
+      'settings' => '',
+    ],
+  ];
+
+  // The "Tooltip link" element.
+  $info['server_theme_element__tooltip_link'] = [
+    'variables' => [
+      // The url of the link.
+      'href' => '',
+      // The text inside the link.
+      'text' => '',
+      // The settings to render the tooltip. Json encoded.
+      'settings' => '',
+    ],
+  ];
+
   // A card that is linkable.
   $info['server_theme_inner_element__quick_link_item'] = [
     'variables' => [
