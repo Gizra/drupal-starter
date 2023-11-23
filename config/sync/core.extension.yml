@@ -99,6 +99,8 @@ module:
   text: 0
   tfa: 0
   token: 0
+  toolbar: 0
+  tooltip: 0
   ultimate_cron: 0
   update: 0
   user: 0

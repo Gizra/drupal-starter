@@ -5,6 +5,7 @@ namespace Drupal\server_style_guide\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
+use Drupal\server_general\ListTrait;
 use Drupal\server_general\ThemeTrait\AccordionThemeTrait;
 use Drupal\server_general\ThemeTrait\Enum\ColorEnum;
 use Drupal\server_general\ThemeTrait\CarouselThemeTrait;
@@ -23,6 +24,7 @@ use Drupal\server_general\ThemeTrait\PeopleTeasersThemeTrait;
 use Drupal\server_general\ThemeTrait\QuickLinksThemeTrait;
 use Drupal\server_general\ThemeTrait\QuoteThemeTrait;
 use Drupal\server_general\ThemeTrait\SearchThemeTrait;
+use Drupal\server_general\TooltipTrait;
 use Drupal\server_general\WebformTrait;
 use Drupal\server_style_guide\ThemeTrait\StyleGuideElementWrapThemeTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -41,12 +43,14 @@ class StyleGuideController extends ControllerBase {
   use ExpandingTextThemeTrait;
   use HeroThemeTrait;
   use InfoCardThemeTrait;
+  use ListTrait;
   use NewsTeasersThemeTrait;
   use PeopleTeasersThemeTrait;
   use QuickLinksThemeTrait;
   use QuoteThemeTrait;
   use SearchThemeTrait;
   use StyleGuideElementWrapThemeTrait;
+  use TooltipTrait;
   use WebformTrait;
 
 
@@ -191,6 +195,9 @@ class StyleGuideController extends ControllerBase {
 
     $element = $this->getNodeNews();
     $build[] = $this->wrapElementNoContainer($element, 'Node view: News');
+
+    $element = $this->getTooltip();
+    $build[] = $this->wrapElementWideContainer($element, 'Element: Tooltip');
 
     $element = $this->getWebformElement();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Webform');
@@ -902,6 +909,22 @@ class StyleGuideController extends ControllerBase {
     $element = $this->wrapProseText($element);
 
     return $this->wrapContainerWide($this->buildElementExpandingText($element, $lines_to_clamp, $button_label_more, $button_label_less));
+  }
+
+  /**
+   * Renders a tooltip.
+   *
+   * @return array
+   *   A render array.
+   */
+  protected function getTooltip(): array {
+    $content = $this->getMediaImageWithCreditOverlay();
+    $elements[] = $this->buildElementSpanWithTooltip('This element has a tooltip', $content, ['placement' => 'top']);
+
+    $content = ['#markup' => 'An example site'];
+    $elements[] = $this->buildElementLinkWithTooltip('This element is a link with tooltip', 'https://example.com', $content, ['placement' => 'top']);
+
+    return $this->buildElementUnorderedList($elements);
   }
 
   /**

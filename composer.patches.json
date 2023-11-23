@@ -36,6 +36,9 @@
     },
     "drupal/schema_metatag": {
       "d.o. #3415013": "patches/3415013-schema-webpage-extra-fields.patch"
+    },
+    "drupal/tooltip": {
+      "Remove hard dependency on CKEditor": "patches/tooltip.patch"
     }
   }
 }
