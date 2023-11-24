@@ -72,7 +72,7 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: title
     type: text
-    boost: !!float 3
+    boost: 3.0
     dependencies:
       module:
         - node
