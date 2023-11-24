@@ -34,6 +34,28 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
   }
 
   /**
+   * Test synonyms.
+   */
+  public function testSynonyms() {
+    $english_node_title = 'Dress';
+    $this->createNode([
+      'title' => $english_node_title,
+      'type' => 'news',
+      'langcode' => 'en',
+    ]);
+    $this->triggerPostRequestIndexing();
+    $this->waitForSearchIndex(function () use ($english_node_title) {
+      $this->drupalGet('/search', [
+        'query' => [
+          'key' => 'clothing',
+        ],
+      ]);
+      $session = $this->assertSession();
+      $session->elementTextContains('css', '.view-search', $english_node_title);
+    });
+  }
+
+  /**
    * Test the relevance sort, boosting of title should be the highest.
    */
   public function testRelevanceSort() {
