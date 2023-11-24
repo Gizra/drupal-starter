@@ -9,7 +9,7 @@ field_name: mail
 entity_type: comment
 bundle: comment
 label: Email
-description: 'The comment author''s email address.'
+description: "The comment author's email address."
 required: false
 translatable: false
 default_value: {  }

@@ -11,7 +11,7 @@ third_party_settings:
     parent: 'main:'
 name: 'Landing page'
 type: landing_page
-description: 'Use <em>landing pages</em> for your configurable pages with paragraphs, such as an ''Home'' page.'
+description: "Use <em>landing pages</em> for your configurable pages with paragraphs, such as an 'Home' page."
 help: ''
 new_revision: true
 preview_mode: 1

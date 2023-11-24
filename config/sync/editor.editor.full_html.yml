@@ -36,6 +36,50 @@ settings:
       - code
       - codeBlock
   plugins:
+    ckeditor5_codeBlock:
+      languages:
+        -
+          label: 'Plain text'
+          language: plaintext
+        -
+          label: C
+          language: c
+        -
+          label: 'C#'
+          language: cs
+        -
+          label: C++
+          language: cpp
+        -
+          label: CSS
+          language: css
+        -
+          label: Diff
+          language: diff
+        -
+          label: HTML
+          language: html
+        -
+          label: Java
+          language: java
+        -
+          label: JavaScript
+          language: javascript
+        -
+          label: PHP
+          language: php
+        -
+          label: Python
+          language: python
+        -
+          label: Ruby
+          language: ruby
+        -
+          label: TypeScript
+          language: typescript
+        -
+          label: XML
+          language: xml
     ckeditor5_heading:
       enabled_headings:
         - heading1
@@ -44,6 +88,13 @@ settings:
         - heading4
         - heading5
         - heading6
+    ckeditor5_imageResize:
+      allow_resize: true
+    ckeditor5_language:
+      language_list: un
+    ckeditor5_list:
+      reversed: true
+      startIndex: true
     ckeditor5_sourceEditing:
       allowed_tags:
         - '<abbr accept accept-charset accesskey action align alt async autocomplete autofocus autoplay bgcolor border charset checked="checked" cite class color cols colspan content contenteditable controls coords data datetime default defer="defer" dir dirname disabled="disabled" download draggable enctype for form formaction headers height hidden high href hreflang http-equiv id ismap="ismap" kind label list loop low max maxlength media method min multiple="multiple" muted name novalidate open optimum pattern placeholder poster preload readonly="readonly" rel required reversed rows rowspan sandbox scope selected="selected" shape size sizes span spellcheck src srcdoc srclang srcset start step tabindex target title translate type usemap value width wrap>'
@@ -167,13 +218,6 @@ settings:
         - '<tr accept accept-charset accesskey action align alt async autocomplete autofocus autoplay bgcolor border charset checked="checked" cite color cols colspan content contenteditable controls coords data datetime default defer="defer" dir dirname disabled="disabled" download draggable enctype for form formaction headers height hidden high href hreflang http-equiv id ismap="ismap" kind label list loop low max maxlength media method min multiple="multiple" muted name novalidate open optimum pattern placeholder poster preload readonly="readonly" rel required reversed rows rowspan sandbox scope selected="selected" shape size sizes span spellcheck src srcdoc srclang srcset start step tabindex target title translate type usemap value width wrap>'
         - '<ul accept accept-charset accesskey action align alt async autocomplete autofocus autoplay bgcolor border charset checked="checked" cite color cols colspan content contenteditable controls coords data datetime default defer="defer" dir dirname disabled="disabled" download draggable enctype for form formaction headers height hidden high href hreflang http-equiv id ismap="ismap" kind label list loop low max maxlength media method min multiple="multiple" muted name novalidate open optimum pattern placeholder poster preload readonly="readonly" rel required reversed rows rowspan sandbox scope selected="selected" shape size sizes span spellcheck src srcdoc srclang srcset start step tabindex target title translate type usemap value width wrap>'
         - '<drupal-media data-align data-caption title>'
-    ckeditor5_list:
-      reversed: true
-      startIndex: true
-    ckeditor5_imageResize:
-      allow_resize: true
-    ckeditor5_language:
-      language_list: un
     media_media:
       allow_view_mode_override: false
 image_upload:

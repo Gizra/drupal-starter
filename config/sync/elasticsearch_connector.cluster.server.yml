@@ -7,8 +7,8 @@ name: server
 url: 'http://elasticsearch:9200'
 options:
   multiple_nodes_connection: false
-  use_authentication: 0
+  use_authentication: false
   authentication_type: Basic
   username: ''
   password: ''
-  timeout: '3'
+  timeout: 3
