@@ -35,6 +35,9 @@ settings:
         - heading4
         - heading5
         - heading6
+    ckeditor5_list:
+      reversed: false
+      startIndex: true
     ckeditor5_sourceEditing:
       allowed_tags:
         - '<cite>'
@@ -54,9 +57,6 @@ settings:
         - '<h5 id>'
         - '<h6 id>'
         - '<drupal-media data-align data-caption title>'
-    ckeditor5_list:
-      reversed: false
-      startIndex: true
     media_media:
       allow_view_mode_override: false
 image_upload:

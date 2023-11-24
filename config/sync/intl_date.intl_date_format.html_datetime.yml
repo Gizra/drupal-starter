@@ -6,4 +6,4 @@ _core:
   default_config_hash: VwSf5C7xdtACtJ6N6zupEn7CI8U0UceU-Wku1fEn438
 id: html_datetime
 label: 'HTML Datetime'
-pattern: 'yyyy-MM-d''T''HH:mm:ssxx'
+pattern: "yyyy-MM-d'T'HH:mm:ssxx"

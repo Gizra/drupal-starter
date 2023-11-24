@@ -1,0 +1,77 @@
+uuid: 771ceba1-359f-49f0-8db6-99b54a067340
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: x7hRmmjSQscuuefTJywoyq2xEywr2XojLNHJEgenImc
+id: text_edge_und_7_0_0
+label: 'Edge NGram Text Field'
+minimum_solr_version: 7.0.0
+custom_code: edge
+field_type_language_code: und
+domains: {  }
+field_type:
+  name: text_edge
+  class: solr.TextField
+  positionIncrementGap: 100
+  storeOffsetsWithPositions: true
+  analyzers:
+    -
+      type: index
+      charFilters:
+        -
+          class: solr.MappingCharFilterFactory
+          mapping: accents_und.txt
+      tokenizer:
+        class: solr.StandardTokenizerFactory
+      filters:
+        -
+          class: solr.StopFilterFactory
+          ignoreCase: true
+          words: stopwords_und.txt
+        -
+          class: solr.WordDelimiterGraphFilterFactory
+          catenateNumbers: 1
+          generateNumberParts: 1
+          protected: protwords_und.txt
+          splitOnCaseChange: 0
+          generateWordParts: 1
+          preserveOriginal: 1
+          catenateAll: 0
+          catenateWords: 1
+        -
+          class: solr.FlattenGraphFilterFactory
+        -
+          class: solr.LengthFilterFactory
+          min: 2
+          max: 100
+        -
+          class: solr.LowerCaseFilterFactory
+        -
+          class: solr.RemoveDuplicatesTokenFilterFactory
+        -
+          class: solr.EdgeNGramFilterFactory
+          minGramSize: 2
+          maxGramSize: 25
+    -
+      type: query
+      charFilters:
+        -
+          class: solr.MappingCharFilterFactory
+          mapping: accents_und.txt
+      tokenizer:
+        class: solr.StandardTokenizerFactory
+      filters:
+        -
+          class: solr.LengthFilterFactory
+          min: 2
+          max: 100
+        -
+          class: solr.LowerCaseFilterFactory
+        -
+          class: solr.RemoveDuplicatesTokenFilterFactory
+unstemmed_field_type: null
+spellcheck_field_type: null
+collated_field_type: null
+solr_configs: {  }
+text_files: {  }

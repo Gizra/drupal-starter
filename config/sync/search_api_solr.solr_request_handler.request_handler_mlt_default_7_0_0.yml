@@ -1,0 +1,31 @@
+uuid: 9ab48239-1049-4abe-94af-0d6cc19d835a
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: pUEvXftg5xCCVTHW_0W0A29nMsH8SkAFhwvONT-nB6g
+id: request_handler_mlt_default_7_0_0
+label: 'More Like This'
+minimum_solr_version: 7.0.0
+environments: {  }
+recommended: true
+request_handler:
+  name: /mlt
+  class: solr.MoreLikeThisHandler
+  lst:
+    -
+      name: defaults
+      str:
+        -
+          name: mlt.mintf
+          VALUE: '1'
+        -
+          name: mlt.mindf
+          VALUE: '1'
+        -
+          name: mlt.match.include
+          VALUE: 'false'
+        -
+          name: timeAllowed
+          VALUE: '${solr.mlt.timeAllowed:2000}'
+solr_configs: null

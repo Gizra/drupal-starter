@@ -1,0 +1,45 @@
+uuid: 2327f479-8383-418f-aa04-9e7c08fe6166
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: yJG5axh8DBXy46CJWBW9DMcFecWKHvppKGxtp92fhKc
+id: text_ngramstring_und_6_0_0
+label: 'NGram String Field'
+minimum_solr_version: 6.0.0
+custom_code: ngramstring
+field_type_language_code: und
+domains: {  }
+field_type:
+  name: text_ngramstring
+  class: solr.TextField
+  positionIncrementGap: 100
+  storeOffsetsWithPositions: true
+  analyzers:
+    -
+      type: index
+      tokenizer:
+        class: solr.KeywordTokenizerFactory
+      filters:
+        -
+          class: solr.LowerCaseFilterFactory
+        -
+          class: solr.RemoveDuplicatesTokenFilterFactory
+        -
+          class: solr.NGramFilterFactory
+          minGramSize: 2
+          maxGramSize: 25
+    -
+      type: query
+      tokenizer:
+        class: solr.KeywordTokenizerFactory
+      filters:
+        -
+          class: solr.LowerCaseFilterFactory
+        -
+          class: solr.RemoveDuplicatesTokenFilterFactory
+unstemmed_field_type: null
+spellcheck_field_type: null
+collated_field_type: null
+solr_configs: {  }
+text_files: {  }

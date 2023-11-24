@@ -6,7 +6,6 @@ use Drupal\Core\DrupalKernel;
 use Robo\Tasks;
 use RoboComponents\BootstrapTrait;
 use RoboComponents\DeploymentTrait;
-use RoboComponents\ElasticSearchTrait;
 use RoboComponents\PhpcsTrait;
 use RoboComponents\ReleaseNotesTrait;
 use RoboComponents\ThemeTrait;
@@ -24,7 +23,6 @@ class RoboFile extends Tasks {
 
   use BootstrapTrait;
   use DeploymentTrait;
-  use ElasticSearchTrait;
   use ExportFromConfig;
   use ImportToConfig;
   use ImportToUi;

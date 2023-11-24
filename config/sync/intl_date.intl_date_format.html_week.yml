@@ -6,4 +6,4 @@ _core:
   default_config_hash: szyNZPHqfBUUnvMeVq-o1kcXrKabUd29ixIgMRux_Ss
 id: html_week
 label: 'HTML Week'
-pattern: 'yyyy-''W''ww'
+pattern: "yyyy-'W'ww"
