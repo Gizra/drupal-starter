@@ -17,7 +17,7 @@ else
         pr_number=${BASH_REMATCH[1]}
 
         # Retrieve PR information from GitHub API
-        pr_info=$(curl -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/repos/Giza/WMO/pulls/$pr_number")
+        pr_info=$(curl -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/repos/$TRAVIS_REPO_SLUG/pulls/$pr_number")
 
         # Extract issue number from PR body
         if [[ $pr_info =~ \#([0-9]+) ]]; then
@@ -35,12 +35,12 @@ fi
 # Check if the script should notify
 if [ "$TRAVIS_BRANCH" == "main" ] && [ "$TRAVIS_EVENT_TYPE" == "push" ] && [ -z "$TRAVIS_TAG" ] && [ -n "$issue_number" ]; then
     message="Could not deploy the last PR to Pantheon properly."
-
-    github_api_url="https://api.github.com/repos/Giza/WMO/issues/$issue_number/comments"
+i
+    github_api_url="https://api.github.com/repos/$TRAVIS_REPO_SLUG/issues/$issue_number/comments"
 
     exit_code=$(curl -X POST -H "Authorization: token $GITHUB_TOKEN" -d "{\"body\": \"$message\"}" "$github_api_url" -o /dev/null -w '%{http_code}')
 
-    if [ "$exit_code" -ne 200 ]; then
+    if [ "$exit_code" -ne 200 ] && [ "$exit_code" -ne 201 ]; then
         echo "Failed to post the message to GitHub. HTTP response code: $exit_code"
         exit 1
     fi
