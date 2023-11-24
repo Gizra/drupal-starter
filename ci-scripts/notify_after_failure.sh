@@ -17,7 +17,7 @@ else
         pr_number=${BASH_REMATCH[1]}
 
         # Retrieve PR information from GitHub API
-        pr_info=$(curl -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/repos/Giza/WMO/pulls/$pr_number")
+        pr_info=$(curl -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/repos/Giza/drupal-starter/pulls/$pr_number")
 
         # Extract issue number from PR body
         if [[ $pr_info =~ \#([0-9]+) ]]; then
