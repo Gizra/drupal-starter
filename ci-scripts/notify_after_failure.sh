@@ -35,7 +35,6 @@ fi
 # Check if the script should notify
 if [ "$TRAVIS_BRANCH" == "main" ] && [ "$TRAVIS_EVENT_TYPE" == "push" ] && [ -z "$TRAVIS_TAG" ] && [ -n "$issue_number" ]; then
     message="Could not deploy the last PR to Pantheon properly."
-i
     github_api_url="https://api.github.com/repos/$TRAVIS_REPO_SLUG/issues/$issue_number/comments"
 
     exit_code=$(curl -X POST -H "Authorization: token $GITHUB_TOKEN" -d "{\"body\": \"$message\"}" "$github_api_url" -o /dev/null -w '%{http_code}')
