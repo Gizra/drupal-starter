@@ -12,57 +12,20 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
   const ES_RETRY_LIMIT = 20;
 
   /**
-   * Test basic indexing.
-   */
-  public function testBasicIndexing() {
-    $admin = $this->createUser([], NULL, TRUE);
-    $this->drupalLogin($admin);
-    $this->drupalGet('/admin/config/search/elasticsearch-connector/cluster/server');
-    $empty_text = 'There are 0 items indexed on the server for this index.';
-
-    // The server is available.
-    $this->assertSession()->elementTextContains('css', '.admin-elasticsearch-statistics tr td', '1 Nodes');
-    $this->assertSession()->elementTextNotContains('css', '.admin-elasticsearch-statistics', 'red');
-
-    $this->drupalGet('/admin/config/search/search-api/index/server_dev/clear');
-    $this->submitForm([], 'Confirm');
-
-    // After the purge, we should not have items.
-    $this->drupalGet('/admin/config/search/search-api/index/server_dev');
-    $this->assertSession()->pageTextContains($empty_text);
-
-    $node = $this->createNode([
-      'title' => 'Search API + ES test',
-      'type' => 'news',
-      'uid' => $admin->id(),
-    ]);
-    $node->setPublished()->save();
-    $this->triggerPostRequestIndexing();
-
-    $this->waitForElasticSearchIndex(function () use ($empty_text) {
-      $this->drupalGet('/admin/config/search/search-api/index/server_dev');
-      $this->assertSession()->pageTextNotContains($empty_text);
-      $this
-        ->assertSession()
-        ->pageTextMatches('/There (are|is) [0-9]+ item(s)* indexed on the server for this index/');
-    });
-  }
-
-  /**
    * Test freetext search.
    */
   public function testFreetextSearch() {
-    $english_node_title = 'This is a test';
+    $english_node_title = 'This is a node that should be indexed';
     $this->createNode([
       'title' => $english_node_title,
       'type' => 'news',
       'langcode' => 'en',
     ]);
     $this->triggerPostRequestIndexing();
-    $this->waitForElasticSearchIndex(function () use ($english_node_title) {
+    $this->waitForSearchIndex(function () use ($english_node_title) {
       $this->drupalGet('/search', [
         'query' => [
-          'key' => 'This is',
+          'key' => 'indexed',
         ],
       ]);
       $session = $this->assertSession();
@@ -89,7 +52,7 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
     ]);
     $node->setPublished()->save();
     $this->triggerPostRequestIndexing();
-    $this->waitForElasticSearchIndex(function () {
+    $this->waitForSearchIndex(function () {
       $assert = $this->assertSession();
       $this->drupalGet('/search', [
         'query' => [
