@@ -82,6 +82,7 @@ module:
   tfa: 0
   token: 0
   toolbar: 0
+  ultimate_cron: 0
   update: 0
   user: 0
   username_enumeration_prevention: 0
