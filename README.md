@@ -190,6 +190,10 @@ example implementation. By extending the above base class you can also take scre
 **Note: You should not leave calls to `takeScreenshot` in the codebase when committing, this is meant only for
 local debugging purposes.**
 
+You can also watch what the tests are doing in the browser using noVNC. To do so, simply open a browser and open
+https://drupal-starter.ddev.site:7900 and click Connect. The password is `secret`. Now simply run the tests
+and you can see the test running in the browser.
+
 ## Debugging
 
 ## Visual Studio Code instructions
