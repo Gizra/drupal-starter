@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ab3ee91376e91ab8d21cbc830a451423",
+    "content-hash": "c5aa8d716a71cce60fbd2da1b4b03011",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -5366,6 +5366,64 @@
             "homepage": "https://www.drupal.org/project/username_enumeration_prevention",
             "support": {
                 "source": "https://git.drupalcode.org/project/username_enumeration_prevention"
+            }
+        },
+        {
+            "name": "drupal/views_autosubmit",
+            "version": "1.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/views_autosubmit.git",
+                "reference": "8.x-1.6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/views_autosubmit-8.x-1.6.zip",
+                "reference": "8.x-1.6",
+                "shasum": "f7b520e59721ab32f3e40ff8defe99d804e939e2"
+            },
+            "require": {
+                "drupal/core": "^8.8 || ^9 || ^10"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.6",
+                    "datestamp": "1695586179",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Ivan Trokhanenko (i-trokhanenko)",
+                    "homepage": "https://www.drupal.org/u/i-trokhanenko",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "aritra.ghosh",
+                    "homepage": "https://www.drupal.org/user/1830998"
+                },
+                {
+                    "name": "i-trokhanenko",
+                    "homepage": "https://www.drupal.org/user/3546872"
+                },
+                {
+                    "name": "sandeep_jangra",
+                    "homepage": "https://www.drupal.org/user/3468193"
+                }
+            ],
+            "description": "Views exposed filter autosubmit for Drupal.",
+            "homepage": "https://www.drupal.org/project/views_autosubmit",
+            "support": {
+                "source": "https://git.drupalcode.org/project/views_autosubmit",
+                "issues": "https://www.drupal.org/project/issues/views_autosubmit"
             }
         },
         {
