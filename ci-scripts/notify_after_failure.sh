@@ -3,8 +3,9 @@
 # Get the commit message from the environment variable or from git
 git_commit_message=${TRAVIS_COMMIT_MESSAGE:-$(git log -1 --pretty=%B)}
 
-# Initialize issue_number variable
+# Initialize variables
 issue_number=""
+pr_number=""
 
 # Try to extract the issue number from the commit message.
 issue_matches=()
@@ -34,7 +35,13 @@ fi
 
 # Check if the script should notify
 if [ "$TRAVIS_BRANCH" == "main" ] && [ "$TRAVIS_EVENT_TYPE" == "push" ] && [ -z "$TRAVIS_TAG" ] && [ -n "$issue_number" ]; then
-    message="Could not deploy the last PR to Pantheon properly."
+    # Determine the message based on whether PR number is available
+    if [ -n "$pr_number" ]; then
+        message="Could not deploy PR #$pr_number to Pantheon properly."
+    else
+        message="Could not deploy the last PR / commit to Pantheon properly."
+    fi
+
     github_api_url="https://api.github.com/repos/$TRAVIS_REPO_SLUG/issues/$issue_number/comments"
 
     exit_code=$(curl -X POST -H "Authorization: token $GITHUB_TOKEN" -d "{\"body\": \"$message\"}" "$github_api_url" -o /dev/null -w '%{http_code}')
