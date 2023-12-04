@@ -32,6 +32,10 @@ trait SecurityTrait {
 
     foreach ($lines as $line) {
       [$count, $ip] = preg_split('/\s+/', trim($line));
+      if (!$this->isPublicIp($ip)) {
+        $this->yell("Skipping internal IP: $ip");
+        continue;
+      }
       $host = gethostbyaddr($ip);
       $percent = ($count / $totalRequests) * 100;
 
@@ -84,6 +88,30 @@ EOF
     if (!file_exists(self::$accessLogPath)) {
       throw new \Exception('Failed to download the logfiles');
     }
+  }
+
+  /**
+   * Makes sure the IP is public.
+   *
+   * @param string $ip
+   *   IPv4 address.
+   *
+   * @return bool
+   *   TRUE if the IP is public, FALSE otherwise.
+   */
+  protected function isPublicIp($ip) {
+    // Check if the IP is a valid IP address and not a private or reserved IP.
+    if (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+      return FALSE;
+    }
+
+    // Check for loopback address (127.0.0.1)
+    if (substr($ip, 0, 4) === '127.') {
+      return FALSE;
+    }
+
+    // The IP address is public and not loopback.
+    return TRUE;
   }
 
 }
