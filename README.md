@@ -408,6 +408,24 @@ ddev ddev-flood-flush 193.165.2.3
 
 Purges entries related to IP `193.165.2.3` from Pantheon's `test` environment, or alternatively from DDEV's own Redis.
 
+## DDOS attack mitigation
+
+If you experience a site outage or a slowdown, you should consider DDOS attack
+as a possible root cause.
+```
+ddev robo security:check-ddos
+```
+
+Will provide a list of top IP address by number of requests. If the top few IP
+addressess issue the majority of the requests, spot check a few requests from
+the access log, then ban those IPs if they issue malicious requests.
+
+If that simple check if not enough, if there's uncertainity, [`goaccess`](https://goaccess.io/man)
+can help to understand the nature of the traffic.
+
+```
+ddev robo security:access-log-overview
+```
 
 ## Importing/Exporting translations
 
