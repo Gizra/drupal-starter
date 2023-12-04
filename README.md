@@ -419,6 +419,8 @@ ddev robo security:check-ddos
 Will provide a list of top IP address by number of requests. If the top few IP
 addressess issue the majority of the requests, spot check a few requests from
 the access log, then ban those IPs if they issue malicious requests.
+Check `web/sites/default/settings.pantheon.php` on how to block individual IPs
+on Pantheon.
 
 If that simple check if not enough, if there's uncertainity, [`goaccess`](https://goaccess.io/man)
 can help to understand the nature of the traffic.
