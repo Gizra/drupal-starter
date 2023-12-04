@@ -423,7 +423,7 @@ Check `web/sites/default/settings.pantheon.php` on how to block individual IPs
 on Pantheon.
 
 If that simple check if not enough, if there's uncertainity, [`goaccess`](https://goaccess.io/man)
-can help to understand the nature of the traffic.
+can help to understand the nature of the traffic. You can run `goaccess` with this command:
 
 ```
 ddev robo security:access-log-overview
