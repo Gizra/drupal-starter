@@ -5,6 +5,22 @@
  * Pantheon-specific settings.
  */
 
+// Naive mitigation of bad traffic.
+// These IPs below are from
+// https://www.projecthoneypot.org/list_of_ips.php
+// Use `ddev robo security:check-ddos`
+// to detect malicious IPs.
+$block_list = [
+  '159.192.123.2',
+  '94.156.71.97',
+  '103.19.116.88',
+];
+
+if (in_array($_SERVER['REMOTE_ADDR'], $block_list)) {
+  header('HTTP/1.0 403 Forbidden');
+  exit;
+}
+
 $settings['container_yamls'][] = __DIR__ . '/services.pantheon.yml';
 
 /**
