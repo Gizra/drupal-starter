@@ -2,6 +2,7 @@
 
 namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
+use Drupal\Core\Link;
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
 use Drupal\server_general\ButtonTrait;
@@ -45,8 +46,7 @@ class ParagraphCta extends EntityViewBuilderPluginAbstract {
     $element = $this->buildElementCta(
       $this->getTextFieldValue($entity, 'field_title'),
       $this->buildProcessedText($entity),
-      $link['title'],
-      $link['url'],
+      Link::fromTextAndUrl($link['title'], $link['url']),
     );
 
     $build[] = $element;
