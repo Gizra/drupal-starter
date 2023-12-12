@@ -35,7 +35,6 @@ trait ElementTrait {
    *   The body render array.
    * @param \Drupal\Core\Link $link
    *   The button Link object.
-   *   If NULL, no button is rendered. Defaults to NULL.
    *
    * @return array
    *   Render array.
