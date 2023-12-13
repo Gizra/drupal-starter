@@ -156,13 +156,20 @@ and assign the image styles created in step3 to each breakpoint.
 5. Finally use the responsive image style in the wire-up of the component with
 Drupal. With PEVB, see `BuildFieldTrait::buildMediaResponsiveImage()`.
 
-## ElasticSearch
+## Solr
 
-The starter kit comes out of the box with ElasticSearch. Search API is activated and DDEV provides an ElasticSearch instance, already configured to use a [stopwords](https://github.com/Gizra/drupal-starter/blob/master/config/elasticsearch/stopwords.txt) and a [synonyms](https://github.com/Gizra/drupal-starter/blob/master/config/elasticsearch/synonyms.txt) list. Also it creates 4 indices (QA, DEV, TEST and LIVE) to reflect our typical Pantheon setup. The site inside DDEV will use the DEV index.
-To take a look, you can check these first:
- - https://drupal-starter.ddev.site:9201/
- - https://drupal-starter.ddev.site:9201/\_cat/indices - list of all indices
- - https://drupal-starter.ddev.site:9201/\_search - list of all documents
+The starter kit comes out of the box with Solr. Pantheon's built-in, very limited Solr is useful for basic sites in English mostly.
+For sophisticated needs, we can spin up an index at [OpenSolr](https://opensolr.com/) for instance, especially if we need stopword handling or synonyms.
+
+### Index cleanup
+
+It can happen that an index is polluted and Search API cannot restore it using "Delete all indexed items". Then there's a Drush command of the integration module to reset the index, drop all data inside:
+
+```bash
+terminus remote:drush gizra-drupal-starter.qa search-api-pantheon:force-cleanup
+```
+
+Then you can re-index the data and check the sanity of the search.
 
 ## PHPCS (Code Sniffer)
 
@@ -506,18 +513,3 @@ when a privileged user will login, they must enable their TFA. Otherwise, on a s
 login, they will already be blocked. A site admin may reset their validation tries
 under the `/admin/people` page.
 The TFA method that is enabled is one that uses Google authenticator (or similar).
-
-
-## Multidev environment and search
-
-We often need to create a new Pantheon environment,  along with its own Elasticsearch index.
-Sometimes we need search in those environments.
-
-Steps to cover this use case:
-1. Look up the ElasticSearch server URL and credentials.
-1. If present, remove `$site . '.es.secrets.json'` file from the repository root (backup it before)
-1. `ddev robo elasticsearch:provision [url] [user] [password] [newenvironment] true` - use the `elastic` super-user for this operation. It will do the index and user creation on ElasticSearch side, `newenvironment` is the new Pantheon environment machine name. See `ddev robo elasticsearch:provision --help` for usage.
-1. Copy the resulting `$site . '.es.secrets.json'` file in the GitHub repository root to `.pantheon/config/elasticsearch` directory, only in the branch that is the target of the auto-deployment for `newenvironment`.
-1. Test if ElasticSearch connector has a connection to the new index.
-1. Do a `sapi-c` and `sapi-i` on the new Pantheon multidev.
-1. You might want to check if the new index contains items. Go to `[ES server URL]/_cat/indices`, you will see how much data the new index holds.
