@@ -18,12 +18,6 @@ hooks:
     # Import translations.
     - exec: robo locale:import
 
-    # Make sure Elasticsearch can accept connections.
-    - exec: while ! echo exit | nc elasticsearch 9200; do sleep 1; done
-
-    # Setup Elasticsearch
-    - exec: "./vendor/bin/robo elasticsearch:provision http://elasticsearch:9200 '' ''"
-
     # Compile theme in debug, so we can develop with all Tailwinds' classes.
     # On deploy, we purge un-needed CSS.
     - exec-host: ddev robo theme:compile-debug

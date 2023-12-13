@@ -23,7 +23,6 @@ module:
   dblog: 0
   dynamic_page_cache: 0
   editor: 0
-  elasticsearch_connector: 0
   emptyparagraphkiller: 0
   encrypt: 0
   entity_browser: 0
@@ -68,10 +67,10 @@ module:
   redis: 0
   responsive_image: 0
   search_api: 0
+  search_api_solr: 0
   seckit: 0
   select2: 0
   server_general: 0
-  server_search: 0
   server_style_guide: 0
   shortcut: 0
   simple_sitemap: 0

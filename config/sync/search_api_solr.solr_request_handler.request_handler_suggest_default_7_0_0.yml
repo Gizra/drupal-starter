@@ -1,0 +1,35 @@
+uuid: 0e942aba-28ef-4121-8781-ff8e68ae2fd2
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: ezZLQaU3x_dePTU7-Z_qfADhPOEXZ_nVYfp9wvYLIzI
+id: request_handler_suggest_default_7_0_0
+label: Suggester
+minimum_solr_version: 7.0.0
+environments: {  }
+recommended: true
+request_handler:
+  name: /suggest
+  class: solr.SearchHandler
+  startup: lazy
+  lst:
+    -
+      name: defaults
+      str:
+        -
+          name: suggest
+          VALUE: 'true'
+        -
+          name: suggest.dictionary
+          VALUE: und
+        -
+          name: suggest.count
+          VALUE: '10'
+  arr:
+    -
+      name: components
+      str:
+        -
+          VALUE: suggest
+solr_configs: null

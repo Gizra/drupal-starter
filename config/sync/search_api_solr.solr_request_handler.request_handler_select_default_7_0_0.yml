@@ -1,0 +1,45 @@
+uuid: c635f208-f267-4590-8ecb-f4df42cd31c1
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: nx4cjhmOHhXQ6d5gnlM63v-zfbQmdeYi8pPV_4fiXf8
+id: request_handler_select_default_7_0_0
+label: Select
+minimum_solr_version: 7.0.0
+environments: {  }
+recommended: true
+request_handler:
+  name: /select
+  class: solr.SearchHandler
+  lst:
+    -
+      name: defaults
+      str:
+        -
+          name: defType
+          VALUE: lucene
+        -
+          name: df
+          VALUE: id
+        -
+          name: echoParams
+          VALUE: explicit
+        -
+          name: omitHeader
+          VALUE: 'true'
+        -
+          name: timeAllowed
+          VALUE: '${solr.selectSearchHandler.timeAllowed:-1}'
+        -
+          name: spellcheck
+          VALUE: 'false'
+  arr:
+    -
+      name: last-components
+      str:
+        -
+          VALUE: spellcheck
+        -
+          VALUE: elevator
+solr_configs: null

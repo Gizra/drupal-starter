@@ -1,0 +1,27 @@
+uuid: eba50ccf-3a4c-4a1d-a85c-7fc98b59fd37
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: SbahJ2YkJ9OYJZefxh8CfUXBfbfOMovWHaYa9Car6UQ
+id: cache_queryresult_default_7_0_0
+label: 'Query Result Cache'
+minimum_solr_version: 7.0.0
+environments: {  }
+cache:
+  name: queryResult
+  class: solr.LRUCache
+  size: 512
+  initialSize: 512
+  autowarmCount: 0
+solr_configs:
+  query:
+    -
+      name: queryResultWindowSize
+      VALUE: '20'
+    -
+      name: queryResultMaxDocsCached
+      VALUE: '200'
+    -
+      name: maxBooleanClauses
+      VALUE: '1024'
