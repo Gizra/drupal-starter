@@ -718,8 +718,7 @@ class StyleGuideController extends ControllerBase {
     return $this->buildElementCta(
       $this->getRandomTitle(),
       $this->buildProcessedText('How does the system generate all this custom content? It actually skims Wikipedia pages related to your search'),
-      'View more',
-      Url::fromRoute('<front>'),
+      Link::fromTextAndUrl('View more', Url::fromRoute('<front>')),
     );
 
   }

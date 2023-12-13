@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 namespace Drupal\server_general;
 
+use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
 
@@ -32,15 +33,13 @@ trait ElementTrait {
    *   The title.
    * @param array $body
    *   The body render array.
-   * @param string $button_text
-   *   The button text.
-   * @param \Drupal\Core\Url $url
-   *   The URL to link the button to.
+   * @param \Drupal\Core\Link $link
+   *   The button Link object.
    *
    * @return array
    *   Render array.
    */
-  protected function buildElementCta(string $title, array $body, string $button_text, Url $url): array {
+  protected function buildElementCta(string $title, array $body, Link $link): array {
     $elements = [];
 
     // Title.
@@ -53,7 +52,7 @@ trait ElementTrait {
     $elements[] = $this->wrapProseText($body);
 
     // Button.
-    $elements[] = $this->buildButton($button_text, $url, TRUE);
+    $elements[] = $this->buildButton($link->getText(), $link->getUrl(), TRUE, NULL, UrlHelper::isExternal($link->getUrl()->toString()));
 
     $elements = $this->wrapContainerVerticalSpacingBig($elements, 'center');
 
@@ -90,7 +89,7 @@ trait ElementTrait {
 
     // Button.
     if ($link) {
-      $elements[] = $this->buildButton($link->getText(), $link->getUrl(), TRUE);
+      $elements[] = $this->buildButton($link->getText(), $link->getUrl(), TRUE, NULL, UrlHelper::isExternal($link->getUrl()->toString()));
     }
 
     $elements = $this->wrapContainerVerticalSpacingBig($elements);

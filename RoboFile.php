@@ -8,6 +8,7 @@ use RoboComponents\BootstrapTrait;
 use RoboComponents\DeploymentTrait;
 use RoboComponents\PhpcsTrait;
 use RoboComponents\ReleaseNotesTrait;
+use RoboComponents\SecurityTrait;
 use RoboComponents\ThemeTrait;
 use RoboComponents\TranslationManagement\ExportFromConfig;
 use RoboComponents\TranslationManagement\ImportToConfig;
@@ -29,6 +30,7 @@ class RoboFile extends Tasks {
   use PhpcsTrait;
   use ReleaseNotesTrait;
   use ThemeTrait;
+  use SecurityTrait;
 
   /**
    * Defines a list of languages installed on the site.

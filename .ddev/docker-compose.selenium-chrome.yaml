@@ -1,7 +1,3 @@
-#ddev-generated
-# Remove the line above if you don't want this file to be overwritten when you run
-# ddev get ddev/ddev-selenium-standalone-chrome
-#
 # This file comes from https://github.com/ddev/ddev-selenium-standalone-chrome
 #
 version: '3.6'
@@ -17,6 +13,8 @@ services:
       - VIRTUAL_HOST=$DDEV_HOSTNAME
       - HTTPS_EXPOSE=7900:7900
       - HTTP_EXPOSE=7910:7900
+      - SCREEN_WIDTH=1920
+      - SCREEN_HEIGHT=1080
     external_links:
       - ddev-router:${DDEV_SITENAME}.${DDEV_TLD}
       #ports:

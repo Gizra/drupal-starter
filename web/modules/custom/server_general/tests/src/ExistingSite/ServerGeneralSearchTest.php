@@ -128,4 +128,13 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
     $this->assertSession()->elementExists('css', '#search-input');
   }
 
+  /**
+   * Test that facets are set to be preserved when using filters in Search view.
+   */
+  public function testFacetsPreservedWhenUsingFilters() {
+    $config = $this->container->get('config.factory')->get('views.view.search');
+    $preserve_facets = $config->get('display.default.display_options.query.options.preserve_facet_query_args');
+    $this->assertTrue($preserve_facets);
+  }
+
 }

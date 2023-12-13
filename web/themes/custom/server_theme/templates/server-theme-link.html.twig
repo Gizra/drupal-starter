@@ -7,9 +7,9 @@
 {% elseif lines_clamp == '4' %}
   {% set lines_clamp_class = 'line-clamp-4' %}
 {% endif %}
+{% set target = url.isExternal() ? '_blank' : '_self' %}
 
-
-<a href="{{ url }}" class="flex flex-row gap-1 items-center">
+<a href="{{ url }}" class="flex flex-row gap-1 items-center" target="{{ target }}">
   <span class="{{ lines_clamp_class }}">{{ title }}</span>
   {% if show_external_icon and url.isExternal() %}
     {# Heroicons: arrow-top-right-on-square #}

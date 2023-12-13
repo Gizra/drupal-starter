@@ -288,7 +288,7 @@ display:
         options:
           bypass_access: false
           skip_access: false
-          preserve_facet_query_args: false
+          preserve_facet_query_args: true
           query_tags: {  }
       relationships: {  }
       header: {  }
@@ -303,6 +303,7 @@ display:
         - 'user.node_grants:view'
       tags:
         - 'config:search_api.index.server_dev'
+        - 'search_api_list:server_dev'
   embed_1:
     id: embed_1
     display_title: Embed
@@ -320,3 +321,4 @@ display:
       tags:
         - 'config:facets.facet.content_type'
         - 'config:search_api.index.server_dev'
+        - 'search_api_list:server_dev'
