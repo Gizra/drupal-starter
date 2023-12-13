@@ -1,0 +1,31 @@
+uuid: 14a30248-a715-463c-aca3-f71b6795dbc9
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: VzQZqpoqX7DQfyyACH6rTXbtkI6UnKPUquWqNhtKsCY
+id: request_handler_replicationmaster_default_7_0_0
+label: 'Replication Master'
+minimum_solr_version: 7.0.0
+environments: {  }
+recommended: false
+request_handler:
+  name: /replication
+  class: solr.ReplicationHandler
+  lst:
+    -
+      name: master
+      str:
+        -
+          name: enable
+          VALUE: '${solr.replication.master:false}'
+        -
+          name: replicateAfter
+          VALUE: commit
+        -
+          name: replicateAfter
+          VALUE: startup
+        -
+          name: confFiles
+          VALUE: '${solr.replication.confFiles:schema.xml,schema_extra_types.xml,schema_extra_fields.xml,elevate.xml}'
+solr_configs: null

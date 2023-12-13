@@ -362,7 +362,7 @@ Example:
 ```yml
 env:
 global:
-- DEPLOY_EXCLUDE_WARNING="Search API|Server Search ElasticSearch Credentials"
+- DEPLOY_EXCLUDE_WARNING="Search API|Another"
 ```
 
 The deployment script will read this environment variable and exclude the specified warnings when posting to GitHub.
