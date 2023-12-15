@@ -285,12 +285,19 @@ trait DeploymentTrait {
     $result = $this->taskExec("cd $pantheon_directory && git pull --ff-only && git pull && git add . && git commit -am $commit_message && git push")
       ->printOutput(FALSE)
       ->run();
+
+    // We want to halt the deployment only where the commit push failed while
+    // actually trying to push new code. If the deploy fails because some other
+    // requirements (like existing content not properly removed) allow re-run
+    // the deployment via the Continuous Integration UI.
+    $nothing_to_commit = FALSE;
     if (str_contains($result->getMessage(), 'nothing to commit, working tree clean')) {
       $this->say('Nothing to commit, working tree clean');
+      $nothing_to_commit = TRUE;
     }
     print $result->getMessage();
 
-    if ($result->getExitCode() !== 0) {
+    if ($result->getExitCode() !== 0 && $nothing_to_commit === FALSE) {
       throw new \Exception('Pushing to the remote repository failed');
     }
 

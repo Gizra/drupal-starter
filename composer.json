@@ -37,7 +37,6 @@
         "drupal/core-project-message": "^10",
         "drupal/core-recommended": "^10.0",
         "drupal/default_content": "^2.0@alpha",
-        "drupal/elasticsearch_connector": "^7.0@alpha",
         "drupal/emptyparagraphkiller": "^2.0",
         "drupal/entity_browser": "^2.9",
         "drupal/environment_indicator": "^4.0",
@@ -64,6 +63,7 @@
         "drupal/redirect": "^1.6",
         "drupal/redis": "^1.7",
         "drupal/search_api": "^1.18",
+        "drupal/search_api_solr": "^4.3",
         "drupal/seckit": "^2.0",
         "drupal/select2": "^1.15",
         "drupal/seven": "^1.0",
@@ -153,9 +153,6 @@
             },
             "nodespark/des-connector": {
               "php 8.1 compatibility": "patches/des-connector-php-compat.patch"
-            },
-            "drupal/fast_404": {
-              "d.o. #3373845": "patches/fast_404_3373845.patch"
             },
             "drupal/ultimate_cron": {
               "d.o. #3351276": "https://www.drupal.org/files/issues/2023-04-03/3351276-4.patch"

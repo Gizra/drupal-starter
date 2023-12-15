@@ -1,0 +1,35 @@
+uuid: 7a0e2654-a9e1-419d-9438-cbb22bece072
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: vdoqZyPxL2QPQ0fVwyjjhHZYz9sDDWD62-Ou86DFOs4
+id: text_string_und_6_0_0
+label: 'Fulltext String Field'
+minimum_solr_version: 6.0.0
+custom_code: string
+field_type_language_code: und
+domains: {  }
+field_type:
+  name: text_string
+  class: solr.TextField
+  positionIncrementGap: 100
+  storeOffsetsWithPositions: true
+  analyzers:
+    -
+      type: index
+      tokenizer:
+        class: solr.PatternTokenizerFactory
+        pattern: '[\t\r\n]'
+      filters: {  }
+    -
+      type: query
+      tokenizer:
+        class: solr.PatternTokenizerFactory
+        pattern: '[\t\r\n]'
+      filters: {  }
+unstemmed_field_type: null
+spellcheck_field_type: null
+collated_field_type: null
+solr_configs: {  }
+text_files: {  }

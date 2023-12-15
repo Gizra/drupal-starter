@@ -1,0 +1,345 @@
+uuid: 1bf500ea-b4c4-4edd-94fc-f47ea02e8726
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: ifD-40czfZSDUcZnDyE8YEb7WVu5ZiRcJSAYycpAftA
+id: text_und_6_0_0
+label: 'Language Undefined Text Field'
+minimum_solr_version: 6.0.0
+custom_code: ''
+field_type_language_code: und
+domains: {  }
+field_type:
+  name: text_und
+  class: solr.TextField
+  positionIncrementGap: 100
+  storeOffsetsWithPositions: true
+  analyzers:
+    -
+      type: index
+      charFilters:
+        -
+          class: solr.MappingCharFilterFactory
+          mapping: accents_und.txt
+      tokenizer:
+        class: solr.StandardTokenizerFactory
+      filters:
+        -
+          class: solr.StopFilterFactory
+          ignoreCase: true
+          words: stopwords_und.txt
+        -
+          class: solr.WordDelimiterFilterFactory
+          catenateNumbers: 1
+          generateNumberParts: 1
+          protected: protwords_und.txt
+          splitOnCaseChange: 0
+          generateWordParts: 1
+          preserveOriginal: 1
+          catenateAll: 0
+          catenateWords: 1
+        -
+          class: solr.LengthFilterFactory
+          min: 2
+          max: 100
+        -
+          class: solr.LowerCaseFilterFactory
+        -
+          class: solr.RemoveDuplicatesTokenFilterFactory
+    -
+      type: query
+      charFilters:
+        -
+          class: solr.MappingCharFilterFactory
+          mapping: accents_und.txt
+      tokenizer:
+        class: solr.StandardTokenizerFactory
+      filters:
+        -
+          class: solr.SynonymFilterFactory
+          ignoreCase: true
+          synonyms: synonyms_und.txt
+          expand: true
+        -
+          class: solr.StopFilterFactory
+          ignoreCase: true
+          words: stopwords_und.txt
+        -
+          class: solr.WordDelimiterFilterFactory
+          catenateNumbers: 0
+          generateNumberParts: 1
+          protected: protwords_und.txt
+          splitOnCaseChange: 0
+          generateWordParts: 1
+          preserveOriginal: 1
+          catenateAll: 0
+          catenateWords: 0
+        -
+          class: solr.LengthFilterFactory
+          min: 2
+          max: 100
+        -
+          class: solr.LowerCaseFilterFactory
+        -
+          class: solr.RemoveDuplicatesTokenFilterFactory
+unstemmed_field_type: null
+spellcheck_field_type:
+  name: text_spell_und
+  class: solr.TextField
+  positionIncrementGap: 100
+  storeOffsetsWithPositions: true
+  analyzer:
+    charFilters:
+      -
+        class: solr.MappingCharFilterFactory
+        mapping: accents_und.txt
+    tokenizer:
+      class: solr.StandardTokenizerFactory
+    filters:
+      -
+        class: solr.LengthFilterFactory
+        min: 2
+        max: 100
+      -
+        class: solr.LowerCaseFilterFactory
+      -
+        class: solr.RemoveDuplicatesTokenFilterFactory
+collated_field_type:
+  name: collated_und
+  class: solr.ICUCollationField
+  locale: null
+  strength: primary
+  caseLevel: false
+solr_configs:
+  searchComponents:
+    -
+      name: spellcheck
+      class: solr.SpellCheckComponent
+      lst:
+        -
+          name: spellchecker
+          str:
+            -
+              name: name
+              VALUE: und
+            -
+              name: field
+              VALUE: spellcheck_und
+            -
+              name: classname
+              VALUE: solr.DirectSolrSpellChecker
+            -
+              name: distanceMeasure
+              VALUE: internal
+            -
+              name: accuracy
+              VALUE: '0.5'
+            -
+              name: maxEdits
+              VALUE: '2'
+            -
+              name: minPrefix
+              VALUE: '1'
+            -
+              name: maxInspections
+              VALUE: '5'
+            -
+              name: minQueryLength
+              VALUE: '4'
+            -
+              name: maxQueryFrequency
+              VALUE: '0.01'
+            -
+              name: thresholdTokenFrequency
+              VALUE: '.01'
+            -
+              name: onlyMorePopular
+              VALUE: 'true'
+    -
+      name: suggest
+      class: solr.SuggestComponent
+      lst:
+        -
+          name: suggester
+          str:
+            -
+              name: name
+              VALUE: und
+            -
+              name: lookupImpl
+              VALUE: AnalyzingInfixLookupFactory
+            -
+              name: dictionaryImpl
+              VALUE: DocumentDictionaryFactory
+            -
+              name: field
+              VALUE: twm_suggest
+            -
+              name: suggestAnalyzerFieldType
+              VALUE: text_und
+            -
+              name: contextField
+              VALUE: sm_context_tags
+            -
+              name: buildOnCommit
+              VALUE: 'false'
+            -
+              name: buildOnStartup
+              VALUE: 'false'
+text_files:
+  stopwords: |
+
+  protwords: |
+
+  accents: |
+    # À => A
+    "\u00C0" => "A"
+    # Á => A
+    "\u00C1" => "A"
+    # Â => A
+    "\u00C2" => "A"
+    # Ã => A
+    "\u00C3" => "A"
+    # Ä => A
+    "\u00C4" => "A"
+    # Å => A
+    "\u00C5" => "A"
+    # Æ => AE
+    "\u00C6" => "AE"
+    # Ç => C
+    "\u00C7" => "C"
+    # È => E
+    "\u00C8" => "E"
+    # É => E
+    "\u00C9" => "E"
+    # Ê => E
+    "\u00CA" => "E"
+    # Ë => E
+    "\u00CB" => "E"
+    # Ì => I
+    "\u00CC" => "I"
+    # Í => I
+    "\u00CD" => "I"
+    # Î => I
+    "\u00CE" => "I"
+    # Ï => I
+    "\u00CF" => "I"
+    # Ĳ => IJ
+    "\u0132" => "IJ"
+    # Ð => D
+    "\u00D0" => "D"
+    # Ñ => N
+    "\u00D1" => "N"
+    # Ò => O
+    "\u00D2" => "O"
+    # Ó => O
+    "\u00D3" => "O"
+    # Ô => O
+    "\u00D4" => "O"
+    # Õ => O
+    "\u00D5" => "O"
+    # Ö => O
+    "\u00D6" => "O"
+    # Ø => O
+    "\u00D8" => "O"
+    # Œ => OE
+    "\u0152" => "OE"
+    # Þ
+    "\u00DE" => "TH"
+    # Ù => U
+    "\u00D9" => "U"
+    # Ú => U
+    "\u00DA" => "U"
+    # Û => U
+    "\u00DB" => "U"
+    # Ü => U
+    "\u00DC" => "U"
+    # Ý => Y
+    "\u00DD" => "Y"
+    # Ÿ => Y
+    "\u0178" => "Y"
+    # à => a
+    "\u00E0" => "a"
+    # á => a
+    "\u00E1" => "a"
+    # â => a
+    "\u00E2" => "a"
+    # ã => a
+    "\u00E3" => "a"
+    # ä => a
+    "\u00E4" => "a"
+    # å => a
+    "\u00E5" => "a"
+    # æ => ae
+    "\u00E6" => "ae"
+    # ç => c
+    "\u00E7" => "c"
+    # è => e
+    "\u00E8" => "e"
+    # é => e
+    "\u00E9" => "e"
+    # ê => e
+    "\u00EA" => "e"
+    # ë => e
+    "\u00EB" => "e"
+    # ì => i
+    "\u00EC" => "i"
+    # í => i
+    "\u00ED" => "i"
+    # î => i
+    "\u00EE" => "i"
+    # ï => i
+    "\u00EF" => "i"
+    # ĳ => ij
+    "\u0133" => "ij"
+    # ð => d
+    "\u00F0" => "d"
+    # ñ => n
+    "\u00F1" => "n"
+    # ò => o
+    "\u00F2" => "o"
+    # ó => o
+    "\u00F3" => "o"
+    # ô => o
+    "\u00F4" => "o"
+    # õ => o
+    "\u00F5" => "o"
+    # ö => o
+    "\u00F6" => "o"
+    # ø => o
+    "\u00F8" => "o"
+    # œ => oe
+    "\u0153" => "oe"
+    # ß => ss
+    "\u00DF" => "ss"
+    # þ => th
+    "\u00FE" => "th"
+    # ù => u
+    "\u00F9" => "u"
+    # ú => u
+    "\u00FA" => "u"
+    # û => u
+    "\u00FB" => "u"
+    # ü => u
+    "\u00FC" => "u"
+    # ý => y
+    "\u00FD" => "y"
+    # ÿ => y
+    "\u00FF" => "y"
+    # ﬀ => ff
+    "\uFB00" => "ff"
+    # ﬁ => fi
+    "\uFB01" => "fi"
+    # ﬂ => fl
+    "\uFB02" => "fl"
+    # ﬃ => ffi
+    "\uFB03" => "ffi"
+    # ﬄ => ffl
+    "\uFB04" => "ffl"
+    # ﬅ => st
+    "\uFB05" => "st"
+    # ﬆ => st
+    "\uFB06" => "st"
+  synonyms: |
+    drupal, durpal

@@ -1,0 +1,31 @@
+uuid: c77f195c-3b67-4d86-8b18-c65875f1d80c
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: mTtPKc0bQKmhHJjV1mFQ7yD806_uXWyXV8mmYirVY-c
+id: request_handler_query_default_7_0_0
+label: Query
+minimum_solr_version: 7.0.0
+environments: {  }
+recommended: true
+request_handler:
+  name: /select
+  class: solr.SearchHandler
+  lst:
+    -
+      name: defaults
+      str:
+        -
+          name: echoParams
+          VALUE: explicit
+        -
+          name: wt
+          VALUE: json
+        -
+          name: indent
+          VALUE: 'true'
+        -
+          name: df
+          VALUE: id
+solr_configs: null
