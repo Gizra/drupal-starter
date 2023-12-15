@@ -95,6 +95,7 @@ function server_theme_theme() {
     'variables' => [
       'element' => [],
       'width' => NULL,
+      'is_center' => FALSE,
     ],
   ];
 
