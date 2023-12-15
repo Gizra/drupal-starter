@@ -237,11 +237,13 @@ trait ElementWrapTrait {
    *   The render array, string or a TranslatableMarkup object.
    * @param string $width
    *   Max width. Allowed values are `lg`, `xl`, `2xl` and `3xl`.
+   * @param bool $is_center
+   *   Defines if content is centered.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapContainerMaxWidth(array|string|TranslatableMarkup $element, string $width): array {
+  protected function wrapContainerMaxWidth(array|string|TranslatableMarkup $element, string $width, bool $is_center = FALSE): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
@@ -252,6 +254,7 @@ trait ElementWrapTrait {
       '#theme' => 'server_theme_container_max_width',
       '#element' => $element,
       '#width' => $width,
+      '#is_center' => $is_center,
     ];
   }
 
