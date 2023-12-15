@@ -1,0 +1,44 @@
+{#
+/**
+ * @file
+ * Theme override for a views exposed form.
+ *
+ * Available variables:
+ * - form: A render element representing the form.
+ *
+ * @see template_preprocess_views_exposed_form()
+ */
+#}
+
+{% set clear_filters_url = url('<current>') %}
+<form{{ attributes }}>
+  {% if q is not empty %}
+    {#
+    This ensures that, if clean URLs are off, the 'q' is added first,
+    as a hidden form element, so that it shows up first in the POST URL.
+    #}
+    {{ q }}
+  {% endif %}
+
+  <div class="views-exposed-form flex flex-col gap-y-4">
+    <div>
+      {{ form.key }}
+      {{ form|without('key', 'actions') }}
+    </div>
+    <div>
+      {{ form.actions }}
+      {#
+        /**
+         * We add a clear filters link like this as the exposed filter's own
+         * reset button does not care about facets, at least not in the way we
+         * add facets to the page.
+        */
+      #}
+      <a class="font-semibold text-sm md:text-base lg:text-lg hover:underline" href="{{ clear_filters_url }}">{{ 'Clear filters'|t }}</a>
+    </div>
+  </div>
+
+  {{ form.form_build_id }}
+  {{ form.form_id }}
+  {{ form.form_token }}
+</form>

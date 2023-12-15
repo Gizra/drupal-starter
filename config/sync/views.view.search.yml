@@ -7,6 +7,7 @@ dependencies:
   module:
     - entity_browser
     - search_api
+    - views_autosubmit
 id: search
 label: Search
 module: views
@@ -96,7 +97,7 @@ display:
             offset_label: Offset
           quantity: 9
       exposed_form:
-        type: basic
+        type: autosubmit
         options:
           submit_button: Apply
           reset_button: false
@@ -105,6 +106,7 @@ display:
           expose_sort_order: false
           sort_asc_label: Asc
           sort_desc_label: Desc
+          autosubmit_hide: true
       access:
         type: none
         options: {  }
@@ -155,7 +157,7 @@ display:
           exposed: true
           expose:
             operator_id: search_api_fulltext_op
-            label: Search
+            label: ''
             description: ''
             use_operator: false
             operator: search_api_fulltext_op
@@ -169,6 +171,7 @@ display:
               authenticated: authenticated
               anonymous: '0'
               content_editor: '0'
+              translator: '0'
               administrator: '0'
             expose_fields: false
             placeholder: ''
