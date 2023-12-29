@@ -62,3 +62,4 @@ web/sites/all/drush
 *.rej
 
 travis_wait*log
+.docker_build

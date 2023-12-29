@@ -1,0 +1,53 @@
+services:
+  app:
+    build: .
+    container_name: starter-app
+    ports:
+      - "8000:80"
+      - "4430:443"
+    volumes:
+      - ../private_files:/app/private
+      - ../public_files/files_qa:/app/web/sites/default/files
+    environment:
+      docker_production_enabled: 1
+      docker_production_database: starter
+      docker_production_username: root
+      docker_production_password: 12345678
+      docker_production_host: starter-mariadb
+      docker_production_port: 3306
+
+  mariadb:
+    image: mariadb:latest
+    container_name: starter-mariadb
+    environment:
+      MARIADB_ROOT_PASSWORD: 12345678
+      MARIADB_DATABASE: starter
+
+  elasticsearch:
+    container_name: starter-elasticsearch
+    hostname: starter-elasticsearch
+    image: elasticsearch:7.13.4
+    ports:
+      - "9200"
+      - "9300"
+    environment:
+      - cluster.name=docker-cluster
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - HTTP_EXPOSE=9200:9200
+      - HTTPS_EXPOSE=9201:9200
+    volumes:
+      - elasticsearch:/usr/share/elasticsearch/data
+
+  redis:
+    container_name: starter-redis
+    image: redis:4
+    ports:
+      - 6379
+    volumes:
+      - ".ddev/redis:/usr/local/etc/redis"
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+
+volumes:
+  elasticsearch:

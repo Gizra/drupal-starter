@@ -38,22 +38,24 @@ trait DeploymentTrait {
   public static array $deploySyncExcludes = [
     '.bootstrap-fast.php',
     '.ddev',
+    '.docker_build',
     '.editorconfig',
     '.git',
     '.idea',
     '.pantheon',
     '.phpunit.result.cache',
     '.travis.yml',
+    'README.md',
+    'RoboFile.php',
     'ci-scripts',
+    'docker-compose.yml',
     'pantheon.upstream.yml',
     'phpstan.neon',
     'phpunit.xml.dist',
-    'README.md',
-    'RoboFile.php',
     'robo-components',
     'server.es.secrets.json',
-    'travis-key.enc',
     'travis-key',
+    'travis-key.enc',
     'web/.csslintrc',
     'web/.eslintignore',
     'web/.eslintrc.json',
@@ -302,6 +304,36 @@ trait DeploymentTrait {
 
     $this->waitForCodeDeploy($pantheon_env);
     $this->deployPantheonSync($pantheon_env, FALSE);
+  }
+
+  public function buildDockerImage() {
+    $docker_directory = '.docker_build';
+
+    // Ensure the dev dependencies are installed before compiling the theme in
+    // case this is a retry.
+    $this->taskExec('composer install')->run();
+
+    // Compile theme.
+    $this->themeCompile();
+
+    // Remove the dev dependencies before pushing up to Pantheon.
+    $this->taskExec("composer install --no-dev")->run();
+
+    $rsync_exclude_string = '--exclude=' . implode(' --exclude=', self::$deploySyncExcludes);
+
+    $this->_exec("mkdir -p $docker_directory/web/sites/default");
+
+    // Copy all files and folders.
+    $result = $this->_exec("rsync -az -q --delete $rsync_exclude_string . $docker_directory")->getExitCode();
+    if ($result !== 0) {
+      throw new \Exception('File sync failed');
+    }
+
+    $this->_exec("cp web/sites/default/default.services.yml $docker_directory/web/sites/default/default.services.yml");
+    $this->_exec("cp web/sites/default/services.yml $docker_directory/web/sites/default/services.yml");
+    $this->_exec("cp web/sites/default/settings.docker_production.php $docker_directory/web/sites/default/settings.php");
+
+    $this->say("Now run docker compose up to test the release");
   }
 
   /**
