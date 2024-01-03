@@ -156,6 +156,21 @@ and assign the image styles created in step3 to each breakpoint.
 5. Finally use the responsive image style in the wire-up of the component with
 Drupal. With PEVB, see `BuildFieldTrait::buildMediaResponsiveImage()`.
 
+## Solr
+
+The starter kit comes out of the box with Solr. Pantheon's built-in, very limited Solr is useful for basic sites in English mostly.
+For sophisticated needs, we can spin up an index at [OpenSolr](https://opensolr.com/) for instance, especially if we need stopword handling or synonyms.
+
+### Index cleanup
+
+It can happen that an index is polluted and Search API cannot restore it using "Delete all indexed items". Then there's a Drush command of the integration module to reset the index, drop all data inside:
+
+```bash
+ddev exec terminus remote:drush gizra-drupal-starter.qa search-api-pantheon:force-cleanup
+```
+
+Then you can re-index the data and check the sanity of the search.
+
 ## PHPCS (Code Sniffer)
 
     ddev phpcs
