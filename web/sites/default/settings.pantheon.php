@@ -32,7 +32,7 @@ $settings['container_yamls'][] = __DIR__ . '/services.pantheon.yml';
  *      a local development environment, to insure that
  *      the site settings remain consistent.
  */
-include __DIR__ . "/settings.pantheon.php";
+include_once __DIR__ . "/settings.pantheon.php";
 
 $settings['config_sync_directory'] = '../config/sync';
 
