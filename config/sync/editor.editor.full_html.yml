@@ -93,8 +93,10 @@ settings:
     ckeditor5_language:
       language_list: un
     ckeditor5_list:
-      reversed: true
-      startIndex: true
+      properties:
+        reversed: true
+        startIndex: true
+      multiBlock: true
     ckeditor5_sourceEditing:
       allowed_tags:
         - '<abbr accept accept-charset accesskey action align alt async autocomplete autofocus autoplay bgcolor border charset checked="checked" cite class color cols colspan content contenteditable controls coords data datetime default defer="defer" dir dirname disabled="disabled" download draggable enctype for form formaction headers height hidden high href hreflang http-equiv id ismap="ismap" kind label list loop low max maxlength media method min multiple="multiple" muted name novalidate open optimum pattern placeholder poster preload readonly="readonly" rel required reversed rows rowspan sandbox scope selected="selected" shape size sizes span spellcheck src srcdoc srclang srcset start step tabindex target title translate type usemap value width wrap>'
