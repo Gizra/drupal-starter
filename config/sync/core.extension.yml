@@ -85,6 +85,7 @@ module:
   update: 0
   user: 0
   username_enumeration_prevention: 0
+  views_autosubmit: 0
   views_ui: 0
   fast404: 1
   menu_link_content: 1
