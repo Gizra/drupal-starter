@@ -7,7 +7,7 @@ web_environment:
 hooks:
   post-start:
     # Private files directory.
-    - exec: mkdir /var/www/private
+    - exec: mkdir -p /var/www/private
 
     # Create a private key for Two-factor Authentication if not yet added.
     - exec-host: ddev set-tfa-key
