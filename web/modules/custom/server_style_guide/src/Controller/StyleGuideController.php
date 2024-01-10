@@ -4,10 +4,7 @@ namespace Drupal\server_style_guide\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Link;
-use Drupal\Core\Render\Renderer;
 use Drupal\Core\Url;
-use Drupal\Core\Utility\LinkGenerator;
-use Drupal\media\IFrameUrlHelper;
 use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
 use Drupal\server_general\AccordionTrait;
 use Drupal\server_general\ButtonTrait;
@@ -65,23 +62,14 @@ class StyleGuideController extends ControllerBase {
   protected $renderer;
 
   /**
-   * Class constructor.
-   */
-  public function __construct(LinkGenerator $link_generator, IFrameUrlHelper $iframe_url_helper, Renderer $renderer) {
-    $this->linkGenerator = $link_generator;
-    $this->iFrameUrlHelper = $iframe_url_helper;
-    $this->renderer = $renderer;
-  }
-
-  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    return new self(
-      $container->get('link_generator'),
-      $container->get('media.oembed.iframe_url_helper'),
-      $container->get('renderer'),
-    );
+    $instance = parent::create($container);
+    $instance->linkGenerator = $container->get('link_generator');
+    $instance->iFrameUrlHelper = $container->get('media.oembed.iframe_url_helper');
+    $instance->renderer = $container->get('renderer');
+    return $instance;
   }
 
   /**
