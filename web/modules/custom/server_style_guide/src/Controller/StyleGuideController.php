@@ -35,6 +35,7 @@ class StyleGuideController extends ControllerBase {
   use ElementTrait\DocumentsTrait;
   use ElementTrait\InfoCardTrait;
   use ElementTrait\PeopleTeasersTrait;
+  use ElementTrait\QuickLinksTrait;
   use ElementTrait\QuoteTrait;
   use ElementMediaTrait;
   use ElementNodeNewsTrait;
@@ -371,7 +372,7 @@ class StyleGuideController extends ControllerBase {
     while ($i <= 4) {
       $subtitle = $i == 2 ? 'This is a quick link description' : NULL;
 
-      $items[] = $this->buildInnerElementQuickLinkItem(
+      $items[] = $this->buildElementQuickLinkItem(
         $this->getRandomTitle(),
         $url,
         $subtitle,
@@ -380,7 +381,7 @@ class StyleGuideController extends ControllerBase {
       ++$i;
     }
 
-    return $this->buildElementQuickLinksCards(
+    return $this->buildElementQuickLinks(
       $this->t('Quick Links'),
       $this->buildProcessedText('The Quick links description'),
       $items,

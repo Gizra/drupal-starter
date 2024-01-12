@@ -24,6 +24,7 @@ use Drupal\server_general\ProcessedTextBuilderTrait;
 class ParagraphQuickLinkItem extends EntityViewBuilderPluginAbstract {
 
   use ElementTrait;
+  use ElementTrait\QuickLinksTrait;
   use ElementWrapTrait;
   use ProcessedTextBuilderTrait;
 
@@ -47,7 +48,7 @@ class ParagraphQuickLinkItem extends EntityViewBuilderPluginAbstract {
       return [];
     }
 
-    $element = $this->buildInnerElementQuickLinkItem(
+    $element = $this->buildElementQuickLinkItem(
       $link['title'],
       $link['url'],
       $this->getTextFieldValue($entity, 'field_subtitle')

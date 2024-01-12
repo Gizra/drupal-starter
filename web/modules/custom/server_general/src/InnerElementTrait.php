@@ -158,33 +158,4 @@ trait InnerElementTrait {
     return $this->buildInnerElementLayout($elements);
   }
 
-  /**
-   * Builds a Quick Link element.
-   *
-   * @param string $title
-   *   The title.
-   * @param \Drupal\Core\Url $url
-   *   The Url object.
-   * @param string|null $subtitle
-   *   Optional; The subtitle.
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function buildInnerElementQuickLinkItem(string $title, Url $url, string $subtitle = NULL): array {
-    $items = [];
-    $items[] = $this->wrapTextResponsiveFontSize($title, 'xl');
-
-    if (!empty($subtitle)) {
-      $items[] = $this->wrapTextResponsiveFontSize($subtitle, 'sm');
-    }
-
-    return [
-      '#theme' => 'server_theme_inner_element__quick_link_item',
-      '#items' => $this->wrapContainerVerticalSpacingTiny($items),
-      '#url' => $url,
-    ];
-
-  }
-
 }
