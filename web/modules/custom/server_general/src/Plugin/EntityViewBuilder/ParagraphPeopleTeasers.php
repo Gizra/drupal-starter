@@ -24,6 +24,7 @@ use Drupal\server_general\ProcessedTextBuilderTrait;
 class ParagraphPeopleTeasers extends EntityViewBuilderPluginAbstract {
 
   use ElementTrait\CardTrait;
+  use ElementTrait\PeopleTeasersTrait;
   use ElementTrait;
   use ElementWrapTrait;
   use ProcessedTextBuilderTrait;
@@ -44,7 +45,7 @@ class ParagraphPeopleTeasers extends EntityViewBuilderPluginAbstract {
     $paragraphs = $entity->get('field_person_teasers');
     $items = $this->buildReferencedEntities($paragraphs, 'full', $entity->language()->getId());
 
-    $element = $this->buildElementPeopleCards(
+    $element = $this->buildElementPeopleTeasers(
       $this->getTextFieldValue($entity, 'field_title'),
       $this->buildProcessedText($entity, 'field_body'),
       $items,

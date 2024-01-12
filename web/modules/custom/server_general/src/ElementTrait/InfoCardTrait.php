@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Drupal\server_general\ElementTrait;
 
 use Drupal\server_general\ElementLayoutTrait;
+use Drupal\server_general\ElementWrapTrait;
+use Drupal\server_general\InnerElementLayoutTrait;
 
 /**
  * Helper methods for rendering Info Card elements.
@@ -12,7 +14,9 @@ use Drupal\server_general\ElementLayoutTrait;
 trait InfoCardTrait {
 
   use ElementLayoutTrait;
+  use ElementWrapTrait;
   use CardTrait;
+  use InnerElementLayoutTrait;
 
   /**
    * Build an Info cards element.
@@ -75,5 +79,5 @@ trait InfoCardTrait {
 
     return $this->buildInnerElementLayout($elements, 'light-gray');
   }
-  
+
 }

@@ -30,28 +30,6 @@ trait CardTrait {
   }
 
   /**
-   * Build People cards element.
-   *
-   * @param string $title
-   *   The title.
-   * @param array $body
-   *   The body render array.
-   * @param array $items
-   *   The render array built with
-   *   `ElementLayoutTrait::buildElementLayoutTitleBodyAndItems`.
-   *
-   * @return array
-   *   The render array.
-   */
-  protected function buildElementPeopleCards(string $title, array $body, array $items): array {
-    return $this->buildElementLayoutTitleBodyAndItems(
-      $title,
-      $body,
-      $this->buildCards($items),
-    );
-  }
-
-  /**
    * Build quick links cards.
    *
    * @param string $title

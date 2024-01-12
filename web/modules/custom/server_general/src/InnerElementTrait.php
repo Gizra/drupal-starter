@@ -159,68 +159,6 @@ trait InnerElementTrait {
   }
 
   /**
-   * Build Media document card.
-   *
-   * @param string $title
-   *   The title.
-   * @param string $url
-   *   The Url string.
-   *
-   * @return array
-   *   The redner array.
-   */
-  protected function buildInnerElementMediaDocument(string $title, string $url): array {
-
-    return [
-      '#theme' => 'server_theme_media__document',
-      '#url' => $url,
-      '#title' => $title,
-    ];
-  }
-
-  /**
-   * Build a Person teaser.
-   *
-   * @param string $image_url
-   *   The image Url.
-   * @param string $alt
-   *   The image alt.
-   * @param string $name
-   *   The name.
-   * @param string|null $subtitle
-   *   Optional; The subtitle (e.g. work title).
-   *
-   * @return array
-   *   The render array.
-   */
-  protected function buildInnerElementPersonTeaser(string $image_url, string $alt, string $name, string $subtitle = NULL): array {
-    $elements = [];
-    $element = [
-      '#theme' => 'image',
-      '#uri' => $image_url,
-      '#alt' => $alt,
-      '#width' => 100,
-    ];
-
-    $elements[] = $this->wrapRoundedCornersFull($element);
-
-    $inner_elements = [];
-
-    $element = $this->wrapTextFontWeight($name, 'bold');
-    $inner_elements[] = $this->wrapTextCenter($element);
-
-    if ($subtitle) {
-      $element = $this->wrapTextResponsiveFontSize($subtitle, 'sm');
-      $element = $this->wrapTextCenter($element);
-      $inner_elements[] = $this->wrapTextColor($element, 'gray');
-    }
-
-    $elements[] = $this->wrapContainerVerticalSpacingTiny($inner_elements, 'center');
-
-    return $this->buildInnerElementLayoutCentered($elements);
-  }
-
-  /**
    * Builds a Quick Link element.
    *
    * @param string $title

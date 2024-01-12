@@ -34,6 +34,7 @@ class StyleGuideController extends ControllerBase {
   use ElementTrait\CardTrait;
   use ElementTrait\DocumentsTrait;
   use ElementTrait\InfoCardTrait;
+  use ElementTrait\PeopleTeasersTrait;
   use ElementTrait\QuoteTrait;
   use ElementMediaTrait;
   use ElementNodeNewsTrait;
@@ -251,7 +252,7 @@ class StyleGuideController extends ControllerBase {
 
     }
 
-    return $this->buildElementPeopleCards(
+    return $this->buildElementPeopleTeasers(
       $this->getRandomTitle(),
       $this->buildProcessedText('This is a directory list of awesome people'),
       $items,

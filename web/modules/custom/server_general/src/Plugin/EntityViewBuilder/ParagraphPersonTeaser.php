@@ -25,6 +25,7 @@ class ParagraphPersonTeaser extends EntityViewBuilderPluginAbstract {
 
   use ElementTrait;
   use ElementWrapTrait;
+  use ElementTrait\PeopleTeasersTrait;
   use ProcessedTextBuilderTrait;
 
   /**
@@ -45,7 +46,7 @@ class ParagraphPersonTeaser extends EntityViewBuilderPluginAbstract {
     $image_url = !empty($image['url']) ? $image['url'] : '';
     $image_alt = !empty($image['alt']) ? $image['alt'] : $name;
 
-    $element = $this->buildInnerElementPersonTeaser(
+    $element = $this->buildElementPersonTeaser(
       $image_url,
       $image_alt,
       $name,
