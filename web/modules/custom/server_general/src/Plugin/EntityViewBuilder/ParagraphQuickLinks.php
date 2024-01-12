@@ -23,6 +23,7 @@ use Drupal\server_general\ProcessedTextBuilderTrait;
  */
 class ParagraphQuickLinks extends EntityViewBuilderPluginAbstract {
 
+  use ElementTrait\CardTrait;
   use ElementTrait;
   use ElementWrapTrait;
   use ProcessedTextBuilderTrait;
@@ -49,7 +50,7 @@ class ParagraphQuickLinks extends EntityViewBuilderPluginAbstract {
       return $build;
     }
 
-    $element = $this->buildElementQuickLinks(
+    $element = $this->buildElementQuickLinksCards(
       $this->getTextFieldValue($entity, 'field_title'),
       $this->buildProcessedText($entity, 'field_body'),
       $items,

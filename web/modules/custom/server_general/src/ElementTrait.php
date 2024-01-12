@@ -26,50 +26,6 @@ trait ElementTrait {
   use TitleAndLabelsTrait;
 
   /**
-   * Build an Info cards element.
-   *
-   * @param string $title
-   *   The title.
-   * @param array $body
-   *   The body render array.
-   * @param array $items
-   *   The render array built with `InnerElementTrait::buildCardInfoCard`.
-   *
-   * @return array
-   *   The render array.
-   */
-  protected function buildElementInfoCards(string $title, array $body, array $items): array {
-    return $this->buildParagraphTitleBodyAndItems(
-      $title,
-      $body,
-      $this->buildCards($items),
-    );
-
-  }
-
-  /**
-   * Builds a "Document" list.
-   *
-   * @param string $title
-   *   The title.
-   * @param array $body
-   *   The subtitle render array.
-   * @param array $items
-   *   Render array of documents.
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function buildElementDocuments(string $title, array $body, array $items): array {
-    return $this->buildParagraphTitleBodyAndItems(
-      $title,
-      $body,
-      $this->buildElementItemsWithViewMore($items, 2),
-      'light-gray'
-    );
-  }
-
-  /**
    * Build a Carousel.
    *
    * @param string $title
@@ -109,50 +65,12 @@ trait ElementTrait {
 
     $elements = $this->wrapContainerVerticalSpacing($elements);
 
-    return $this->buildParagraphTitleBodyAndItems(
+    return $this->buildElementLayoutTitleBodyAndItems(
       $title,
       $body,
       $elements,
       'light-gray',
     );
-  }
-
-  /**
-   * Render items with a View more button, that will reveal more items.
-   *
-   * @param array $items
-   *   The items to render.
-   * @param int $limit_count
-   *   Determine how many items to show initially.
-   *
-   * @return array
-   *   The render array.
-   */
-  protected function buildElementItemsWithViewMore(array $items, int $limit_count): array {
-    if (count($items) <= $limit_count) {
-      // We don't need to hide any item.
-      return $items;
-    }
-
-    $wrapped_items = [];
-    foreach (array_values($items) as $key => $item) {
-      if ($key + 1 > $limit_count) {
-        // Hide the items that are over the limit count.
-        $item = $this->wrapHidden($item);
-      }
-      $wrapped_items[] = $item;
-    }
-
-    $elements = [];
-    $elements[] = $wrapped_items;
-    $elements[] = $this->buildButton($this->t('View more'), Url::fromUserInput('#'));
-    ;
-    $elements = $this->wrapContainerVerticalSpacing($elements);
-
-    return [
-      '#theme' => 'server_theme_element_items_with_view_more',
-      '#items' => $elements,
-    ];
   }
 
   /**
@@ -163,38 +81,17 @@ trait ElementTrait {
    * @param array $body
    *   The body render array.
    * @param array $items
-   *   The quick links array rendered with
-   *   `InnerElementTrait::buildCardQuickLink`.
+   *   The news teasers array rendered with
+   *   `ElementLayoutTrait::buildElementLayoutTitleBodyAndItems`.
    *
    * @return array
    *   Render array.
    */
   protected function buildElementNewsTeasers(string $title, array $body, array $items): array {
-    return $this->buildParagraphTitleBodyAndItems(
+    return $this->buildElementLayoutTitleBodyAndItems(
       $title,
       $body,
       $items,
-    );
-  }
-
-  /**
-   * Build People teasers element.
-   *
-   * @param string $title
-   *   The title.
-   * @param array $body
-   *   The body render array.
-   * @param array $items
-   *   Items rendered with `InnerElementTrait::buildElementAccordionItem`.
-   *
-   * @return array
-   *   The render array.
-   */
-  protected function buildElementPeopleTeasers(string $title, array $body, array $items): array {
-    return $this->buildParagraphTitleBodyAndItems(
-      $title,
-      $body,
-      $this->buildCards($items),
     );
   }
 
@@ -243,125 +140,6 @@ trait ElementTrait {
 
     $elements = $this->wrapContainerVerticalSpacingBig($elements);
     return $this->wrapContainerWide($elements);
-  }
-
-  /**
-   * Build a Quote.
-   *
-   * @param array $image
-   *   The image render array.
-   * @param array $quote
-   *   The quote render array.
-   * @param string|null $subtitle
-   *   Optional; The subtitle could be for example the author name. Defaults to
-   *   NULL.
-   * @param string|null $image_credit
-   *   Optional; The image credit. Defaults to NULL.
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function buildElementQuote(array $image, array $quote, string $subtitle = NULL, string $image_credit = NULL): array {
-    $items = [];
-
-    // Quotation sign.
-    $items[] = ['#theme' => 'server_theme_quotation_sign'];
-
-    // Quote.
-    $element = $this->wrapTextResponsiveFontSize($quote, '2xl');
-    $items[] = $this->wrapTextColor($element, 'gray');
-
-    // Quote by.
-    $element = $this->wrapTextResponsiveFontSize($subtitle, 'sm');
-    $items[] = $this->wrapTextItalic($element);
-
-    // The photo credit on top of the image.
-    $credit = [];
-    if (!empty($image_credit)) {
-      $credit[] = ['#markup' => '© ' . $image_credit];
-    }
-
-    return [
-      '#theme' => 'server_theme_element_layout__split_image_and_content',
-      '#items' => $this->wrapContainerVerticalSpacing($items),
-      '#image' => $image,
-      '#credit' => $credit,
-    ];
-  }
-
-  /**
-   * Build quick links as carousels.
-   *
-   * @param string $title
-   *   The title.
-   * @param array $body
-   *   The body render array.
-   * @param array $items
-   *   The quick links array rendered with
-   *   `InnerElementTrait::buildCardQuickLink`.
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function buildElementQuickLinks(string $title, array $body, array $items): array {
-    return $this->buildParagraphTitleBodyAndItems(
-      $title,
-      $body,
-      $this->buildCards($items),
-    );
-  }
-
-  /**
-   * Build a Paragraph title and text element.
-   *
-   * @param string $title
-   *   The title.
-   * @param array $body
-   *   The body render array.
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function buildElementParagraphTitleAndText(string $title, array $body): array {
-    return $this->buildElementLayoutParagraphTitleAndContent(
-      $title,
-      $this->wrapProseText($body),
-    );
-  }
-
-  /**
-   * Helper; Build the paragraph title and description and the items.
-   *
-   * @param string $title
-   *   The title. Maybe empty.
-   * @param array $body
-   *   The body render array. Maybe empty.
-   * @param array $items
-   *   The items render array.
-   * @param string|null $bg_color
-   *   Optional; The background color. See `ElementWrapTrait::wrapContainerWide`
-   *   for the allowed values.
-   *
-   * @return array
-   *   The render array.
-   */
-  protected function buildParagraphTitleBodyAndItems(string $title, array $body, array $items, string $bg_color = NULL): array {
-    $top_elements = [];
-    $elements = [];
-    $top_elements[] = $this->buildParagraphTitle($title);
-
-    $body = $this->wrapProseText($body);
-    $body = $this->wrapTextColor($body, 'dark-gray');
-    $top_elements[] = $body;
-
-    $top_elements = $this->wrapContainerVerticalSpacingTiny($top_elements);
-    $top_elements = $this->wrapContainerMaxWidth($top_elements, '3xl');
-
-    $elements[] = $top_elements;
-    $elements[] = $items;
-
-    $elements = $this->wrapContainerVerticalSpacing($elements);
-    return $this->wrapContainerWide($elements, $bg_color);
   }
 
 }

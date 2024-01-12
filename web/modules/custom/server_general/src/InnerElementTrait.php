@@ -289,20 +289,4 @@ trait InnerElementTrait {
 
   }
 
-  /**
-   * Wrap multiple cards with a grid.
-   *
-   * @param array $items
-   *   The elements as render array.
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function buildCards(array $items): array {
-    return [
-      '#theme' => 'server_theme_cards',
-      '#items' => $items,
-    ];
-  }
-
 }

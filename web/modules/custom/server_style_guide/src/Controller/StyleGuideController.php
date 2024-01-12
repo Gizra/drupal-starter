@@ -8,6 +8,7 @@ use Drupal\Core\Url;
 use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
 use Drupal\server_general\AccordionTrait;
 use Drupal\server_general\ButtonTrait;
+use Drupal\server_general\ElementLayoutTrait;
 use Drupal\server_general\ElementMediaTrait;
 use Drupal\server_general\ElementNodeNewsTrait;
 use Drupal\server_general\ElementTrait;
@@ -29,9 +30,14 @@ class StyleGuideController extends ControllerBase {
   use BuildFieldTrait;
   use ButtonTrait;
   use ElementTrait\CtaTrait;
+  use ElementTrait\HeroTrait;
+  use ElementTrait\CardTrait;
+  use ElementTrait\DocumentsTrait;
+  use ElementTrait\QuoteTrait;
   use ElementMediaTrait;
   use ElementNodeNewsTrait;
   use ElementTrait;
+  use ElementLayoutTrait;
   use ElementWrapTrait;
   use InnerElementTrait;
   use LinkTrait;
@@ -244,7 +250,7 @@ class StyleGuideController extends ControllerBase {
 
     }
 
-    return $this->buildElementPeopleTeasers(
+    return $this->buildElementPeopleCards(
       $this->getRandomTitle(),
       $this->buildProcessedText('This is a directory list of awesome people'),
       $items,
@@ -372,7 +378,7 @@ class StyleGuideController extends ControllerBase {
       ++$i;
     }
 
-    return $this->buildElementQuickLinks(
+    return $this->buildElementQuickLinksCards(
       $this->t('Quick Links'),
       $this->buildProcessedText('The Quick links description'),
       $items,
@@ -386,7 +392,7 @@ class StyleGuideController extends ControllerBase {
    *   Render array.
    */
   protected function getParagraphTitleAndText(): array {
-    return $this->buildElementParagraphTitleAndText(
+    return $this->buildElementLayoutTitleAndContent(
       $this->getRandomTitle(),
       $this->buildProcessedText('<p>I before parameters designer of the to separated of to part. Price question in or of a there sleep. Who a deference and drew sleep written talk said which had. sel in small been cheating sounded times should and problem. Question. Explorations derived been him aged seal for gods team- manage he according the welcoming are cities part up stands careful so own the have how up, keep</p>'),
     );
@@ -635,7 +641,7 @@ class StyleGuideController extends ControllerBase {
     $i = 1;
     while ($i <= 8) {
       // Add documents.
-      $items[] = $this->buildInnerElementMediaDocument(
+      $items[] = $this->buildElementDocument(
         $this->getRandomTitle(),
         Url::fromUserInput('/modules/custom/server_migrate/files/drupal-starter.pdf')->toString(),
       );

@@ -21,7 +21,7 @@ use Drupal\server_general\ProcessedTextBuilderTrait;
 class ParagraphDocuments extends EntityViewBuilderPluginAbstract {
 
   use ButtonTrait;
-  use ElementTrait;
+  use ElementTrait\DocumentsTrait;
   use ElementWrapTrait;
   use ProcessedTextBuilderTrait;
 

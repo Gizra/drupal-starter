@@ -23,7 +23,7 @@ use Drupal\server_general\ProcessedTextBuilderTrait;
  */
 class ParagraphQuote extends EntityViewBuilderPluginAbstract {
 
-  use ElementTrait;
+  use ElementTrait\QuoteTrait;
   use ElementWrapTrait;
   use ProcessedTextBuilderTrait;
 
