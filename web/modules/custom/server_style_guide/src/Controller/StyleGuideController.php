@@ -28,6 +28,7 @@ class StyleGuideController extends ControllerBase {
   use AccordionTrait;
   use BuildFieldTrait;
   use ButtonTrait;
+  use ElementTrait\CtaTrait;
   use ElementMediaTrait;
   use ElementNodeNewsTrait;
   use ElementTrait;

@@ -13,8 +13,7 @@ use Drupal\Core\Url;
  * Helper methods for rendering different elements.
  *
  * In this trait an "element" signifies a section or a strip on the page. That
- * element can be for example a Related content carousel or a CTA.
- * element that.
+ * element can be for example a Related content carousel.
  */
 trait ElementTrait {
 
@@ -25,40 +24,6 @@ trait ElementTrait {
   use LineSeparatorTrait;
   use LinkTrait;
   use TitleAndLabelsTrait;
-
-  /**
-   * Build a CTA.
-   *
-   * @param string $title
-   *   The title.
-   * @param array $body
-   *   The body render array.
-   * @param \Drupal\Core\Link $link
-   *   The button Link object.
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function buildElementCta(string $title, array $body, Link $link): array {
-    $elements = [];
-
-    // Title.
-    $element = $title;
-    $element = $this->wrapTextResponsiveFontSize($element, '3xl');
-    $element = $this->wrapTextCenter($element);
-    $elements[] = $this->wrapTextFontWeight($element, 'bold');
-
-    // Text.
-    $elements[] = $this->wrapProseText($body);
-
-    // Button.
-    $elements[] = $this->buildButton($link->getText(), $link->getUrl(), TRUE, NULL, UrlHelper::isExternal($link->getUrl()->toString()));
-
-    $elements = $this->wrapContainerVerticalSpacingBig($elements, 'center');
-
-    $elements = $this->buildInnerElementLayout($elements, 'light-gray');
-    return $this->wrapContainerNarrow($elements);
-  }
 
   /**
    * Build a Hero image.
