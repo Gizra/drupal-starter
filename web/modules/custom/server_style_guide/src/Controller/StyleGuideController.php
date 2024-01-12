@@ -33,6 +33,7 @@ class StyleGuideController extends ControllerBase {
   use ElementTrait\HeroTrait;
   use ElementTrait\CardTrait;
   use ElementTrait\DocumentsTrait;
+  use ElementTrait\InfoCardTrait;
   use ElementTrait\QuoteTrait;
   use ElementMediaTrait;
   use ElementNodeNewsTrait;
@@ -600,24 +601,24 @@ class StyleGuideController extends ControllerBase {
   protected function getInfoCards(): array {
     $items = [];
 
-    $items[] = $this->buildInnerElementInfoCard(
+    $items[] = $this->buildElementInfoCard(
       '100%',
       'Developers like this',
       'It saves lots of dev hours, so they like to stick to it',
     );
 
-    $items[] = $this->buildInnerElementInfoCard(
+    $items[] = $this->buildElementInfoCard(
       '2 - 5 commits',
       'Every few days there is a new PR',
     );
 
-    $items[] = $this->buildInnerElementInfoCard(
+    $items[] = $this->buildElementInfoCard(
       '350',
       'Is a number that is likeable',
       'But there are other numbers as well',
     );
 
-    $items[] = $this->buildInnerElementInfoCard(
+    $items[] = $this->buildElementInfoCard(
       '2 - 5 commits',
       'Every few days there is a new PR',
       'Sometimes there are even more!',

@@ -25,6 +25,7 @@ class ParagraphInfoCard extends EntityViewBuilderPluginAbstract {
 
   use ElementTrait;
   use ElementWrapTrait;
+  use ElementTrait\InfoCardTrait;
   use ProcessedTextBuilderTrait;
 
   /**
@@ -41,7 +42,7 @@ class ParagraphInfoCard extends EntityViewBuilderPluginAbstract {
    * @throws \Drupal\Core\TypedData\Exception\MissingDataException
    */
   public function buildFull(array $build, ParagraphInterface $entity): array {
-    $element = $this->buildInnerElementInfoCard(
+    $element = $this->buildElementInfoCard(
       $this->getTextFieldValue($entity, 'field_info_card_header'),
       $this->getTextFieldValue($entity, 'field_title'),
       $this->getTextFieldValue($entity, 'field_subtitle'),

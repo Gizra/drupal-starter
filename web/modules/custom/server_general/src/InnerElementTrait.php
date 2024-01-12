@@ -179,46 +179,6 @@ trait InnerElementTrait {
   }
 
   /**
-   * Build an Info card element.
-   *
-   * @param string $header
-   *   The header. Usually used for the number (e.g. "100%").
-   * @param string $title
-   *   The title.
-   * @param string|null $subtitle
-   *   Optional; The subtitle.
-   *
-   * @return array
-   *   The render array.
-   */
-  protected function buildInnerElementInfoCard(string $header, string $title, string $subtitle = NULL): array {
-    $elements = [];
-
-    $element = $this->wrapTextFontWeight($header, 'bold');
-    $element = $this->wrapTextResponsiveFontSize($element, '3xl');
-    $element = $this->wrapTextCenter($element);
-    $elements[] = $element;
-
-    $bottom_elements = [];
-    $element = $this->wrapTextResponsiveFontSize($title, '2xl');
-    $element = $this->wrapTextCenter($element);
-    $bottom_elements[] = $element;
-
-    if ($subtitle) {
-      $element = $this->wrapTextResponsiveFontSize($subtitle, 'lg');
-      $element = $this->wrapTextCenter($element);
-      $bottom_elements[] = $this->wrapTextColor($element, 'gray');
-    }
-
-    $bottom_elements = $this->wrapContainerVerticalSpacingTiny($bottom_elements, 'center');
-    $elements[] = $bottom_elements;
-
-    $elements = $this->wrapContainerVerticalSpacing($elements, 'center');
-
-    return $this->buildInnerElementLayout($elements, 'light-gray');
-  }
-
-  /**
    * Build a Person teaser.
    *
    * @param string $image_url
