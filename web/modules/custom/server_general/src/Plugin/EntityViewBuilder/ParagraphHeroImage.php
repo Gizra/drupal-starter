@@ -23,6 +23,7 @@ class ParagraphHeroImage extends EntityViewBuilderPluginAbstract {
   use BuildFieldTrait;
   use ButtonTrait;
   use ElementTrait;
+  use ElementTrait\HeroTrait;
 
   const RESPONSIVE_IMAGE_STYLE_ID = 'hero';
 
