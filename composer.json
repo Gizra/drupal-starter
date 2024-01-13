@@ -134,6 +134,9 @@
             "drupal/core": "-p2"
         },
         "patches": {
+            "drupal/core": {
+                "d.o. #3197416": "https://www.drupal.org/files/issues/2023-11-18/3197416-medialibrary-fieldwidgetopenercheckaccess-denies-access-on-a-translated-entity-revision.patch"
+            },
             "drupal/elasticsearch_connector": {
                 "Preserve ES index settings": "https://www.drupal.org/files/issues/2020-01-28/3109361-elasticsearch_connector-preserve-index-settings-1.patch",
                 "d.o. #3106003 - Content access fixes": "https://www.drupal.org/files/issues/2021-01-12/missing-special-fields-3106003-8.patch",
