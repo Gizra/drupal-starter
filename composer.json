@@ -155,6 +155,9 @@
             },
             "npm-asset/anchor-js": {
                 "remove font-face": "patches/remove-anchorjs-fontface.patch"
+            },
+            "drupal/paragraphs": {
+                "d.o. 2925533": "https://www.drupal.org/files/issues/paragraphs-translation_paragraph_issue-2925533-2.patch"
             }
         },
         "drupal-scaffold": {
