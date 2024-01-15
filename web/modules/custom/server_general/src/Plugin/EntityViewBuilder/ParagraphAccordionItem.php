@@ -6,8 +6,7 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
-use Drupal\server_general\AccordionTrait;
-use Drupal\server_general\ElementTrait;
+use Drupal\server_general\ElementTrait\AccordionTrait;
 use Drupal\server_general\ElementWrapTrait;
 use Drupal\server_general\ProcessedTextBuilderTrait;
 
@@ -25,7 +24,7 @@ use Drupal\server_general\ProcessedTextBuilderTrait;
 class ParagraphAccordionItem extends EntityViewBuilderPluginAbstract {
 
   use AccordionTrait;
-  use ElementTrait;
+
   use ElementWrapTrait;
   use ProcessedTextBuilderTrait;
 
@@ -43,7 +42,7 @@ class ParagraphAccordionItem extends EntityViewBuilderPluginAbstract {
    * @throws \Drupal\Core\TypedData\Exception\MissingDataException
    */
   public function buildFull(array $build, ParagraphInterface $entity): array {
-    $element = $this->buildInnerElementAccordionItem(
+    $element = $this->buildElementAccordionItem(
       $this->getTextFieldValue($entity, 'field_title'),
       $this->buildProcessedText($entity, 'field_body'),
     );

@@ -6,7 +6,7 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
-use Drupal\server_general\ElementTrait;
+use Drupal\server_general\ElementTrait\QuickLinksTrait;
 use Drupal\server_general\ElementWrapTrait;
 use Drupal\server_general\ProcessedTextBuilderTrait;
 
@@ -23,9 +23,10 @@ use Drupal\server_general\ProcessedTextBuilderTrait;
  */
 class ParagraphQuickLinkItem extends EntityViewBuilderPluginAbstract {
 
-  use ElementTrait;
+
   use ElementWrapTrait;
   use ProcessedTextBuilderTrait;
+  use QuickLinksTrait;
 
   /**
    * Build full view mode.
@@ -47,7 +48,7 @@ class ParagraphQuickLinkItem extends EntityViewBuilderPluginAbstract {
       return [];
     }
 
-    $element = $this->buildInnerElementQuickLinkItem(
+    $element = $this->buildElementQuickLinkItem(
       $link['title'],
       $link['url'],
       $this->getTextFieldValue($entity, 'field_subtitle')

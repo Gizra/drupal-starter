@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\server_general;
 
+use Drupal\Core\Url;
+
 /**
  * Helper methods to build Page layouts.
  *
@@ -17,6 +19,7 @@ namespace Drupal\server_general;
  */
 trait ElementLayoutTrait {
 
+  use ButtonTrait;
   use TitleAndLabelsTrait;
 
   /**
@@ -47,18 +50,91 @@ trait ElementLayoutTrait {
    *
    * @param string $title
    *   The title.
-   * @param array $items
+   * @param array $content
    *   The content render array.
    *
    * @return array
    *   Render array.
    */
-  protected function buildElementLayoutParagraphTitleAndContent(string $title, array $items): array {
+  protected function buildElementLayoutTitleAndContent(string $title, array $content): array {
     $elements[] = $this->buildParagraphTitle($title);
-    $elements[] = $items;
+    $elements[] = $content;
 
     $elements = $this->wrapContainerVerticalSpacingBig($elements);
     return $this->wrapContainerWide($elements);
+  }
+
+  /**
+   * Helper; Build the paragraph title and description and the items.
+   *
+   * @param string $title
+   *   The title. Maybe empty.
+   * @param array $body
+   *   The body render array. Maybe empty.
+   * @param array $items
+   *   The items render array.
+   * @param string|null $bg_color
+   *   Optional; The background color. See `ElementWrapTrait::wrapContainerWide`
+   *   for the allowed values.
+   *
+   * @return array
+   *   The render array.
+   */
+  protected function buildElementLayoutTitleBodyAndItems(string $title, array $body, array $items, string $bg_color = NULL): array {
+    $top_elements = [];
+    $elements = [];
+    $top_elements[] = $this->buildParagraphTitle($title);
+
+    $body = $this->wrapProseText($body);
+    $body = $this->wrapTextColor($body, 'dark-gray');
+    $top_elements[] = $body;
+
+    $top_elements = $this->wrapContainerVerticalSpacingTiny($top_elements);
+    $top_elements = $this->wrapContainerMaxWidth($top_elements, '3xl');
+
+    $elements[] = $top_elements;
+    $elements[] = $items;
+
+    $elements = $this->wrapContainerVerticalSpacing($elements);
+    return $this->wrapContainerWide($elements, $bg_color);
+  }
+
+  /**
+   * Render items with a View more button, that will reveal more items.
+   *
+   * @param array $items
+   *   The items to render.
+   * @param int $limit_count
+   *   Determine how many items to show initially.
+   *
+   * @return array
+   *   The render array.
+   */
+  protected function buildElementLayoutItemsWithViewMore(array $items, int $limit_count): array {
+    if (count($items) <= $limit_count) {
+      // We don't need to hide any item.
+      return $items;
+    }
+
+    $wrapped_items = [];
+    foreach (array_values($items) as $key => $item) {
+      if ($key + 1 > $limit_count) {
+        // Hide the items that are over the limit count.
+        $item = $this->wrapHidden($item);
+      }
+      $wrapped_items[] = $item;
+    }
+
+    $elements = [];
+    $elements[] = $wrapped_items;
+    $elements[] = $this->buildButton($this->t('View more'), Url::fromUserInput('#'));
+    ;
+    $elements = $this->wrapContainerVerticalSpacing($elements);
+
+    return [
+      '#theme' => 'server_theme_element_items_with_view_more',
+      '#items' => $elements,
+    ];
   }
 
 }

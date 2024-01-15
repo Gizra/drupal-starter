@@ -6,8 +6,8 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
-use Drupal\server_general\AccordionTrait;
-use Drupal\server_general\ElementTrait;
+use Drupal\server_general\ElementLayoutTrait;
+use Drupal\server_general\ElementTrait\AccordionTrait;
 use Drupal\server_general\ElementWrapTrait;
 use Drupal\server_general\ProcessedTextBuilderTrait;
 
@@ -25,7 +25,7 @@ use Drupal\server_general\ProcessedTextBuilderTrait;
 class ParagraphAccordion extends EntityViewBuilderPluginAbstract {
 
   use AccordionTrait;
-  use ElementTrait;
+  use ElementLayoutTrait;
   use ElementWrapTrait;
   use ProcessedTextBuilderTrait;
 
@@ -45,7 +45,7 @@ class ParagraphAccordion extends EntityViewBuilderPluginAbstract {
     $paragraphs = $entity->get('field_accordion_items');
     $items = $this->buildReferencedEntities($paragraphs, 'full', $entity->language()->getId());
 
-    $build[] = $this->buildParagraphTitleBodyAndItems(
+    $build[] = $this->buildElementLayoutTitleBodyAndItems(
       $this->getTextFieldValue($entity, 'field_title'),
       $this->buildProcessedText($entity, 'field_body'),
       $this->buildElementAccordion($items),

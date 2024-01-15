@@ -6,13 +6,23 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
-use Drupal\server_general\AccordionTrait;
 use Drupal\server_general\ButtonTrait;
+use Drupal\server_general\ElementLayoutTrait;
 use Drupal\server_general\ElementMediaTrait;
 use Drupal\server_general\ElementNodeNewsTrait;
-use Drupal\server_general\ElementTrait;
+use Drupal\server_general\ElementTrait\AccordionTrait;
+use Drupal\server_general\ElementTrait\CardTrait;
+use Drupal\server_general\ElementTrait\CarouselTrait;
+use Drupal\server_general\ElementTrait\CtaTrait;
+use Drupal\server_general\ElementTrait\DocumentsTrait;
+use Drupal\server_general\ElementTrait\HeroTrait;
+use Drupal\server_general\ElementTrait\InfoCardTrait;
+use Drupal\server_general\ElementTrait\NewsTeasersTrait;
+use Drupal\server_general\ElementTrait\PeopleTeasersTrait;
+use Drupal\server_general\ElementTrait\QuickLinksTrait;
+use Drupal\server_general\ElementTrait\QuoteTrait;
+use Drupal\server_general\ElementTrait\SearchTrait;
 use Drupal\server_general\ElementWrapTrait;
-use Drupal\server_general\InnerElementTrait;
 use Drupal\server_general\LinkTrait;
 use Drupal\server_general\SocialShareTrait;
 use Drupal\server_general\TagTrait;
@@ -28,12 +38,22 @@ class StyleGuideController extends ControllerBase {
   use AccordionTrait;
   use BuildFieldTrait;
   use ButtonTrait;
+  use CardTrait;
+  use CarouselTrait;
+  use CtaTrait;
+  use DocumentsTrait;
   use ElementMediaTrait;
   use ElementNodeNewsTrait;
-  use ElementTrait;
+  use ElementLayoutTrait;
   use ElementWrapTrait;
-  use InnerElementTrait;
+  use HeroTrait;
+  use InfoCardTrait;
   use LinkTrait;
+  use NewsTeasersTrait;
+  use PeopleTeasersTrait;
+  use QuickLinksTrait;
+  use QuoteTrait;
+  use SearchTrait;
   use SocialShareTrait;
   use StyleGuideElementWrapTrait;
   use TagTrait;
@@ -234,7 +254,7 @@ class StyleGuideController extends ControllerBase {
       'Rick Morty',
     ];
     foreach ($names as $key => $name) {
-      $items[] = $this->buildInnerElementPersonTeaser(
+      $items[] = $this->buildElementPersonTeaser(
         $this->getPlaceholderPersonImage(100),
         'The image alt ' . $name,
         $name,
@@ -307,7 +327,7 @@ class StyleGuideController extends ControllerBase {
    */
   protected function getSearchTermFacetsAndResults(): array {
     $result_items = [];
-    $result_items[] = $this->buildInnerElementSearchResult(
+    $result_items[] = $this->buildElementSearchResult(
       'News',
       $this->getRandomTitle(),
       Url::fromRoute('<front>'),
@@ -315,7 +335,7 @@ class StyleGuideController extends ControllerBase {
       time()
     );
 
-    $result_items[] = $this->buildInnerElementSearchResult(
+    $result_items[] = $this->buildElementSearchResult(
       'News',
       $this->getRandomTitle(),
       Url::fromRoute('<front>'),
@@ -362,7 +382,7 @@ class StyleGuideController extends ControllerBase {
     while ($i <= 4) {
       $subtitle = $i == 2 ? 'This is a quick link description' : NULL;
 
-      $items[] = $this->buildInnerElementQuickLinkItem(
+      $items[] = $this->buildElementQuickLinkItem(
         $this->getRandomTitle(),
         $url,
         $subtitle,
@@ -385,7 +405,7 @@ class StyleGuideController extends ControllerBase {
    *   Render array.
    */
   protected function getParagraphTitleAndText(): array {
-    return $this->buildElementParagraphTitleAndText(
+    return $this->buildElementLayoutTitleAndContent(
       $this->getRandomTitle(),
       $this->buildProcessedText('<p>I before parameters designer of the to separated of to part. Price question in or of a there sleep. Who a deference and drew sleep written talk said which had. sel in small been cheating sounded times should and problem. Question. Explorations derived been him aged seal for gods team- manage he according the welcoming are cities part up stands careful so own the have how up, keep</p>'),
     );
@@ -431,7 +451,7 @@ class StyleGuideController extends ControllerBase {
     $summary = $this->buildProcessedText('<p>I before parameters designer of the to separated of to part. Price question in or of a there sleep. Who a deference and drew sleep written talk said which had. sel in small been cheating sounded times should and problem. Question. Explorations derived been him aged seal for gods team- manage he according the welcoming are cities part up stands careful so own the have how up, keep</p>');
     $timestamp = time();
 
-    $card = $this->buildInnerElementWithImageForNews(
+    $card = $this->buildElementNewsTeaser(
       $image,
       $title,
       $url,
@@ -443,7 +463,7 @@ class StyleGuideController extends ControllerBase {
     $title = 'A Shorter Title';
     $summary = $this->buildProcessedText('A much <strong>shorter</strong> intro');
 
-    $card2 = $this->buildInnerElementWithImageForNews(
+    $card2 = $this->buildElementNewsTeaser(
       $image,
       $title,
       $url,
@@ -593,24 +613,24 @@ class StyleGuideController extends ControllerBase {
   protected function getInfoCards(): array {
     $items = [];
 
-    $items[] = $this->buildInnerElementInfoCard(
+    $items[] = $this->buildElementInfoCard(
       '100%',
       'Developers like this',
       'It saves lots of dev hours, so they like to stick to it',
     );
 
-    $items[] = $this->buildInnerElementInfoCard(
+    $items[] = $this->buildElementInfoCard(
       '2 - 5 commits',
       'Every few days there is a new PR',
     );
 
-    $items[] = $this->buildInnerElementInfoCard(
+    $items[] = $this->buildElementInfoCard(
       '350',
       'Is a number that is likeable',
       'But there are other numbers as well',
     );
 
-    $items[] = $this->buildInnerElementInfoCard(
+    $items[] = $this->buildElementInfoCard(
       '2 - 5 commits',
       'Every few days there is a new PR',
       'Sometimes there are even more!',
@@ -634,7 +654,7 @@ class StyleGuideController extends ControllerBase {
     $i = 1;
     while ($i <= 8) {
       // Add documents.
-      $items[] = $this->buildInnerElementMediaDocument(
+      $items[] = $this->buildElementDocument(
         $this->getRandomTitle(),
         Url::fromUserInput('/modules/custom/server_migrate/files/drupal-starter.pdf')->toString(),
       );
@@ -685,7 +705,7 @@ class StyleGuideController extends ControllerBase {
 
     for ($i = 0; $i < 7; $i++) {
       // Add accordion items.
-      $items[] = $this->buildInnerElementAccordionItem(
+      $items[] = $this->buildElementAccordionItem(
         $this->getRandomTitle(),
         $this->buildProcessedText('Content ' . $i . ' Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'),
       );
@@ -821,7 +841,7 @@ class StyleGuideController extends ControllerBase {
    */
   protected function getRelatedContent(int $num = 5, bool $is_featured = FALSE): array {
     $elements = [];
-    $func = $is_featured ? 'buildInnerElementWithImageHorizontalForNews' : 'buildInnerElementWithImageForNews';
+    $func = $is_featured ? 'buildElementNewsTeaserFeatured' : 'buildElementNewsTeaser';
     for ($i = 0; $i < $num; $i++) {
       $elements[] = call_user_func(
         [$this, $func],

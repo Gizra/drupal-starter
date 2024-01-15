@@ -7,7 +7,7 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 use Drupal\Core\Block\BlockManagerInterface;
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
-use Drupal\server_general\ElementTrait;
+use Drupal\server_general\ElementTrait\SearchTrait;
 use Drupal\server_general\EmbedBlockTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,8 +23,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ParagraphSearch extends EntityViewBuilderPluginAbstract {
 
-  use ElementTrait;
   use EmbedBlockTrait;
+  use SearchTrait;
 
   /**
    * The machine name of the facets to show.

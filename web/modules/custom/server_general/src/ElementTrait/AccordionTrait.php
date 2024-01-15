@@ -2,21 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Drupal\server_general;
+namespace Drupal\server_general\ElementTrait;
+
+use Drupal\server_general\LineSeparatorTrait;
 
 /**
  * Helpers to build an accordion.
  */
 trait AccordionTrait {
 
-  use ElementTrait;
   use LineSeparatorTrait;
 
   /**
    * Build an Accordion.
    *
    * @param array $items
-   *   Items rendered with `InnerElementTrait::buildElementAccordionItem`.
+   *   Items rendered with `AccordionTrait::buildElementAccordionItem`.
    *
    * @return array
    *   The render array.
@@ -47,9 +48,9 @@ trait AccordionTrait {
    * @return array
    *   The render array.
    */
-  protected function buildInnerElementAccordionItem(string|\Stringable $title, array $description): array {
+  protected function buildElementAccordionItem(string|\Stringable $title, array $description): array {
     return [
-      '#theme' => 'server_theme_inner_element__accordion_item',
+      '#theme' => 'server_theme_element__accordion_item',
       '#title' => $title,
       '#description' => $description,
     ];

@@ -5,7 +5,7 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
 use Drupal\server_general\ButtonTrait;
-use Drupal\server_general\ElementTrait;
+use Drupal\server_general\ElementTrait\DocumentsTrait;
 use Drupal\server_general\ElementWrapTrait;
 use Drupal\server_general\ProcessedTextBuilderTrait;
 
@@ -21,7 +21,7 @@ use Drupal\server_general\ProcessedTextBuilderTrait;
 class ParagraphDocuments extends EntityViewBuilderPluginAbstract {
 
   use ButtonTrait;
-  use ElementTrait;
+  use DocumentsTrait;
   use ElementWrapTrait;
   use ProcessedTextBuilderTrait;
 

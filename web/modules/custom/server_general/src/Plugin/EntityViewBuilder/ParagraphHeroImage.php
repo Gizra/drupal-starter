@@ -7,7 +7,7 @@ use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
 use Drupal\server_general\ButtonTrait;
-use Drupal\server_general\ElementTrait;
+use Drupal\server_general\ElementTrait\HeroTrait;
 
 /**
  * The "Hero image" paragraph plugin.
@@ -22,7 +22,7 @@ class ParagraphHeroImage extends EntityViewBuilderPluginAbstract {
 
   use BuildFieldTrait;
   use ButtonTrait;
-  use ElementTrait;
+  use HeroTrait;
 
   const RESPONSIVE_IMAGE_STYLE_ID = 'hero';
 

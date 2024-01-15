@@ -8,15 +8,16 @@ namespace Drupal\server_general;
 use Drupal\Core\Url;
 
 /**
- * Helper methods for rendering different Card layouts.
+ * Helper methods for rendering different "inner element" layouts such as cards.
  *
- * A card layout can be for example a card with an image, or a card with
- * centered items. This trait should only be used by `InnerElementTrait`.
+ * An inner element can be for example a card with an image, or a search result
+ * with centered items. This trait should only be used by other traits in
+ * ElementTrait namespace.
  * You should not try to call this trait's methods directly from the Style guide
- * or PEVB, instead you should be calling the methods from `InnerElementTrait`.
+ * or PEVB, instead you should be calling the methods from a custom
+ * ElementTrait such as Drupal\server_general\ElementTrait\InfoCardTrait.
  *
- * Trait is providing helper methods for each card. One method equals one theme
- * file.
+ * @see \Drupal\server_general\ElementTrait\InfoCardTrait::buildElementInfoCard.
  */
 trait InnerElementLayoutTrait {
 
