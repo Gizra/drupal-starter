@@ -29,6 +29,7 @@ class StyleGuideController extends ControllerBase {
   use AccordionTrait;
   use BuildFieldTrait;
   use ButtonTrait;
+  use ElementTrait\CarouselTrait;
   use ElementTrait\CtaTrait;
   use ElementTrait\HeroTrait;
   use ElementTrait\CardTrait;
@@ -244,7 +245,7 @@ class StyleGuideController extends ControllerBase {
       'Rick Morty',
     ];
     foreach ($names as $key => $name) {
-      $items[] = $this->buildInnerElementPersonTeaser(
+      $items[] = $this->buildElementPersonTeaser(
         $this->getPlaceholderPersonImage(100),
         'The image alt ' . $name,
         $name,
