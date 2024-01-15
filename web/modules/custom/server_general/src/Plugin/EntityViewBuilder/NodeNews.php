@@ -8,6 +8,7 @@ use Drupal\node\NodeInterface;
 use Drupal\server_general\ElementLayoutTrait;
 use Drupal\server_general\ElementNodeNewsTrait;
 use Drupal\server_general\ElementTrait\NewsTeasersTrait;
+use Drupal\server_general\ElementTrait\SearchTrait;
 use Drupal\server_general\EntityDateTrait;
 use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
 use Drupal\server_general\InnerElementTrait;
@@ -31,10 +32,10 @@ class NodeNews extends NodeViewBuilderAbstract {
   use ElementLayoutTrait;
   use ElementNodeNewsTrait;
   use EntityDateTrait;
-  use InnerElementTrait;
   use LineSeparatorTrait;
   use LinkTrait;
   use NewsTeasersTrait;
+  use SearchTrait;
   use SocialShareTrait;
   use TitleAndLabelsTrait;
 
@@ -166,7 +167,7 @@ class NodeNews extends NodeViewBuilderAbstract {
    *   Render array.
    */
   public function buildSearchIndex(array $build, NodeInterface $entity) {
-    $element = $this->buildInnerElementSearchResult(
+    $element = $this->buildElementSearchResult(
       $this->t('News'),
       $entity->label(),
       $entity->toUrl(),

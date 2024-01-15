@@ -49,7 +49,6 @@ class StyleGuideController extends ControllerBase {
   use ElementWrapTrait;
   use HeroTrait;
   use InfoCardTrait;
-  use InnerElementTrait;
   use LinkTrait;
   use NewsTeasersTrait;
   use PeopleTeasersTrait;
@@ -329,7 +328,7 @@ class StyleGuideController extends ControllerBase {
    */
   protected function getSearchTermFacetsAndResults(): array {
     $result_items = [];
-    $result_items[] = $this->buildInnerElementSearchResult(
+    $result_items[] = $this->buildElementSearchResult(
       'News',
       $this->getRandomTitle(),
       Url::fromRoute('<front>'),
@@ -337,7 +336,7 @@ class StyleGuideController extends ControllerBase {
       time()
     );
 
-    $result_items[] = $this->buildInnerElementSearchResult(
+    $result_items[] = $this->buildElementSearchResult(
       'News',
       $this->getRandomTitle(),
       Url::fromRoute('<front>'),
