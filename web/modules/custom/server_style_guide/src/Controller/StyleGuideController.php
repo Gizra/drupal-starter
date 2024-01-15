@@ -45,6 +45,7 @@ class StyleGuideController extends ControllerBase {
   use ElementWrapTrait;
   use InnerElementTrait;
   use LinkTrait;
+  use ElementTrait\NewsTeasersTrait;
   use SocialShareTrait;
   use StyleGuideElementWrapTrait;
   use TagTrait;
@@ -442,7 +443,7 @@ class StyleGuideController extends ControllerBase {
     $summary = $this->buildProcessedText('<p>I before parameters designer of the to separated of to part. Price question in or of a there sleep. Who a deference and drew sleep written talk said which had. sel in small been cheating sounded times should and problem. Question. Explorations derived been him aged seal for gods team- manage he according the welcoming are cities part up stands careful so own the have how up, keep</p>');
     $timestamp = time();
 
-    $card = $this->buildInnerElementWithImageForNews(
+    $card = $this->buildElementNewsTeaser(
       $image,
       $title,
       $url,
@@ -454,7 +455,7 @@ class StyleGuideController extends ControllerBase {
     $title = 'A Shorter Title';
     $summary = $this->buildProcessedText('A much <strong>shorter</strong> intro');
 
-    $card2 = $this->buildInnerElementWithImageForNews(
+    $card2 = $this->buildElementNewsTeaser(
       $image,
       $title,
       $url,
@@ -832,7 +833,7 @@ class StyleGuideController extends ControllerBase {
    */
   protected function getRelatedContent(int $num = 5, bool $is_featured = FALSE): array {
     $elements = [];
-    $func = $is_featured ? 'buildInnerElementWithImageHorizontalForNews' : 'buildInnerElementWithImageForNews';
+    $func = $is_featured ? 'buildElementNewsTeaserFeatured' : 'buildElementNewsTeaser';
     for ($i = 0; $i < $num; $i++) {
       $elements[] = call_user_func(
         [$this, $func],

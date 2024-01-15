@@ -7,6 +7,7 @@ use Drupal\node\Entity\NodeType;
 use Drupal\node\NodeInterface;
 use Drupal\server_general\ElementLayoutTrait;
 use Drupal\server_general\ElementNodeNewsTrait;
+use Drupal\server_general\ElementTrait\NewsTeasersTrait;
 use Drupal\server_general\EntityDateTrait;
 use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
 use Drupal\server_general\InnerElementTrait;
@@ -33,6 +34,7 @@ class NodeNews extends NodeViewBuilderAbstract {
   use InnerElementTrait;
   use LineSeparatorTrait;
   use LinkTrait;
+  use NewsTeasersTrait;
   use SocialShareTrait;
   use TitleAndLabelsTrait;
 
@@ -107,7 +109,7 @@ class NodeNews extends NodeViewBuilderAbstract {
     $summary = $this->buildProcessedTextTrimmed($entity, 'field_body');
     $timestamp = $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date');
 
-    $element = $this->buildInnerElementWithImageForNews(
+    $element = $this->buildElementNewsTeaser(
       $image,
       $title,
       $url,
@@ -121,7 +123,7 @@ class NodeNews extends NodeViewBuilderAbstract {
   }
 
   /**
-   * Build Teaser view mode.
+   * Build "Featured" view mode.
    *
    * @param array $build
    *   The existing build.
@@ -139,7 +141,7 @@ class NodeNews extends NodeViewBuilderAbstract {
     $summary = $this->buildProcessedText($entity, 'field_body');
     $timestamp = $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date');
 
-    $element = $this->buildInnerElementWithImageHorizontalForNews(
+    $element = $this->buildElementNewsTeaserFeatured(
       $image,
       $title,
       $url,

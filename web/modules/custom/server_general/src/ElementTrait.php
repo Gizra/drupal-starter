@@ -26,28 +26,6 @@ trait ElementTrait {
   use TitleAndLabelsTrait;
 
   /**
-   * Build News teasers element.
-   *
-   * @param string $title
-   *   The title.
-   * @param array $body
-   *   The body render array.
-   * @param array $items
-   *   The news teasers array rendered with
-   *   `ElementLayoutTrait::buildElementLayoutTitleBodyAndItems`.
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function buildElementNewsTeasers(string $title, array $body, array $items): array {
-    return $this->buildElementLayoutTitleBodyAndItems(
-      $title,
-      $body,
-      $items,
-    );
-  }
-
-  /**
    * Build a Search term, facets and results element.
    *
    * This is used by the Search paragraph type.
