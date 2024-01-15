@@ -35,7 +35,6 @@ trait DocumentsTrait {
     );
   }
 
-
   /**
    * Builds a single document item.
    *

@@ -56,4 +56,5 @@ trait QuoteTrait {
       '#credit' => $credit,
     ];
   }
+
 }

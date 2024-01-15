@@ -93,8 +93,6 @@ class ParagraphSearch extends EntityViewBuilderPluginAbstract {
       $search_key = '';
     }
 
-    $elements = [];
-
     $element = $this->buildElementSearchTermFacetsAndResults(
       $facets_items,
       $this->hasFilters('key'),

@@ -62,4 +62,5 @@ trait CarouselTrait {
       'light-gray',
     );
   }
+
 }

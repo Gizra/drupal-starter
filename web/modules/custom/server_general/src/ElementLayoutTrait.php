@@ -19,6 +19,7 @@ use Drupal\Core\Url;
  */
 trait ElementLayoutTrait {
 
+  use ButtonTrait;
   use TitleAndLabelsTrait;
 
   /**

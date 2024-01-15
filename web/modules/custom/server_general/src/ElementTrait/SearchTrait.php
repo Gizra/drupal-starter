@@ -6,11 +6,22 @@ namespace Drupal\server_general\ElementTrait;
 
 use Drupal\Core\Url;
 use Drupal\intl_date\IntlDate;
+use Drupal\server_general\ElementWrapTrait;
+use Drupal\server_general\InnerElementLayoutTrait;
+use Drupal\server_general\LinkTrait;
+use Drupal\server_general\TitleAndLabelsTrait;
 
 /**
  * Helper methods for rendering Search/Search results related elements.
+ *
+ * @property \Drupal\Core\Render\RendererInterface $renderer
  */
 trait SearchTrait {
+
+  use ElementWrapTrait;
+  use InnerElementLayoutTrait;
+  use LinkTrait;
+  use TitleAndLabelsTrait;
 
   /**
    * Build a Search term, facets and results element.
