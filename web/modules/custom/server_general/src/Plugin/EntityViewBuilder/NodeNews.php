@@ -11,7 +11,6 @@ use Drupal\server_general\ElementTrait\NewsTeasersTrait;
 use Drupal\server_general\ElementTrait\SearchTrait;
 use Drupal\server_general\EntityDateTrait;
 use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
-use Drupal\server_general\InnerElementTrait;
 use Drupal\server_general\LineSeparatorTrait;
 use Drupal\server_general\LinkTrait;
 use Drupal\server_general\SocialShareTrait;

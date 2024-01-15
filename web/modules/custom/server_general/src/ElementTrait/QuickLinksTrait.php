@@ -61,7 +61,7 @@ trait QuickLinksTrait {
     }
 
     return [
-      '#theme' => 'server_theme_inner_element__quick_link_item',
+      '#theme' => 'server_theme_element__quick_link_item',
       '#items' => $this->wrapContainerVerticalSpacingTiny($items),
       '#url' => $url,
     ];

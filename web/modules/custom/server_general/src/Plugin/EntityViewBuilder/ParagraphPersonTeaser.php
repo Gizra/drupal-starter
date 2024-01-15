@@ -6,7 +6,7 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
-use Drupal\server_general\ElementTrait;
+use Drupal\server_general\ElementTrait\PeopleTeasersTrait;
 use Drupal\server_general\ElementWrapTrait;
 use Drupal\server_general\ProcessedTextBuilderTrait;
 
@@ -25,7 +25,7 @@ class ParagraphPersonTeaser extends EntityViewBuilderPluginAbstract {
 
 
   use ElementWrapTrait;
-  use ElementTrait\PeopleTeasersTrait;
+  use PeopleTeasersTrait;
   use ProcessedTextBuilderTrait;
 
   /**

@@ -6,7 +6,7 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
-use Drupal\server_general\AccordionTrait;
+use Drupal\server_general\ElementTrait\AccordionTrait;
 use Drupal\server_general\ButtonTrait;
 use Drupal\server_general\ElementLayoutTrait;
 use Drupal\server_general\ElementMediaTrait;
@@ -23,7 +23,6 @@ use Drupal\server_general\ElementTrait\QuickLinksTrait;
 use Drupal\server_general\ElementTrait\QuoteTrait;
 use Drupal\server_general\ElementTrait\SearchTrait;
 use Drupal\server_general\ElementWrapTrait;
-use Drupal\server_general\InnerElementTrait;
 use Drupal\server_general\LinkTrait;
 use Drupal\server_general\SocialShareTrait;
 use Drupal\server_general\TagTrait;
@@ -706,7 +705,7 @@ class StyleGuideController extends ControllerBase {
 
     for ($i = 0; $i < 7; $i++) {
       // Add accordion items.
-      $items[] = $this->buildInnerElementAccordionItem(
+      $items[] = $this->buildElementAccordionItem(
         $this->getRandomTitle(),
         $this->buildProcessedText('Content ' . $i . ' Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'),
       );

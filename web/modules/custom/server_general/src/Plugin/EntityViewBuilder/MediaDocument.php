@@ -6,7 +6,6 @@ use Drupal\media\MediaInterface;
 use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
 use Drupal\server_general\ElementTrait\DocumentsTrait;
-use Drupal\server_general\InnerElementTrait;
 
 /**
  * The "Document" media plugin.
