@@ -17,7 +17,7 @@ use Drupal\Core\Url;
  * or PEVB, instead you should be calling the methods from a custom
  * ElementTrait such as Drupal\server_general\ElementTrait\InfoCardTrait.
  *
- * @see Drupal\server_general\ElementTrait\InfoCardTrait::buildElementInfoCard.
+ * @see \Drupal\server_general\ElementTrait\InfoCardTrait::buildElementInfoCard.
  */
 trait InnerElementLayoutTrait {
 
