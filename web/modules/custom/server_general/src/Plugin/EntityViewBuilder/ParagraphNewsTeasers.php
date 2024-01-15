@@ -19,7 +19,7 @@ use Drupal\views\Views;
  */
 class ParagraphNewsTeasers extends EntityViewBuilderPluginAbstract {
 
-  use ElementTrait;
+
   use ProcessedTextBuilderTrait;
 
   /**

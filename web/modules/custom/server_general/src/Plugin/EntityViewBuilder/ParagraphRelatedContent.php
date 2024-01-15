@@ -21,7 +21,7 @@ class ParagraphRelatedContent extends EntityViewBuilderPluginAbstract {
 
   use ButtonTrait;
   use ElementTrait\CarouselTrait;
-  use ElementTrait;
+
   use ProcessedTextBuilderTrait;
 
   /**

@@ -23,8 +23,9 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ParagraphSearch extends EntityViewBuilderPluginAbstract {
 
-  use ElementTrait;
+
   use EmbedBlockTrait;
+  use ElementTrait\SearchTrait;
 
   /**
    * The machine name of the facets to show.
@@ -92,6 +93,8 @@ class ParagraphSearch extends EntityViewBuilderPluginAbstract {
       // For instance, we have this on malicious input.
       $search_key = '';
     }
+
+    $elements = [];
 
     $element = $this->buildElementSearchTermFacetsAndResults(
       $facets_items,

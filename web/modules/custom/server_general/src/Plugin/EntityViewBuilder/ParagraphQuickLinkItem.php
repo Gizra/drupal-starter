@@ -23,7 +23,7 @@ use Drupal\server_general\ProcessedTextBuilderTrait;
  */
 class ParagraphQuickLinkItem extends EntityViewBuilderPluginAbstract {
 
-  use ElementTrait;
+
   use ElementTrait\QuickLinksTrait;
   use ElementWrapTrait;
   use ProcessedTextBuilderTrait;

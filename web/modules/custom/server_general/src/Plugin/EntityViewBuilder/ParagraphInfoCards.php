@@ -24,7 +24,7 @@ use Drupal\server_general\ProcessedTextBuilderTrait;
 class ParagraphInfoCards extends EntityViewBuilderPluginAbstract {
 
   use ElementTrait\CardTrait;
-  use ElementTrait;
+
   use ElementWrapTrait;
   use ProcessedTextBuilderTrait;
 

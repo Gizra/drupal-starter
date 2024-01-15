@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Drupal\server_general;
+namespace Drupal\server_general\ElementTrait;
 
 /**
  * Helpers to build an accordion.

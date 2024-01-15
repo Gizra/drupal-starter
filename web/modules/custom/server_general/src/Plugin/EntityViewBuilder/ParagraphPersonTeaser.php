@@ -23,7 +23,7 @@ use Drupal\server_general\ProcessedTextBuilderTrait;
  */
 class ParagraphPersonTeaser extends EntityViewBuilderPluginAbstract {
 
-  use ElementTrait;
+
   use ElementWrapTrait;
   use ElementTrait\PeopleTeasersTrait;
   use ProcessedTextBuilderTrait;

@@ -25,7 +25,7 @@ class ParagraphQuickLinks extends EntityViewBuilderPluginAbstract {
 
   use ElementTrait\CardTrait;
   use ElementTrait\QuickLinksTrait;
-  use ElementTrait;
+
   use ElementWrapTrait;
   use ProcessedTextBuilderTrait;
 

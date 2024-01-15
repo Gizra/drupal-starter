@@ -25,7 +25,7 @@ class ParagraphPeopleTeasers extends EntityViewBuilderPluginAbstract {
 
   use ElementTrait\CardTrait;
   use ElementTrait\PeopleTeasersTrait;
-  use ElementTrait;
+
   use ElementWrapTrait;
   use ProcessedTextBuilderTrait;
 

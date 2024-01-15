@@ -23,7 +23,7 @@ class ParagraphCta extends EntityViewBuilderPluginAbstract {
 
   use ButtonTrait;
   use ElementTrait\CtaTrait;
-  use ElementTrait;
+
   use ElementWrapTrait;
   use ProcessedTextBuilderTrait;
 

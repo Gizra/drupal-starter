@@ -25,7 +25,7 @@ use Drupal\server_general\ProcessedTextBuilderTrait;
 class ParagraphAccordionItem extends EntityViewBuilderPluginAbstract {
 
   use AccordionTrait;
-  use ElementTrait;
+
   use ElementWrapTrait;
   use ProcessedTextBuilderTrait;
 
