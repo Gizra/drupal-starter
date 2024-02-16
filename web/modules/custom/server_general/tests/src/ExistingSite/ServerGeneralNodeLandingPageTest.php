@@ -60,4 +60,11 @@ class ServerGeneralNodeLandingPageTest extends ServerGeneralNodeTestBase {
     }
   }
 
+  /**
+   * Test locked Homepage can't be deleted.
+   */
+  public function testLockedHomepage() {
+
+  }
+
 }
