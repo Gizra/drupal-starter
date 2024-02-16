@@ -7,7 +7,7 @@
 FULLURL=${DDEV_PRIMARY_URL}
 HTTPS=""
 if [ ${DDEV_PRIMARY_URL%://*} = "https" ]; then HTTPS=true; fi
-FULLURL=`ddev drush uli ${1}`
+FULLURL=`ddev drush uli --name=AdminOne ${1}`
 
 case $OSTYPE in
   linux-gnu)
