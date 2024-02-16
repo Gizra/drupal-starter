@@ -21,7 +21,6 @@ fi
 # Upon travis_retry, have a fresh start.
 docker system prune -a --volumes -f
 
-# Configure ddev
 echo "Configuring ddev."
 mkdir ~/.ddev
 cp "ci-scripts/global_config.yaml" ~/.ddev/
