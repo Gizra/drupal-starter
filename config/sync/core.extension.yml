@@ -15,8 +15,8 @@ module:
   config: 0
   config_filter: 0
   config_ignore: 0
-  config_translation: 0
   config_pages: 0
+  config_translation: 0
   contact: 0
   contextual: 0
   crop: 0

@@ -11,7 +11,7 @@ field_name: field_locked_landing_pages
 entity_type: config_pages
 bundle: main_settings
 label: 'Locked Landing pages'
-description: 'Pages which are referenced in this field can''t be removed.'
+description: "Pages which are referenced in this field can't be removed."
 required: false
 translatable: false
 default_value: {  }

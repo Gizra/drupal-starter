@@ -8,5 +8,6 @@ _core:
   default_config_hash: VYERDzPNi1-oUm7KMLjol4oLcjbHr-onKbitt4dZuN0
 id: config_pages.full
 label: Full
+description: ''
 targetEntityType: config_pages
 cache: true
