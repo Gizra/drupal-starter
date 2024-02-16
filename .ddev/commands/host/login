@@ -1,22 +1,61 @@
 #!/bin/bash
 
 ## Description: Launch a browser and login to the current Drupal project.
-## Usage: login [--name=USER]
+## Usage: login [--name=USER] [--uid=UID]
 ## Example: "ddev login" or "ddev login --name=username" or "ddev login --uid=1"
 
-FULLURL=${DDEV_PRIMARY_URL}
-HTTPS=""
-if [ ${DDEV_PRIMARY_URL%://*} = "https" ]; then HTTPS=true; fi
-FULLURL=`ddev drush uli --name=AdminOne ${1}`
+# Default username
+DEFAULT_USER="AdminOne"
 
+# Initialize variables
+name=""
+uid=""
+
+# Parse command line arguments
+for arg in "$@"
+do
+    case $arg in
+        --name=*)
+        name="${arg#*=}"
+        shift # Remove --name= from processing
+        ;;
+        --uid=*)
+        uid="${arg#*=}"
+        shift # Remove --uid= from processing
+        ;;
+    esac
+done
+
+# If neither name nor uid is provided, use the default user name
+if [[ -z "$name" ]] && [[ -z "$uid" ]]; then
+    name=$DEFAULT_USER
+fi
+
+# Construct the Drush uli command
+if [[ -n "$name" ]]; then
+    ULI_COMMAND="ddev drush uli --name=${name}"
+elif [[ -n "$uid" ]]; then
+    ULI_COMMAND="ddev drush uli --uid=${uid}"
+else
+    ULI_COMMAND="ddev drush uli"
+fi
+
+# Execute the Drush uli command to get login URL
+FULLURL=$(eval $ULI_COMMAND)
+
+# Open the URL in the default browser based on the operating system
 case $OSTYPE in
-  linux-gnu)
+  linux-gnu*)
     xdg-open ${FULLURL}
     ;;
-  "darwin"*)
+  darwin*)
     open ${FULLURL}
     ;;
-  "win*"* | "msys"*)
+  cygwin* | msys* | win32*)
     start ${FULLURL}
+    ;;
+  *)
+    echo "Unsupported OS type: $OSTYPE"
+    exit 1
     ;;
 esac
