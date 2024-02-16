@@ -42,6 +42,7 @@ default_content:
     - 11318276-1099-48d3-ae54-1e4746558d2e # AdminOne
     - 9e29bc67-aa63-44fd-a740-ce8a38db9de0 # JaneDoe
     - 49afcccd-7be9-4b3b-9bc5-0b56ed065fa0 # JoeDoe
+
   media:
     # Image
     - c6770ba5-7f46-4834-8d75-72b84103383d # Image 1
@@ -61,6 +62,7 @@ default_content:
     - 2dbe0924-95be-46f6-9293-643ad046c02b # The last edition
     - 711d4c28-2c02-4064-b78c-1480b9e66d8d # Look at this document title
     - 9c7d5c59-1cf0-4ce6-8f16-cb4cad76406f # Drupal starter
+
   file:
     - 3d348c2e-091c-4cd9-a6f5-fe2040030871
     - 41733c64-03e4-43a5-9780-c65a21040980
@@ -79,3 +81,6 @@ default_content:
     - e471b723-987f-428d-8fc2-957b4132bc9d
     - fe7ee7bb-0b8c-438a-b4ea-ee95aadd302e
     - fee140e9-175b-4a13-a1d1-0b206e855cf8
+
+  config_pages:
+    - 6c4791e4-e4c2-4409-a3c3-ce006d514312
