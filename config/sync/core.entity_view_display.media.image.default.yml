@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.media.image.field_caption
+    - field.field.media.image.field_media_credit
     - field.field.media.image.field_media_image
     - image.style.large
     - media.type.image
@@ -20,6 +21,14 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 1
+    region: content
+  field_media_credit:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
     region: content
   field_media_image:
     type: image

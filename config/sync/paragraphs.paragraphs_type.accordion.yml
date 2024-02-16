@@ -1,0 +1,10 @@
+uuid: 03bbb35b-f5e2-477e-9d96-30419b5b0ec0
+langcode: en
+status: true
+dependencies: {  }
+id: accordion
+label: Accordion
+icon_uuid: null
+icon_default: null
+description: 'Accordion is commonly used for FAQs.'
+behavior_plugins: {  }

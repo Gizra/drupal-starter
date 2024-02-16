@@ -2,15 +2,20 @@
 
 namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
-use Drupal\intl_date\IntlDate;
 use Drupal\media\MediaInterface;
 use Drupal\node\Entity\NodeType;
 use Drupal\node\NodeInterface;
+use Drupal\server_general\ElementLayoutTrait;
+use Drupal\server_general\ElementNodeNewsTrait;
+use Drupal\server_general\ElementTrait\NewsTeasersTrait;
+use Drupal\server_general\ElementTrait\SearchTrait;
 use Drupal\server_general\EntityDateTrait;
 use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
 use Drupal\server_general\LineSeparatorTrait;
+use Drupal\server_general\LinkTrait;
 use Drupal\server_general\SocialShareTrait;
 use Drupal\server_general\TitleAndLabelsTrait;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * The "Node News" plugin.
@@ -23,10 +28,32 @@ use Drupal\server_general\TitleAndLabelsTrait;
  */
 class NodeNews extends NodeViewBuilderAbstract {
 
+  use ElementLayoutTrait;
+  use ElementNodeNewsTrait;
   use EntityDateTrait;
   use LineSeparatorTrait;
+  use LinkTrait;
+  use NewsTeasersTrait;
+  use SearchTrait;
   use SocialShareTrait;
   use TitleAndLabelsTrait;
+
+  /**
+   * The renderer.
+   *
+   * @var \Drupal\Core\Render\RendererInterface
+   */
+  protected $renderer;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    $plugin = parent::create($container, $configuration, $plugin_id, $plugin_definition);
+    $plugin->renderer = $container->get('renderer');
+
+    return $plugin;
+  }
 
   /**
    * Build full view mode.
@@ -40,88 +67,27 @@ class NodeNews extends NodeViewBuilderAbstract {
    *   Render array.
    */
   public function buildFull(array $build, NodeInterface $entity) {
-    $elements = [];
+    // The node's label.
+    $node_type = NodeType::load($entity->bundle());
+    $label = $node_type->label();
 
-    // Header.
-    $element = $this->buildHeader($entity);
-    $elements[] = $this->wrapContainerWide($element);
+    // The hero responsive image.
+    $medias = $entity->get('field_featured_image')->referencedEntities();
+    $image = $this->buildEntities($medias, 'hero');
 
-    // Main content and sidebar.
-    $element = $this->buildMainAndSidebar($entity);
-    $elements[] = $this->wrapContainerWide($element);
+    $element = $this->buildElementNodeNews(
+      $entity->label(),
+      $label,
+      $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date'),
+      $image,
+      $this->buildProcessedText($entity),
+      $this->buildTags($entity),
+      $entity->toUrl('canonical', ['absolute' => TRUE]),
+    );
 
-    $elements = $this->wrapContainerVerticalSpacingBig($elements);
-    $build[] = $this->wrapContainerBottomPadding($elements);
+    $build[] = $element;
 
     return $build;
-  }
-
-  /**
-   * Build the header.
-   *
-   * @param \Drupal\node\NodeInterface $entity
-   *   The entity.
-   *
-   * @return array
-   *   Render array
-   *
-   * @throws \IntlException
-   */
-  protected function buildHeader(NodeInterface $entity): array {
-    $elements = [];
-
-    $elements[] = $this->buildConditionalPageTitle($entity);
-
-    // Show the node type as a label.
-    $node_type = NodeType::load($entity->bundle());
-    $elements[] = $this->buildLabelsFromText([$node_type->label()]);
-
-    // Date.
-    $timestamp = $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date');
-    $element = IntlDate::formatPattern($timestamp, 'long');
-    // Make text bigger.
-    $elements[] = $this->wrapTextDecorations($element, FALSE, FALSE, 'lg');
-
-    $elements = $this->wrapContainerVerticalSpacing($elements);
-    return $this->wrapContainerNarrow($elements);
-  }
-
-  /**
-   * Build the Main content and the sidebar.
-   *
-   * @param \Drupal\node\NodeInterface $entity
-   *   The entity.
-   *
-   * @return array
-   *   Render array
-   *
-   * @throws \IntlException
-   */
-  protected function buildMainAndSidebar(NodeInterface $entity): array {
-    $main_elements = [];
-    $sidebar_elements = [];
-    $social_share_elements = [];
-
-    $medias = $entity->get('field_featured_image')->referencedEntities();
-    $main_elements[] = $this->buildEntities($medias);
-    // Get the body text, wrap it with `prose` so it's styled.
-    $main_elements[] = $this->buildProcessedText($entity);
-
-    // Get the tags, and social share.
-    $sidebar_elements[] = $this->buildTags($entity);
-
-    // Add a line separator above the social share buttons.
-    $social_share_elements[] = $this->buildLineSeparator();
-    $social_share_elements[] = $this->buildSocialShare($entity);
-
-    $sidebar_elements[] = $this->wrapContainerVerticalSpacing($social_share_elements);
-
-    return [
-      '#theme' => 'server_theme_main_and_sidebar',
-      '#main' => $this->wrapContainerVerticalSpacingBig($main_elements),
-      '#sidebar' => $this->wrapContainerVerticalSpacingBig($sidebar_elements),
-    ];
-
   }
 
   /**
@@ -137,15 +103,52 @@ class NodeNews extends NodeViewBuilderAbstract {
    */
   public function buildTeaser(array $build, NodeInterface $entity) {
     $media = $this->getReferencedEntityFromField($entity, 'field_featured_image');
+    $image = $media instanceof MediaInterface ? $this->buildImageStyle($media, 'card', 'field_media_image') : [];
+    $title = $entity->label();
+    $url = $entity->toUrl();
+    $summary = $this->buildProcessedTextTrimmed($entity, 'field_body');
     $timestamp = $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date');
 
-    $element = [
-      '#theme' => 'server_theme_card',
-      '#title' => $entity->label(),
-      '#image' => $media instanceof MediaInterface ? $this->buildImageStyle($media, 'card', 'field_media_image') : NULL,
-      '#date' => IntlDate::formatPattern($timestamp, 'short'),
-      '#url' => $entity->toUrl(),
-    ];
+    $element = $this->buildElementNewsTeaser(
+      $image,
+      $title,
+      $url,
+      $summary,
+      $timestamp
+    );
+
+    $build[] = $element;
+
+    return $build;
+  }
+
+  /**
+   * Build "Featured" view mode.
+   *
+   * @param array $build
+   *   The existing build.
+   * @param \Drupal\node\NodeInterface $entity
+   *   The entity.
+   *
+   * @return array
+   *   Render array.
+   */
+  public function buildFeatured(array $build, NodeInterface $entity) {
+    $media = $this->getReferencedEntityFromField($entity, 'field_featured_image');
+    $image = $media instanceof MediaInterface ? $this->buildImageStyle($media, 'card', 'field_media_image') : NULL;
+    $title = $entity->label();
+    $url = $entity->toUrl();
+    $summary = $this->buildProcessedText($entity, 'field_body');
+    $timestamp = $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date');
+
+    $element = $this->buildElementNewsTeaserFeatured(
+      $image,
+      $title,
+      $url,
+      $summary,
+      $timestamp
+    );
+
     $build[] = $element;
 
     return $build;
@@ -163,16 +166,13 @@ class NodeNews extends NodeViewBuilderAbstract {
    *   Render array.
    */
   public function buildSearchIndex(array $build, NodeInterface $entity) {
-    $timestamp = $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date');
-
-    $element = [
-      '#theme' => 'server_theme_search_result',
-      '#labels' => $this->buildLabelsFromText(['News']),
-      '#title' => $entity->label(),
-      '#summary' => $this->buildProcessedText($entity, 'field_body', FALSE),
-      '#date' => IntlDate::formatPattern($timestamp, 'short'),
-      '#url' => $entity->toUrl(),
-    ];
+    $element = $this->buildElementSearchResult(
+      $this->t('News'),
+      $entity->label(),
+      $entity->toUrl(),
+      $this->buildProcessedText($entity, 'field_body'),
+      $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date')
+    );
 
     $build[] = $element;
 

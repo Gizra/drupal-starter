@@ -1,0 +1,19 @@
+{% if size == 'xs' %}
+  {% set size_classes = 'text-xs' %}
+{% elseif size == 'sm' %}
+  {% set size_classes = 'text-xs md:text-sm' %}
+{% elseif size == 'base' %}
+  {% set size_classes = 'text-sm md:text-base' %}
+{% elseif size == 'lg' %}
+  {% set size_classes = 'md:text-lg' %}
+{% elseif size == 'xl' %}
+  {% set size_classes = 'text-lg md:text-xl' %}
+{% elseif size == '2xl' %}
+  {% set size_classes = 'text-xl md:text-2xl' %}
+{% elseif size == '3xl' %}
+  {% set size_classes = 'text-xl md:text-2xl lg:text-3xl' %}
+{% endif %}
+
+<div class="{{ size_classes }}">
+  {{ element }}
+</div>

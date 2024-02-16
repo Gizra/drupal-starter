@@ -7,8 +7,7 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 use Drupal\Core\Block\BlockManagerInterface;
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
-use Drupal\server_general\ButtonTrait;
-use Drupal\server_general\ElementWrapTrait;
+use Drupal\server_general\ElementTrait\SearchTrait;
 use Drupal\server_general\EmbedBlockTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,8 +24,7 @@ use Symfony\Component\HttpFoundation\Request;
 class ParagraphSearch extends EntityViewBuilderPluginAbstract {
 
   use EmbedBlockTrait;
-  use ButtonTrait;
-  use ElementWrapTrait;
+  use SearchTrait;
 
   /**
    * The machine name of the facets to show.
@@ -81,17 +79,28 @@ class ParagraphSearch extends EntityViewBuilderPluginAbstract {
    *   Render array.
    */
   public function buildFull(array $build, ParagraphInterface $entity): array {
-    $elements = [];
+    // Facets.
+    $facets_items = [];
+    foreach ($this->facetNames as $facet_name) {
+      $facets_items[] = $this->embedBlock('facet_block:' . $facet_name);
+    }
 
-    // Search term and facets.
-    $elements[] = $this->buildSearchTermAndFacets();
+    try {
+      $search_key = (string) $this->request->query->get('key');
+    }
+    catch (\Exception $e) {
+      // For instance, we have this on malicious input.
+      $search_key = '';
+    }
 
-    // Add Main view.
-    $element = views_embed_view('search', 'embed_1');
-    $elements[] = $this->wrapContainerWide($element);
+    $element = $this->buildElementSearchTermFacetsAndResults(
+      $facets_items,
+      $this->hasFilters('key'),
+      views_embed_view('search', 'embed_1'),
+      $search_key,
+    );
 
-    $element = $this->wrapContainerVerticalSpacingBig($elements);
-    $build[] = $this->wrapContainerBottomPadding($element);
+    $build[] = $element;
 
     return $build;
   }
@@ -111,39 +120,6 @@ class ParagraphSearch extends EntityViewBuilderPluginAbstract {
     return $this->request->query->filter($key) ||
       $this->request->query->filter('f') ||
       $this->request->query->filter('page');
-  }
-
-  /**
-   * Build the Search term and facets.
-   *
-   * @return array
-   *   Render array
-   */
-  protected function buildSearchTermAndFacets(): array {
-    $elements = [];
-    $search_term = $this->request->query->get('key');
-    if ($search_term) {
-      $element = [
-        '#theme' => 'server_theme_search_term',
-        '#search_term' => $search_term,
-      ];
-      $elements[] = $this->wrapContainerWide($element);
-    }
-
-    // Facets.
-    $items = [];
-    foreach ($this->facetNames as $facet_name) {
-      $items[] = $this->embedBlock('facet_block:' . $facet_name);
-    }
-
-    $element = [
-      '#theme' => 'server_theme_facets__search',
-      '#items' => $items,
-      '#has_filters' => $this->hasFilters('key'),
-    ];
-    $elements[] = $this->wrapContainerWide($element);
-
-    return $this->wrapContainerVerticalSpacing($elements);
   }
 
 }

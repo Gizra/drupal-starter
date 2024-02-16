@@ -1,0 +1,59 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: f1dd02df-ef2f-4cc2-bd41-cf4ff0c34e01
+  bundle: news
+  default_langcode: en
+  depends:
+    49afcccd-7be9-4b3b-9bc5-0b56ed065fa0: user
+    c6770ba5-7f46-4834-8d75-72b84103383d: media
+    36e37c28-d3d4-45df-88ba-0ef7f9e82fe4: taxonomy_term
+    e021e646-55ed-455b-add6-3e635008173b: taxonomy_term
+default:
+  revision_uid:
+    -
+      entity: 49afcccd-7be9-4b3b-9bc5-0b56ed065fa0
+  status:
+    -
+      value: true
+  uid:
+    -
+      entity: 49afcccd-7be9-4b3b-9bc5-0b56ed065fa0
+  title:
+    -
+      value: 'Current Digital Marketing Is Sports-Watching, Rather Than Marketing'
+  created:
+    -
+      value: 1686167785
+  promote:
+    -
+      value: true
+  sticky:
+    -
+      value: false
+  revision_translation_affected:
+    -
+      value: true
+  path:
+    -
+      alias: /news/current-digital-marketing-sports-watching-rather-marketing
+      langcode: en
+      pathauto: 1
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  field_body:
+    -
+      value: '<p>Who doesn''t like watching thrilling football games on Sundays (U.S.) or soccer, cricket, rugby, or pretty much every other kind of sport (Rest of World)? Watching sports has always been a favorite, lazy pastime; never more so than now.&nbsp;</p>  <p>Should digital marketing be a spectator sport, like watching sports? No. But sadly, most of the digital marketing we are doing right now is just that — watching sports and big numbers on dashboards — and we need to change that and get back to doing real marketing.&nbsp;</p>  <p>I''m not making any sense?&nbsp; I get that a lot.&nbsp; Let me explain.&nbsp;</p> '
+      format: basic_html
+  field_featured_image:
+    -
+      entity: c6770ba5-7f46-4834-8d75-72b84103383d
+  field_tags:
+    -
+      entity: 36e37c28-d3d4-45df-88ba-0ef7f9e82fe4
+    -
+      entity: e021e646-55ed-455b-add6-3e635008173b

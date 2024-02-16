@@ -1,0 +1,56 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: 19a403eb-f571-4684-819e-239348ef2ef2
+  bundle: news
+  default_langcode: en
+  depends:
+    9e29bc67-aa63-44fd-a740-ce8a38db9de0: user
+    5770c310-d0e1-4ae9-84c0-852c32a1a69b: media
+    36e37c28-d3d4-45df-88ba-0ef7f9e82fe4: taxonomy_term
+default:
+  revision_uid:
+    -
+      entity: 9e29bc67-aa63-44fd-a740-ce8a38db9de0
+  status:
+    -
+      value: true
+  uid:
+    -
+      entity: 9e29bc67-aa63-44fd-a740-ce8a38db9de0
+  title:
+    -
+      value: 'How to be Happier in 2021: Toss Out Your Usual List of New Year’s Resolutions, Says Study'
+  created:
+    -
+      value: 1686167785
+  promote:
+    -
+      value: true
+  sticky:
+    -
+      value: false
+  revision_translation_affected:
+    -
+      value: true
+  path:
+    -
+      alias: /news/how-be-happier-2021-toss-out-your-usual-list-new-years-resolutions-says-study
+      langcode: en
+      pathauto: 1
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  field_body:
+    -
+      value: '<p>So you want to look trimmer, be smarter, and successful next year? You strive to exercise and call your friends more, and spend less?</p>  <p>You are not alone. New Year’s resolutions are as ubiquitous as they are difficult to keep. Does it even make sense to set such lofty goals for the new year, hoping anew each January first that this time really is the charm?</p>  <p>Any motivational researcher would have “ambivalent feelings” about New Year’s resolutions, says Richard Ryan, an international expert on motivational research and professor emeritus of psychology at the University of Rochester. “The evidence shows that most of the time people aren’t successful at them.”</p> '
+      format: basic_html
+  field_featured_image:
+    -
+      entity: 5770c310-d0e1-4ae9-84c0-852c32a1a69b
+  field_tags:
+    -
+      entity: 36e37c28-d3d4-45df-88ba-0ef7f9e82fe4

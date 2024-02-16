@@ -1,0 +1,24 @@
+id: paragraph_news_teasers
+label: 'News teasers'
+migration_group: server
+migration_tags:
+  - default_content
+  - paragraph
+source:
+  plugin: csv
+  path: modules/custom/server_migrate/csv_files/paragraph_news_teasers.csv
+  ids: ['_id']
+  header_offset: 0
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+  default_bundle: news_teasers
+process:
+  type:
+    plugin: default_value
+    default_value: news_teasers
+  field_title: _title
+  field_subtitle: _subtitle
+
+migration_dependencies:
+  required:
+    - media_image

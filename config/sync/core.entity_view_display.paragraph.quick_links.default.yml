@@ -1,0 +1,43 @@
+uuid: ae24be2b-9211-4c45-8fd7-ff0d99cf0304
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.quick_links.field_body
+    - field.field.paragraph.quick_links.field_quick_link_items
+    - field.field.paragraph.quick_links.field_title
+    - paragraphs.paragraphs_type.quick_links
+  module:
+    - entity_reference_revisions
+    - text
+id: paragraph.quick_links.default
+targetEntityType: paragraph
+bundle: quick_links
+mode: default
+content:
+  field_body:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_quick_link_items:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  search_api_excerpt: true

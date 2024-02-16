@@ -2,9 +2,6 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
-use Drupal\paragraphs\Entity\Paragraph;
-use Symfony\Component\HttpFoundation\Response;
-
 /**
  * Test 'landing_page' content type.
  */
@@ -42,7 +39,11 @@ class ServerGeneralNodeLandingPageTest extends ServerGeneralNodeTestBase {
    */
   public function testGeneral() {
     $paragraph_types = [
-      'Views',
+      'Hero image',
+      'Related content',
+      'Search',
+      'Text',
+      'News teasers',
     ];
 
     $assert = $this->assertSession();
@@ -57,72 +58,6 @@ class ServerGeneralNodeLandingPageTest extends ServerGeneralNodeTestBase {
     foreach ($paragraph_types as $type) {
       $assert->buttonExists("Add {$type}");
     }
-  }
-
-  /**
-   * Tests The Views paragraph type.
-   */
-  public function testViews() {
-    $views = Paragraph::create(['type' => 'views']);
-    $views->set('field_views', [
-      'target_id' => 'news',
-      'display_id' => 'embed',
-      'data' => '',
-    ]);
-    $views->save();
-    $this->markEntityForCleanup($views);
-
-    $user = $this->createUser();
-    $node = $this->createNode([
-      'title' => 'Landing Page',
-      'type' => 'landing_page',
-      'uid' => $user->id(),
-      'field_paragraphs' => [
-        $this->getParagraphReferenceValues($views),
-      ],
-    ]);
-    $node->setPublished()->save();
-    $this->assertEquals($user->id(), $node->getOwnerId());
-
-    $this->drupalGet($node->toUrl());
-    $this->assertSession()->statusCodeEquals(Response::HTTP_OK);
-    $this->assertSession()->elementExists('css', '.view-news');
-  }
-
-  /**
-   * Tests The CTA paragraph type.
-   */
-  public function testCta() {
-    $cta = Paragraph::create(['type' => 'cta']);
-    $cta->set('field_title', 'Lorem ipsum dolor sit amet');
-    $cta->set('field_subtitle', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
-    $cta->set('field_link', [
-      'uri' => 'https://example.com',
-      'title' => 'Button text',
-    ]);
-    $cta->save();
-    $this->markEntityForCleanup($cta);
-
-    $user = $this->createUser();
-    $node = $this->createNode([
-      'title' => 'Landing Page',
-      'type' => 'landing_page',
-      'uid' => $user->id(),
-      'field_paragraphs' => [
-        $this->getParagraphReferenceValues($cta),
-      ],
-    ]);
-    $node->setPublished()->save();
-    $this->assertEquals($user->id(), $node->getOwnerId());
-
-    $this->drupalGet($node->toUrl());
-    $this->assertSession()->statusCodeEquals(Response::HTTP_OK);
-
-    $this->assertSession()->elementTextContains('css', '.cta', 'Lorem ipsum dolor sit amet');
-    $this->assertSession()->elementTextContains('css', '.cta', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
-    $this->assertSession()->elementTextContains('css', '.cta', 'Button text');
-    $this->assertSession()->linkExists('Button text');
-    $this->assertSession()->linkByHrefExists('https://example.com');
   }
 
 }

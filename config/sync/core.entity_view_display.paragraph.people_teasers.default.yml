@@ -1,0 +1,43 @@
+uuid: 6c7a8eef-07d3-45c8-936a-34582060a9f3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.people_teasers.field_body
+    - field.field.paragraph.people_teasers.field_person_teasers
+    - field.field.paragraph.people_teasers.field_title
+    - paragraphs.paragraphs_type.people_teasers
+  module:
+    - entity_reference_revisions
+    - text
+id: paragraph.people_teasers.default
+targetEntityType: paragraph
+bundle: people_teasers
+mode: default
+content:
+  field_body:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_person_teasers:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

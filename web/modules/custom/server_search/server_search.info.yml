@@ -1,5 +1,0 @@
-name: "Server Search"
-type: module
-description: "Handles custom logic for the ES integration"
-core_version_requirement: ^8 || ^9
-package: "Server"

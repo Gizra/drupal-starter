@@ -1,0 +1,70 @@
+uuid: 5bbeecd4-95bd-4ec2-9724-a740f02135ce
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_person_teasers
+    - paragraphs.paragraphs_type.people_teasers
+    - paragraphs.paragraphs_type.person_teaser
+  module:
+    - entity_reference_revisions
+id: paragraph.people_teasers.field_person_teasers
+field_name: field_person_teasers
+entity_type: paragraph
+bundle: people_teasers
+label: People
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      person_teaser: person_teaser
+    negate: 0
+    target_bundles_drag_drop:
+      accordion:
+        weight: 16
+        enabled: false
+      accordion_item:
+        weight: 17
+        enabled: false
+      cta:
+        weight: 18
+        enabled: false
+      documents:
+        weight: 19
+        enabled: false
+      hero_image:
+        weight: 20
+        enabled: false
+      news_teasers:
+        weight: 21
+        enabled: false
+      people_teasers:
+        weight: 22
+        enabled: false
+      person_teaser:
+        weight: 15
+        enabled: true
+      quick_link_item:
+        weight: 24
+        enabled: false
+      quick_links:
+        weight: 23
+        enabled: false
+      quote:
+        weight: 25
+        enabled: false
+      related_content:
+        weight: 26
+        enabled: false
+      search:
+        weight: 27
+        enabled: false
+      text:
+        weight: 28
+        enabled: false
+field_type: entity_reference_revisions

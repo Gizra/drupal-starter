@@ -2,12 +2,11 @@ id: node_landing_page
 label: 'Landing Page'
 migration_group: server
 migration_tags:
-  - landing_page
-  - node_landing_page
+  - default_content
   - node
 source:
   plugin: csv
-  path: modules/custom/server_migrate/csv_files/landing_page.csv
+  path: modules/custom/server_migrate/csv_files/node_landing_page.csv
   ids: ['_id']
   header_offset: 0
 destination:
@@ -35,10 +34,17 @@ process:
       delimiter: '|'
     - plugin: migration_lookup
       migration:
+        - paragraph_accordion
         - paragraph_cta
+        - paragraph_documents
+        - paragraph_hero_image
+        - paragraph_info_cards
+        - paragraph_news_teasers
+        - paragraph_people_teasers
         - paragraph_related_content
         - paragraph_search
-        - paragraph_views
+        - paragraph_quick_links
+        - paragraph_quote
       no_stub: true
     - plugin: sub_process
       process:
@@ -47,8 +53,16 @@ process:
 
 migration_dependencies:
   required:
+    - paragraph_accordion
     - paragraph_cta
+    - paragraph_documents
+    - paragraph_hero_image
+    - paragraph_info_cards
+    - paragraph_news_teasers
+    - paragraph_people_teasers
     - paragraph_related_content
     - paragraph_search
-    - paragraph_views
+    - paragraph_quick_links
+    - paragraph_quote
     - user
+

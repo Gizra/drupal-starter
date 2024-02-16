@@ -1,12 +1,10 @@
 id: images
 label: 'Images'
 migration_group: server
-migration_tags:
-  - images
 source:
   plugin: csv
   path: modules/custom/server_migrate/csv_files/images.csv
-  ids: ['_uuid']
+  ids: ['_id']
   header_offset: 0
   constants:
     DRUPAL_SOURCE_FILE_DIRECTORY: './modules/custom/server_migrate/'

@@ -1,0 +1,17 @@
+uuid: 2e9ba4ee-cf1c-47e1-8187-6588bcfcc781
+langcode: en
+status: true
+dependencies:
+  module:
+    - focal_point
+name: quote_xl_2x
+label: 'Quote xl 2x (1536x400)'
+effects:
+  846a8234-1f8f-4949-bee1-475117f1dd91:
+    uuid: 846a8234-1f8f-4949-bee1-475117f1dd91
+    id: focal_point_scale_and_crop
+    weight: 2
+    data:
+      width: 1536
+      height: 400
+      crop_type: focal_point

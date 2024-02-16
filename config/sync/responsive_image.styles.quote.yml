@@ -1,0 +1,72 @@
+uuid: d8379bae-43cf-4497-90d6-99c7449b2a41
+langcode: en
+status: true
+dependencies:
+  config:
+    - image.style.quote_lg_1x
+    - image.style.quote_lg_2x
+    - image.style.quote_md_1x
+    - image.style.quote_md_2x
+    - image.style.quote_mobile_1x
+    - image.style.quote_mobile_2x
+    - image.style.quote_sm_1x
+    - image.style.quote_sm_2x
+    - image.style.quote_xl_1x
+    - image.style.quote_xl_2x
+  theme:
+    - server_theme
+id: quote
+label: Quote
+image_style_mappings:
+  -
+    image_mapping_type: image_style
+    image_mapping: quote_xl_1x
+    breakpoint_id: server_theme.xl
+    multiplier: 1x
+  -
+    image_mapping_type: image_style
+    image_mapping: quote_xl_2x
+    breakpoint_id: server_theme.xl
+    multiplier: 2x
+  -
+    image_mapping_type: image_style
+    image_mapping: quote_lg_1x
+    breakpoint_id: server_theme.lg
+    multiplier: 1x
+  -
+    image_mapping_type: image_style
+    image_mapping: quote_lg_2x
+    breakpoint_id: server_theme.lg
+    multiplier: 2x
+  -
+    image_mapping_type: image_style
+    image_mapping: quote_md_1x
+    breakpoint_id: server_theme.md
+    multiplier: 1x
+  -
+    image_mapping_type: image_style
+    image_mapping: quote_md_2x
+    breakpoint_id: server_theme.md
+    multiplier: 2x
+  -
+    image_mapping_type: image_style
+    image_mapping: quote_sm_1x
+    breakpoint_id: server_theme.sm
+    multiplier: 1x
+  -
+    image_mapping_type: image_style
+    image_mapping: quote_sm_2x
+    breakpoint_id: server_theme.sm
+    multiplier: 2x
+  -
+    image_mapping_type: image_style
+    image_mapping: quote_mobile_1x
+    breakpoint_id: server_theme.mobile
+    multiplier: 1x
+  -
+    image_mapping_type: image_style
+    image_mapping: quote_mobile_2x
+    breakpoint_id: server_theme.mobile
+    multiplier: 2x
+breakpoint_group: server_theme
+fallback_image_style: quote_xl_1x

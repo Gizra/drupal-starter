@@ -2,9 +2,12 @@
 
 namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
+use Drupal\Core\Link;
 use Drupal\paragraphs\ParagraphInterface;
+use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
 use Drupal\server_general\ButtonTrait;
+use Drupal\server_general\ElementTrait\HeroTrait;
 
 /**
  * The "Hero image" paragraph plugin.
@@ -17,7 +20,9 @@ use Drupal\server_general\ButtonTrait;
  */
 class ParagraphHeroImage extends EntityViewBuilderPluginAbstract {
 
+  use BuildFieldTrait;
   use ButtonTrait;
+  use HeroTrait;
 
   const RESPONSIVE_IMAGE_STYLE_ID = 'hero';
 
@@ -33,13 +38,15 @@ class ParagraphHeroImage extends EntityViewBuilderPluginAbstract {
    *   Render array.
    */
   public function buildFull(array $build, ParagraphInterface $entity): array {
-    $build[] = [
-      '#theme' => 'server_theme_hero_image',
-      '#image' => $this->buildMediaResponsiveImage($entity, 'field_image', self::RESPONSIVE_IMAGE_STYLE_ID),
-      '#title' => $this->getTextFieldValue($entity, 'field_title'),
-      '#subtitle' => $this->getTextFieldValue($entity, 'field_subtitle'),
-      '#button' => $this->buildLinkButton($entity),
-    ];
+    $value = $this->getLinkFieldValue($entity, 'field_link');
+
+    $element = $this->buildElementHeroImage(
+      $this->buildMediaResponsiveImage($entity, 'field_image', self::RESPONSIVE_IMAGE_STYLE_ID),
+      $this->getTextFieldValue($entity, 'field_title'),
+      $this->getTextFieldValue($entity, 'field_subtitle'),
+      $value ? Link::fromTextAndUrl($value['title'], $value['url']) : NULL,
+    );
+    $build[] = $element;
 
     return $build;
   }

@@ -24,10 +24,21 @@ use Drupal\server_general\ArabicNumberConverter;
  * That can be based on form.html.twig.
  */
 function server_general_theme_suggestions_alter(array &$suggestions, array $variables) {
-  if (isset($variables['element']) && isset($variables['element']['#type']) && $variables['element']['#type'] == 'form') {
-    $original_theme_hook = $variables['theme_hook_original'];
-    $suggestions[] = $original_theme_hook . '__' . str_replace('-', '_', $variables['element']['#id']);
+  if (!isset($variables['element'])) {
+    return $suggestions;
   }
+
+  if (!is_array($variables['element'])) {
+    return $suggestions;
+  }
+
+  if (!isset($variables['element']['#type']) || $variables['element']['#type'] !== 'form') {
+    return $suggestions;
+  }
+
+  $original_theme_hook = $variables['theme_hook_original'];
+  $suggestions[] = $original_theme_hook . '__' . str_replace('-', '_', $variables['element']['#id']);
+
   return $suggestions;
 }
 
@@ -46,6 +57,22 @@ function server_general_intl_date_formatted_date_alter(string &$formatted_date, 
       $formatted_date = mb_convert_case($formatted_date, MB_CASE_TITLE, 'UTF-8');
       break;
   }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Move selected language to the top of the Language drop down list.
+ */
+function server_general_form_lang_dropdown_form_alter(array &$form, FormStateInterface $form_state) {
+  $selected_language = $form['lang_dropdown_select']['#default_value'];
+  $selected_language_name = $form['lang_dropdown_select']['#options'][$selected_language];
+
+  // Remove item.
+  unset($form['lang_dropdown_select']['#options'][$selected_language]);
+
+  // And re-add on top of the list.
+  $form['lang_dropdown_select']['#options'] = [$selected_language => $selected_language_name] + $form['lang_dropdown_select']['#options'];
 }
 
 /**

@@ -1,0 +1,38 @@
+_meta:
+  version: '1.0'
+  entity_type: taxonomy_term
+  uuid: e021e646-55ed-455b-add6-3e635008173b
+  bundle: tags
+  default_langcode: en
+default:
+  status:
+    -
+      value: true
+  name:
+    -
+      value: Leisure
+  description:
+    -
+      value: 'Something to read while resting'
+      format: ''
+  weight:
+    -
+      value: 0
+  parent:
+    -
+      target_id: 0
+  revision_translation_affected:
+    -
+      value: true
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  content_translation_uid:
+    -
+      target_id: 0
+  content_translation_created:
+    -
+      value: 1686167785

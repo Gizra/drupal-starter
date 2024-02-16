@@ -1,21 +1,3 @@
-:not(prose) {
-  h1,
-  h2,
-  h3,
-  h4,
-  h5 {
-    @apply font-headers text-gray-700;
-  }
-
-  h1 {
-    @apply text-2xl md:text-3xl lg:text-5xl font-bold;
-  }
-
-  h2 {
-    @apply text-lg lg:text-2xl lg:text-3xl font-bold;
-  }
-}
-
 // Apply standard letter-spacing sitewide.
 body,
 input,
@@ -39,4 +21,9 @@ body {
 
 .prose .text-formatted > :last-child {
   @apply mb-0;
+}
+
+.prose .text-formatted figure,
+.prose .text-formatted img {
+  @apply my-0;
 }

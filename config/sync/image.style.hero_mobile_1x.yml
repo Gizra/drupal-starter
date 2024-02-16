@@ -1,15 +1,17 @@
 uuid: c878eccf-1361-4db6-b785-89b3f5805b74
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - focal_point
 name: hero_mobile_1x
 label: 'Hero mobile 1x (640x200)'
 effects:
-  abb1c492-b52a-4402-8163-f2d0847ed8f5:
-    uuid: abb1c492-b52a-4402-8163-f2d0847ed8f5
-    id: image_scale_and_crop
-    weight: 1
+  20d79599-f457-4502-aaf1-9353f50588f7:
+    uuid: 20d79599-f457-4502-aaf1-9353f50588f7
+    id: focal_point_scale_and_crop
+    weight: 2
     data:
       width: 640
       height: 200
-      anchor: center-center
+      crop_type: focal_point

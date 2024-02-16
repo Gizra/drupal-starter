@@ -3,6 +3,8 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.related_content.field_body
+    - field.field.paragraph.related_content.field_is_featured
     - field.field.paragraph.related_content.field_link
     - field.field.paragraph.related_content.field_related_content
     - field.field.paragraph.related_content.field_title
@@ -10,14 +12,30 @@ dependencies:
   module:
     - link
     - select2
+    - text
 id: paragraph.related_content.default
 targetEntityType: paragraph
 bundle: related_content
 mode: default
 content:
+  field_body:
+    type: text_textarea
+    weight: 1
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_is_featured:
+    type: boolean_checkbox
+    weight: 5
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
   field_link:
     type: link_default
-    weight: 2
+    weight: 3
     region: content
     settings:
       placeholder_url: ''
@@ -25,7 +43,7 @@ content:
     third_party_settings: {  }
   field_related_content:
     type: select2_entity_reference
-    weight: 1
+    weight: 2
     region: content
     settings:
       width: 100%
@@ -42,7 +60,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
   translation:
-    weight: 10
+    weight: 4
     region: content
     settings: {  }
     third_party_settings: {  }

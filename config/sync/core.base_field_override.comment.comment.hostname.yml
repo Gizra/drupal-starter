@@ -9,7 +9,7 @@ field_name: hostname
 entity_type: comment
 bundle: comment
 label: Hostname
-description: 'The comment author''s hostname.'
+description: "The comment author's hostname."
 required: false
 translatable: false
 default_value: {  }

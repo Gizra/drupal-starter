@@ -2,37 +2,26 @@
 
 namespace Drupal\server_general;
 
-use Drupal\node\NodeInterface;
-use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
-
 /**
  * Helper method for building Title and labels of a content.
  */
 trait TitleAndLabelsTrait {
 
-  use BuildFieldTrait;
+  use ElementWrapTrait;
 
   /**
-   * Build the page title and hide it if it's set to be hidden.
+   * Build the page title element.
    *
-   * The decision whether to hide it or not depends on the value of
-   * field_is_title_hidden field on the entity.
-   *
-   * @param \Drupal\node\NodeInterface $entity
-   *   The entity that's being built.
+   * @param string $title
+   *   The title.
    *
    * @return array
-   *   A renderable array of the page title.
+   *   The render array.
    */
-  protected function buildConditionalPageTitle(NodeInterface $entity): array {
-    if ($entity->hasField('field_is_title_hidden') && $this->getBooleanFieldValue($entity, 'field_is_title_hidden')) {
-      // Title should be hidden.
-      return [];
-    }
-
+  protected function buildPageTitle(string $title): array {
     return [
       '#theme' => 'server_theme_page_title',
-      '#title' => $entity->label(),
+      '#title' => $title,
     ];
   }
 
@@ -60,6 +49,19 @@ trait TitleAndLabelsTrait {
       '#theme' => 'server_theme_labels',
       '#items' => $items,
     ];
+  }
+
+  /**
+   * Build the paragraph title.
+   *
+   * @param string $title
+   *   The title.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function buildParagraphTitle(string $title): array {
+    return $this->wrapHtmlTag($title, 'h2');
   }
 
 }

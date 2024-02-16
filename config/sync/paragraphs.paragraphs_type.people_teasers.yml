@@ -1,0 +1,10 @@
+uuid: 493306f2-59c4-4b8f-9054-12896eb8f354
+langcode: en
+status: true
+dependencies: {  }
+id: people_teasers
+label: 'People teasers'
+icon_uuid: null
+icon_default: null
+description: 'Show People teasers as a grid of cards.'
+behavior_plugins: {  }

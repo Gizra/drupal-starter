@@ -1,0 +1,11 @@
+{% if font_weight == 'normal' %}
+  {% set weight_class = 'font-normal' %}
+{% elseif font_weight == 'medium' %}
+  {% set weight_class = 'font-medium' %}
+{% elseif font_weight == 'bold' %}
+  {% set weight_class = 'font-bold' %}
+{% endif %}
+
+<div class="{{ weight_class }}">
+  {{ element }}
+</div>

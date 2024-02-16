@@ -1,0 +1,21 @@
+id: paragraph_info_card
+label: 'Paragraph info card'
+migration_group: server
+migration_tags:
+  - default_content
+  - paragraph
+source:
+  plugin: csv
+  path: modules/custom/server_migrate/csv_files/paragraph_info_card.csv
+  ids: ['_id']
+  header_offset: 0
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+  default_bundle: info_card
+process:
+  type:
+    plugin: default_value
+    default_value: info_card
+  field_info_card_header: _header
+  field_title: _title
+  field_subtitle: _subtitle

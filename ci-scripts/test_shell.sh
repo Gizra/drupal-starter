@@ -18,7 +18,11 @@ code_review () {
 }
 
 cd "$TRAVIS_BUILD_DIR" || exit 1
-SCRIPTS=$(find ci-scripts -name '*.sh')
+CI_SCRIPTS=$(find ci-scripts -name '*.sh')
+for FILE in $CI_SCRIPTS;  do
+  code_review "$FILE"
+done
+SCRIPTS=$(find scripts -name '*.sh')
 for FILE in $SCRIPTS;  do
   code_review "$FILE"
 done

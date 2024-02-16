@@ -1,0 +1,81 @@
+version: "~> 1.0"
+language: php
+dist: jammy
+php:
+- 8.1
+services:
+- docker
+stages:
+  - lint
+  - test
+  - deploy
+env:
+  global:
+    - DDEV_NO_INSTRUMENTATION=true
+    - PANTHEON_GIT_URL="{{ PANTHEON_GIT_URL }}"
+
+before_install:
+  - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+  - sudo jq '."registry-mirrors" = ["DOCKER_MIRROR"]' /etc/docker/daemon.json > $tmpdaemon
+  - sudo mv $tmpdaemon /etc/docker/daemon.json
+  - sudo systemctl daemon-reload
+  - sudo systemctl restart docker
+
+jobs:
+  include:
+  - stage: Lint
+    name: PhpStan
+    script:
+    - composer install
+    - vendor/bin/phpstan analyse -c phpstan.neon
+  - stage: Lint
+    name: 'Drupal coding standard'
+    script:
+    - composer install || travis_terminate 1;
+    - vendor/bin/robo phpcs || travis_terminate 1;
+  - stage: Lint
+    name: 'Shell coding standard: shellcheck'
+    script:
+    - "$TRAVIS_BUILD_DIR/ci-scripts/install_shell.sh || travis_terminate 1;"
+    - "$TRAVIS_BUILD_DIR/ci-scripts/test_shell.sh || travis_terminate 1;"
+  - stage: Test
+    name: 'Backend tests: Functional tests'
+    if: (branch != "{{ GITHUB_DEPLOY_BRANCH }}" AND tag IS blank)
+    script:
+    - "(travis_retry $TRAVIS_BUILD_DIR/ci-scripts/install_ddev.sh) || travis_terminate 1;"
+    - "$TRAVIS_BUILD_DIR/ci-scripts/install_drupal.sh || travis_terminate 1;"
+    - "$TRAVIS_BUILD_DIR/ci-scripts/test_phpunit.sh || travis_terminate 1;"
+  - stage: Deploy
+    name: 'Backend tests: Functional tests and deploy to Pantheon QA'
+    if: branch = "{{ GITHUB_DEPLOY_BRANCH }}" AND type = push AND tag IS blank
+    script:
+    - "(travis_retry $TRAVIS_BUILD_DIR/ci-scripts/install_ddev.sh) || travis_terminate 1;"
+    - "$TRAVIS_BUILD_DIR/ci-scripts/install_drupal.sh || travis_terminate 1;"
+    - "$TRAVIS_BUILD_DIR/ci-scripts/test_phpunit.sh || travis_terminate 1;"
+    - "(travis_retry $TRAVIS_BUILD_DIR/ci-scripts/prepare_deploy.sh) || travis_terminate 1;"
+    - "(travis_retry ddev robo deploy:pantheon {{ PANTHEON_DEPLOY_BRANCH }} --no-interaction) || travis_terminate 1;"
+    - ddev composer install || travis_terminate 1;
+    - ddev robo deploy:notify || travis_terminate 1;
+  - stage: Deploy
+    name: 'Backend tests: Functional tests and deploy to Pantheon TEST'
+    if: tag IS present AND type = "push" AND tag !~ /live$/
+    script:
+    - "(travis_retry $TRAVIS_BUILD_DIR/ci-scripts/install_ddev.sh) || travis_terminate 1;"
+    - "$TRAVIS_BUILD_DIR/ci-scripts/install_drupal.sh || travis_terminate 1;"
+    - "$TRAVIS_BUILD_DIR/ci-scripts/test_phpunit.sh || travis_terminate 1;"
+    - "(travis_retry $TRAVIS_BUILD_DIR/ci-scripts/prepare_deploy.sh) || travis_terminate 1;"
+    - "(travis_retry ddev robo deploy:tag-pantheon --no-interaction $TRAVIS_TAG master) || travis_terminate 1;"
+    - "ddev composer install || travis_terminate 1;"
+    - "(travis_retry ddev robo deploy:pantheon-sync) || travis_terminate 1;"
+  - stage: Deploy
+    name: 'Backend tests: Functional tests and deploy to Pantheon LIVE'
+    if: tag IS present AND type = "push" AND tag =~ /live$/
+    script:
+    - "$TRAVIS_BUILD_DIR/ci-scripts/check_live_deploy.sh || travis_terminate 1;"
+    - "(travis_retry $TRAVIS_BUILD_DIR/ci-scripts/install_ddev.sh) || travis_terminate 1;"
+    - "$TRAVIS_BUILD_DIR/ci-scripts/install_drupal.sh || travis_terminate 1;"
+    - "$TRAVIS_BUILD_DIR/ci-scripts/test_phpunit.sh || travis_terminate 1;"
+    - "(travis_retry $TRAVIS_BUILD_DIR/ci-scripts/prepare_deploy.sh) || travis_terminate 1;"
+    - "(travis_retry ddev robo deploy:pantheon-sync live) || travis_terminate 1;"
+after_failure:
+  - "ci-scripts/notify_after_failure.sh"

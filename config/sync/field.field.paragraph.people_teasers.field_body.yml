@@ -1,0 +1,22 @@
+uuid: e7f3fc00-2b3b-4c69-9788-123aa5967fd5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_body
+    - paragraphs.paragraphs_type.people_teasers
+  module:
+    - text
+id: paragraph.people_teasers.field_body
+field_name: field_body
+entity_type: paragraph
+bundle: people_teasers
+label: Description
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

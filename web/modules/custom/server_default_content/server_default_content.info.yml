@@ -1,0 +1,81 @@
+name: "Server Default Content"
+type: module
+description: "Provides the default content for the site."
+core_version_requirement: ^9 || ^10
+package: "server"
+dependencies:
+  - default_content:default_content
+
+default_content:
+  node:
+    # Landing pages.
+    - 59aaa9d4-8a47-436a-b8f3-00484c08c124 # Homepage
+    - 502d23a8-eabd-467c-81c4-3a914c531ef9 # Search
+    # News
+    - 19a403eb-f571-4684-819e-239348ef2ef2 # How to be Happier in 2021...
+    - 502d23a8-eabd-467c-81c4-3a914c531ef9 # Search
+    - 59aaa9d4-8a47-436a-b8f3-00484c08c124 # Homepage
+    - a405be40-26d1-4059-a32f-b3a653df32e8 # Worrying Study Finds Today's...
+    - c34ccd65-5657-4645-9625-54a63c844fc6 # Blind Texts
+    - e26f40ac-8dc2-4c25-990c-77e45399f09d # Li Europan lingues
+    - f1dd02df-ef2f-4cc2-bd41-cf4ff0c34e01 # Current Digital Marketing Is...
+    - fdfc2b97-a826-4887-8218-fb3a3add5f72 # Pandemic Moves Education Online
+
+  menu_link_content:
+    - 5e0d5c87-84f9-4c98-abaa-d4c2df6eda73 # About
+    - 711faa22-cf8e-4309-a71c-bc769c7bb186 # Resources
+    - 9de08065-e32f-47a9-8564-7dc67b91212d # What We Do
+
+  block_content:
+    - 3ef7407c-2d97-4d8f-a9d0-29f51a1a78b6 # Welcome to the website
+
+  taxonomy_term:
+    - 36e37c28-d3d4-45df-88ba-0ef7f9e82fe4 # Interesting Read
+    - 3d7c7e0b-1322-42b5-8b3e-e83fd05adb63 # Satire
+    - e021e646-55ed-455b-add6-3e635008173b # Leisure
+    - f05daf9b-d532-499e-96ff-dd627cf685d0 # Essential Learning
+
+  user:
+    - e9404177-59c7-4236-8b3c-0ced3295df27 # Xss filter check
+    - 41c838b5-8829-4983-9d6d-f2c41f35f611 # Editor
+    - d5c007fd-4537-4f6c-b205-1f31889bd67f # AdminTwo
+    - 11318276-1099-48d3-ae54-1e4746558d2e # AdminOne
+    - 9e29bc67-aa63-44fd-a740-ce8a38db9de0 # JaneDoe
+    - 49afcccd-7be9-4b3b-9bc5-0b56ed065fa0 # JoeDoe
+  media:
+    # Image
+    - c6770ba5-7f46-4834-8d75-72b84103383d # Image 1
+    - 227b41f7-b7b5-4f3c-b399-034494c83fda # Photo 1
+    - 6ab2e407-f7f3-4148-bf24-0a1b9ea48d6a # Random photo
+    - b8be42f2-8de1-445d-855d-5ec549e06e9e # User photo
+    - 89031cfe-05c0-4aba-9dac-2ed7866daf91 # User photo 2
+    - 881b4f95-54f7-485e-9999-a90d1e05208b # Cafe
+    - 5770c310-d0e1-4ae9-84c0-852c32a1a69b # Benches
+    - 20e0c193-81fb-4de1-a876-0986f5dde59a # Statue of liberty
+    - 2a1b0bba-94ee-42ef-8889-b6d76aaf9658 # Profile pic
+    - 0cfc425c-cd0e-426d-8dc2-e8f123dc8cb9 # Profile pic
+    - 41dc893a-878a-4d96-be28-5580d2701ea5 # Profile pic
+    - 8765a3d3-713b-4c71-996e-2f27f2dee3b2 # Profile pic
+    # Document
+    - 693dea86-8bc7-455e-b113-918d3a8353cb # Another great document
+    - 2dbe0924-95be-46f6-9293-643ad046c02b # The last edition
+    - 711d4c28-2c02-4064-b78c-1480b9e66d8d # Look at this document title
+    - 9c7d5c59-1cf0-4ce6-8f16-cb4cad76406f # Drupal starter
+  file:
+    - 3d348c2e-091c-4cd9-a6f5-fe2040030871
+    - 41733c64-03e4-43a5-9780-c65a21040980
+    - 419a7df5-25a3-4f9a-8b7f-2e382f3b6d20
+    - 480370f6-9228-4483-9418-812fcecf511e
+    - 56d7ad9b-b2b5-4b5c-9dba-fd48bd3b2949
+    - 61c2811c-7e3a-4492-a651-2a6b32a9fd95
+    - 6b6a5223-7e1f-49ca-b5a9-684963c07091
+    - 72ef50cf-b600-4e6e-9fa2-87b5067b288a
+    - 82f7ecf2-108a-4966-80df-bf67b9e22866
+    - 88a3c978-9a56-4f76-be86-63f8c5334ff4
+    - 898744b9-a6db-4882-8492-bc0bf358bbf3
+    - b409bbf1-c62e-4940-9a76-f8b56117ac13
+    - bef9ed9a-41f1-4fc7-9ea9-9c33b41e7be3
+    - dc24d0dd-420e-49a4-8ef5-63606fb36767
+    - e471b723-987f-428d-8fc2-957b4132bc9d
+    - fe7ee7bb-0b8c-438a-b4ea-ee95aadd302e
+    - fee140e9-175b-4a13-a1d1-0b206e855cf8

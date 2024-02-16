@@ -1,0 +1,32 @@
+uuid: 94732c55-59a8-4bd5-bcc3-6102908ac099
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.news_teasers.field_body
+    - field.field.paragraph.news_teasers.field_title
+    - paragraphs.paragraphs_type.news_teasers
+  module:
+    - text
+id: paragraph.news_teasers.default
+targetEntityType: paragraph
+bundle: news_teasers
+mode: default
+content:
+  field_body:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

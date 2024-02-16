@@ -1,15 +1,17 @@
 uuid: f49373ba-be1f-451c-9e43-83967dfd2b15
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - focal_point
 name: hero_lg_2x
 label: 'Hero lg 2x (2560x800)'
 effects:
-  7d7f962b-8936-488d-8046-09e6b8dadec5:
-    uuid: 7d7f962b-8936-488d-8046-09e6b8dadec5
-    id: image_scale_and_crop
-    weight: 1
+  2964706b-2018-47e7-bfa0-328d35a1a0d0:
+    uuid: 2964706b-2018-47e7-bfa0-328d35a1a0d0
+    id: focal_point_scale_and_crop
+    weight: 2
     data:
       width: 2560
       height: 800
-      anchor: center-center
+      crop_type: focal_point

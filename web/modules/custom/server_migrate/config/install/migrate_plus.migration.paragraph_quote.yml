@@ -1,0 +1,37 @@
+id: paragraph_quote
+label: 'Paragraph quote'
+migration_group: server
+migration_tags:
+  - default_content
+  - paragraph
+source:
+  plugin: csv
+  path: modules/custom/server_migrate/csv_files/paragraph_quote.csv
+  ids: ['_id']
+  header_offset: 0
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+  default_bundle: quote
+process:
+  type:
+    plugin: default_value
+    default_value: quote
+  field_body/value: _body
+  field_body/format:
+    plugin: default_value
+    default_value: basic_html
+  field_subtitle: _subtitle
+  field_image:
+    - plugin: skip_on_empty
+      method: process
+      source: _media_image
+    - plugin: explode
+      delimiter: '|'
+    - plugin: migration_lookup
+      migration:
+        - media_image
+      no_stub: true
+
+migration_dependencies:
+  required:
+    - media_image

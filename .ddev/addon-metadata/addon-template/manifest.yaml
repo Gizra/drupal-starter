@@ -1,0 +1,9 @@
+name: addon-template
+repository: ddev/ddev-selenium-standalone-chrome
+version: 1.0.3
+install_date: "2023-06-27T14:41:55+01:00"
+project_files:
+    - docker-compose.selenium-chrome.yaml
+    - config.selenium-standalone-chrome.yaml
+global_files: []
+removal_actions: []

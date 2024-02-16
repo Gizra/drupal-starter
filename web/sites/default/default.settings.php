@@ -78,8 +78,8 @@
  * @code
  * $databases['default']['default'] = [
  *   'database' => 'databasename',
- *   'username' => 'sqlusername',
- *   'password' => 'sqlpassword',
+ *   'username' => 'sql_username',
+ *   'password' => 'sql_password',
  *   'host' => 'localhost',
  *   'port' => '3306',
  *   'driver' => 'mysql',
@@ -138,6 +138,21 @@ $databases = [];
  * request as needed.  The fourth line creates a new database with a name of
  * "extra".
  *
+ * For MySQL, MariaDB or equivalent databases the 'isolation_level' option can
+ * be set. The recommended transaction isolation level for Drupal sites is
+ * 'READ COMMITTED'. The 'REPEATABLE READ' option is supported but can result
+ * in deadlocks, the other two options are 'READ UNCOMMITTED' and 'SERIALIZABLE'.
+ * They are available but not supported; use them at your own risk. For more
+ * info:
+ * https://dev.mysql.com/doc/refman/5.7/en/innodb-transaction-isolation-levels.html
+ *
+ * On your settings.php, change the isolation level:
+ * @code
+ * $databases['default']['default']['init_commands'] = [
+ *   'isolation_level' => 'SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED',
+ * ];
+ * @endcode
+ *
  * You can optionally set a prefix for all database table names by using the
  * 'prefix' setting. If a prefix is specified, the table name will be prepended
  * with its value. Be sure to use valid database characters only, usually
@@ -179,8 +194,8 @@ $databases = [];
  *   $databases['default']['default'] = [
  *     'driver' => 'pgsql',
  *     'database' => 'databasename',
- *     'username' => 'sqlusername',
- *     'password' => 'sqlpassword',
+ *     'username' => 'sql_username',
+ *     'password' => 'sql_password',
  *     'host' => 'localhost',
  *     'prefix' => '',
  *   ];
@@ -190,7 +205,7 @@ $databases = [];
  * @code
  *   $databases['default']['default'] = [
  *     'driver' => 'sqlite',
- *     'database' => '/path/to/databasefilename',
+ *     'database' => '/path/to/database_filename',
  *   ];
  * @endcode
  *
@@ -201,10 +216,31 @@ $databases = [];
  *     'namespace' => 'Drupal\my_module\Driver\Database\my_driver',
  *     'autoload' => 'modules/my_module/src/Driver/Database/my_driver/',
  *     'database' => 'databasename',
- *     'username' => 'sqlusername',
- *     'password' => 'sqlpassword',
+ *     'username' => 'sql_username',
+ *     'password' => 'sql_password',
  *     'host' => 'localhost',
  *     'prefix' => '',
+ *   ];
+ * @endcode
+ *
+ * Sample Database configuration format for a driver that is extending another
+ * database driver.
+ * @code
+ *   $databases['default']['default'] = [
+ *     'driver' => 'my_driver',
+ *     'namespace' => 'Drupal\my_module\Driver\Database\my_driver',
+ *     'autoload' => 'modules/my_module/src/Driver/Database/my_driver/',
+ *     'database' => 'databasename',
+ *     'username' => 'sql_username',
+ *     'password' => 'sql_password',
+ *     'host' => 'localhost',
+ *     'prefix' => '',
+ *     'dependencies' => [
+ *       'parent_module' => [
+ *         'namespace' => 'Drupal\parent_module',
+ *         'autoload' => 'core/modules/parent_module/src/',
+ *       ],
+ *     ],
  *   ];
  * @endcode
  */
@@ -241,7 +277,8 @@ $databases = [];
  * variable has the same value on each server.
  *
  * For enhanced security, you may set this variable to the contents of a file
- * outside your document root; you should also ensure that this file is not
+ * outside your document root, and vary the value across environments (like
+ * production and development); you should also ensure that this file is not
  * stored with backups of your database.
  *
  * Example:
@@ -343,10 +380,13 @@ $settings['update_free_access'] = FALSE;
 # $settings['reverse_proxy'] = TRUE;
 
 /**
- * Specify every reverse proxy IP address in your environment.
- * This setting is required if $settings['reverse_proxy'] is TRUE.
+ * Reverse proxy addresses.
+ *
+ * Specify every reverse proxy IP address in your environment, as an array of
+ * IPv4/IPv6 addresses or subnets in CIDR notation. This setting is required if
+ * $settings['reverse_proxy'] is TRUE.
  */
-# $settings['reverse_proxy_addresses'] = ['a.b.c.d', ...];
+# $settings['reverse_proxy_addresses'] = ['a.b.c.d', 'e.f.g.h/24', ...];
 
 /**
  * Reverse proxy trusted headers.
@@ -469,6 +509,15 @@ $settings['update_free_access'] = FALSE;
 # $settings['file_chmod_file'] = 0664;
 
 /**
+ * Optimized assets path:
+ *
+ * A local file system path where optimized assets will be stored. This directory
+ * must exist and be writable by Drupal. This directory must be relative to
+ * the Drupal installation directory and be accessible over the web.
+ */
+# $settings['file_assets_path'] = 'sites/default/files';
+
+/**
  * Public file base URL:
  *
  * An alternative base URL to be used for serving public files. This must
@@ -512,6 +561,42 @@ $settings['update_free_access'] = FALSE;
  * access to all files within that scheme.
  */
 # $settings['file_additional_public_schemes'] = ['example'];
+
+/**
+ * File schemes whose paths should not be normalized:
+ *
+ * Normally, Drupal normalizes '/./' and '/../' segments in file URIs in order
+ * to prevent unintended file access. For example, 'private://css/../image.png'
+ * is normalized to 'private://image.png' before checking access to the file.
+ *
+ * On Windows, Drupal also replaces '\' with '/' in URIs for the local
+ * filesystem.
+ *
+ * If file URIs with one or more scheme should not be normalized like this, then
+ * list the schemes here. For example, if 'porcelain://china/./plate.png' should
+ * not be normalized to 'porcelain://china/plate.png', then add 'porcelain' to
+ * this array. In this case, make sure that the module providing the 'porcelain'
+ * scheme does not allow unintended file access when using '/../' to move up the
+ * directory tree.
+ */
+# $settings['file_sa_core_2023_005_schemes'] = ['porcelain'];
+
+/**
+ * Configuration for phpinfo() admin status report.
+ *
+ * Drupal's admin UI includes a report at admin/reports/status/php which shows
+ * the output of phpinfo(). The full output can contain sensitive information
+ * so by default Drupal removes some sections.
+ *
+ * This behavior can be configured by setting this variable to a different
+ * value corresponding to the flags parameter of phpinfo().
+ *
+ * If you need to expose more information in the report - for example to debug a
+ * problem - consider doing so temporarily.
+ *
+ * @see https://www.php.net/manual/function.phpinfo.php
+ */
+# $settings['sa_core_2023_004_phpinfo_flags'] = ~ (INFO_VARIABLES | INFO_ENVIRONMENT);
 
 /**
  * Private file path:
@@ -562,7 +647,7 @@ $settings['update_free_access'] = FALSE;
  * any added language. (eg locale_custom_strings_de for german).
  */
 # $settings['locale_custom_strings_en'][''] = [
-#   'forum'      => 'Discussion board',
+#   'Home' => 'Front page',
 #   '@count min' => '@count minutes',
 # ];
 
@@ -576,7 +661,7 @@ $settings['update_free_access'] = FALSE;
  *
  * Note: This setting does not apply to installation and update pages.
  */
-# $settings['maintenance_theme'] = 'bartik';
+# $settings['maintenance_theme'] = 'claro';
 
 /**
  * PHP settings:
@@ -602,21 +687,6 @@ $settings['update_free_access'] = FALSE;
 # ini_set('pcre.recursion_limit', 200000);
 
 /**
- * Add Permissions-Policy header to disable Google FLoC.
- *
- * By default, Drupal sends the 'Permissions-Policy: interest-cohort=()' header
- * to disable Google's Federated Learning of Cohorts feature, introduced in
- * Chrome 89.
- *
- * See https://en.wikipedia.org/wiki/Federated_Learning_of_Cohorts for more
- * information about FLoC.
- *
- * If you don't wish to disable FLoC in Chrome, you can set this value
- * to FALSE.
- */
-# $settings['block_interest_cohort'] = TRUE;
-
-/**
  * Configuration overrides.
  *
  * To globally override specific configuration values for this site,
@@ -640,33 +710,6 @@ $settings['update_free_access'] = FALSE;
  */
 # $config['system.site']['name'] = 'My Drupal site';
 # $config['user.settings']['anonymous'] = 'Visitor';
-
-/**
- * Fast 404 pages:
- *
- * Drupal can generate fully themed 404 pages. However, some of these responses
- * are for images or other resource files that are not displayed to the user.
- * This can waste bandwidth, and also generate server load.
- *
- * The options below return a simple, fast 404 page for URLs matching a
- * specific pattern:
- * - $config['system.performance']['fast_404']['exclude_paths']: A regular
- *   expression to match paths to exclude, such as images generated by image
- *   styles, or dynamically-resized images. The default pattern provided below
- *   also excludes the private file system. If you need to add more paths, you
- *   can add '|path' to the expression.
- * - $config['system.performance']['fast_404']['paths']: A regular expression to
- *   match paths that should return a simple 404 page, rather than the fully
- *   themed 404 page. If you don't have any aliases ending in htm or html you
- *   can add '|s?html?' to the expression.
- * - $config['system.performance']['fast_404']['html']: The html to return for
- *   simple 404 pages.
- *
- * Remove the leading hash signs if you would like to alter this functionality.
- */
-# $config['system.performance']['fast_404']['exclude_paths'] = '/\/(?:styles)|(?:system\/files)\//';
-# $config['system.performance']['fast_404']['paths'] = '/\.(?:txt|png|gif|jpe?g|css|js|ico|swf|flv|cgi|bat|pl|dll|exe|asp)$/i';
-# $config['system.performance']['fast_404']['html'] = '<!DOCTYPE html><html><head><title>404 Not Found</title></head><body><h1>Not Found</h1><p>The requested URL "@path" was not found on this server.</p></body></html>';
 
 /**
  * Load services definition file.
@@ -729,6 +772,7 @@ $settings['container_yamls'][] = $app_root . '/' . $site_path . '/services.yml';
  *
  * @see https://www.drupal.org/docs/installing-drupal/trusted-host-settings
  */
+# $settings['trusted_host_patterns'] = [];
 
 /**
  * The default list of directories that will be ignored by Drupal's file API.
@@ -776,6 +820,49 @@ $settings['entity_update_backup'] = TRUE;
  * node migrations.
  */
 $settings['migrate_node_migrate_type_classic'] = FALSE;
+
+/**
+ * The default settings for migration sources.
+ *
+ * These settings are used as the default settings on the Credential form at
+ * /upgrade/credentials.
+ *
+ * - migrate_source_version - The version of the source database. This can be
+ *   '6' or '7'. Defaults to '7'.
+ * - migrate_source_connection - The key in the $databases array for the source
+ *   site.
+ * - migrate_file_public_path - The location of the source Drupal 6 or Drupal 7
+ *   public files. This can be a local file directory containing the source
+ *   Drupal 6 or Drupal 7 site (e.g /var/www/docroot), or the site address
+ *   (e.g http://example.com).
+ * - migrate_file_private_path - The location of the source Drupal 7 private
+ *   files. This can be a local file directory containing the source Drupal 7
+ *   site (e.g /var/www/docroot), or empty to use the same value as Public
+ *   files directory.
+ *
+ * Sample configuration for a drupal 6 source site with the source files in a
+ * local directory.
+ *
+ * @code
+ * $settings['migrate_source_version'] = '6';
+ * $settings['migrate_source_connection'] = 'migrate';
+ * $settings['migrate_file_public_path'] = '/var/www/drupal6';
+ * @endcode
+ *
+ * Sample configuration for a drupal 7 source site with public source files on
+ * the source site and the private files in a local directory.
+ *
+ * @code
+ * $settings['migrate_source_version'] = '7';
+ * $settings['migrate_source_connection'] = 'migrate';
+ * $settings['migrate_file_public_path'] = 'https://drupal7.com';
+ * $settings['migrate_file_private_path'] = '/var/www/drupal7';
+ * @endcode
+ */
+# $settings['migrate_source_connection'] = '';
+# $settings['migrate_source_version'] = '';
+# $settings['migrate_file_public_path'] = '';
+# $settings['migrate_file_private_path'] = '';
 
 /**
  * Load local development override configuration, if available.

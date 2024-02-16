@@ -1,0 +1,24 @@
+_meta:
+  version: '1.0'
+  entity_type: file
+  uuid: 56d7ad9b-b2b5-4b5c-9dba-fd48bd3b2949
+  default_langcode: en
+default:
+  filename:
+    -
+      value: cafe-800x600_55.jpg
+  uri:
+    -
+      value: 'public://cafe-800x600_55.jpg'
+  filemime:
+    -
+      value: image/jpeg
+  filesize:
+    -
+      value: 76296
+  status:
+    -
+      value: true
+  created:
+    -
+      value: 1686167785

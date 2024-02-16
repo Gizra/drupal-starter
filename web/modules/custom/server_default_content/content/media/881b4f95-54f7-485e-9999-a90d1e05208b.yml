@@ -1,0 +1,37 @@
+_meta:
+  version: '1.0'
+  entity_type: media
+  uuid: 881b4f95-54f7-485e-9999-a90d1e05208b
+  bundle: image
+  default_langcode: en
+  depends:
+    56d7ad9b-b2b5-4b5c-9dba-fd48bd3b2949: file
+default:
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 0
+  name:
+    -
+      value: Cafe
+  created:
+    -
+      value: 1686167785
+  revision_translation_affected:
+    -
+      value: true
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  field_media_image:
+    -
+      entity: 56d7ad9b-b2b5-4b5c-9dba-fd48bd3b2949
+      alt: Cafe
+      title: ''
+      width: 800
+      height: 600

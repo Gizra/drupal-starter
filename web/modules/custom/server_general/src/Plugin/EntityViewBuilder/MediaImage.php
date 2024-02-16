@@ -6,6 +6,7 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\media\MediaInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
+use Drupal\server_general\ElementMediaTrait;
 use Drupal\server_general\ElementWrapTrait;
 
 /**
@@ -19,41 +20,63 @@ use Drupal\server_general\ElementWrapTrait;
  */
 class MediaImage extends EntityViewBuilderPluginAbstract {
 
+  use ElementMediaTrait;
   use ElementWrapTrait;
 
   /**
-   * The responsive image style to use on Hero images.
+   * The responsive image style to use on Hero.
    */
   const RESPONSIVE_IMAGE_STYLE_HERO = 'hero';
 
   /**
-   * Build 'Card' view mode.
+   * The responsive image style to use on Prose.
+   */
+  const RESPONSIVE_IMAGE_STYLE_PROSE = 'prose_image';
+
+  /**
+   * Build 'Embed' view mode.
    *
    * @param array $build
    *   The build array.
-   * @param \Drupal\media\MediaInterface $media
-   *   The media entity.
+   * @param \Drupal\media\MediaInterface $entity
+   *   The entity.
    *
    * @return array
    *   The render array.
    */
-  public function buildFull(array $build, MediaInterface $media): array {
-    $image = $media->get('thumbnail')->view([
-      'label' => 'hidden',
-      'type' => 'responsive_image',
-      'settings' => [
-        'responsive_image_style' => self::RESPONSIVE_IMAGE_STYLE_HERO,
-        'image_link' => '',
-      ],
-    ]);
-
-    $element = [
-      '#theme' => 'server_theme_image_and_caption',
-      '#image' => $image,
-      '#caption' => $this->getTextFieldValue($media, 'field_caption'),
-    ];
+  public function buildEmbed(array $build, MediaInterface $entity): array {
+    $image = $this->buildResponsiveImage($entity, 'field_media_image', self::RESPONSIVE_IMAGE_STYLE_PROSE);
+    $element = $this->buildElementImage(
+      $image,
+      $this->getTextFieldValue($entity, 'field_media_credit'),
+      $this->getTextFieldValue($entity, 'field_caption'),
+    );
 
     $build[] = $element;
+
+    return $build;
+  }
+
+  /**
+   * Build 'Hero' view mode.
+   *
+   * @param array $build
+   *   The build array.
+   * @param \Drupal\media\MediaInterface $entity
+   *   The entity.
+   *
+   * @return array
+   *   The render array.
+   */
+  public function buildHero(array $build, MediaInterface $entity): array {
+    $image = $this->buildResponsiveImage($entity, 'field_media_image', self::RESPONSIVE_IMAGE_STYLE_HERO);
+    $element = $this->buildElementImageWithCreditOverlay(
+      $image,
+      $this->getTextFieldValue($entity, 'field_media_credit'),
+    );
+
+    $build[] = $element;
+
     return $build;
   }
 

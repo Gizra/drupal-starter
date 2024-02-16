@@ -1,0 +1,48 @@
+uuid: d9e286ea-f5e8-408f-a711-39f8302618c1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.quote.field_body
+    - field.field.paragraph.quote.field_image
+    - field.field.paragraph.quote.field_subtitle
+    - paragraphs.paragraphs_type.quote
+  module:
+    - maxlength
+    - media_library
+    - text
+id: paragraph.quote.default
+targetEntityType: paragraph
+bundle: quote
+mode: default
+content:
+  field_body:
+    type: text_textarea
+    weight: 0
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 280
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+        maxlength_js_enforce: false
+  field_image:
+    type: media_library_widget
+    weight: 2
+    region: content
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
+  field_subtitle:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

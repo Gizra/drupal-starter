@@ -32,9 +32,12 @@ class NodeLandingPage extends NodeViewBuilderAbstract {
    */
   public function buildFull(array $build, NodeInterface $entity) {
     $elements = [];
+
     // Show the page title, unless it was set to be hidden.
-    $element = $this->buildConditionalPageTitle($entity);
-    $elements[] = $this->wrapContainerWide($element);
+    if (!$this->getBooleanFieldValue($entity, 'field_is_title_hidden')) {
+      $element = $this->buildPageTitle($entity->label());
+      $elements[] = $this->wrapContainerWide($element);
+    }
 
     /** @var \Drupal\Core\Field\EntityReferenceFieldItemListInterface $paragraphs */
     $paragraphs = $entity->get('field_paragraphs');
@@ -42,7 +45,10 @@ class NodeLandingPage extends NodeViewBuilderAbstract {
     $element = $this->buildReferencedEntities($paragraphs);
     $elements[] = $this->wrapContainerVerticalSpacingBig($element);
 
-    $build[] = $this->wrapContainerVerticalSpacingBig($elements);
+    $elements = $this->wrapContainerVerticalSpacingBig($elements);
+    // Add bottom padding, so there's some padding between all the paragraphs
+    // and the footer.
+    $build[] = $this->wrapConditionalContainerBottomPadding($elements, $paragraphs);
 
     return $build;
   }

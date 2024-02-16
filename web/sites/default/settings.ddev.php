@@ -5,6 +5,8 @@
  * Custom settings for DDEV. This file is not managed by DDEV.
  */
 
+$settings['container_yamls'][] = DRUPAL_ROOT . '/sites/default/services.yml';
+
 $host = "db";
 $port = 3306;
 
@@ -58,8 +60,10 @@ $settings['trusted_host_patterns'] = ['.*'];
 // better performance.
 $settings['class_loader_auto_detect'] = FALSE;
 
-if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
-  include $app_root . '/' . $site_path . '/settings.local.php';
+if (isset($app_root) && isset($site_path)) {
+  if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
+    include $app_root . '/' . $site_path . '/settings.local.php';
+  }
 }
 
 

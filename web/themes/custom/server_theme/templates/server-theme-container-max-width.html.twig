@@ -1,0 +1,13 @@
+{% if width == 'lg' %}
+  {% set size_classes = 'max-w-lg' %}
+{% elseif width == 'xl' %}
+  {% set size_classes = 'max-w-xl' %}
+{% elseif width == '2xl' %}
+  {% set size_classes = 'max-w-2xl' %}
+{% elseif width == '3xl' %}
+  {% set size_classes = 'max-w-3xl' %}
+{% endif %}
+
+<div class="{{ size_classes }} {{ is_center ? 'mx-auto' }}">
+  {{ element }}
+</div>

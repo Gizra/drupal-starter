@@ -1,0 +1,36 @@
+uuid: 51fad2dc-86d8-4f06-9e24-06b71c10a1df
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: dMZTGHu6VZtj5ks5N-ndQwAAr6PwcCIbFhsR1vnYhyQ
+id: request_handler_tvrh_default_7_0_0
+label: 'Term Vector'
+minimum_solr_version: 7.0.0
+environments: {  }
+recommended: true
+request_handler:
+  name: /tvrh
+  class: solr.SearchHandler
+  startup: lazy
+  lst:
+    -
+      name: defaults
+      str:
+        -
+          name: df
+          VALUE: id
+        -
+          name: tv
+          VALUE: 'true'
+  arr:
+    -
+      name: last-components
+      str:
+        -
+          VALUE: tvComponent
+solr_configs:
+  searchComponents:
+    -
+      name: tvComponent
+      class: solr.TermVectorComponent

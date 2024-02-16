@@ -33,28 +33,6 @@ abstract class MediaEmbedProcessPluginBase extends ProcessPluginBase {
   ];
 
   /**
-   * These are the remote video URL bases that the Video media type accepts.
-   */
-  const MEDIA_VIDEO_VALID_PROVIDERS = [
-    'www.youtube.com',
-    'player.vimeo.com',
-  ];
-
-  /**
-   * The ID of the media embed button on the CKEditor.
-   *
-   * This needs to correspond to the button ID in CKEditor for media embedding.
-   * Check for any config in the form of embed.button.[button_id].yml and use
-   * the button_id.
-   */
-  const MEDIA_EMBED_BUTTON_ID = 'media_entity_embed';
-
-  /**
-   * View mode to use for the embedded media that's being migrated in.
-   */
-  const MEDIA_EMBED_VIEW_MODE = 'embed';
-
-  /**
    * Creates a DOM element representing an embed media on the destination.
    *
    * @param \DOMDocument $dom
@@ -66,12 +44,9 @@ abstract class MediaEmbedProcessPluginBase extends ProcessPluginBase {
    *   The new embed tag as a writable \DOMElement.
    */
   protected function createEmbedElement(\DOMDocument $dom, $media_uuid): \DOMElement {
-    $element = $dom->createElement('drupal-entity');
+    $element = $dom->createElement('drupal-media');
     $element->setAttribute('data-entity-type', 'media');
     $element->setAttribute('data-entity-uuid', $media_uuid);
-    $element->setAttribute('data-embed-button', static::MEDIA_EMBED_BUTTON_ID);
-    $element->setAttribute('data-entity-embed-display', 'view_mode:media.' . static::MEDIA_EMBED_VIEW_MODE);
-    $element->setAttribute('data-entity-embed-display-settings', '');
 
     return $element;
   }
@@ -86,9 +61,7 @@ abstract class MediaEmbedProcessPluginBase extends ProcessPluginBase {
    *   The new embed tag.
    */
   protected function createEmbedElementString(string $media_uuid): string {
-    $button_id = static::MEDIA_EMBED_BUTTON_ID;
-    $view_mode = static::MEDIA_EMBED_VIEW_MODE;
-    return "<drupal-entity data-entity-type=\"media\" data-embed-button=\"{$button_id}\" data-entity-uuid=\"{$media_uuid}\" data-entity-embed-display=\"view_mode:media.{$view_mode}\" data-entity-embed-display-settings=\"\"></drupal-entity>";
+    return "<drupal-media data-entity-type=\"media\" data-entity-uuid=\"{$media_uuid}\"></drupal-media>";
   }
 
   /**

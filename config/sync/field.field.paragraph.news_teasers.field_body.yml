@@ -1,0 +1,22 @@
+uuid: 27b88468-c204-48be-a0f7-13e70d386c6a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_body
+    - paragraphs.paragraphs_type.news_teasers
+  module:
+    - text
+id: paragraph.news_teasers.field_body
+field_name: field_body
+entity_type: paragraph
+bundle: news_teasers
+label: Description
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

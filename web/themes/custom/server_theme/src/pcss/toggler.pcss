@@ -1,0 +1,41 @@
+// Toggler styling.
+button[aria-controls] {
+  // Apply transition to chevrons inside toggler buttons.
+  .chevron-down,
+  .chevron-up,
+  .chevron-left,
+  .chevron-right,
+  .is-hidden-when-expanded,
+  .is-revealed-when-expanded {
+    @apply transition duration-300;
+  }
+
+  .is-hidden-when-expanded {
+    @apply scale-y-100 scale-x-100 opacity-100;
+  }
+
+  .is-revealed-when-expanded {
+    @apply scale-y-0 scale-x-0 opacity-0;
+  }
+
+  // Flip them on the Y or X axis when it's expanded.
+  &[aria-expanded="true"] {
+    .chevron-down,
+    .chevron-up {
+      @apply -scale-y-100;
+    }
+
+    .chevron-left,
+    .chevron-right {
+      @apply -scale-x-100;
+    }
+
+    .is-hidden-when-expanded {
+      @apply scale-y-0 scale-x-0 opacity-0;
+    }
+
+    .is-revealed-when-expanded {
+      @apply scale-y-100 scale-x-100 opacity-100;
+    }
+  }
+}

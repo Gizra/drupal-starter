@@ -183,6 +183,15 @@ display:
             date_format: long
             custom_date_format: ''
             timezone: ''
+            tooltip:
+              date_format: ''
+              custom_date_format: ''
+            time_diff:
+              enabled: false
+              future_format: '@interval hence'
+              past_format: '@interval ago'
+              granularity: 2
+              refresh: 60
       pager:
         type: mini
         options:
@@ -239,7 +248,6 @@ display:
           default_argument_type: fixed
           default_argument_options:
             argument: a
-          default_argument_skip_url: false
           summary_options: {  }
           summary:
             format: default_summary
@@ -406,7 +414,6 @@ display:
           default_argument_type: fixed
           default_argument_options:
             argument: a
-          default_argument_skip_url: false
           summary_options:
             items_per_page: 25
             inline: true

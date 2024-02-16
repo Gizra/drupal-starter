@@ -1,0 +1,38 @@
+_meta:
+  version: '1.0'
+  entity_type: taxonomy_term
+  uuid: 3d7c7e0b-1322-42b5-8b3e-e83fd05adb63
+  bundle: tags
+  default_langcode: en
+default:
+  status:
+    -
+      value: true
+  name:
+    -
+      value: Satire
+  description:
+    -
+      value: 'Satire / comedy articles which are funny'
+      format: ''
+  weight:
+    -
+      value: 0
+  parent:
+    -
+      target_id: 0
+  revision_translation_affected:
+    -
+      value: true
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  content_translation_uid:
+    -
+      target_id: 0
+  content_translation_created:
+    -
+      value: 1686167785

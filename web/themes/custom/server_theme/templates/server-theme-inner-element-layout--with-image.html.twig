@@ -1,0 +1,16 @@
+{% import '@server_theme/templates/server-theme-inner-element-layout-base.html.twig' as base %}
+
+<div class="{{ base.getBaseClasses() }} bg-white">
+
+  <a href="{{ url }}">
+    <figure class="child-object-cover h-48">
+        {{ image }}
+    </figure>
+  </a>
+
+  <div class="p-4">
+    {{ items }}
+  </div>
+
+
+</div>

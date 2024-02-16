@@ -2,51 +2,64 @@ uuid: d0655264-810f-487e-8e20-cf2a8c9470a0
 langcode: en
 status: true
 dependencies:
+  config:
+    - core.entity_view_mode.media.embed
   module:
     - editor
-    - emptyparagraphkiller
+    - media
 _core:
   default_config_hash: P8ddpAIKtawJDi5SzOwCzVnnNYqONewSTJ6Xn0dW_aQ
 name: 'Basic HTML'
 format: basic_html
 weight: 0
 filters:
-  filter_html:
-    id: filter_html
-    provider: filter
-    status: true
-    weight: -10
-    settings:
-      allowed_html: '<a href hreflang> <em> <strong> <cite> <blockquote cite> <code> <ul type> <ol start type> <li> <dl> <dt> <dd> <h2 id> <h3 id> <h4 id> <h5 id> <h6 id> <p> <br> <span> <img src alt height width data-entity-type data-entity-uuid data-align data-caption>'
-      filter_html_help: false
-      filter_html_nofollow: false
-  filter_align:
-    id: filter_align
-    provider: filter
-    status: true
-    weight: 7
-    settings: {  }
-  filter_caption:
-    id: filter_caption
-    provider: filter
-    status: true
-    weight: 8
-    settings: {  }
-  filter_html_image_secure:
-    id: filter_html_image_secure
-    provider: filter
-    status: true
-    weight: 9
-    settings: {  }
   editor_file_reference:
     id: editor_file_reference
     provider: editor
     status: true
     weight: 11
     settings: {  }
-  emptyparagraphkiller:
-    id: emptyparagraphkiller
-    provider: emptyparagraphkiller
+  filter_align:
+    id: filter_align
+    provider: filter
+    status: false
+    weight: 7
+    settings: {  }
+  filter_caption:
+    id: filter_caption
+    provider: filter
+    status: false
+    weight: 8
+    settings: {  }
+  filter_html:
+    id: filter_html
+    provider: filter
+    status: true
+    weight: -10
+    settings:
+      allowed_html: '<br> <p> <h2 id> <h3 id> <h4 id> <h5 id> <h6 id> <cite> <dl> <dt> <dd> <span> <img src alt data-entity-type data-entity-uuid data-align data-caption width height> <drupal-entity data-entity-type data-entity-uuid data-entity-embed-display data-entity-embed-display-settings data-align data-caption data-embed-button data-langcode alt title> <a hreflang href> <blockquote cite> <ul type> <ol type start> <drupal-media data-align data-caption title data-entity-type data-entity-uuid alt> <strong> <em> <code> <li>'
+      filter_html_help: false
+      filter_html_nofollow: false
+  filter_html_image_secure:
+    id: filter_html_image_secure
+    provider: filter
+    status: true
+    weight: 9
+    settings: {  }
+  filter_url:
+    id: filter_url
+    provider: filter
     status: true
     weight: 0
-    settings: {  }
+    settings:
+      filter_url_length: 72
+  media_embed:
+    id: media_embed
+    provider: media
+    status: true
+    weight: 100
+    settings:
+      default_view_mode: embed
+      allowed_view_modes:
+        embed: embed
+      allowed_media_types: {  }

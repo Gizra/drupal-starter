@@ -1,0 +1,22 @@
+uuid: 65aaa301-9e24-4fd1-ad22-2706f7c17da4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_body
+    - paragraphs.paragraphs_type.cta
+  module:
+    - text
+id: paragraph.cta.field_body
+field_name: field_body
+entity_type: paragraph
+bundle: cta
+label: Description
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

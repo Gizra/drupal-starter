@@ -1,0 +1,59 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: fdfc2b97-a826-4887-8218-fb3a3add5f72
+  bundle: news
+  default_langcode: en
+  depends:
+    9e29bc67-aa63-44fd-a740-ce8a38db9de0: user
+    227b41f7-b7b5-4f3c-b399-034494c83fda: media
+    f05daf9b-d532-499e-96ff-dd627cf685d0: taxonomy_term
+    e021e646-55ed-455b-add6-3e635008173b: taxonomy_term
+default:
+  revision_uid:
+    -
+      entity: 9e29bc67-aa63-44fd-a740-ce8a38db9de0
+  status:
+    -
+      value: true
+  uid:
+    -
+      entity: 9e29bc67-aa63-44fd-a740-ce8a38db9de0
+  title:
+    -
+      value: 'Pandemic Moves Education Online'
+  created:
+    -
+      value: 1686167785
+  promote:
+    -
+      value: true
+  sticky:
+    -
+      value: false
+  revision_translation_affected:
+    -
+      value: true
+  path:
+    -
+      alias: /news/pandemic-moves-education-online
+      langcode: en
+      pathauto: 1
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  field_body:
+    -
+      value: '<p>"Colleges and universities were clear that they needed support with digital materials and training for teaching in online and hybrid formats, and partnerships have been key in these challenging times," said Fernando Bleichmar, EVP and General Manager for U.S. Higher Education at Cengage. "We''ve been able to help schools bridge the online learning gap with quality digital materials, services, and faculty and administrator training from leading online learning experts to build a better learning experience."</p>  <p>As the pandemic closed campuses, higher ed leaders turned to Cengage Unlimited for Institutions for affordable access to quality, digital learning materials at scale, as well as academic services to move courses online and professional development resources to help faculty teach online. Partnering with Online Learning Consortium, Cengage offers bootcamps, office hours and customized trainings for Institutional customers.</p>  <p>Partnerships have grown by 50 percent since April, and more than 125 institutions now partner directly with Cengage to offer Cengage Unlimited at scale.</p>  <p>One of those institutions is Ivy Tech Community College in Indiana, one of the largest community college systems in the country with 90,000 students. Ivy Tech used funding allocated to the institution under the CARES Act to provide students with Cengage materials, and access academic services and professional development support for instructors.</p> '
+      format: basic_html
+  field_featured_image:
+    -
+      entity: 227b41f7-b7b5-4f3c-b399-034494c83fda
+  field_tags:
+    -
+      entity: f05daf9b-d532-499e-96ff-dd627cf685d0
+    -
+      entity: e021e646-55ed-455b-add6-3e635008173b
