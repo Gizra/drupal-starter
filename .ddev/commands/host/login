@@ -51,7 +51,7 @@ case $OSTYPE in
   darwin*)
     open ${FULLURL}
     ;;
-  cygwin* | msys* | win32*)
+  "win*"* | "msys"*)
     start ${FULLURL}
     ;;
   *)
