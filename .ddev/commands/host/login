@@ -2,7 +2,7 @@
 
 ## Description: Launch a browser and login to the current Drupal project.
 ## Usage: login [--name=USER] [--uid=UID]
-## Example: "ddev login" or "ddev login --name=username" or "ddev login --uid=1"
+## Example: "ddev login" or "ddev login --name=username" or "ddev login --uid=5"
 
 # Default username
 DEFAULT_USER="AdminOne"
