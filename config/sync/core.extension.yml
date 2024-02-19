@@ -58,6 +58,10 @@ module:
   page_cache: 0
   pantheon_advanced_page_cache: 0
   paragraphs_edit: 0
+  password_policy_blacklist: 0
+  password_policy_character_types: 0
+  password_policy_length: 0
+  password_policy_username: 0
   path: 0
   path_alias: 0
   permissions_filter: 0
@@ -91,6 +95,7 @@ module:
   menu_link_content: 1
   pathauto: 1
   content_translation: 10
+  password_policy: 10
   views: 10
   paragraphs: 11
   server: 1000

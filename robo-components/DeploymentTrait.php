@@ -412,6 +412,17 @@ trait DeploymentTrait {
 
     $result = $this->taskExecStack()
       ->stopOnFail()
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- user-block 1")
+      ->run()
+      ->getExitCode();
+
+    if ($result !== 0) {
+      $message = "The code deploy went well to $env, but blocking #1 user failed.";
+      $this->deployNotify($env, $message);
+    }
+
+    $result = $this->taskExecStack()
+      ->stopOnFail()
       ->exec("terminus remote:drush $pantheon_terminus_environment -- sapi-r")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- sapi-i")
       ->run()

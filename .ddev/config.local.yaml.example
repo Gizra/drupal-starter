@@ -41,7 +41,10 @@ hooks:
     # Enable Devel.
     - exec: drush pm-enable devel -y
 
-    # Login as admin.
+    # @see https://www.drupal.org/node/947312
+    - exec: drush user-block 1
+
+    # Login as AdminOne.
     - exec-host: ddev login
 
     # Make sure PHP CLI has no memory limit, this is
