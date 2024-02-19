@@ -32,6 +32,7 @@
         "drupal/classy": "^1.0",
         "drupal/config_filter": "^2.4",
         "drupal/config_ignore": "^3.0@beta",
+        "drupal/config_pages": "^2.15",
         "drupal/core": "^10.0",
         "drupal/core-composer-scaffold": "^10",
         "drupal/core-project-message": "^10",

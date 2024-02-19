@@ -1,0 +1,17 @@
+_meta:
+  version: '1.0'
+  entity_type: config_pages
+  uuid: 6c4791e4-e4c2-4409-a3c3-ce006d514312
+  bundle: main_settings
+  depends:
+    59aaa9d4-8a47-436a-b8f3-00484c08c124: node
+default:
+  label:
+    -
+      value: 'Main settings'
+  context:
+    -
+      value: 'a:0:{}'
+  field_locked_landing_pages:
+    -
+      entity: 59aaa9d4-8a47-436a-b8f3-00484c08c124
