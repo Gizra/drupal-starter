@@ -5,8 +5,14 @@
  * Module file.
  */
 
+use Drupal\config_pages\Entity\ConfigPages;
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Entity\ContentEntityFormInterface;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageInterface;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\node\NodeInterface;
 use Drupal\server_general\ArabicNumberConverter;
 
 /**
@@ -93,4 +99,161 @@ function server_general_field_info_alter(array &$info) {
  */
 function server_general_field_widget_single_element_language_select_form_alter(array &$element, FormStateInterface $form_state, array $context) {
   $element['value']['#languages'] = LanguageInterface::STATE_CONFIGURABLE;
+}
+
+/**
+ * Implements hook_entity_access().
+ */
+function server_general_node_access(NodeInterface $entity, string $op, AccountInterface $account) {
+  if ($entity->bundle() !== 'landing_page') {
+    return AccessResult::neutral();
+  }
+
+  if ($op === 'delete' && server_general_is_node_locked($entity)) {
+    return AccessResult::forbidden();
+  }
+
+  return AccessResult::neutral();
+}
+
+/**
+ * Implements hook_entity_predelete().
+ */
+function server_general_node_predelete(NodeInterface $entity) {
+  if (!server_general_is_node_locked($entity)) {
+    return;
+  }
+
+  throw new Exception("This node is locked and can't be removed");
+}
+
+/**
+ * Implements hook_entity_predelete().
+ */
+function server_general_node_presave(NodeInterface $entity) {
+  if (!server_general_is_node_locked($entity)) {
+    return;
+  }
+
+  /** @var \Drupal\node\NodeInterface $original */
+  $original = $entity->original;
+  if ($original->isPublished() && !$entity->isPublished()) {
+    $entity->setPublished();
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function server_general_form_alter(array &$form, FormStateInterface $form_state) {
+  /** @var \Drupal\Core\Entity\EntityFormInterface $form_object */
+  $form_object = $form_state->getFormObject();
+
+  // Check that form object is instance of ContentEntityFormInterface.
+  if (!$form_object instanceof ContentEntityFormInterface) {
+    return;
+  }
+
+  /** @var \Drupal\node\NodeInterface $entity */
+  $entity = $form_object->getEntity();
+  // Check that entity is a node.
+  if ($entity->getEntityType()->id() !== 'node') {
+    return;
+  }
+
+  // Check that we are on the node edit page.
+  if ($form['#form_id'] !== "node_{$entity->bundle()}_edit_form") {
+    return;
+  }
+
+  // Check if node is locked or not.
+  if (!server_general_is_node_locked($entity)) {
+    return;
+  }
+
+  unset($form['actions']['delete']);
+  $form['status']['#access'] = FALSE;
+}
+
+/**
+ * Implements hook_entity_operation_alter().
+ */
+function server_general_entity_operation_alter(array &$operations, EntityInterface $entity) {
+  // Check that entity is a node.
+  if ($entity->getEntityType()->id() !== 'node') {
+    return;
+  }
+
+  // Check if node is locked or not.
+  /** @var \Drupal\node\NodeInterface $entity */
+  if (!server_general_is_node_locked($entity)) {
+    return;
+  }
+
+  unset($operations['delete']);
+}
+
+/**
+ * Implements hook_menu_local_tasks_alter().
+ */
+function server_general_menu_local_tasks_alter(array &$data, string $route_name): void {
+  if (!isset($data['tabs'][0]['entity.node.delete_form'])) {
+    return;
+  }
+
+  $routes = [
+    'entity.node.canonical',
+    'entity.node.edit_form',
+  ];
+
+  if (!in_array($route_name, $routes)) {
+    return;
+  }
+
+  /** @var \Drupal\node\NodeInterface $entity */
+  $entity = \Drupal::routeMatch()->getParameter('node');
+  if (!$entity instanceof NodeInterface) {
+    return;
+  }
+
+  // Check if node is locked or not.
+  /** @var \Drupal\node\NodeInterface $entity */
+  if (!server_general_is_node_locked($entity)) {
+    return;
+  }
+
+  unset($data['tabs'][0]['entity.node.delete_form']);
+}
+
+/**
+ * Returns list of restricted node ids from config pages.
+ *
+ * @return array
+ *   List of ids.
+ */
+function server_general_get_list_of_restricted_nodes() {
+  /** @var \Drupal\config_pages\ConfigPagesStorage $config_pages_storage */
+  $config_pages_storage = \Drupal::entityTypeManager()->getStorage('config_pages');
+  /** @var \Drupal\Core\Entity\ContentEntityInterface $main_settings */
+  $main_settings = $config_pages_storage->load('main_settings');
+
+  if (!$main_settings instanceof ConfigPages) {
+    return [];
+  }
+
+  $locked_nodes = $main_settings->get('field_locked_landing_pages')->getValue();
+
+  return array_column($locked_nodes, 'target_id');
+}
+
+/**
+ * Checks if current node is locked.
+ *
+ * @return bool
+ *   Returns TRUE if node is locked.
+ */
+function server_general_is_node_locked(NodeInterface $node) {
+  $restricted_nodes = server_general_get_list_of_restricted_nodes();
+
+  return in_array($node->id(), $restricted_nodes);
 }
