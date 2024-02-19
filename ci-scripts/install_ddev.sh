@@ -7,23 +7,42 @@ else
   docker login --password "$DOCKER_PASSWORD" --username amitaibu
 fi
 
-# Make sure we can repeat this script using travis_retry.
-docker network rm ddev_default || true
-rm -rf ~/.ddev || true
+# Define ddev version
+DDEV_VERSION="v1.22.7"
 
-echo "Install ddev."
-curl -s -L https://raw.githubusercontent.com/drud/ddev/master/scripts/install_ddev.sh | bash
+if ! command -v ddev &>/dev/null; then
+    echo "Installing ddev."
+    curl -s -LO https://raw.githubusercontent.com/drud/ddev/master/scripts/install_ddev.sh && bash install_ddev.sh $DDEV_VERSION
+    rm install_ddev.sh
+else
+    echo "ddev $DDEV_VERSION is already installed."
+fi
+
+# Upon travis_retry, have a fresh start.
+docker system prune -a --volumes -f
 
 echo "Configuring ddev."
 mkdir ~/.ddev
 cp "ci-scripts/global_config.yaml" ~/.ddev/
 
-if ! docker network create ddev_default; then
-  ddev logs
-  exit 1
+# Check if the Docker network exists before attempting to create it
+if ! docker network inspect ddev_default &>/dev/null; then
+    echo "Creating Docker network ddev_default."
+    if ! docker network create ddev_default; then
+        echo "Failed to create Docker network ddev_default."
+        ddev logs
+        exit 1
+    fi
+else
+    echo "Docker network ddev_default already exists."
 fi
 
+# Run ddev composer install, checking for success
+echo "Running ddev composer install."
 if ! ddev composer install; then
-  ddev logs
-  exit 1
+    echo "ddev composer install failed."
+    ddev logs
+    exit 1
 fi
+
+echo "DDEV installation completed successfully."
