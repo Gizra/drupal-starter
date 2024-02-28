@@ -263,7 +263,7 @@ function server_general_is_node_locked(NodeInterface $node) {
  * Returns the 'main_settings' config page.
  *
  * @return \Drupal\Core\Entity\ContentEntityInterface
- *   The 'main_settings' config page entity, or NULL if not found.
+ *   The 'main_settings' config page entity.
  */
 function server_general_get_main_settings() {
   /** @var \Drupal\config_pages\ConfigPagesStorage $config_pages_storage */
