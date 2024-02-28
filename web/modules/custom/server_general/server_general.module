@@ -110,6 +110,9 @@ function server_general_node_access(NodeInterface $entity, string $op, AccountIn
   }
 
   $main_settings = server_general_get_main_settings();
+  if (!$main_settings instanceof ConfigPages) {
+    AccessResult::neutral();
+  }
   // Add cache tags to the cache metadata.
   $cache_tags = $main_settings->getCacheTags();
 
@@ -262,13 +265,13 @@ function server_general_is_node_locked(NodeInterface $node) {
 /**
  * Returns the 'main_settings' config page.
  *
- * @return \Drupal\Core\Entity\ContentEntityInterface
- *   The 'main_settings' config page entity.
+ * @return \Drupal\Core\Entity\ContentEntityInterface|null
+ *   The 'main_settings' config page entity or null if not found.
  */
 function server_general_get_main_settings() {
   /** @var \Drupal\config_pages\ConfigPagesStorage $config_pages_storage */
   $config_pages_storage = \Drupal::entityTypeManager()->getStorage('config_pages');
-  /** @var \Drupal\Core\Entity\ContentEntityInterface $main_settings */
+  /** @var \Drupal\Core\Entity\ContentEntityInterface|null $main_settings */
   $main_settings = $config_pages_storage->load('main_settings');
   return $main_settings;
 }
