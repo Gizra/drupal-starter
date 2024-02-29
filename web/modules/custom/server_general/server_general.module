@@ -263,6 +263,8 @@ function server_general_is_node_locked(NodeInterface $node) {
  * Implements hook_preprocess_media_oembed_iframe().
  */
 function server_general_preprocess_media_oembed_iframe(array &$variables) {
+  // Turn on privacy-enhanced mode for youtube videos.
+  // @see https://support.google.com/youtube/answer/171780
   if (strpos((string) $variables['media'], 'youtube.com') !== FALSE) {
     $variables['media'] = IFrameMarkup::create(str_replace('youtube.com/', 'youtube-nocookie.com/', $variables['media']));
   }
