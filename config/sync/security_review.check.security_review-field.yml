@@ -1,0 +1,5 @@
+_core:
+  default_config_hash: BRGVKvT3bWm7fhMff27lNbK8uI791G13bengMRWs5hw
+id: security_review-field
+settings:
+  known_risky_fields: {  }

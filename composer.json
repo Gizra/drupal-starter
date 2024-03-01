@@ -67,6 +67,7 @@
         "drupal/search_api": "^1.18",
         "drupal/search_api_solr": "^4.3",
         "drupal/seckit": "^2.0",
+        "drupal/security_review": "^2",
         "drupal/select2": "^1.15",
         "drupal/seven": "^1.0",
         "drupal/simple_sitemap": "^4.1",
