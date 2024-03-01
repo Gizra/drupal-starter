@@ -1,5 +1,7 @@
 #!/bin/bash
 
+shopt -s lastpipe
+
 # Check if your Pantheon live sites are cached at least minimally.
 
 # Add known problematic sites to EXCLUDED_SITES environment variable.
@@ -12,7 +14,7 @@ fi
 # Fetch all sites
 SITES_JSON=$(terminus site:list --format=json 2>/dev/null)
 # Filter non-frozen sites
-SITES_TO_CHECK=$(echo $SITES_JSON | jq -r '.[] | select(.frozen == false) | .name')
+SITES_TO_CHECK=$(echo "$SITES_JSON" | jq -r '.[] | select(.frozen == false) | .name')
 
 # Initialize flag for cache issues
 CACHE_ISSUE_FLAG=0
@@ -22,10 +24,11 @@ check_cache_hit_ratio() {
   local site_name=$1
 
   # Get metrics in CSV format
-  local metrics_csv=$(terminus env:metrics ${site_name}.live --format=csv 2>/dev/null)
+  local metrics_csv
+  metrics_csv=$(terminus env:metrics "${site_name}.live" --format=csv 2>/dev/null)
 
   # Convert CSV to an array of the last three cache hit ratios
-  IFS=$'\n' local cache_hit_ratios=($(echo "$metrics_csv" | tail -n 4 | cut -d ',' -f6 | tr -d '%' | tail -n 3))
+  IFS=$'\n' echo "$metrics_csv" | tail -n 4 | cut -d ',' -f6 | tr -d '%' | tail -n 3 | read -r -a cache_hit_ratios
 
   # Initialize counter for consecutive zero hit ratios
   local zero_hit_ratio_count=0
@@ -64,7 +67,7 @@ is_excluded() {
 }
 
 # Iterate over sites and check their cache hit ratios
-for site in ${SITES_TO_CHECK[@]}; do
+for site in "${SITES_TO_CHECK[@]}"; do
   if is_excluded "$site"; then
     continue
   fi

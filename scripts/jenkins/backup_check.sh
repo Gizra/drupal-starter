@@ -13,7 +13,7 @@ fi
 SITES_JSON=$(terminus site:list --format=json 2>/dev/null)
 
 # Filter non-frozen sites
-NON_FROZEN_SITES=$(echo $SITES_JSON | jq -r '.[] | select(.frozen == false) | .name')
+NON_FROZEN_SITES=$(echo "$SITES_JSON" | jq -r '.[] | select(.frozen == false) | .name')
 
 # Initialize flag for missing backups
 MISSING_BACKUP_FLAG=0
@@ -26,17 +26,18 @@ function is_excluded() {
             return 0
         fi
     done
-    
-    local live_initialized=$(terminus env:list --format=json ${site} | jq -r '.live.initialized')
+
+    local live_initialized
+    live_initialized=$(terminus env:list --format=json "${site}" | jq -r '.live.initialized')
     if [[ "$live_initialized" == "false" ]]; then
         return 0
     fi
-    
+
     return 1
 }
 
 # Iterate through each non-frozen site.
-for site_name in ${NON_FROZEN_SITES[@]}; do
+for site_name in "${NON_FROZEN_SITES[@]}"; do
 
   # Check if the site should be excluded.
   if is_excluded "$site_name"; then
@@ -46,14 +47,14 @@ for site_name in ${NON_FROZEN_SITES[@]}; do
   echo "Checking backups for site: $site_name"
 
   # Fetch backups for site
-  BACKUPS_JSON=$(terminus backup:list ${site_name}.live --format=json 2>/dev/null)
+  BACKUPS_JSON=$(terminus backup:list "${site_name}.live" --format=json 2>/dev/null)
 
   # Components to check
   COMPONENTS=("files" "code" "database")
 
   for component in "${COMPONENTS[@]}"; do
     # Get the latest backup date for the component
-    LATEST_BACKUP_DATE=$(echo $BACKUPS_JSON | jq -r --arg COMPONENT "${component}" 'to_entries[] | select(.key | contains($COMPONENT)) | .value.date' | while read date; do date -d "$date" +%s; done | sort -nr | head -n1)
+    LATEST_BACKUP_DATE=$(echo "$BACKUPS_JSON" | jq -r --arg COMPONENT "${component}" 'to_entries[] | select(.key | contains($COMPONENT)) | .value.date' | while read -r date; do date -d "$date" +%s; done | sort -nr | head -n1)
 
     # Get the current date
     CURRENT_DATE=$(date +%s)
