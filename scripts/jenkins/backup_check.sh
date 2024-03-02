@@ -4,6 +4,7 @@
 
 # Add known problematic sites to EXCLUDED_SITES environment variable.
 # @see https://plugins.jenkins.io/envinject/
+# Example: EXCLUDED_SITES=("foo" "bar")
 
 if [ -z "${EXCLUDED_SITES+x}" ]; then
   EXCLUDED_SITES=()
