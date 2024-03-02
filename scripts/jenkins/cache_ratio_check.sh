@@ -2,10 +2,15 @@
 
 shopt -s lastpipe
 
-# Check if your Pantheon live sites are cached at least minimally.
+# Check if your Pantheon live sites are cached properly.
+# It checks the CDN cache hit ratio, if anonymous visitors
+# got fully cached requests or not, at least for some parts
+# of the website.
+# Let's say if max-age header is set to zero, it will throw an alert.
 
 # Add known problematic sites to EXCLUDED_SITES environment variable.
 # @see https://plugins.jenkins.io/envinject/
+# Example: EXCLUDED_SITES=("foo" "bar")
 
 if [ -z "${EXCLUDED_SITES+x}" ]; then
   EXCLUDED_SITES=()
