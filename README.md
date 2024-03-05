@@ -213,6 +213,12 @@ and you can see the test running in the browser.
 Check the [DDEV documentation](https://ddev.readthedocs.io/en/latest/users/debugging-profiling/step-debugging/)
 if you are using other IDE or want to know more about this feature.
 
+## Prepare for Deployment
+
+### Rollbar configuration
+
+Rollbar will be automatically enabled on test and live environments. The access tokens need to be added and the rollbar configuration yml file should be committed.
+
 ## Deploy to Pantheon
 
 ### Pantheon Setup
