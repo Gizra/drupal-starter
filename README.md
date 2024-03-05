@@ -217,7 +217,7 @@ if you are using other IDE or want to know more about this feature.
 
 ### Rollbar configuration
 
-Rollbar will be automatically enabled on test and live environments. The access tokens need to be added under /admin/config/services/rollbar and the rollbar configuration yml file should be committed.
+Rollbar will be automatically enabled on test and live environments. The access tokens need to be added under '/admin/config/services/rollbar' and the rollbar configuration yml file should be committed.
 
 ### Pantheon Setup
 
