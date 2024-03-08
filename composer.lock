@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e0a77089b5e31b52547c1793f8ce5414",
+    "content-hash": "e321a27843a5bc91be8e34504010c6c3",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -67,7 +67,7 @@
             "version": "6.x-dev",
             "source": {
                 "type": "git",
-                "url": "git@github.com:FortAwesome/Font-Awesome.git",
+                "url": "https://github.com/FortAwesome/Font-Awesome.git",
                 "reference": "d02961b018153506364077343b0edcde0a39d27e"
             },
             "dist": {
@@ -15219,8 +15219,8 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "drupal/advagg": 15,
-        "drupal/config_ignore": 10,
         "drupal/default_content": 15,
+        "drupal/inline_entity_form": 5,
         "drupal/ultimate_cron": 15,
         "drupal/cache_review": 20,
         "drupal/drupal_test_assertions": 20,
