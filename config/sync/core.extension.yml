@@ -13,7 +13,6 @@ module:
   ckeditor5: 0
   comment: 0
   config: 0
-  config_filter: 0
   config_ignore: 0
   config_pages: 0
   config_translation: 0
@@ -64,7 +63,6 @@ module:
   password_policy_username: 0
   path: 0
   path_alias: 0
-  permissions_filter: 0
   pluggable_entity_view_builder: 0
   quickedit: 0
   real_aes: 0
