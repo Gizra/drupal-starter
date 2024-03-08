@@ -511,7 +511,8 @@ function server_theme_preprocess_page(array &$variables) {
     'display' => LANGDROPDOWN_DISPLAY_NATIVE,
   ];
 
-  $messages = !empty($variables['page']['header']['server_theme_messages']) ? $variables['page']['header']['server_theme_messages'] : NULL;
+  $messages = [];
+
 
   try {
     $search_key = \Drupal::request()->query->get('key');
@@ -536,26 +537,12 @@ function server_theme_preprocess_page(array &$variables) {
     '#menu' => [
       '#theme' => 'server_theme_header_menu',
       '#items' => server_theme_prepare_menu_links('main'),
-      '#cache' => [
-        'tags' => [
-          'config:system.menu.main',
-        ],
-        'contexts' => [
-          'languages:language_interface',
-          'user.roles',
-        ],
-      ],
     ],
     '#messages' => $messages,
   ];
 
   $variables['page']['footer'] = [
     '#theme' => 'server_theme_footer',
-    '#cache' => [
-      'tags' => [
-        'config:system.menu.footer',
-      ],
-    ],
   ];
 
   // Pass language settings to JS. This is used for example by the Slick
@@ -596,12 +583,7 @@ function server_theme_theme_suggestions_page_title_alter(array &$suggestions, ar
  *   Render array.
  */
 function server_theme_prepare_block(string $bid, array $config): array {
-  $block_manager = \Drupal::service('plugin.manager.block');
-  $plugin_block = $block_manager->createInstance($bid, $config);
-  $render = $plugin_block->build();
-  \Drupal::service('renderer')->addCacheableDependency($render, $plugin_block);
-
-  return $render;
+  return \Drupal::service('block_plugin.view_builder')->view($bid, $config);
 }
 
 /**
