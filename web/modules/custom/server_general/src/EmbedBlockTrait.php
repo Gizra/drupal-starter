@@ -33,17 +33,7 @@ trait EmbedBlockTrait {
    *   The render array.
    */
   protected function embedBlock(string $block_id, array $config = []) {
-    $plugin_block = $this->blockManager->createInstance($block_id, $config);
-    // Some blocks might implement access check.
-    $access_result = $plugin_block->access($this->currentUser);
-    // Return empty render array if user doesn't have access.
-    // $access_result can be boolean or an AccessResult class.
-    if (is_object($access_result) && $access_result->isForbidden() || is_bool($access_result) && !$access_result) {
-      // You might need to add some cache tags/contexts.
-      return [];
-    }
-
-    return $plugin_block->build();
+    return \Drupal::service('block_plugin.view_builder')->view($block_id, $config);
   }
 
 }
