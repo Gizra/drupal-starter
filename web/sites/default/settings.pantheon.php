@@ -73,8 +73,8 @@ if (file_exists($base_private_dir . '/' . $settings['site_id'] . '.es.secrets.js
 if (!empty($pantheon_env)) {
   // Rollbar settings for LIVE and TEST.
   if ($pantheon_env == 'live' || $pantheon_env == 'test') {
-    $config['rollbar.environment'] = $pantheon_site_name . '.' . $pantheon_env;
-    $config['rollbar.enabled'] = TRUE;
+    $config['rollbar.settings']['environment'] = $pantheon_site_name . '.' . $pantheon_env;
+    $config['rollbar.settings']['enabled'] = TRUE;
   }
   switch ($pantheon_env) {
     case 'test':
