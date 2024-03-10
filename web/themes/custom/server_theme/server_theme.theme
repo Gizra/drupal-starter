@@ -596,12 +596,7 @@ function server_theme_theme_suggestions_page_title_alter(array &$suggestions, ar
  *   Render array.
  */
 function server_theme_prepare_block(string $bid, array $config): array {
-  $block_manager = \Drupal::service('plugin.manager.block');
-  $plugin_block = $block_manager->createInstance($bid, $config);
-  $render = $plugin_block->build();
-  \Drupal::service('renderer')->addCacheableDependency($render, $plugin_block);
-
-  return $render;
+  return \Drupal::service('block_plugin.view_builder')->view($bid, $config);
 }
 
 /**

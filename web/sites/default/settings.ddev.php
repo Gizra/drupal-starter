@@ -6,6 +6,7 @@
  */
 
 $settings['container_yamls'][] = DRUPAL_ROOT . '/sites/default/services.yml';
+$settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml';
 
 $host = "db";
 $port = 3306;
