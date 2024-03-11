@@ -112,7 +112,7 @@ function server_general_node_access(NodeInterface $entity, string $op, AccountIn
 
   $main_settings = server_general_get_main_settings();
 
-  if ($main_settings instanceof ConfigPages && $op === 'delete' && server_general_is_node_locked($entity)) {
+  if ($op === 'delete' && $main_settings instanceof ConfigPages && server_general_is_node_locked($entity)) {
     // Add cache tags to the cache metadata.
     $cache_tags = $main_settings->getCacheTags();
     return AccessResult::forbidden()->addCacheableDependency($entity)->addCacheTags($cache_tags);
