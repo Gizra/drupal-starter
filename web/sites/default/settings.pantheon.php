@@ -75,6 +75,9 @@ if (!empty($pantheon_env)) {
   if ($pantheon_env == 'live' || $pantheon_env == 'test') {
     $config['rollbar.settings']['environment'] = $pantheon_site_name . '.' . $pantheon_env;
     $config['rollbar.settings']['enabled'] = TRUE;
+    // Placeholders for adding the actual access token values.
+    // $config['rollbar.settings']['access_token'] = '';
+    // $config['rollbar.settings']['access_token_frontend'] = '';.
   }
   switch ($pantheon_env) {
     case 'test':
