@@ -109,7 +109,7 @@ final class LockedPagesRouteSubscriber extends RouteSubscriberBase {
     if ($node instanceof NodeInterface && $node->getType() == 'landing_page') {
       $main_settings = $this->getMainSettings();
       $cache_tags = $main_settings->getCacheTags();
-      if (!$this->isNodeLocked($node)) {
+      if ($this->isNodeLocked($node)) {
         return AccessResult::forbidden()->addCacheableDependency($node)->addCacheTags($cache_tags);
       }
     }
