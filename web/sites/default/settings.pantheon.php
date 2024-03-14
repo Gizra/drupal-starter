@@ -43,14 +43,14 @@ $local_settings = __DIR__ . "/settings.local.php";
 if (file_exists($local_settings)) {
   include $local_settings;
 }
-
+$pantheon_env = getenv('PANTHEON_ENVIRONMENT');
+$pantheon_site_name = getenv('PANTHEON_SITE_NAME');
 $base_private_dir = '../config/elasticsearch';
 $settings['site_id'] = 'drupal_starter';
 if (file_exists($base_private_dir . '/' . $settings['site_id'] . '.es.secrets.json')) {
   $es_credentials = json_decode(file_get_contents($base_private_dir . '/' . $settings['site_id'] . '.es.secrets.json'), TRUE);
   if (is_array($es_credentials)) {
     $fallback = 'dev';
-    $pantheon_env = getenv('PANTHEON_ENVIRONMENT');
     $env = str_replace('-', '_', !empty($pantheon_env) ? $pantheon_env : $fallback);
 
     if (!isset($es_credentials[$env])) {
@@ -70,9 +70,15 @@ if (file_exists($base_private_dir . '/' . $settings['site_id'] . '.es.secrets.js
     }
   }
 }
-
-$pantheon_env = getenv('PANTHEON_ENVIRONMENT');
 if (!empty($pantheon_env)) {
+  // Rollbar settings for LIVE and TEST.
+  if ($pantheon_env == 'live' || $pantheon_env == 'test') {
+    $config['rollbar.settings']['environment'] = $pantheon_site_name . '.' . $pantheon_env;
+    $config['rollbar.settings']['enabled'] = TRUE;
+    // Placeholders for adding the actual access token values.
+    // $config['rollbar.settings']['access_token'] = '';
+    // $config['rollbar.settings']['access_token_frontend'] = '';.
+  }
   switch ($pantheon_env) {
     case 'test':
       $config['environment_indicator.indicator']['bg_color'] = '#ffcc6b';
