@@ -49,7 +49,7 @@ final class LockedPagesRouteSubscriber extends RouteSubscriberBase {
   protected function alterRoutes(RouteCollection $collection) {
     // Check if the route exists and is for deleting a node.
     if ($route = $collection->get('entity.node.delete_form')) {
-      $route->setRequirement('_custom_access', 'Drupal\server_general\Routing\LockedPagesRouteSubscriber::access');
+      $route->setRequirement('_custom_access', 'server_general.route_subscriber::access');
     }
   }
 
