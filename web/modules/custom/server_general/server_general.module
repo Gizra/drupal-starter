@@ -122,6 +122,17 @@ function server_general_node_access(NodeInterface $entity, string $op, AccountIn
 }
 
 /**
+ * Implements hook_entity_predelete().
+ */
+function server_general_node_predelete(NodeInterface $entity) {
+  if (!server_general_is_node_locked($entity)) {
+    return;
+  }
+
+  throw new Exception("This node is locked and can't be removed");
+}
+
+/**
  * Implements hook_node_presave().
  */
 function server_general_node_presave(NodeInterface $entity) {
