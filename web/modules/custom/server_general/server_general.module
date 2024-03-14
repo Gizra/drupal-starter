@@ -220,7 +220,6 @@ function server_general_menu_local_tasks_alter(array &$data, string $route_name)
   if (!$entity instanceof NodeInterface) {
     return;
   }
-
   // Check if node is locked or not.
   /** @var \Drupal\node\NodeInterface $entity */
   if (!server_general_is_node_locked($entity)) {
@@ -283,29 +282,4 @@ function server_general_get_main_settings() {
   /** @var \Drupal\Core\Entity\ContentEntityInterface|null $main_settings */
   $main_settings = $config_pages_storage->load('main_settings');
   return $main_settings;
-}
-
-/**
- * Implements hook_form_FORM_ID_alter().
- */
-function server_general_form_node_landing_page_delete_form_alter(array &$form, FormStateInterface $form_state, string $form_id) {
-  // Add custom validation handler to node deletion form.
-  $form['#validate'][] = 'server_general_landing_page_delete_form_validate';
-}
-
-/**
- * Custom validation handler to prevent node deletion of locked pages.
- */
-function server_general_landing_page_delete_form_validate(array &$form, FormStateInterface $form_state) {
-  // Load the node being deleted.
-  /** @var \Drupal\Core\Entity\EntityFormInterface $form_object */
-  $form_object = $form_state->getFormObject();
-  /** @var \Drupal\node\NodeInterface $node */
-  $node = $form_object->getEntity();
-
-  // If node is locked, show error.
-  if (server_general_is_node_locked($node)) {
-    // Add a form error to prevent deletion.
-    $form_state->setError($form, t('Deletion is not allowed for this node.'));
-  }
 }
