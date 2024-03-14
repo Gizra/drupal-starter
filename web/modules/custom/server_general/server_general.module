@@ -122,18 +122,7 @@ function server_general_node_access(NodeInterface $entity, string $op, AccountIn
 }
 
 /**
- * Implements hook_entity_predelete().
- */
-function server_general_node_predelete(NodeInterface $entity) {
-  if (!server_general_is_node_locked($entity)) {
-    return;
-  }
-
-  throw new Exception("This node is locked and can't be removed");
-}
-
-/**
- * Implements hook_entity_predelete().
+ * Implements hook_node_presave().
  */
 function server_general_node_presave(NodeInterface $entity) {
   if (!server_general_is_node_locked($entity)) {
@@ -283,4 +272,29 @@ function server_general_get_main_settings() {
   /** @var \Drupal\Core\Entity\ContentEntityInterface|null $main_settings */
   $main_settings = $config_pages_storage->load('main_settings');
   return $main_settings;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function server_general_form_node_landing_page_delete_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // Add custom validation handler to node deletion form.
+  $form['#validate'][] = 'server_general_landing_page_delete_form_validate';
+}
+
+/**
+ * Custom validation handler to prevent node deletion of locked pages.
+ */
+function server_general_landing_page_delete_form_validate(array &$form, FormStateInterface $form_state) {
+  // Load the node being deleted.
+  /** @var \Drupal\Core\Entity\EntityFormInterface $form_object */
+  $form_object = $form_state->getFormObject();
+  /** @var \Drupal\node\NodeInterface $entity */
+  $node = $form_object->getEntity();
+
+  // Check if deletion should be prevented based on some condition.
+  if (server_general_is_node_locked($node)) {
+    // Add a form error to prevent deletion.
+    $form_state->setError($form, t('Deletion is not allowed for this node.'));
+  }
 }
