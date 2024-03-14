@@ -292,7 +292,7 @@ function server_general_landing_page_delete_form_validate(array &$form, FormStat
   /** @var \Drupal\node\NodeInterface $node */
   $node = $form_object->getEntity();
 
-  // Check if deletion should be prevented based on some condition.
+  // If node is locked, show error.
   if (server_general_is_node_locked($node)) {
     // Add a form error to prevent deletion.
     $form_state->setError($form, t('Deletion is not allowed for this node.'));
