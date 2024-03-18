@@ -8,7 +8,7 @@ use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Routing\RouteSubscriberBase;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\node\NodeInterface;
-use Drupal\server_general\LockedLandingPages;
+use Drupal\server_general\LockedPages;
 use Symfony\Component\Routing\RouteCollection;
 
 /**
@@ -31,11 +31,11 @@ final class LockedPagesRouteSubscriber extends RouteSubscriberBase {
   protected $entityTypeManager;
 
   /**
-   * The locked landing page service.
+   * The locked pages service.
    *
-   * @var \Drupal\server_general\LockedLandingPages
+   * @var \Drupal\server_general\LockedPages
    */
-  protected $lockedLPService;
+  protected $lockedPagesService;
 
   /**
    * Constructs a new LockedPagesRouteSubscriber object.
@@ -44,13 +44,13 @@ final class LockedPagesRouteSubscriber extends RouteSubscriberBase {
    *   The route match service.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The Entity Type Manager service.
-   * @param \Drupal\server_general\LockedLandingPages $locked_lp_service
-   *   The locked landing page service.
+   * @param \Drupal\server_general\LockedPages $locked_pages_service
+   *   The locked pages service.
    */
-  public function __construct(RouteMatchInterface $route_match, EntityTypeManagerInterface $entity_type_manager, LockedLandingPages $locked_lp_service) {
+  public function __construct(RouteMatchInterface $route_match, EntityTypeManagerInterface $entity_type_manager, LockedPages $locked_pages_service) {
     $this->routeMatch = $route_match;
     $this->entityTypeManager = $entity_type_manager;
-    $this->lockedLPService = $locked_lp_service;
+    $this->lockedPagesService = $locked_pages_service;
   }
 
   /**
@@ -71,21 +71,24 @@ final class LockedPagesRouteSubscriber extends RouteSubscriberBase {
    */
   public function access(AccountInterface $account) {
     $node = $this->routeMatch->getParameter('node');
-    if ($node instanceof NodeInterface && $node->getType() == 'landing_page') {
-      $main_settings = $this->lockedLPService->getMainSettings();
+    // Get the list of bundles that can be restricted.
+    $bundles = $this->lockedPagesService->getReferencedBundles();
+    // Return in_array($node->id(), $restricted_entities);.
+    if ($node instanceof NodeInterface && in_array($node->getType(), $bundles)) {
+      $main_settings = $this->lockedPagesService->getMainSettings();
       $cache_tags = $main_settings->getCacheTags();
-      if ($this->lockedLPService->isNodeLocked($node)) {
+      if ($this->lockedPagesService->isNodeLocked($node)) {
         return AccessResult::forbidden()->addCacheableDependency($node)->addCacheTags($cache_tags);
       }
     }
-    // Allow deletion if user has permission to delete any landing page.
-    if ($account->hasPermission('delete any landing_page content')) {
+    // Allow deletion if user has permission to delete any page.
+    if ($account->hasPermission('delete any {$node->getType()} content')) {
       return AccessResult::allowed();
     }
 
     // If user is not anonymous, and has permission to delete own
-    // landing page content, allow it.
-    if ($account->id() !== 0 && $node->getOwnerId() === $account->id() && $account->hasPermission('delete own landing_page content')) {
+    // content, allow it.
+    if ($account->id() !== 0 && $node->getOwnerId() === $account->id() && $account->hasPermission('delete own {$node->getType()} content')) {
       return AccessResult::allowed();
     }
 

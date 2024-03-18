@@ -106,16 +106,21 @@ function server_general_field_widget_single_element_language_select_form_alter(a
  * Implements hook_entity_access().
  */
 function server_general_node_access(NodeInterface $entity, string $op, AccountInterface $account) {
-  if ($entity->bundle() !== 'landing_page') {
+  /** @var \Drupal\server_general\LockedPages $locked_pages_service */
+  $locked_pages_service = \Drupal::service('server_general.locked_pages');
+  // The bundles that can be locked.
+  $bundles = $locked_pages_service->getReferencedBundles();
+
+  if (!in_array($entity->bundle(), $bundles)) {
     return AccessResult::neutral();
   }
 
-  /** @var \Drupal\server_general\LockedLandingPages $locked_lp_service */
-  $locked_lp_service = \Drupal::service('server_general.locked_landing_pages');
+  /** @var \Drupal\server_general\LockedPages $locked_pages_service */
+  $locked_pages_service = \Drupal::service('server_general.locked_pages');
 
-  $main_settings = $locked_lp_service->getMainSettings();
+  $main_settings = $locked_pages_service->getMainSettings();
 
-  if ($op === 'delete' && $main_settings instanceof ConfigPages && $locked_lp_service->isNodeLocked($entity)) {
+  if ($op === 'delete' && $main_settings instanceof ConfigPages && $locked_pages_service->isNodeLocked($entity)) {
     // Add cache tags to the cache metadata.
     $cache_tags = $main_settings->getCacheTags();
     return AccessResult::forbidden()->addCacheableDependency($entity)->addCacheTags($cache_tags);
@@ -128,10 +133,10 @@ function server_general_node_access(NodeInterface $entity, string $op, AccountIn
  * Implements hook_entity_predelete().
  */
 function server_general_node_predelete(NodeInterface $entity) {
-  /** @var \Drupal\server_general\LockedLandingPages $locked_lp_service */
-  $locked_lp_service = \Drupal::service('server_general.locked_landing_pages');
+  /** @var \Drupal\server_general\LockedPages $locked_pages_service */
+  $locked_pages_service = \Drupal::service('server_general.locked_pages');
 
-  if (!$locked_lp_service->isNodeLocked($entity)) {
+  if (!$locked_pages_service->isNodeLocked($entity)) {
     return;
   }
 
@@ -142,10 +147,10 @@ function server_general_node_predelete(NodeInterface $entity) {
  * Implements hook_node_presave().
  */
 function server_general_node_presave(NodeInterface $entity) {
-  /** @var \Drupal\server_general\LockedLandingPages $locked_lp_service */
-  $locked_lp_service = \Drupal::service('server_general.locked_landing_pages');
+  /** @var \Drupal\server_general\LockedPages $locked_pages_service */
+  $locked_pages_service = \Drupal::service('server_general.locked_pages');
 
-  if (!$locked_lp_service->isNodeLocked($entity)) {
+  if (!$locked_pages_service->isNodeLocked($entity)) {
     return;
   }
 
@@ -179,11 +184,11 @@ function server_general_form_alter(array &$form, FormStateInterface $form_state)
   if ($form['#form_id'] !== "node_{$entity->bundle()}_edit_form") {
     return;
   }
-  /** @var \Drupal\server_general\LockedLandingPages $locked_lp_service */
-  $locked_lp_service = \Drupal::service('server_general.locked_landing_pages');
+  /** @var \Drupal\server_general\LockedPages $locked_pages_service */
+  $locked_pages_service = \Drupal::service('server_general.locked_pages');
 
   // Check if node is locked or not.
-  if (!$locked_lp_service->isNodeLocked($entity)) {
+  if (!$locked_pages_service->isNodeLocked($entity)) {
     return;
   }
 
@@ -199,12 +204,12 @@ function server_general_entity_operation_alter(array &$operations, EntityInterfa
   if ($entity->getEntityType()->id() !== 'node') {
     return;
   }
-  /** @var \Drupal\server_general\LockedLandingPages $locked_lp_service */
-  $locked_lp_service = \Drupal::service('server_general.locked_landing_pages');
+  /** @var \Drupal\server_general\LockedPages $locked_pages_service */
+  $locked_pages_service = \Drupal::service('server_general.locked_pages');
 
   // Check if node is locked or not.
   /** @var \Drupal\node\NodeInterface $entity */
-  if (!$locked_lp_service->isNodeLocked($entity)) {
+  if (!$locked_pages_service->isNodeLocked($entity)) {
     return;
   }
 
@@ -234,12 +239,12 @@ function server_general_menu_local_tasks_alter(array &$data, string $route_name)
     return;
   }
 
-  /** @var \Drupal\server_general\LockedLandingPages $locked_lp_service */
-  $locked_lp_service = \Drupal::service('server_general.locked_landing_pages');
+  /** @var \Drupal\server_general\LockedPages $locked_pages_service */
+  $locked_pages_service = \Drupal::service('server_general.locked_pages');
 
   // Check if node is locked or not.
   /** @var \Drupal\node\NodeInterface $entity */
-  if (!$locked_lp_service->isNodeLocked($entity)) {
+  if (!$locked_pages_service->isNodeLocked($entity)) {
     return;
   }
 
