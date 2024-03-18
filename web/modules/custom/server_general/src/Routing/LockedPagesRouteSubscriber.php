@@ -2,13 +2,13 @@
 
 namespace Drupal\server_general\Routing;
 
-use Drupal\config_pages\Entity\ConfigPages;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Routing\RouteSubscriberBase;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\node\NodeInterface;
+use Drupal\server_general\LockedLandingPages;
 use Symfony\Component\Routing\RouteCollection;
 
 /**
@@ -31,16 +31,26 @@ final class LockedPagesRouteSubscriber extends RouteSubscriberBase {
   protected $entityTypeManager;
 
   /**
+   * The locked landing page service.
+   *
+   * @var \Drupal\server_general\LockedLandingPages
+   */
+  protected $lockedLPService;
+
+  /**
    * Constructs a new LockedPagesRouteSubscriber object.
    *
    * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
    *   The route match service.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The Entity Type Manager service.
+   * @param \Drupal\server_general\LockedLandingPages $locked_lp_service
+   *   The locked landing page service.
    */
-  public function __construct(RouteMatchInterface $route_match, EntityTypeManagerInterface $entity_type_manager) {
+  public function __construct(RouteMatchInterface $route_match, EntityTypeManagerInterface $entity_type_manager, LockedLandingPages $locked_lp_service) {
     $this->routeMatch = $route_match;
     $this->entityTypeManager = $entity_type_manager;
+    $this->lockedLPService = $locked_lp_service;
   }
 
   /**
@@ -54,50 +64,6 @@ final class LockedPagesRouteSubscriber extends RouteSubscriberBase {
   }
 
   /**
-   * Returns the 'main_settings' config page.
-   *
-   * @return \Drupal\Core\Entity\ContentEntityInterface|null
-   *   The 'main_settings' config page entity or null if not found.
-   */
-  protected function getMainSettings() {
-    /** @var \Drupal\config_pages\ConfigPagesStorage $config_pages_storage */
-    $config_pages_storage = $this->entityTypeManager->getStorage('config_pages');
-    /** @var \Drupal\Core\Entity\ContentEntityInterface|null $main_settings */
-    $main_settings = $config_pages_storage->load('main_settings');
-    return $main_settings;
-  }
-
-  /**
-   * Returns list of restricted node ids from config pages.
-   *
-   * @return array
-   *   List of ids.
-   */
-  protected function getRestrictedNodes() {
-    $main_settings = $this->getMainSettings();
-
-    if (!$main_settings instanceof ConfigPages) {
-      return [];
-    }
-
-    $locked_nodes = $main_settings->get('field_locked_landing_pages')->getValue();
-
-    return array_column($locked_nodes, 'target_id');
-  }
-
-  /**
-   * Checks if current node is locked.
-   *
-   * @return bool
-   *   Returns TRUE if node is locked.
-   */
-  public function isNodeLocked(NodeInterface $node) {
-    $restricted_nodes = $this->getRestrictedNodes();
-
-    return in_array($node->id(), $restricted_nodes);
-  }
-
-  /**
    * Checks if current node can be accessed.
    *
    * @return \Drupal\Core\Access\AccessResultInterface
@@ -107,13 +73,17 @@ final class LockedPagesRouteSubscriber extends RouteSubscriberBase {
 
     $node = $this->routeMatch->getParameter('node');
     if ($node instanceof NodeInterface && $node->getType() == 'landing_page') {
-      $main_settings = $this->getMainSettings();
+      $main_settings = $this->lockedLPService->getMainSettings();
       $cache_tags = $main_settings->getCacheTags();
-      if ($this->isNodeLocked($node)) {
+      if ($this->lockedLPService->isNodeLocked($node)) {
         return AccessResult::forbidden()->addCacheableDependency($node)->addCacheTags($cache_tags);
       }
     }
-    return AccessResult::allowed();
+    // Only allow deletion if user has permission to delete landing pages.
+    if ($account->hasPermission('delete any landing page content')) {
+      return AccessResult::allowed();
+    }
+    return AccessResult::forbidden();
   }
 
 }
