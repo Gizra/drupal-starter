@@ -70,7 +70,6 @@ final class LockedPagesRouteSubscriber extends RouteSubscriberBase {
    *   The access result.
    */
   public function access(AccountInterface $account) {
-
     $node = $this->routeMatch->getParameter('node');
     if ($node instanceof NodeInterface && $node->getType() == 'landing_page') {
       $main_settings = $this->lockedLPService->getMainSettings();
@@ -79,10 +78,16 @@ final class LockedPagesRouteSubscriber extends RouteSubscriberBase {
         return AccessResult::forbidden()->addCacheableDependency($node)->addCacheTags($cache_tags);
       }
     }
-    // Only allow deletion if user has permission to delete landing pages.
-    if ($account->hasPermission('delete any landing page content')) {
+    // Allow deletion if user has permission to delete any landing page.
+    if ($account->hasPermission('delete any landing_page content')) {
       return AccessResult::allowed();
     }
+
+    // If user is not anonymous, and has permission to delete own landing page content, allow it.
+    if ($account->id() !== 0 && $node->getOwnerId() === $account->id() && $account->hasPermission('delete own landing_page content')) {
+      return AccessResult::allowed();
+    }
+    
     return AccessResult::forbidden();
   }
 
