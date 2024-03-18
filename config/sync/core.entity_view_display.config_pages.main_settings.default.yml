@@ -4,19 +4,19 @@ status: true
 dependencies:
   config:
     - config_pages.type.main_settings
-    - field.field.config_pages.main_settings.field_locked_landing_pages
+    - field.field.config_pages.main_settings.field_locked_pages
 id: config_pages.main_settings.default
 targetEntityType: config_pages
 bundle: main_settings
 mode: default
 content:
-  field_locked_landing_pages:
+  field_locked_pages:
     type: entity_reference_label
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    weight: 0
+    weight: 1
     region: content
 hidden:
   search_api_excerpt: true
