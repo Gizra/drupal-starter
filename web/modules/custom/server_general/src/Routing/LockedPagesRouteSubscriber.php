@@ -83,11 +83,12 @@ final class LockedPagesRouteSubscriber extends RouteSubscriberBase {
       return AccessResult::allowed();
     }
 
-    // If user is not anonymous, and has permission to delete own landing page content, allow it.
+    // If user is not anonymous, and has permission to delete own
+    // landing page content, allow it.
     if ($account->id() !== 0 && $node->getOwnerId() === $account->id() && $account->hasPermission('delete own landing_page content')) {
       return AccessResult::allowed();
     }
-    
+
     return AccessResult::forbidden();
   }
 

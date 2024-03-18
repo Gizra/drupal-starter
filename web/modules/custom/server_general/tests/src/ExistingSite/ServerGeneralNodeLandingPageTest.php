@@ -83,6 +83,9 @@ class ServerGeneralNodeLandingPageTest extends ServerGeneralNodeTestBase {
       $this->assertEquals("This node is locked and can't be removed", $exception->getMessage());
     }
 
+    $this->drupalGet($homepage->toUrl('delete-form'));
+    $this->assertSession()->statusCodeEquals(Response::HTTP_FORBIDDEN);
+
     $homepage->setUnpublished();
     $homepage->save();
 
