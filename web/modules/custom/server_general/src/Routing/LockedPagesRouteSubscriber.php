@@ -81,18 +81,8 @@ final class LockedPagesRouteSubscriber extends RouteSubscriberBase {
         return AccessResult::forbidden()->addCacheableDependency($node)->addCacheTags($cache_tags);
       }
     }
-    // Allow deletion if user has permission to delete any page.
-    if ($account->hasPermission('delete any {$node->getType()} content')) {
-      return AccessResult::allowed();
-    }
 
-    // If user is not anonymous, and has permission to delete own
-    // content, allow it.
-    if ($account->id() !== 0 && $node->getOwnerId() === $account->id() && $account->hasPermission('delete own {$node->getType()} content')) {
-      return AccessResult::allowed();
-    }
-
-    return AccessResult::neutral();
+    return AccessResult::allowed()->addCacheableDependency($node);
   }
 
 }
