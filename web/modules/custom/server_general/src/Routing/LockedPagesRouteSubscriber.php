@@ -92,7 +92,7 @@ final class LockedPagesRouteSubscriber extends RouteSubscriberBase {
       return AccessResult::allowed();
     }
 
-    return AccessResult::forbidden();
+    return AccessResult::neutral();
   }
 
 }
