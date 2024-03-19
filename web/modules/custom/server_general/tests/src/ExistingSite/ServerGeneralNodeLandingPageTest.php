@@ -126,11 +126,6 @@ class ServerGeneralNodeLandingPageTest extends ServerGeneralNodeTestBase {
     $this->drupalGet("/node/{$node->id()}/delete");
     $this->assertSession()->statusCodeEquals(Response::HTTP_OK);
 
-    // Check for anonymous.
-    $this->drupalLogout();
-    $this->drupalGet("/node/{$node->id()}/delete");
-    $this->assertSession()->statusCodeEquals(Response::HTTP_FORBIDDEN);
-
     // Make page locked.
     /** @var \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager */
     $entity_type_manager = \Drupal::entityTypeManager();
@@ -139,19 +134,26 @@ class ServerGeneralNodeLandingPageTest extends ServerGeneralNodeTestBase {
     /** @var \Drupal\Core\Entity\ContentEntityInterface|null $main_settings */
     $main_settings = $config_pages_storage->load('main_settings');
 
-    $main_settings->get('field_locked_pages')->appendItem($node->id());
+    $main_settings->get('field_locked_pages')->appendItem(['target_id' => $node->id()]);
     $main_settings->save();
 
-    $this->drupalLogin($user);
-
-    $this->drupalGet($node->toUrl());
+    $this->drupalGet($node->toUrl('edit-form'));
+    $this->assertSession()->statusCodeEquals(Response::HTTP_OK);
     $this->assertSession()->linkByHrefNotExists("/node/{$node->id()}/delete");
 
     $this->drupalGet("/node/{$node->id()}/delete");
     $this->assertSession()->statusCodeEquals(Response::HTTP_FORBIDDEN);
 
+    // Check locked node for anonymous.
     $this->drupalLogout();
 
+    $this->drupalGet("/node/{$node->id()}/delete");
+    $this->assertSession()->statusCodeEquals(Response::HTTP_FORBIDDEN);
+
+    $main_settings->set('field_locked_pages', ['target_id' => $homepage->id()]);
+    $main_settings->save();
+
+    // Check not locked node for anonymous.
     $this->drupalGet("/node/{$node->id()}/delete");
     $this->assertSession()->statusCodeEquals(Response::HTTP_FORBIDDEN);
   }
