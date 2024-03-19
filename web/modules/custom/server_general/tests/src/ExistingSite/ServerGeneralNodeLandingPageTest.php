@@ -83,6 +83,9 @@ class ServerGeneralNodeLandingPageTest extends ServerGeneralNodeTestBase {
       $this->assertEquals("This node is locked and can't be removed", $exception->getMessage());
     }
 
+    $this->drupalGet($homepage->toUrl('delete-form'));
+    $this->assertSession()->statusCodeEquals(Response::HTTP_FORBIDDEN);
+
     $homepage->setUnpublished();
     $homepage->save();
 
@@ -99,11 +102,60 @@ class ServerGeneralNodeLandingPageTest extends ServerGeneralNodeTestBase {
     $this->assertSession()->elementNotExists('css', 'a#edit-delete');
     $this->assertSession()->elementNotExists('css', 'input#edit-status-value');
 
+    $this->drupalGet("/node/{$homepage->id()}/delete");
+    $this->assertSession()->statusCodeEquals(Response::HTTP_FORBIDDEN);
+
     $this->drupalGet($homepage->toUrl());
     $this->assertSession()->linkByHrefNotExists("/node/{$homepage->id()}/delete");
 
     $this->drupalGet('/admin/content');
     $this->assertSession()->linkByHrefNotExists("/node/{$homepage->id()}/delete");
+
+    // Check not locked page for admin.
+    $node = $this->createNode([
+      'title' => 'Not locked page',
+      'uid' => $user->id(),
+      'type' => 'landing_page',
+    ]);
+
+    $node->setPublished()->save();
+
+    $this->drupalGet($node->toUrl());
+    $this->assertSession()->linkByHrefExists("/node/{$node->id()}/delete");
+
+    $this->drupalGet("/node/{$node->id()}/delete");
+    $this->assertSession()->statusCodeEquals(Response::HTTP_OK);
+
+    // Make page locked.
+    /** @var \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager */
+    $entity_type_manager = \Drupal::entityTypeManager();
+    /** @var \Drupal\config_pages\ConfigPagesStorage $config_pages_storage */
+    $config_pages_storage = $entity_type_manager->getStorage('config_pages');
+    /** @var \Drupal\Core\Entity\ContentEntityInterface|null $main_settings */
+    $main_settings = $config_pages_storage->load('main_settings');
+
+    $main_settings->get('field_locked_pages')->appendItem(['target_id' => $node->id()]);
+    $main_settings->save();
+
+    $this->drupalGet($node->toUrl('edit-form'));
+    $this->assertSession()->statusCodeEquals(Response::HTTP_OK);
+    $this->assertSession()->linkByHrefNotExists("/node/{$node->id()}/delete");
+
+    $this->drupalGet("/node/{$node->id()}/delete");
+    $this->assertSession()->statusCodeEquals(Response::HTTP_FORBIDDEN);
+
+    // Check locked node for anonymous.
+    $this->drupalLogout();
+
+    $this->drupalGet("/node/{$node->id()}/delete");
+    $this->assertSession()->statusCodeEquals(Response::HTTP_FORBIDDEN);
+
+    $main_settings->set('field_locked_pages', ['target_id' => $homepage->id()]);
+    $main_settings->save();
+
+    // Check not locked node for anonymous.
+    $this->drupalGet("/node/{$node->id()}/delete");
+    $this->assertSession()->statusCodeEquals(Response::HTTP_FORBIDDEN);
   }
 
 }

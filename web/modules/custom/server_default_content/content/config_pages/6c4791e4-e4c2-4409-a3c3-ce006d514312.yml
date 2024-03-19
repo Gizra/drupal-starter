@@ -12,6 +12,6 @@ default:
   context:
     -
       value: 'a:0:{}'
-  field_locked_landing_pages:
+  field_locked_pages:
     -
       entity: 59aaa9d4-8a47-436a-b8f3-00484c08c124
