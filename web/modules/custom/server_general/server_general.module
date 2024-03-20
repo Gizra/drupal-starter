@@ -154,8 +154,17 @@ function server_general_node_presave(NodeInterface $entity) {
     return;
   }
 
+  // Get the module handler service.
+  $module_handler = \Drupal::service('module_handler');
   /** @var \Drupal\node\NodeInterface $original */
   $original = $entity->original;
+  // If content moderation is used, don't allow status change for locked pages.
+  if ($module_handler->moduleExists('content_moderation')) {
+    if ($original->get('moderation_state')->getString() === 'published' && $entity->get('moderation_state')->getString() !== 'published') {
+      $entity->set('moderation_state', 'published');
+    }
+  }
+
   if ($original->isPublished() && !$entity->isPublished()) {
     $entity->setPublished();
   }
