@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\server_general;
+namespace Drupal\server_locked_pages;
 
 use Drupal\config_pages\Entity\ConfigPages;
 use Drupal\Core\Entity\EntityFieldManagerInterface;

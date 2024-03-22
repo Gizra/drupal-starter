@@ -1,0 +1,7 @@
+name: "Server Locked Pages"
+type: module
+description: "Allows nodes to be locked"
+core_version_requirement: ^9 || ^10
+package: "server"
+dependencies:
+  - drupal:config_pages
