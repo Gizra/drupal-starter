@@ -5,7 +5,9 @@ dependencies:
   config:
     - node.type.landing_page
     - node.type.news
+    - workflows.workflow.default
   module:
+    - content_moderation
     - node
     - system
     - toolbar
@@ -27,6 +29,9 @@ permissions:
   - 'edit any news content'
   - 'edit own landing_page content'
   - 'edit own news content'
+  - 'use default transition create_new_draft'
+  - 'use default transition publish'
+  - 'use default transition submit_for_review'
   - 'view landing_page revisions'
   - 'view news revisions'
   - 'view own unpublished content'
