@@ -75,7 +75,6 @@ module:
   seckit: 0
   select2: 0
   server_general: 0
-  server_locked_pages: 0
   server_style_guide: 0
   shortcut: 0
   simple_sitemap: 0
