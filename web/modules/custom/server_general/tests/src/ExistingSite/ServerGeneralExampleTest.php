@@ -34,6 +34,7 @@ class ServerGeneralExampleTest extends ServerGeneralTestBase {
         'target_id' => $term->id(),
       ],
       'uid' => $author->id(),
+      'moderation_state' => 'published',
     ]);
     $this->assertEquals($author->id(), $node->getOwnerId());
 
