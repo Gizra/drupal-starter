@@ -32,6 +32,7 @@ permissions:
   - 'use default transition create_new_draft'
   - 'use default transition publish'
   - 'use default transition submit_for_review'
+  - 'use default transition unpublish'
   - 'view landing_page revisions'
   - 'view news revisions'
   - 'view own unpublished content'

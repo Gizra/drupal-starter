@@ -27,6 +27,11 @@ type_settings:
       weight: 2
       published: false
       default_revision: false
+    unpublished:
+      label: Unpublished
+      weight: 3
+      published: false
+      default_revision: true
   transitions:
     create_new_draft:
       label: 'Create New Draft'
@@ -52,6 +57,13 @@ type_settings:
         - ready_for_review
       to: ready_for_review
       weight: 2
+    unpublish:
+      label: Unpublish
+      from:
+        - draft
+        - unpublished
+      to: unpublished
+      weight: 3
   entity_types:
     node:
       - landing_page
