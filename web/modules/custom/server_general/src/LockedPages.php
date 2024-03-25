@@ -9,9 +9,9 @@ use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\node\NodeInterface;
 
 /**
- * Trait LockedLandingPagesTrait.
+ * Class LockedPages.
  *
- * Helper method for locking Landing Pages.
+ * The Locked Pages service.
  */
 class LockedPages {
 
@@ -62,7 +62,7 @@ class LockedPages {
    * @return bool
    *   Returns TRUE if entity is locked.
    */
-  public function isNodeLocked(NodeInterface $node) {
+  public function isNodeLocked(NodeInterface $node):bool {
     $restricted_nodes = $this->getRestrictedNodes();
     return in_array($node->id(), $restricted_nodes);
   }
@@ -73,7 +73,7 @@ class LockedPages {
    * @return array
    *   List of ids.
    */
-  protected function getRestrictedNodes() {
+  protected function getRestrictedNodes():array {
     $main_settings = $this->getMainSettings();
 
     if (!$main_settings instanceof ConfigPages) {
@@ -91,7 +91,7 @@ class LockedPages {
    * @return array
    *   An array of bundle type machine names.
    */
-  public function getReferencedBundles() {
+  public function getReferencedBundles():array {
     // Load field definition for field_locked_pages field.
     $field_definitions = $this->entityFieldManager->getFieldDefinitions('config_pages', 'main_settings');
 

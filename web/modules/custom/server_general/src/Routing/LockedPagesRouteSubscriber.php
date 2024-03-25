@@ -73,11 +73,10 @@ final class LockedPagesRouteSubscriber extends RouteSubscriberBase {
     $node = $this->routeMatch->getParameter('node');
     // Get the list of bundles that can be restricted.
     $bundles = $this->lockedPagesService->getReferencedBundles();
-    // Return in_array($node->id(), $restricted_entities);.
     if ($node instanceof NodeInterface && in_array($node->getType(), $bundles)) {
-      $main_settings = $this->lockedPagesService->getMainSettings();
-      $cache_tags = $main_settings->getCacheTags();
       if ($this->lockedPagesService->isNodeLocked($node)) {
+        $main_settings = $this->lockedPagesService->getMainSettings();
+        $cache_tags = $main_settings->getCacheTags();
         return AccessResult::forbidden()->addCacheableDependency($node)->addCacheTags($cache_tags);
       }
     }
