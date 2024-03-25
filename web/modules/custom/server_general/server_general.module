@@ -5,8 +5,15 @@
  * Module file.
  */
 
+use Drupal\config_pages\Entity\ConfigPages;
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Entity\ContentEntityFormInterface;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Language\LanguageInterface;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\media\IFrameMarkup;
+use Drupal\node\NodeInterface;
 use Drupal\server_general\ArabicNumberConverter;
 
 /**
@@ -81,6 +88,174 @@ function server_general_field_info_alter(array &$info) {
   if (isset($info['entity_reference'])) {
     $info['entity_reference']['default_widget'] = 'select2_entity_reference';
   }
+}
+
+/**
+ * Implements hook_field_widget_single_element_WIDGET_TYPE_form_alter().
+ *
+ * Language selection should be without the not defined and not applicable
+ * options.
+ *
+ * @see \Drupal\Core\Field\Plugin\Field\FieldWidget\LanguageSelectWidget::formElement()
+ */
+function server_general_field_widget_single_element_language_select_form_alter(array &$element, FormStateInterface $form_state, array $context) {
+  $element['value']['#languages'] = LanguageInterface::STATE_CONFIGURABLE;
+}
+
+/**
+ * Implements hook_entity_access().
+ */
+function server_general_node_access(NodeInterface $entity, string $op, AccountInterface $account) {
+  /** @var \Drupal\server_general\LockedPages $locked_pages_service */
+  $locked_pages_service = \Drupal::service('server_general.locked_pages');
+  // The bundles that can be locked.
+  $bundles = $locked_pages_service->getReferencedBundles();
+
+  if (!in_array($entity->bundle(), $bundles)) {
+    return AccessResult::neutral();
+  }
+
+  /** @var \Drupal\server_general\LockedPages $locked_pages_service */
+  $locked_pages_service = \Drupal::service('server_general.locked_pages');
+
+  $main_settings = $locked_pages_service->getMainSettings();
+
+  if ($op === 'delete' && $main_settings instanceof ConfigPages && $locked_pages_service->isNodeLocked($entity)) {
+    // Add cache tags to the cache metadata.
+    $cache_tags = $main_settings->getCacheTags();
+    return AccessResult::forbidden()->addCacheableDependency($entity)->addCacheTags($cache_tags);
+  }
+
+  return AccessResult::neutral();
+}
+
+/**
+ * Implements hook_entity_predelete().
+ */
+function server_general_node_predelete(NodeInterface $entity) {
+  /** @var \Drupal\server_general\LockedPages $locked_pages_service */
+  $locked_pages_service = \Drupal::service('server_general.locked_pages');
+
+  if (!$locked_pages_service->isNodeLocked($entity)) {
+    return;
+  }
+
+  throw new Exception("This node is locked and can't be removed");
+}
+
+/**
+ * Implements hook_node_presave().
+ */
+function server_general_node_presave(NodeInterface $entity) {
+  /** @var \Drupal\server_general\LockedPages $locked_pages_service */
+  $locked_pages_service = \Drupal::service('server_general.locked_pages');
+
+  if (!$locked_pages_service->isNodeLocked($entity)) {
+    return;
+  }
+
+  // Get the module handler service.
+  $module_handler = \Drupal::service('module_handler');
+  /** @var \Drupal\node\NodeInterface $original */
+  $original = $entity->original;
+  // If content moderation is used, don't allow unpublish for locked pages.
+  if ($module_handler->moduleExists('content_moderation') && $original->get('moderation_state')->getString() === 'published' && $entity->get('moderation_state')->getString() === 'unpublished') {
+    $entity->set('moderation_state', 'published');
+  }
+
+  if ($original->isPublished() && !$entity->isPublished()) {
+    $entity->setPublished();
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function server_general_form_alter(array &$form, FormStateInterface $form_state) {
+  /** @var \Drupal\Core\Entity\EntityFormInterface $form_object */
+  $form_object = $form_state->getFormObject();
+
+  // Check that form object is instance of ContentEntityFormInterface.
+  if (!$form_object instanceof ContentEntityFormInterface) {
+    return;
+  }
+
+  /** @var \Drupal\node\NodeInterface $entity */
+  $entity = $form_object->getEntity();
+  // Check that entity is a node.
+  if ($entity->getEntityType()->id() !== 'node') {
+    return;
+  }
+
+  // Check that we are on the node edit page.
+  if ($form['#form_id'] !== "node_{$entity->bundle()}_edit_form") {
+    return;
+  }
+  /** @var \Drupal\server_general\LockedPages $locked_pages_service */
+  $locked_pages_service = \Drupal::service('server_general.locked_pages');
+
+  // Check if node is locked or not.
+  if (!$locked_pages_service->isNodeLocked($entity)) {
+    return;
+  }
+
+  unset($form['actions']['delete']);
+  $form['status']['#access'] = FALSE;
+}
+
+/**
+ * Implements hook_entity_operation_alter().
+ */
+function server_general_entity_operation_alter(array &$operations, EntityInterface $entity) {
+  // Check that entity is a node.
+  if ($entity->getEntityType()->id() !== 'node') {
+    return;
+  }
+  /** @var \Drupal\server_general\LockedPages $locked_pages_service */
+  $locked_pages_service = \Drupal::service('server_general.locked_pages');
+
+  // Check if node is locked or not.
+  /** @var \Drupal\node\NodeInterface $entity */
+  if (!$locked_pages_service->isNodeLocked($entity)) {
+    return;
+  }
+
+  unset($operations['delete']);
+}
+
+/**
+ * Implements hook_menu_local_tasks_alter().
+ */
+function server_general_menu_local_tasks_alter(array &$data, string $route_name): void {
+  if (!isset($data['tabs'][0]['entity.node.delete_form'])) {
+    return;
+  }
+
+  $routes = [
+    'entity.node.canonical',
+    'entity.node.edit_form',
+  ];
+
+  if (!in_array($route_name, $routes)) {
+    return;
+  }
+
+  /** @var \Drupal\node\NodeInterface $entity */
+  $entity = \Drupal::routeMatch()->getParameter('node');
+  if (!$entity instanceof NodeInterface) {
+    return;
+  }
+
+  /** @var \Drupal\server_general\LockedPages $locked_pages_service */
+  $locked_pages_service = \Drupal::service('server_general.locked_pages');
+
+  // Check if node is locked or not.
+  /** @var \Drupal\node\NodeInterface $entity */
+  if (!$locked_pages_service->isNodeLocked($entity)) {
+    return;
+  }
+
+  unset($data['tabs'][0]['entity.node.delete_form']);
 }
 
 /**

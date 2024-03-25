@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\server_locked_pages\Routing;
+namespace Drupal\server_general\Routing;
 
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -8,7 +8,7 @@ use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Routing\RouteSubscriberBase;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\node\NodeInterface;
-use Drupal\server_locked_pages\LockedPages;
+use Drupal\server_general\LockedPages;
 use Symfony\Component\Routing\RouteCollection;
 
 /**
@@ -33,7 +33,7 @@ final class LockedPagesRouteSubscriber extends RouteSubscriberBase {
   /**
    * The locked pages service.
    *
-   * @var \Drupal\server_locked_pages\LockedPages
+   * @var \Drupal\server_general\LockedPages
    */
   protected $lockedPagesService;
 
@@ -44,7 +44,7 @@ final class LockedPagesRouteSubscriber extends RouteSubscriberBase {
    *   The route match service.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The Entity Type Manager service.
-   * @param \Drupal\server_locked_pages\LockedPages $locked_pages_service
+   * @param \Drupal\server_general\LockedPages $locked_pages_service
    *   The locked pages service.
    */
   public function __construct(RouteMatchInterface $route_match, EntityTypeManagerInterface $entity_type_manager, LockedPages $locked_pages_service) {
@@ -59,7 +59,7 @@ final class LockedPagesRouteSubscriber extends RouteSubscriberBase {
   protected function alterRoutes(RouteCollection $collection) {
     // Check if the route exists and is for deleting a node.
     if ($route = $collection->get('entity.node.delete_form')) {
-      $route->setRequirement('_custom_access', 'server_locked_pages.route_subscriber::access');
+      $route->setRequirement('_custom_access', 'server_general.route_subscriber::access');
     }
   }
 

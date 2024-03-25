@@ -1,0 +1,9 @@
+services:
+  server_general.locked_pages:
+    class: Drupal\server_general\LockedPages
+    arguments: ['@entity_type.manager', '@entity_field.manager']
+  server_general.route_subscriber:
+    class: Drupal\server_general\Routing\LockedPagesRouteSubscriber
+    arguments: ['@current_route_match', '@entity_type.manager', '@server_general.locked_pages']
+    tags:
+      - { name: event_subscriber }
