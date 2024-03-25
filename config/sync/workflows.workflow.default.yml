@@ -14,7 +14,7 @@ type_settings:
   states:
     draft:
       label: Draft
-      weight: 0
+      weight: -1
       published: false
       default_revision: false
     published:
@@ -24,12 +24,12 @@ type_settings:
       default_revision: true
     ready_for_review:
       label: 'Ready for review'
-      weight: 2
+      weight: 0
       published: false
       default_revision: false
     unpublished:
       label: Unpublished
-      weight: 3
+      weight: -2
       published: false
       default_revision: true
   transitions:
