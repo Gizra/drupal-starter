@@ -254,7 +254,7 @@ Then edit `scripts/mass_patch.config.sh` and add the proper project names.
 Then, you can create a new site in Pantheon which can also be done with a
 [terminus command](https://pantheon.io/docs/guides/drupal8-commandline):
 
-    ddev exec terminus site:create my-site "My Site" "Drupal 9"
+    ddev exec terminus site:create my-site "My Site" "Drupal 10 Start State"
 
 #### Change to nested docroot structure
 
