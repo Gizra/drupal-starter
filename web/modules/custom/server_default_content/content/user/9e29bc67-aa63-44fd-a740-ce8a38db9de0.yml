@@ -14,7 +14,7 @@ default:
       value: JaneDoe
   pass:
     -
-      value: U$S$Eu4620kWfYkoM5t.MJfJLn7VFJPoHcLn.RCoV855E.Mwmcfj15Io
+      value: $2y$10$xFyA.oYJ5xs4Ed/TW1AojuwfHBUTYiWEqLv5QsYh35nBKB8dEmySy
       existing: ''
       pre_hashed: false
   mail:
@@ -38,6 +38,20 @@ default:
   roles:
     -
       target_id: ''
+  path:
+    -
+      alias: ''
+      langcode: en
+      pathauto: 1
+  field_last_password_reset:
+    -
+      value: '2024-03-25T11:31:23'
+  field_password_expiration:
+    -
+      value: false
+  field_pending_expire_sent:
+    -
+      value: 0
   user_picture:
     -
       entity: b409bbf1-c62e-4940-9a76-f8b56117ac13

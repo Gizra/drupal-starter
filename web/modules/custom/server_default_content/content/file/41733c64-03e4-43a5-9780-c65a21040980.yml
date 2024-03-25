@@ -4,12 +4,15 @@ _meta:
   uuid: 41733c64-03e4-43a5-9780-c65a21040980
   default_langcode: en
 default:
+  uid:
+    -
+      target_id: 1
   filename:
     -
       value: profile-3-500x500_1.jpg
   uri:
     -
-      value: 'public://profile-3-500x500_1.jpg'
+      value: 'public://profile-3-500x500_1_12.jpg'
   filemime:
     -
       value: image/jpeg

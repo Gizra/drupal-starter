@@ -4,12 +4,15 @@ _meta:
   uuid: 3d348c2e-091c-4cd9-a6f5-fe2040030871
   default_langcode: en
 default:
+  uid:
+    -
+      target_id: 1
   filename:
     -
       value: seaside-850x625_55.jpg
   uri:
     -
-      value: 'public://seaside-850x625_55.jpg'
+      value: 'public://seaside-850x625_55_12.jpg'
   filemime:
     -
       value: image/jpeg

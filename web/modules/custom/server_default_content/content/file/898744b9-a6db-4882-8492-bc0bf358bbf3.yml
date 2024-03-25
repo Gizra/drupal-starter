@@ -4,12 +4,15 @@ _meta:
   uuid: 898744b9-a6db-4882-8492-bc0bf358bbf3
   default_langcode: en
 default:
+  uid:
+    -
+      target_id: 1
   filename:
     -
       value: sand-1980x1060_55.jpg
   uri:
     -
-      value: 'public://sand-1980x1060_55.jpg'
+      value: 'public://sand-1980x1060_55_12.jpg'
   filemime:
     -
       value: image/jpeg

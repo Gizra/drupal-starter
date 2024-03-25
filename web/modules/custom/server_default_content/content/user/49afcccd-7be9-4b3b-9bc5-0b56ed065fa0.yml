@@ -14,7 +14,7 @@ default:
       value: JoeDoe
   pass:
     -
-      value: U$S$EhVQ.EB0vZ6o0Yc5UiimFOYEziuUEb.gI0iYkd/GxYBHl/Y.cFif
+      value: $2y$10$gWlThthrSwZ8AH3mC6B5zu1dJI/99nRjwcy5/nnUmh9tyzmMFYQv6
       existing: ''
       pre_hashed: false
   mail:
@@ -38,6 +38,20 @@ default:
   roles:
     -
       target_id: ''
+  path:
+    -
+      alias: ''
+      langcode: en
+      pathauto: 1
+  field_last_password_reset:
+    -
+      value: '2024-03-25T11:31:23'
+  field_password_expiration:
+    -
+      value: false
+  field_pending_expire_sent:
+    -
+      value: 0
   user_picture:
     -
       entity: 3d348c2e-091c-4cd9-a6f5-fe2040030871

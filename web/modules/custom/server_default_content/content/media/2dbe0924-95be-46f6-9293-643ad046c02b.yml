@@ -12,7 +12,7 @@ default:
       value: true
   uid:
     -
-      target_id: 0
+      target_id: 1
   name:
     -
       value: 'The last edition'
