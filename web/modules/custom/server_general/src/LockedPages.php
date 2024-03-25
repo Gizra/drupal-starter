@@ -3,6 +3,7 @@
 namespace Drupal\server_general;
 
 use Drupal\config_pages\Entity\ConfigPages;
+use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
@@ -48,7 +49,7 @@ class LockedPages {
    * @return \Drupal\Core\Entity\ContentEntityInterface|null
    *   The 'main_settings' config page entity or null if not found.
    */
-  public function getMainSettings() {
+  public function getMainSettings():?ContentEntityInterface {
     /** @var \Drupal\config_pages\ConfigPagesStorage $config_pages_storage */
     $config_pages_storage = $this->entityTypeManager->getStorage('config_pages');
     /** @var \Drupal\Core\Entity\ContentEntityInterface|null $main_settings */
