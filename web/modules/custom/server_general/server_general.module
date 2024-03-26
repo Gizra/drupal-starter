@@ -119,7 +119,7 @@ function server_general_field_widget_single_element_moderation_state_default_for
   $bundles = $locked_pages_service->getReferencedBundles();
 
   if (!$entity instanceof NodeInterface || !in_array($entity->bundle(), $bundles)) {
-    return $element;
+    return;
   }
 
   if ($locked_pages_service->isNodeLocked($entity) && isset($element['state']['#options']['unpublished'])) {
