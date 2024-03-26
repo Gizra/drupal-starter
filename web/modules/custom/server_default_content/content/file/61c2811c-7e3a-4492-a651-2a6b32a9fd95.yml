@@ -12,7 +12,7 @@ default:
       value: drupal-starter_8.pdf
   uri:
     -
-      value: 'public://drupal-starter_8_12.pdf'
+      value: 'public://drupal-starter_8.pdf'
   filemime:
     -
       value: application/pdf

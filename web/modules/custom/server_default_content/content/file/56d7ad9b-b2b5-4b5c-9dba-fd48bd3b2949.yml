@@ -12,7 +12,7 @@ default:
       value: cafe-800x600_55.jpg
   uri:
     -
-      value: 'public://cafe-800x600_55_12.jpg'
+      value: 'public://cafe-800x600_55.jpg'
   filemime:
     -
       value: image/jpeg

@@ -12,7 +12,7 @@ default:
       value: sand-1980x1060_55.jpg
   uri:
     -
-      value: 'public://sand-1980x1060_55_12.jpg'
+      value: 'public://sand-1980x1060_55.jpg'
   filemime:
     -
       value: image/jpeg

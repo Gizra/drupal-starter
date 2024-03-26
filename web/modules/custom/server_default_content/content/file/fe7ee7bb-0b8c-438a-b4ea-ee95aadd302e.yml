@@ -12,7 +12,7 @@ default:
       value: generic.png
   uri:
     -
-      value: 'public://media-icons/generic/generic_17.png'
+      value: 'public://media-icons/generic/generic.png'
   filemime:
     -
       value: image/png
