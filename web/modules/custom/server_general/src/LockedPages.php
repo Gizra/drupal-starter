@@ -63,7 +63,7 @@ class LockedPages {
    * @return bool
    *   Returns TRUE if entity is locked.
    */
-  public function isNodeLocked(NodeInterface $node):bool {
+  public function isNodeLocked(NodeInterface $node): bool {
     $restricted_nodes = $this->getRestrictedNodes();
     return in_array($node->id(), $restricted_nodes);
   }
