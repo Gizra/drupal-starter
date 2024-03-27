@@ -58,6 +58,7 @@ class ServerGeneralParagraphCtaTest extends ServerGeneralParagraphTestBase {
       'field_paragraphs' => [
         $this->getParagraphReferenceValues($cta),
       ],
+      'moderation_state' => 'published',
     ]);
     $node->setPublished()->save();
     $this->assertEquals($user->id(), $node->getOwnerId());

@@ -74,6 +74,7 @@ class ServerGeneralParagraphAccordionTest extends ServerGeneralParagraphTestBase
       'field_paragraphs' => [
         $this->getParagraphReferenceValues($paragraph),
       ],
+      'moderation_state' => 'published',
     ]);
     $node->setPublished()->save();
 

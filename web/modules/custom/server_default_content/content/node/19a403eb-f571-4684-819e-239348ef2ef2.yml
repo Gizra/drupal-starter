@@ -11,7 +11,7 @@ _meta:
 default:
   revision_uid:
     -
-      entity: 9e29bc67-aa63-44fd-a740-ce8a38db9de0
+      target_id: 1
   status:
     -
       value: true
@@ -33,6 +33,9 @@ default:
   revision_translation_affected:
     -
       value: true
+  moderation_state:
+    -
+      value: published
   path:
     -
       alias: /news/how-be-happier-2021-toss-out-your-usual-list-new-years-resolutions-says-study

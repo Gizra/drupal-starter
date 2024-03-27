@@ -20,6 +20,7 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
       'title' => $english_node_title,
       'type' => 'news',
       'langcode' => 'en',
+      'moderation_state' => 'published',
     ]);
     $this->triggerPostRequestIndexing();
     $this->waitForSearchIndex(function () use ($english_node_title) {
@@ -42,6 +43,7 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
       'title' => $english_node_title,
       'type' => 'news',
       'langcode' => 'en',
+      'moderation_state' => 'published',
     ]);
     $this->triggerPostRequestIndexing();
     $this->waitForSearchIndex(function () use ($english_node_title) {
@@ -63,14 +65,14 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
       'type' => 'news',
       'title' => 'aspecialword in the title',
       'body' => 'something else in the body',
-      'status' => 1,
+      'moderation_state' => 'published',
     ]);
     $node->setPublished()->save();
     $node = $this->createNode([
       'type' => 'news',
       'title' => 'something else in the title',
       'field_body' => 'aspecialword in the body',
-      'status' => 1,
+      'moderation_state' => 'published',
     ]);
     $node->setPublished()->save();
     $this->triggerPostRequestIndexing();

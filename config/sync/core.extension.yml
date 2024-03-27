@@ -18,6 +18,7 @@ module:
   config_pages: 0
   config_translation: 0
   contact: 0
+  content_moderation: 0
   contextual: 0
   crop: 0
   datetime: 0
@@ -90,6 +91,7 @@ module:
   user: 0
   username_enumeration_prevention: 0
   views_ui: 0
+  workflows: 0
   fast404: 1
   menu_link_content: 1
   pathauto: 1

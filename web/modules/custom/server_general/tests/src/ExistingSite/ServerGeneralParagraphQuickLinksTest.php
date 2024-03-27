@@ -77,6 +77,7 @@ class ServerGeneralParagraphQuickLinksTest extends ServerGeneralParagraphTestBas
       'field_paragraphs' => [
         $this->getParagraphReferenceValues($paragraph),
       ],
+      'moderation_state' => 'published',
     ]);
     $node->setPublished()->save();
 

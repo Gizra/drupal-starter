@@ -39,6 +39,7 @@ class ServerGeneralTranslatorTest extends ServerGeneralTestBase {
       'title' => 'Test',
       'type' => 'landing_page',
       'status' => 1,
+      'moderation_state' => 'published',
     ]);
 
     $this->drupalGet(sprintf("node/%s/translations", $node->id()));
