@@ -49,7 +49,7 @@ class LockedPages {
    * @return \Drupal\Core\Entity\ContentEntityInterface|null
    *   The 'main_settings' config page entity or null if not found.
    */
-  public function getMainSettings():?ContentEntityInterface {
+  public function getMainSettings(): ?ContentEntityInterface {
     /** @var \Drupal\config_pages\ConfigPagesStorage $config_pages_storage */
     $config_pages_storage = $this->entityTypeManager->getStorage('config_pages');
     /** @var \Drupal\Core\Entity\ContentEntityInterface|null $main_settings */
