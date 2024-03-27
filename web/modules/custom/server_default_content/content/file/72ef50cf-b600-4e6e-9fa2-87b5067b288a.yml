@@ -12,7 +12,7 @@ default:
       value: skyline-1600x900_55.jpg
   uri:
     -
-      value: 'public://skyline-1600x900_55.jpg'
+      value: 'public://skyline-1600x900_55_12.jpg'
   filemime:
     -
       value: image/jpeg
