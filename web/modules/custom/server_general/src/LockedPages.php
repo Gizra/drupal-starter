@@ -74,7 +74,7 @@ class LockedPages {
    * @return array
    *   List of ids.
    */
-  protected function getRestrictedNodes():array {
+  protected function getRestrictedNodes(): array {
     $main_settings = $this->getMainSettings();
 
     if (!$main_settings instanceof ConfigPages) {
