@@ -115,9 +115,6 @@ function server_general_node_access(NodeInterface $entity, string $op, AccountIn
     return AccessResult::neutral();
   }
 
-  /** @var \Drupal\server_general\LockedPages $locked_pages_service */
-  $locked_pages_service = \Drupal::service('server_general.locked_pages');
-
   $main_settings = $locked_pages_service->getMainSettings();
 
   if ($op === 'delete' && $main_settings instanceof ConfigPages && $locked_pages_service->isNodeLocked($entity)) {
