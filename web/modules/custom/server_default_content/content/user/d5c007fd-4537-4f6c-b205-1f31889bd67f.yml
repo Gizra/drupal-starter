@@ -12,7 +12,7 @@ default:
       value: AdminTwo
   pass:
     -
-      value: $2y$10$Opubu4gdVOiA09Bbappq1urPuG.p5hj29WUBPIIt8esm0ywoXYl8C
+      value: U$S$EYrIiHXNE11U.O5vDAkXhIieC7R.B6XMIzCkjuzAeo033ZkWlvoS
       existing: ''
       pre_hashed: false
   mail:
@@ -36,17 +36,3 @@ default:
   roles:
     -
       target_id: administrator
-  path:
-    -
-      alias: ''
-      langcode: en
-      pathauto: 1
-  field_last_password_reset:
-    -
-      value: '2024-03-25T11:31:23'
-  field_password_expiration:
-    -
-      value: false
-  field_pending_expire_sent:
-    -
-      value: 0

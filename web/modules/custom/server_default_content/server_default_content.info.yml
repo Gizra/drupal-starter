@@ -26,6 +26,9 @@ default_content:
     - 711faa22-cf8e-4309-a71c-bc769c7bb186 # Resources
     - 9de08065-e32f-47a9-8564-7dc67b91212d # What We Do
 
+  block_content:
+    - 3ef7407c-2d97-4d8f-a9d0-29f51a1a78b6 # Welcome to the website
+
   taxonomy_term:
     - 36e37c28-d3d4-45df-88ba-0ef7f9e82fe4 # Interesting Read
     - 3d7c7e0b-1322-42b5-8b3e-e83fd05adb63 # Satire

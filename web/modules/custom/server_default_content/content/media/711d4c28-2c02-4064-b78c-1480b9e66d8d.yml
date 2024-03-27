@@ -12,7 +12,7 @@ default:
       value: true
   uid:
     -
-      target_id: 1
+      target_id: 0
   name:
     -
       value: 'Look at this document title'

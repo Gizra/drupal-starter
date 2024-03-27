@@ -4,15 +4,12 @@ _meta:
   uuid: 419a7df5-25a3-4f9a-8b7f-2e382f3b6d20
   default_langcode: en
 default:
-  uid:
-    -
-      target_id: 1
   filename:
     -
       value: statue-800x600_55.jpg
   uri:
     -
-      value: 'public://statue-800x600_55_14.jpg'
+      value: 'public://statue-800x600_55.jpg'
   filemime:
     -
       value: image/jpeg

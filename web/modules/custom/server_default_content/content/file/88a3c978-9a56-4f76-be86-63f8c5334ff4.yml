@@ -4,15 +4,12 @@ _meta:
   uuid: 88a3c978-9a56-4f76-be86-63f8c5334ff4
   default_langcode: en
 default:
-  uid:
-    -
-      target_id: 1
   filename:
     -
       value: benches-800x600_55.jpg
   uri:
     -
-      value: 'public://benches-800x600_55_12.jpg'
+      value: 'public://benches-800x600_55.jpg'
   filemime:
     -
       value: image/jpeg

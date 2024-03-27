@@ -22,7 +22,7 @@ _meta:
 default:
   revision_uid:
     -
-      target_id: 1
+      entity: 49afcccd-7be9-4b3b-9bc5-0b56ed065fa0
   status:
     -
       value: true
@@ -44,9 +44,6 @@ default:
   revision_translation_affected:
     -
       value: true
-  moderation_state:
-    -
-      value: published
   path:
     -
       alias: /homepage
@@ -696,7 +693,7 @@ default:
                       value: false
                   field_body:
                     -
-                      value: "The bedding was hardly able to cover it and seemed ready to slide off any moment. His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as he looked. What's happened to me? \" he thought. It wasn't a dream. His room"
+                      value: 'The bedding was hardly able to cover it and seemed ready to slide off any moment. His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as he looked. What''s happened to me? " he thought. It wasn''t a dream. His room'
                       format: basic_html
                   field_title:
                     -
@@ -840,7 +837,7 @@ default:
                       options: {  }
                   field_subtitle:
                     -
-                      value: "It's a great CMS"
+                      value: 'It''s a great CMS'
             -
               entity:
                 _meta:

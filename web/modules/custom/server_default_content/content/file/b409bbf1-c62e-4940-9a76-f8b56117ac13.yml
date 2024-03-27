@@ -4,15 +4,12 @@ _meta:
   uuid: b409bbf1-c62e-4940-9a76-f8b56117ac13
   default_langcode: en
 default:
-  uid:
-    -
-      target_id: 1
   filename:
     -
       value: dog-800x533_55.jpg
   uri:
     -
-      value: 'public://dog-800x533_55_12.jpg'
+      value: 'public://dog-800x533_55.jpg'
   filemime:
     -
       value: image/jpeg

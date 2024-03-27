@@ -4,15 +4,12 @@ _meta:
   uuid: 6b6a5223-7e1f-49ca-b5a9-684963c07091
   default_langcode: en
 default:
-  uid:
-    -
-      target_id: 1
   filename:
     -
       value: drupal-starter_9.pdf
   uri:
     -
-      value: 'public://drupal-starter_9_12.pdf'
+      value: 'public://drupal-starter_9.pdf'
   filemime:
     -
       value: application/pdf

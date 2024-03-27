@@ -9,10 +9,10 @@ default:
       value: en
   name:
     -
-      value: "<script>alert('XSS attack!');</script>"
+      value: '<script>alert(''XSS attack!'');</script>'
   pass:
     -
-      value: $2y$10$32sdGSo4Wpzw/.poy6/IB.cSGrY6caDOjIogFPFIW082swb1mvho.
+      value: U$S$EUSshCwNnhurSVj37Ht6F/aisWJpkSIFC4auu3mOj7YuomGZ3NpS
       existing: ''
       pre_hashed: false
   mail:
@@ -36,17 +36,3 @@ default:
   roles:
     -
       target_id: ''
-  path:
-    -
-      alias: ''
-      langcode: en
-      pathauto: 1
-  field_last_password_reset:
-    -
-      value: '2024-03-25T11:31:23'
-  field_password_expiration:
-    -
-      value: false
-  field_pending_expire_sent:
-    -
-      value: 0
