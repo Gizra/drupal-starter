@@ -92,7 +92,7 @@ class LockedPages {
    * @return array
    *   An array of bundle type machine names.
    */
-  public function getReferencedBundles():array {
+  public function getReferencedBundles(): array {
     // Load field definition for field_locked_pages field.
     $field_definitions = $this->entityFieldManager->getFieldDefinitions('config_pages', 'main_settings');
 
