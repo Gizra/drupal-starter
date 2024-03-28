@@ -39,8 +39,9 @@ type_settings:
         - draft
         - published
         - ready_for_review
+        - unpublished
       to: draft
-      weight: 0
+      weight: -1
     publish:
       label: Publish
       from:
@@ -55,15 +56,16 @@ type_settings:
         - draft
         - published
         - ready_for_review
+        - unpublished
       to: ready_for_review
-      weight: 2
+      weight: 0
     unpublish:
       label: Unpublish
       from:
-        - draft
+        - published
         - unpublished
       to: unpublished
-      weight: 3
+      weight: -2
   entity_types:
     node:
       - landing_page
