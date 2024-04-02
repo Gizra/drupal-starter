@@ -107,7 +107,7 @@ function server_general_field_widget_single_element_language_select_form_alter(a
  *
  * Unpublish option should not be available for moderation of locked nodes.
  */
-function server_general_field_widget_single_element_moderation_state_permissions_default_form_alter(array &$element, FormStateInterface $form_state, array $context) {
+function server_general_field_widget_single_element_moderation_state_default_form_alter(array &$element, FormStateInterface $form_state, array $context) {
   /** @var \Drupal\Core\Entity\EntityFormInterface $form_object */
   $form_object = $form_state->getFormObject();
   /** @var \Drupal\node\NodeInterface $entity */
@@ -188,6 +188,10 @@ function server_general_node_presave(NodeInterface $entity) {
   $original = $entity->original;
   if ($original->isPublished() && !$entity->isPublished()) {
     $entity->setPublished();
+  }
+
+  if ($entity->get('moderation_state')->value == 'unpublished') {
+    $entity->set('moderation_state', $original->get('moderation_state')->value);
   }
 }
 
