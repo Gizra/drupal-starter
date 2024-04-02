@@ -103,6 +103,36 @@ function server_general_field_widget_single_element_language_select_form_alter(a
 }
 
 /**
+ * Implements hook_field_widget_single_element_WIDGET_TYPE_form_alter().
+ *
+ * Unpublish option should not be available for moderation of locked nodes.
+ */
+function server_general_field_widget_single_element_moderation_state_default_form_alter(array &$element, FormStateInterface $form_state, array $context) {
+  /** @var \Drupal\Core\Entity\EntityFormInterface $form_object */
+  $form_object = $form_state->getFormObject();
+  /** @var \Drupal\node\NodeInterface $entity */
+  $entity = $form_object->getEntity();
+
+  // Not a node, so return early.
+  if (!$entity instanceof NodeInterface) {
+    return;
+  }
+
+  /** @var \Drupal\server_general\LockedPages $locked_pages_service */
+  $locked_pages_service = \Drupal::service('server_general.locked_pages');
+  // The bundles that can be locked.
+  $bundles = $locked_pages_service->getReferencedBundles();
+
+  // Node is not locked or options do not include unpublished, return early.
+  if (!in_array($entity->bundle(), $bundles) || !$locked_pages_service->isNodeLocked($entity) || !isset($element['state']['#options']['unpublished'])) {
+    return;
+  }
+
+  unset($element['state']['#options']['unpublished']);
+
+}
+
+/**
  * Implements hook_entity_access().
  */
 function server_general_node_access(NodeInterface $entity, string $op, AccountInterface $account) {
@@ -162,6 +192,10 @@ function server_general_node_presave(NodeInterface $entity) {
 
   if ($original->isPublished() && !$entity->isPublished()) {
     $entity->setPublished();
+  }
+
+  if ($entity->get('moderation_state')->value == 'unpublished') {
+    $entity->set('moderation_state', $original->get('moderation_state')->value);
   }
 }
 

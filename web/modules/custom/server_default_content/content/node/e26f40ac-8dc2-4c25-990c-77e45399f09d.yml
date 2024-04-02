@@ -13,7 +13,7 @@ _meta:
 default:
   revision_uid:
     -
-      entity: 49afcccd-7be9-4b3b-9bc5-0b56ed065fa0
+      target_id: 1
   status:
     -
       value: true
@@ -35,6 +35,9 @@ default:
   revision_translation_affected:
     -
       value: true
+  moderation_state:
+    -
+      value: published
   path:
     -
       alias: /news/li-europan-lingues

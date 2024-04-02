@@ -116,6 +116,7 @@ class ServerGeneralNodeLandingPageTest extends ServerGeneralNodeTestBase {
       'title' => 'Not locked page',
       'uid' => $user->id(),
       'type' => 'landing_page',
+      'moderation_state' => 'published',
     ]);
 
     $node->setPublished()->save();
