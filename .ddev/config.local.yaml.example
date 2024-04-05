@@ -54,3 +54,15 @@ hooks:
     # memory either.
     # @see https://github.com/drud/ddev/issues/1825#issuecomment-529964728
     - exec: perl -pi -e 's/memory_limit.*$/memory_limit = -1/' /etc/php/${DDEV_PHP_VERSION}/cli/conf.d/*.ini
+  post-import-db:
+    # Run DB updates.
+    - exec: drush updb
+    # Clear cache before config import.
+    - exec: drush cr
+    # Import config.
+    - exec: drush cim -y
+    # Reindex.
+    - exec: drush sapi-c
+    - exec: drush sapi-i
+    # Compile theme.
+    - exec-host: ddev robo theme:compile
