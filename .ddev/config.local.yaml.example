@@ -66,3 +66,5 @@ hooks:
     - exec: drush sapi-i
     # Compile theme.
     - exec-host: ddev robo theme:compile
+    # Login as admin.
+    - exec-host: ddev login
