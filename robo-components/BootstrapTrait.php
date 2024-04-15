@@ -202,11 +202,10 @@ trait BootstrapTrait {
       ->getMessage();
     $organizations = json_decode($organizations, TRUE);
 
-    // Prompt the user to select an organization
+    // Prompt the user to select an organization.
     $io = $this->io();
     $organization_choices = array_combine(array_column($organizations, 'id'), array_column($organizations, 'label'));
     $selected_organization_id = $io->choice('Select a Pantheon organization:', $organization_choices);
-
 
     $result = $this->taskExec("terminus site:create $project_machine_name \"$project_name\" \"bde48795-b16d-443f-af01-8b1790caa1af\" --org=\"$selected_organization_id\"")
       ->run()
