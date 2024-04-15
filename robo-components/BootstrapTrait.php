@@ -207,9 +207,21 @@ trait BootstrapTrait {
     // Prompt the user to select an organization.
     $io = new ConsoleIO($this->input(), $this->output());
     $organization_choices = array_combine(array_column($organizations, 'id'), array_column($organizations, 'label'));
-    $selected_organization_id = $io->choice('Select a Pantheon organization', $organization_choices);
+    if (count($organization_choices) === 0) {
+      throw new \Exception("No organization found.");
+    }
+    elseif (count($organization_choices) === 1) {
+      $selected_organization_id = array_key_first($organization_choices);
+    }
+    else {
+      $selected_organization_id = $io->choice('Select a Pantheon organization', $organization_choices);
+    }
 
-    $result = $this->taskExec("terminus site:create $project_machine_name \"$project_name\" \"bde48795-b16d-443f-af01-8b1790caa1af\" --org=\"$selected_organization_id\"")
+    // This upstream is the Drupal 10 base project what more or less
+    // matches Drupal Starter.
+    $upstream_id = "bde48795-b16d-443f-af01-8b1790caa1af";
+
+    $result = $this->taskExec("terminus site:create $project_machine_name \"$project_name\" \"$upstream_id\" --org=\"$selected_organization_id\"")
       ->run()
       ->getExitCode();
 
