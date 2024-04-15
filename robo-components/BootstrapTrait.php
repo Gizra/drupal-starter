@@ -2,6 +2,8 @@
 
 namespace RoboComponents;
 
+use Robo\Symfony\ConsoleIO;
+
 /**
  * Automated way to launch a new client project from Drupal Starter.
  */
@@ -203,7 +205,7 @@ trait BootstrapTrait {
     $organizations = json_decode($organizations, TRUE);
 
     // Prompt the user to select an organization.
-    $io = $this->io();
+    $io = new ConsoleIO($this->input(), $this->output());
     $organization_choices = array_combine(array_column($organizations, 'id'), array_column($organizations, 'label'));
     $selected_organization_id = $io->choice('Select a Pantheon organization:', $organization_choices);
 
