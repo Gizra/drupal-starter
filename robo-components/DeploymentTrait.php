@@ -562,7 +562,9 @@ trait DeploymentTrait {
     }
 
     $task
+      ->exec("terminus connection:set $pantheon_terminus_environment sftp")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- si server --no-interaction --existing-config")
+      ->exec("terminus connection:set $pantheon_terminus_environment git --yes")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- pm-enable default_content --no-interaction")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- pm-enable server_default_content --no-interaction")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- pm:uninstall server_default_content default_content --no-interaction")
