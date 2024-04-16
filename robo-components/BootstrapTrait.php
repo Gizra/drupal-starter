@@ -352,7 +352,8 @@ trait BootstrapTrait {
         continue;
       }
       $result = $this->taskExec("terminus lock:enable $project_machine_name.$pantheon_environment $http_basic_auth_user $http_basic_auth_password")
-        ->run();
+        ->run()
+        ->getExitCode();
       if ($result !== 0) {
         $this->say("Failed to lock the Pantheon $pantheon_environment environment.");
       }
