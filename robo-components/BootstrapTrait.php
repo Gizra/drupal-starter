@@ -288,6 +288,9 @@ trait BootstrapTrait {
       ->append(FALSE)
       ->textFromFile('pantheon_template/settings.pantheon.php')
       ->run();
+    $this->taskWriteToFile('.pantheon/web/sites/default/default.settings.php')
+      ->textFromFile('pantheon_template/default.settings.php')
+      ->run();
     $this->taskWriteToFile('.pantheon/web/sites/default/settings.php')
       ->append(FALSE)
       ->textFromFile('.bootstrap/web/sites/default/settings.pantheon.php')
