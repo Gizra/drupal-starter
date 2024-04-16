@@ -231,7 +231,24 @@ function server_general_form_alter(array &$form, FormStateInterface $form_state)
   }
 
   unset($form['actions']['delete']);
+  // Unset "Delete translation" button.
+  // @See server_general_module_implements_alter().
+  unset($form['actions']['delete_translation']);
   $form['status']['#access'] = FALSE;
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function server_general_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'form_alter' && isset($implementations['server_general'])) {
+    // Move this module's implementation of form_alter to the end of the list.
+    // We're doing this so that we can override
+    // "content_translation_form_alter()" in our hook_form_alter.
+    $hookInit = $implementations['server_general'];
+    unset($implementations['server_general']);
+    $implementations['server_general'] = $hookInit;
+  }
 }
 
 /**
