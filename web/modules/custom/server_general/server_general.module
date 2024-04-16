@@ -272,6 +272,44 @@ function server_general_entity_operation_alter(array &$operations, EntityInterfa
 }
 
 /**
+ * Implements hook_content_translation_overview_alter().
+ */
+function server_general_content_translation_overview_alter(array $build, EntityInterface $entity) {
+  if ($entity->bundle() !== 'landing_page') {
+    return;
+  }
+  /** @var \Drupal\server_general\LockedPages $locked_pages_service */
+  $locked_pages_service = \Drupal::service('server_general.locked_pages');
+
+  // Check if node is locked or not.
+  /** @var \Drupal\node\NodeInterface $entity */
+  if (!$locked_pages_service->isNodeLocked($entity)) {
+    return;
+  }
+  // Check if content translations table has rows.
+  if (!isset($build['content_translation_overview']['#rows'])) {
+    return;
+  }
+  $content_translation_overview_rows = &$build['content_translation_overview']['#rows'];
+  if (empty($content_translation_overview_rows)) {
+    return;
+  }
+  // Check for each language and unset delete operation.
+  // Delete operation will exist only if node translation exists for
+  // given language.
+  foreach ($content_translation_overview_rows as &$language_data) {
+    foreach ($language_data as &$element) {
+      if (is_array($element) && isset($element['data']['#type']) && $element['data']['#type'] === 'operations') {
+        // Check if the "delete" operation exists, then unset it.
+        if (isset($element['data']['#links']['delete'])) {
+          unset($element['data']['#links']['delete']);
+        }
+      }
+    }
+  }
+}
+
+/**
  * Implements hook_menu_local_tasks_alter().
  */
 function server_general_menu_local_tasks_alter(array &$data, string $route_name): void {
