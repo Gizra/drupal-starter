@@ -561,7 +561,8 @@ trait DeploymentTrait {
       $task->exec("terminus multidev:create $pantheon_terminus_environment $backup_name");
     }
 
-    // Drupal checks is the settings.php is writable. With the connection mode switch, we can fulfill this.
+    // Drupal checks is the settings.php is writable. With the connection
+    // mode switch, we can fulfill this.
     $task
       ->exec("terminus connection:set $pantheon_terminus_environment sftp")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- si server --no-interaction --existing-config")
