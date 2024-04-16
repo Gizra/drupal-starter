@@ -245,9 +245,9 @@ function server_general_module_implements_alter(&$implementations, $hook) {
     // Move this module's implementation of form_alter to the end of the list.
     // We're doing this so that we can override
     // "content_translation_form_alter()" in our hook_form_alter.
-    $hookInit = $implementations['server_general'];
+    $hook_init = $implementations['server_general'];
     unset($implementations['server_general']);
-    $implementations['server_general'] = $hookInit;
+    $implementations['server_general'] = $hook_init;
   }
 }
 
@@ -275,7 +275,7 @@ function server_general_entity_operation_alter(array &$operations, EntityInterfa
  * Implements hook_content_translation_overview_alter().
  */
 function server_general_content_translation_overview_alter(array $build, EntityInterface $entity) {
-  if ($entity->bundle() !== 'landing_page') {
+  if (!$entity instanceof NodeInterface || $entity->bundle() !== 'landing_page') {
     return;
   }
   /** @var \Drupal\server_general\LockedPages $locked_pages_service */
@@ -299,11 +299,9 @@ function server_general_content_translation_overview_alter(array $build, EntityI
   // given language.
   foreach ($content_translation_overview_rows as &$language_data) {
     foreach ($language_data as &$element) {
-      if (is_array($element) && isset($element['data']['#type']) && $element['data']['#type'] === 'operations') {
-        // Check if the "delete" operation exists, then unset it.
-        if (isset($element['data']['#links']['delete'])) {
-          unset($element['data']['#links']['delete']);
-        }
+      // Check if the "delete" operation exists, then unset it.
+      if (is_array($element) && isset($element['data']['#type']) && $element['data']['#type'] === 'operations' && isset($element['data']['#links']['delete'])) {
+        unset($element['data']['#links']['delete']);
       }
     }
   }
