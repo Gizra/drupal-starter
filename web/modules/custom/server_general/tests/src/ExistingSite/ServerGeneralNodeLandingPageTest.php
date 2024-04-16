@@ -156,7 +156,7 @@ class ServerGeneralNodeLandingPageTest extends ServerGeneralNodeTestBase {
 
     $this->drupalGet($node_es->toUrl('edit-form'));
     $this->assertSession()->statusCodeEquals(Response::HTTP_OK);
-    // "Delete translations" button shouldn't exists if page is locked.
+    // "Delete translation" button shouldn't exists if page is locked.
     $this->assertSession()->elementNotExists('css', '#edit-delete-translation');
 
     // Check locked node for anonymous.
