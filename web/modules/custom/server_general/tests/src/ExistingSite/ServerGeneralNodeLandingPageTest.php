@@ -145,6 +145,20 @@ class ServerGeneralNodeLandingPageTest extends ServerGeneralNodeTestBase {
     $this->drupalGet("/node/{$node->id()}/delete");
     $this->assertSession()->statusCodeEquals(Response::HTTP_FORBIDDEN);
 
+    // Test translations.
+    $node_es = $node->addTranslation('es', $node->toArray());
+    $node_es->setTitle('Not locked page ES');
+    $node_es->save();
+
+    $this->drupalGet("/node/{$node->id()}/translations");
+    $this->assertSession()->pageTextContains('Translations of');
+    $this->assertSession()->elementTextNotContains('css', 'table', 'Delete');
+
+    $this->drupalGet($node_es->toUrl('edit-form'));
+    $this->assertSession()->statusCodeEquals(Response::HTTP_OK);
+    // "Delete translations" button shouldn't exists if page is locked.
+    $this->assertSession()->elementNotExists('css', '#edit-delete-translation');
+
     // Check locked node for anonymous.
     $this->drupalLogout();
 
