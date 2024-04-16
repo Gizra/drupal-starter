@@ -67,7 +67,7 @@
             "version": "6.x-dev",
             "source": {
                 "type": "git",
-                "url": "git@github.com:FortAwesome/Font-Awesome.git",
+                "url": "https://github.com/FortAwesome/Font-Awesome.git",
                 "reference": "d02961b018153506364077343b0edcde0a39d27e"
             },
             "dist": {
@@ -15157,7 +15157,7 @@
             "version": "2.2.0",
             "source": {
                 "type": "git",
-                "url": "git@gitlab.com:weitzman/drupal-test-traits.git",
+                "url": "https://git.drupalcode.org/project/dtt/",
                 "reference": "9ef44f5cd5eef942c84f2d2ffd21734944d566f8"
             },
             "dist": {
