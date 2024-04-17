@@ -288,6 +288,9 @@ trait BootstrapTrait {
       ->append(FALSE)
       ->textFromFile('pantheon_template/settings.pantheon.php')
       ->run();
+    $this->taskWriteToFile('.pantheon/web/sites/default/default.settings.php')
+      ->textFromFile('pantheon_template/default.settings.php')
+      ->run();
     $this->taskWriteToFile('.pantheon/web/sites/default/settings.php')
       ->append(FALSE)
       ->textFromFile('.bootstrap/web/sites/default/settings.pantheon.php')
@@ -349,7 +352,8 @@ trait BootstrapTrait {
         continue;
       }
       $result = $this->taskExec("terminus lock:enable $project_machine_name.$pantheon_environment $http_basic_auth_user $http_basic_auth_password")
-        ->run();
+        ->run()
+        ->getExitCode();
       if ($result !== 0) {
         $this->say("Failed to lock the Pantheon $pantheon_environment environment.");
       }
