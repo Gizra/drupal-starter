@@ -231,7 +231,24 @@ function server_general_form_alter(array &$form, FormStateInterface $form_state)
   }
 
   unset($form['actions']['delete']);
+  // Unset "Delete translation" button.
+  // @See server_general_module_implements_alter().
+  unset($form['actions']['delete_translation']);
   $form['status']['#access'] = FALSE;
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function server_general_module_implements_alter(array &$implementations, string $hook) {
+  if ($hook == 'form_alter' && isset($implementations['server_general'])) {
+    // Move this module's implementation of form_alter to the end of the list.
+    // We're doing this so that we can override
+    // "content_translation_form_alter()" in our hook_form_alter.
+    $hook_init = $implementations['server_general'];
+    unset($implementations['server_general']);
+    $implementations['server_general'] = $hook_init;
+  }
 }
 
 /**
@@ -252,6 +269,40 @@ function server_general_entity_operation_alter(array &$operations, EntityInterfa
   }
 
   unset($operations['delete']);
+}
+
+/**
+ * Implements hook_content_translation_overview_alter().
+ */
+function server_general_content_translation_overview_alter(array $build, EntityInterface $entity) {
+  if (!$entity instanceof NodeInterface || $entity->bundle() !== 'landing_page') {
+    // Not a Landing page.
+    return;
+  }
+  /** @var \Drupal\server_general\LockedPages $locked_pages_service */
+  $locked_pages_service = \Drupal::service('server_general.locked_pages');
+
+  /** @var \Drupal\node\NodeInterface $entity */
+  if (!$locked_pages_service->isNodeLocked($entity)) {
+    // Node isn't locked.
+    return;
+  }
+  if (!isset($build['content_translation_overview']['#rows'])) {
+    // There's no content to translate.
+    return;
+  }
+  $content_translation_overview_rows = &$build['content_translation_overview']['#rows'];
+  // Check for each language and unset delete operation.
+  // Delete operation will exist only if node translation exists for
+  // given language.
+  foreach ($content_translation_overview_rows as &$language_data) {
+    foreach ($language_data as &$element) {
+      // Check if the "delete" operation exists, then unset it.
+      if (is_array($element) && isset($element['data']['#type']) && $element['data']['#type'] === 'operations' && isset($element['data']['#links']['delete'])) {
+        unset($element['data']['#links']['delete']);
+      }
+    }
+  }
 }
 
 /**
