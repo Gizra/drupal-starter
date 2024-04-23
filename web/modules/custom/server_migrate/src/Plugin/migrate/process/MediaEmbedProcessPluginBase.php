@@ -205,7 +205,7 @@ abstract class MediaEmbedProcessPluginBase extends ProcessPluginBase {
     // @see \Drupal\filter\Plugin\Filter\FilterCaption
     // @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figcaption
     $target_node = $item;
-    if ($item->parentNode->tagName === 'figure') {
+    if ($item->parentNode->nodeName === 'figure') {
       $target_node = $item->parentNode;
       foreach ($item->parentNode->childNodes as $child) {
         if ($child instanceof \DOMElement && $child->tagName === 'figcaption') {

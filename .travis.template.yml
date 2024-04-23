@@ -2,7 +2,7 @@ version: "~> 1.0"
 language: php
 dist: jammy
 php:
-- 8.1
+- 8.2
 services:
 - docker
 stages:
@@ -26,6 +26,7 @@ jobs:
   - stage: Lint
     name: PhpStan
     script:
+    - "$TRAVIS_BUILD_DIR/ci-scripts/test_syntax.sh || travis_terminate 1;"
     - composer install
     - vendor/bin/phpstan analyse -c phpstan.neon
   - stage: Lint

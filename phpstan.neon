@@ -4,6 +4,7 @@ includes:
 parameters:
   level: 6
   checkMissingIterableValueType: false
+  checkGenericClassInNonGenericObjectType: false
   reportUnmatchedIgnoredErrors: false
   ignoreErrors:
     - '#has no return type specified.#'
