@@ -486,9 +486,6 @@ trait DeploymentTrait {
 
     $errors = [];
     $parsed_output = str_getcsv($output, "\n");
-    if (empty($parsed_output)) {
-      return;
-    }
 
     $exclude = (string) getenv('DEPLOY_EXCLUDE_WARNING');
     $exclude_list = explode('|', $exclude);
