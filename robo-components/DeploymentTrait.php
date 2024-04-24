@@ -479,37 +479,23 @@ trait DeploymentTrait {
     $task = $this->taskExecStack()
       ->stopOnFail();
     $output = $task
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- rq --format=csv")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- rq --format=json")
       ->printOutput(FALSE)
       ->run()
       ->getMessage();
 
     $errors = [];
-    $parsed_output = str_getcsv($output, "\n");
-
-    $exclude = (string) getenv('DEPLOY_EXCLUDE_WARNING');
-    $exclude_list = explode('|', $exclude);
-
-    foreach ($parsed_output as $row) {
-      $row = str_getcsv($row, ",");
-      if (empty($row[0])) {
+    $parsed_output = json_decode($output, TRUE);
+    foreach ($parsed_output as $requirement) {
+      if ($requirement['severity'] !== 'Error') {
         continue;
       }
-      if (empty($row[1])) {
-        continue;
-      }
-      if ($row[1] !== 'Error') {
-        continue;
-      }
-      if (in_array($row[0], $exclude_list)) {
-        continue;
-      }
-      $errors[] = $row[2];
+      $errors[] = '## ' . trim($requirement['title']) . "\n" . trim($requirement['value']);
     }
     if (empty($errors)) {
       return;
     }
-    throw new \Exception(print_r($errors, TRUE));
+    throw new \Exception(implode("\n\n", $errors));
   }
 
   /**
