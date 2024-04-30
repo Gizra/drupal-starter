@@ -11,6 +11,7 @@ dependencies:
     - entity_browser
     - locale
     - media
+    - navigation
     - node
 id: translator
 label: Translator
@@ -21,6 +22,7 @@ permissions:
   - 'access media overview'
   - 'access media_entity_browser entity browser pages'
   - 'access media_entity_browser_modal entity browser pages'
+  - 'access navigation'
   - 'create content translations'
   - 'delete content translations'
   - 'translate any entity'
