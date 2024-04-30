@@ -1,0 +1,20 @@
+uuid: 4f1d09a4-ce8f-43b8-8577-fd825753166e
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: YCitipAvCL8KQAnpP1qV2n8SYhHYmWZcHAW9hrjqlQ8
+id: shortcuts
+region: content
+weight: 0
+provider: navigation
+plugin: shortcuts
+settings:
+  id: shortcuts
+  label: Shortcuts
+  label_display: '0'
+  provider: navigation
+  status: true
+  info: ''
+  view_mode: default
+visibility: {  }

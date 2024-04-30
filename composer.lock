@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4be004936598d06c436c0e03cd7bd084",
+    "content-hash": "766d8e4f806d995263e1a38a23b3e937",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3894,6 +3894,79 @@
                 "source": "https://git.drupalcode.org/project/migrate_tools",
                 "issues": "https://www.drupal.org/project/issues/migrate_tools",
                 "slack": "#migrate"
+            }
+        },
+        {
+            "name": "drupal/navigation",
+            "version": "dev-1.x",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/navigation.git",
+                "reference": "a30e90241ae71e6b22985a1be5a1e13ddb2943fd"
+            },
+            "require": {
+                "drupal/core": "^10.2 || ^11"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "1.0.0-beta3+1-dev",
+                    "datestamp": "1713957752",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Project has not opted into security advisory coverage!"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "ckrina",
+                    "homepage": "https://www.drupal.org/user/1206650"
+                },
+                {
+                    "name": "claireristow",
+                    "homepage": "https://www.drupal.org/user/3673870"
+                },
+                {
+                    "name": "finnsky",
+                    "homepage": "https://www.drupal.org/user/2755993"
+                },
+                {
+                    "name": "kostyashupenko",
+                    "homepage": "https://www.drupal.org/user/3281537"
+                },
+                {
+                    "name": "lauriii",
+                    "homepage": "https://www.drupal.org/user/1078742"
+                },
+                {
+                    "name": "m4olivei",
+                    "homepage": "https://www.drupal.org/user/410384"
+                },
+                {
+                    "name": "mherchel",
+                    "homepage": "https://www.drupal.org/user/118428"
+                },
+                {
+                    "name": "nod_",
+                    "homepage": "https://www.drupal.org/user/598310"
+                },
+                {
+                    "name": "plopesc",
+                    "homepage": "https://www.drupal.org/user/282415"
+                }
+            ],
+            "description": "New administration navigation",
+            "homepage": "https://drupal.org/project/navigation",
+            "support": {
+                "source": "https://git.drupalcode.org/project/navigation"
             }
         },
         {
@@ -15204,6 +15277,7 @@
         "drupal/advagg": 15,
         "drupal/default_content": 15,
         "drupal/inline_entity_form": 5,
+        "drupal/navigation": 20,
         "drupal/ultimate_cron": 15,
         "drupal/cache_review": 20,
         "drupal/drupal_test_assertions": 20,
@@ -15214,6 +15288,7 @@
     "platform": {
         "php": "^8.1",
         "ext-curl": "*",
+        "ext-dom": "*",
         "ext-intl": "*",
         "ext-json": "*",
         "ext-mbstring": "*"

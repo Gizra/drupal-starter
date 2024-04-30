@@ -21,6 +21,7 @@
     "require": {
         "php": "^8.1",
         "ext-curl": "*",
+        "ext-dom": "*",
         "ext-intl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
@@ -56,6 +57,7 @@
         "drupal/migrate_plus": "^6.0",
         "drupal/migrate_source_csv": "^3.4",
         "drupal/migrate_tools": "^6.0",
+        "drupal/navigation": "1.x-dev@dev",
         "drupal/pantheon_advanced_page_cache": "^2.1",
         "drupal/paragraphs": "^1.17",
         "drupal/paragraphs_edit": "^3.0",
@@ -85,8 +87,7 @@
         "npm-asset/select2": "^4.0",
         "npm-asset/slick-carousel": "^1.8",
         "oomphinc/composer-installers-extender": "^2.0",
-        "phpstan/phpstan-deprecation-rules": "^1.0",
-        "ext-dom": "*"
+        "phpstan/phpstan-deprecation-rules": "^1.0"
     },
     "require-dev": {
         "behat/mink": "^1.10",

@@ -1,0 +1,23 @@
+uuid: ac397430-91d3-41ec-988d-123b85b0d875
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.admin
+  module:
+    - system
+_core:
+  default_config_hash: QGhCq9hgNoPn-xYBxgfNgxEmaXzTI6gfdSfzZI4pH0k
+id: administration_menu
+region: content
+weight: 2
+provider: null
+plugin: 'system_menu_navigation_block:admin'
+settings:
+  id: 'system_menu_navigation_block:admin'
+  label: Administration
+  label_display: '0'
+  provider: navigation
+  level: 2
+  depth: 2
+visibility: {  }

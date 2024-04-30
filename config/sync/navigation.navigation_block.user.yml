@@ -1,0 +1,20 @@
+uuid: 82327c5f-a3da-4597-8838-c59f84d089b1
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: AVditEEFBJ44wOFAGoKA9Zdhl1gU6VtTJUCOfCLyU5s
+id: user
+region: footer
+weight: 0
+provider: navigation
+plugin: user
+settings:
+  id: user
+  label: User
+  label_display: '0'
+  provider: navigation
+  status: true
+  info: ''
+  view_mode: default
+visibility: {  }
