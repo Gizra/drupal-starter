@@ -2,6 +2,8 @@
 
 namespace RoboComponents;
 
+use Robo\Symfony\ConsoleIO;
+
 /**
  * Automated way to launch a new client project from Drupal Starter.
  */
@@ -31,14 +33,14 @@ trait BootstrapTrait {
     // Extract project name from $github_repository_url.
     // The syntax is like: git@github.com:Organization/projectname.git .
     preg_match('/github.com[:\/](.*)\/(.*)\.git/', $github_repository_url, $matches);
-    $organization = $matches[1];
+    $github_organization = $matches[1];
     $project_machine_name = $matches[2];
 
-    $this->verifyRequirements($project_name, $organization, $project_machine_name, $terminus_token, $github_token, $docker_mirror_url, $http_basic_auth_user, $http_basic_auth_password);
+    $this->verifyRequirements($project_name, $github_organization, $project_machine_name, $terminus_token, $github_token, $docker_mirror_url, $http_basic_auth_user, $http_basic_auth_password);
 
-    $this->prepareGithubRepository($project_name, $organization, $project_machine_name, $github_repository_url, $docker_mirror_url);
+    $this->prepareGithubRepository($project_name, $github_organization, $project_machine_name, $github_repository_url, $docker_mirror_url);
 
-    $this->createPantheonProject($terminus_token, $project_name, $project_machine_name, $organization);
+    $this->createPantheonProject($terminus_token, $project_name, $project_machine_name);
 
     $this->deployPantheonInstallEnv('dev', $project_machine_name);
     $this->deployPantheonInstallEnv('qa', $project_machine_name);
@@ -187,10 +189,8 @@ trait BootstrapTrait {
    *   The project name.
    * @param string $project_machine_name
    *   The project machine name in GH slug.
-   * @param string $organization
-   *   The GitHub/Pantheon organization.
    */
-  protected function createPantheonProject(string $terminus_token, string $project_name, string $project_machine_name, string $organization) {
+  public function createPantheonProject(string $terminus_token, string $project_name, string $project_machine_name) {
     $result = $this->taskExec("terminus auth:login --machine-token=\"$terminus_token\"")
       ->run()
       ->getExitCode();
@@ -198,7 +198,30 @@ trait BootstrapTrait {
       throw new \Exception("Failed to login to Terminus.");
     }
 
-    $result = $this->taskExec("terminus site:create $project_machine_name \"$project_name\" \"bde48795-b16d-443f-af01-8b1790caa1af\" --org=\"$organization\"")
+    $organizations = $this->taskExec("terminus org:list --format=json")
+      ->printOutput(FALSE)
+      ->run()
+      ->getMessage();
+    $organizations = json_decode($organizations, TRUE);
+
+    // Prompt the user to select an organization.
+    $io = new ConsoleIO($this->input(), $this->output());
+    $organization_choices = array_combine(array_column($organizations, 'id'), array_column($organizations, 'label'));
+    if (count($organization_choices) === 0) {
+      throw new \Exception("No organization found.");
+    }
+    elseif (count($organization_choices) === 1) {
+      $selected_organization_id = array_key_first($organization_choices);
+    }
+    else {
+      $selected_organization_id = $io->choice('Select a Pantheon organization', $organization_choices);
+    }
+
+    // This upstream is the Drupal 10 base project what more or less
+    // matches Drupal Starter.
+    $upstream_id = "bde48795-b16d-443f-af01-8b1790caa1af";
+
+    $result = $this->taskExec("terminus site:create $project_machine_name \"$project_name\" \"$upstream_id\" --org=\"$selected_organization_id\"")
       ->run()
       ->getExitCode();
 
@@ -265,6 +288,9 @@ trait BootstrapTrait {
       ->append(FALSE)
       ->textFromFile('pantheon_template/settings.pantheon.php')
       ->run();
+    $this->taskWriteToFile('.pantheon/web/sites/default/default.settings.php')
+      ->textFromFile('pantheon_template/default.settings.php')
+      ->run();
     $this->taskWriteToFile('.pantheon/web/sites/default/settings.php')
       ->append(FALSE)
       ->textFromFile('.bootstrap/web/sites/default/settings.pantheon.php')
@@ -326,7 +352,8 @@ trait BootstrapTrait {
         continue;
       }
       $result = $this->taskExec("terminus lock:enable $project_machine_name.$pantheon_environment $http_basic_auth_user $http_basic_auth_password")
-        ->run();
+        ->run()
+        ->getExitCode();
       if ($result !== 0) {
         $this->say("Failed to lock the Pantheon $pantheon_environment environment.");
       }
