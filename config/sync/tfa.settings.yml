@@ -1,7 +1,7 @@
 _core:
   default_config_hash: ls2wXvXf4vms4y6c-xMUgSp8ZmVmwFy5NgL0DIPgU_0
 langcode: en
-enabled: true
+enabled: false
 required_roles:
   content_editor: content_editor
   administrator: administrator
