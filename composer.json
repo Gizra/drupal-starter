@@ -56,7 +56,7 @@
         "drupal/migrate_plus": "^6.0",
         "drupal/migrate_source_csv": "^3.4",
         "drupal/migrate_tools": "^6.0",
-        "drupal/navigation": "1.x-dev@dev",
+        "drupal/navigation": "^1.0@beta",
         "drupal/pantheon_advanced_page_cache": "^2.1",
         "drupal/paragraphs": "^1.17",
         "drupal/paragraphs_edit": "^3.0",

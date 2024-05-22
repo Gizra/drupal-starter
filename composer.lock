@@ -15138,6 +15138,7 @@
     "stability-flags": {
         "drupal/default_content": 15,
         "drupal/inline_entity_form": 5,
+        "drupal/navigation": 10,
         "drupal/ultimate_cron": 15,
         "drupal/cache_review": 20,
         "drupal/drupal_test_assertions": 20,
