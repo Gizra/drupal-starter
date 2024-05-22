@@ -16,6 +16,7 @@ env:
 
 before_install:
   - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+  - tmpdaemon=$(mktemp)
   - sudo jq '."registry-mirrors" = ["DOCKER_MIRROR"]' /etc/docker/daemon.json > $tmpdaemon
   - sudo mv $tmpdaemon /etc/docker/daemon.json
   - sudo systemctl daemon-reload

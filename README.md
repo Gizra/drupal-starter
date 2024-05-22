@@ -158,8 +158,7 @@ Drupal. With PEVB, see `BuildFieldTrait::buildMediaResponsiveImage()`.
 
 ## Solr
 
-The starter kit comes out of the box with Solr. Pantheon's built-in, very limited Solr is useful for basic sites in English mostly.
-For sophisticated needs, we can spin up an index at [OpenSolr](https://opensolr.com/) for instance, especially if we need stopword handling or synonyms.
+The starter kit comes out of the box with Solr.
 
 ### Index cleanup
 

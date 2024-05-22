@@ -88,6 +88,8 @@ if (!empty($pantheon_env)) {
     case 'live':
       $config['environment_indicator.indicator']['bg_color'] = '#c81300';
       $config['environment_indicator.indicator']['fg_color'] = '#ffffff';
+
+      $config['tfa.settings']['enabled'] = TRUE;
       break;
 
     default:

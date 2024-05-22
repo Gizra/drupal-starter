@@ -90,8 +90,6 @@ $settings['container_yamls'][] = 'modules/contrib/redis/example.services.yml';
 
 $config['system.performance']['css']['preprocess'] = FALSE;
 $config['system.performance']['js']['preprocess'] = FALSE;
-// Disable Advagg on ddev.
-$config['advagg.settings']['enabled'] = FALSE;
 
 // Excludes modules from configuration export, as they should not be enabled on
 // production.

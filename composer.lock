@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "766d8e4f806d995263e1a38a23b3e937",
+    "content-hash": "93205093bce7d39232778108f8c7ecb5",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1563,90 +1563,6 @@
             "support": {
                 "source": "https://git.drupalcode.org/project/admin_toolbar",
                 "issues": "https://www.drupal.org/project/issues/admin_toolbar"
-            }
-        },
-        {
-            "name": "drupal/advagg",
-            "version": "6.0.0-alpha1",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/advagg.git",
-                "reference": "6.0.0-alpha1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/advagg-6.0.0-alpha1.zip",
-                "reference": "6.0.0-alpha1",
-                "shasum": "cadfe490b2b0c3fe099087f1c767ab7eaa73160a"
-            },
-            "require": {
-                "drupal/core": "^9.3 || ^10",
-                "tubalmartin/cssmin": "^4.1"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "6.0.0-alpha1",
-                    "datestamp": "1672698356",
-                    "security-coverage": {
-                        "status": "not-covered",
-                        "message": "Alpha releases are not covered by Drupal security advisories."
-                    }
-                },
-                "drush": {
-                    "services": {
-                        "drush.services.yml": "^9 || ^10 || ^11"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Mike Carper (mikeytown2)",
-                    "homepage": "https://www.drupal.org/u/mikeytown2",
-                    "role": "Creator, Maintainer"
-                },
-                {
-                    "name": "Nick Wilde (nickwilde)",
-                    "homepage": "https://www.drupal.org/u/nickwilde",
-                    "email": "design@briarmoon.ca",
-                    "role": "Drupal 8 Port/maintainer"
-                },
-                {
-                    "name": "Other Contributors",
-                    "homepage": "https://www.drupal.org/node/1066416/committers",
-                    "role": "Contributors"
-                },
-                {
-                    "name": "NickDickinsonWilde",
-                    "homepage": "https://www.drupal.org/user/3094661"
-                },
-                {
-                    "name": "poker10",
-                    "homepage": "https://www.drupal.org/user/272316"
-                },
-                {
-                    "name": "rupl",
-                    "homepage": "https://www.drupal.org/user/411999"
-                },
-                {
-                    "name": "thalles",
-                    "homepage": "https://www.drupal.org/user/3589086"
-                },
-                {
-                    "name": "Wim Leers",
-                    "homepage": "https://www.drupal.org/user/99777"
-                }
-            ],
-            "description": "Improved aggregation of CSS/JS files to speed up page load times.",
-            "homepage": "https://drupal.org/project/advagg",
-            "support": {
-                "source": "https://git.drupalcode.org/project/advagg",
-                "issues": "https://drupal.org/project/issues/advagg",
-                "irc": "irc://irc.freenode.org/drupal-contribute"
             }
         },
         {
@@ -3898,23 +3814,26 @@
         },
         {
             "name": "drupal/navigation",
-            "version": "dev-1.x",
+            "version": "1.0.0-beta3",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/navigation.git",
-                "reference": "a30e90241ae71e6b22985a1be5a1e13ddb2943fd"
+                "reference": "1.0.0-beta3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/navigation-1.0.0-beta3.zip",
+                "reference": "1.0.0-beta3",
+                "shasum": "17877775833d2a608013746710bfaf03320ebf35"
             },
             "require": {
                 "drupal/core": "^10.2 || ^11"
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
                 "drupal": {
-                    "version": "1.0.0-beta3+1-dev",
-                    "datestamp": "1713957752",
+                    "version": "1.0.0-beta3",
+                    "datestamp": "1713370072",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Project has not opted into security advisory coverage!"
@@ -11272,63 +11191,6 @@
             "time": "2024-01-23T14:51:35+00:00"
         },
         {
-            "name": "tubalmartin/cssmin",
-            "version": "v4.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/tubalmartin/YUI-CSS-compressor-PHP-port.git",
-                "reference": "3cbf557f4079d83a06f9c3ff9b957c022d7805cf"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/tubalmartin/YUI-CSS-compressor-PHP-port/zipball/3cbf557f4079d83a06f9c3ff9b957c022d7805cf",
-                "reference": "3cbf557f4079d83a06f9c3ff9b957c022d7805cf",
-                "shasum": ""
-            },
-            "require": {
-                "ext-pcre": "*",
-                "php": ">=5.3.2"
-            },
-            "require-dev": {
-                "cogpowered/finediff": "0.3.*",
-                "phpunit/phpunit": "4.8.*"
-            },
-            "bin": [
-                "cssmin"
-            ],
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "tubalmartin\\CssMin\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Túbal Martín",
-                    "homepage": "http://tubalmartin.me/"
-                }
-            ],
-            "description": "A PHP port of the YUI CSS compressor",
-            "homepage": "https://github.com/tubalmartin/YUI-CSS-compressor-PHP-port",
-            "keywords": [
-                "compress",
-                "compressor",
-                "css",
-                "cssmin",
-                "minify",
-                "yui"
-            ],
-            "support": {
-                "issues": "https://github.com/tubalmartin/YUI-CSS-compressor-PHP-port/issues",
-                "source": "https://github.com/tubalmartin/YUI-CSS-compressor-PHP-port"
-            },
-            "time": "2018-01-15T15:26:51+00:00"
-        },
-        {
             "name": "twig/twig",
             "version": "v3.8.0",
             "source": {
@@ -15274,10 +15136,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "drupal/advagg": 15,
         "drupal/default_content": 15,
         "drupal/inline_entity_form": 5,
-        "drupal/navigation": 20,
         "drupal/ultimate_cron": 15,
         "drupal/cache_review": 20,
         "drupal/drupal_test_assertions": 20,
