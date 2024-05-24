@@ -78,5 +78,3 @@ jobs:
     - "$TRAVIS_BUILD_DIR/ci-scripts/test_phpunit.sh || travis_terminate 1;"
     - "(travis_retry $TRAVIS_BUILD_DIR/ci-scripts/prepare_deploy.sh) || travis_terminate 1;"
     - "(travis_retry ddev robo deploy:pantheon-sync live) || travis_terminate 1;"
-after_failure:
-  - "ci-scripts/notify_after_failure.sh"
