@@ -33,12 +33,16 @@ view-more:
 roboto:
   css:
     base:
-      '//fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap': { external: true }
+      '//fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap':
+        external: true
+        minified: true
 
 opensans:
   css:
     base:
-      '//fonts.googleapis.com/css?family=Open+Sans:400,400i,700': { external: true }
+      '//fonts.googleapis.com/css?family=Open+Sans:400,400i,700&display=swap':
+        external: true
+        minified: true
 
 font-awesome:
   css:
@@ -46,8 +50,14 @@ font-awesome:
       /libraries/fontawesome/css/all.min.css: {}
 
 slick:
+  remote: https://github.com/kenwheeler/slick
+  version: 1.8.0
+  license:
+    name: MIT
+    url: https://github.com/kenwheeler/slick/blob/master/LICENSE
+    gpl-compatible: true
   js:
-    /libraries/slick-carousel/slick/slick.js: {}
+    /libraries/slick-carousel/slick/slick.min.js: { minified: true }
     dist/js/slick-carousel.js: {}
   css:
     theme:

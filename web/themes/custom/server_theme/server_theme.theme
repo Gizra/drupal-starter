@@ -667,3 +667,19 @@ function _server_theme_extract_menu_level(array $tree) {
   ksort($menu);
   return $menu;
 }
+
+/**
+ * Implements template_preprocess_image_style().
+ */
+function server_theme_preprocess_image_style(&$variables) {
+  // Lighthouse penalizes lazy loaded images that appear above the fold.
+  // So for mobile styles we don't use lazy.
+  $eager_styles = [
+    'hero_mobile_1x',
+    'hero_mobile_2x',
+  ];
+
+  if (in_array($variables['style_name'], $eager_styles, TRUE)) {
+    $variables['image']['#attributes']['loading'] = 'eager';
+  }
+}
