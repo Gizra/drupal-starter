@@ -91,6 +91,7 @@ module:
   user: 0
   username_enumeration_prevention: 0
   views_ui: 0
+  webp: 0
   workflows: 0
   fast404: 1
   menu_link_content: 1
