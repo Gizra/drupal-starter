@@ -667,3 +667,22 @@ function _server_theme_extract_menu_level(array $tree) {
   ksort($menu);
   return $menu;
 }
+
+/**
+ * Implements template_preprocess_image_style().
+ *
+ * Lighthouse penalizes lazy loaded images that appear above the fold.
+ * So, for mobile styles, we don't use lazy.
+ *
+ * @see https://www.drupal.org/node/3173719#comment-14891412
+ */
+function server_theme_preprocess_image_style(array &$variables) {
+  $eager_styles = [
+    'hero_mobile_1x',
+    'hero_mobile_2x',
+  ];
+
+  if (in_array($variables['style_name'], $eager_styles, TRUE)) {
+    $variables['image']['#attributes']['loading'] = 'eager';
+  }
+}
