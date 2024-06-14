@@ -41,40 +41,36 @@ jobs:
     - "$TRAVIS_BUILD_DIR/ci-scripts/test_shell.sh || travis_terminate 1;"
   - stage: Test
     name: 'Backend tests: Functional tests'
-    if: (branch != "main" AND tag IS blank)
     script:
     - "(travis_retry $TRAVIS_BUILD_DIR/ci-scripts/install_ddev.sh) || travis_terminate 1;"
     - "$TRAVIS_BUILD_DIR/ci-scripts/install_drupal.sh || travis_terminate 1;"
     - "$TRAVIS_BUILD_DIR/ci-scripts/test_phpunit.sh || travis_terminate 1;"
   - stage: Deploy
-    name: 'Backend tests: Functional tests and deploy to Pantheon QA'
+    name: 'Deploy to Pantheon QA'
     if: branch = "main" AND type = push AND tag IS blank
     script:
     - "(travis_retry $TRAVIS_BUILD_DIR/ci-scripts/install_ddev.sh) || travis_terminate 1;"
     - "$TRAVIS_BUILD_DIR/ci-scripts/install_drupal.sh || travis_terminate 1;"
-    - "$TRAVIS_BUILD_DIR/ci-scripts/test_phpunit.sh || travis_terminate 1;"
     - "(travis_retry $TRAVIS_BUILD_DIR/ci-scripts/prepare_deploy.sh) || travis_terminate 1;"
     - "(travis_retry ddev robo deploy:pantheon qa --no-interaction) || travis_terminate 1;"
     - ddev composer install || travis_terminate 1;
     - ddev robo deploy:notify || travis_terminate 1;
   - stage: Deploy
-    name: 'Backend tests: Functional tests and deploy to Pantheon TEST'
+    name: 'Backend tests: Deploy to Pantheon TEST'
     if: tag IS present AND type = "push" AND tag !~ /live$/
     script:
     - "(travis_retry $TRAVIS_BUILD_DIR/ci-scripts/install_ddev.sh) || travis_terminate 1;"
     - "$TRAVIS_BUILD_DIR/ci-scripts/install_drupal.sh || travis_terminate 1;"
-    - "$TRAVIS_BUILD_DIR/ci-scripts/test_phpunit.sh || travis_terminate 1;"
     - "(travis_retry $TRAVIS_BUILD_DIR/ci-scripts/prepare_deploy.sh) || travis_terminate 1;"
     - "(travis_retry ddev robo deploy:tag-pantheon --no-interaction $TRAVIS_TAG master) || travis_terminate 1;"
     - "ddev composer install || travis_terminate 1;"
     - "(travis_retry ddev robo deploy:pantheon-sync) || travis_terminate 1;"
   - stage: Deploy
-    name: 'Backend tests: Functional tests and deploy to Pantheon LIVE'
+    name: 'Backend tests: Deploy to Pantheon LIVE'
     if: tag IS present AND type = "push" AND tag =~ /live$/
     script:
     - "$TRAVIS_BUILD_DIR/ci-scripts/check_live_deploy.sh || travis_terminate 1;"
     - "(travis_retry $TRAVIS_BUILD_DIR/ci-scripts/install_ddev.sh) || travis_terminate 1;"
     - "$TRAVIS_BUILD_DIR/ci-scripts/install_drupal.sh || travis_terminate 1;"
-    - "$TRAVIS_BUILD_DIR/ci-scripts/test_phpunit.sh || travis_terminate 1;"
     - "(travis_retry $TRAVIS_BUILD_DIR/ci-scripts/prepare_deploy.sh) || travis_terminate 1;"
     - "(travis_retry ddev robo deploy:pantheon-sync live) || travis_terminate 1;"
