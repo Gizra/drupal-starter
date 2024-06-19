@@ -413,7 +413,7 @@ trait DeploymentTrait {
 
     $result = $this->taskExecStack()
       ->stopOnFail()
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- user-block 1")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- user-block --uid=1")
       ->run()
       ->getExitCode();
 
