@@ -1,7 +1,6 @@
 {
   "patches": {
     "drupal/core": {
-      "d.o. 3400204": "https://www.drupal.org/files/issues/2023-11-23/claro-ck5-long-url.patch",
       "d.o. #3315245": "patches/2938.patch",
       "d.o. #2351685": "https://www.drupal.org/files/issues/2023-02-03/2351685-22.patch"
     },
