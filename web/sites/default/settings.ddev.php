@@ -88,8 +88,8 @@ $settings['cache']['default'] = 'cache.backend.redis';
 $settings['container_yamls'][] = 'modules/contrib/redis/redis.services.yml';
 $settings['container_yamls'][] = 'modules/contrib/redis/example.services.yml';
 
-//$config['system.performance']['css']['preprocess'] = FALSE;
-//$config['system.performance']['js']['preprocess'] = FALSE;
+$config['system.performance']['css']['preprocess'] = FALSE;
+$config['system.performance']['js']['preprocess'] = FALSE;
 
 // Excludes modules from configuration export, as they should not be enabled on
 // production.
