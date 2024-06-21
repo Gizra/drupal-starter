@@ -3,10 +3,10 @@ includes:
   - vendor/phpstan/phpstan-deprecation-rules/rules.neon
 parameters:
   level: 6
-  checkMissingIterableValueType: false
-  checkGenericClassInNonGenericObjectType: false
   reportUnmatchedIgnoredErrors: false
   ignoreErrors:
+    - identifier: missingType.iterableValue
+    - identifier: missingType.generics
     - '#has no return type specified.#'
     - '#Access to an undefined property Drupal\\Core\\Field\\FieldItemListInterface::\$value.#'
     - '#Access to an undefined property Drupal\\Core\\Field\\FieldItemInterface::\$value.#'

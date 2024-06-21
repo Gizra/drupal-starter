@@ -2,7 +2,7 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
-use Drupal\Core\File\FileSystemInterface;
+use Drupal\Core\File\FileExists;
 use Drupal\media\MediaInterface;
 use weitzman\DrupalTestTraits\Entity\MediaCreationTrait;
 
@@ -34,7 +34,7 @@ abstract class ServerGeneralParagraphTestBase extends ServerGeneralFieldableEnti
   protected function createFileEntity($uri) {
     $filename = basename($uri);
     $uri = \Drupal::service('file_system')
-      ->copy($uri, 'public://' . $filename, FileSystemInterface::EXISTS_REPLACE);
+      ->copy($uri, 'public://' . $filename, FileExists::Replace);
     /** @var \Drupal\file\FileInterface $file */
     $file = \Drupal::entityTypeManager()
       ->getStorage('file')

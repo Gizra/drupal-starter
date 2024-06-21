@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace Drupal\server_general;
 
 use Drupal\Core\Url;
