@@ -73,7 +73,7 @@ $settings['file_private_path'] = '/var/www/private';
 $settings['config_sync_directory'] = '../config/sync';
 $config['config_split.config_split.dev']['status'] = TRUE;
 $config['environment_indicator.indicator']['bg_color'] = '#00a073';
-$config['environment_indicator.indicator']['fg_color'] = '#000000';
+$config['environment_indicator.indicator']['fg_color'] = '#ffffff';
 
 // SMTP settings. Use Mail Hog (`ddev describe` to get the URL) to see the sent
 // mails.
