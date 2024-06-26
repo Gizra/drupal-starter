@@ -123,7 +123,7 @@ trait NewsTeasersTrait {
     $elements[] = $this->wrapTextLineClamp($summary, 4);
 
     // Read more button.
-    $elements[] = $this->buildButton($this->t('Read more'), $url);
+    $elements[] = $this->buildButton($this->t('Explore further'), $url);
 
     return $this->buildInnerElementLayoutWithImageHorizontal($url, $image, $elements);
   }
