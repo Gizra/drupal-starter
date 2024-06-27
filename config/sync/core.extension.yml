@@ -53,6 +53,7 @@ module:
   media_entity_browser: 0
   media_library: 0
   menu_ui: 0
+  metatag: 0
   mysql: 0
   node: 0
   options: 0
@@ -75,7 +76,7 @@ module:
   search_api_solr: 0
   seckit: 0
   select2: 0
-  server_general: 0
+  server_general: 10
   server_style_guide: 0
   shortcut: 0
   simple_sitemap: 0

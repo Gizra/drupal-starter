@@ -137,7 +137,7 @@ default:
           field_link:
             -
               uri: 'https://example.com'
-              title: 'Learn More'
+              title: 'Join'
               options: {  }
           field_title:
             -
