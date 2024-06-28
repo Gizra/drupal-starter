@@ -3,7 +3,7 @@
     "drupal/core": {
       "d.o. #3315245": "patches/2938.patch",
       "d.o. #2351685": "https://www.drupal.org/files/issues/2023-02-03/2351685-22.patch",
-      "d.o. 3400204": "https://www.drupal.org/files/issues/2024-06-27/3400204-claro-layout-overflow-fix-2.patch"
+      "d.o. #3400204": "https://www.drupal.org/files/issues/2024-06-27/3400204-claro-layout-overflow-fix-2.patch"
     },
     "drupal/elasticsearch_connector": {
       "Preserve ES index settings": "https://www.drupal.org/files/issues/2020-01-28/3109361-elasticsearch_connector-preserve-index-settings-1.patch",
@@ -13,7 +13,7 @@
       "d.o. #2952301": "https://www.drupal.org/files/issues/2021-03-11/elasticsearch_connector_luceneFlattenKeys--2952301-14.patch"
     },
     "drupal/entity_reference_revisions": {
-      "d.o. 2799479": "https://www.drupal.org/files/issues/2022-06-01/entity_reference_revisions-relationship_host_id-2799479-176.patch"
+      "d.o. #2799479": "https://www.drupal.org/files/issues/2022-06-01/entity_reference_revisions-relationship_host_id-2799479-176.patch"
     },
     "drupal/google_analytics": {
       "d.o #3373921": "https://www.drupal.org/files/issues/2023-08-07/google-analytics-issues-3373921-cannot-install-from-existing-config-11.patch"
