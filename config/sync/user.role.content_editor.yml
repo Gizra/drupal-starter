@@ -8,16 +8,16 @@ dependencies:
     - workflows.workflow.default
   module:
     - content_moderation
+    - navigation
     - node
     - system
-    - toolbar
 id: content_editor
 label: 'Content Editor'
 weight: -7
 is_admin: null
 permissions:
   - 'access content overview'
-  - 'access toolbar'
+  - 'access navigation'
   - 'administer nodes'
   - 'create landing_page content'
   - 'create news content'

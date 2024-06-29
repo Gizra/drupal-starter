@@ -15,7 +15,7 @@
    */
   Drupal.behaviors.serverThemeToggler = {
     attach: function(context, settings) {
-      const $buttons = $(once('server-theme-button', 'button[aria-controls]', context));
+      const $buttons = $(once('server-theme-button', 'button[aria-controls]', context)).not('button[aria-controls="admin-toolbar"]');
       if (!$buttons.length) {
         return;
       }
