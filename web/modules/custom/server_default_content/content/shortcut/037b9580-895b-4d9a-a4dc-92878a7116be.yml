@@ -1,0 +1,16 @@
+_meta:
+  version: '1.0'
+  entity_type: shortcut
+  uuid: 037b9580-895b-4d9a-a4dc-92878a7116be
+  bundle: default
+  default_langcode: en
+default:
+  title:
+    -
+      value: 'Home'
+  link:
+    -
+      uri: 'internal:/'
+      title: ''
+      options: {  }
+
