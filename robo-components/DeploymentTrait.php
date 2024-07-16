@@ -385,6 +385,9 @@ trait DeploymentTrait {
       ->stopOnFail();
 
     if ($do_deploy) {
+      if ($env == 'live') {
+        $task->exec("terminus backup:create $pantheon_terminus_environment");
+      }
       $task->exec("terminus env:deploy $pantheon_terminus_environment");
     }
 
