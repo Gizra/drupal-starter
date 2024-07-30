@@ -149,6 +149,15 @@ trait DeploymentTrait {
       throw new \Exception('Clone the Pantheon artifact repository first into the .pantheon directory');
     }
 
+    $pantheon_info = $this->getPantheonNameAndEnv();
+    $pantheon_env = $branch_name == 'master' ? 'dev' : $branch_name;
+    $pantheon_terminus_environment = $pantheon_info['name'] . '.' . $pantheon_env;
+    $result = $this->_exec("terminus connection:set $pantheon_terminus_environment git")->getExitCode();
+
+    if ($result !== 0) {
+      throw new \Exception("The Git mode could not be activated at $pantheon_terminus_environment, try to do it manually from the Pantheon dashboard.");
+    }
+
     $result = $this
       ->taskExec('git status -s')
       ->printOutput(FALSE)
@@ -305,7 +314,6 @@ trait DeploymentTrait {
     // This "git push" above is as async operation, so prevent invoking
     // for instance drush cim before the new changes are there.
     usleep(self::$deploymentWaitTime);
-    $pantheon_env = $branch_name == 'master' ? 'dev' : $branch_name;
 
     $this->waitForCodeDeploy($pantheon_env);
     $this->deployPantheonSync($pantheon_env, FALSE);
