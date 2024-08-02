@@ -612,6 +612,10 @@ trait DeploymentTrait {
       }
     }
 
+    if (file_exists('travis-key.enc')) {
+      throw new \Exception("The encrypted key (travis-key.enc) already exists. If you would like to override it, remove it first from the repository.");
+    }
+
     $result = $this->taskExec('ssh-keygen -f travis-key -P ""')->run();
     if ($result->getExitCode() !== 0) {
       throw new \Exception('The key generation failed.');
