@@ -611,6 +611,9 @@ trait DeploymentTrait {
         throw new \Exception('The installation of the dependencies failed.');
       }
     }
+    else {
+      $this->_exec('sudo gem update');
+    }
 
     $result = $this->taskExec('ssh-keygen -f travis-key -P ""')->run();
     if ($result->getExitCode() !== 0) {
@@ -620,6 +623,10 @@ trait DeploymentTrait {
     $result = $this->taskExec('travis login --pro --github-token="' . $github_token . '"')->run();
     if ($result->getExitCode() !== 0) {
       throw new \Exception('The authentication with GitHub via Travis CLI failed.');
+    }
+
+    if (file_exists('travis-key.enc')) {
+      throw new \Exception("The encrypted key (travis-key.enc) already exists. If you would like to override it, remove it first from the repository.");
     }
 
     $result = $this->taskExec('travis encrypt-file travis-key --add --no-interactive --pro')
