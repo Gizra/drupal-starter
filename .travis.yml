@@ -18,7 +18,6 @@ before_install:
 - openssl aes-256-cbc -K $encrypted_2c02e48ad60e_key -iv $encrypted_2c02e48ad60e_iv
   -in travis-key.enc -out travis-key -d
 - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
-- docker login --password "$DOCKER_PASSWORD" --username amitaibu
 git:
   depth: 500
 jobs:
