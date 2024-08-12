@@ -13,7 +13,7 @@ env:
   global:
   - DDEV_NO_INSTRUMENTATION=true
   - PANTHEON_GIT_URL="ssh://codeserver.dev.5acc1750-abf0-47ef-a6d8-6890a6efaca8@codeserver.dev.5acc1750-abf0-47ef-a6d8-6890a6efaca8.drush.in:2222/~/repository.git"
-  - secure: bE9Qwgm4OnzsHCtE4WBiQWNYRCoG0pO2wC0tY2bu0RVJ+TJekZ2UBC2XAr6dsoFCAZE1nYN6VnRMYuUqXThRjlaLEY96L2I2XD3m7iZrOlDVVEWP0vnOZD892x4k/S/wpQFXYaQHSyikyyFfL5m3V0bIWjoweyON293q5494WKRnVrD5+uYGMdSLQmwF8lm/L/q3hlLpm8Ju63IM4WHAk0YY8Z/ASjCsKk/QGJTePU5OSjKO+NFLU49LRMPXjbWxWiz9leWNy0NP8St+7ONW/QX9QPRxiOoBGK+gzz3U0zGmAbF3mWNfTC1KRIsiA9vVI36pYAfA2n2Bv4Jz31ktUkTOCt6nvkpL4/4LcYcp8uymM0wW2+coaWlLBxRIrjz80XgtAr3ruy6ArC6BddOefYCxsw13Z2LseG88FmRy4VX/ypIj7h38wdhQZqgj6WsEmQR2tHO3mlXcd+ZL/LdFA181uQhOPuPWn5UYEgC3Rth2N3n2OXguzFizFA/XBbPmDlG/KUPcJX4suUzhawvaMS79XvUIVEYID8InoMzQs3VtqlGeOqYHbz4rjn7inpQgdLw6OdIssk6pp0nwqugiCPrMlLw3G3yiUwNQZ9jXR0UjhOXR40KIGbGwg0xbC/xtdQjM+76VEtnJmpQQcDxZ/ZmEbUK8xdOuss84LFJnVKw=
+  - secure: mm3oDnHjiBXYmhWFBxbVnPm6I48zTZhhUM9JIclwymld9SR/qjXV7qy7sjqxyT7eGLvyFcJAcDDshG1gGJ5UBjC6vKYYbEAtV/OMdORBfNzLboRGeIXAevlgqP9Sl8qSQIMOI0pUP2/nRgd3fXerLwtL1BTXI+Bl3o6bQSR57EzKBfI4WTjrUdUs9u04qMyuoS+UHWEyBZpJ/AEdkxuVOessSXYgIiijwpFmLV/07RyXAGWIYosbYiVH8genjm1h8BhK9NRUVjgfKr7SuGKOEe53A0PQNWCZnbkYQ/KJo4GF1DvzGO12xX8//mNgZmATTNh36uCt7ofNpR6gtHbLJBGVAlHaGbH9CkG+G/mdmKxblT3Bqj+W4oalXd43FGDOH72aP8mJU67vl2UOzWxOIwv735lMgzEHUG1H0ltF0LrjYuIFYGWJByDZ+lZdurDdnnKHMOVGMhJ+x0ns+R8AYWzZKH3Za0LQDFR0d1npATgZlDJRk4W8mVNhEnYAfryNGZkK8onFt6rjfWyTdwM08qE2jUtcQY2dRCbGfsRfQpyvn7RQBPrXxaLKFOoR4AIXWWUDZ4uFTmZAJpcRBAQPchQ3udjg/hT74V44nd2lg3cLv30RekAq36vVDKwHGWHdnflZ7ci1zgvbIv7Otf9QQO7mwj0JCzk7EIBnHivEy10=
 before_install:
 - openssl aes-256-cbc -K $encrypted_2c02e48ad60e_key -iv $encrypted_2c02e48ad60e_iv
   -in travis-key.enc -out travis-key -d
@@ -32,7 +32,7 @@ jobs:
     - composer install
     - vendor/bin/phpstan analyse -c phpstan.neon
   - stage: Lint
-    name: 'Drupal coding standard'
+    name: Drupal coding standard
     script:
     - composer install || travis_terminate 1;
     - vendor/bin/robo phpcs || travis_terminate 1;
@@ -69,7 +69,7 @@ jobs:
     - "$TRAVIS_BUILD_DIR/ci-scripts/test_phpunit.sh || travis_terminate 1;"
     - "(travis_retry $TRAVIS_BUILD_DIR/ci-scripts/prepare_deploy.sh) || travis_terminate 1;"
     - "(travis_retry ddev robo deploy:tag-pantheon --no-interaction $TRAVIS_TAG master) || travis_terminate 1;"
-    - "ddev composer install || travis_terminate 1;"
+    - ddev composer install || travis_terminate 1;
     - "(travis_retry ddev robo deploy:pantheon-sync) || travis_terminate 1;"
   - stage: Deploy
     name: 'Backend tests: Functional tests and deploy to Pantheon LIVE'
