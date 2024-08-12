@@ -31,6 +31,13 @@ trait DeploymentTrait {
   public static string $githubProject = 'Gizra/drupal-starter';
 
   /**
+   * The name of the admin user (UID1 is blocked).
+   *
+   * @var string
+   */
+  public static string $adminUser = 'AdminOne';
+
+  /**
    * The files / directories to exclude from deployment.
    *
    * @var array|string[]
@@ -445,7 +452,7 @@ trait DeploymentTrait {
 
     $result = $this->taskExecStack()
       ->stopOnFail()
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- uli --name=AdminOne")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- uli --name=" . self::$adminUser)
       ->run()
       ->getExitCode();
 
@@ -563,7 +570,7 @@ trait DeploymentTrait {
       ->exec("terminus remote:drush $pantheon_terminus_environment -- pm:uninstall server_default_content default_content --no-interaction")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- set-homepage")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- cr")
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- uli --name=AdminOne");
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- uli --name=" . self::$adminUser);
 
     $result = $task->run()->getExitCode();
 
@@ -747,7 +754,7 @@ trait DeploymentTrait {
     }
     if ($repo->private) {
       // If the repository is private, we can put a login link into the comment.
-      $quick_link = $this->taskExec("terminus remote:drush " . $pantheon_info['name'] . "." . $pantheon_environment . " uli -- --name=AdminOne")
+      $quick_link = $this->taskExec("terminus remote:drush " . $pantheon_info['name'] . "." . $pantheon_environment . " uli -- --name=" . self::$adminUser)
         ->printOutput(FALSE)
         ->run()
         ->getMessage();
