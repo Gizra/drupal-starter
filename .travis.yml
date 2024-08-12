@@ -50,6 +50,7 @@ jobs:
     - "$TRAVIS_BUILD_DIR/ci-scripts/install_drupal.sh || travis_terminate 1;"
     - "$TRAVIS_BUILD_DIR/ci-scripts/test_phpunit.sh || travis_terminate 1;"
   - stage: Deploy
+    env: CAN_FAIL=true
     name: 'Backend tests: Functional tests and deploy to Pantheon QA'
     if: branch = "main" AND type = push AND tag IS blank
     script:
@@ -72,7 +73,6 @@ jobs:
     - ddev composer install || travis_terminate 1;
     - "(travis_retry ddev robo deploy:pantheon-sync) || travis_terminate 1;"
   - stage: Deploy
-    env: CAN_FAIL=true
     name: 'Backend tests: Functional tests and deploy to Pantheon LIVE'
     if: tag IS present AND type = "push" AND tag =~ /live$/
     script:
