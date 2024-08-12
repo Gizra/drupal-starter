@@ -18,11 +18,9 @@ before_install:
 - openssl aes-256-cbc -K $encrypted_2c02e48ad60e_key -iv $encrypted_2c02e48ad60e_iv
   -in travis-key.enc -out travis-key -d
 - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
-- tmpdaemon=$(mktemp)
-- sudo jq '."registry-mirrors" = ["DOCKER_MIRROR"]' /etc/docker/daemon.json > $tmpdaemon
-- sudo mv $tmpdaemon /etc/docker/daemon.json
-- sudo systemctl daemon-reload
-- sudo systemctl restart docker
+- docker login --password "$DOCKER_PASSWORD" --username amitaibu
+git:
+  depth: 500
 jobs:
   allow_failures:
     env:
