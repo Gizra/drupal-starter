@@ -445,7 +445,7 @@ trait DeploymentTrait {
 
     $result = $this->taskExecStack()
       ->stopOnFail()
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- uli")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- uli --name=AdminOne")
       ->run()
       ->getExitCode();
 
@@ -563,7 +563,7 @@ trait DeploymentTrait {
       ->exec("terminus remote:drush $pantheon_terminus_environment -- pm:uninstall server_default_content default_content --no-interaction")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- set-homepage")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- cr")
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- uli");
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- uli --name=AdminOne");
 
     $result = $task->run()->getExitCode();
 
@@ -747,7 +747,7 @@ trait DeploymentTrait {
     }
     if ($repo->private) {
       // If the repository is private, we can put a login link into the comment.
-      $quick_link = $this->taskExec("terminus remote:drush " . $pantheon_info['name'] . "." . $pantheon_environment . " uli")
+      $quick_link = $this->taskExec("terminus remote:drush " . $pantheon_info['name'] . "." . $pantheon_environment . " uli -- --name=AdminOne")
         ->printOutput(FALSE)
         ->run()
         ->getMessage();
