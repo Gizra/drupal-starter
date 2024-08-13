@@ -31,7 +31,7 @@ trait DeploymentTrait {
   public static string $githubProject = 'Gizra/drupal-starter';
 
   /**
-   * The name of the admin user (UID1 is blocked).
+   * The name of the admin user (UID 1 is blocked by default).
    *
    * @var string
    */
