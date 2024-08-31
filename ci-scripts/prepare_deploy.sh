@@ -13,6 +13,11 @@ ddev config global --web-environment-add="TERMINUS_MACHINE_TOKEN=$TERMINUS_TOKEN
 
 export GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 
+if [ -z "$PANTHEON_GIT_URL" ]; then
+  echo "Error: PANTHEON_GIT_URL is not set. Add it to .travis.yml"
+  exit 1
+fi
+
 git clone "$PANTHEON_GIT_URL" -b master .pantheon
 
 ddev stop

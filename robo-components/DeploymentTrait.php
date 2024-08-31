@@ -641,6 +641,12 @@ trait DeploymentTrait {
       throw new \Exception('The encryption of the Terminus token failed.');
     }
 
+    $result = $this->taskExec('travis encrypt GITHUB_TOKEN="' . $github_token . '" --add --no-interactive --pro')
+      ->run();
+    if ($result->getExitCode() !== 0) {
+      throw new \Exception('The encryption of the Github token failed.');
+    }
+
     $result = $this->taskExec("terminus connection:info $project_name.dev --fields='Git Command' --format=string | awk '{print $3}'")
       ->printOutput(FALSE)
       ->run();

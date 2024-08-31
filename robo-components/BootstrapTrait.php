@@ -59,6 +59,8 @@ trait BootstrapTrait {
     $this->say("You might want to run the following commands to properly place the project:");
     $this->say("mv .bootstrap ../$project_machine_name");
     $this->say("mv .pantheon ../$project_machine_name/.pantheon");
+    $this->say("To configure autodeployment to pantheon run:");
+    $this->say("ddev robo deploy:config-autodeploy $terminus_token, $github_token");
   }
 
   /**
