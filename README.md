@@ -504,6 +504,15 @@ To import the config translations:
 - Run `ddev drush config:export`
 - Review & commit the config changes
 
+#### Changing main language
+
+By default, the Drupal starter setup installs Drupal in English. To change the
+default language to something other than English, you need to modify the
+.ddev/config.local.yaml.example file. Specifically, update the file to run the
+`setup-language <your_language_code>` command, replacing <your_language_code>
+with the desired language code. This adjustment will configure Drupal to use
+the specified language instead of English.
+
 ## Two-factor Authentication (TFA)
 
 TFA is enabled for the Administrator and Content editor users.

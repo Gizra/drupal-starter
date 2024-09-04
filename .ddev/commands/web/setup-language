@@ -1,0 +1,31 @@
+#!/bin/bash
+
+## Description: Configures drupal to install language
+## Usage: setup-language LANGCODE
+## Example: "ddev setup-language es"
+
+if [ $# -ne 1 ]; then
+  echo "Usage: $0 <langcode>"
+  exit 1
+fi
+
+langcode=$1
+
+# The site is configured in english. Nothing to do here.
+if [ "$langcode" == "en" ]; then
+  exit 0
+fi
+
+directories=(
+  "config/sync"
+  "web/modules/custom/server_default_content"
+)
+
+# Find and replace "langcode: en" with "langcode: $langcode"
+for dir in "${directories[@]}"; do
+  if [ -d "$dir" ]; then
+    grep -rl "langcode: en" "$dir" | while read -r file; do
+      sed -i "s/langcode: en/langcode: $langcode/g" "$file"
+    done
+  fi
+done
