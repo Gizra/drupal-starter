@@ -8,7 +8,7 @@
 <!-- ProcessIsolation: Runs each test in a new PHP thread when set to true.
      This ensures that PHP memory limit is not reached during tests as the
      number of tests build up over time in the project. -->
-<phpunit bootstrap=".bootstrap-fast.php" processIsolation="true">
+<phpunit bootstrap=".bootstrap-fast.php" processIsolation="true" testdox="true">
   <php>
     <env name="DTT_BASE_URL" value="http://web"/>
     <env name="DTT_API_URL" value="http://localhost:9222"/>
