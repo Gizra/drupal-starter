@@ -29,3 +29,12 @@ for dir in "${directories[@]}"; do
     done
   fi
 done
+
+TARGET_FILE="config/sync/language.entity.${langcode}.yml"
+
+# Make sure the language selected exists. If not, reuse Spanish as source.
+if [ ! -f "$TARGET_FILE" ]; then
+  mv config/sync/language.entity.es.yml "$TARGET_FILE"
+
+  sed -i "s/id: es/id: ${langcode}/" "$TARGET_FILE"
+fi
