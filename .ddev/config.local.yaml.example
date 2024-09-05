@@ -11,7 +11,7 @@ hooks:
 
     # Default instalation languge: English. Change this to different langcode
     # to prepare a drupal instalation in a different language.
-    - exec-host: ddev setup-language en
+    - exec-host: ddev setup-language en English
 
     # Create a private key for Two-factor Authentication if not yet added.
     - exec-host: ddev set-tfa-key

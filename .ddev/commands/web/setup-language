@@ -2,14 +2,15 @@
 
 ## Description: Configures drupal to install language
 ## Usage: setup-language LANGCODE
-## Example: "ddev setup-language es"
+## Example: "ddev setup-language es Spanish"
 
-if [ $# -ne 1 ]; then
-  echo "Usage: $0 <langcode>"
+if [ $# -ne 2 ]; then
+  echo "Usage: $0 <langcode> <language name>"
   exit 1
 fi
 
 langcode=$1
+langname=$2
 
 # The site is configured in english. Nothing to do here.
 if [ "$langcode" == "en" ]; then
@@ -37,4 +38,9 @@ if [ ! -f "$TARGET_FILE" ]; then
   mv config/sync/language.entity.es.yml "$TARGET_FILE"
 
   sed -i "s/id: es/id: ${langcode}/" "$TARGET_FILE"
+  sed -i "s/label: Spanish/label: ${langname}/" "$TARGET_FILE"
+  sed -i "s/weight: 2/weight: -1/" "$TARGET_FILE"
+
+  sed -i "s/en: ''/en: en/" config/sync/language.negotiation.yml
+  sed -i "s/es: es/${langcode}: ${langcode}/" config/sync/language.negotiation.yml
 fi

@@ -509,9 +509,9 @@ To import the config translations:
 By default, the Drupal starter setup installs Drupal in English. To change the
 default language to something other than English, you need to modify the
 .ddev/config.local.yaml.example file. Specifically, update the file to run the
-`setup-language <your_language_code>` command, replacing <your_language_code>
-with the desired language code. This adjustment will configure Drupal to use
-the specified language instead of English.
+`setup-language <your_language_code> <language name>` command, for example
+`setup-language fr French`. This adjustment will configure Drupal to use
+the specified language (French) instead of English.
 
 ## Two-factor Authentication (TFA)
 
