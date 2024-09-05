@@ -689,7 +689,7 @@ function server_theme_preprocess_image_style(array &$variables) {
 }
 
 /**
- * Implements hook_preprocess_HOOK() for the block theme hook.
+ * Implements hook_preprocess_HOOK() for the 'system_messages_block' theme hook.
  *
  * Https://www.drupal.org/project/drupal/issues/3456176
  */
