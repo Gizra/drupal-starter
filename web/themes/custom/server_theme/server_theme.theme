@@ -5,6 +5,7 @@
  * Theme custom logic.
  */
 
+use Drupal\Core\Render\Element\StatusMessages;
 use Drupal\Core\Url;
 
 /**
@@ -685,4 +686,14 @@ function server_theme_preprocess_image_style(array &$variables) {
   if (in_array($variables['style_name'], $eager_styles, TRUE)) {
     $variables['image']['#attributes']['loading'] = 'eager';
   }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for the block theme hook.
+ *
+ * Https://www.drupal.org/project/drupal/issues/3456176
+ */
+function server_theme_preprocess_block__system_messages_block(array &$variables) {
+  $variables['content'] = StatusMessages::renderMessages();
+  $variables['#cache']['max-age'] = 0;
 }
