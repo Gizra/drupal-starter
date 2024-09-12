@@ -499,8 +499,17 @@ trait DeploymentTrait {
       ->run()
       ->getMessage();
 
+    if (empty($output)) {
+      throw new \Exception("Cannot get requirement errors via terminus, try to authenticate first.");
+    }
+
     $errors = [];
     $parsed_output = json_decode($output, TRUE);
+
+    if (!is_array($parsed_output)) {
+      throw new \Exception("Cannot parse the response of terminus: " . serialize($parsed_output));
+    }
+
     foreach ($parsed_output as $requirement) {
       if ($requirement['severity'] !== 'Error') {
         continue;
