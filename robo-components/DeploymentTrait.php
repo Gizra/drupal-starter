@@ -500,7 +500,7 @@ trait DeploymentTrait {
       ->getMessage();
 
     if (empty($output)) {
-      throw new \Exception("Cannot get requirement errors via terminus, try to authenticate first.");
+      throw new \Exception("Cannot get requirement errors via terminus, try to authenticate first: ddev auth ssh && ddev . terminus login --machine-token=[TOKEN]");
     }
 
     $errors = [];
