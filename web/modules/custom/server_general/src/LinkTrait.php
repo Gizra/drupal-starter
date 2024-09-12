@@ -2,6 +2,7 @@
 
 namespace Drupal\server_general;
 
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
 
 /**
@@ -12,8 +13,8 @@ trait LinkTrait {
   /**
    * Build a link.
    *
-   * @param string $title
-   *   The title of the link.
+   * @param array|string|TranslatableMarkup $content
+   *   The content of the link.
    * @param \Drupal\Core\Url $url
    *   The URL object.
    * @param string $color
@@ -34,11 +35,11 @@ trait LinkTrait {
    * @return array
    *   Render array.
    */
-  public function buildLink(string $title, Url $url, string $color = 'dark-gray', ?int $lines_clamp = 3, string $underline = 'hover', bool $show_external_icon = TRUE): array {
+  public function buildLink(array|string|TranslatableMarkup $content, Url $url, string $color = 'dark-gray', ?int $lines_clamp = 3, string $underline = 'hover', bool $show_external_icon = TRUE): array {
     $element = [
       '#theme' => 'server_theme_link',
       '#url' => $url,
-      '#title' => $title,
+      '#title' => $content,
       '#show_external_icon' => $show_external_icon,
       '#lines_clamp' => $lines_clamp,
     ];
