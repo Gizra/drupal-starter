@@ -189,6 +189,9 @@ trait ElementWrapTrait {
     }
 
     $paragraphs = $field_item_list->referencedEntities();
+    if (empty($paragraphs)) {
+      return $element;
+    }
     $paragraph = $paragraphs[count($paragraphs) - 1];
 
     if (!($paragraph instanceof ParagraphInterface)) {
