@@ -16,6 +16,7 @@ composer_version: "2"
 web_environment:
     - COMPOSER_EXIT_ON_PATCH_FAILURE=1
 corepack_enable: false
+fail_on_hook_fail: true
 
 # Key features of DDEV's config.yaml:
 

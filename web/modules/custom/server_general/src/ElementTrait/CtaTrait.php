@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Drupal\server_general\ElementTrait;
 
-use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Link;
 use Drupal\server_general\ButtonTrait;
 use Drupal\server_general\ElementWrapTrait;
@@ -45,7 +44,7 @@ trait CtaTrait {
     $elements[] = $this->wrapProseText($body);
 
     // Button.
-    $elements[] = $this->buildButton($link->getText(), $link->getUrl(), TRUE, NULL, UrlHelper::isExternal($link->getUrl()->toString()));
+    $elements[] = $this->buildButton($link->getText(), $link->getUrl(), TRUE, NULL, $link->getUrl()->isExternal());
 
     $elements = $this->wrapContainerVerticalSpacingBig($elements, 'center');
 
