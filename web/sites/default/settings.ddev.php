@@ -102,6 +102,6 @@ $settings['config_exclude_modules'] = [
   'stage_file_proxy',
 ];
 
-if (file_exists($app_root . '/' . $site_path . '/settings.fast404.php')) {
-  include $app_root . '/' . $site_path . '/settings.fast404.php';
+if (file_exists(__DIR__ . '/settings.fast404.php')) {
+  include __DIR__ . '/settings.fast404.php';
 }
