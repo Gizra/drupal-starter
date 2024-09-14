@@ -44,7 +44,7 @@
         "drupal/entity_reference_revisions": "^1.11",
         "drupal/environment_indicator": "^4.0",
         "drupal/facets": "^2.0",
-        "drupal/fast_404": "^3.0",
+        "drupal/fast_404": "^3.3",
         "drupal/focal_point": "^2.0",
         "drupal/google_analytics": "^4.0",
         "drupal/inline_entity_form": "^3.0@RC",
