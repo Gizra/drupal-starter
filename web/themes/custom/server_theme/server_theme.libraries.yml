@@ -74,3 +74,9 @@ anchor:
     /libraries/anchor-js/anchor.min.js: {}
   dependencies:
     - core/drupal
+
+messages:
+  js:
+    dist/js/messages.js: {}
+  dependencies:
+    - server_theme/global-styling
