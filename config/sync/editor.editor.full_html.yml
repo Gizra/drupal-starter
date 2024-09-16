@@ -90,6 +90,8 @@ settings:
         - heading6
     ckeditor5_imageResize:
       allow_resize: true
+    ckeditor5_language:
+      language_list: un
     ckeditor5_list:
       properties:
         reversed: true
