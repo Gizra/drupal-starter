@@ -25,12 +25,11 @@ class ServerGeneralInputFormatTest extends ServerGeneralTestBase {
     $this->getSession()->getPage()->fillField('edit-field-body-0-value', 'I cannot have a script tag: <script></script>, as that would be way too dangerous. See https://owasp.org/www-community/attacks/xss/. <div class="danger-danger" onmouseover="javascript: whatafunction()">abc</div>');
     $this->getSession()->getPage()->selectFieldOption('edit-field-body-0-format--2', 'full_html');
     $this->click('#edit-submit');
-    // <form> tag can be used.
-    // The class attribute is preserved.
     // <script> tag is eliminated.
     $this->assertSession()->elementNotExists('css', '.node--type-news script');
-    // The onmouseover attribute is completely droppped.
+    // The class attribute is preserved.
     $this->assertSession()->elementExists('css', '.danger-danger');
+    // The onmouseover attribute is completely droppped.
     $this->assertStringNotContainsString('onmouseover', $this->getCurrentPage()->getOuterHtml());
     $this->clickLink('Delete');
     $this->click('#edit-submit');
