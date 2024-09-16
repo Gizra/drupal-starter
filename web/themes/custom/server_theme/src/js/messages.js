@@ -28,9 +28,9 @@
     if (type === 'error') {
       message_class = 'bg-red-400';  
     } else if (type === 'warning') {
-      message_class = 'bg-yellow-400';
+      message_class = 'bg-yellow-500';
     } else if (type === 'status') {
-      message_class = 'bg-green-400';
+      message_class = 'bg-green-600';
     }
     
     messageWrapper.setAttribute(
