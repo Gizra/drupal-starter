@@ -79,4 +79,4 @@ messages:
   js:
     dist/js/messages.js: {}
   dependencies:
-    - server_theme/global-styling
+    - core/drupal
