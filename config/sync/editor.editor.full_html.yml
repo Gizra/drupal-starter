@@ -90,8 +90,6 @@ settings:
         - heading6
     ckeditor5_imageResize:
       allow_resize: true
-    ckeditor5_language:
-      language_list: un
     ckeditor5_list:
       properties:
         reversed: true
@@ -111,6 +109,8 @@ settings:
         - '<h5 id>'
         - '<h6 id>'
         - '<ol type>'
+        - '<div class>'
+        - '<span class>'
     media_media:
       allow_view_mode_override: false
 image_upload:
