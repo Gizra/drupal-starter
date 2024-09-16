@@ -4,6 +4,7 @@ description: 'A foundation for building a theme for Drupal Starter.'
 package: Server
 core_version_requirement: ^9 || ^10
 libraries:
+  - core/drupal.message
   - server_theme/global-styling
   - server_theme/global-scripts
   - server_theme/font-awesome
@@ -39,3 +40,7 @@ libraries-override:
     css:
       components:
         /themes/contrib/stable/css/system/components/ajax-progress.module.css: false
+
+libraries-extend:
+  core/drupal.message:
+    - server_theme/messages
