@@ -16,6 +16,7 @@ class ServerGeneralFast404Test extends ExistingSiteBase {
    */
   public function testFast404() {
     $paths = [
+      '/backdoor.php',
       '/fileman',
       '/phpmyadmin',
       '/index.aspx',

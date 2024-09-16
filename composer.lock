@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "10507fc8306b8e368a3f93fc7d1eb83e",
+    "content-hash": "22026be3936953689f4ed73ab85c95cf",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -67,7 +67,7 @@
             "version": "6.x-dev",
             "source": {
                 "type": "git",
-                "url": "https://github.com/FortAwesome/Font-Awesome.git",
+                "url": "git@github.com:FortAwesome/Font-Awesome.git",
                 "reference": "d02961b018153506364077343b0edcde0a39d27e"
             },
             "dist": {
@@ -2619,11 +2619,11 @@
             ],
             "authors": [
                 {
-                    "name": "Berdir",
+                    "name": "berdir",
                     "homepage": "https://www.drupal.org/user/214652"
                 },
                 {
-                    "name": "Dave Reid",
+                    "name": "dave reid",
                     "homepage": "https://www.drupal.org/user/53892"
                 },
                 {
@@ -4665,26 +4665,26 @@
         },
         {
             "name": "drupal/seckit",
-            "version": "2.0.1",
+            "version": "2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/seckit.git",
-                "reference": "2.0.1"
+                "reference": "2.0.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/seckit-2.0.1.zip",
-                "reference": "2.0.1",
-                "shasum": "2eee3b9719bdd5951c2b78f419c86f4765010439"
+                "url": "https://ftp.drupal.org/files/projects/seckit-2.0.3.zip",
+                "reference": "2.0.3",
+                "shasum": "34d38f2daaf99781ef6b7e7fbe2eeabc73a7ca16"
             },
             "require": {
-                "drupal/core": "^9.3 || ^10"
+                "drupal/core": "^9.5 || ^10 || ^11"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "2.0.1",
-                    "datestamp": "1671195208",
+                    "version": "2.0.3",
+                    "datestamp": "1726075930",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -4693,7 +4693,7 @@
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
             "license": [
-                "GPL-2.0+"
+                "GPL-2.0-or-later"
             ],
             "authors": [
                 {
@@ -4720,7 +4720,7 @@
                 "security"
             ],
             "support": {
-                "source": "http://cgit.drupalcode.org/seckit",
+                "source": "https://git.drupalcode.org/project/seckit",
                 "issues": "http://drupal.org/project/issues/seckit"
             }
         },
@@ -14826,7 +14826,7 @@
             "version": "2.2.0",
             "source": {
                 "type": "git",
-                "url": "https://git.drupalcode.org/project/dtt/",
+                "url": "https://git.drupalcode.org/project/dtt.git",
                 "reference": "9ef44f5cd5eef942c84f2d2ffd21734944d566f8"
             },
             "dist": {
