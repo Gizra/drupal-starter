@@ -428,7 +428,7 @@ function server_theme_theme() {
     'variables' => [
       'url' => NULL,
       // Types can be:
-      // `twitter`, `linkedin`, `facebook`, and `email`.
+      // `x`, `linkedin`, `facebook`, and `email`.
       'service' => NULL,
       // Will be used as the subject for sharing by email (e.g. the node
       // title).

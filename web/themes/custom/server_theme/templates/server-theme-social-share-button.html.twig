@@ -7,8 +7,8 @@
 {% elseif service == 'linkedin' %}
   {% set shareUrl = "https://www.linkedin.com/sharing/share-offsite/?url=" ~ url.toString() %}
   {% set title = 'Share on LinkedIn'|t %}
-{% elseif service == 'twitter' %}
-  {% set shareUrl = "https://twitter.com/intent/tweet?url=" ~ url.toString() %}
+{% elseif service == 'x' %}
+  {% set shareUrl = "https://x.com/intent/tweet?url=" ~ url.toString() %}
   {% set title = 'Share on X'|t %}
 {% endif %}
 
@@ -18,7 +18,7 @@
       <path d="M0 14.4958V27.5714C0 30.0962 2.0467 32.1429 4.57143 32.1429H27.4286C29.9533 32.1429 32 30.0962 32 27.5714V14.4958L18.3959 22.8675C16.9266 23.7717 15.0734 23.7717 13.6041 22.8675L0 14.4958Z" fill="currentColor"/>
       <path d="M32 11.8119V11.5714C32 9.0467 29.9533 7 27.4286 7H4.57143C2.0467 7 0 9.0467 0 11.5714V11.8119L14.8021 20.9209C15.5367 21.373 16.4633 21.373 17.1979 20.9209L32 11.8119Z" fill="currentColor"/>
     </svg>
-  {% elseif service == 'twitter' %}
+  {% elseif service == 'x' %}
     <svg width="32" height="32" viewBox="0 -50 512 512" xmlns="http://www.w3.org/2000/svg">
       <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
       <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" fill="currentColor"/>
