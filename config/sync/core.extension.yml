@@ -7,7 +7,6 @@ module:
   block_plugin_view_builder: 0
   breakpoint: 0
   ckeditor5: 0
-  comment: 0
   config: 0
   config_ignore: 0
   config_pages: 0

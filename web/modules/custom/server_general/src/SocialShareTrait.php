@@ -45,7 +45,7 @@ trait SocialShareTrait {
   protected function buildElementSocialShare(string $title, Url $url): array {
     $items = [];
     $services = [
-      'twitter',
+      'x',
       'linkedin',
       'facebook',
       'email',
