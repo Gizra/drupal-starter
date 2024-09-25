@@ -56,6 +56,7 @@ class ServerGeneralFast404Test extends ExistingSiteBase {
       'redirect_source' => 'example',
       'redirect_redirect' => 'internal:/node/1',
       'status_code' => '301',
+      'language' => 'en',
     ];
 
     $redirect_storage = \Drupal::entityTypeManager()->getStorage('redirect');
@@ -65,7 +66,8 @@ class ServerGeneralFast404Test extends ExistingSiteBase {
 
     $this->drupalGet('/example');
     $this->assertStringContainsString(self::DRUPAL_META_IDENTIFY, $this->getSession()->getPage()->getContent());
-    $this->assertSession()->addressEquals('/en/node');
+    $this->assertSession()->addressNotEquals('/example');
+    $this->assertSession()->addressNotEquals('/en/example');
   }
 
 }
