@@ -129,7 +129,7 @@ $settings['fast404_HTTP_status_method'] = 'FastCGI';
  * Default value for this setting is shown below. The '@path' token will be
  * replaced by the the path being requested relative to the executed script.
  */
-# $settings['fast404_html'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>404 Not Found</title></head><body><h1>Not Found</h1><p>The requested URL "@path" was not found on this server.</p></body></html>';
+$settings['fast404_html'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>404 Not Found</title></head><body><h1>Not Found</h1><p>The requested URL "@path" was not found on this server. <a href="/">Go back to the homepage.</a></p></body></html>';
 
 /**
  * By default we will show a super plain 404, because usually errors like this
