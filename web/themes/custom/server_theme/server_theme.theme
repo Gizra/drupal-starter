@@ -271,8 +271,8 @@ function server_theme_theme() {
       'url' => NULL,
       // The button's text.
       'title'  => NULL,
-      // Indicate if button should be primary or secondary.
-      'is_primary' => NULL,
+      // Specify button type. One of: 'primary', 'secondary' or 'tertiary'.
+      'button_type' => NULL,
       // Specify an icon. Any icon should be added as SVG in
       // `server-theme-button`.
       'icon' => NULL,

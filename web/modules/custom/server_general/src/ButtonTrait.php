@@ -22,8 +22,9 @@ trait ButtonTrait {
    *   The button's title.
    * @param \Drupal\Core\Url $url
    *   The button's URL as Url object.
-   * @param bool $is_primary
-   *   Whether this is a primary button. Defaults to FALSE.
+   * @param string $button_type
+   *   Type of button. Acceptable values: 'primary', 'secondary', 'tertiary'.
+   *   Defaults to 'primary'.
    * @param string|null $icon
    *   The name of the icon to add as prefix. Allowed values are:
    *   - `download`.
@@ -34,12 +35,16 @@ trait ButtonTrait {
    * @return array
    *   The rendered button array.
    */
-  protected function buildButton(array|string|TranslatableMarkup $title, Url $url, bool $is_primary = FALSE, ?string $icon = NULL, bool $open_new_tab = FALSE): array {
+  protected function buildButton(array|string|TranslatableMarkup $title, Url $url, string $button_type = 'primary', string $icon = NULL, bool $open_new_tab = FALSE): array {
+    $button_types = ['primary', 'secondary', 'tertiary'];
+    if (!in_array($button_type, $button_types)) {
+      $button_type = 'primary';
+    }
     return [
       '#theme' => 'server_theme_button',
       '#url' => $url,
       '#title'  => $title,
-      '#is_primary' => $is_primary,
+      '#button_type' => $button_type,
       '#icon' => $icon,
       '#open_new_tab' => $open_new_tab,
     ];
