@@ -9,7 +9,7 @@ use weitzman\DrupalTestTraits\ExistingSiteBase;
  */
 class ServerGeneralFast404Test extends ExistingSiteBase {
 
-  const DRUPAL_META_IDENTIFY = '<meta name="Generator" content="Drupal 10 (https://www.drupal.org)" />';
+  const DRUPAL_META_IDENTIFY = '<meta name="Generator" content="Drupal';
 
   /**
    * Tests Fast 404 functionality.
