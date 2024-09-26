@@ -506,6 +506,10 @@ class StyleGuideController extends ControllerBase {
     $element = $this->buildButton($this->t('Register'), $url, 'secondary');
     $build[] = $this->wrapElementWideContainer($element, 'Secondary button');
 
+    // Tertiary button.
+    $element = $this->buildButton($this->t('Login'), $url, 'tertiary');
+    $build[] = $this->wrapElementWideContainer($element, 'Tertiary button');
+
     return $build;
   }
 
