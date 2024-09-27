@@ -92,10 +92,18 @@ body {
   }
 
   table {
-    @apply table-auto w-full;
+    @apply table-auto w-full text-sm lg:text-base;
 
     thead tr {
-      @apply border-b-2 border-gray-600 bg-gray-100;
+      @apply border-b-2 border-gray-200 bg-gray-300;
+    }
+
+    th {
+      @apply align-bottom font-bold;
+    }
+
+    td {
+      @apply align-top;
     }
 
     th,
@@ -103,8 +111,12 @@ body {
       @apply py-1 md:py-2 px-1 text-start;
     }
 
+    tbody {
+      @apply border-b-2 border-gray-200;
+    }
+
     tbody tr {
-      @apply border-b border-gray-600;
+      @apply border-b border-gray-100;
 
       &:hover {
         @apply bg-lime-100;
