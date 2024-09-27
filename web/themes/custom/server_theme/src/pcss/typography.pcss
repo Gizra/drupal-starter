@@ -90,6 +90,29 @@ body {
   blockquote {
     @apply ps-4 md:ps-5 lg:ps-6 border-s-4 border-slate-400;
   }
+
+  table {
+    @apply table-auto w-full;
+
+    thead tr {
+      @apply border-b-2 border-gray-600 bg-gray-100;
+    }
+
+    th,
+    td {
+      @apply py-1 md:py-2 px-1 text-start;
+    }
+
+    tbody tr {
+      @apply border-b border-gray-600;
+
+      &:hover {
+        @apply bg-lime-100;
+      }
+    }
+
+  }
+
 }
 
 
