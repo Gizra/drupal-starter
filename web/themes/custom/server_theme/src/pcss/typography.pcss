@@ -14,118 +14,116 @@ body {
   @apply text-gray-900;
 }
 
-.prose {
-  // Apply default spacing to all formatted text elements.
-  .text-formatted > * {
-    @apply my-5 md:my-6 lg:my-8;
+// Apply default spacing to all formatted text elements.
+.text-formatted > * {
+  @apply my-5 md:my-6 lg:my-8;
+}
+
+// Remove top margin from first element, and bottom margin from last element.
+.text-formatted > :first-child {
+  @apply mt-0;
+}
+.text-formatted > :last-child {
+  @apply mb-0;
+}
+
+// Remove margins from images.
+figure,
+img {
+  @apply my-0;
+}
+
+// Styling for text elements.
+h1 {
+  @apply text-4xl md:text-5xl lg:text-6xl font-bold;
+}
+
+h2 {
+  @apply text-3xl md:text-4xl lg:text-5xl font-bold;
+}
+
+h3 {
+  @apply text-2xl md:text-3xl lg:text-4xl font-bold;
+}
+
+h4 {
+  @apply text-xl md:text-2xl lg:text-3xl font-bold;
+}
+
+h5 {
+  @apply text-lg md:text-xl lg:text-2xl font-bold;
+}
+
+h6 {
+  @apply text-lg md:text-xl lg:text-2xl;
+}
+
+p,
+ul,
+ol,
+blockquote {
+  @apply text-base lg:text-lg;
+}
+
+ul,
+ol {
+  @apply ps-6 md:ps-8 lg:ps-10;
+
+  li {
+    @apply my-1 md:my-2 lg:my-3 marker:text-gray-500;
+  }
+}
+
+ul {
+  @apply list-disc;
+}
+
+ol {
+  @apply list-decimal;
+}
+
+a {
+  @apply underline decoration-2 underline-offset-4 decoration-blue-500 hover:decoration-emerald-900 hover:underline-offset-6 focus-visible:decoration-emerald-900 focus-visible:underline-offset-6 transition-all duration-300;
+}
+
+blockquote {
+  @apply ps-4 md:ps-5 lg:ps-6 border-s-4 border-slate-400;
+}
+
+table {
+  @apply table-auto w-full text-sm lg:text-base;
+
+  thead tr {
+    @apply border-b-2 border-gray-200 bg-gray-300;
   }
 
-  // Remove top margin from first element, and bottom margin from last element.
-  .text-formatted > :first-child {
-    @apply mt-0;
-  }
-  .text-formatted > :last-child {
-    @apply mb-0;
+  th {
+    @apply align-bottom font-bold;
   }
 
-  // Remove margins from images.
-  figure,
-  img {
-    @apply my-0;
+  td {
+    @apply align-top;
   }
 
-  // Styling for text elements.
-  h1 {
-    @apply text-4xl md:text-5xl lg:text-6xl font-bold;
+  th,
+  td {
+    @apply py-1 md:py-2 px-1 text-start;
   }
 
-  h2 {
-    @apply text-3xl md:text-4xl lg:text-5xl font-bold;
+  tbody {
+    @apply border-b-2 border-gray-200;
   }
 
-  h3 {
-    @apply text-2xl md:text-3xl lg:text-4xl font-bold;
-  }
+  tbody tr {
+    @apply border-b border-gray-100;
 
-  h4 {
-    @apply text-xl md:text-2xl lg:text-3xl font-bold;
-  }
-
-  h5 {
-    @apply text-lg md:text-xl lg:text-2xl font-bold;
-  }
-
-  h6 {
-    @apply text-lg md:text-xl lg:text-2xl;
-  }
-
-  p,
-  ul,
-  ol,
-  blockquote {
-    @apply text-base lg:text-lg;
-  }
-
-  ul,
-  ol {
-    @apply ps-6 md:ps-8 lg:ps-10;
-
-    li {
-      @apply my-1 md:my-2 lg:my-3 marker:text-gray-500;
+    &:hover {
+      @apply bg-lime-100;
     }
-  }
-
-  ul {
-    @apply list-disc;
-  }
-
-  ol {
-    @apply list-decimal;
-  }
-
-  a {
-    @apply underline decoration-2 underline-offset-4 decoration-blue-500 hover:decoration-emerald-900 hover:underline-offset-6 focus-visible:decoration-emerald-900 focus-visible:underline-offset-6 transition-all duration-300;
-  }
-
-  blockquote {
-    @apply ps-4 md:ps-5 lg:ps-6 border-s-4 border-slate-400;
-  }
-
-  table {
-    @apply table-auto w-full text-sm lg:text-base;
-
-    thead tr {
-      @apply border-b-2 border-gray-200 bg-gray-300;
-    }
-
-    th {
-      @apply align-bottom font-bold;
-    }
-
-    td {
-      @apply align-top;
-    }
-
-    th,
-    td {
-      @apply py-1 md:py-2 px-1 text-start;
-    }
-
-    tbody {
-      @apply border-b-2 border-gray-200;
-    }
-
-    tbody tr {
-      @apply border-b border-gray-100;
-
-      &:hover {
-        @apply bg-lime-100;
-      }
-    }
-
   }
 
 }
+
 
 
 
