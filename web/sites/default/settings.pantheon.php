@@ -79,6 +79,8 @@ if (!empty($pantheon_env)) {
     // $config['rollbar.settings']['access_token'] = '';
     // $config['rollbar.settings']['access_token_frontend'] = '';.
   }
+
+  $config['environment_indicator.indicator']['name'] = strtoupper($pantheon_env);
   switch ($pantheon_env) {
     case 'test':
       $config['environment_indicator.indicator']['bg_color'] = '#ffcc6b';
