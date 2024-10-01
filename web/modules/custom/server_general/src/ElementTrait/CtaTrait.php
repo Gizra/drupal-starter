@@ -41,7 +41,7 @@ trait CtaTrait {
     $elements[] = $this->wrapTextFontWeight($element, 'bold');
 
     // Text.
-    $elements[] = $this->wrapProseText($body);
+    $elements[] = $body;
 
     // Button.
     $elements[] = $this->buildButton($link->getText(), $link->getUrl(), 'primary', NULL, $link->getUrl()->isExternal());

@@ -307,8 +307,8 @@ function server_theme_theme() {
     ],
   ];
 
-  // Text that should have `prose` classes applied to it.
-  $info['server_theme_prose_text'] = [
+  // Text that should have `.text-formatted` classes applied to it.
+  $info['server_theme_text_formatted'] = [
     'variables' => [
       'text' => NULL,
     ],
