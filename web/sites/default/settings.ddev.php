@@ -101,3 +101,7 @@ $settings['config_exclude_modules'] = [
   'webprofiler',
   'stage_file_proxy',
 ];
+
+if (file_exists(__DIR__ . '/settings.fast404.php')) {
+  include __DIR__ . '/settings.fast404.php';
+}

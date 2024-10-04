@@ -127,3 +127,7 @@ if (file_exists('/files/private/secrets.json')) {
     putenv('TFA_KEY="' . $secrets['tfa'] . "\"");
   }
 }
+
+if (file_exists(__DIR__ . '/settings.fast404.php')) {
+  include __DIR__ . '/settings.fast404.php';
+}
