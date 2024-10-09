@@ -29,7 +29,7 @@ trait QuoteTrait {
    * @return array
    *   Render array.
    */
-  protected function buildElementQuote(array $image, array $quote, string $subtitle = NULL, string $image_credit = NULL): array {
+  protected function buildElementQuote(array $image, array $quote, ?string $subtitle = NULL, ?string $image_credit = NULL): array {
     $items = [];
 
     // Quotation sign.

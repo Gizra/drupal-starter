@@ -27,7 +27,7 @@ trait ElementWrapTrait {
    * @return array
    *   Render array.
    */
-  protected function wrapContainerWide(array $element, string $bg_color = NULL): array {
+  protected function wrapContainerWide(array $element, ?string $bg_color = NULL): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
@@ -54,7 +54,7 @@ trait ElementWrapTrait {
    * @return array
    *   Render array.
    */
-  protected function wrapContainerNarrow(array $element, string $bg_color = NULL): array {
+  protected function wrapContainerNarrow(array $element, ?string $bg_color = NULL): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
@@ -80,7 +80,7 @@ trait ElementWrapTrait {
    * @return array
    *   Render array.
    */
-  protected function wrapContainerVerticalSpacing(array $element, string $align = NULL): array {
+  protected function wrapContainerVerticalSpacing(array $element, ?string $align = NULL): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
@@ -106,7 +106,7 @@ trait ElementWrapTrait {
    * @return array
    *   Render array.
    */
-  protected function wrapContainerVerticalSpacingTiny(array $element, string $align = NULL): array {
+  protected function wrapContainerVerticalSpacingTiny(array $element, ?string $align = NULL): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
@@ -132,7 +132,7 @@ trait ElementWrapTrait {
    * @return array
    *   Render array.
    */
-  protected function wrapContainerVerticalSpacingBig(array $element, string $align = NULL): array {
+  protected function wrapContainerVerticalSpacingBig(array $element, ?string $align = NULL): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
@@ -158,7 +158,7 @@ trait ElementWrapTrait {
    * @return array
    *   Render array.
    */
-  protected function wrapContainerVerticalSpacingHuge(array $element, string $align = NULL): array {
+  protected function wrapContainerVerticalSpacingHuge(array $element, ?string $align = NULL): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.

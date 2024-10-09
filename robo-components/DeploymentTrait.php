@@ -539,7 +539,7 @@ trait DeploymentTrait {
    *
    * @throws \Exception
    */
-  public function deployPantheonInstallEnv(string $env = 'qa', string $pantheon_name = NULL, array $options = ['backup' => FALSE]): void {
+  public function deployPantheonInstallEnv(string $env = 'qa', ?string $pantheon_name = NULL, array $options = ['backup' => FALSE]): void {
     $forbidden_envs = [
       'live',
     ];

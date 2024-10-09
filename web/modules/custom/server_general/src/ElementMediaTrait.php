@@ -30,7 +30,7 @@ trait ElementMediaTrait {
    * @return array
    *   The render array.
    */
-  protected function buildElementImage(array $image, string $credit = NULL, string $caption = NULL): array {
+  protected function buildElementImage(array $image, ?string $credit = NULL, ?string $caption = NULL): array {
     $elements = [];
 
     $image = $this->wrapRoundedCornersBig($image);
@@ -53,7 +53,7 @@ trait ElementMediaTrait {
    * @return array
    *   The render array.
    */
-  protected function buildElementImageWithCreditOverlay(array $image, string $credit = NULL): array {
+  protected function buildElementImageWithCreditOverlay(array $image, ?string $credit = NULL): array {
 
     return [
       '#theme' => 'server_theme_image_with_credit_overlay',
@@ -81,7 +81,7 @@ trait ElementMediaTrait {
    * @return array
    *   The render array.
    */
-  protected function buildElementVideo(string $url, int $width, int $height, bool $iframe_full_width = FALSE, string $credit = NULL, string $caption = NULL): array {
+  protected function buildElementVideo(string $url, int $width, int $height, bool $iframe_full_width = FALSE, ?string $credit = NULL, ?string $caption = NULL): array {
     $elements = [];
 
     $url = Url::fromRoute('media.oembed_iframe', [], [
@@ -132,7 +132,7 @@ trait ElementMediaTrait {
    * @return array
    *   The render array.
    */
-  protected function buildCreditAndCaption(string $credit = NULL, string $caption = NULL): array {
+  protected function buildCreditAndCaption(?string $credit = NULL, ?string $caption = NULL): array {
     $elements = [];
 
     if (!empty($credit)) {
