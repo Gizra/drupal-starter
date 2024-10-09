@@ -751,11 +751,6 @@ trait DeploymentTrait {
       }
     }
 
-    if (empty($issue_numbers)) {
-      $this->say("Giving up, no notification sent to GitHub");
-      return;
-    }
-
     $pantheon_info = $this->getPantheonNameAndEnv();
     // Let's figure out if the repository is public or not via GitHub API.
     $repo = $this->taskExec("curl -H \"Authorization: token $github_token\" https://api.github.com/repos/" . self::$githubProject)
