@@ -2,9 +2,9 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
+use Drupal\paragraphs\ParagraphInterface;
 use Drupal\Tests\drupal_test_assertions\Assertions\EntityTrait;
 use Drupal\Tests\drupal_test_assertions\Assertions\FieldsTrait;
-use Drupal\paragraphs\ParagraphInterface;
 
 /**
  * Abstract class to hold shared logic to check various content-types.
