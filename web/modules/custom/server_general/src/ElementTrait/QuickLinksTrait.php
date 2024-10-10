@@ -52,7 +52,7 @@ trait QuickLinksTrait {
    * @return array
    *   Render array.
    */
-  protected function buildElementQuickLinkItem(string $title, Url $url, string $subtitle = NULL): array {
+  protected function buildElementQuickLinkItem(string $title, Url $url, ?string $subtitle = NULL): array {
     $items = [];
     $items[] = $this->wrapTextResponsiveFontSize($title, 'xl');
 

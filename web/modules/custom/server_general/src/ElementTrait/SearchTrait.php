@@ -41,7 +41,7 @@ trait SearchTrait {
    * @return array
    *   Render array.
    */
-  protected function buildElementSearchTermFacetsAndResults(array $facets_items, bool $has_filters, array $result_items, string $search_term = NULL): array {
+  protected function buildElementSearchTermFacetsAndResults(array $facets_items, bool $has_filters, array $result_items, ?string $search_term = NULL): array {
     $elements = [];
 
     // Show the search term and facets if they exist.
