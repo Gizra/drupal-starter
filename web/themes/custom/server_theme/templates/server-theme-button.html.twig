@@ -8,8 +8,10 @@
 {% endmacro %}
 
 {% set classes = [
-  'flex flex-row items-center gap-x-4 rounded-lg px-6 py-3 text-xl border-2 border-blue-500 hover:bg-blue-600 w-fit',
-  is_primary ? 'bg-blue-500 text-white' : 'text-blue-900 bg-white hover:text-white',
+  'flex flex-row items-center gap-x-4 rounded-lg px-6 py-3 text-xl border-2 border-blue-500 hover:bg-blue-600 w-fit transition duration-300',
+  button_type == 'primary' ? 'bg-blue-500 text-white hover:bg-white hover:text-blue-500 focus-visible:bg-white focus-visible:text-blue-500',
+  button_type == 'secondary' ? 'text-blue-900 bg-white border-blue-900 hover:text-white hover:bg-blue-900 focus-visible:text-white focus-visible:bg-blue-900',
+  button_type == 'tertiary' ? 'text-white bg-emerald-900 border-emerald-900 hover:text-emerald-900 hover:bg-white focus-visible:text-emerald-900 focus-visible:bg-white',
 ] | join(' ') | trim %}
 
 {% set target = open_new_tab ? '_blank' : '_self' %}

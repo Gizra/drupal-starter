@@ -85,7 +85,6 @@ trait ElementLayoutTrait {
     $elements = [];
     $top_elements[] = $this->buildParagraphTitle($title);
 
-    $body = $this->wrapProseText($body);
     $body = $this->wrapTextColor($body, 'dark-gray');
     $top_elements[] = $body;
 

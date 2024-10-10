@@ -499,12 +499,16 @@ class StyleGuideController extends ControllerBase {
     $url = Url::fromRoute('<front>');
 
     // Primary button with icon.
-    $element = $this->buildButton('Download file', $url, TRUE, 'download');
+    $element = $this->buildButton($this->t('Download file'), $url, 'primary', 'download');
     $build[] = $this->wrapElementWideContainer($element, 'Primary button');
 
     // Secondary button.
-    $element = $this->buildButton('Register', $url, FALSE);
+    $element = $this->buildButton($this->t('Register'), $url, 'secondary');
     $build[] = $this->wrapElementWideContainer($element, 'Secondary button');
+
+    // Tertiary button.
+    $element = $this->buildButton($this->t('Login'), $url, 'tertiary');
+    $build[] = $this->wrapElementWideContainer($element, 'Tertiary button');
 
     return $build;
   }
@@ -581,8 +585,8 @@ class StyleGuideController extends ControllerBase {
     $build[] = $this->wrapElementWideContainer($elements, 'Headings (h1 - h5)');
 
     $element = ['#theme' => 'server_style_guide_text_styles'];
-    $element = $this->wrapProseText($element);
-    $build[] = $this->wrapElementWideContainer($element, 'Text styles (Prose)');
+    $element = $this->wrapTextFormatted($element);
+    $build[] = $this->wrapElementWideContainer($element, 'Text styles (formatted)');
 
     return $build;
   }
