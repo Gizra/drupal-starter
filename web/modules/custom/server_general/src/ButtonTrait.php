@@ -35,7 +35,7 @@ trait ButtonTrait {
    * @return array
    *   The rendered button array.
    */
-  protected function buildButton(array|string|TranslatableMarkup $title, Url $url, string $button_type = 'primary', string $icon = NULL, bool $open_new_tab = FALSE): array {
+  protected function buildButton(array|string|TranslatableMarkup $title, Url $url, string $button_type = 'primary', ?string $icon = NULL, bool $open_new_tab = FALSE): array {
     $button_types = ['primary', 'secondary', 'tertiary'];
     if (!in_array($button_type, $button_types)) {
       $button_type = 'primary';
