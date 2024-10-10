@@ -539,7 +539,7 @@ trait DeploymentTrait {
    *
    * @throws \Exception
    */
-  public function deployPantheonInstallEnv(string $env = 'qa', string $pantheon_name = NULL, array $options = ['backup' => FALSE]): void {
+  public function deployPantheonInstallEnv(string $env = 'qa', ?string $pantheon_name = NULL, array $options = ['backup' => FALSE]): void {
     $forbidden_envs = [
       'live',
     ];
@@ -749,11 +749,6 @@ trait DeploymentTrait {
       if (!is_numeric($issue_numbers[0])) {
         throw new \Exception("Could not determine the issue number from the branch name in the commit message: $git_commit_message");
       }
-    }
-
-    if (empty($issue_numbers)) {
-      $this->say("Giving up, no notification sent to GitHub");
-      return;
     }
 
     $pantheon_info = $this->getPantheonNameAndEnv();

@@ -33,7 +33,7 @@ trait InnerElementLayoutTrait {
    * @return array
    *   Render array.
    */
-  protected function buildInnerElementLayout(array $items, string $bg_color = NULL): array {
+  protected function buildInnerElementLayout(array $items, ?string $bg_color = NULL): array {
     return [
       '#theme' => 'server_theme_inner_element_layout',
       '#items' => $this->wrapContainerVerticalSpacing($items),

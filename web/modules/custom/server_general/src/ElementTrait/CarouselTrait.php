@@ -36,7 +36,7 @@ trait CarouselTrait {
    * @return array
    *   Render array.
    */
-  protected function buildElementCarousel(string $title, array $body, array $items, bool $is_featured = FALSE, array $button = NULL, bool $is_infinite = FALSE): array {
+  protected function buildElementCarousel(string $title, array $body, array $items, bool $is_featured = FALSE, ?array $button = NULL, bool $is_infinite = FALSE): array {
     if (empty($items)) {
       return [];
     }

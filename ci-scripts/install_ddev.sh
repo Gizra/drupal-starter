@@ -7,7 +7,7 @@ else
   docker login --password "$DOCKER_PASSWORD" --username amitaibu
 fi
 
-DDEV_VERSION="v1.23.2"
+DDEV_VERSION="v1.23.4"
 
 if ! command -v ddev &>/dev/null; then
     echo "Installing ddev."

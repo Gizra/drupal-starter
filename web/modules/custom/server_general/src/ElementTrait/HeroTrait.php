@@ -32,7 +32,7 @@ trait HeroTrait {
    * @return array
    *   Render array.
    */
-  protected function buildElementHeroImage(array $image, string $title, string $subtitle, Link $link = NULL): array {
+  protected function buildElementHeroImage(array $image, string $title, string $subtitle, ?Link $link = NULL): array {
     $elements = [];
 
     // Title.

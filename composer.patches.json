@@ -24,9 +24,6 @@
     "drupal/ultimate_cron": {
       "d.o. #3351276": "https://www.drupal.org/files/issues/2023-04-03/3351276-4.patch"
     },
-    "drupal/environment_indicator": {
-      "d.o. #3456599": "https://www.drupal.org/files/issues/2024-06-24/3456599-6.patch"
-    },
     "drupal/webp": {
       "d.o. #3281606": "https://git.drupalcode.org/project/webp/-/merge_requests/33.diff"
     },

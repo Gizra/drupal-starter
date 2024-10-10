@@ -55,7 +55,7 @@ trait PeopleTeasersTrait {
    * @return array
    *   The render array.
    */
-  protected function buildElementPersonTeaser(string $image_url, string $alt, string $name, string $subtitle = NULL): array {
+  protected function buildElementPersonTeaser(string $image_url, string $alt, string $name, ?string $subtitle = NULL): array {
     $elements = [];
     $element = [
       '#theme' => 'image',

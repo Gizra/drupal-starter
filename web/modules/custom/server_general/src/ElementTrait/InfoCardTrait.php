@@ -53,7 +53,7 @@ trait InfoCardTrait {
    * @return array
    *   The render array.
    */
-  protected function buildElementInfoCard(string $header, string $title, string $subtitle = NULL): array {
+  protected function buildElementInfoCard(string $header, string $title, ?string $subtitle = NULL): array {
     $elements = [];
 
     $element = $this->wrapTextFontWeight($header, 'bold');

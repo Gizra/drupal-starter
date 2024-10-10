@@ -80,7 +80,7 @@ trait ElementLayoutTrait {
    * @return array
    *   The render array.
    */
-  protected function buildElementLayoutTitleBodyAndItems(string $title, array $body, array $items, string $bg_color = NULL): array {
+  protected function buildElementLayoutTitleBodyAndItems(string $title, array $body, array $items, ?string $bg_color = NULL): array {
     $top_elements = [];
     $elements = [];
     $top_elements[] = $this->buildParagraphTitle($title);
