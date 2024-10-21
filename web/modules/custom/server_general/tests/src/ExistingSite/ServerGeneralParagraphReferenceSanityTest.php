@@ -5,7 +5,7 @@ namespace Drupal\Tests\server_general\ExistingSite;
 /**
  * Tests paragraph reference fields.
  */
-class ServerGeneralParagraphReferenceSanity extends ServerGeneralTestBase {
+class ServerGeneralParagraphReferenceSanityTest extends ServerGeneralTestBase {
 
   /**
    * Checks that all paragraph reference fields are entity reference revisions.
