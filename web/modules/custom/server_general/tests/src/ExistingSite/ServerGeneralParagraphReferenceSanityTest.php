@@ -11,12 +11,10 @@ class ServerGeneralParagraphReferenceSanityTest extends ServerGeneralTestBase {
    * Checks that all paragraph reference fields are entity reference revisions.
    */
   public function testParagraphReferenceFields() {
-    $em = \Drupal::entityTypeManager();
-    $field_configs = $em->getStorage('field_config')->loadMultiple();
+    $field_configs = \Drupal::entityTypeManager()->getStorage('field_config')->loadMultiple();
 
     foreach ($field_configs as $id => $field_config) {
-      $storage_definition = $field_config->getFieldStorageDefinition();
-      $target_type = $storage_definition->getSetting('target_type');
+      $target_type = $field_config->getFieldStorageDefinition()->getSetting('target_type');
 
       if ($target_type !== 'paragraph') {
         continue;
