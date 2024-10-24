@@ -7,3 +7,8 @@ services:
     arguments: ['@current_route_match', '@entity_type.manager', '@server_general.locked_pages']
     tags:
       - { name: event_subscriber }
+  server_general.entity_crud_hooks:
+    class: Drupal\server_general\Hooks\EntityCrudHooks
+    tags:
+      - { name: hooks }
+
