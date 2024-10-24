@@ -25,7 +25,16 @@
         if (!$target.length) {
           return;
         }
-        $target.toggleClass('hidden');
+
+        // Sometimes we don't want to toggle .hidden class. In such cases you
+        // can add data-toggle-strategy="aria-expanded" to the button, and this
+        // will instead toggle the aria-expanded property on the target element.
+        if ($this.data('toggleStrategy') === 'aria-expanded') {
+          $target.attr('aria-expanded', $target.attr('aria-expanded') === 'true' ? 'false' : 'true')
+        }
+        else {
+          $target.toggleClass('hidden');
+        }
         $this.attr('aria-expanded', $this.attr('aria-expanded') === 'true' ? 'false' : 'true');
 
         // Handle has-scroll class. It's nice to know element has scrollbar
