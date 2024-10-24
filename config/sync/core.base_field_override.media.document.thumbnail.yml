@@ -1,10 +1,9 @@
-uuid: 40ba6faf-e964-44f8-9abf-1d4241a8f165
+uuid: fcc3f509-d154-4fb2-b0e5-c22c74178068
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.media.field_media_image
-    - media.type.image
+    - media.type.document
   module:
     - content_translation
     - image
@@ -13,22 +12,22 @@ third_party_settings:
     translation_sync:
       alt: alt
       title: title
-      file: '0'
-id: media.image.field_media_image
-field_name: field_media_image
+      file: 0
+id: media.document.thumbnail
+field_name: thumbnail
 entity_type: media
-bundle: image
-label: Image
-description: ''
-required: true
+bundle: document
+label: Thumbnail
+description: 'The thumbnail of the media item.'
+required: false
 translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
-  handler: 'default:file'
+  handler: default
   handler_settings: {  }
   file_directory: '[date:custom:Y]-[date:custom:m]'
-  file_extensions: 'png gif jpg jpeg'
+  file_extensions: 'png gif jpg jpeg webp'
   max_filesize: ''
   max_resolution: ''
   min_resolution: ''

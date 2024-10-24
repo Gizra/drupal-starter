@@ -1,9 +1,9 @@
-uuid: bb4ed106-088b-4651-b7a8-ede1895a1aae
+uuid: 9237168d-3250-4b4c-86a8-5ff6a4e17cd6
 langcode: en
 status: true
 dependencies:
   config:
-    - media.type.video
+    - paragraphs.paragraphs_type.documents
   module:
     - content_translation
 third_party_settings:
@@ -11,8 +11,8 @@ third_party_settings:
     enabled: true
     bundle_settings:
       untranslatable_fields_hide: '0'
-id: media.video
-target_entity_type_id: media
-target_bundle: video
+id: paragraph.documents
+target_entity_type_id: paragraph
+target_bundle: documents
 default_langcode: site_default
 language_alterable: true

@@ -1,13 +1,13 @@
-uuid: b7d3cb89-3ad3-41ba-aa1c-cd85ad411a0d
+uuid: 216428aa-28b8-4773-8ca1-3f5d8997b676
 langcode: en
 status: true
 dependencies:
   config:
-    - media.type.image
-id: media.image.name
+    - media.type.document
+id: media.document.name
 field_name: name
 entity_type: media
-bundle: image
+bundle: document
 label: Name
 description: ''
 required: true
