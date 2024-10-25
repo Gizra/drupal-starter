@@ -16,15 +16,20 @@ trait ExpandingTextTrait {
    *
    * @param string|array|\Drupal\Component\Render\MarkupInterface $text
    *   The text.
+   * @param
    *
    * @return array
    *   The render array.
    */
-  protected function buildElementExpandingText(string|array|MarkupInterface $text): array {
+  protected function buildElementExpandingText(string|array|MarkupInterface $text, ?int $lines_to_clamp = NULL, string|array|MarkupInterface|null $button_label_more = NULL, string|array|MarkupInterface|null $button_label_less = NULL): array {
     return [
       '#theme' => 'server_theme_element__expanding_text',
       '#text' => $text,
+      '#lines_to_clamp' => $lines_to_clamp,
+      '#button_label_more' => $button_label_more,
+      '#button_label_less' => $button_label_less,
     ];
   }
 
 }
+

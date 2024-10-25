@@ -1,20 +1,35 @@
 {{ attach_library('server_theme/expanding-text') }}
 {% set expanding_text_id = 'expanding-text-' ~ random() %}
 <div class="js-expanding-text grid grid-cols-1 gap-1">
-  <div class="js-expanding-text--text" id="{{ expanding_text_id }}" aria-expanded="false">
+  {% if lines_to_clamp == '1' %}
+    {% set line_clamp = "[&[aria-expanded='false']_.text-formatted]:line-clamp-1" %}
+  {% elseif lines_to_clamp == '2' %}
+    {% set line_clamp = "[&[aria-expanded='false']_.text-formatted]:line-clamp-2" %}
+  {% elseif lines_to_clamp == '3' %}
+    {% set line_clamp = "[&[aria-expanded='false']_.text-formatted]:line-clamp-3" %}
+  {% elseif lines_to_clamp == '4' %}
+    {% set line_clamp = "[&[aria-expanded='false']_.text-formatted]:line-clamp-4" %}
+  {% elseif lines_to_clamp == '5' %}
+    {% set line_clamp = "[&[aria-expanded='false']_.text-formatted]:line-clamp-5" %}
+  {% elseif lines_to_clamp == '6' or lines_to_clamp is empty %}
+    {% set line_clamp = "[&[aria-expanded='false']_.text-formatted]:line-clamp-6" %}
+  {% endif %}
+  <div class="js-expanding-text--text {{ line_clamp }} [&[aria-expanded='true']_.text-formatted]:line-clamp-none" id="{{ expanding_text_id }}" aria-expanded="false">
     {{ text }}
   </div>
   <div>
     <button type="button" aria-controls="{{ expanding_text_id }}" aria-expanded="false" data-toggle-strategy="aria-expanded" class="font-semibold text-sm lg:text-base grid grid-cols-1">
       <span class="col-start-1 row-start-1 flex flex-row gap-2 lg:gap-2.5 items-center is-hidden-when-expanded">
-        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px] lg:w-5 lg:h-5">
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M10.75 2.75C10.75 2.33579 10.4142 2 10 2C9.58579 2 9.25 2.33579 9.25 2.75V9.25H2.75C2.33579 9.25 2 9.58579 2 10C2 10.4142 2.33579 10.75 2.75 10.75H9.25V17.25C9.25 17.6642 9.58579 18 10 18C10.4142 18 10.75 17.6642 10.75 17.25V10.75H17.25C17.6642 10.75 18 10.4142 18 10C18 9.58579 17.6642 9.25 17.25 9.25H10.75V2.75Z" fill="#0F172A"/>
+        {# Heroicons - Solid - Plus. #}
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 lg:w-5 lg:h-5">
+          <path fill-rule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
         </svg>
         {{ button_label_more ?? 'Read more'|t }}
       </span>
       <span class="col-start-1 row-start-1 flex flex-row gap-2 lg:gap-2.5 items-center is-revealed-when-expanded">
-        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"  class="w-[18px] h-[18px] lg:w-5 lg:h-5">
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M2 10C2 9.58579 2.33579 9.25 2.75 9.25L17.25 9.25C17.6642 9.25 18 9.58579 18 10C18 10.4142 17.6642 10.75 17.25 10.75L2.75 10.75C2.33579 10.75 2 10.4142 2 10Z" fill="#0F172A"/>
+        {# Heroicons - Solid - Minus. #}
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 lg:w-5 lg:h-5">
+          <path fill-rule="evenodd" d="M4.25 12a.75.75 0 0 1 .75-.75h14a.75.75 0 0 1 0 1.5H5a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
         </svg>
         {{ button_label_less ?? 'Read less'|t }}
       </span>

@@ -471,12 +471,14 @@ function server_theme_theme() {
   // An element which displays clamped text with "Read more" option.
   $info['server_theme_element__expanding_text'] = [
     'variables' => [
-      // Currently this needs to be a processed text wrapped with
-      // .text-formatted.
+      // This needs to be a processed text wrapped with `text-formatted` class
+      // (i.e., a processed text field type).
       'text' => NULL,
-      // Customise the Read more/less button text if needed.
+      // Customize the Read more/less button text if needed.
       'button_label_more' => NULL,
       'button_label_less' => NULL,
+      // Customize how much clamping is done. 1 to 6. Default is 6.
+      'lines_to_clamp' => NULL,
     ],
   ];
 

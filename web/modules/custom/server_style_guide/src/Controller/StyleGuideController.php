@@ -151,6 +151,9 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getExpandingText();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Expanding text');
 
+    $element = $this->getExpandingText(3, 'More', 'Less');
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Expanding text - 3 lines, custom buttons');
+
     $element = $this->getHeroImage();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Hero image');
 
@@ -882,11 +885,11 @@ class StyleGuideController extends ControllerBase {
    * @return array
    *   The render array.
    */
-  protected function getExpandingText(): array {
+  protected function getExpandingText($lines_to_clamp = 6, $button_label_more = NULL, $button_label_less = NULL): array {
     $element = ['#theme' => 'server_style_guide_text_styles'];
     $element = $this->wrapProseText($element);
 
-    return $this->wrapContainerWide($this->buildElementExpandingText($element));
+    return $this->wrapContainerWide($this->buildElementExpandingText($element, $lines_to_clamp, $button_label_more, $button_label_less));
   }
 
 }
