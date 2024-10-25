@@ -16,7 +16,12 @@ trait ExpandingTextTrait {
    *
    * @param string|array|\Drupal\Component\Render\MarkupInterface $text
    *   The text.
-   * @param
+   * @param int|null $lines_to_clamp
+   *   Number of lines to show initially.
+   * @param string|array|\Drupal\Component\Render\MarkupInterface|null $button_label_more
+   *   Button text to expand.
+   * @param string|array|\Drupal\Component\Render\MarkupInterface|null $button_label_less
+   *   Button text to collapse.
    *
    * @return array
    *   The render array.
@@ -32,4 +37,3 @@ trait ExpandingTextTrait {
   }
 
 }
-

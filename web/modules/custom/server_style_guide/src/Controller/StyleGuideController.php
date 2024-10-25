@@ -885,7 +885,7 @@ class StyleGuideController extends ControllerBase {
    * @return array
    *   The render array.
    */
-  protected function getExpandingText($lines_to_clamp = 6, $button_label_more = NULL, $button_label_less = NULL): array {
+  protected function getExpandingText(?int $lines_to_clamp = NULL, ?string $button_label_more = NULL, ?string $button_label_less = NULL): array {
     $element = ['#theme' => 'server_style_guide_text_styles'];
     $element = $this->wrapProseText($element);
 
