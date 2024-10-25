@@ -15,6 +15,7 @@ use Drupal\server_general\ElementTrait\CardTrait;
 use Drupal\server_general\ElementTrait\CarouselTrait;
 use Drupal\server_general\ElementTrait\CtaTrait;
 use Drupal\server_general\ElementTrait\DocumentsTrait;
+use Drupal\server_general\ElementTrait\ExpandingTextTrait;
 use Drupal\server_general\ElementTrait\HeroTrait;
 use Drupal\server_general\ElementTrait\InfoCardTrait;
 use Drupal\server_general\ElementTrait\NewsTeasersTrait;
@@ -46,6 +47,7 @@ class StyleGuideController extends ControllerBase {
   use ElementNodeNewsTrait;
   use ElementLayoutTrait;
   use ElementWrapTrait;
+  use ExpandingTextTrait;
   use HeroTrait;
   use InfoCardTrait;
   use LinkTrait;
@@ -145,6 +147,12 @@ class StyleGuideController extends ControllerBase {
 
     $element = $this->getDocuments();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Documents list');
+
+    $element = $this->getExpandingText();
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Expanding text');
+
+    $element = $this->getExpandingText(3, 'More', 'Less');
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Expanding text - 3 lines, custom buttons');
 
     $element = $this->getHeroImage();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Hero image');
@@ -499,12 +507,16 @@ class StyleGuideController extends ControllerBase {
     $url = Url::fromRoute('<front>');
 
     // Primary button with icon.
-    $element = $this->buildButton('Download file', $url, TRUE, 'download');
+    $element = $this->buildButton($this->t('Download file'), $url, 'primary', 'download');
     $build[] = $this->wrapElementWideContainer($element, 'Primary button');
 
     // Secondary button.
-    $element = $this->buildButton('Register', $url, FALSE);
+    $element = $this->buildButton($this->t('Register'), $url, 'secondary');
     $build[] = $this->wrapElementWideContainer($element, 'Secondary button');
+
+    // Tertiary button.
+    $element = $this->buildButton($this->t('Login'), $url, 'tertiary');
+    $build[] = $this->wrapElementWideContainer($element, 'Tertiary button');
 
     return $build;
   }
@@ -758,11 +770,23 @@ class StyleGuideController extends ControllerBase {
    *   A render array.
    */
   protected function buildProcessedText(string $text) {
-    return [
+    // Emulate core processed text by wrapping the text in div.text-formatted.
+    $element = [
+      '#type' => 'container',
+      '#attributes' => [
+        'class' => [
+          'text-formatted',
+        ],
+      ],
+    ];
+
+    $element[] = [
       '#type' => 'processed_text',
       '#text' => $text,
       '#format' => filter_default_format(),
     ];
+
+    return $element;
   }
 
   /**
@@ -853,6 +877,19 @@ class StyleGuideController extends ControllerBase {
       );
     }
     return $elements;
+  }
+
+  /**
+   * Get a sample Expanding Text element.
+   *
+   * @return array
+   *   The render array.
+   */
+  protected function getExpandingText(?int $lines_to_clamp = NULL, ?string $button_label_more = NULL, ?string $button_label_less = NULL): array {
+    $element = ['#theme' => 'server_style_guide_text_styles'];
+    $element = $this->wrapProseText($element);
+
+    return $this->wrapContainerWide($this->buildElementExpandingText($element, $lines_to_clamp, $button_label_more, $button_label_less));
   }
 
 }

@@ -4,8 +4,11 @@ module.exports = {
   theme: {
     extend: {
       maxWidth: {
-        '8xl': '90rem',
+        '8xl': '90rem'
       },
+      textUnderlineOffset: {
+        '6': '6px'
+      }
     },
     fontFamily: {
       'headers': ["Roboto", 'sans-serif'],
@@ -29,6 +32,5 @@ module.exports = {
   ],
   plugins: [
     require('@tailwindcss/forms'),
-    require('@tailwindcss/typography'),
   ],
 };
