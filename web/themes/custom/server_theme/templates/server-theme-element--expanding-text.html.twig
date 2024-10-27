@@ -15,7 +15,7 @@
     {% set line_clamp = "[&[aria-expanded='false']_.text-formatted]:line-clamp-6" %}
   {% endif %}
   {# We have to set the line-clamp on the `text-formatted`, so we define this here #}
-  <div class="js-expanding-text--text [&[aria-expanded='false']_.text-formatted]:{{ line_clamp }} [&[aria-expanded='true']_.text-formatted]:line-clamp-none" id="{{ expanding_text_id }}" aria-expanded="false">
+  <div class="js-expanding-text--text {{ line_clamp }} [&[aria-expanded='true']_.text-formatted]:line-clamp-none" id="{{ expanding_text_id }}" aria-expanded="false">
     {{ text }}
   </div>
   <div>
