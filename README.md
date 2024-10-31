@@ -1,5 +1,8 @@
 [![Build Status](https://app.travis-ci.com/Gizra/drupal-starter.svg?branch=main)](https://app.travis-ci.com/Gizra/drupal-starter)
 
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=250256146)
+
+
 # Drupal 10 Starter
 
 Starter repo for Drupal 10 development. This starter is an opinionated approach,
