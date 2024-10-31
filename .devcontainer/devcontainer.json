@@ -1,0 +1,7 @@
+{
+    "image": "mcr.microsoft.com/devcontainers/universal:2",
+    "features": {
+        "ghcr.io/ddev/ddev/install-ddev:latest": {}
+    },
+    "postCreateCommand": "echo 'it should all be set up'"
+}
