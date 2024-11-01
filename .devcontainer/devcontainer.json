@@ -3,5 +3,5 @@
     "features": {
         "ghcr.io/ddev/ddev/install-ddev:latest": {}
     },
-    "postCreateCommand": "/codespaces_setup.sh"
+    "postCreateCommand": "./codespaces_setup.sh"
 }
