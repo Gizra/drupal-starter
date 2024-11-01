@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ex
+set -x
 
 wait_for_docker() {
   # Loop until Docker responds, indicating it's ready
