@@ -12,7 +12,8 @@ wait_for_docker() {
 
 wait_for_docker
 
-# Remove lynx to prevent it opening a GUI while installing.
+# Remove lynx to prevent it opening a GUI while installing, which
+# would cause the build to get stuck after the `ddev restart`.
 sudo apt-get remove -y lynx
 
 # Proceed with commands requiring Docker
