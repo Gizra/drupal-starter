@@ -13,6 +13,6 @@ wait_for_docker() {
 wait_for_docker
 
 # Proceed with commands requiring Docker
-ddev composer install
+ddev composer install --skip-confirmation
 cp .ddev/config.local.yaml.example .ddev/config.local.yaml
-ddev restart
+ddev restart --skip-confirmation
