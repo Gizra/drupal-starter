@@ -29,7 +29,7 @@ deployments. See more under ["Deploy to Pantheon"](#deploy-to-pantheon) section
 
 You can open this project in GitHub Codespaces by clicking the badge at the top of this README. This will open a Codespace with the project already cloned and ready to go.
 
-Once the installation is complete, you can use `ddev login` to log in to the site as admin user using your default browser.
+Once the installation is complete (takes about 10 minutes), you can use `ddev login` to log in to the site as admin user using your default browser.
 
 ## Local Installation
 
