@@ -12,8 +12,11 @@ wait_for_docker() {
 
 wait_for_docker
 
+# Remove lynx to prevent it opening a GUI while installing.
+sudo apt-get remove -y lynx
+
 # Proceed with commands requiring Docker
 ddev composer install
 cp .ddev/config.local.yaml.example .ddev/config.local.yaml
 ddev restart -y
-ddev describe
+ddev login
