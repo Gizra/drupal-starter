@@ -16,4 +16,3 @@ wait_for_docker
 ddev composer install
 cp .ddev/config.local.yaml.example .ddev/config.local.yaml
 ddev restart --skip-confirmation
-ddev login
