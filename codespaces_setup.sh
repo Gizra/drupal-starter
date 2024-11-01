@@ -19,4 +19,3 @@ sudo apt-get remove -y lynx
 ddev composer install
 cp .ddev/config.local.yaml.example .ddev/config.local.yaml
 ddev restart -y
-ddev login
