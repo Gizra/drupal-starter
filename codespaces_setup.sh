@@ -19,4 +19,7 @@ sudo apt-get remove -y lynx
 # Proceed with commands requiring Docker
 ddev composer install
 cp .ddev/config.local.yaml.example .ddev/config.local.yaml
-ddev restart -y
+
+# As we have a `ddev login` in the end of the ddev restart, it fails on codespace.
+# So we force a success exit code to avoid the build to fail.
+ddev restart -y || true
