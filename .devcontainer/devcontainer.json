@@ -3,5 +3,5 @@
     "features": {
         "ghcr.io/ddev/ddev/install-ddev:latest": {}
     },
-    "postCreateCommand": "echo 'it should all be set up'"
+    "postCreateCommand": "ddev composer install && cp .ddev/config.local.yaml.example .ddev/config.local.yaml && ddev restart"
 }
