@@ -15,7 +15,7 @@
    */
   Drupal.behaviors.serverThemeToggler = {
     attach: function (context, settings) {
-      const $buttons = $(once('server-theme-button', 'button[aria-controls]', context)).not('button[aria-controls="admin-toolbar"]');
+      const $buttons = $(once('server-theme-button', 'button[aria-controls], button:not(.toolbar-button)', context)).not('button[aria-controls="admin-toolbar"]');
       if (!$buttons.length) {
         return;
       }
@@ -23,11 +23,6 @@
         const $this = $(this);
         const $target = $('#' + $this.attr('aria-controls'));
         if (!$target.length) {
-          return;
-        }
-
-        // Do nothing if it's a sidebar navigation toolbar button.
-        if ($this.hasClass('toolbar-button')) {
           return;
         }
 
