@@ -41,13 +41,19 @@ trait CarouselTrait {
       return [];
     }
 
-    $elements = [];
     $elements[] = [
       '#theme' => 'server_theme_carousel',
       '#items' => $items,
       '#is_featured' => $is_featured,
       '#is_infinite' => $is_infinite,
     ];
+
+    $current_lang_code = \Drupal::languageManager()->getCurrentLanguage()->getId();
+    // RTL language codes.
+    $rtl_languages = ['ar', 'he', 'fa', 'ur'];
+    if (in_array($current_lang_code, $rtl_languages)) {
+      $elements[0]['#dir'] = 'rtl';
+    }
 
     if ($button) {
       $elements[] = $this->wrapTextCenter($button);
