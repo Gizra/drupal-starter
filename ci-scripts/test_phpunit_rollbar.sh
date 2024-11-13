@@ -19,10 +19,7 @@ cp ci-scripts/memory-limit-minimal.php.ini "$ROOT_DIR"/.ddev/php/memory-limit.ph
 rm -rf .ddev/config.local.yaml
 ddev restart
 git checkout web/sites/default/settings.ddev.php
-echo '$config["rollbar.settings"]["enabled"] = TRUE;' >> web/sites/default/settings.ddev.php
-echo '$config["rollbar.settings"]["environment"] = "jep-rootone.travis-local";' >> web/sites/default/settings.ddev.php
-echo '$config["rollbar.settings"]["log_level"] = [0,1,2,3,4];' >> web/sites/default/settings.ddev.php
-echo "\$config[\"rollbar.settings\"][\"access_token\"] = \"$ROLLBAR_SERVER_TOKEN\";" >> web/sites/default/settings.ddev.php
+cat ci-scripts/settings_rollbar.php >> web/sites/default/settings.ddev.php
 ddev drush pm:enable server_rollbar_test --yes
 ddev phpunit --do-not-cache-result --testdox --group=Rollbar || (ddev drush watchdog-show --count=1000 && exit 1)
 git checkout "$ROOT_DIR"/.ddev/php/memory-limit.php.ini
