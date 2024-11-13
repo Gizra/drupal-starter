@@ -42,8 +42,6 @@ trait CarouselTrait {
     }
 
     $current_lang_code = \Drupal::languageManager()->getCurrentLanguage();
-    // RTL language codes.
-    $rtl_languages = ['ar', 'he', 'fa', 'ur'];
 
     $elements = [];
     $elements[] = [
@@ -51,7 +49,7 @@ trait CarouselTrait {
       '#items' => $items,
       '#is_featured' => $is_featured,
       '#is_infinite' => $is_infinite,
-      '#dir' => in_array($current_lang_code->getId(), $rtl_languages) ? 'rtl' : 'ltr',
+      '#direction' => $current_lang_code->getDirection(),
     ];
 
     if ($button) {
