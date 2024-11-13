@@ -305,7 +305,7 @@ function server_theme_theme() {
       // The render array of `server_theme_button`.
       'button' => NULL,
       // Indicates the carousel direction.
-      'dir' => 'ltr',
+      'dir' => NULL,
     ],
   ];
 
