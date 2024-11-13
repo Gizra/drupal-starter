@@ -80,3 +80,11 @@ messages:
     dist/js/messages.js: {}
   dependencies:
     - core/drupal
+
+expanding-text:
+  js:
+    dist/js/expanding-text.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/once

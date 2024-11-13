@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "abe2a89746dc64bde4bdca9cbee07835",
+    "content-hash": "070c3d72343458006ab1b9c7a4c7e9f0",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -67,7 +67,7 @@
             "version": "6.x-dev",
             "source": {
                 "type": "git",
-                "url": "git@github.com:FortAwesome/Font-Awesome.git",
+                "url": "https://github.com/FortAwesome/Font-Awesome.git",
                 "reference": "d02961b018153506364077343b0edcde0a39d27e"
             },
             "dist": {
@@ -2633,7 +2633,7 @@
                     "homepage": "https://www.drupal.org/user/53892"
                 },
                 {
-                    "name": "Devin Carlson",
+                    "name": "devin carlson",
                     "homepage": "https://www.drupal.org/user/290182"
                 },
                 {
@@ -2649,7 +2649,7 @@
                     "homepage": "https://www.drupal.org/user/471638"
                 },
                 {
-                    "name": "Primsi",
+                    "name": "primsi",
                     "homepage": "https://www.drupal.org/user/282629"
                 },
                 {
@@ -5568,31 +5568,31 @@
             }
         },
         {
-            "name": "drupal/webp",
-            "version": "1.0.0-rc2",
+            "name": "drupal/wpf",
+            "version": "1.2.4",
             "source": {
                 "type": "git",
-                "url": "https://git.drupalcode.org/project/webp.git",
-                "reference": "8.x-1.0-rc2"
+                "url": "https://git.drupalcode.org/project/wpf.git",
+                "reference": "1.2.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/webp-8.x-1.0-rc2.zip",
-                "reference": "8.x-1.0-rc2",
-                "shasum": "16a1d2c29af57ac04603bcba275e732340491554"
+                "url": "https://ftp.drupal.org/files/projects/wpf-1.2.4.zip",
+                "reference": "1.2.4",
+                "shasum": "faa7f46b2a91416cf789ba938a001c3826962a83"
             },
             "require": {
-                "drupal/core": "^8 || ^9 || ^10 || ^11",
+                "drupal/core": "^10.3 || ^11",
                 "ext-gd": "*"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.0-rc2",
-                    "datestamp": "1713170119",
+                    "version": "1.2.4",
+                    "datestamp": "1721639534",
                     "security-coverage": {
-                        "status": "not-covered",
-                        "message": "RC releases are not covered by Drupal security advisories."
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
                     }
                 }
             },
@@ -5602,28 +5602,28 @@
             ],
             "authors": [
                 {
-                    "name": "Bart Vanhoutte",
-                    "homepage": "https://www.drupal.org/user/145609",
-                    "email": "bart@croquemonsieur.be",
+                    "name": "Dudás József",
+                    "homepage": "https://www.drupal.org/user/387119",
+                    "email": "dj@brainsum.com",
                     "role": "Maintainer"
                 },
                 {
-                    "name": "Bart Vanhoutte",
-                    "homepage": "https://www.drupal.org/user/1133754"
+                    "name": "pedrop",
+                    "homepage": "https://www.drupal.org/user/1043368"
                 },
                 {
-                    "name": "mandclu",
-                    "homepage": "https://www.drupal.org/user/52136"
+                    "name": "szato",
+                    "homepage": "https://www.drupal.org/user/389677"
                 }
             ],
-            "description": "Generates WebP copies of image style derivatives.",
-            "homepage": "https://www.drupal.org/project/webp",
+            "description": "Generates jpg copies of webp image style derivatives.",
+            "homepage": "https://www.drupal.org/project/wpf",
             "keywords": [
                 "Drupal"
             ],
             "support": {
-                "source": "http://cgit.drupalcode.org/webp",
-                "issues": "https://www.drupal.org/project/issues/webp"
+                "source": "http://cgit.drupalcode.org/wpf",
+                "issues": "https://www.drupal.org/project/issues/wpf"
             }
         },
         {
@@ -15008,8 +15008,7 @@
         "drupal/drupal_test_assertions": 20,
         "drupal/inline_entity_form": 5,
         "drupal/potx": 15,
-        "drupal/ultimate_cron": 15,
-        "drupal/webp": 5
+        "drupal/ultimate_cron": 15
     },
     "prefer-stable": true,
     "prefer-lowest": false,
