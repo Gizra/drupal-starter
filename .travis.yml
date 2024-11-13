@@ -48,6 +48,7 @@ jobs:
     - "(travis_retry $TRAVIS_BUILD_DIR/ci-scripts/install_ddev.sh) || travis_terminate 1;"
     - "$TRAVIS_BUILD_DIR/ci-scripts/install_drupal.sh || travis_terminate 1;"
     - "$TRAVIS_BUILD_DIR/ci-scripts/test_phpunit.sh || travis_terminate 1;"
+    - "$TRAVIS_BUILD_DIR/ci-scripts/test_phpunit_rollbar.sh || travis_terminate 1;"
   - stage: Deploy
     env: CAN_FAIL=true
     name: 'Backend tests: Functional tests and deploy to Pantheon QA'
