@@ -247,7 +247,7 @@ function server_general_form_alter(array &$form, FormStateInterface $form_state)
         '#type' => 'inline_template',
         '#template' => '<strong class="action-link--danger">{{ message }}</strong>',
         '#context' => [
-          'message' => t('This page is locked hence the publish and unpublish dates can not be changes. Also schedling dates won\'t work.'),
+          'message' => t('This page is locked hence the publish and unpublish dates can not be changed. Also schedling dates won\'t work.'),
         ],
       ];
       $form['publish_on']['widget'][0]['value']['#attributes']['readonly'] = 'readonly';
