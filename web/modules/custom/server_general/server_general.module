@@ -384,7 +384,7 @@ function server_general_form_language_content_settings_form_alter(array &$form, 
 
     // Check the boxes to make the fields translatable.
     foreach ($paragraph_element['fields'] as $key2 => $field_element) {
-      // Make 'status' & 'created' fields untranslatable.
+      // Uncheck the 'status' & 'created' fields.
       if (in_array($key2, ['status', 'created'])) {
         $form['settings']['paragraph'][$key]['fields'][$key2]['#default_value'] = FALSE;
         continue;
@@ -396,13 +396,13 @@ function server_general_form_language_content_settings_form_alter(array &$form, 
         continue;
       }
 
-      // Make any paragraph reference fields untranslatable.
+      // Uncheck any paragraph reference fields.
       if ($field_definition->getType() == 'entity_reference_revisions') {
         $form['settings']['paragraph'][$key]['fields'][$key2]['#default_value'] = FALSE;
         continue;
       }
 
-      // Make all other fields translatable.
+      // Check all other fields.
       $form['settings']['paragraph'][$key]['fields'][$key2]['#default_value'] = TRUE;
     }
   }
