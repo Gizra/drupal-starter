@@ -17,7 +17,8 @@ class ServerGeneralRollbarTest extends ExistingSiteBase {
    */
   public function testAdministratorRole(): void {
     $this->failOnPhpWatchdogMessages = FALSE;
-    $user = \Drupal::entityTypeManager()->getStorage('user')->load(1);
+    $users = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties(['name' => 'AdminOne']);
+    $user = reset($users);
     $this->drupalLogin($user);
     $this->drupalGet('/admin/debug/rollbar-error-reporting');
     $this->assertSession()->statusCodeEquals(Response::HTTP_OK);
