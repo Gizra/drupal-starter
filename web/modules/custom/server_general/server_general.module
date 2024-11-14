@@ -224,37 +224,39 @@ function server_general_form_alter(array &$form, FormStateInterface $form_state)
   /** @var \Drupal\server_general\LockedPages $locked_pages_service */
   $locked_pages_service = \Drupal::service('server_general.locked_pages');
 
-  /** @var \Drupal\Core\Extension\ModuleHandlerInterface $module_handler */
-  $module_handler = \Drupal::service('module_handler');
+  // Do nothing if scheduler module is not installed and node is not locked.
+  if (!$locked_pages_service->isModuleEnabled('scheduler') && !$locked_pages_service->isNodeLocked($entity)) {
+    return;
+  }
 
-  // Unset the schedule settings options if scheduler module is enabled and node is locked.
-  if ($module_handler->moduleExists('scheduler')) {
-    $publish_on = $entity->get('publish_on')->value;
-    $unpublish_on = $entity->get('unpublish_on')->value;
-    // If node is locked and schedule dates are not set, remove publish_on, unpublish_on and scheduler_settings.
-    if (!$publish_on && !$unpublish_on && $locked_pages_service->isNodeLocked($entity)) {
-      $scheduler_fields = ['publish_on', 'unpublish_on', 'scheduler_settings'];
-      foreach (array_keys($form) as $key) {
-        if (in_array($key, $scheduler_fields)) {
-          unset($form[$key]);
-        }
+  $publish_on = $entity->get('publish_on')->value;
+  $unpublish_on = $entity->get('unpublish_on')->value;
+  // If node is locked and schedule dates are not set,
+  // remove publish_on, unpublish_on and scheduler_settings.
+  if (!$publish_on && !$unpublish_on && $locked_pages_service->isNodeLocked($entity)) {
+    $scheduler_fields = ['publish_on', 'unpublish_on', 'scheduler_settings'];
+    foreach (array_keys($form) as $key) {
+      if (in_array($key, $scheduler_fields)) {
+        unset($form[$key]);
       }
     }
-    $current_time = time();
-    // If node is locked and schedule dates are set, make them readonly and disabled.
-    if (($publish_on > $current_time) && ($unpublish_on > $current_time) && $locked_pages_service->isNodeLocked($entity)) {
-      $form['scheduler_settings']['#description'] = [
-        '#type' => 'inline_template',
-        '#template' => '<strong class="action-link--danger">{{ message }}</strong>',
-        '#context' => [
-          'message' => t('This page is locked hence the publish and unpublish dates can not be changed. Also scheduling dates won\'t work.'),
-        ],
-      ];
-      $form['publish_on']['widget'][0]['value']['#attributes']['readonly'] = 'readonly';
-      $form['publish_on']['widget'][0]['value']['#attributes']['disabled'] = TRUE;
-      $form['unpublish_on']['widget'][0]['value']['#attributes']['readonly'] = 'readonly';
-      $form['unpublish_on']['widget'][0]['value']['#attributes']['disabled'] = TRUE;
-    }
+  }
+
+  $request_time = \Drupal::time()->getCurrentTime();
+  // If node is locked and schedule dates are set,
+  // make them readonly and disabled.
+  if (($publish_on > $request_time) && ($unpublish_on > $request_time) && $locked_pages_service->isNodeLocked($entity)) {
+    $form['scheduler_settings']['#description'] = [
+      '#type' => 'inline_template',
+      '#template' => '<strong class="action-link--danger">{{ message }}</strong>',
+      '#context' => [
+        'message' => t("This page is locked hence the publish and unpublish dates can not be changed. Also scheduling dates won't work."),
+      ],
+    ];
+    $form['publish_on']['widget'][0]['value']['#attributes']['readonly'] = 'readonly';
+    $form['publish_on']['widget'][0]['value']['#attributes']['disabled'] = TRUE;
+    $form['unpublish_on']['widget'][0]['value']['#attributes']['readonly'] = 'readonly';
+    $form['unpublish_on']['widget'][0]['value']['#attributes']['disabled'] = TRUE;
   }
 
   // Check if node is locked or not.
@@ -387,7 +389,7 @@ function server_general_preprocess_media_oembed_iframe(array &$variables) {
  * Implements hook_scheduler_unpublishing_allowed().
  */
 function server_general_scheduler_unpublishing_allowed(EntityInterface $entity) {
-  /** @var \Drupal\node\NodeInterface $entity */
+  // Do nothing if node is not a landing page.
   if ($entity->bundle() !== 'landing_page') {
     return;
   }
