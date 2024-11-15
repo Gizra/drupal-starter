@@ -183,8 +183,11 @@ function server_general_node_presave(NodeInterface $entity) {
 
   // Get the module handler service.
   $module_handler = \Drupal::service('module_handler');
+  if ($entity->isNew()) {
+    return;
+  }
   /** @var \Drupal\node\NodeInterface $original */
-  $original = $entity->original;
+  $original = \Drupal::entityTypeManager()->getStorage('node')->loadUnchanged($entity);
   // If content moderation is used, don't allow unpublish for locked pages.
   if ($module_handler->moduleExists('content_moderation') && $original->get('moderation_state')->getString() === 'published' && $entity->get('moderation_state')->getString() === 'unpublished') {
     $entity->set('moderation_state', 'published');
