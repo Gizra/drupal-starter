@@ -11,12 +11,12 @@ additional_fqdns: []
 database:
     type: mariadb
     version: "10.6"
+fail_on_hook_fail: true
 use_dns_when_possible: true
 composer_version: "2"
 web_environment:
     - COMPOSER_EXIT_ON_PATCH_FAILURE=1
 corepack_enable: false
-fail_on_hook_fail: true
 
 # Key features of DDEV's config.yaml:
 
@@ -204,7 +204,7 @@ fail_on_hook_fail: true
 
 # disable_settings_management: false
 # If true, DDEV will not create CMS-specific settings files like
-# Drupal's settings.php/settings.ddev.php or TYPO3's AdditionalConfiguration.php
+# Drupal's settings.php/settings.ddev.php or TYPO3's additional.php
 # In this case the user must provide all such settings.
 
 # You can inject environment variables into the web container with:

@@ -71,6 +71,9 @@ trait ThemeTrait {
       $this->_copyDir(self::$themeBase . '/src/js', self::$themeBase . '/dist/js');
     }
 
+    // Fonts.
+    $this->_copyDir(self::$themeBase . '/src/fonts', self::$themeBase . '/dist/fonts');
+
     // Images - Copy everything first.
     $this->_copyDir(self::$themeBase . '/src/images', self::$themeBase . '/dist/images');
 

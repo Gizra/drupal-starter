@@ -45,7 +45,7 @@ trait HeroTrait {
 
     // Button.
     if ($link) {
-      $elements[] = $this->buildButton($link->getText(), $link->getUrl(), TRUE, NULL, $link->getUrl()->isExternal());
+      $elements[] = $this->buildButton($link->getText(), $link->getUrl(), 'primary', NULL, $link->getUrl()->isExternal());
     }
 
     $elements = $this->wrapContainerVerticalSpacingBig($elements);

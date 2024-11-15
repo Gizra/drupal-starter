@@ -1,0 +1,39 @@
+{{ attach_library('server_theme/expanding-text') }}
+{% set expanding_text_id = 'expanding-text-' ~ random() %}
+<div class="js-expanding-text grid grid-cols-1 gap-1">
+  {% if lines_to_clamp == '1' %}
+    {# We have to set the line-clamp on the `text-formatted`, so we define this here #}
+    {% set line_clamp = "[&[aria-expanded='false']_.text-formatted]:line-clamp-1" %}
+  {% elseif lines_to_clamp == '2' %}
+    {% set line_clamp = "[&[aria-expanded='false']_.text-formatted]:line-clamp-2" %}
+  {% elseif lines_to_clamp == '3' %}
+    {% set line_clamp = "[&[aria-expanded='false']_.text-formatted]:line-clamp-3" %}
+  {% elseif lines_to_clamp == '4' %}
+    {% set line_clamp = "[&[aria-expanded='false']_.text-formatted]:line-clamp-4" %}
+  {% elseif lines_to_clamp == '5' %}
+    {% set line_clamp = "[&[aria-expanded='false']_.text-formatted]:line-clamp-5" %}
+  {% elseif lines_to_clamp == '6' or lines_to_clamp is empty %}
+    {% set line_clamp = "[&[aria-expanded='false']_.text-formatted]:line-clamp-6" %}
+  {% endif %}  
+  <div class="js-expanding-text--text {{ line_clamp }} [&[aria-expanded='true']_.text-formatted]:line-clamp-none" id="{{ expanding_text_id }}" aria-expanded="false">
+    {{ text }}
+  </div>
+  <div>
+    <button type="button" aria-controls="{{ expanding_text_id }}" aria-expanded="false" data-toggle-strategy="aria-expanded" class="font-semibold text-sm lg:text-base grid grid-cols-1">
+      <span class="col-start-1 row-start-1 flex flex-row gap-2 lg:gap-2.5 items-center is-hidden-when-expanded">
+        {# Heroicons - Solid - Plus. #}
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 lg:w-5 lg:h-5">
+          <path fill-rule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
+        </svg>
+        {{ button_label_more ?? 'Read more'|t }}
+      </span>
+      <span class="col-start-1 row-start-1 flex flex-row gap-2 lg:gap-2.5 items-center is-revealed-when-expanded">
+        {# Heroicons - Solid - Minus. #}
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 lg:w-5 lg:h-5">
+          <path fill-rule="evenodd" d="M4.25 12a.75.75 0 0 1 .75-.75h14a.75.75 0 0 1 0 1.5H5a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
+        </svg>
+        {{ button_label_less ?? 'Read less'|t }}
+      </span>
+    </button>
+  </div>
+</div>
