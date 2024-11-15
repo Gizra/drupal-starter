@@ -41,12 +41,15 @@ trait CarouselTrait {
       return [];
     }
 
+    $current_lang_code = \Drupal::languageManager()->getCurrentLanguage();
+
     $elements = [];
     $elements[] = [
       '#theme' => 'server_theme_carousel',
       '#items' => $items,
       '#is_featured' => $is_featured,
       '#is_infinite' => $is_infinite,
+      '#direction' => $current_lang_code->getDirection(),
     ];
 
     if ($button) {

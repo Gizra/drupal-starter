@@ -271,8 +271,8 @@ function server_theme_theme() {
       'url' => NULL,
       // The button's text.
       'title'  => NULL,
-      // Indicate if button should be primary or secondary.
-      'is_primary' => NULL,
+      // Specify button type. One of: 'primary', 'secondary' or 'tertiary'.
+      'button_type' => NULL,
       // Specify an icon. Any icon should be added as SVG in
       // `server-theme-button`.
       'icon' => NULL,
@@ -304,6 +304,8 @@ function server_theme_theme() {
       'is_infinite' => FALSE,
       // The render array of `server_theme_button`.
       'button' => NULL,
+      // Indicates the carousel direction.
+      'direction' => NULL,
     ],
   ];
 
@@ -465,6 +467,20 @@ function server_theme_theme() {
       // The title and the optional description as a render array.
       'items' => [],
       'url' => NULL,
+    ],
+  ];
+
+  // An element which displays clamped text with "Read more" option.
+  $info['server_theme_element__expanding_text'] = [
+    'variables' => [
+      // This needs to be a processed text wrapped with `text-formatted` class
+      // (i.e., a processed text field type).
+      'text' => NULL,
+      // Customize the Read more/less button text if needed.
+      'button_label_more' => NULL,
+      'button_label_less' => NULL,
+      // Customize how much clamping is done. 1 to 6. Default is 6.
+      'lines_to_clamp' => NULL,
     ],
   ];
 

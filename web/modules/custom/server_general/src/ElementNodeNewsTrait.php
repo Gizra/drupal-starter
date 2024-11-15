@@ -129,10 +129,11 @@ trait ElementNodeNewsTrait {
     // Get the tags, and social share.
     $sidebar_elements[] = $tags;
 
-    // Add a line separator above the social share buttons.
-    $sidebar_elements[] = $this->buildLineSeparator();
+    // Add a line separator above the social share buttons when tags are added.
+    if (!empty($tags)) {
+      $sidebar_elements[] = $this->buildLineSeparator();
+    }
     $sidebar_elements[] = $this->buildElementSocialShare($title, $url);
-
     $sidebar_elements = $this->wrapContainerVerticalSpacing($sidebar_elements);
 
     return $this->buildElementLayoutMainAndSidebar(

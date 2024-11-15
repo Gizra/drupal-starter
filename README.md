@@ -1,5 +1,8 @@
 [![Build Status](https://app.travis-ci.com/Gizra/drupal-starter.svg?branch=main)](https://app.travis-ci.com/Gizra/drupal-starter)
 
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=250256146)
+
+
 # Drupal 10 Starter
 
 Starter repo for Drupal 10 development. This starter is an opinionated approach,
@@ -22,18 +25,22 @@ us with easier iteration, reading and manipulating yaml files, pre-defined
 deployments. See more under ["Deploy to Pantheon"](#deploy-to-pantheon) section.
 1. We use [Pluggable Entity View Builder](https://www.drupal.org/project/pluggable_entity_view_builder) to define how an entity should look like. See [example](https://github.com/Gizra/drupal-starter/blob/main/web/modules/custom/server_general/src/Plugin/EntityViewBuilder/NodeLandingPage.php).
 
-## Requirements
+## GitHub Codespaces
 
-* [DDEV](https://ddev.readthedocs.io/en/stable/)
+You can open this project in GitHub Codespaces by clicking the badge at the top of this README. This will open a Codespace with the project already cloned and ready to go.
 
-## Installation
+Once the installation is complete (takes about 10 minutes), you can use `ddev login` to log in to the site as admin user using your default browser.
+
+## Local Installation
+
+The only requirement is having [DDEV](https://ddev.readthedocs.io/en/stable/) installed.
 
     ddev composer install
     cp .ddev/config.local.yaml.example .ddev/config.local.yaml
     ddev restart
 
 Once the Drupal installation is complete you can use `ddev login` to
-log in to the site as user 1 using your default browser.
+log in to the site as admin userusing your default browser.
 
 ## Default content management
 
