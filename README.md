@@ -519,3 +519,10 @@ when a privileged user will login, they must enable their TFA. Otherwise, on a s
 login, they will already be blocked. A site admin may reset their validation tries
 under the `/admin/people` page.
 The TFA method that is enabled is one that uses Google authenticator (or similar).
+
+## WAF - Crowdsec
+
+It is recommended to use a proper WAF, either from Cloudflare, or from another vendor, but
+for smaller sites, it is not always possible. We integrated [Crowdsec](https://www.crowdsec.net/)
+to protect the client sites from known malicious visitors. If used in conjuction with Cloudflare or with other type of gateway that hides the originating address,
+you need to make sure Drupal is aware of the real IP of the visitors.

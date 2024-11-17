@@ -19,7 +19,7 @@
         }
     ],
     "require": {
-        "php": "^8.1",
+        "php": "^8.3",
         "ext-curl": "*",
         "ext-dom": "*",
         "ext-intl": "*",
@@ -132,9 +132,6 @@
             "drupal/core-project-message": true,
             "oomphinc/composer-installers-extender": true,
             "mglaman/composer-drupal-lenient": true
-        },
-        "platform": {
-            "php": "8.1"
         }
     },
     "extra": {
