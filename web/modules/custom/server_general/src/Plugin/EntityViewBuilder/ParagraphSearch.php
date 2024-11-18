@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\Core\Block\BlockManagerInterface;
+use Drupal\Core\Render\RendererInterface;
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
 use Drupal\server_general\ElementTrait\SearchTrait;
@@ -57,12 +58,20 @@ class ParagraphSearch extends EntityViewBuilderPluginAbstract {
   protected Request $request;
 
   /**
+   * The renderer service.
+   *
+   * @var \Drupal\Core\Render\RendererInterface
+   */
+  protected RendererInterface $renderer;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     $build = parent::create($container, $configuration, $plugin_id, $plugin_definition);
     $build->blockManager = $container->get('plugin.manager.block');
     $build->request = $container->get('request_stack')->getCurrentRequest();
+    $build->renderer = $container->get('renderer');
 
     return $build;
   }
