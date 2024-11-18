@@ -397,6 +397,7 @@ function server_general_form_language_content_settings_form_alter(array &$form, 
       }
 
       // Uncheck any paragraph reference fields.
+      // @see https://www.drupal.org/docs/contributed-modules/paragraphs/multilingual-paragraphs-configuration.
       if ($field_definition->getType() == 'entity_reference_revisions') {
         $form['settings']['paragraph'][$key]['fields'][$key2]['#default_value'] = FALSE;
         continue;
