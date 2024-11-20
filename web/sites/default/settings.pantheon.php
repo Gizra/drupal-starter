@@ -92,8 +92,7 @@ if (!empty($pantheon_env)) {
       $config['environment_indicator.indicator']['fg_color'] = '#ffffff';
 
       // Uncomment after going live.
-      // $config['tfa.settings']['enabled'] = TRUE;
-
+      // $config['tfa.settings']['enabled'] = TRUE;.
       $config['crowdsec.settings']['env'] = 'prod';
       break;
 
