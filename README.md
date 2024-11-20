@@ -526,3 +526,14 @@ It is recommended to use a proper WAF, either from Cloudflare, or from another v
 for smaller sites, it is not always possible.  [Crowdsec](https://www.crowdsec.net/) is integrated
 to protect the client sites from known malicious visitors. If used in conjuction with Cloudflare or with other type of gateway that hides the originating address,
 you need to make sure Drupal is aware of the real IP of the visitors.
+
+## To do when going live
+
+- [ ] Enable 2FA
+- [ ] Bump Pantheon plan
+- [ ] Set up automatic backups
+- [ ] DNS config
+- [ ] Redirects
+- [ ] Upscale search engine (Solr)
+- [ ] Ensure email sending (SMTP) works
+- [ ] Remove http auth for LIVE environment
