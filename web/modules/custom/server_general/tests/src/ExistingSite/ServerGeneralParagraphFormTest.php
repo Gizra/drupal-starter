@@ -40,7 +40,7 @@ class ServerGeneralParagraphFormTest extends ServerGeneralFieldableEntityTestBas
   public function getOptionalFields(): array {
     return [
       'field_title',
-      'field_form_description',
+      'field_description',
     ];
   }
 
@@ -75,7 +75,10 @@ class ServerGeneralParagraphFormTest extends ServerGeneralFieldableEntityTestBas
     $assert_session = $this->assertSession();
 
     $assert_session->elementTextContains('css', '.paragraph--type--form', $title);
-    $assert_session->pageTextContains('First name');
+    $assert_session->pageTextContains('Your name');
+    $assert_session->pageTextContains('Your Email Address');
+    $assert_session->pageTextContains('Subject');
+    $assert_session->pageTextContains('Message');
   }
 
 }
