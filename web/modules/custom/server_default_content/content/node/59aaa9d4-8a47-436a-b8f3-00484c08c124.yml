@@ -72,7 +72,7 @@ default:
       value: false
   field_is_title_hidden:
     -
-      value: false
+      value: true
   field_paragraphs:
     -
       entity:
