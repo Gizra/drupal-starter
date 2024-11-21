@@ -12,7 +12,6 @@ module:
   config_ignore: 0
   config_pages: 0
   config_translation: 0
-  contact: 0
   content_moderation: 0
   contextual: 0
   crop: 0
