@@ -89,6 +89,8 @@ module:
   user: 0
   username_enumeration_prevention: 0
   views_ui: 0
+  webform: 0
+  webform_ui: 0
   workflows: 0
   wpf: 0
   fast404: 1
