@@ -89,7 +89,7 @@ default:
               value: false
           field_body:
             -
-              value: '<p>You''re not authorized to access this page.</p><p>&nbsp;</p><drupal-media data-entity-type="media" data-entity-uuid="e2ea98b5-c163-4f88-a055-cdb4495d9adb">&nbsp;</drupal-media>'
+              value: '<p>You''re not authorized to access this page.</p><p>&nbsp;</p><drupal-media data-entity-type="media" data-entity-uuid="47826e50-30df-4293-89c4-a543b7a1f411">&nbsp;</drupal-media>'
               format: basic_html
           field_title:
             -

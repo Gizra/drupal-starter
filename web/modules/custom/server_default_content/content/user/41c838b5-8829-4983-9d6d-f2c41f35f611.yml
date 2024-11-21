@@ -12,7 +12,7 @@ default:
       value: Editor
   pass:
     -
-      value: $2y$10$2XoAQVro5c3/lf30YaobTu9xDN/foXOIwOhwgkDH2xgQ2BdDN6FUK
+      value: $2y$10$0sfWbtij7/0yOiiRgVndHOWJarwRb5IBEcyJj4ybd1pCyVd5d6f82
       existing: ''
       pre_hashed: false
   mail:
@@ -59,7 +59,7 @@ default:
       pathauto: 1
   field_last_password_reset:
     -
-      value: '2024-11-21T15:20:32'
+      value: '2024-11-21T22:24:35'
   field_password_expiration:
     -
       value: false

@@ -89,7 +89,7 @@ default:
               value: false
           field_body:
             -
-              value: '<p>Looks like we can''t seem to find what you''re looking for. Sorry about that!</p><p>&nbsp;</p><drupal-media data-entity-type="media" data-entity-uuid="917c052e-0b33-4603-8c57-0bc1adf4c6dd">&nbsp;</drupal-media>'
+              value: '<p>Looks like we can''t seem to find what you''re looking for. Sorry about that!</p><p>&nbsp;</p><drupal-media data-entity-type="media" data-entity-uuid="44829564-cea0-4789-ae7b-01296f932e90">&nbsp;</drupal-media>'
               format: basic_html
           field_title:
             -

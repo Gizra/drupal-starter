@@ -12,7 +12,7 @@ default:
       value: "<script>alert('XSS attack!');</script>"
   pass:
     -
-      value: $2y$10$SUkaPEcsoXKS70zFo9lkj.7ID0t8ZSIQDXylD1lhTCEn81LCio1v6
+      value: $2y$10$Kwdn1aw1g2xTAbnuDCX74OFHQ6oUfN4sfbIc3uVTIgPmcWXXuxo9O
       existing: ''
       pre_hashed: false
   mail:
@@ -59,7 +59,7 @@ default:
       pathauto: 1
   field_last_password_reset:
     -
-      value: '2024-11-21T15:20:32'
+      value: '2024-11-21T22:24:35'
   field_password_expiration:
     -
       value: false

@@ -56,8 +56,8 @@ default_content:
     - 0cfc425c-cd0e-426d-8dc2-e8f123dc8cb9 # Profile pic
     - 41dc893a-878a-4d96-be28-5580d2701ea5 # Profile pic
     - 8765a3d3-713b-4c71-996e-2f27f2dee3b2 # Profile pic
-    - 917c052e-0b33-4603-8c57-0bc1adf4c6dd # 404 pic
-    - e2ea98b5-c163-4f88-a055-cdb4495d9adb # 403 pic
+    - 44829564-cea0-4789-ae7b-01296f932e90 # 404 pic
+    - 47826e50-30df-4293-89c4-a543b7a1f411 # 403 pic
     # Document
     - 693dea86-8bc7-455e-b113-918d3a8353cb # Another great document
     - 2dbe0924-95be-46f6-9293-643ad046c02b # The last edition
@@ -82,6 +82,8 @@ default_content:
     - e471b723-987f-428d-8fc2-957b4132bc9d
     - fe7ee7bb-0b8c-438a-b4ea-ee95aadd302e
     - fee140e9-175b-4a13-a1d1-0b206e855cf8
+    - c2258bf0-ca00-415d-9163-da0cbd45fed8
+    - 04626283-cdc2-4801-b700-d41077299080
 
   config_pages:
     - 6c4791e4-e4c2-4409-a3c3-ce006d514312

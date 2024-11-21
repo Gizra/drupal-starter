@@ -12,7 +12,7 @@ default:
       value: profile-3-500x500_1.jpg
   uri:
     -
-      value: 'public://profile-3-500x500_1.jpg'
+      value: 'public://profile-3-500x500_1_0.jpg'
   filemime:
     -
       value: image/jpeg
