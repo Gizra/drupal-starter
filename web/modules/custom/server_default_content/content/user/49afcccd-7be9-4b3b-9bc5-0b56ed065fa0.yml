@@ -14,7 +14,7 @@ default:
       value: JoeDoe
   pass:
     -
-      value: U$S$EhVQ.EB0vZ6o0Yc5UiimFOYEziuUEb.gI0iYkd/GxYBHl/Y.cFif
+      value: $2y$10$lCe.dvHdqVfRhygx7AoIpuv1oHG5rD2Nu.stn49WIBjnF5gqawXAe
       existing: ''
       pre_hashed: false
   mail:
@@ -38,6 +38,36 @@ default:
   roles:
     -
       target_id: ''
+  metatag:
+    -
+      tag: meta
+      attributes:
+        name: title
+        content: 'JoeDoe | Drupal Starter'
+    -
+      tag: meta
+      attributes:
+        name: description
+        content: 'Drupal Starter'
+    -
+      tag: link
+      attributes:
+        rel: canonical
+        href: 'https://drupal-starter.ddev.site:4443/user/6'
+  path:
+    -
+      alias: ''
+      langcode: en
+      pathauto: 1
+  field_last_password_reset:
+    -
+      value: '2024-11-21T15:20:32'
+  field_password_expiration:
+    -
+      value: false
+  field_pending_expire_sent:
+    -
+      value: 0
   user_picture:
     -
       entity: 3d348c2e-091c-4cd9-a6f5-fe2040030871

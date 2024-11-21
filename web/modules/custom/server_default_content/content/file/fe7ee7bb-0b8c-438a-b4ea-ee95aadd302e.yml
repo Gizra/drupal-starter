@@ -6,13 +6,13 @@ _meta:
 default:
   uid:
     -
-      target_id: 0
+      target_id: 1
   filename:
     -
       value: generic.png
   uri:
     -
-      value: 'public://media-icons/generic/generic.png'
+      value: 'public://media-icons/generic/generic_0.png'
   filemime:
     -
       value: image/png

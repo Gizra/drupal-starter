@@ -12,7 +12,7 @@ default:
       value: AdminTwo
   pass:
     -
-      value: U$S$EYrIiHXNE11U.O5vDAkXhIieC7R.B6XMIzCkjuzAeo033ZkWlvoS
+      value: $2y$10$atNhMvJcBgVbSWa0J2vyIOzUYetI02Nbgr99G5ynEbijCt2pU/lTi
       existing: ''
       pre_hashed: false
   mail:
@@ -36,3 +36,33 @@ default:
   roles:
     -
       target_id: administrator
+  metatag:
+    -
+      tag: meta
+      attributes:
+        name: title
+        content: 'AdminTwo | Drupal Starter'
+    -
+      tag: meta
+      attributes:
+        name: description
+        content: 'Drupal Starter'
+    -
+      tag: link
+      attributes:
+        rel: canonical
+        href: 'https://drupal-starter.ddev.site:4443/user/4'
+  path:
+    -
+      alias: ''
+      langcode: en
+      pathauto: 1
+  field_last_password_reset:
+    -
+      value: '2024-11-21T15:20:32'
+  field_password_expiration:
+    -
+      value: false
+  field_pending_expire_sent:
+    -
+      value: 0

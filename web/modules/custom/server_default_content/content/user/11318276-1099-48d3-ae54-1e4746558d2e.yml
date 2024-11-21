@@ -12,7 +12,7 @@ default:
       value: AdminOne
   pass:
     -
-      value: U$S$Ernu.yu2.gkkgDDXaXZL.yjdzO8fxRpGLJs1lWGSAxBVhzE0yfvp
+      value: $2y$10$ZjudKU33KfmZdGG1nnRfiO2llolZyPqllq2ytDzKwEkmnf5w2/MWq
       existing: ''
       pre_hashed: false
   mail:
@@ -29,10 +29,40 @@ default:
       value: 1686167785
   access:
     -
-      value: 0
+      value: 1732227279
   login:
     -
-      value: 0
+      value: 1732202450
   roles:
     -
       target_id: administrator
+  metatag:
+    -
+      tag: meta
+      attributes:
+        name: title
+        content: 'AdminOne | Drupal Starter'
+    -
+      tag: meta
+      attributes:
+        name: description
+        content: 'Drupal Starter'
+    -
+      tag: link
+      attributes:
+        rel: canonical
+        href: 'https://drupal-starter.ddev.site:4443/user/2'
+  path:
+    -
+      alias: ''
+      langcode: en
+      pathauto: 1
+  field_last_password_reset:
+    -
+      value: '2024-11-21T15:20:32'
+  field_password_expiration:
+    -
+      value: false
+  field_pending_expire_sent:
+    -
+      value: 0

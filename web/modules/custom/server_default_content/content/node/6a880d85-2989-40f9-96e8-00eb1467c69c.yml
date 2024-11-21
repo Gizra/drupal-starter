@@ -1,27 +1,27 @@
 _meta:
   version: '1.0'
   entity_type: node
-  uuid: 502d23a8-eabd-467c-81c4-3a914c531ef9
+  uuid: 6a880d85-2989-40f9-96e8-00eb1467c69c
   bundle: landing_page
   default_langcode: en
   depends:
-    49afcccd-7be9-4b3b-9bc5-0b56ed065fa0: user
+    11318276-1099-48d3-ae54-1e4746558d2e: user
 default:
   revision_uid:
     -
-      target_id: 1
+      entity: 11318276-1099-48d3-ae54-1e4746558d2e
   status:
     -
       value: true
   uid:
     -
-      entity: 49afcccd-7be9-4b3b-9bc5-0b56ed065fa0
+      entity: 11318276-1099-48d3-ae54-1e4746558d2e
   title:
     -
-      value: Search
+      value: '403'
   created:
     -
-      value: 1686167785
+      value: 1732226981
   promote:
     -
       value: true
@@ -39,15 +39,15 @@ default:
       tag: meta
       attributes:
         name: title
-        content: 'Search | Drupal Starter'
+        content: '403 | Drupal Starter'
     -
       tag: link
       attributes:
         rel: canonical
-        href: 'https://drupal-starter.ddev.site:4443/search'
+        href: 'https://drupal-starter.ddev.site:4443/403'
   path:
     -
-      alias: /search
+      alias: /403
       langcode: en
       pathauto: 0
   content_translation_source:
@@ -65,8 +65,8 @@ default:
         _meta:
           version: '1.0'
           entity_type: paragraph
-          uuid: bb69f959-54e2-448f-b143-9204cb8df0a8
-          bundle: search
+          uuid: 6e64dbeb-98bc-401f-8f0a-4726161de5df
+          bundle: text
           default_langcode: en
         default:
           status:
@@ -74,7 +74,7 @@ default:
               value: true
           created:
             -
-              value: 1686167785
+              value: 1732226998
           behavior_settings:
             -
               value: {  }
@@ -87,3 +87,10 @@ default:
           content_translation_outdated:
             -
               value: false
+          field_body:
+            -
+              value: '<p>You''re not authorized to access this page.</p><p>&nbsp;</p><drupal-media data-entity-type="media" data-entity-uuid="e2ea98b5-c163-4f88-a055-cdb4495d9adb">&nbsp;</drupal-media>'
+              format: basic_html
+          field_title:
+            -
+              value: 'Access denied'

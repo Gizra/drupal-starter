@@ -14,7 +14,7 @@ default:
       value: JaneDoe
   pass:
     -
-      value: U$S$Eu4620kWfYkoM5t.MJfJLn7VFJPoHcLn.RCoV855E.Mwmcfj15Io
+      value: $2y$10$Da0PxtxuBcSV3i2p1sIEYOd1EMCfVbBQFEbbWl6X5e36NV/t9fMLq
       existing: ''
       pre_hashed: false
   mail:
@@ -38,6 +38,36 @@ default:
   roles:
     -
       target_id: ''
+  metatag:
+    -
+      tag: meta
+      attributes:
+        name: title
+        content: 'JaneDoe | Drupal Starter'
+    -
+      tag: meta
+      attributes:
+        name: description
+        content: 'Drupal Starter'
+    -
+      tag: link
+      attributes:
+        rel: canonical
+        href: 'https://drupal-starter.ddev.site:4443/user/7'
+  path:
+    -
+      alias: ''
+      langcode: en
+      pathauto: 1
+  field_last_password_reset:
+    -
+      value: '2024-11-21T15:20:32'
+  field_password_expiration:
+    -
+      value: false
+  field_pending_expire_sent:
+    -
+      value: 0
   user_picture:
     -
       entity: b409bbf1-c62e-4940-9a76-f8b56117ac13

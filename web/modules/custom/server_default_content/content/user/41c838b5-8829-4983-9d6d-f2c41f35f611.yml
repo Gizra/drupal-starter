@@ -12,7 +12,7 @@ default:
       value: Editor
   pass:
     -
-      value: U$S$EfohMIgA/nac9/3aphs7QYR91xfq3SKuH/EDmykjGwoJPLICTOo2
+      value: $2y$10$2XoAQVro5c3/lf30YaobTu9xDN/foXOIwOhwgkDH2xgQ2BdDN6FUK
       existing: ''
       pre_hashed: false
   mail:
@@ -36,3 +36,33 @@ default:
   roles:
     -
       target_id: content_editor
+  metatag:
+    -
+      tag: meta
+      attributes:
+        name: title
+        content: 'Editor | Drupal Starter'
+    -
+      tag: meta
+      attributes:
+        name: description
+        content: 'Drupal Starter'
+    -
+      tag: link
+      attributes:
+        rel: canonical
+        href: 'https://drupal-starter.ddev.site:4443/user/5'
+  path:
+    -
+      alias: ''
+      langcode: en
+      pathauto: 1
+  field_last_password_reset:
+    -
+      value: '2024-11-21T15:20:32'
+  field_password_expiration:
+    -
+      value: false
+  field_pending_expire_sent:
+    -
+      value: 0
