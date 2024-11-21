@@ -14,7 +14,7 @@ default:
       value: JoeDoe
   pass:
     -
-      value: $2y$10$CHeCTuy2zLeLVEvrlqjTsOysr7JTty8hMH2tZivV1/NzoKW21FUYK
+      value: U$S$EhVQ.EB0vZ6o0Yc5UiimFOYEziuUEb.gI0iYkd/GxYBHl/Y.cFif
       existing: ''
       pre_hashed: false
   mail:

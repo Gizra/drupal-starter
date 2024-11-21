@@ -12,7 +12,7 @@ default:
       value: benches-800x600_55.jpg
   uri:
     -
-      value: 'public://benches-800x600_55_0.jpg'
+      value: 'public://benches-800x600_55.jpg'
   filemime:
     -
       value: image/jpeg

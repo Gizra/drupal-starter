@@ -12,7 +12,7 @@ default:
       value: AdminOne
   pass:
     -
-      value: $2y$10$aoGF2PvHr.B83b6xNMUrXu79whtGxiOGseje2qwfL46rG9uPeUWx2
+      value: U$S$Ernu.yu2.gkkgDDXaXZL.yjdzO8fxRpGLJs1lWGSAxBVhzE0yfvp
       existing: ''
       pre_hashed: false
   mail:

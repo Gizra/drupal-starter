@@ -14,7 +14,7 @@ default:
       value: JaneDoe
   pass:
     -
-      value: $2y$10$4/hagMVRIAXsuFep4on8IeHMruVLYTVq5sXgPOEMAVDlb/zFtYD2e
+      value: U$S$Eu4620kWfYkoM5t.MJfJLn7VFJPoHcLn.RCoV855E.Mwmcfj15Io
       existing: ''
       pre_hashed: false
   mail:

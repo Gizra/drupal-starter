@@ -12,7 +12,7 @@ default:
       value: "<script>alert('XSS attack!');</script>"
   pass:
     -
-      value: $2y$10$Kwdn1aw1g2xTAbnuDCX74OFHQ6oUfN4sfbIc3uVTIgPmcWXXuxo9O
+      value: U$S$EUSshCwNnhurSVj37Ht6F/aisWJpkSIFC4auu3mOj7YuomGZ3NpS
       existing: ''
       pre_hashed: false
   mail:

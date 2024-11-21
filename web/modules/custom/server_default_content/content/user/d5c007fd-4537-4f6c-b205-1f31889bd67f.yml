@@ -12,7 +12,7 @@ default:
       value: AdminTwo
   pass:
     -
-      value: $2y$10$Bd8/DsB2yA0oUm9uCtOF3eFaaVDbVpnxfPxb1CsQY4a6S/zn5SQ2a
+      value: U$S$EYrIiHXNE11U.O5vDAkXhIieC7R.B6XMIzCkjuzAeo033ZkWlvoS
       existing: ''
       pre_hashed: false
   mail:

@@ -12,7 +12,7 @@ default:
       value: Editor
   pass:
     -
-      value: $2y$10$0sfWbtij7/0yOiiRgVndHOWJarwRb5IBEcyJj4ybd1pCyVd5d6f82
+      value: U$S$EfohMIgA/nac9/3aphs7QYR91xfq3SKuH/EDmykjGwoJPLICTOo2
       existing: ''
       pre_hashed: false
   mail:
