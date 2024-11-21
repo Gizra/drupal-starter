@@ -38,7 +38,6 @@ trait FormsEmbedTrait {
     if (!$entity instanceof ParagraphInterface || empty($webform_field_name)) {
       return $build;
     }
-
     if (!$entity->hasField($webform_field_name) || empty($entity->{$webform_field_name})) {
       return [];
     }
@@ -50,13 +49,12 @@ trait FormsEmbedTrait {
     $elements = [];
     // Build the webform paragraph title.
     if (!$entity->get($field_title)->isEmpty()) {
-      $element = $this->buildParagraphTitle($this->getTextFieldValue($entity, 'field_title'), 'paragraph', FALSE);
-      $elements[] = $this->wrapContainerWide($this->wrapContainerHorizontalJustify($element, 'center'));
+      $elements[] = $this->buildParagraphTitle($this->getTextFieldValue($entity, 'field_title'));
     }
+
     // Build the webform paragraph description.
     if (!$entity->get($field_description)->isEmpty()) {
-      $element = $this->buildProcessedText($entity, $field_description, FALSE);
-      $elements[] = $this->wrapContainerWide($element);
+      $elements[] = $this->buildProcessedText($entity, $field_description);
     }
 
     // Build the webform.
@@ -66,14 +64,15 @@ trait FormsEmbedTrait {
       return [];
     }
     $element = $this->entityTypeManager->getViewBuilder('webform')->view($webform);
-    $elements[] = $this->wrapContainerWide($element);
+    $elements[] = $element;
 
     // Add cache dependencies.
     CacheableMetadata::createFromRenderArray($build)
       ->addCacheableDependency($webform)
       ->applyTo($build);
 
-    $build[] = $this->wrapContainerVerticalSpacingBig($elements);
+    $element = $this->wrapContainerVerticalSpacingBig($elements);
+    $build[] = $this->wrapContainerWide($element);
 
     return $build;
   }
