@@ -534,6 +534,5 @@ you need to make sure Drupal is aware of the real IP of the visitors.
 - [ ] Set up automatic backups
 - [ ] DNS config
 - [ ] Redirects
-- [ ] Upscale search engine (Solr)
 - [ ] Ensure email sending (SMTP) works
 - [ ] Remove http auth for LIVE environment
