@@ -135,3 +135,5 @@ if (file_exists('/files/private/secrets.json')) {
 if (file_exists(__DIR__ . '/settings.fast404.php')) {
   include __DIR__ . '/settings.fast404.php';
 }
+
+$config['search_api.index.server_dev']['server'] = 'pantheon_solr8';
