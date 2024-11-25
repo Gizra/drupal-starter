@@ -137,3 +137,5 @@ if (file_exists(__DIR__ . '/settings.fast404.php')) {
 }
 
 $config['search_api.index.server_dev']['server'] = 'pantheon_solr8';
+// This only exists at DDEV.
+$config['search_api.server.solr']['status'] = FALSE;
