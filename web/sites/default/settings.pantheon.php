@@ -75,9 +75,10 @@ if (!empty($pantheon_env)) {
   if ($pantheon_env == 'live' || $pantheon_env == 'test') {
     $config['rollbar.settings']['environment'] = $pantheon_site_name . '.' . $pantheon_env;
     $config['rollbar.settings']['enabled'] = TRUE;
-    // Placeholders for adding the actual access token values.
-    // $config['rollbar.settings']['access_token'] = '';
-    // $config['rollbar.settings']['access_token_frontend'] = '';.
+    /* Placeholders for adding the actual access token values.
+     * $config['rollbar.settings']['access_token'] = '';
+     * $config['rollbar.settings']['access_token_frontend'] = '';
+     */
   }
 
   $config['environment_indicator.indicator']['name'] = strtoupper($pantheon_env);
@@ -91,8 +92,9 @@ if (!empty($pantheon_env)) {
       $config['environment_indicator.indicator']['bg_color'] = '#c81300';
       $config['environment_indicator.indicator']['fg_color'] = '#ffffff';
 
-      // Uncomment after going live.
-      // $config['tfa.settings']['enabled'] = TRUE;.
+      /* Uncomment after going live.
+       * $config['tfa.settings']['enabled'] = TRUE;
+       */
       $config['crowdsec.settings']['env'] = 'prod';
       break;
 
