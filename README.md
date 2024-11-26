@@ -529,7 +529,7 @@ you need to make sure Drupal is aware of the real IP of the visitors.
 
 ## Go Live Checklist
 
-- [ ] [Enable 2FA](https://github.com/Gizra/drupal-starter/blob/9f47a373a059506609e87388bd5914a2f7eac41a/web/sites/default/settings.pantheon.php#L95) 
+- [ ] [Enable 2FA](https://github.com/Gizra/drupal-starter/blob/ce2f737bda16e550ee0c8accfd40f44e2d60a703/web/sites/default/settings.pantheon.php#L95-L97) 
 - [ ] Bump Pantheon plan
 - [ ] Set up automatic backups
 - [ ] DNS config
