@@ -527,7 +527,7 @@ for smaller sites, it is not always possible.  [Crowdsec](https://www.crowdsec.n
 to protect the client sites from known malicious visitors. If used in conjuction with Cloudflare or with other type of gateway that hides the originating address,
 you need to make sure Drupal is aware of the real IP of the visitors.
 
-## To do when going live
+## Go Live Checklist
 
 - [ ] [Enable 2FA](https://github.com/Gizra/drupal-starter/blob/9f47a373a059506609e87388bd5914a2f7eac41a/web/sites/default/settings.pantheon.php#L95) 
 - [ ] Bump Pantheon plan
