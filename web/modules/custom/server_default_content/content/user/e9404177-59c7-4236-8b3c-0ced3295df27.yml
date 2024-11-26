@@ -9,7 +9,7 @@ default:
       value: en
   name:
     -
-      value: '<script>alert(''XSS attack!'');</script>'
+      value: "<script>alert('XSS attack!');</script>"
   pass:
     -
       value: U$S$EUSshCwNnhurSVj37Ht6F/aisWJpkSIFC4auu3mOj7YuomGZ3NpS
@@ -36,3 +36,33 @@ default:
   roles:
     -
       target_id: ''
+  metatag:
+    -
+      tag: meta
+      attributes:
+        name: title
+        content: "alert('XSS attack!'); | Drupal Starter"
+    -
+      tag: meta
+      attributes:
+        name: description
+        content: 'Drupal Starter'
+    -
+      tag: link
+      attributes:
+        rel: canonical
+        href: 'https://drupal-starter.ddev.site:4443/user/3'
+  path:
+    -
+      alias: ''
+      langcode: en
+      pathauto: 1
+  field_last_password_reset:
+    -
+      value: '2024-11-21T22:24:35'
+  field_password_expiration:
+    -
+      value: false
+  field_pending_expire_sent:
+    -
+      value: 0

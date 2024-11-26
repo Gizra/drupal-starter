@@ -1,24 +1,25 @@
 _meta:
   version: '1.0'
   entity_type: media
-  uuid: 711d4c28-2c02-4064-b78c-1480b9e66d8d
-  bundle: document
+  uuid: 44829564-cea0-4789-ae7b-01296f932e90
+  bundle: image
   default_langcode: en
   depends:
-    dc24d0dd-420e-49a4-8ef5-63606fb36767: file
+    11318276-1099-48d3-ae54-1e4746558d2e: user
+    c2258bf0-ca00-415d-9163-da0cbd45fed8: file
 default:
   status:
     -
       value: true
   uid:
     -
-      target_id: 1
+      entity: 11318276-1099-48d3-ae54-1e4746558d2e
   name:
     -
-      value: 'Look at this document title'
+      value: '404'
   created:
     -
-      value: 1686167785
+      value: 1732228652
   revision_translation_affected:
     -
       value: true
@@ -42,15 +43,17 @@ default:
     -
       alias: ''
       langcode: en
-      pathauto: 1
+      pathauto: 0
   content_translation_source:
     -
       value: und
   content_translation_outdated:
     -
       value: false
-  field_media_file:
+  field_media_image:
     -
-      entity: dc24d0dd-420e-49a4-8ef5-63606fb36767
-      display: false
-      description: ''
+      entity: c2258bf0-ca00-415d-9163-da0cbd45fed8
+      alt: '404 page not found'
+      title: ''
+      width: 638
+      height: 283

@@ -65,41 +65,6 @@ final class ImgToMedia extends MediaEmbedProcessPluginBase implements ContainerF
   ];
 
   /**
-   * The entity type manager service.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
-   * The logging service.
-   *
-   * @var \Drupal\Core\Logger\LoggerChannelInterface
-   */
-  protected $logger;
-
-  /**
-   * The file system service.
-   *
-   * @var \Drupal\Core\File\FileSystemInterface
-   */
-  protected $fileSystem;
-
-  /**
-   * An instance of the download process plugin.
-   *
-   * @var \Drupal\migrate\Plugin\MigrateProcessInterface
-   */
-  protected $fileCopyPlugin;
-
-  /**
-   * The file mime type guesser service.
-   *
-   * @var \Symfony\Component\Mime\MimeTypeGuesserInterface
-   */
-  protected MimeTypeGuesserInterface $mimeTypeGuesser;
-
-  /**
    * Constructor.
    *
    * @param array $configuration
