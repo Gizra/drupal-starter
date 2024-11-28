@@ -37,6 +37,17 @@ default:
   moderation_state:
     -
       value: published
+  metatag:
+    -
+      tag: meta
+      attributes:
+        name: title
+        content: 'Pandemic Moves Education Online | Drupal Starter'
+    -
+      tag: link
+      attributes:
+        rel: canonical
+        href: 'https://drupal-starter.ddev.site:4443/news/pandemic-moves-education-online'
   path:
     -
       alias: /news/pandemic-moves-education-online

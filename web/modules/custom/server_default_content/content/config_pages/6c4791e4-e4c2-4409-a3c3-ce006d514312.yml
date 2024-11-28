@@ -12,6 +12,22 @@ default:
   context:
     -
       value: 'a:0:{}'
+  metatag:
+    -
+      tag: meta
+      attributes:
+        name: title
+        content: '| Drupal Starter'
+    -
+      tag: meta
+      attributes:
+        name: description
+        content: 'This is the Drupal Starter project.'
+    -
+      tag: link
+      attributes:
+        rel: canonical
+        href: 'https://drupal-starter.ddev.site:4443/node/4'
   field_locked_pages:
     -
       entity: 59aaa9d4-8a47-436a-b8f3-00484c08c124

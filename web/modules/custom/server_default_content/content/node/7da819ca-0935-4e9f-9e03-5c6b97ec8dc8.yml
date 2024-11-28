@@ -1,27 +1,27 @@
 _meta:
   version: '1.0'
   entity_type: node
-  uuid: 502d23a8-eabd-467c-81c4-3a914c531ef9
+  uuid: 7da819ca-0935-4e9f-9e03-5c6b97ec8dc8
   bundle: landing_page
   default_langcode: en
   depends:
-    49afcccd-7be9-4b3b-9bc5-0b56ed065fa0: user
+    11318276-1099-48d3-ae54-1e4746558d2e: user
 default:
   revision_uid:
     -
-      target_id: 1
+      entity: 11318276-1099-48d3-ae54-1e4746558d2e
   status:
     -
       value: true
   uid:
     -
-      entity: 49afcccd-7be9-4b3b-9bc5-0b56ed065fa0
+      entity: 11318276-1099-48d3-ae54-1e4746558d2e
   title:
     -
-      value: Search
+      value: '404'
   created:
     -
-      value: 1686167785
+      value: 1732226154
   promote:
     -
       value: true
@@ -39,15 +39,15 @@ default:
       tag: meta
       attributes:
         name: title
-        content: 'Search | Drupal Starter'
+        content: '404 | Drupal Starter'
     -
       tag: link
       attributes:
         rel: canonical
-        href: 'https://drupal-starter.ddev.site:4443/search'
+        href: 'https://drupal-starter.ddev.site:4443/404'
   path:
     -
-      alias: /search
+      alias: /404
       langcode: en
       pathauto: 0
   content_translation_source:
@@ -65,8 +65,8 @@ default:
         _meta:
           version: '1.0'
           entity_type: paragraph
-          uuid: bb69f959-54e2-448f-b143-9204cb8df0a8
-          bundle: search
+          uuid: 181c9c9d-8804-4c0a-8562-501d178f8bb4
+          bundle: text
           default_langcode: en
         default:
           status:
@@ -74,7 +74,7 @@ default:
               value: true
           created:
             -
-              value: 1686167785
+              value: 1732226165
           behavior_settings:
             -
               value: {  }
@@ -87,3 +87,10 @@ default:
           content_translation_outdated:
             -
               value: false
+          field_body:
+            -
+              value: '<p>Looks like we can''t seem to find what you''re looking for. Sorry about that!</p><p>&nbsp;</p><drupal-media data-entity-type="media" data-entity-uuid="44829564-cea0-4789-ae7b-01296f932e90">&nbsp;</drupal-media>'
+              format: basic_html
+          field_title:
+            -
+              value: 'Page not found'
