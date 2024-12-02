@@ -2,12 +2,10 @@
 
 namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
-use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
-use Drupal\server_general\ElementWrapTrait;
 use Drupal\server_general\ProcessedTextBuilderTrait;
-use Drupal\server_general\TitleAndLabelsTrait;
+use Drupal\server_general\WebformTrait;
 
 /**
  * The "Form" paragraph plugin.
@@ -20,9 +18,8 @@ use Drupal\server_general\TitleAndLabelsTrait;
  */
 class ParagraphForm extends EntityViewBuilderPluginAbstract {
 
-  use ElementWrapTrait;
   use ProcessedTextBuilderTrait;
-  use TitleAndLabelsTrait;
+  use WebformTrait;
 
   /**
    * Build full view mode.
@@ -46,33 +43,15 @@ class ParagraphForm extends EntityViewBuilderPluginAbstract {
       return [];
     }
 
-    $elements = [];
-    // Build the webform paragraph title.
-    if (!$entity->get('field_title')->isEmpty()) {
-      $elements[] = $this->buildParagraphTitle($this->getTextFieldValue($entity, 'field_title'));
-    }
+    $title = $this->getTextFieldValue($entity, 'field_title');
+    $description = $this->buildProcessedText($entity, 'field_description');
+    $webform = $this->getWebform($webform_name);
 
-    // Build the webform paragraph description.
-    if (!$entity->get('field_description')->isEmpty()) {
-      $elements[] = $this->buildProcessedText($entity, 'field_description');
-    }
-
-    // Build the webform.
-    /** @var ?\Drupal\webform\WebformInterface $webform */
-    $webform = $this->entityTypeManager->getStorage('webform')->load($webform_name);
-    if (empty($webform) || !$webform->isOpen()) {
+    if (empty($webform)) {
       return [];
     }
-    $element = $this->entityTypeManager->getViewBuilder('webform')->view($webform);
-    $elements[] = $element;
 
-    // Add cache dependencies.
-    CacheableMetadata::createFromRenderArray($build)
-      ->addCacheableDependency($webform)
-      ->applyTo($build);
-
-    $element = $this->wrapContainerVerticalSpacingBig($elements);
-    $build[] = $this->wrapContainerWide($element);
+    $build[] = $this->buildWebformWithTitleAndDescription($webform, $title, $description);
 
     return $build;
   }
