@@ -13,6 +13,7 @@ default_content:
     - 502d23a8-eabd-467c-81c4-3a914c531ef9 # Search
     - 7da819ca-0935-4e9f-9e03-5c6b97ec8dc8 # 404
     - 6a880d85-2989-40f9-96e8-00eb1467c69c # 403
+    - 595c59e4-ac6f-4abf-b295-8a6b6e5b6e16 # Contact
     # News
     - 19a403eb-f571-4684-819e-239348ef2ef2 # How to be Happier in 2021...
     - 502d23a8-eabd-467c-81c4-3a914c531ef9 # Search
@@ -27,6 +28,7 @@ default_content:
     - 5e0d5c87-84f9-4c98-abaa-d4c2df6eda73 # About
     - 711faa22-cf8e-4309-a71c-bc769c7bb186 # Resources
     - 9de08065-e32f-47a9-8564-7dc67b91212d # What We Do
+    - 325e1cd5-7fa7-48b6-b9d5-9c77468d17a5 # Contact
 
   taxonomy_term:
     - 36e37c28-d3d4-45df-88ba-0ef7f9e82fe4 # Interesting Read
