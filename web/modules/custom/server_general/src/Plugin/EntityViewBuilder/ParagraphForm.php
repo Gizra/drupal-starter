@@ -43,13 +43,14 @@ class ParagraphForm extends EntityViewBuilderPluginAbstract {
       return [];
     }
 
-    $title = $this->getTextFieldValue($entity, 'field_title');
-    $description = $this->buildProcessedText($entity, 'field_description');
     $webform = $this->getWebform($webform_name);
 
     if (empty($webform)) {
       return [];
     }
+
+    $title = $this->getTextFieldValue($entity, 'field_title');
+    $description = $this->buildProcessedText($entity, 'field_description');
 
     $build[] = $this->buildWebformWithTitleAndDescription($webform, $title, $description);
 
