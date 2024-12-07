@@ -4,6 +4,9 @@ _meta:
   uuid: fee140e9-175b-4a13-a1d1-0b206e855cf8
   default_langcode: en
 default:
+  uid:
+    -
+      target_id: 1
   filename:
     -
       value: drupal-starter_7.pdf

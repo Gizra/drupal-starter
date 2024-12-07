@@ -3,6 +3,7 @@ _core:
 entity_type_groups: {  }
 separator: ''
 tag_trim_method: beforeValue
+use_maxlength: true
 tag_trim_maxlength: {  }
 tag_scroll_max_height: ''
-use_maxlength: true
+tag_trim_end: '|.,-:;/+&([{"'''

@@ -1,0 +1,59 @@
+_meta:
+  version: '1.0'
+  entity_type: media
+  uuid: 44829564-cea0-4789-ae7b-01296f932e90
+  bundle: image
+  default_langcode: en
+  depends:
+    11318276-1099-48d3-ae54-1e4746558d2e: user
+    c2258bf0-ca00-415d-9163-da0cbd45fed8: file
+default:
+  status:
+    -
+      value: true
+  uid:
+    -
+      entity: 11318276-1099-48d3-ae54-1e4746558d2e
+  name:
+    -
+      value: '404'
+  created:
+    -
+      value: 1732228652
+  revision_translation_affected:
+    -
+      value: true
+  metatag:
+    -
+      tag: meta
+      attributes:
+        name: title
+        content: '| Drupal Starter'
+    -
+      tag: meta
+      attributes:
+        name: description
+        content: 'This is the Drupal Starter project.'
+    -
+      tag: link
+      attributes:
+        rel: canonical
+        href: 'https://drupal-starter.ddev.site:4443/homepage'
+  path:
+    -
+      alias: ''
+      langcode: en
+      pathauto: 0
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  field_media_image:
+    -
+      entity: c2258bf0-ca00-415d-9163-da0cbd45fed8
+      alt: '404 page not found'
+      title: ''
+      width: 638
+      height: 283

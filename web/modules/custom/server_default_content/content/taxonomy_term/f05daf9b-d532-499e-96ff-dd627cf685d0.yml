@@ -24,6 +24,22 @@ default:
   revision_translation_affected:
     -
       value: true
+  metatag:
+    -
+      tag: meta
+      attributes:
+        name: title
+        content: 'Essential Learning | Drupal Starter'
+    -
+      tag: link
+      attributes:
+        rel: canonical
+        href: 'https://drupal-starter.ddev.site:4443/taxonomy/term/3'
+  path:
+    -
+      alias: ''
+      langcode: en
+      pathauto: 1
   content_translation_source:
     -
       value: und

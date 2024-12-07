@@ -37,6 +37,17 @@ default:
   moderation_state:
     -
       value: published
+  metatag:
+    -
+      tag: meta
+      attributes:
+        name: title
+        content: 'Current Digital Marketing Is Sports-Watching, Rather Than Marketing | Drupal Starter'
+    -
+      tag: link
+      attributes:
+        rel: canonical
+        href: 'https://drupal-starter.ddev.site:4443/news/current-digital-marketing-sports-watching-rather-marketing'
   path:
     -
       alias: /news/current-digital-marketing-sports-watching-rather-marketing

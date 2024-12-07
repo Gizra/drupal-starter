@@ -24,6 +24,13 @@ class MediaImage extends EntityViewBuilderPluginAbstract {
   use ElementWrapTrait;
 
   /**
+   * The iFrame URL helper service.
+   *
+   * @var \Drupal\media\IFrameUrlHelper
+   */
+  protected $iFrameUrlHelper;
+
+  /**
    * The responsive image style to use on Hero.
    */
   const RESPONSIVE_IMAGE_STYLE_HERO = 'hero';

@@ -4,6 +4,9 @@ _meta:
   uuid: bef9ed9a-41f1-4fc7-9ea9-9c33b41e7be3
   default_langcode: en
 default:
+  uid:
+    -
+      target_id: 1
   filename:
     -
       value: onion-1440x760_55.jpg

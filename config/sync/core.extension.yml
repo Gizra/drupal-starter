@@ -1,6 +1,7 @@
 _core:
   default_config_hash: R4IF-ClDHXxblLcG0L7MgsLvfBIMAvi_skumNFQwkDc
 module:
+  ban: 0
   big_pipe: 0
   block: 0
   block_content: 0
@@ -15,6 +16,7 @@ module:
   content_moderation: 0
   contextual: 0
   crop: 0
+  crowdsec: 0
   datetime: 0
   dblog: 0
   dynamic_page_cache: 0
@@ -70,6 +72,7 @@ module:
   redis: 0
   responsive_image: 0
   search_api: 0
+  search_api_pantheon: 0
   search_api_solr: 0
   seckit: 0
   select2: 0
@@ -87,8 +90,8 @@ module:
   user: 0
   username_enumeration_prevention: 0
   views_ui: 0
-  webp: 0
   workflows: 0
+  wpf: 0
   fast404: 1
   menu_link_content: 1
   pathauto: 1

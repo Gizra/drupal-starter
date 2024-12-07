@@ -5,6 +5,7 @@ _meta:
   bundle: landing_page
   default_langcode: en
   depends:
+    11318276-1099-48d3-ae54-1e4746558d2e: user
     49afcccd-7be9-4b3b-9bc5-0b56ed065fa0: user
     881b4f95-54f7-485e-9999-a90d1e05208b: media
     f1dd02df-ef2f-4cc2-bd41-cf4ff0c34e01: node
@@ -22,7 +23,7 @@ _meta:
 default:
   revision_uid:
     -
-      target_id: 1
+      entity: 11318276-1099-48d3-ae54-1e4746558d2e
   status:
     -
       value: true
@@ -47,6 +48,17 @@ default:
   moderation_state:
     -
       value: published
+  metatag:
+    -
+      tag: meta
+      attributes:
+        name: title
+        content: 'Homepage | Drupal Starter'
+    -
+      tag: link
+      attributes:
+        rel: canonical
+        href: 'https://drupal-starter.ddev.site:4443/homepage'
   path:
     -
       alias: /homepage
@@ -137,7 +149,7 @@ default:
           field_link:
             -
               uri: 'https://example.com'
-              title: 'Join'
+              title: Join
               options: {  }
           field_title:
             -
