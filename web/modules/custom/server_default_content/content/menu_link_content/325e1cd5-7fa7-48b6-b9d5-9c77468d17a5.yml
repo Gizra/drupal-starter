@@ -1,0 +1,54 @@
+_meta:
+  version: '1.0'
+  entity_type: menu_link_content
+  uuid: 325e1cd5-7fa7-48b6-b9d5-9c77468d17a5
+  bundle: menu_link_content
+  default_langcode: en
+  depends:
+    595c59e4-ac6f-4abf-b295-8a6b6e5b6e16: node
+default:
+  enabled:
+    -
+      value: true
+  title:
+    -
+      value: Contact
+  menu_name:
+    -
+      value: main
+  link:
+    -
+      target_uuid: 595c59e4-ac6f-4abf-b295-8a6b6e5b6e16
+      title: ''
+      options: {  }
+  external:
+    -
+      value: false
+  rediscover:
+    -
+      value: false
+  weight:
+    -
+      value: 10
+  expanded:
+    -
+      value: false
+  revision_translation_affected:
+    -
+      value: true
+  metatag:
+    -
+      tag: meta
+      attributes:
+        name: title
+        content: '| Drupal Starter'
+    -
+      tag: meta
+      attributes:
+        name: description
+        content: 'This is the Drupal Starter project.'
+    -
+      tag: link
+      attributes:
+        rel: canonical
+        href: 'https://drupal-starter.ddev.site:4443/homepage'
