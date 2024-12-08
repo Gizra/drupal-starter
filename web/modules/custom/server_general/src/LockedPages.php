@@ -5,6 +5,7 @@ namespace Drupal\server_general;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\config_pages\Entity\ConfigPages;
 use Drupal\node\NodeInterface;
@@ -31,16 +32,26 @@ class LockedPages {
   protected $entityFieldManager;
 
   /**
+   * Module handler service object.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler;
+
+  /**
    * Constructs a new LockedPages object.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The Entity Type Manager service.
    * @param \Drupal\Core\Entity\EntityFieldManagerInterface $entity_field_manager
    *   The Entity Field Manager service.
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   The Module Handler service.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, EntityFieldManagerInterface $entity_field_manager) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, EntityFieldManagerInterface $entity_field_manager, ModuleHandlerInterface $module_handler) {
     $this->entityTypeManager = $entity_type_manager;
     $this->entityFieldManager = $entity_field_manager;
+    $this->moduleHandler = $module_handler;
   }
 
   /**
@@ -107,6 +118,19 @@ class LockedPages {
     }
 
     return [];
+  }
+
+  /**
+   * Checks if module is enabled.
+   *
+   * @param string $module_name
+   *   The module name.
+   *
+   * @return bool
+   *   Returns TRUE if module is enabled else FALSE.
+   */
+  public function isModuleEnabled(string $module_name): bool {
+    return $this->moduleHandler->moduleExists($module_name);
   }
 
 }
