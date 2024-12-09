@@ -14,8 +14,15 @@
    * @type {{attach: Drupal.behaviors.serverThemeToggler.attach}}
    */
   Drupal.behaviors.serverThemeToggler = {
-    attach: function(context, settings) {
-      const $buttons = $(once('server-theme-button', 'button[aria-controls]', context)).not('button[aria-controls="admin-toolbar"]');
+    attach: function (context, settings) {
+      const $buttons = $(
+        once(
+          'server-theme-button',
+          'button[aria-controls]:not(.toolbar-button):not([aria-controls="admin-toolbar"])',
+          context
+        )
+      );
+
       if (!$buttons.length) {
         return;
       }

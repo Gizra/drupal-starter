@@ -12,7 +12,6 @@ module:
   config_ignore: 0
   config_pages: 0
   config_translation: 0
-  contact: 0
   content_moderation: 0
   contextual: 0
   crop: 0
@@ -90,6 +89,8 @@ module:
   user: 0
   username_enumeration_prevention: 0
   views_ui: 0
+  webform: 0
+  webform_ui: 0
   workflows: 0
   wpf: 0
   fast404: 1

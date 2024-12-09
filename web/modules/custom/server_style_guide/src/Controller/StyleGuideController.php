@@ -28,6 +28,7 @@ use Drupal\server_general\LinkTrait;
 use Drupal\server_general\SocialShareTrait;
 use Drupal\server_general\TagTrait;
 use Drupal\server_general\TitleAndLabelsTrait;
+use Drupal\server_general\WebformTrait;
 use Drupal\server_style_guide\StyleGuideElementWrapTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -60,6 +61,7 @@ class StyleGuideController extends ControllerBase {
   use StyleGuideElementWrapTrait;
   use TagTrait;
   use TitleAndLabelsTrait;
+  use WebformTrait;
 
 
   /**
@@ -84,6 +86,13 @@ class StyleGuideController extends ControllerBase {
   protected $renderer;
 
   /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
@@ -91,6 +100,7 @@ class StyleGuideController extends ControllerBase {
     $instance->linkGenerator = $container->get('link_generator');
     $instance->iFrameUrlHelper = $container->get('media.oembed.iframe_url_helper');
     $instance->renderer = $container->get('renderer');
+    $instance->entityTypeManager = $container->get('entity_type.manager');
     return $instance;
   }
 
@@ -195,6 +205,9 @@ class StyleGuideController extends ControllerBase {
 
     $element = $this->getNodeNews();
     $build[] = $this->wrapElementNoContainer($element, 'Node view: News');
+
+    $element = $this->getWebformElement();
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Webform');
 
     return $build;
   }
@@ -890,6 +903,20 @@ class StyleGuideController extends ControllerBase {
     $element = $this->wrapProseText($element);
 
     return $this->wrapContainerWide($this->buildElementExpandingText($element, $lines_to_clamp, $button_label_more, $button_label_less));
+  }
+
+  /**
+   * Get Webform element.
+   *
+   * @return array
+   *   The render array.
+   */
+  protected function getWebformElement(): array {
+    return $this->buildWebformWithTitleAndDescription(
+      $this->getWebform('contact'),
+      $this->getRandomTitle(),
+      $this->buildProcessedText('Decorate one package of cauliflower in six teaspoons of plain vinegar. Try flavoring the crême fraîche gingers with clammy rum and fish sauce, simmered.'),
+    );
   }
 
 }
