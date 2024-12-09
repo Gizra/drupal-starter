@@ -1,10 +1,12 @@
 api_version: 1
 web_docroot: true
 build_step: false
-php_version: 8.2
+php_version: 8.3
 enforce_https: transitional
+search:
+  version: 8
 database:
-  version: 10.4
+  version: 10.6
 drush_version: 10
 protected_web_paths:
   - /private/

@@ -36,6 +36,17 @@ default:
   moderation_state:
     -
       value: published
+  metatag:
+    -
+      tag: meta
+      attributes:
+        name: title
+        content: "Worrying Study Finds Today's Tutorial Levels Not Adequately Preparing Players For Challenges Of World 8 | Drupal Starter"
+    -
+      tag: link
+      attributes:
+        rel: canonical
+        href: 'https://drupal-starter.ddev.site:4443/news/worrying-study-finds-todays-tutorial-levels-not-adequately-preparing-players-challenges-world-8'
   path:
     -
       alias: /news/worrying-study-finds-todays-tutorial-levels-not-adequately-preparing-players-challenges-world-8

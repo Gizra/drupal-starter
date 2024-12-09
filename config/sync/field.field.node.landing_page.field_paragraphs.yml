@@ -8,6 +8,7 @@ dependencies:
     - paragraphs.paragraphs_type.accordion
     - paragraphs.paragraphs_type.cta
     - paragraphs.paragraphs_type.documents
+    - paragraphs.paragraphs_type.form
     - paragraphs.paragraphs_type.hero_image
     - paragraphs.paragraphs_type.info_cards
     - paragraphs.paragraphs_type.news_teasers
@@ -36,6 +37,7 @@ settings:
       accordion: accordion
       cta: cta
       documents: documents
+      form: form
       hero_image: hero_image
       info_cards: info_cards
       news_teasers: news_teasers
@@ -48,51 +50,54 @@ settings:
     negate: 0
     target_bundles_drag_drop:
       accordion:
-        weight: -33
+        weight: -35
         enabled: true
       accordion_item:
-        weight: -21
+        weight: -22
         enabled: false
       cta:
-        weight: -32
+        weight: -34
         enabled: true
       documents:
-        weight: -31
+        weight: -33
+        enabled: true
+      form:
+        weight: -32
         enabled: true
       hero_image:
-        weight: -30
+        weight: -31
         enabled: true
       info_card:
-        weight: -18
-        enabled: false
-      info_cards:
-        weight: -29
-        enabled: true
-      news_teasers:
-        weight: -28
-        enabled: true
-      people_teasers:
-        weight: -27
-        enabled: true
-      person_teaser:
         weight: -19
         enabled: false
-      quick_link_item:
+      info_cards:
+        weight: -30
+        enabled: true
+      news_teasers:
+        weight: -29
+        enabled: true
+      people_teasers:
+        weight: -28
+        enabled: true
+      person_teaser:
         weight: -20
         enabled: false
+      quick_link_item:
+        weight: -21
+        enabled: false
       quick_links:
-        weight: -26
+        weight: -27
         enabled: true
       quote:
-        weight: -25
+        weight: -26
         enabled: true
       related_content:
-        weight: -24
+        weight: -25
         enabled: true
       search:
-        weight: -23
+        weight: -24
         enabled: true
       text:
-        weight: -22
+        weight: -23
         enabled: true
 field_type: entity_reference_revisions

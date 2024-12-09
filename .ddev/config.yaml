@@ -1,7 +1,7 @@
 name: drupal-starter
 type: drupal10
 docroot: web
-php_version: "8.2"
+php_version: "8.3"
 webserver_type: nginx-fpm
 router_http_port: "8880"
 router_https_port: "4443"
@@ -10,7 +10,7 @@ additional_hostnames: []
 additional_fqdns: []
 database:
     type: mariadb
-    version: "10.5"
+    version: "10.6"
 fail_on_hook_fail: true
 use_dns_when_possible: true
 composer_version: "2"

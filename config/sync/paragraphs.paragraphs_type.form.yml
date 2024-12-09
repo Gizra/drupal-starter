@@ -1,0 +1,10 @@
+uuid: 9b15722c-b888-4771-830f-953667808274
+langcode: en
+status: true
+dependencies: {  }
+id: form
+label: Form
+icon_uuid: null
+icon_default: null
+description: 'Allows adding forms defined by Webform module.'
+behavior_plugins: {  }

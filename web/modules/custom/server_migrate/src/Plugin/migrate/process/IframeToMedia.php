@@ -43,20 +43,6 @@ final class IframeToMedia extends MediaEmbedProcessPluginBase implements Contain
   protected $migration;
 
   /**
-   * The entity type manager service.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
-   * The logging service.
-   *
-   * @var \Drupal\Core\Logger\LoggerChannelInterface
-   */
-  protected $logger;
-
-  /**
    * Constructor.
    *
    * @param array $configuration
