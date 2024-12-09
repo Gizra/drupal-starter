@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
+use Drupal\Core\Extension\ModuleInstallerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -171,6 +172,58 @@ class ServerGeneralNodeLandingPageTest extends ServerGeneralNodeTestBase {
     // Check not locked node for anonymous.
     $this->drupalGet("/node/{$node->id()}/delete");
     $this->assertSession()->statusCodeEquals(Response::HTTP_FORBIDDEN);
+  }
+
+  /**
+   * Test schedular for locked page.
+   */
+  public function testSchedularOnLockedPage() {
+    // Install the scheduler module.
+    $module_installer = \Drupal::service('module_installer');
+    assert($module_installer instanceof ModuleInstallerInterface);
+    $module_installer->install(['scheduler']);
+
+    $user = $this->createUser();
+    $user->addRole('administrator');
+    $user->save();
+    $this->drupalLogin($user);
+
+    // Create not locked page for admin.
+    $node = $this->createNode([
+      'title' => 'Testing not locked page',
+      'uid' => $user->id(),
+      'type' => 'landing_page',
+      'moderation_state' => 'published',
+    ]);
+
+    $node->setPublished()->save();
+
+    $this->drupalGet($node->toUrl('edit-form'));
+    $this->assertSession()->statusCodeEquals(Response::HTTP_OK);
+
+    // Check schedular options exists.
+    $this->assertSession()->pageTextContains('Scheduling options');
+    $this->assertSession()->elementExists('css', '.scheduler-form');
+
+    // Make page locked.
+    /** @var \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager */
+    $entity_type_manager = \Drupal::entityTypeManager();
+    /** @var \Drupal\config_pages\ConfigPagesStorage $config_pages_storage */
+    $config_pages_storage = $entity_type_manager->getStorage('config_pages');
+    /** @var \Drupal\Core\Entity\ContentEntityInterface|null $main_settings */
+    $main_settings = $config_pages_storage->load('main_settings');
+
+    $main_settings->get('field_locked_pages')->appendItem(['target_id' => $node->id()]);
+    $main_settings->save();
+
+    $this->drupalGet($node->toUrl('edit-form'));
+    $this->assertSession()->statusCodeEquals(Response::HTTP_OK);
+    // Check schedular options not exists.
+    $this->assertSession()->pageTextNotContains('Scheduling options');
+    $this->assertSession()->elementNotExists('css', '.scheduler-form');
+
+    $main_settings->get('field_locked_pages')->removeItem(1);
+    $main_settings->save();
   }
 
 }
