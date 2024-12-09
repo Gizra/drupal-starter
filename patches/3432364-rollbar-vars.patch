@@ -1,0 +1,88 @@
+diff --git a/config/install/rollbar.settings.yml b/config/install/rollbar.settings.yml
+index 9082f78158af2b82ea4a3136012651f845f044a3..bdde660e130761af44a16d0ff31b26a59ca3f9a7 100644
+--- a/config/install/rollbar.settings.yml
++++ b/config/install/rollbar.settings.yml
+@@ -11,6 +11,8 @@ host_white_list: ''
+ person_tracking: off
+ ignored_headers: []
+ ignored_messages: []
++max_nesting_depth: 0
++local_vars_dump: false
+ scrub_fields:
+   - 'passwd'
+   - 'password'
+diff --git a/config/schema/rollbar.schema.yml b/config/schema/rollbar.schema.yml
+index 3ec589a7bb3ee7e99a4ce6dc227ab39ebaeb4246..3c2e498f8e89d1e6d2e3174b4f27985ac9de9c48 100644
+--- a/config/schema/rollbar.schema.yml
++++ b/config/schema/rollbar.schema.yml
+@@ -53,3 +53,10 @@ rollbar.settings:
+       sequence:
+         type: string
+         label: 'Field'
++    max_nesting_depth:
++      type: integer
++      label: 'Maximum nesting depth'
++    local_vars_dump:
++      type: boolean
++      label: 'Whether local variables should be included in the trace or not'
++
+diff --git a/src/Form/RollbarSettingsForm.php b/src/Form/RollbarSettingsForm.php
+index c19208d9c17e320636086305c588ecdbb38b5ed1..3bf4fea41d869d4149027da5b3c78be5ada49a19 100644
+--- a/src/Form/RollbarSettingsForm.php
++++ b/src/Form/RollbarSettingsForm.php
+@@ -148,6 +148,20 @@ class RollbarSettingsForm extends ConfigFormBase {
+       '#description' => $this->t('Field names to scrub out of the entire payload. Enter one field name per line. Values will be replaced with asterisks.'),
+     ];
+ 
++    $form['max_nesting_depth'] = [
++      '#type' => 'number',
++      '#title' => $this->t('Max Nesting Depth'),
++      '#default_value' => $config->get('max_nesting_depth'),
++      '#description' => $this->t('Maximum nesting depth. Set to 0 to disable. It can help you to solve memory issues when using the module on complex sites.'),
++    ];
++
++    $form['local_vars_dump'] = [
++      '#type' => 'checkbox',
++      '#title' => $this->t('Include local variables in the stack trace'),
++      '#default_value' => $config->get('local_vars_dump'),
++      '#description' => $this->t('WARNING: Allow it with caution, out-of-memory errors could happen while the logging process.'),
++    ];
++
+     return parent::buildForm($form, $form_state);
+   }
+ 
+@@ -170,6 +184,8 @@ class RollbarSettingsForm extends ConfigFormBase {
+       ->set('ignored_messages', !empty($form_state->getValue('ignored_messages')) ? preg_split("(\r\n?|\n)", $form_state->getValue('ignored_messages')) : [])
+       ->set('scrub_fields', !empty($form_state->getValue('scrub_fields')) ? preg_split("(\r\n?|\n)", $form_state->getValue('scrub_fields')) : [])
+       ->set('person_tracking', $form_state->getValue('person_tracking'))
++      ->set('max_nesting_depth', $form_state->getValue('max_nesting_depth'))
++      ->set('local_vars_dump', $form_state->getValue('local_vars_dump'))
+       ->save();
+ 
+     parent::submitForm($form, $form_state);
+diff --git a/src/Logger/RollbarLogger.php b/src/Logger/RollbarLogger.php
+index dea178f8809ac18c7220d26b08c25df2dde33d0b..0e1a6c928d5af03bc30d27dab968bd9c09d5fee5 100644
+--- a/src/Logger/RollbarLogger.php
++++ b/src/Logger/RollbarLogger.php
+@@ -80,6 +80,8 @@ class RollbarLogger implements LoggerInterface {
+     $token = $this->config->get('access_token');
+     $environment = $this->config->get('environment');
+     $enabled = $this->config->get('enabled');
++    $max_nesting_depth = $this->config->get('max_nesting_depth');
++    $local_vars_dump = $this->config->get('local_vars_dump');
+ 
+     if (empty($token) || empty($environment) || !$enabled) {
+       return FALSE;
+@@ -92,6 +94,12 @@ class RollbarLogger implements LoggerInterface {
+         'scrub_fields' => $this->config->get('scrub_fields') ?: [],
+       ];
+ 
++      if ($max_nesting_depth) {
++        $config['max_nesting_depth'] = $max_nesting_depth;
++      }
++
++      $config['local_vars_dump'] = $local_vars_dump;
++
+       // Add Person Tracking if enabled
+       if ($this->config->get('person_tracking') != 'off') {
+         $config['person_fn']['id'] = $this->account->id();

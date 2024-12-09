@@ -33,6 +33,9 @@
     },
     "drupal/seckit": {
       "d.o. #3206728": "https://www.drupal.org/files/issues/2024-09-06/seckit-2_x-src-field-length-3206728-8.patch"
+    },
+    "drupal/rollbar": {
+      "d.o. #3432364": "patches/3432364-rollbar-vars.patch"
     }
   }
 }
