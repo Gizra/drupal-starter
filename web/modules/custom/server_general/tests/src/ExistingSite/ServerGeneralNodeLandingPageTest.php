@@ -3,6 +3,7 @@
 namespace Drupal\Tests\server_general\ExistingSite;
 
 use Drupal\Core\Extension\ModuleInstallerInterface;
+use Drupal\node\Entity\NodeType;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -183,6 +184,23 @@ class ServerGeneralNodeLandingPageTest extends ServerGeneralNodeTestBase {
     assert($module_installer instanceof ModuleInstallerInterface);
     $module_installer->install(['scheduler']);
 
+    // Enable scheduler for Landing Page content type.
+    $node_type = NodeType::load('landing_page');
+    $node_type
+      ->setThirdPartySetting('scheduler', 'publish_enable', TRUE)
+      ->setThirdPartySetting('scheduler', 'unpublish_enable', TRUE)
+      ->save();
+    $node_type->save();
+
+    // Enable the scheduler fields in the default form display, mimicking
+    // what would be done if the entity bundle had been enabled via admin UI.
+    $this->container->get('entity_display.repository')
+      ->getFormDisplay('node', 'landing_page')
+      ->setComponent('publish_on', ['type' => 'datetime_timestamp_no_default'])
+      ->setComponent('unpublish_on', ['type' => 'datetime_timestamp_no_default'])
+      ->save();
+
+    // Login as admin.
     $user = $this->createUser();
     $user->addRole('administrator');
     $user->save();
