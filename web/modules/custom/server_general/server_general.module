@@ -228,7 +228,7 @@ function server_general_form_alter(array &$form, FormStateInterface $form_state)
   $locked_pages_service = \Drupal::service('server_general.locked_pages');
 
   // Do nothing if scheduler module is not installed and node is not locked.
-  if (!$locked_pages_service->isModuleEnabled('scheduler') && !$locked_pages_service->isNodeLocked($entity)) {
+  if (!\Drupal::moduleHandler()->moduleExists('scheduler') && !$locked_pages_service->isNodeLocked($entity)) {
     return;
   }
 
@@ -400,7 +400,5 @@ function server_general_scheduler_unpublishing_allowed(EntityInterface $entity) 
   /** @var \Drupal\server_general\LockedPages $locked_pages_service */
   $locked_pages_service = \Drupal::service('server_general.locked_pages');
 
-  if ($locked_pages_service->isNodeLocked($entity)) {
-    return FALSE;
-  }
+  return !$locked_pages_service->isNodeLocked($entity);
 }
