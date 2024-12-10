@@ -232,8 +232,8 @@ function server_general_form_alter(array &$form, FormStateInterface $form_state)
     return;
   }
 
-  $publish_on = $entity->get('publish_on')->value;
-  $unpublish_on = $entity->get('unpublish_on')->value;
+  $publish_on = $entity->hasField('publish_on') ? $entity->get('publish_on')->value : NULL;
+  $unpublish_on = $entity->hasField('unpublish_on') ? $entity->get('unpublish_on')->value : NULL;
   // If node is locked and schedule dates are not set,
   // remove publish_on, unpublish_on and scheduler_settings.
   if (!$publish_on && !$unpublish_on && $locked_pages_service->isNodeLocked($entity)) {
@@ -246,9 +246,9 @@ function server_general_form_alter(array &$form, FormStateInterface $form_state)
   }
 
   $request_time = \Drupal::time()->getCurrentTime();
-  // If node is locked and schedule dates are set,
+  // If schedule dates are set and node is locked,
   // make them readonly and disabled.
-  if (($publish_on > $request_time) && ($unpublish_on > $request_time) && $locked_pages_service->isNodeLocked($entity)) {
+  if ((($publish_on > $request_time) || ($unpublish_on > $request_time)) && $locked_pages_service->isNodeLocked($entity)) {
     $form['scheduler_settings']['#description'] = [
       '#type' => 'inline_template',
       '#template' => '<strong class="action-link--danger">{{ message }}</strong>',
