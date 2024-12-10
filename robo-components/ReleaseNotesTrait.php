@@ -145,6 +145,9 @@ trait ReleaseNotesTrait {
         if (!empty($github_project) && !empty($github_org)) {
           $pr = $this->githubApiGet("repos/$github_org/$github_project/pulls/$pr_number");
         }
+        if (isset($pr->user->type) && $pr->user->type === 'Bot') {
+          continue;
+        }
         if (!isset($pr->body)) {
           $no_issue_lines[] = "- $log_messages[1] (#$pr_number)";
           continue;
