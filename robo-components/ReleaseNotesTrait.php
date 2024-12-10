@@ -114,6 +114,9 @@ trait ReleaseNotesTrait {
         /** @var \stdClass $pr_details */
         $pr_details = $this->githubApiGet("repos/$github_org/$github_project/pulls/$pr_number");
         if (!empty($pr_details->user)) {
+          if (isset($pr_details->user->type) && $pr_details->user->type === 'Bot') {
+            continue;
+          }
           $contributors[] = '@' . $pr_details->user->login;
           $additions += $pr_details->additions;
           $deletions += $pr_details->deletions;
@@ -144,9 +147,6 @@ trait ReleaseNotesTrait {
         $pr = NULL;
         if (!empty($github_project) && !empty($github_org)) {
           $pr = $this->githubApiGet("repos/$github_org/$github_project/pulls/$pr_number");
-        }
-        if (isset($pr->user->type) && $pr->user->type === 'Bot') {
-          continue;
         }
         if (!isset($pr->body)) {
           $no_issue_lines[] = "- $log_messages[1] (#$pr_number)";
