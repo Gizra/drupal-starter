@@ -69,7 +69,6 @@
         "drupal/real_aes": "^2.5",
         "drupal/redirect": "^1.6",
         "drupal/redis": "^1.7",
-        "drupal/scheduler": "^2.1",
         "drupal/search_api": "^1.18",
         "drupal/search_api_pantheon": "^8.2",
         "drupal/search_api_solr": "^4.3.2",
