@@ -115,6 +115,7 @@ trait ReleaseNotesTrait {
         $pr_details = $this->githubApiGet("repos/$github_org/$github_project/pulls/$pr_number");
         if (!empty($pr_details->user)) {
           if (isset($pr_details->user->type) && $pr_details->user->type === 'Bot') {
+            // Exclude Dependabot merges from release notes.
             continue;
           }
           $contributors[] = '@' . $pr_details->user->login;
