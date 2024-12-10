@@ -4989,7 +4989,52 @@
                 "drupal/core": "^10",
                 "rollbar/rollbar": "^4.0"
             },
-            "type": "library"
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "2.1.2",
+                    "datestamp": "1710407529",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL 2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "eddie_c",
+                    "homepage": "https://www.drupal.org/user/681326"
+                },
+                {
+                    "name": "iainp999",
+                    "homepage": "https://www.drupal.org/user/642098"
+                },
+                {
+                    "name": "intrafusion",
+                    "homepage": "https://www.drupal.org/user/424800"
+                },
+                {
+                    "name": "thepearson",
+                    "homepage": "https://www.drupal.org/user/1957110"
+                },
+                {
+                    "name": "vijaycs85",
+                    "homepage": "https://www.drupal.org/user/93488"
+                },
+                {
+                    "name": "wiifm",
+                    "homepage": "https://www.drupal.org/user/358731"
+                }
+            ],
+            "description": "Rollbar integration for Drupal.",
+            "homepage": "https://www.drupal.org/project/rollbar",
+            "support": {
+                "source": "https://git.drupalcode.org/project/rollbar"
+            }
         },
         {
             "name": "drupal/search_api",
