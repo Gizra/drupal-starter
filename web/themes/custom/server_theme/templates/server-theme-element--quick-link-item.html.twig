@@ -1,6 +1,6 @@
 {% import '@server_theme/templates/server-theme-inner-element-layout-base.html.twig' as base %}
-
-<a href="{{ url }}" class="{{ base.getBaseClasses() }} group flex flex-col justify-between gap-y-3 md:gap-y-5 p-6 overflow-hidden bg-gray-200 hover:bg-gray-700">
+{% import '@server_theme/server-theme-container-vertical-spacing.html.twig' as verticalSpacing %}
+<a href="{{ url }}" class="{{ base.getBaseClasses() }} {{ verticalSpacing.getClass() }} group justify-between p-6 overflow-hidden bg-gray-200 hover:bg-gray-700">
 
     <div class="group-hover:text-white">
       {{ items }}
