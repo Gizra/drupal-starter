@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c5c46326e5405e77aa086b2562b8f3e9",
+    "content-hash": "42ba1af779b3a90cae209d0afd96c4ec",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -67,7 +67,7 @@
             "version": "6.x-dev",
             "source": {
                 "type": "git",
-                "url": "https://github.com/FortAwesome/Font-Awesome.git",
+                "url": "git@github.com:FortAwesome/Font-Awesome.git",
                 "reference": "d02961b018153506364077343b0edcde0a39d27e"
             },
             "dist": {
@@ -4972,77 +4972,68 @@
             }
         },
         {
-            "name": "drupal/scheduler",
-            "version": "2.1.0",
+            "name": "drupal/rollbar",
+            "version": "2.1.2",
             "source": {
                 "type": "git",
-                "url": "https://git.drupalcode.org/project/scheduler.git",
-                "reference": "2.1.0"
+                "url": "https://git.drupalcode.org/project/rollbar.git",
+                "reference": "2.1.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/scheduler-2.1.0.zip",
-                "reference": "2.1.0",
-                "shasum": "aea0f1dc40cfbc75f470860998d773a8749bcee2"
+                "url": "https://ftp.drupal.org/files/projects/rollbar-2.1.2.zip",
+                "reference": "2.1.2",
+                "shasum": "3d22612e94ddeb25ebb4a44ead87ed0ea1b30c62"
             },
             "require": {
-                "drupal/core": "^8 || ^9 || ^10 || ^11"
-            },
-            "require-dev": {
-                "drupal/commerce": "^2 || ^3",
-                "drupal/devel_generate": ">=4",
-                "drupal/rules": "^3 || ^4",
-                "drupal/workbench_moderation": "*",
-                "drupal/workbench_moderation_actions": "*",
-                "drush/drush": ">=9"
+                "drupal/core": "^10",
+                "rollbar/rollbar": "^4.0"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "2.1.0",
-                    "datestamp": "1723723795",
+                    "version": "2.1.2",
+                    "datestamp": "1710407529",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
-                    }
-                },
-                "drush": {
-                    "services": {
-                        "drush.services.yml": "^9 || ^10"
                     }
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
             "license": [
-                "GPL-2.0-or-later"
+                "GPL 2.0+"
             ],
             "authors": [
                 {
-                    "name": "Eric Schaefer (Eric Schaefer)",
-                    "homepage": "https://www.drupal.org/u/eric-schaefer",
-                    "role": "Maintainer"
+                    "name": "eddie_c",
+                    "homepage": "https://www.drupal.org/user/681326"
                 },
                 {
-                    "name": "Jonathan Smith (jonathan1055)",
-                    "homepage": "https://www.drupal.org/u/jonathan1055",
-                    "role": "Maintainer"
+                    "name": "iainp999",
+                    "homepage": "https://www.drupal.org/user/642098"
                 },
                 {
-                    "name": "Pieter Frenssen (pfrenssen)",
-                    "homepage": "https://www.drupal.org/u/pfrenssen",
-                    "role": "Maintainer"
+                    "name": "intrafusion",
+                    "homepage": "https://www.drupal.org/user/424800"
                 },
                 {
-                    "name": "Rick Manelius (rickmanelius)",
-                    "homepage": "https://www.drupal.org/u/rickmanelius",
-                    "role": "Maintainer"
+                    "name": "thepearson",
+                    "homepage": "https://www.drupal.org/user/1957110"
+                },
+                {
+                    "name": "vijaycs85",
+                    "homepage": "https://www.drupal.org/user/93488"
+                },
+                {
+                    "name": "wiifm",
+                    "homepage": "https://www.drupal.org/user/358731"
                 }
             ],
-            "description": "Automatically publish and unpublish content at specified dates and times.",
-            "homepage": "https://drupal.org/project/scheduler",
+            "description": "Rollbar integration for Drupal.",
+            "homepage": "https://www.drupal.org/project/rollbar",
             "support": {
-                "source": "https://git.drupalcode.org/project/scheduler",
-                "issues": "https://www.drupal.org/project/issues/scheduler"
+                "source": "https://git.drupalcode.org/project/rollbar"
             }
         },
         {
@@ -9338,6 +9329,69 @@
                 "source": "https://github.com/ralouphie/getallheaders/tree/develop"
             },
             "time": "2019-03-08T08:55:37+00:00"
+        },
+        {
+            "name": "rollbar/rollbar",
+            "version": "v4.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rollbar/rollbar-php.git",
+                "reference": "6966a4c97c170298108f5e5b543c2710658f8fe0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rollbar/rollbar-php/zipball/6966a4c97c170298108f5e5b543c2710658f8fe0",
+                "reference": "6966a4c97c170298108f5e5b543c2710658f8fe0",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "monolog/monolog": "^2 || ^3",
+                "php": ">=8.0.0 <9.0",
+                "psr/log": "^1 || ^2 || ^3"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.5.1",
+                "phpmd/phpmd": "^2.13",
+                "phpunit/phpunit": "^9.6 || ^10.1",
+                "squizlabs/php_codesniffer": "^3.7",
+                "vimeo/psalm": "^5.9"
+            },
+            "suggest": {
+                "fluent/logger": "Needed to use the 'fluent' handler for fluentd support"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Rollbar\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rollbar, Inc.",
+                    "email": "support@rollbar.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Monitors errors and exceptions and reports them to Rollbar",
+            "homepage": "https://github.com/rollbar/rollbar-php",
+            "keywords": [
+                "debugging",
+                "errors",
+                "exceptions",
+                "logging",
+                "monitoring"
+            ],
+            "support": {
+                "email": "support@rollbar.com",
+                "issues": "https://github.com/rollbar/rollbar-php/issues",
+                "source": "https://github.com/rollbar/rollbar-php/tree/v4.0.2"
+            },
+            "time": "2023-12-22T21:40:31+00:00"
         },
         {
             "name": "sebastian/diff",

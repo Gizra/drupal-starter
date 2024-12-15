@@ -70,6 +70,7 @@ module:
   redirect: 0
   redis: 0
   responsive_image: 0
+  rollbar: 0
   search_api: 0
   search_api_pantheon: 0
   search_api_solr: 0
