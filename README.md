@@ -40,7 +40,7 @@ The only requirement is having [DDEV](https://ddev.readthedocs.io/en/stable/) in
     ddev restart
 
 Once the Drupal installation is complete you can use `ddev login` to
-log in to the site as admin userusing your default browser.
+log in to the site as admin user using your default browser.
 
 ## Default content management
 
