@@ -833,11 +833,18 @@ trait DeploymentTrait {
     $modules_to_uninstall = array_diff($installed_modules, $required_modules);
 
     if (!empty($modules_to_uninstall)) {
+      $needs_revert = FALSE;
       try {
-        $this->taskExec("terminus remote:drush $pantheon_terminus_environment pm:uninstall " . implode(' ', $modules_to_uninstall) . " --yes")
-          ->run();
+        $uninstall_success = $this->taskExec("terminus remote:drush $pantheon_terminus_environment pm:uninstall " . implode(' ', $modules_to_uninstall) . " --yes")
+          ->run()
+          ->getExitCode();
+        $needs_revert = !$uninstall_success;
       }
       catch (\Exception $e) {
+        $needs_revert = TRUE;
+      }
+
+      if ($needs_revert) {
         // Step 4: If uninstallation fails, reset configuration.
         $this->taskExec("terminus remote:drush $pantheon_terminus_environment config:import --yes")->run();
         throw new \Exception("Failed to uninstall modules. Configuration has been reset. Error: " . $e->getMessage());
