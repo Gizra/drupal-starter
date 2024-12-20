@@ -808,7 +808,7 @@ trait DeploymentTrait {
     $pantheon_terminus_environment = $pantheon_info['name'] . '.' . $pantheon_environment;
 
     // Step 1: Get the list of currently enabled modules.
-    $installed_modules_result = $this->taskExec("terminus remote:drush $pantheon_terminus_environment pm:list --status=enabled --format=json")
+    $installed_modules_result = $this->taskExec("terminus remote:drush $pantheon_terminus_environment pm:list -- --status=enabled --format=json")
       ->printOutput(FALSE)
       ->run();
 
