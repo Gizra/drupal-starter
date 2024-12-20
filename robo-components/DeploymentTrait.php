@@ -803,12 +803,12 @@ trait DeploymentTrait {
    *
    * @throws \Exception
    */
-  protected function uninstallExtraModules(string $pantheon_environment): void {
+  public function uninstallExtraModules(string $pantheon_environment): void {
     $pantheon_info = $this->getPantheonNameAndEnv();
     $pantheon_terminus_environment = $pantheon_info['name'] . '.' . $pantheon_environment;
 
     // Step 1: Get the list of currently enabled modules.
-    $installed_modules_result = $this->taskExec("terminus remote:drush $pantheon_terminus_environment pm:list -- --status=enabled --format=json")
+    $installed_modules_result = $this->taskExec("terminus remote:drush $pantheon_terminus_environment pm:list -- --status=enabled --format=json --type=module")
       ->printOutput(FALSE)
       ->run();
 
@@ -827,11 +827,7 @@ trait DeploymentTrait {
     }
 
     $core_extensions = Yaml::parseFile($core_extension_file);
-    $required_modules = array_merge(
-      $core_extensions['module']['core'] ?? [],
-      $core_extensions['module']['contrib'] ?? [],
-      $core_extensions['module']['custom'] ?? []
-    );
+    $required_modules = array_keys($core_extensions['module']);
 
     // Step 3: Determine extra modules and uninstall them.
     $modules_to_uninstall = array_diff($installed_modules, $required_modules);
