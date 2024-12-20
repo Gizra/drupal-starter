@@ -236,6 +236,8 @@ trait DeploymentTrait {
     // Compile theme.
     $this->themeCompile();
 
+    $this->uninstallExtraModules($pantheon_env);
+
     // Remove the dev dependencies before pushing up to Pantheon.
     $this->taskExec("composer install --no-dev")->run();
 
@@ -789,6 +791,57 @@ trait DeploymentTrait {
       $exit_code = $result->getExitCode();
       if ($exit_code) {
         throw new \Exception("Could not notify GitHub of the deployment, GitHub API error: " . $result->getMessage());
+      }
+    }
+  }
+
+  /**
+   * Uninstalls modules that are not specified in core.extension.yml.
+   *
+   * @param string $pantheon_environment
+   *   The Pantheon environment to run the commands against.
+   *
+   * @throws \Exception
+   */
+  protected function uninstallExtraModules(string $pantheon_environment): void {
+    $pantheon_info = $this->getPantheonNameAndEnv();
+    $pantheon_terminus_environment = $pantheon_info['name'] . '.' . $pantheon_environment;
+
+    // Step 1: Get the list of currently installed modules.
+    $installed_modules_result = $this->taskExec("terminus remote:drush $pantheon_terminus_environment pm:list --status=enabled --pipe")
+      ->printOutput(FALSE)
+      ->run();
+
+    if ($installed_modules_result->getExitCode() !== 0) {
+      throw new \Exception("Failed to get the list of installed modules.");
+    }
+
+    $installed_modules = explode(PHP_EOL, trim($installed_modules_result->getMessage()));
+
+    $core_extension_file = 'config/sync/core.extension.yml';
+    if (!file_exists($core_extension_file)) {
+      throw new \Exception("core.extension.yml file not found.");
+    }
+
+    $core_extensions = Yaml::parseFile($core_extension_file);
+    $required_modules = array_merge(
+      $core_extensions['module']['core'] ?? [],
+      $core_extensions['module']['contrib'] ?? [],
+      $core_extensions['module']['custom'] ?? []
+    );
+
+    // Step 3: Determine extra modules and uninstall them.
+    $modules_to_uninstall = array_diff($installed_modules, $required_modules);
+
+    if (!empty($modules_to_uninstall)) {
+      try {
+        $this->taskExec("terminus remote:drush $pantheon_terminus_environment pm:uninstall " . implode(' ', $modules_to_uninstall) . " --yes")
+          ->run();
+      }
+      catch (\Exception $e) {
+        // Step 4: If uninstallation fails, reset configuration.
+        $this->taskExec("terminus remote:drush $pantheon_terminus_environment config:import --yes")->run();
+        throw new \Exception("Failed to uninstall modules. Configuration has been reset. Error: " . $e->getMessage());
       }
     }
   }
