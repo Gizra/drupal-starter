@@ -816,7 +816,7 @@ trait DeploymentTrait {
       throw new \Exception("Failed to get the list of installed modules.");
     }
 
-    $installed_modules_data = json_decode($installed_modules_result->getMessage(), true);
+    $installed_modules_data = json_decode($installed_modules_result->getMessage(), TRUE);
     $installed_modules = array_keys(array_filter($installed_modules_data, function ($module) {
       return $module['status'] === 'Enabled';
     }));
