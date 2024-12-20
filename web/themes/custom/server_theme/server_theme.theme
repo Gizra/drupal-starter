@@ -484,6 +484,17 @@ function server_theme_theme() {
     ],
   ];
 
+  $info['server_theme_element__news_card'] = [
+    'variables' => [
+      'image' => NULL,
+      'labels' => NULL,
+      'date' => NULL,
+      'title' => NULL,
+      'description' => NULL,
+      'url' => NULL,
+    ],
+  ];
+
   // Media document.
   $info['server_theme_media__document'] = [
     'variables' => [
