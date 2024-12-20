@@ -18,6 +18,7 @@ module:
   crowdsec: 0
   datetime: 0
   dblog: 0
+  dynamic_page_cache: 0
   editor: 0
   emptyparagraphkiller: 0
   encrypt: 0
@@ -54,6 +55,8 @@ module:
   navigation: 0
   node: 0
   options: 0
+  page_cache: 0
+  pantheon_advanced_page_cache: 0
   paragraphs_edit: 0
   password_policy_blacklist: 0
   password_policy_character_types: 0
