@@ -63,26 +63,32 @@ trait NewsTeasersTrait {
    *   Render array.
    */
   protected function buildElementNewsTeaser(array $image, string $title, Url $url, array $summary, int $timestamp): array {
-    $elements = [];
-
     // Labels.
-    $element = $this->buildLabelsFromText([$this->t('News')]);
-    $elements[] = $this->wrapTextResponsiveFontSize($element, 'sm');
+    $labels = $this->buildLabelsFromText([$this->t('News')]);
+    $labels = $this->wrapTextResponsiveFontSize($labels, 'sm');
 
     // Date.
-    $element = IntlDate::formatPattern($timestamp, 'short');
-    $element = $this->wrapTextColor($element, 'gray');
-    $elements[] = $this->wrapTextResponsiveFontSize($element, 'sm');
+    $date = IntlDate::formatPattern($timestamp, 'short');
+    $date = $this->wrapTextColor($date, 'gray');
+    $date = $this->wrapTextResponsiveFontSize($date, 'sm');
 
     // Title as link.
-    $element = $this->buildLink($title, $url, 'dark-gray');
-    $element = $this->wrapTextResponsiveFontSize($element, 'lg');
-    $elements[] = $this->wrapTextFontWeight($element, 'bold');
+    $title = $this->wrapTextResponsiveFontSize($title, 'lg');
+    $title = $this->wrapTextFontWeight($title, 'bold');
+    $title = $this->wrapTextLineClamp($title, 3);
 
     // Body teaser.
-    $elements[] = $this->wrapTextLineClamp($summary, 4);
+    $description = $this->wrapTextLineClamp($summary, 4);
 
-    return $this->buildInnerElementLayoutWithImage($url, $image, $elements);
+    return [
+      '#theme' => 'server_theme_element__news_card',
+      '#image' => $image,
+      '#labels' => $labels,
+      '#date' => $date,
+      '#title' => $title,
+      '#description' => $description,
+      '#url' => $url,
+    ];
   }
 
   /**
