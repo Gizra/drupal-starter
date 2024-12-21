@@ -16,13 +16,13 @@
  * row 2 to 5, each auto placed in one row.
  */
 #}
-<article class="grid grid-rows-subgrid row-span-5 items-start relative rounded-lg border border-gray-300 w-full h-full overflow-hidden bg-white">
+<article class="grid grid-rows-subgrid row-span-5 gap-0 items-start rounded-lg border border-gray-300 w-full h-full overflow-hidden bg-white">
   <a href="{{ url }}">
     <figure class="child-object-cover h-48">
         {{ image }}
     </figure>
   </a>
-  <div class="grid grid-rows-subgrid row-start-2 row-end-6 gap-4 md:gap-5 p-4 items-start">
+  <div class="grid grid-rows-subgrid row-start-2 row-end-6 p-4 gap-y-4 md:gap-y-5">
     {{ labels }}
     {{ date }}
     {{ title }}
