@@ -2,12 +2,14 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
-use Drupal\paragraphs\Entity\Paragraph;
+use Drupal\Tests\server_general\Traits\ParagraphCreationTrait;
 
 /**
  * Test Paragraph "Form".
  */
 class ServerGeneralParagraphFormTest extends ServerGeneralFieldableEntityTestBase {
+
+  use ParagraphCreationTrait;
 
   /**
    * {@inheritdoc}
@@ -48,11 +50,11 @@ class ServerGeneralParagraphFormTest extends ServerGeneralFieldableEntityTestBas
   public function testRender() {
     $title = 'The Form paragraph title';
 
-    $paragraph = Paragraph::create(['type' => $this->getEntityBundle()]);
-    $paragraph->set('field_title', $title);
-    $paragraph->set('field_webform', 'contact');
-    $paragraph->save();
-    $this->markEntityForCleanup($paragraph);
+    $paragraph = $this->createParagraph([
+      'type' => $this->getEntityBundle(),
+      'field_title' => $title,
+      'field_webform' => 'contact',
+    ]);
 
     // Add a Landing page, and reference the Paragraph.
     $landing_page_node = $this->createNode([
