@@ -25,7 +25,7 @@ trait ParagraphCreationTrait {
    *   The Paragraph.
    */
   protected function createParagraph(array $settings = []): ParagraphInterface {
-    /** @var \Drupal\paragraphs\Entity\ParagraphInterface $entity */
+    /** @var \Drupal\paragraphs\ParagraphInterface $entity */
     $entity = Paragraph::create($settings);
     $entity->save();
     $this->markEntityForCleanup($entity);
