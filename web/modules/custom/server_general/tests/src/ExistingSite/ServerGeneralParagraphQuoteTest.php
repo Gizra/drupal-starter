@@ -2,13 +2,15 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
-use Drupal\paragraphs\Entity\Paragraph;
+use Drupal\Tests\server_general\Traits\ParagraphCreationTrait;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Test 'Quote' paragraph type.
  */
 class ServerGeneralParagraphQuoteTest extends ServerGeneralParagraphTestBase {
+
+  use ParagraphCreationTrait;
 
   /**
    * {@inheritdoc}
@@ -46,12 +48,15 @@ class ServerGeneralParagraphQuoteTest extends ServerGeneralParagraphTestBase {
     // Create Quote.
     $body = 'This is the body';
     $subtitle = 'This is the subtitle';
-    $paragraph = Paragraph::create(['type' => $this->getEntityBundle()]);
-    $paragraph->set('field_body', $body);
-    $paragraph->set('field_subtitle', $subtitle);
-    $paragraph->set('field_image', $media);
-    $paragraph->save();
-    $this->markEntityForCleanup($paragraph);
+
+    $paragraph = $this->createParagraph([
+      'type' => $this->getEntityBundle(),
+      'field_body' => $body,
+      'field_subtitle' => $subtitle,
+      'field_image' => [
+        'target_id' => $media->id(),
+      ],
+    ]);
 
     $user = $this->createUser();
     $node = $this->createNode([
