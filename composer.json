@@ -61,6 +61,7 @@
         "drupal/pantheon_advanced_page_cache": "^2.2",
         "drupal/paragraphs": "^1.17",
         "drupal/paragraphs_edit": "^3.0",
+        "drupal/paragraphs_ee": "^10.0",
         "drupal/password_policy": "^4.0",
         "drupal/pathauto": "^1.12",
         "drupal/permissions_filter": "^1.3",
