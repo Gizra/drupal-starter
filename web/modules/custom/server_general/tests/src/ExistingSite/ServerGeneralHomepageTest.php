@@ -34,4 +34,46 @@ class ServerGeneralHomepageTest extends ServerGeneralSelenium2TestBase {
     $web_assert->elementTextContains('css', '.paragraph--type--related-content .carousel-slide.slick-current', 'Pandemic Moves Education Online');
   }
 
+  /**
+   * Test the permissions and available paragraphs.
+   */
+  public function testAddParagraph() {
+    $assert = $this->assertSession();
+    // Login as a content editor.
+    $user = $this->createUser();
+    $user->addRole('administrator');
+    $user->save();
+    $this->drupalLogin($user);
+    $this->drupalGet("/node/add/landing_page");
+
+    /** @var \Drupal\FunctionalJavascriptTests\JSWebAssert $web_assert */
+    $web_assert = $this->assertSession();
+
+    $add_pagraph_button = $assert->elementExists('css', '.paragraph-type-add-modal-button');
+    $this->assertNotNull($add_pagraph_button);
+    $add_pagraph_button->click();
+
+    $paragraph_types = [
+      'Accordion',
+      'Call to action',
+      'Documents',
+      'Form',
+      'Hero image',
+      'Info cards',
+      'News teasers',
+      'People teasers',
+      'Quick links',
+      'Quote',
+      'Related content',
+      'Search',
+      'Text',
+    ];
+    // Wait half sec for the JS and animation.
+    $paragraphs = $web_assert->waitForElement('css', '.paragraphs-ee-add-dialog');
+    $paragraphs_items = $paragraphs->findAll('css', '.paragraphs-label');
+    foreach ($paragraphs_items as $label) {
+      $this->assertContains($label->getText(), $paragraph_types);
+    }
+  }
+
 }
