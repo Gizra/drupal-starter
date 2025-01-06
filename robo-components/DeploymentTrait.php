@@ -846,7 +846,7 @@ trait DeploymentTrait {
 
       if ($needs_revert) {
         // If uninstallation fails, reset configuration.
-        $this->taskExec("terminus remote:drush $pantheon_terminus_environment config:import --yes")->run();
+        $this->taskExec("terminus remote:drush $pantheon_terminus_environment -- config:import --yes")->run();
         throw new \Exception("Failed to uninstall modules. Configuration has been reset. Error: " . $e->getMessage());
       }
     }
