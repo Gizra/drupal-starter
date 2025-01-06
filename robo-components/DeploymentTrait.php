@@ -833,9 +833,8 @@ trait DeploymentTrait {
     $modules_to_uninstall = array_diff($installed_modules, $required_modules);
 
     if (!empty($modules_to_uninstall)) {
-      $needs_revert = FALSE;
       try {
-        $uninstall_success = $this->taskExec("terminus remote:drush $pantheon_terminus_environment pm:uninstall " . implode(' ', $modules_to_uninstall) . " --yes")
+        $uninstall_success = $this->taskExec("terminus remote:drush $pantheon_terminus_environment -- pm:uninstall " . implode(' ', $modules_to_uninstall) . " --yes")
           ->run()
           ->getExitCode();
         $needs_revert = !$uninstall_success;
