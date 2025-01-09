@@ -37,9 +37,5 @@
     "drupal/rollbar": {
       "d.o. #3432364": "patches/3432364-rollbar-vars.patch"
     }
-    ,
-    "drupal/crowdsec": {
-      "d.o. 3338348": "patches/crowdsec_exclude_private_ips.patch"
-    }
   }
 }
