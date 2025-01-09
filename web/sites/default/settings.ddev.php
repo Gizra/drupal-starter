@@ -106,5 +106,5 @@ if (file_exists(__DIR__ . '/settings.fast404.php')) {
   include __DIR__ . '/settings.fast404.php';
 }
 
-//Disable CrowdSec's "whisper" locally. So one doesn't get blocked locally, or PHPUnit can work well.
+// Disable CrowdSec's "whisper" locally. So one doesn't get blocked locally, or PHPUnit can work well.
 $config['crowdsec.settings']['whisper']['enable'] = 0;
