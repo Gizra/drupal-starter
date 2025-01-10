@@ -1,6 +1,3 @@
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-
 @import "container.css";
 @import "form.css";
 @import "language.css";
@@ -13,5 +10,3 @@
 @import "user.css";
 @import "video.css";
 
-// Must be last import.
-@import "tailwindcss/utilities";
