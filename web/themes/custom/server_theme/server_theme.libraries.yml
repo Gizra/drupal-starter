@@ -2,7 +2,7 @@ global-styling:
   version: 1.0
   css:
     theme:
-      dist/css/style.css: {}
+      src/css/style.css: {}
 
 global-scripts:
   js:

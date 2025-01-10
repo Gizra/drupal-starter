@@ -1,5 +1,7 @@
 {
-  "scripts": {},
+  "scripts": {
+    "theme:watch": "cd ./web/themes/custom/server_theme && npx postcss ./src/css/style.css --output=./dist/css/style.css --watch --verbose"
+  },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.3",
     "autoprefixer": "^10.4.12",

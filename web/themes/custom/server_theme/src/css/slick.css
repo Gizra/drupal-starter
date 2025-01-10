@@ -1,4 +1,4 @@
-// Prevent slides starting as a long column, before turning into a carousel.
+/* Prevent slides starting as a long column, before turning into a carousel. */
 .carousel-wrapper:not(.slick-initialized) {
   @apply hidden;
 }
@@ -7,7 +7,7 @@
   outline: none;
 }
 
-// Disabled state of an arrow.
+/* Disabled state of an arrow. */
 .slick-arrow.slick-disabled {
   @apply opacity-60;
 }

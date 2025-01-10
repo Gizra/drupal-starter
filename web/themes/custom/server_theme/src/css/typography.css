@@ -1,4 +1,4 @@
-// Apply standard letter-spacing sitewide.
+/* Apply standard letter-spacing sitewide. */
 body,
 input,
 select,
@@ -9,18 +9,18 @@ label {
   @apply tracking-normal;
 }
 
-// Apply standard text-color.
+/* Apply standard text-color. */
 body {
   @apply text-gray-900;
 }
 
 .prose {
-  // Apply default spacing to all formatted text elements.
+  /* Apply default spacing to all formatted text elements. */
   .text-formatted > * {
     @apply my-5 md:my-6 lg:my-8;
   }
 
-  // Remove top margin from first element, and bottom margin from last element.
+  /* Remove top margin from first element, and bottom margin from last element. */
   .text-formatted > :first-child {
     @apply mt-0;
   }
@@ -28,13 +28,13 @@ body {
     @apply mb-0;
   }
 
-  // Remove margins from images.
+  /* Remove margins from images. */
   figure,
   img {
     @apply my-0;
   }
 
-  // Styling for text elements.
+  /* Styling for text elements. */
   h1 {
     @apply text-4xl md:text-5xl lg:text-6xl font-bold;
   }
@@ -126,6 +126,3 @@ body {
   }
 
 }
-
-
-
