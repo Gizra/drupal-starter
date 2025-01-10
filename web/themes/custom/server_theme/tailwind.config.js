@@ -16,6 +16,7 @@ module.exports = {
     }
   },
   content: [
+    './src/css/**/*.css',
     // Look in the twig files.
     './templates/**/*.html.twig',
     // Look in the js files.
