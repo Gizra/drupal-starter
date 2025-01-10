@@ -6,7 +6,7 @@
 
 if [ $# -eq 0 ]; then
   # If no arguments are provided, run non-Rollbar tests
-  ./vendor/bin/phpunit -c phpunit.xml.dist --do-not-cache-result --exclude-group=Rollbar || (drush watchdog-show --count=20 && exit 1)
+  ./vendor/bin/phpunit -c phpunit.xml.dist --exclude-group=Rollbar || (drush watchdog-show --count=20 && exit 1)
 else
   # If arguments are provided, pass them to PHPUnit
   ./vendor/bin/phpunit -c phpunit.xml.dist "$@" || (drush watchdog-show --count=20 && exit 1)
