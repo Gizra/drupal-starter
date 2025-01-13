@@ -13,9 +13,11 @@ use weitzman\DrupalTestTraits\ExistingSiteBase;
 class ServerGeneralRollbarTest extends ExistingSiteBase {
 
   /**
-   * Test admin role.
+   * Test Rollbar crash issue.
+   *
+   * @see https://www.drupal.org/project/rollbar/issues/3432364
    */
-  public function testAdministratorRole(): void {
+  public function testRollbarCrash(): void {
     $this->failOnPhpWatchdogMessages = FALSE;
     $users = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties(['name' => 'AdminOne']);
     $user = reset($users);
