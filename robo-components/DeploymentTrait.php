@@ -510,8 +510,14 @@ trait DeploymentTrait {
       throw new \Exception("Cannot parse the response of terminus: " . serialize($parsed_output));
     }
 
+    $exclude = (string) getenv('DEPLOY_EXCLUDE_WARNING');
+    $exclude_list = explode('|', $exclude);
+
     foreach ($parsed_output as $requirement) {
       if ($requirement['severity'] !== 'Error') {
+        continue;
+      }
+      if (in_array($requirement['title'], $exclude_list) || in_array($requirement['value'], $exclude_list)) {
         continue;
       }
       $errors[] = '## ' . trim($requirement['title']) . "\n" . trim($requirement['value']);
