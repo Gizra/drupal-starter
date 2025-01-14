@@ -518,6 +518,7 @@ trait DeploymentTrait {
         continue;
       }
       if (in_array($requirement['title'], $exclude_list) || in_array($requirement['value'], $exclude_list)) {
+        // A warning we decided to exclude.
         continue;
       }
       $errors[] = '## ' . trim($requirement['title']) . "\n" . trim($requirement['value']);
