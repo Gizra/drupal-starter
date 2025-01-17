@@ -6,8 +6,12 @@ dependencies:
     - field.field.node.landing_page.field_is_title_hidden
     - field.field.node.landing_page.field_paragraphs
     - node.type.landing_page
+    - workflows.workflow.default
   module:
+    - content_moderation
     - paragraphs
+    - paragraphs_ee
+    - paragraphs_features
     - path
 id: node.landing_page.default
 targetEntityType: node
@@ -35,23 +39,41 @@ content:
       title: Paragraph
       title_plural: Paragraphs
       edit_mode: closed
-      closed_mode: summary
+      closed_mode: preview
       autocollapse: none
-      closed_mode_threshold: 0
-      add_mode: dropdown
+      closed_mode_threshold: 3
+      add_mode: modal
       form_display_mode: default
       default_paragraph_type: _none
       features:
-        add_above: '0'
+        add_above: add_above
         collapse_edit_all: collapse_edit_all
+        convert: '0'
         duplicate: duplicate
-    third_party_settings: {  }
+    third_party_settings:
+      paragraphs_ee:
+        paragraphs_ee:
+          dialog_off_canvas: false
+          dialog_style: tiles
+          drag_drop: true
+      paragraphs_features:
+        add_in_between: false
+        add_in_between_link_count: 3
+        delete_confirmation: true
+        show_drag_and_drop: true
+        show_collapse_all: true
   langcode:
     type: language_select
     weight: 2
     region: content
     settings:
       include_locked: false
+    third_party_settings: {  }
+  moderation_state:
+    type: moderation_state_default
+    weight: 100
+    region: content
+    settings: {  }
     third_party_settings: {  }
   path:
     type: path
