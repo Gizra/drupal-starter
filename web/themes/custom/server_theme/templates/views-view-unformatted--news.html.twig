@@ -21,6 +21,6 @@
   {% set items = items|merge([row.content]) %}
 {% endfor %}
 
-{% embed '@server_theme/server-theme-cards.html.twig' %}
+{% embed '@server_theme/server-theme-news-cards.html.twig' %}
   {% set items = items %}
 {% endembed %}

@@ -1,0 +1,31 @@
+{#
+/**
+ * @file
+ * Subgrid card elements.
+ *
+ * We have a child and grandchild here, both of which are subgrid elements.
+ * `grid-rows-subgrid` on both declares that this is a subgrid element.
+ *
+ * `row-span-5` on child specifies that each card element will span 5 rows of
+ * the grid.
+ *
+ * <a> wrapper for the image takes the first row.
+ *
+ * `row-start-2` and `row-end-6` on grandchild element, which contains label,
+ * date, title and description, specifies that each of these will span
+ * row 2 to 5, each auto placed in one row.
+ */
+#}
+<article class="grid grid-rows-subgrid row-span-5 gap-0 items-start rounded-lg border border-gray-300 w-full h-full overflow-hidden bg-white">
+  <a href="{{ url }}">
+    <figure class="child-object-cover h-48">
+        {{ image }}
+    </figure>
+  </a>
+  <div class="grid grid-rows-subgrid row-start-2 row-end-6 p-4 gap-y-4 md:gap-y-5">
+    {{ labels }}
+    {{ date }}
+    {{ title }}
+    {{ description }}
+  </div>
+</article>
