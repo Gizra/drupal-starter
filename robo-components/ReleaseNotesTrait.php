@@ -278,8 +278,11 @@ trait ReleaseNotesTrait {
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
     $result = empty($result) ? NULL : json_decode($result);
+    if ($http_code == 404) {
+      throw new \Exception("404 Not Found error encountered while requesting the API path $path. The path either does not exist, or your token does not have sufficient permissions as Github API returns 404 instead of 403. Details: \n" . print_r($result, TRUE));
+    }
     if (substr((string) $http_code, 0, 1) != 2) {
-      throw new \Exception("Failed to request the API:\n" . print_r($result, TRUE));
+      throw new \Exception("Error: $http_code - Failed to request the API path $path:\n" . print_r($result, TRUE));
     }
     return $result;
   }
