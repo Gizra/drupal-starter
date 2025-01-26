@@ -3,7 +3,7 @@
 ul.links.inline {
   @apply flex;
 
-  // Don't add margin to the first li element.
+  /* Don't add margin to the first li element. */
   li + li {
     @apply ml-2;
   }
