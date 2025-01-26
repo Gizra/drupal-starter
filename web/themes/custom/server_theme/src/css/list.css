@@ -1,4 +1,4 @@
-// These are elements Drupal spits out.
+/* These are elements Drupal spits out. */
 
 ul.links.inline {
   @apply flex;

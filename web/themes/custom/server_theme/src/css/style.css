@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@import "container.css";
+@import "form.css";
+@import "language.css";
+@import "list.css";
+@import "paragraph_search.css";
+@import "rtl.css";
+@import "slick.css";
+@import "toggler.css";
+@import "typography.css";
+@import "user.css";
+@import "video.css";
+
+

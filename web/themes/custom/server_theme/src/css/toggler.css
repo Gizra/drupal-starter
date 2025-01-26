@@ -18,7 +18,7 @@ button[aria-controls] {
     @apply scale-y-0 scale-x-0 opacity-0;
   }
 
-  // Flip them on the Y or X axis when it's expanded.
+  /* Flip them on the Y or X axis when it's expanded. */
   &[aria-expanded="true"] {
     .chevron-down,
     .chevron-up {
