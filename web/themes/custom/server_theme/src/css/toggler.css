@@ -1,6 +1,6 @@
-// Toggler styling.
+/* Toggler styling. */
 button[aria-controls] {
-  // Apply transition to chevrons inside toggler buttons.
+  /* Apply transition to chevrons inside toggler buttons. */
   .chevron-down,
   .chevron-up,
   .chevron-left,
