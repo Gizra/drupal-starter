@@ -3,7 +3,7 @@
 version: '3.6'
 services:
   selenium-chrome:
-    image: seleniarm/standalone-chromium:4.20.0
+    image: seleniarm/standalone-chromium:124.0
     container_name: ddev-${DDEV_SITENAME}-selenium-chrome
     expose:
       #      The internal noVNC port, which operates over HTTP so it can be exposed
