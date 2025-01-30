@@ -6,8 +6,8 @@
 
 if [ $# -eq 0 ]; then
   # If no arguments are provided, run non-Rollbar tests
-  ./vendor/bin/phpunit -c phpunit.xml.dist --exclude-group=Rollbar
+  ./vendor/bin/phpunit -c phpunit.xml --exclude-group=Rollbar
 else
   # If arguments are provided, pass them to PHPUnit
-  ./vendor/bin/phpunit -c phpunit.xml.dist "$@"
+  ./vendor/bin/phpunit -c phpunit.xml "$@"
 fi
