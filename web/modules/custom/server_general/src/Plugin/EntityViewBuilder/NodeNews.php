@@ -82,7 +82,7 @@ class NodeNews extends NodeViewBuilderAbstract {
       $image,
       $this->buildProcessedText($entity),
       $this->buildTags($entity),
-      // In preview state, since we don't have any URL for the entity yet.
+      // In preview state, we don't have any URL for the entity yet.
       $entity->isNew() ? '' : $entity->toUrl('canonical', ['absolute' => TRUE]),
     );
 
