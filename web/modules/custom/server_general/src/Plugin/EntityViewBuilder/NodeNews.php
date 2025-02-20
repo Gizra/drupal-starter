@@ -14,6 +14,7 @@ use Drupal\server_general\LineSeparatorTrait;
 use Drupal\server_general\LinkTrait;
 use Drupal\server_general\SocialShareTrait;
 use Drupal\server_general\TitleAndLabelsTrait;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * The "Node News" plugin.
