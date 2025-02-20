@@ -3,7 +3,6 @@
 namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\media\MediaInterface;
-use Drupal\node\Entity\NodeType;
 use Drupal\node\NodeInterface;
 use Drupal\server_general\ElementLayoutTrait;
 use Drupal\server_general\ElementNodeNewsTrait;
@@ -41,6 +40,8 @@ class NodeNews extends NodeViewBuilderAbstract {
   /**
    * The renderer.
    *
+   * This is not used in this file, but the `SearchTrait` uses it.
+   *
    * @var \Drupal\Core\Render\RendererInterface
    */
   protected $renderer;
@@ -68,7 +69,7 @@ class NodeNews extends NodeViewBuilderAbstract {
    */
   public function buildFull(array $build, NodeInterface $entity) {
     // The node's label.
-    $node_type = NodeType::load($entity->bundle());
+    $node_type = $this->entityTypeManager->getStorage('node_type')->load($entity->bundle());
     $label = $node_type->label();
 
     // The hero responsive image.
