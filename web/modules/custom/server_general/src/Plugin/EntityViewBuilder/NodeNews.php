@@ -39,6 +39,23 @@ class NodeNews extends NodeViewBuilderAbstract {
   use TitleAndLabelsTrait;
 
   /**
+   * The renderer.
+   *
+   * @var \Drupal\Core\Render\RendererInterface
+   */
+  protected $renderer;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    $plugin = parent::create($container, $configuration, $plugin_id, $plugin_definition);
+    $plugin->renderer = $container->get('renderer');
+
+    return $plugin;
+  }
+
+  /**
    * Build full view mode.
    *
    * @param array $build
@@ -51,7 +68,7 @@ class NodeNews extends NodeViewBuilderAbstract {
    */
   public function buildFull(array $build, NodeInterface $entity) {
     // The node's label.
-    $node_type = $this->entityTypeManager->getStorage('node_type')->load($entity->bundle());
+    $node_type = NodeType::load($entity->bundle());
     $label = $node_type->label();
 
     // The hero responsive image.
