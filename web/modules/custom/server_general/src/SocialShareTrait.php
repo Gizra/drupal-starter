@@ -4,6 +4,10 @@ namespace Drupal\server_general;
 
 use Drupal\Core\Url;
 
+/**
+ * Helper methods for getting themed social share buttons.
+ */
+trait SocialShareTrait {
 
   /**
    * Build the social media buttons element.
