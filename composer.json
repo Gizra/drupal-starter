@@ -29,6 +29,9 @@
         "composer/installers": "^1.9",
         "cweagans/composer-patches": "^1.7",
         "drupal/admin_toolbar": "^3.4",
+        "drupal/ai": "^1.0",
+        "drupal/ai_image_alt_text": "^1.0",
+        "drupal/ai_provider_openai": "^1.0",
         "drupal/block_plugin_view_builder": "^1.0",
         "drupal/classy": "^1.0",
         "drupal/config_filter": "^2.4",
@@ -133,8 +136,9 @@
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "drupal/core-composer-scaffold": true,
             "drupal/core-project-message": true,
+            "mglaman/composer-drupal-lenient": true,
             "oomphinc/composer-installers-extender": true,
-            "mglaman/composer-drupal-lenient": true
+            "php-http/discovery": true
         }
     },
     "extra": {
