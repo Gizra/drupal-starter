@@ -4,6 +4,8 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.search_index
+    - field.field.node.news.ai_automator_status
+    - field.field.node.news.field_ai_tags
     - field.field.node.news.field_body
     - field.field.node.news.field_featured_image
     - field.field.node.news.field_publish_date
@@ -18,6 +20,11 @@ targetEntityType: node
 bundle: news
 mode: search_index
 content:
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: -20
+    region: content
   field_body:
     type: text_default
     label: above
@@ -56,5 +63,7 @@ content:
     weight: 100
     region: content
 hidden:
+  ai_automator_status: true
+  field_ai_tags: true
   langcode: true
   search_api_excerpt: true

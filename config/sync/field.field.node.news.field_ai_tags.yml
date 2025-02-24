@@ -1,0 +1,36 @@
+uuid: 9e514864-fe14-4a8b-8645-4b140ec8b6c2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_ai_tags
+    - node.type.news
+    - taxonomy.vocabulary.tags
+  module:
+    - ai_translate
+third_party_settings:
+  ai_translate:
+    entity_reference:
+      translate_references: default
+    translate_references: default
+id: node.news.field_ai_tags
+field_name: field_ai_tags
+entity_type: node
+bundle: news
+label: 'AI Tags'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      tags: tags
+    sort:
+      field: name
+      direction: asc
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference

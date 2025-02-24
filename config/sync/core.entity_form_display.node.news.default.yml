@@ -3,12 +3,16 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.news.ai_automator_status
+    - field.field.node.news.field_ai_tags
     - field.field.node.news.field_body
     - field.field.node.news.field_featured_image
     - field.field.node.news.field_publish_date
     - field.field.node.news.field_tags
     - node.type.news
+    - workflows.workflow.default
   module:
+    - content_moderation
     - datetime
     - media_library
     - path
@@ -24,6 +28,16 @@ content:
     weight: 6
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_ai_tags:
+    type: select2_entity_reference
+    weight: 101
+    region: content
+    settings:
+      width: 100%
+      autocomplete: false
+      match_operator: CONTAINS
+      match_limit: 10
     third_party_settings: {  }
   field_body:
     type: text_textarea
@@ -62,6 +76,12 @@ content:
     region: content
     settings:
       include_locked: false
+    third_party_settings: {  }
+  moderation_state:
+    type: moderation_state_default
+    weight: 100
+    region: content
+    settings: {  }
     third_party_settings: {  }
   path:
     type: path
@@ -123,4 +143,5 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  ai_automator_status: true

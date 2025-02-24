@@ -4,6 +4,8 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
+    - field.field.node.news.ai_automator_status
+    - field.field.node.news.field_ai_tags
     - field.field.node.news.field_body
     - field.field.node.news.field_featured_image
     - field.field.node.news.field_publish_date
@@ -16,12 +18,19 @@ targetEntityType: node
 bundle: news
 mode: teaser
 content:
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: -20
+    region: content
   links:
     settings: {  }
     third_party_settings: {  }
     weight: 100
     region: content
 hidden:
+  ai_automator_status: true
+  field_ai_tags: true
   field_body: true
   field_featured_image: true
   field_publish_date: true
