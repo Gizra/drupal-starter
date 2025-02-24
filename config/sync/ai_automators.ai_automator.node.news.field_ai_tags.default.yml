@@ -15,14 +15,14 @@ bundle: news
 field_name: field_ai_tags
 edit_mode: true
 base_field: field_body
-prompt: "Based on the context text choose up to {{ max_amount }} categories from the category context that fits the text. Always create new tags as well\r\n\r\nCategory options:\r\n{{ value_options_comma }}\r\n\r\nContext:\r\n{{ context }}"
+prompt: "Based on the context text choose up to {{ max_amount }} categories from the category context that fits the text. Always create new tags as well. Don't prefix or suffix the tag with \"New tag\", just add the term itself.\r\n\r\nCategory options:\r\n{{ value_options_comma }}\r\n\r\nContext:\r\n{{ context }}"
 token: ''
 plugin_config:
   automator_enabled: 1
   automator_rule: llm_taxonomy
   automator_mode: base
   automator_base_field: field_body
-  automator_prompt: "Based on the context text choose up to {{ max_amount }} categories from the category context that fits the text. Always create new tags as well\r\n\r\nCategory options:\r\n{{ value_options_comma }}\r\n\r\nContext:\r\n{{ context }}"
+  automator_prompt: "Based on the context text choose up to {{ max_amount }} categories from the category context that fits the text. Always create new tags as well. Don't prefix or suffix the tag with \"New tag\", just add the term itself.\r\n\r\nCategory options:\r\n{{ value_options_comma }}\r\n\r\nContext:\r\n{{ context }}"
   automator_token: ''
   automator_edit_mode: 1
   automator_label: 'AI Tags Default'
