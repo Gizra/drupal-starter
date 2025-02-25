@@ -16,7 +16,7 @@ use PHPStan\Rules\RuleErrorBuilder;
  */
 class NoThemeInEntityViewBuilderRule implements Rule
 {
-  private const ERROR_MESSAGE = "Use of '#theme' is not allowed in EntityViewBuilder classes";
+  private const ERROR_MESSAGE = "Use of '#theme' is not allowed in Pluggable entity view builder `EntityViewBuilder` classes";
 
   public function getNodeType(): string
   {
@@ -52,8 +52,8 @@ class NoThemeInEntityViewBuilderRule implements Rule
 
   private function isEntityViewBuilder(ClassReflection $class): bool
   {
-    return $class->isSubclassOf('Drupal\Core\Entity\EntityViewBuilder') ||
-      $class->getName() === 'Drupal\Core\Entity\EntityViewBuilder';
+    return $class->isSubclassOf('Drupal\pluggable_entity_view_builder\EntityViewBuilder') ||
+      $class->getName() === 'Drupal\pluggable_entity_view_builder\EntityViewBuilder';
   }
 
   private function containsThemeKey(Array_ $node): bool
