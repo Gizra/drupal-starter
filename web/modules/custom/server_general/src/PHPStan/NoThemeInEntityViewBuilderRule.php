@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\server_general\PHPStan;
 
 use PhpParser\Node;
