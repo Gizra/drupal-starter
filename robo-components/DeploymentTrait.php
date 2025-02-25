@@ -86,6 +86,8 @@ trait DeploymentTrait {
     'package-lock.json',
     'composer.json',
     'composer.lock',
+    'web/libraries/font-awesome/js-packages',
+    'web/libraries/font-awesome/metadata',
   ];
 
   /**

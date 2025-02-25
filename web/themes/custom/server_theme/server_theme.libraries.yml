@@ -47,7 +47,7 @@ opensans:
 font-awesome:
   css:
     theme:
-      /libraries/fontawesome/css/all.min.css: {}
+      /libraries/font-awesome/css/all.min.css: {}
 
 slick:
   remote: https://github.com/kenwheeler/slick
