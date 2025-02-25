@@ -1,0 +1,5 @@
+services:
+    -
+        class: Drupal\server_general\PHPStan\NoThemeInEntityViewBuilderRule
+        tags:
+            - phpstan.rules.rule
