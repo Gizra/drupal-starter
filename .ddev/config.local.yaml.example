@@ -1,9 +1,5 @@
 web_environment:
   - COMPOSER_EXIT_ON_PATCH_FAILURE=1
-
-  # Get Token via https://platform.openai.com/
-  - OPEN_AI_TOKEN=
-
   # Un comment when working on a migration and the source is different DDEV
   # installation. And Change the `SomeName` to match the remote source.
   # This is used in setting.ddev.php
