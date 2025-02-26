@@ -5,9 +5,9 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 use Drupal\Core\Link;
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
-use Drupal\server_general\ButtonTrait;
-use Drupal\server_general\ElementTrait\CtaTrait;
-use Drupal\server_general\ElementWrapTrait;
+use Drupal\server_general\ThemeTrait\ButtonTrait;
+use Drupal\server_general\ThemeTrait\CtaTrait;
+use Drupal\server_general\ThemeTrait\ElementWrapTrait;
 use Drupal\server_general\ProcessedTextBuilderTrait;
 
 /**

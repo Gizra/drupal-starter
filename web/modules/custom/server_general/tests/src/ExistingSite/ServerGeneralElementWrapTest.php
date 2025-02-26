@@ -2,7 +2,7 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
-use Drupal\server_general\ElementWrapTrait;
+use Drupal\server_general\ThemeTrait\ElementWrapTrait;
 
 /**
  * ElementWrapTrait tests.

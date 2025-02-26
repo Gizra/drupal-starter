@@ -4,7 +4,7 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\node\NodeInterface;
 use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
-use Drupal\server_general\TitleAndLabelsTrait;
+use Drupal\server_general\ThemeTrait\TitleAndLabelsTrait;
 
 /**
  * The "Node Landing Page" plugin.

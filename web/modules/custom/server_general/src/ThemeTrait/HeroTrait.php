@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Drupal\server_general\ThemeTrait;
 
 use Drupal\Core\Link;
-use Drupal\server_general\ButtonTrait;
-use Drupal\server_general\ElementWrapTrait;
+use Drupal\server_general\ThemeTrait\ButtonTrait;
+use Drupal\server_general\ThemeTrait\ElementWrapTrait;
 
 /**
  * Helper methods for rendering Hero elements.

@@ -6,11 +6,6 @@ namespace Drupal\server_general\ThemeTrait;
 
 use Drupal\Core\Url;
 use Drupal\intl_date\IntlDate;
-use Drupal\server_general\ButtonTrait;
-use Drupal\server_general\ElementLayoutTrait;
-use Drupal\server_general\InnerElementLayoutTrait;
-use Drupal\server_general\LinkTrait;
-use Drupal\server_general\TitleAndLabelsTrait;
 
 /**
  * Helper methods for rendering News Teaser elements.

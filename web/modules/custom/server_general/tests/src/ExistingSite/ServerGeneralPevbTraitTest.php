@@ -4,7 +4,7 @@ namespace Drupal\Tests\server_general\ExistingSite;
 
 use Drupal\Core\Field\EntityReferenceFieldItemList;
 use Drupal\Core\TypedData\DataDefinition;
-use Drupal\server_general\ElementWrapTrait;
+use Drupal\server_general\ThemeTrait\ElementWrapTrait;
 use weitzman\DrupalTestTraits\ExistingSiteBase;
 
 /**

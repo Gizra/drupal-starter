@@ -6,8 +6,8 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\media\MediaInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
-use Drupal\server_general\ElementMediaTrait;
-use Drupal\server_general\ElementWrapTrait;
+use Drupal\server_general\ThemeTrait\ElementMediaTrait;
+use Drupal\server_general\ThemeTrait\ElementWrapTrait;
 
 /**
  * The "Media: Image" plugin.

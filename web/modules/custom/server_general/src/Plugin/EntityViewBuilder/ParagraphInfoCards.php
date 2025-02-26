@@ -6,8 +6,8 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
-use Drupal\server_general\ElementTrait\InfoCardTrait;
-use Drupal\server_general\ElementWrapTrait;
+use Drupal\server_general\ThemeTrait\InfoCardTrait;
+use Drupal\server_general\ThemeTrait\ElementWrapTrait;
 use Drupal\server_general\ProcessedTextBuilderTrait;
 
 /**

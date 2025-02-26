@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Drupal\server_general\ThemeTrait;
 
 use Drupal\Core\Url;
-use Drupal\server_general\ElementLayoutTrait;
-use Drupal\server_general\ElementWrapTrait;
+use Drupal\server_general\ThemeTrait\ElementLayoutTrait;
+use Drupal\server_general\ThemeTrait\ElementWrapTrait;
 
 /**
  * Helper methods for rendering Quick Links elements.
