@@ -94,7 +94,6 @@ class NoEntityInterfaceInThemeTraitRule implements Rule
   private function isEntityInterfaceParameter(\PHPStan\Reflection\ParameterReflection $param): bool
   {
     $paramType = $param->getType();
-
     if (!$paramType->isObject()->yes()) {
       return false;
     }
