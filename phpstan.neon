@@ -15,6 +15,7 @@ parameters:
     - web
     - RoboFile.php
     - robo-components
+    - phpstan-rules
   excludePaths:
     - '*.api.php'
     - '*/tests/fixtures/*.php'
