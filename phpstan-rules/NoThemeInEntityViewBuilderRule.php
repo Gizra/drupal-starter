@@ -49,6 +49,11 @@ class NoThemeInEntityViewBuilderRule implements Rule
       return [];
     }
 
+    // Ensure that the node is of type Array_ before proceeding.
+    if (!$node instanceof Array_) {
+      return [];
+    }
+
     if ($this->containsThemeKey($node)) {
       return [
         RuleErrorBuilder::message(self::ERROR_MESSAGE)
@@ -72,8 +77,8 @@ class NoThemeInEntityViewBuilderRule implements Rule
   private function isInEntityViewBuilder(Scope $scope): bool
   {
     $class = $scope->getClassReflection();
-    if ($class === NULL) {
-      return FALSE;
+    if ($class === null) {
+      return false;
     }
 
     return $this->isEntityViewBuilder($class);
@@ -88,10 +93,9 @@ class NoThemeInEntityViewBuilderRule implements Rule
    * @return bool
    *   TRUE if the class extends EntityViewBuilder, FALSE otherwise.
    */
-  private function isEntityViewBuilder(ClassReflection $class): bool
-  {
-    return $class->isSubclassOf('Drupal\Core\Entity\EntityViewBuilder') ||
-      $class->getName() === 'Drupal\Core\Entity\EntityViewBuilder';
+  private function isEntityViewBuilder(ClassReflection $class): bool {
+    return $class->isSubclassOf('Drupal\pluggable_entity_view_builder\EntityViewBuilder\EntityViewBuilderPluginInterface') ||
+      $class->getName() === 'Drupal\pluggable_entity_view_builder\EntityViewBuilder\EntityViewBuilderPluginInterface';
   }
 
   /**
@@ -106,15 +110,11 @@ class NoThemeInEntityViewBuilderRule implements Rule
   private function containsThemeKey(Array_ $node): bool
   {
     foreach ($node->items as $item) {
-      if ($item === NULL) {
-        continue;
-      }
-
       if ($item->key instanceof Node\Scalar\String_ && $item->key->value === '#theme') {
-        return TRUE;
+        return true;
       }
     }
 
-    return FALSE;
+    return false;
   }
 }
