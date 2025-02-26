@@ -62,15 +62,15 @@ class NoThemeInEntityViewBuilderRule implements Rule
     }
 
     // Disallow '#theme' if directly in the EntityViewBuilder class.
-    if ($this->containsThemeKey($node)) {
-      return [
-        RuleErrorBuilder::message(self::ERROR_MESSAGE)
-          ->line($node->getStartLine())
-          ->build(),
-      ];
+    if (!$this->containsThemeKey($node)) {
+      return [];
     }
 
-    return [];
+    return [
+      RuleErrorBuilder::message(self::ERROR_MESSAGE)
+        ->line($node->getStartLine())
+        ->build(),
+    ];
   }
 
   /**
