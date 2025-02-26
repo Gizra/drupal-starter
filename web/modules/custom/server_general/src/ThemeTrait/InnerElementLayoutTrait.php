@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Drupal\server_general;
+namespace Drupal\server_general\ThemeTrait;
 
 use Drupal\Core\Url;
 
@@ -11,12 +11,12 @@ use Drupal\Core\Url;
  *
  * An inner element can be for example a card with an image, or a search result
  * with centered items. This trait should only be used by other traits in
- * ElementTrait namespace.
+ * ThemeTrait namespace.
  * You should not try to call this trait's methods directly from the Style guide
  * or PEVB, instead you should be calling the methods from a custom
- * ElementTrait such as Drupal\server_general\ElementTrait\InfoCardTrait.
+ * ThemeTrait such as Drupal\server_general\ThemeTrait\InfoCardTrait.
  *
- * @see \Drupal\server_general\ElementTrait\InfoCardTrait::buildElementInfoCard.
+ * @see \Drupal\server_general\ThemeTrait\InfoCardTrait::buildElementInfoCard.
  */
 trait InnerElementLayoutTrait {
 

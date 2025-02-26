@@ -1,9 +1,12 @@
 <?php
 
-namespace Drupal\server_general;
+declare(strict_types=1);
+
+namespace Drupal\server_general\ThemeTrait;
 
 use Drupal\Core\Url;
 use Drupal\intl_date\IntlDate;
+use Drupal\server_general\EntityDateTrait;
 
 /**
  * Helper method for building the Node news element.

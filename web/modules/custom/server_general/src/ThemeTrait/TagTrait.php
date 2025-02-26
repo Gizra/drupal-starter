@@ -1,6 +1,8 @@
 <?php
 
-namespace Drupal\server_general;
+declare(strict_types=1);
+
+namespace Drupal\server_general\ThemeTrait;
 
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Entity\FieldableEntityInterface;
