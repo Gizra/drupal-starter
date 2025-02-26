@@ -133,7 +133,7 @@ trait ElementNodeNewsTrait {
     if (!empty($tags)) {
       $sidebar_elements[] = $this->buildLineSeparator();
     }
-    $sidebar_elements[] = $this->buildElementSocialShare($title, $url);
+    $sidebar_elements[] = $this->buildSocialShare($title, $url);
     $sidebar_elements = $this->wrapContainerVerticalSpacing($sidebar_elements);
 
     return $this->buildElementLayoutMainAndSidebar(
