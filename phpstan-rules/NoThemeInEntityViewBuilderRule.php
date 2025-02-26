@@ -25,7 +25,7 @@ class NoThemeInEntityViewBuilderRule implements Rule {
   /**
    * Error message for when '#theme' is detected.
    */
-  private const ERROR_MESSAGE = "Use of '#theme' is not allowed in EntityViewBuilder classes";
+  private const ERROR_MESSAGE = "The use of '#theme' is not allowed in PEVB's EntityViewBuilder classes. Instead, transfer the theming components into a ThemeTrait.";
 
   /**
    * Process all nodes to catch both array literals and assignments.
