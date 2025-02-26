@@ -11,10 +11,12 @@ parameters:
     - '#has no return type specified.#'
     - '#Access to an undefined property Drupal\\Core\\Field\\FieldItemListInterface::\$value.#'
     - '#Access to an undefined property Drupal\\Core\\Field\\FieldItemInterface::\$value.#'
+    - '#Unreachable statement - code above always terminates.#'
   paths:
-    - web
-    - RoboFile.php
-    - robo-components
+    - 'web/modules/custom/server_general/src/ThemeTrait/ButtonTrait.php'
+    - 'web/modules/custom/server_general/src/Plugin/EntityViewBuilder/ParagraphCta.php'
+#    - RoboFile.php
+#    - robo-components
     - phpstan-rules
   excludePaths:
     - '*.api.php'

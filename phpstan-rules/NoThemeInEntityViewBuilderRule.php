@@ -91,17 +91,6 @@ class NoThemeInEntityViewBuilderRule implements Rule {
     if ($class === NULL) {
       return FALSE;
     }
-    return $this->isEntityViewBuilder($class);
-  }
-
-  /**
-   * Determines if a class is an EntityViewBuilder.
-   *
-   * @param ClassReflection $class The class reflection to check.
-   *
-   * @return bool TRUE if the class implements EntityViewBuilderPluginInterface, FALSE otherwise.
-   */
-  private function isEntityViewBuilder(ClassReflection $class): bool {
     return $class->implementsInterface(
       'Drupal\pluggable_entity_view_builder\EntityViewBuilder\EntityViewBuilderPluginInterface'
     );
