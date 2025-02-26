@@ -105,6 +105,8 @@ class NoThemeInEntityViewBuilderRule implements Rule {
   /**
    * Helper to check if an array literal contains a '#theme' key.
    *
+   * $element = ['#theme' => 'foo'];
+   *
    * @param Array_ $node The array node to inspect.
    *
    * @return bool TRUE if '#theme' is found, FALSE otherwise.
@@ -115,6 +117,8 @@ class NoThemeInEntityViewBuilderRule implements Rule {
 
   /**
    * Helper to check if an assignment node assigns a value to a '#theme' key.
+   *
+   * $element['#theme'] = 'foo';
    *
    * @param Assign $node The assignment node to inspect.
    *
