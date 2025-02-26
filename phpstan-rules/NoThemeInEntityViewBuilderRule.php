@@ -103,8 +103,7 @@ class NoThemeInEntityViewBuilderRule implements Rule
    */
   private function isEntityViewBuilder(ClassReflection $class): bool
   {
-    return $class->isSubclassOf('Drupal\pluggable_entity_view_builder\EntityViewBuilder\EntityViewBuilderPluginInterface') ||
-      $class->getName() === 'Drupal\pluggable_entity_view_builder\EntityViewBuilder\EntityViewBuilderPluginInterface';
+    return $class->isSubclassOf('Drupal\pluggable_entity_view_builder\EntityViewBuilder\EntityViewBuilderPluginInterface');
   }
 
   /**
