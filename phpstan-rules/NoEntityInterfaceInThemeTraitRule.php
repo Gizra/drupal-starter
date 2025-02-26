@@ -13,7 +13,7 @@ use PHPStan\Type\ObjectType;
 /**
  * Disallows EntityInterface arguments in methods within ThemeTrait classes.
  *
- * This rule checks classes in the Drupal\server_general\ThemeTrait namespace
+ * This rule checks classes in the `\ThemeTrait` namespace
  * and ensures their methods don't accept EntityInterface parameters.
  *
  * @implements \PHPStan\Rules\Rule<\PhpParser\Node\Stmt\ClassMethod>
@@ -86,7 +86,6 @@ class NoEntityInterfaceInThemeTraitRule implements Rule
     }
 
     $traitReflection = $scope->getTraitReflection();
-    // @todo: Find a better way to check the namespace.
     return str_contains($traitReflection->getName(), '\ThemeTrait');
   }
 
