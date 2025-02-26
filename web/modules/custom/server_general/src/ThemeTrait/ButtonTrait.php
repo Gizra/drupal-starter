@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\server_general\ThemeTrait;
 
-use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
-use Drupal\file\FileInterface;
 use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
 
 /**
@@ -51,4 +49,5 @@ trait ButtonTrait {
       '#open_new_tab' => $open_new_tab,
     ];
   }
+
 }
