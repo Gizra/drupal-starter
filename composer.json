@@ -120,9 +120,10 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "autoload": {
+    "autoload-dev": {
         "psr-4": {
-            "RoboComponents\\": "./robo-components/"
+            "RoboComponents\\": "./robo-components/",
+            "Drupal\\PHPStan\\Custom\\": "phpstan-rules/"
         }
     },
     "config": {
