@@ -23,6 +23,7 @@ parameters:
     - 'web/sites/default/files/*'
     - 'web/sites/default/default.settings.php'
     - 'web/sites/default/settings.php'
+    - 'web/sites/default/settings.local.php'
     - 'web/modules/contrib/*'
     - 'web/themes/contrib/*'
     - 'web/libraries/*'
