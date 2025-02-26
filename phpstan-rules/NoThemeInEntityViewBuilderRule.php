@@ -55,7 +55,6 @@ class NoThemeInEntityViewBuilderRule implements Rule {
       return [];
     }
 
-    $errors = [];
     $shouldReport = FALSE;
 
     if ($node instanceof Array_) {
@@ -69,13 +68,15 @@ class NoThemeInEntityViewBuilderRule implements Rule {
       }
     }
 
-    if ($shouldReport) {
-      $errors[] = RuleErrorBuilder::message(self::ERROR_MESSAGE)
-        ->line($node->getStartLine())
-        ->build();
+    if (!$shouldReport) {
+      return [];
     }
 
-    return $errors;
+    return [
+      RuleErrorBuilder::message(self::ERROR_MESSAGE)
+        ->line($node->getStartLine())
+        ->build()
+    ];
   }
 
   /**

@@ -49,7 +49,6 @@ class NoEntityInterfaceInThemeTraitRule implements Rule {
       return [];
     }
 
-    $errors = [];
     $classReflection = $scope->getClassReflection();
 
     if ($classReflection === null) {
@@ -70,16 +69,18 @@ class NoEntityInterfaceInThemeTraitRule implements Rule {
         // Check if the type is an object and implements EntityInterface
         if ($paramType->isObject()->yes() &&
           $paramType->isSuperTypeOf(new \PHPStan\Type\ObjectType('Drupal\Core\Entity\EntityInterface'))->yes()) {
-          $errors[] = RuleErrorBuilder::message(self::ERROR_MESSAGE)
-            ->line($node->getStartLine())
-            ->identifier('themeTrait.noEntityInterface')
-            ->tip('Use simple data types or extract entity data before passing to ThemeTrait methods.')
-            ->build();
+          return [
+            RuleErrorBuilder::message(self::ERROR_MESSAGE)
+              ->line($node->getStartLine())
+              ->identifier('themeTrait.noEntityInterface')
+              ->tip('Use simple data types or extract entity data before passing to ThemeTrait methods.')
+              ->build()
+          ];
         }
       }
     }
 
-    return $errors;
+    return [];
   }
 
   /**
