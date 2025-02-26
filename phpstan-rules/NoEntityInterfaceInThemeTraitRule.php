@@ -21,7 +21,6 @@ use PHPStan\Type\ObjectType;
 class NoEntityInterfaceInThemeTraitRule implements Rule
 {
   private const ERROR_MESSAGE = "Methods in ThemeTrait classes cannot accept EntityInterface arguments.";
-  private const THEME_TRAIT_NAMESPACE = 'Drupal\server_general\ThemeTrait';
 
   public function getNodeType(): string
   {
