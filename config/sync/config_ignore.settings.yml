@@ -1,4 +1,8 @@
 _core:
   default_config_hash: UVH1aJ4b44UM-VdPVN7hNNuuVqfReJxwfVeDQH1Hvsk
+mode: simple
 ignored_config_entities:
+  - 'google_tag.*'
+  - 'system.site:page.403'
+  - 'system.site:page.404'
   - 'system.site:page.front'
