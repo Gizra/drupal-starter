@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Drupal\server_general;
 
 use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\server_general\ThemeTrait\ElementWrapTrait;
+use Drupal\server_general\ThemeTrait\TitleAndLabelsTrait;
 
 /**
  * Trait WebformTrait.
