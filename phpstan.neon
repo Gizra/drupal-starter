@@ -1,7 +1,7 @@
 includes:
   - vendor/mglaman/phpstan-drupal/extension.neon
   - vendor/phpstan/phpstan-deprecation-rules/rules.neon
-  - web/modules/custom/server_general/phpstan-extension.neon
+  - phpstan-rules/phpstan-extension.neon
 parameters:
   level: 6
   reportUnmatchedIgnoredErrors: false

@@ -125,6 +125,11 @@
             "RoboComponents\\": "./robo-components/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Drupal\\PHPStan\\Custom\\": "phpstan-rules/"
+        }
+    },
     "config": {
         "sort-packages": true,
         "allow-plugins": {

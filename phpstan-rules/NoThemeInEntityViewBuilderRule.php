@@ -2,7 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Drupal\server_general\PHPStan;
+namespace Drupal\PHPStan\Custom;
+
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\Array_;
