@@ -52,6 +52,8 @@ class NoEntityInterfaceInThemeTraitRule implements Rule
           return [
             RuleErrorBuilder::message(self::ERROR_MESSAGE)
               ->line($node->getStartLine())
+              ->addTip('Instead of passing an EntityInterface, since this is a ThemeTrait, you should pass only simple objects: int, bool, string, array, TranslatableMarkup, Url and Link.')
+              ->identifier('themeTrait.noEntityInterfaceInThemeTrait')
               ->build()
           ];
         }

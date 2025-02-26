@@ -75,6 +75,8 @@ class NoThemeInEntityViewBuilderRule implements Rule {
     return [
       RuleErrorBuilder::message(self::ERROR_MESSAGE)
         ->line($node->getStartLine())
+        ->addTip('PEVB are meant to extract the dynamic data from the entity and pass it to the ThemeTrait traits. Like that we can call it from the Style guide, without needing to mock entities.')
+        ->identifier('themeTrait.NoThemeInEntityViewBuilderRule')
         ->build()
     ];
   }
