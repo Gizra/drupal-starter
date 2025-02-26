@@ -9,6 +9,7 @@ module:
   breakpoint: 0
   ckeditor5: 0
   config: 0
+  config_filter: 0
   config_ignore: 0
   config_pages: 0
   config_translation: 0
