@@ -11,12 +11,12 @@ use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\ParameterReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
-use PHPStan\Type\ObjectType;
+use PHPStan\Type\Type;
 
 /**
- * Disallows EntityInterface arguments in methods of classes within ThemeTrait namespace.
+ * Disallows EntityInterface arguments in methods of classes within ThemeTrait namespaces.
  *
- * This rule checks classes in the Drupal\server_general\ThemeTrait namespace and ensures
+ * This rule checks classes in any namespace ending with 'ThemeTrait' and ensures
  * that their methods don't accept EntityInterface parameters.
  *
  * @implements \PHPStan\Rules\Rule<\PhpParser\Node\Stmt\Class_>
@@ -44,7 +44,7 @@ class NoEntityInterfaceInThemeTraitRule implements Rule {
    * @return array<int, \PHPStan\Rules\RuleError> An array of errors, empty if no issues are found.
    */
   public function processNode(Node $node, Scope $scope): array {
-    // Ensure we're dealing with a class in the ThemeTrait namespace
+    // Ensure we're dealing with a class in a ThemeTrait namespace
     if (!$this->isInThemeTraitNamespace($scope)) {
       return [];
     }
@@ -63,14 +63,13 @@ class NoEntityInterfaceInThemeTraitRule implements Rule {
       $parameters = $method->getParameters();
 
       foreach ($parameters as $parameter) {
-        $paramType = $scope->getFunctionType(
-          $parameter->getType(),
-          false,
-          false
-        );
+        // Get the PHPStan type from the parameter
+        $paramReflection = $classReflection->getNativeMethod($method->getName())->getVariants()[0]->getParameters()[$parameter->getPosition()];
+        $paramType = $paramReflection->getType();
 
-        if ($paramType instanceof ObjectType &&
-          $paramType->isInstanceOf('Drupal\Core\Entity\EntityInterface')->yes()) {
+        // Check if the type is an object and implements EntityInterface
+        if ($paramType->isObject()->yes() &&
+          $paramType->isSuperTypeOf(new \PHPStan\Type\ObjectType('Drupal\Core\Entity\EntityInterface'))->yes()) {
           $errors[] = RuleErrorBuilder::message(self::ERROR_MESSAGE)
             ->line($node->getStartLine())
             ->identifier('themeTrait.noEntityInterface')
@@ -84,11 +83,11 @@ class NoEntityInterfaceInThemeTraitRule implements Rule {
   }
 
   /**
-   * Checks if the current scope is within the ThemeTrait namespace.
+   * Checks if the current scope is within a namespace ending with ThemeTrait.
    *
    * @param Scope $scope The current analysis scope.
    *
-   * @return bool TRUE if the scope is in ThemeTrait namespace, FALSE otherwise.
+   * @return bool TRUE if the namespace ends with 'ThemeTrait', FALSE otherwise.
    */
   private function isInThemeTraitNamespace(Scope $scope): bool {
     $class = $scope->getClassReflection();
@@ -97,6 +96,6 @@ class NoEntityInterfaceInThemeTraitRule implements Rule {
     }
 
     $namespace = $class->getNativeReflection()->getNamespaceName();
-    return str_starts_with($namespace, 'Drupal\server_general\ThemeTrait');
+    return str_ends_with($namespace, '\ThemeTrait');
   }
 }
