@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Drupal\server_general\ThemeTrait;
 
-use Drupal\server_general\ThemeTrait\ElementLayoutTrait;
-
 /**
  * Helper methods for rendering Documents media elements.
  */

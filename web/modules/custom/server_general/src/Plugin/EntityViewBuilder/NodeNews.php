@@ -4,14 +4,14 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\media\MediaInterface;
 use Drupal\node\NodeInterface;
+use Drupal\server_general\EntityDateTrait;
+use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
 use Drupal\server_general\ThemeTrait\ElementLayoutTrait;
 use Drupal\server_general\ThemeTrait\ElementNodeNewsTrait;
 use Drupal\server_general\ThemeTrait\LineSeparatorTrait;
 use Drupal\server_general\ThemeTrait\LinkTrait;
 use Drupal\server_general\ThemeTrait\NewsTeasersTrait;
 use Drupal\server_general\ThemeTrait\SearchTrait;
-use Drupal\server_general\EntityDateTrait;
-use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
 use Drupal\server_general\ThemeTrait\SocialShareTrait;
 use Drupal\server_general\ThemeTrait\TitleAndLabelsTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
