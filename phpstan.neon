@@ -13,10 +13,9 @@ parameters:
     - '#Access to an undefined property Drupal\\Core\\Field\\FieldItemInterface::\$value.#'
     - '#Unreachable statement - code above always terminates.#'
   paths:
-    - 'web/modules/custom/server_general/src/ThemeTrait/ButtonTrait.php'
-    - 'web/modules/custom/server_general/src/Plugin/EntityViewBuilder/ParagraphCta.php'
-#    - RoboFile.php
-#    - robo-components
+    - web
+    - RoboFile.php
+    - robo-components
     - phpstan-rules
   excludePaths:
     - '*.api.php'
