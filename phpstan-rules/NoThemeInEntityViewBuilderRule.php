@@ -20,8 +20,8 @@ use PHPStan\Rules\RuleErrorBuilder;
  *
  * @implements \PHPStan\Rules\Rule<\PhpParser\Node>
  */
-class NoThemeInEntityViewBuilderRule implements Rule
-{
+class NoThemeInEntityViewBuilderRule implements Rule {
+
   /**
    * Error message for when '#theme' is detected.
    */
@@ -30,8 +30,7 @@ class NoThemeInEntityViewBuilderRule implements Rule
   /**
    * Process all nodes to catch both array literals and assignments.
    */
-  public function getNodeType(): string
-  {
+  public function getNodeType(): string {
     return Node::class;
   }
 
@@ -43,8 +42,7 @@ class NoThemeInEntityViewBuilderRule implements Rule
    *
    * @return array<int, \PHPStan\Rules\RuleError> An array of errors, empty if no issues are found.
    */
-  public function processNode(Node $node, Scope $scope): array
-  {
+  public function processNode(Node $node, Scope $scope): array {
     // Only proceed if we're in an EntityViewBuilder class.
     if (!$this->isInEntityViewBuilder($scope)) {
       return [];
@@ -56,17 +54,23 @@ class NoThemeInEntityViewBuilderRule implements Rule
     }
 
     $errors = [];
+    $shouldReport = FALSE;
 
     if ($node instanceof Array_) {
-      if ($arrayErrors = $this->checkArrayLiteral($node)) {
-        $errors = array_merge($errors, $arrayErrors);
+      if ($this->checkArrayLiteral($node)) {
+        $shouldReport = TRUE;
+      }
+    }
+    elseif ($node instanceof Assign) {
+      if ($this->checkAssignment($node)) {
+        $shouldReport = TRUE;
       }
     }
 
-    if ($node instanceof Assign) {
-      if ($assignmentErrors = $this->checkAssignment($node)) {
-        $errors = array_merge($errors, $assignmentErrors);
-      }
+    if ($shouldReport) {
+      $errors[] = RuleErrorBuilder::message(self::ERROR_MESSAGE)
+        ->line($node->getStartLine())
+        ->build();
     }
 
     return $errors;
@@ -79,11 +83,10 @@ class NoThemeInEntityViewBuilderRule implements Rule
    *
    * @return bool TRUE if the scope is an EntityViewBuilder class, FALSE otherwise.
    */
-  private function isInEntityViewBuilder(Scope $scope): bool
-  {
+  private function isInEntityViewBuilder(Scope $scope): bool {
     $class = $scope->getClassReflection();
-    if ($class === null) {
-      return false;
+    if ($class === NULL) {
+      return FALSE;
     }
     return $this->isEntityViewBuilder($class);
   }
@@ -95,8 +98,7 @@ class NoThemeInEntityViewBuilderRule implements Rule
    *
    * @return bool TRUE if the class implements EntityViewBuilderPluginInterface, FALSE otherwise.
    */
-  private function isEntityViewBuilder(ClassReflection $class): bool
-  {
+  private function isEntityViewBuilder(ClassReflection $class): bool {
     return $class->implementsInterface('Drupal\pluggable_entity_view_builder\EntityViewBuilder\EntityViewBuilderPluginInterface');
   }
 
@@ -105,18 +107,10 @@ class NoThemeInEntityViewBuilderRule implements Rule
    *
    * @param Array_ $node The array node to inspect.
    *
-   * @return array<int, \PHPStan\Rules\RuleError>|null Returns an error array if found, or null otherwise.
+   * @return bool TRUE if '#theme' is found, FALSE otherwise.
    */
-  private function checkArrayLiteral(Array_ $node): ?array
-  {
-    if ($this->containsThemeKey($node)) {
-      return [
-        RuleErrorBuilder::message(self::ERROR_MESSAGE)
-          ->line($node->getStartLine())
-          ->build(),
-      ];
-    }
-    return null;
+  private function checkArrayLiteral(Array_ $node): bool {
+    return $this->containsThemeKey($node);
   }
 
   /**
@@ -124,21 +118,14 @@ class NoThemeInEntityViewBuilderRule implements Rule
    *
    * @param Assign $node The assignment node to inspect.
    *
-   * @return array<int, \PHPStan\Rules\RuleError>|null Returns an error array if found, or null otherwise.
+   * @return bool TRUE if assignment targets '#theme', FALSE otherwise.
    */
-  private function checkAssignment(Assign $node): ?array
-  {
+  private function checkAssignment(Assign $node): bool {
     if ($node->var instanceof ArrayDimFetch) {
       $dim = $node->var->dim;
-      if ($dim instanceof Node\Scalar\String_ && $dim->value === '#theme') {
-        return [
-          RuleErrorBuilder::message(self::ERROR_MESSAGE)
-            ->line($node->getStartLine())
-            ->build(),
-        ];
-      }
+      return ($dim instanceof Node\Scalar\String_ && $dim->value === '#theme');
     }
-    return null;
+    return FALSE;
   }
 
   /**
@@ -148,13 +135,12 @@ class NoThemeInEntityViewBuilderRule implements Rule
    *
    * @return bool TRUE if '#theme' is found, FALSE otherwise.
    */
-  private function containsThemeKey(Array_ $node): bool
-  {
+  private function containsThemeKey(Array_ $node): bool {
     foreach ($node->items as $item) {
-      if ($item !== null && $item->key instanceof Node\Scalar\String_ && $item->key->value === '#theme') {
-        return true;
+      if ($item !== NULL && $item->key instanceof Node\Scalar\String_ && $item->key->value === '#theme') {
+        return TRUE;
       }
     }
-    return false;
+    return FALSE;
   }
 }
