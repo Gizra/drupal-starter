@@ -99,7 +99,9 @@ class NoThemeInEntityViewBuilderRule implements Rule {
    * @return bool TRUE if the class implements EntityViewBuilderPluginInterface, FALSE otherwise.
    */
   private function isEntityViewBuilder(ClassReflection $class): bool {
-    return $class->implementsInterface('Drupal\pluggable_entity_view_builder\EntityViewBuilder\EntityViewBuilderPluginInterface');
+    return $class->implementsInterface(
+      'Drupal\pluggable_entity_view_builder\EntityViewBuilder\EntityViewBuilderPluginInterface'
+    );
   }
 
   /**
@@ -112,7 +114,12 @@ class NoThemeInEntityViewBuilderRule implements Rule {
    * @return bool TRUE if '#theme' is found, FALSE otherwise.
    */
   private function checkArrayLiteral(Array_ $node): bool {
-    return $this->containsThemeKey($node);
+    foreach ($node->items as $item) {
+      if ($item !== NULL && $item->key instanceof Node\Scalar\String_ && $item->key->value === '#theme') {
+        return TRUE;
+      }
+    }
+    return FALSE;
   }
 
   /**
@@ -128,22 +135,6 @@ class NoThemeInEntityViewBuilderRule implements Rule {
     if ($node->var instanceof ArrayDimFetch) {
       $dim = $node->var->dim;
       return ($dim instanceof Node\Scalar\String_ && $dim->value === '#theme');
-    }
-    return FALSE;
-  }
-
-  /**
-   * Checks if an array literal contains a '#theme' key.
-   *
-   * @param Array_ $node The array node to inspect.
-   *
-   * @return bool TRUE if '#theme' is found, FALSE otherwise.
-   */
-  private function containsThemeKey(Array_ $node): bool {
-    foreach ($node->items as $item) {
-      if ($item !== NULL && $item->key instanceof Node\Scalar\String_ && $item->key->value === '#theme') {
-        return TRUE;
-      }
     }
     return FALSE;
   }
