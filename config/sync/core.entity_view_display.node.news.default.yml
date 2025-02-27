@@ -3,8 +3,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.news.ai_automator_status
-    - field.field.node.news.field_ai_tags
     - field.field.node.news.field_body
     - field.field.node.news.field_featured_image
     - field.field.node.news.field_publish_date
@@ -23,14 +21,6 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: -20
-    region: content
-  field_ai_tags:
-    type: entity_reference_label
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 107
     region: content
   field_body:
     type: text_default
@@ -70,6 +60,5 @@ content:
     weight: 100
     region: content
 hidden:
-  ai_automator_status: true
   langcode: true
   search_api_excerpt: true

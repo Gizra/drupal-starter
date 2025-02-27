@@ -3,8 +3,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.news.ai_automator_status
-    - field.field.node.news.field_ai_tags
     - field.field.node.news.field_body
     - field.field.node.news.field_featured_image
     - field.field.node.news.field_publish_date
@@ -28,16 +26,6 @@ content:
     weight: 6
     region: content
     settings: {  }
-    third_party_settings: {  }
-  field_ai_tags:
-    type: select2_entity_reference
-    weight: 101
-    region: content
-    settings:
-      width: 100%
-      autocomplete: false
-      match_operator: CONTAINS
-      match_limit: 10
     third_party_settings: {  }
   field_body:
     type: text_textarea
@@ -143,5 +131,4 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-hidden:
-  ai_automator_status: true
+hidden: {  }
