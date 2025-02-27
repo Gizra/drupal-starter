@@ -18,17 +18,14 @@ use PHPStan\Type\ObjectType;
  *
  * @implements \PHPStan\Rules\Rule<\PhpParser\Node\Stmt\ClassMethod>
  */
-class NoEntityInterfaceInThemeTraitRule implements Rule
-{
+class NoEntityInterfaceInThemeTraitRule implements Rule {
   private const ERROR_MESSAGE = "Methods in ThemeTrait classes cannot accept EntityInterface arguments.";
 
-  public function getNodeType(): string
-  {
+  public function getNodeType(): string {
     return ClassMethod::class;
   }
 
-  public function processNode(Node $node, Scope $scope): array
-  {
+  public function processNode(Node $node, Scope $scope): array {
     if (!$this->isInEntityViewBuilder($scope)) {
       return [];
     }
@@ -70,32 +67,29 @@ class NoEntityInterfaceInThemeTraitRule implements Rule
    *
    * @return bool TRUE if the scope is an EntityViewBuilder class, FALSE otherwise.
    */
-  private function isInEntityViewBuilder(Scope $scope): bool
-  {
+  private function isInEntityViewBuilder(Scope $scope): bool {
     $class = $scope->getClassReflection();
-    if ($class === null) {
-      return false;
+    if ($class === NULL) {
+      return FALSE;
     }
     return $class->implementsInterface(
       'Drupal\pluggable_entity_view_builder\EntityViewBuilder\EntityViewBuilderPluginInterface'
     );
   }
 
-  private function isInThemeTraitNamespace(Scope $scope): bool
-  {
+  private function isInThemeTraitNamespace(Scope $scope): bool {
     if (!$scope->isInTrait()) {
-      return false;
+      return FALSE;
     }
 
     $traitReflection = $scope->getTraitReflection();
     return str_contains($traitReflection->getName(), '\ThemeTrait');
   }
 
-  private function isEntityInterfaceParameter(\PHPStan\Reflection\ParameterReflection $param): bool
-  {
+  private function isEntityInterfaceParameter(\PHPStan\Reflection\ParameterReflection $param): bool {
     $paramType = $param->getType();
     if (!$paramType->isObject()->yes()) {
-      return false;
+      return FALSE;
     }
 
     $entityInterfaceType = new ObjectType('Drupal\Core\Entity\EntityInterface');
