@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Drupal\server_general;
 
 use Drupal\Core\Cache\CacheableMetadata;
-use Drupal\server_general\ThemeTrait\ElementWrapTrait;
-use Drupal\server_general\ThemeTrait\TitleAndLabelsTrait;
+use Drupal\server_general\ThemeTrait\ElementWrapThemeTrait;
+use Drupal\server_general\ThemeTrait\TitleAndLabelsThemeTrait;
 
 /**
  * Trait WebformTrait.
@@ -15,9 +15,9 @@ use Drupal\server_general\ThemeTrait\TitleAndLabelsTrait;
  */
 trait WebformTrait {
 
-  use ElementWrapTrait;
+  use ElementWrapThemeTrait;
   use ProcessedTextBuilderTrait;
-  use TitleAndLabelsTrait;
+  use TitleAndLabelsThemeTrait;
 
   /**
    * Build the webform.

@@ -10,7 +10,7 @@ use Drupal\Core\Url;
 /**
  * Helper method for building a link, and decorating it.
  */
-trait LinkTrait {
+trait LinkThemeTrait {
 
   /**
    * Build a link.

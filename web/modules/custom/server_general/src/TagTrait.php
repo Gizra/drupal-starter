@@ -6,6 +6,7 @@ namespace Drupal\server_general;
 
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Entity\FieldableEntityInterface;
+use Drupal\server_general\ThemeTrait\TagThemeTrait;
 
 /**
  * Trait TagBuilderTrait.
@@ -14,7 +15,7 @@ use Drupal\Core\Entity\FieldableEntityInterface;
  */
 trait TagTrait {
 
-  use \Drupal\server_general\ThemeTrait\TagTrait;
+  use TagThemeTrait;
 
   /**
    * Build the tags element out of a field.

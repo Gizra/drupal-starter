@@ -9,7 +9,7 @@ use Drupal\Core\Render\RendererInterface;
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
 use Drupal\server_general\EmbedBlockTrait;
-use Drupal\server_general\ThemeTrait\SearchTrait;
+use Drupal\server_general\ThemeTrait\SearchThemeTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -25,7 +25,7 @@ use Symfony\Component\HttpFoundation\Request;
 class ParagraphSearch extends EntityViewBuilderPluginAbstract {
 
   use EmbedBlockTrait;
-  use SearchTrait;
+  use SearchThemeTrait;
 
   /**
    * The machine name of the facets to show.

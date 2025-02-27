@@ -7,11 +7,11 @@ namespace Drupal\server_general\ThemeTrait;
 use Drupal\Core\Url;
 
 /**
- * ThemeTrait TagBuilderTrait.
+ * ThemeTrait TagBuilderThemeTrait.
  *
  * Helper method for theming a tag.
  */
-trait TagTrait {
+trait TagThemeTrait {
 
   /**
    * Build a tag.

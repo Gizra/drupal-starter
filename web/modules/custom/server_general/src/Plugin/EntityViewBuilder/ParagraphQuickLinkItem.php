@@ -7,8 +7,8 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
 use Drupal\server_general\ProcessedTextBuilderTrait;
-use Drupal\server_general\ThemeTrait\ElementWrapTrait;
-use Drupal\server_general\ThemeTrait\QuickLinksTrait;
+use Drupal\server_general\ThemeTrait\ElementWrapThemeTrait;
+use Drupal\server_general\ThemeTrait\QuickLinksThemeTrait;
 
 /**
  * The "Quick link item" paragraph plugin.
@@ -24,9 +24,9 @@ use Drupal\server_general\ThemeTrait\QuickLinksTrait;
 class ParagraphQuickLinkItem extends EntityViewBuilderPluginAbstract {
 
 
-  use ElementWrapTrait;
+  use ElementWrapThemeTrait;
   use ProcessedTextBuilderTrait;
-  use QuickLinksTrait;
+  use QuickLinksThemeTrait;
 
   /**
    * Build full view mode.

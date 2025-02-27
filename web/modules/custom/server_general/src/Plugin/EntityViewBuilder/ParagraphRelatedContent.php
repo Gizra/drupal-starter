@@ -6,7 +6,7 @@ use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
 use Drupal\server_general\ButtonTrait;
 use Drupal\server_general\ProcessedTextBuilderTrait;
-use Drupal\server_general\ThemeTrait\CarouselTrait;
+use Drupal\server_general\ThemeTrait\CarouselThemeTrait;
 
 /**
  * The "Related content" paragraph plugin.
@@ -20,7 +20,7 @@ use Drupal\server_general\ThemeTrait\CarouselTrait;
 class ParagraphRelatedContent extends EntityViewBuilderPluginAbstract {
 
   use ButtonTrait;
-  use CarouselTrait;
+  use CarouselThemeTrait;
   use ProcessedTextBuilderTrait;
 
   /**

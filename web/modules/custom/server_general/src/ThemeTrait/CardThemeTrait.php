@@ -7,9 +7,9 @@ namespace Drupal\server_general\ThemeTrait;
 /**
  * Helper methods for rendering Card elements.
  */
-trait CardTrait {
+trait CardThemeTrait {
 
-  use ElementLayoutTrait;
+  use ElementLayoutThemeTrait;
 
   /**
    * Wrap multiple cards with a grid.

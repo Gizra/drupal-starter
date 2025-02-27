@@ -10,13 +10,13 @@ use Drupal\intl_date\IntlDate;
 /**
  * Helper methods for rendering News Teaser elements.
  */
-trait NewsTeasersTrait {
+trait NewsTeasersThemeTrait {
 
-  use ButtonTrait;
-  use ElementLayoutTrait;
-  use InnerElementLayoutTrait;
-  use LinkTrait;
-  use TitleAndLabelsTrait;
+  use ButtonThemeTrait;
+  use ElementLayoutThemeTrait;
+  use InnerElementLayoutThemeTrait;
+  use LinkThemeTrait;
+  use TitleAndLabelsThemeTrait;
 
   /**
    * Build News teasers element.
@@ -27,7 +27,7 @@ trait NewsTeasersTrait {
    *   The body render array.
    * @param array $items
    *   The news teasers array rendered with
-   *   `ElementLayoutTrait::buildElementLayoutTitleBodyAndItems`.
+   *   `ElementLayoutThemeTrait::buildElementLayoutTitleBodyAndItems`.
    *
    * @return array
    *   Render array.

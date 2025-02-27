@@ -13,9 +13,9 @@ use Drupal\Core\Url;
  *
  * To use this trait it is assumed above service is present.
  */
-trait ElementMediaTrait {
+trait ElementMediaThemeTrait {
 
-  use ElementWrapTrait;
+  use ElementWrapThemeTrait;
 
   /**
    * Build Media Image.

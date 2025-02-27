@@ -7,13 +7,14 @@ namespace Drupal\server_general;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\file\FileInterface;
 use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
+use Drupal\server_general\ThemeTrait\ButtonThemeTrait;
 
 /**
  * Helper methods for getting a button from content.
  */
 trait ButtonTrait {
 
-  use \Drupal\server_general\ThemeTrait\ButtonTrait;
+  use ButtonThemeTrait;
   use BuildFieldTrait;
 
   /**

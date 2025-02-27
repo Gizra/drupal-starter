@@ -9,10 +9,10 @@ use Drupal\Core\Link;
 /**
  * Helper methods for rendering Hero elements.
  */
-trait HeroTrait {
+trait HeroThemeTrait {
 
-  use ButtonTrait;
-  use ElementWrapTrait;
+  use ButtonThemeTrait;
+  use ElementWrapThemeTrait;
 
   /**
    * Build a Hero image.

@@ -9,7 +9,7 @@ use Drupal\Core\Url;
 /**
  * Helper methods for getting themed social share buttons.
  */
-trait SocialShareTrait {
+trait SocialShareThemeTrait {
 
   /**
    * Build the social media buttons element.

@@ -7,15 +7,15 @@ namespace Drupal\server_general\ThemeTrait;
 /**
  * Helpers to build an accordion.
  */
-trait AccordionTrait {
+trait AccordionThemeTrait {
 
-  use LineSeparatorTrait;
+  use LineSeparatorThemeTrait;
 
   /**
    * Build an Accordion.
    *
    * @param array $items
-   *   Items rendered with `AccordionTrait::buildElementAccordionItem`.
+   *   Items rendered with `AccordionThemeTrait::buildElementAccordionItem`.
    *
    * @return array
    *   The render array.

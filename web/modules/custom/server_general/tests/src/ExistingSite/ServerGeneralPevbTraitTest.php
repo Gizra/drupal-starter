@@ -4,7 +4,7 @@ namespace Drupal\Tests\server_general\ExistingSite;
 
 use Drupal\Core\Field\EntityReferenceFieldItemList;
 use Drupal\Core\TypedData\DataDefinition;
-use Drupal\server_general\ThemeTrait\ElementWrapTrait;
+use Drupal\server_general\ThemeTrait\ElementWrapThemeTrait;
 use weitzman\DrupalTestTraits\ExistingSiteBase;
 
 /**
@@ -12,7 +12,7 @@ use weitzman\DrupalTestTraits\ExistingSiteBase;
  */
 class ServerGeneralPevbTraitTest extends ExistingSiteBase {
 
-  use ElementWrapTrait;
+  use ElementWrapThemeTrait;
 
   /**
    * Test wrapConditionalContainerBottomPadding.

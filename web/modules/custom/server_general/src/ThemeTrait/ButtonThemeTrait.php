@@ -11,7 +11,7 @@ use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
 /**
  * Helper methods for getting a themed button.
  */
-trait ButtonTrait {
+trait ButtonThemeTrait {
 
   use BuildFieldTrait;
 

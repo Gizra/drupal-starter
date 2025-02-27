@@ -4,7 +4,7 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\media\MediaInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
-use Drupal\server_general\ThemeTrait\DocumentsTrait;
+use Drupal\server_general\ThemeTrait\DocumentsThemeTrait;
 
 /**
  * The "Document" media plugin.
@@ -17,7 +17,7 @@ use Drupal\server_general\ThemeTrait\DocumentsTrait;
  */
 class MediaDocument extends EntityViewBuilderPluginAbstract {
 
-  use DocumentsTrait;
+  use DocumentsThemeTrait;
 
   /**
    * Build the "Card" view mode.

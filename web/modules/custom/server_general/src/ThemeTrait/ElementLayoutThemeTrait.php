@@ -14,13 +14,13 @@ use Drupal\Core\Url;
  * So it's likely this trait will hold only the Main and sidebar helper method,
  * unless there's a need for a more complex layout.
  *
- * Trait provides helper methods for each layout. One method equals one theme
- * file.
+ * ThemeTrait provides helper methods for each layout. One method equals one
+ * theme file.
  */
-trait ElementLayoutTrait {
+trait ElementLayoutThemeTrait {
 
-  use ButtonTrait;
-  use TitleAndLabelsTrait;
+  use ButtonThemeTrait;
+  use TitleAndLabelsThemeTrait;
 
   /**
    * Build Main and sidebar layout.
@@ -74,8 +74,8 @@ trait ElementLayoutTrait {
    * @param array $items
    *   The items render array.
    * @param string|null $bg_color
-   *   Optional; The background color. See `ElementWrapTrait::wrapContainerWide`
-   *   for the allowed values.
+   *   Optional; The background color. See
+   *   ElementWrapThemeTrait::wrapContainerWide for the allowed values.
    *
    * @return array
    *   The render array.

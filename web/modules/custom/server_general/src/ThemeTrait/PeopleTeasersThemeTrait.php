@@ -7,12 +7,12 @@ namespace Drupal\server_general\ThemeTrait;
 /**
  * Helper methods for rendering People/Person Teaser elements.
  */
-trait PeopleTeasersTrait {
+trait PeopleTeasersThemeTrait {
 
-  use ElementLayoutTrait;
-  use ElementWrapTrait;
-  use InnerElementLayoutTrait;
-  use CardTrait;
+  use ElementLayoutThemeTrait;
+  use ElementWrapThemeTrait;
+  use InnerElementLayoutThemeTrait;
+  use CardThemeTrait;
 
   /**
    * Build People cards element.
@@ -23,7 +23,7 @@ trait PeopleTeasersTrait {
    *   The body render array.
    * @param array $items
    *   The render array built with
-   *   `ElementLayoutTrait::buildElementLayoutTitleBodyAndItems`.
+   *   `ElementLayoutThemeTrait::buildElementLayoutTitleBodyAndItems`.
    *
    * @return array
    *   The render array.

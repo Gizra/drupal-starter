@@ -11,17 +11,17 @@ use Drupal\server_general\EntityDateTrait;
 /**
  * Helper method for building the Node news element.
  */
-trait ElementNodeNewsTrait {
+trait ElementNodeNewsThemeTrait {
 
-  use ElementWrapTrait;
+  use ElementWrapThemeTrait;
   use EntityDateTrait;
-  use InnerElementLayoutTrait;
-  use LineSeparatorTrait;
-  use LinkTrait;
-  use ElementLayoutTrait;
-  use SocialShareTrait;
-  use TagTrait;
-  use TitleAndLabelsTrait;
+  use InnerElementLayoutThemeTrait;
+  use LineSeparatorThemeTrait;
+  use LinkThemeTrait;
+  use ElementLayoutThemeTrait;
+  use SocialShareThemeTrait;
+  use TagThemeTrait;
+  use TitleAndLabelsThemeTrait;
 
   /**
    * Build the Node news element.
@@ -37,7 +37,7 @@ trait ElementNodeNewsTrait {
    * @param array $body
    *   The body render array.
    * @param array $tags
-   *   The tags, rendered with `TagTrait::buildElementTags`.
+   *   The tags, rendered with `TagThemeTrait::buildElementTags`.
    * @param \Drupal\Core\Url $url
    *   The Url of the node.
    *
@@ -115,7 +115,7 @@ trait ElementNodeNewsTrait {
    * @param array $body
    *   The body render array.
    * @param array $tags
-   *   The tags, rendered with `TagTrait::buildElementTags`.
+   *   The tags, rendered with `TagThemeTrait::buildElementTags`.
    * @param \Drupal\Core\Url $url
    *   The Url of the node.
    *

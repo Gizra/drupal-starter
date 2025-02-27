@@ -12,7 +12,7 @@ use Drupal\paragraphs\ParagraphInterface;
 /**
  * Helper method for wrapping an element.
  */
-trait ElementWrapTrait {
+trait ElementWrapThemeTrait {
 
   /**
    * Wrap an element with a wide container, and optional background color.

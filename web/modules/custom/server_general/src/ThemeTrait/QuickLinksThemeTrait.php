@@ -9,11 +9,11 @@ use Drupal\Core\Url;
 /**
  * Helper methods for rendering Quick Links elements.
  */
-trait QuickLinksTrait {
+trait QuickLinksThemeTrait {
 
-  use ElementLayoutTrait;
-  use ElementWrapTrait;
-  use CardTrait;
+  use ElementLayoutThemeTrait;
+  use ElementWrapThemeTrait;
+  use CardThemeTrait;
 
   /**
    * Build quick links cards.
@@ -24,7 +24,7 @@ trait QuickLinksTrait {
    *   The body render array.
    * @param array $items
    *   The render array built with
-   *   `ElementLayoutTrait::buildElementLayoutTitleBodyAndItems`.
+   *   `ElementLayoutThemeTrait::buildElementLayoutTitleBodyAndItems`.
    *
    * @return array
    *   Render array.

@@ -7,9 +7,9 @@ namespace Drupal\server_general\ThemeTrait;
 /**
  * Helper methods for rendering Documents media elements.
  */
-trait DocumentsTrait {
+trait DocumentsThemeTrait {
 
-  use ElementLayoutTrait;
+  use ElementLayoutThemeTrait;
 
   /**
    * Builds a "Document" list.

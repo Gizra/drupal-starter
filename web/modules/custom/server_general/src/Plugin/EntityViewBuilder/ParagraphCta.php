@@ -6,9 +6,9 @@ use Drupal\Core\Link;
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
 use Drupal\server_general\ProcessedTextBuilderTrait;
-use Drupal\server_general\ThemeTrait\ButtonTrait;
-use Drupal\server_general\ThemeTrait\CtaTrait;
-use Drupal\server_general\ThemeTrait\ElementWrapTrait;
+use Drupal\server_general\ThemeTrait\ButtonThemeTrait;
+use Drupal\server_general\ThemeTrait\CtaThemeTrait;
+use Drupal\server_general\ThemeTrait\ElementWrapThemeTrait;
 
 /**
  * The "Call to Action" paragraph plugin.
@@ -21,9 +21,9 @@ use Drupal\server_general\ThemeTrait\ElementWrapTrait;
  */
 class ParagraphCta extends EntityViewBuilderPluginAbstract {
 
-  use ButtonTrait;
-  use CtaTrait;
-  use ElementWrapTrait;
+  use ButtonThemeTrait;
+  use CtaThemeTrait;
+  use ElementWrapThemeTrait;
   use ProcessedTextBuilderTrait;
 
   /**

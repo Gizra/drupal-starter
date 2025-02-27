@@ -7,9 +7,9 @@ namespace Drupal\server_general\ThemeTrait;
 /**
  * Helper methods for rendering Quote elements.
  */
-trait QuoteTrait {
+trait QuoteThemeTrait {
 
-  use ElementWrapTrait;
+  use ElementWrapThemeTrait;
 
   /**
    * Build a Quote.

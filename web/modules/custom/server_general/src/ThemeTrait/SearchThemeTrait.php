@@ -12,12 +12,12 @@ use Drupal\intl_date\IntlDate;
  *
  * @property \Drupal\Core\Render\RendererInterface $renderer
  */
-trait SearchTrait {
+trait SearchThemeTrait {
 
-  use ElementWrapTrait;
-  use InnerElementLayoutTrait;
-  use LinkTrait;
-  use TitleAndLabelsTrait;
+  use ElementWrapThemeTrait;
+  use InnerElementLayoutThemeTrait;
+  use LinkThemeTrait;
+  use TitleAndLabelsThemeTrait;
 
   /**
    * Build a Search term, facets and results element.

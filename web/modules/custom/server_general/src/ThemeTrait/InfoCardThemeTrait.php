@@ -7,12 +7,12 @@ namespace Drupal\server_general\ThemeTrait;
 /**
  * Helper methods for rendering Info Card elements.
  */
-trait InfoCardTrait {
+trait InfoCardThemeTrait {
 
-  use ElementLayoutTrait;
-  use ElementWrapTrait;
-  use CardTrait;
-  use InnerElementLayoutTrait;
+  use ElementLayoutThemeTrait;
+  use ElementWrapThemeTrait;
+  use CardThemeTrait;
+  use InnerElementLayoutThemeTrait;
 
   /**
    * Build an Info cards element.
@@ -23,7 +23,7 @@ trait InfoCardTrait {
    *   The body render array.
    * @param array $items
    *   The render array built with
-   *   `ElementLayoutTrait::buildElementLayoutTitleBodyAndItems`.
+   *   `ElementLayoutThemeTrait::buildElementLayoutTitleBodyAndItems`.
    *
    * @return array
    *   The render array.

@@ -7,9 +7,9 @@ namespace Drupal\server_general\ThemeTrait;
 use Drupal\Component\Render\MarkupInterface;
 
 /**
- * Trait for building Expanding text element.
+ * ThemeTrait for building Expanding text element.
  */
-trait ExpandingTextTrait {
+trait ExpandingTextThemeTrait {
 
   /**
    * Build the Expanding text element.

@@ -14,11 +14,11 @@ use Drupal\Core\Url;
  * ThemeTrait namespace.
  * You should not try to call this trait's methods directly from the Style guide
  * or PEVB, instead you should be calling the methods from a custom
- * ThemeTrait such as Drupal\server_general\ThemeTrait\InfoCardTrait.
+ * ThemeTrait such as Drupal\server_general\ThemeTrait\InfoCardThemeTrait.
  *
- * @see \Drupal\server_general\ThemeTrait\InfoCardTrait::buildElementInfoCard.
+ * @see \Drupal\server_general\ThemeTrait\InfoCardThemeTrait::buildElementInfoCard.
  */
-trait InnerElementLayoutTrait {
+trait InnerElementLayoutThemeTrait {
 
   /**
    * Build "Card" layout - the simplest one.

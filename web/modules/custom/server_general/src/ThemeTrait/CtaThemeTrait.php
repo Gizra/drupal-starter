@@ -9,11 +9,11 @@ use Drupal\Core\Link;
 /**
  * Helper methods for rendering Call to Action elements.
  */
-trait CtaTrait {
+trait CtaThemeTrait {
 
-  use ButtonTrait;
-  use ElementWrapTrait;
-  use InnerElementLayoutTrait;
+  use ButtonThemeTrait;
+  use ElementWrapThemeTrait;
+  use InnerElementLayoutThemeTrait;
 
   /**
    * Build a CTA.

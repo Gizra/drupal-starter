@@ -7,7 +7,7 @@ namespace Drupal\server_general\ThemeTrait;
 /**
  * Helper methods for a line separator.
  */
-trait LineSeparatorTrait {
+trait LineSeparatorThemeTrait {
 
   /**
    * Build a line separator.

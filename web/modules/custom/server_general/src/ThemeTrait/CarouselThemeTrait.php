@@ -7,10 +7,10 @@ namespace Drupal\server_general\ThemeTrait;
 /**
  * Helper methods for rendering Carousel elements.
  */
-trait CarouselTrait {
+trait CarouselThemeTrait {
 
-  use ElementLayoutTrait;
-  use ElementWrapTrait;
+  use ElementLayoutThemeTrait;
+  use ElementWrapThemeTrait;
 
   /**
    * Build a Carousel.
@@ -26,7 +26,7 @@ trait CarouselTrait {
    *   item means that only a single card should appear at a time.
    * @param array|null $button
    *   Optional; The render array of the button, likely created with
-   *   ButtonTrait::buildButton.
+   *   ButtonThemeTrait::buildButton.
    * @param bool $is_infinite
    *   Optional; Indicate whether the carousel should be infinite or not.
    *
