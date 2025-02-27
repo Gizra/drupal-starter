@@ -6,6 +6,7 @@ use Drupal\media\MediaInterface;
 use Drupal\node\NodeInterface;
 use Drupal\server_general\EntityDateTrait;
 use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
+use Drupal\server_general\SocialShareTrait;
 use Drupal\server_general\TagTrait;
 use Drupal\server_general\ThemeTrait\ElementLayoutThemeTrait;
 use Drupal\server_general\ThemeTrait\ElementNodeNewsThemeTrait;
@@ -13,7 +14,6 @@ use Drupal\server_general\ThemeTrait\LineSeparatorThemeTrait;
 use Drupal\server_general\ThemeTrait\LinkThemeTrait;
 use Drupal\server_general\ThemeTrait\NewsTeasersThemeTrait;
 use Drupal\server_general\ThemeTrait\SearchThemeTrait;
-use Drupal\server_general\ThemeTrait\SocialShareThemeTrait;
 use Drupal\server_general\ThemeTrait\TitleAndLabelsThemeTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -35,7 +35,7 @@ class NodeNews extends NodeViewBuilderAbstract {
   use LinkThemeTrait;
   use NewsTeasersThemeTrait;
   use SearchThemeTrait;
-  use SocialShareThemeTrait;
+  use SocialShareTrait;
   use TagTrait;
   use TitleAndLabelsThemeTrait;
 
@@ -85,8 +85,7 @@ class NodeNews extends NodeViewBuilderAbstract {
       $image,
       $this->buildProcessedText($entity),
       $this->buildTags($entity),
-      // In preview state, we don't have any URL for the entity yet.
-      $entity->isNew() ? '' : $entity->toUrl('canonical', ['absolute' => TRUE]),
+      $this->buildSocialShare($entity),
     );
 
     $build[] = $element;

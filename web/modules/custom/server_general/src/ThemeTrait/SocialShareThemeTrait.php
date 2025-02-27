@@ -22,7 +22,7 @@ trait SocialShareThemeTrait {
    * @return array
    *   The render array.
    */
-  protected function buildSocialShare(string $title, Url $url): array {
+  protected function buildElementSocialShare(string $title, Url $url): array {
     $items = [];
     $services = [
       'x',
