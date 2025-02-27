@@ -2,16 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Drupal\server_general\ElementTrait;
-
-use Drupal\server_general\ElementWrapTrait;
+namespace Drupal\server_general\ThemeTrait;
 
 /**
  * Helper methods for rendering Quote elements.
  */
-trait QuoteTrait {
+trait QuoteThemeTrait {
 
-  use ElementWrapTrait;
+  use ElementWrapThemeTrait;
 
   /**
    * Build a Quote.
