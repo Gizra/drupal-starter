@@ -6,6 +6,7 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
+use PHPStan\Reflection\ParameterReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\ObjectType;
@@ -86,7 +87,7 @@ class NoEntityInterfaceInThemeTraitRule implements Rule {
     return str_contains($traitReflection->getName(), '\ThemeTrait');
   }
 
-  private function isEntityInterfaceParameter(\PHPStan\Reflection\ParameterReflection $param): bool {
+  private function isEntityInterfaceParameter(ParameterReflection $param): bool {
     $paramType = $param->getType();
     if (!$paramType->isObject()->yes()) {
       return FALSE;
