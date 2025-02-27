@@ -86,6 +86,8 @@ trait DeploymentTrait {
     'package-lock.json',
     'composer.json',
     'composer.lock',
+    'web/libraries/font-awesome/js-packages',
+    'web/libraries/font-awesome/metadata',
   ];
 
   /**
@@ -510,8 +512,15 @@ trait DeploymentTrait {
       throw new \Exception("Cannot parse the response of terminus: " . serialize($parsed_output));
     }
 
+    $exclude = (string) getenv('DEPLOY_EXCLUDE_WARNING');
+    $exclude_list = explode('|', $exclude);
+
     foreach ($parsed_output as $requirement) {
       if ($requirement['severity'] !== 'Error') {
+        continue;
+      }
+      if (in_array($requirement['title'], $exclude_list) || in_array($requirement['value'], $exclude_list)) {
+        // A warning we decided to exclude.
         continue;
       }
       $errors[] = '## ' . trim($requirement['title']) . "\n" . trim($requirement['value']);

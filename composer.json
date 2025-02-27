@@ -25,7 +25,7 @@
         "ext-intl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "bower-asset/fontawesome": "^6.4",
+        "bower-asset/font-awesome": "^6",
         "composer/installers": "^1.9",
         "cweagans/composer-patches": "^1.7",
         "drupal/admin_toolbar": "^3.4",
@@ -72,7 +72,7 @@
         "drupal/rollbar": "^2.1",
         "drupal/scheduler": "^2.1",
         "drupal/search_api": "^1.18",
-        "drupal/search_api_pantheon": "^8.2",
+        "drupal/search_api_pantheon": "^8.3",
         "drupal/search_api_solr": "^4.3.2",
         "drupal/seckit": "^2.0.3",
         "drupal/select2": "^1.15",
@@ -121,9 +121,10 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "autoload": {
+    "autoload-dev": {
         "psr-4": {
-            "RoboComponents\\": "./robo-components/"
+            "RoboComponents\\": "./robo-components/",
+            "Drupal\\PHPStan\\Custom\\": "phpstan-rules/"
         }
     },
     "config": {
