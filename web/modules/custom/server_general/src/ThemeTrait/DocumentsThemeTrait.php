@@ -2,16 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Drupal\server_general\ElementTrait;
-
-use Drupal\server_general\ElementLayoutTrait;
+namespace Drupal\server_general\ThemeTrait;
 
 /**
  * Helper methods for rendering Documents media elements.
  */
-trait DocumentsTrait {
+trait DocumentsThemeTrait {
 
-  use ElementLayoutTrait;
+  use ElementLayoutThemeTrait;
 
   /**
    * Builds a "Document" list.

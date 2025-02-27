@@ -2,21 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Drupal\server_general\ElementTrait;
-
-use Drupal\server_general\ElementLayoutTrait;
-use Drupal\server_general\ElementWrapTrait;
-use Drupal\server_general\InnerElementLayoutTrait;
+namespace Drupal\server_general\ThemeTrait;
 
 /**
  * Helper methods for rendering People/Person Teaser elements.
  */
-trait PeopleTeasersTrait {
+trait PeopleTeasersThemeTrait {
 
-  use ElementLayoutTrait;
-  use ElementWrapTrait;
-  use InnerElementLayoutTrait;
-  use CardTrait;
+  use ElementLayoutThemeTrait;
+  use ElementWrapThemeTrait;
+  use InnerElementLayoutThemeTrait;
+  use CardThemeTrait;
 
   /**
    * Build People cards element.
@@ -27,7 +23,7 @@ trait PeopleTeasersTrait {
    *   The body render array.
    * @param array $items
    *   The render array built with
-   *   `ElementLayoutTrait::buildElementLayoutTitleBodyAndItems`.
+   *   `ElementLayoutThemeTrait::buildElementLayoutTitleBodyAndItems`.
    *
    * @return array
    *   The render array.

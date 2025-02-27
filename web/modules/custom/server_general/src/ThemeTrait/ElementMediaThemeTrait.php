@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Drupal\server_general;
+namespace Drupal\server_general\ThemeTrait;
 
 use Drupal\Core\Url;
 
@@ -13,9 +13,9 @@ use Drupal\Core\Url;
  *
  * To use this trait it is assumed above service is present.
  */
-trait ElementMediaTrait {
+trait ElementMediaThemeTrait {
 
-  use ElementWrapTrait;
+  use ElementWrapThemeTrait;
 
   /**
    * Build Media Image.

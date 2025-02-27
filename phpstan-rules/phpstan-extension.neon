@@ -3,3 +3,8 @@ services:
         class: Drupal\PHPStan\Custom\NoThemeInEntityViewBuilderRule
         tags:
             - phpstan.rules.rule
+
+    -
+        class: Drupal\PHPStan\Custom\NoEntityInterfaceInThemeTraitRule
+        tags:
+            - phpstan.rules.rule

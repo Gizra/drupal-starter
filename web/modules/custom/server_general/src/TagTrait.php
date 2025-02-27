@@ -1,17 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\server_general;
 
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Entity\FieldableEntityInterface;
-use Drupal\Core\Url;
+use Drupal\server_general\ThemeTrait\TagThemeTrait;
 
 /**
  * Trait TagBuilderTrait.
  *
- * Helper method for building a tag.
+ * Helper method for building a tag out of a content.
  */
 trait TagTrait {
+
+  use TagThemeTrait;
 
   /**
    * Build the tags element out of a field.
@@ -43,44 +47,6 @@ trait TagTrait {
     $title = $entity->{$field_name}->getFieldDefinition()->getLabel();
 
     return $this->buildElementTags($title, $items);
-  }
-
-  /**
-   * Build a tag.
-   *
-   * @param string $title
-   *   The title.
-   * @param \Drupal\Core\Url $url
-   *   The Url object.
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function buildTag(string $title, Url $url): array {
-    return [
-      '#theme' => 'server_theme_tag',
-      '#title' => $title,
-      '#url' => $url,
-    ];
-  }
-
-  /**
-   * Build the Tags element.
-   *
-   * @param string $title
-   *   The title.
-   * @param array $items
-   *   The render array built with `::buildTag`.
-   *
-   * @return array
-   *   The render array.
-   */
-  protected function buildElementTags(string $title, array $items): array {
-    return [
-      '#theme' => 'server_theme_tags',
-      '#title' => $title,
-      '#items' => $items,
-    ];
   }
 
 }

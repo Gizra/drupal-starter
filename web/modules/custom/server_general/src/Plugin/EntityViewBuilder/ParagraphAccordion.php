@@ -6,10 +6,10 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
-use Drupal\server_general\ElementLayoutTrait;
-use Drupal\server_general\ElementTrait\AccordionTrait;
-use Drupal\server_general\ElementWrapTrait;
 use Drupal\server_general\ProcessedTextBuilderTrait;
+use Drupal\server_general\ThemeTrait\AccordionThemeTrait;
+use Drupal\server_general\ThemeTrait\ElementLayoutThemeTrait;
+use Drupal\server_general\ThemeTrait\ElementWrapThemeTrait;
 
 /**
  * The "Accordion" paragraph plugin.
@@ -24,9 +24,9 @@ use Drupal\server_general\ProcessedTextBuilderTrait;
  */
 class ParagraphAccordion extends EntityViewBuilderPluginAbstract {
 
-  use AccordionTrait;
-  use ElementLayoutTrait;
-  use ElementWrapTrait;
+  use AccordionThemeTrait;
+  use ElementLayoutThemeTrait;
+  use ElementWrapThemeTrait;
   use ProcessedTextBuilderTrait;
 
   /**

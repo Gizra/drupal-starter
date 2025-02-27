@@ -2,16 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Drupal\server_general\ElementTrait;
-
-use Drupal\server_general\ElementLayoutTrait;
+namespace Drupal\server_general\ThemeTrait;
 
 /**
  * Helper methods for rendering Card elements.
  */
-trait CardTrait {
+trait CardThemeTrait {
 
-  use ElementLayoutTrait;
+  use ElementLayoutThemeTrait;
 
   /**
    * Wrap multiple cards with a grid.

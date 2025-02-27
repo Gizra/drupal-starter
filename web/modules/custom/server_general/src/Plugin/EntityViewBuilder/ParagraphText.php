@@ -4,8 +4,8 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
-use Drupal\server_general\ElementLayoutTrait;
 use Drupal\server_general\ProcessedTextBuilderTrait;
+use Drupal\server_general\ThemeTrait\ElementLayoutThemeTrait;
 
 /**
  * The "Text" paragraph plugin.
@@ -19,7 +19,7 @@ use Drupal\server_general\ProcessedTextBuilderTrait;
 class ParagraphText extends EntityViewBuilderPluginAbstract {
 
   use ProcessedTextBuilderTrait;
-  use ElementLayoutTrait;
+  use ElementLayoutThemeTrait;
 
   /**
    * Build full view mode.

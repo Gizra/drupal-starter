@@ -2,26 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Drupal\server_general\ElementTrait;
+namespace Drupal\server_general\ThemeTrait;
 
 use Drupal\Core\Url;
 use Drupal\intl_date\IntlDate;
-use Drupal\server_general\ElementWrapTrait;
-use Drupal\server_general\InnerElementLayoutTrait;
-use Drupal\server_general\LinkTrait;
-use Drupal\server_general\TitleAndLabelsTrait;
 
 /**
  * Helper methods for rendering Search/Search results related elements.
  *
  * @property \Drupal\Core\Render\RendererInterface $renderer
  */
-trait SearchTrait {
+trait SearchThemeTrait {
 
-  use ElementWrapTrait;
-  use InnerElementLayoutTrait;
-  use LinkTrait;
-  use TitleAndLabelsTrait;
+  use ElementWrapThemeTrait;
+  use InnerElementLayoutThemeTrait;
+  use LinkThemeTrait;
+  use TitleAndLabelsThemeTrait;
 
   /**
    * Build a Search term, facets and results element.
