@@ -4,7 +4,6 @@ web_environment:
   # installation. And Change the `SomeName` to match the remote source.
   # This is used in setting.ddev.php
   # - DDEV_MIGRATE_REMOTE_SOURCE=ddev-SomeName-db
-
 hooks:
   post-start:
     # Private files directory.
