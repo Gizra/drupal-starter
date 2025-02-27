@@ -1,0 +1,7 @@
+plugins:
+  moderate: openai__omni-moderation-latest
+  readability: openai__gpt-4o
+  summarise: openai__gpt-4o
+  taxonomy_suggest: openai__gpt-4o
+  title_suggest: openai__gpt-4o
+  tone: openai__gpt-4o
