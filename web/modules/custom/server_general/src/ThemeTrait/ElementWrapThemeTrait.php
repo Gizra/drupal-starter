@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Drupal\server_general;
+namespace Drupal\server_general\ThemeTrait;
 
 use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
 use Drupal\Core\Render\Element;
@@ -12,7 +12,7 @@ use Drupal\paragraphs\ParagraphInterface;
 /**
  * Helper method for wrapping an element.
  */
-trait ElementWrapTrait {
+trait ElementWrapThemeTrait {
 
   /**
    * Wrap an element with a wide container, and optional background color.

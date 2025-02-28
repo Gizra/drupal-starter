@@ -1,6 +1,7 @@
 includes:
   - vendor/mglaman/phpstan-drupal/extension.neon
   - vendor/phpstan/phpstan-deprecation-rules/rules.neon
+  - phpstan-rules/phpstan-extension.neon
 parameters:
   level: 6
   reportUnmatchedIgnoredErrors: false
@@ -14,6 +15,7 @@ parameters:
     - web
     - RoboFile.php
     - robo-components
+    - phpstan-rules
   excludePaths:
     - '*.api.php'
     - '*/tests/fixtures/*.php'
@@ -21,6 +23,7 @@ parameters:
     - 'web/sites/default/files/*'
     - 'web/sites/default/default.settings.php'
     - 'web/sites/default/settings.php'
+    - 'web/sites/default/settings.local.php'
     - 'web/modules/contrib/*'
     - 'web/themes/contrib/*'
     - 'web/libraries/*'
