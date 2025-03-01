@@ -177,6 +177,14 @@ ddev exec terminus remote:drush gizra-drupal-starter.qa search-api-pantheon:forc
 
 Then you can re-index the data and check the sanity of the search.
 
+## AI Integration
+
+This project supports AI-based features using OpenAI.
+
+1. Obtain your [API key](https://platform.openai.com/settings/organization/api-keys) from OpenAI.
+1. Add the API key to your DDEV global configuration `ddev config global --web-environment-add="OPENAI_API_KEY=your-key-here"`
+1. `ddev restart`
+
 ## PHPCS (Code Sniffer)
 
     ddev phpcs
@@ -529,7 +537,7 @@ you need to make sure Drupal is aware of the real IP of the visitors.
 
 ## Go Live Checklist
 
-- [ ] [Enable 2FA](https://github.com/Gizra/drupal-starter/blob/ce2f737bda16e550ee0c8accfd40f44e2d60a703/web/sites/default/settings.pantheon.php#L95-L97) 
+- [ ] [Enable 2FA](https://github.com/Gizra/drupal-starter/blob/ce2f737bda16e550ee0c8accfd40f44e2d60a703/web/sites/default/settings.pantheon.php#L95-L97)
 - [ ] Bump Pantheon plan
 - [ ] Set up automatic backups
 - [ ] DNS config
