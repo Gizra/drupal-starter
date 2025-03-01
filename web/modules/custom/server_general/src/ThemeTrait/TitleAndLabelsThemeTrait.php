@@ -1,13 +1,15 @@
 <?php
 
-namespace Drupal\server_general;
+declare(strict_types=1);
+
+namespace Drupal\server_general\ThemeTrait;
 
 /**
  * Helper method for building Title and labels of a content.
  */
-trait TitleAndLabelsTrait {
+trait TitleAndLabelsThemeTrait {
 
-  use ElementWrapTrait;
+  use ElementWrapThemeTrait;
 
   /**
    * Build the page title element.

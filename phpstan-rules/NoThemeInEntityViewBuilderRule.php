@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\PHPStan\Custom;
 
 use PhpParser\Node;
@@ -53,7 +55,6 @@ class NoThemeInEntityViewBuilderRule implements Rule {
       return [];
     }
 
-    $errors = [];
     $shouldReport = FALSE;
 
     if ($node instanceof Array_) {
@@ -67,13 +68,17 @@ class NoThemeInEntityViewBuilderRule implements Rule {
       }
     }
 
-    if ($shouldReport) {
-      $errors[] = RuleErrorBuilder::message(self::ERROR_MESSAGE)
-        ->line($node->getStartLine())
-        ->build();
+    if (!$shouldReport) {
+      return [];
     }
 
-    return $errors;
+    return [
+      RuleErrorBuilder::message(self::ERROR_MESSAGE)
+        ->line($node->getStartLine())
+        ->addTip('PEVB are meant to extract the dynamic data from the entity and pass it to the ThemeTrait traits. Like that we can call it from the Style guide, without needing to mock entities.')
+        ->identifier('themeTrait.NoThemeInEntityViewBuilderRule')
+        ->build()
+    ];
   }
 
   /**
@@ -88,17 +93,6 @@ class NoThemeInEntityViewBuilderRule implements Rule {
     if ($class === NULL) {
       return FALSE;
     }
-    return $this->isEntityViewBuilder($class);
-  }
-
-  /**
-   * Determines if a class is an EntityViewBuilder.
-   *
-   * @param ClassReflection $class The class reflection to check.
-   *
-   * @return bool TRUE if the class implements EntityViewBuilderPluginInterface, FALSE otherwise.
-   */
-  private function isEntityViewBuilder(ClassReflection $class): bool {
     return $class->implementsInterface(
       'Drupal\pluggable_entity_view_builder\EntityViewBuilder\EntityViewBuilderPluginInterface'
     );

@@ -2,20 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Drupal\server_general\ElementTrait;
+namespace Drupal\server_general\ThemeTrait;
 
 use Drupal\Core\Url;
-use Drupal\server_general\ElementLayoutTrait;
-use Drupal\server_general\ElementWrapTrait;
 
 /**
  * Helper methods for rendering Quick Links elements.
  */
-trait QuickLinksTrait {
+trait QuickLinksThemeTrait {
 
-  use ElementLayoutTrait;
-  use ElementWrapTrait;
-  use CardTrait;
+  use ElementLayoutThemeTrait;
+  use ElementWrapThemeTrait;
+  use CardThemeTrait;
 
   /**
    * Build quick links cards.
@@ -26,7 +24,7 @@ trait QuickLinksTrait {
    *   The body render array.
    * @param array $items
    *   The render array built with
-   *   `ElementLayoutTrait::buildElementLayoutTitleBodyAndItems`.
+   *   `ElementLayoutThemeTrait::buildElementLayoutTitleBodyAndItems`.
    *
    * @return array
    *   Render array.
