@@ -6,7 +6,6 @@
  */
 
 use Drupal\Core\Url;
-use Drupal\lang_dropdown\LanguageDropdownConstants;
 
 /**
  * Implements hook_theme().
@@ -521,11 +520,11 @@ function server_theme_preprocess_page(array &$variables) {
   $language = \Drupal::languageManager()->getCurrentLanguage();
 
   $language_block_config = [
-    'widget' => LanguageDropdownConstants::LANGDROPDOWN_SIMPLE_SELECT,
+    'widget' => LANGDROPDOWN_SIMPLE_SELECT,
     'hide_only_one' => FALSE,
     'showall' => TRUE,
     'width' => 'auto',
-    'display' => LanguageDropdownConstants::LANGDROPDOWN_DISPLAY_NATIVE,
+    'display' => LANGDROPDOWN_DISPLAY_NATIVE,
   ];
 
   $messages = !empty($variables['page']['header']['server_theme_messages']) ? $variables['page']['header']['server_theme_messages'] : NULL;
