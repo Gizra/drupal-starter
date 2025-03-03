@@ -385,7 +385,7 @@ environment_variables:
   project: your-project.qa
 ```
 
-Beware pulling the database and files from pantheon will replace your existing
+Beware pulling the database and files from Pantheon will replace your existing
 install without doing a backup.
 
     ddev auth ssh
