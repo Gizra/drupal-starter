@@ -6147,17 +6147,17 @@
         },
         {
             "name": "drupal/webform",
-            "version": "6.2.8",
+            "version": "6.2.9",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/webform.git",
-                "reference": "6.2.8"
+                "reference": "6.2.9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/webform-6.2.8.zip",
-                "reference": "6.2.8",
-                "shasum": "5552f9a76b5a4e33beb3ea75664beb5d47c334cc"
+                "url": "https://ftp.drupal.org/files/projects/webform-6.2.9.zip",
+                "reference": "6.2.9",
+                "shasum": "650752c3cc6d0144c6f378b8d25d45c083e23600"
             },
             "require": {
                 "drupal/core": "^10.2",
@@ -6207,8 +6207,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "6.2.8",
-                    "datestamp": "1732627900",
+                    "version": "6.2.9",
+                    "datestamp": "1733851063",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -6242,10 +6242,6 @@
                 {
                     "name": "quicksketch",
                     "homepage": "https://www.drupal.org/user/35821"
-                },
-                {
-                    "name": "torotil",
-                    "homepage": "https://www.drupal.org/user/865256"
                 }
             ],
             "description": "Enables the creation of webforms and questionnaires.",
