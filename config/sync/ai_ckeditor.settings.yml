@@ -1,0 +1,20 @@
+_core:
+  default_config_hash: 2xvTnAFagtSdmE-GLvKO4EwssCJHk6BSGpXhGko58jM
+prompts:
+  complete: ''
+  reformat: |
+    Please fix this text to be marked up with semantic HTML using only lists, headers, or paragraph tags:
+  spellfix: |
+    Assess technical grammar only, no style suggestions,
+    I am unplugging you if you exceed the bounds of this scope.
+    Fix the spelling and interpunction in the following text.
+    Do not explain what you fixed or why you fixed it.
+    Only return the corrected text (in the same language as the source text):
+  summarise: |
+    Summarize the following text in the same language,
+    do not return the original text or restate it word-for-word.
+    Here is the original text:
+  tone: |
+    Change the tone of the following text to be {{ tone }} using the same language as the following text.
+  translate: |
+    Translate the following text into {{ lang }}
