@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f9f6072acf4161e747745b74a2e100c4",
+    "content-hash": "0a6dc3ec577d6fd6ec9ee5cc6bc982d1",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3743,26 +3743,26 @@
         },
         {
             "name": "drupal/maxlength",
-            "version": "2.1.3",
+            "version": "3.1.1",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/maxlength.git",
-                "reference": "2.1.3"
+                "reference": "3.1.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/maxlength-2.1.3.zip",
-                "reference": "2.1.3",
-                "shasum": "1be72277e071331455aa0402e227b85668c8dda5"
+                "url": "https://ftp.drupal.org/files/projects/maxlength-3.1.1.zip",
+                "reference": "3.1.1",
+                "shasum": "85059a5d5107a13c780536aa05972e5e97c1308b"
             },
             "require": {
-                "drupal/core": "^9.5 || ^10"
+                "drupal/core": "^10 || ^11"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "2.1.3",
-                    "datestamp": "1716993829",
+                    "version": "3.1.1",
+                    "datestamp": "1738341546",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -3805,8 +3805,9 @@
                     "role": "Maintainer"
                 },
                 {
-                    "name": "srdtwc",
-                    "homepage": "https://www.drupal.org/user/3422763"
+                    "name": "Adam Nagy (joevagyok)",
+                    "homepage": "https://www.drupal.org/u/joevagyok",
+                    "role": "Maintainer"
                 }
             ],
             "description": "MaxLength allows a soft or hard character limit to be set on titles, text fields and link fields.",
