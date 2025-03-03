@@ -1,8 +1,9 @@
 _core:
   default_config_hash: HUXhJzgWiujd9gs4ATeqsfufuPTpEEdH9uvEe89a41s
-log_level: 6
+log_level: 5
 env: dev
-api_timeout: 120
+api_timeout: '120'
+cti_api_key: ''
 signal_scenarios:
   - drupal/core-ban
   - drupal/auth-bruteforce
@@ -23,7 +24,7 @@ scenarios:
   - crowdsecurity/http-generic-bf
   - crowdsecurity/http-open-proxy
 whisper:
-  enable: 1
+  enable: true
   leak_speed: 10
   bucket_capacity: 10
   ban_duration: 3600

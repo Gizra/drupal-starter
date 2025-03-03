@@ -383,10 +383,26 @@ The deployment script will read this environment variable and exclude the specif
 
 ## Pulling DB & Files From Pantheon
 
+First make sure you have a [Pantheon machine token](https://docs.pantheon.io/machine-tokens): `TERMINUS_MACHINE_TOKEN=abcde` in `.ddev/.env`.
+
+Then, check what is the configuration of `.ddev/providers/pantheon.yml`
+
+Here for example is configured to pull the DB and Files from QA:
+```
+environment_variables:
+  project: your-project.qa
+```
+
+Beware pulling the database and files from Pantheon will replace your existing
+install without doing a backup.
+
     ddev auth ssh
 
     # Pull DB & Files
     ddev pull pantheon
+
+    # To pull only the database:
+    ddev pull pantheon --skip-files
 
 ## Stage File Proxy
 If you don't want to copy production files locally, you can enable stage_file_proxy module.

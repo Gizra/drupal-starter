@@ -8,7 +8,7 @@ title: 'Updates search rankings for nodes'
 id: node_cron
 weight: 0
 module: node
-callback: node_cron
+callback: 'node#cron'
 scheduler:
   id: simple
 launcher:
