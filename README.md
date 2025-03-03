@@ -375,7 +375,7 @@ The deployment script will read this environment variable and exclude the specif
 
 ## Pulling DB & Files From Pantheon
 
-First make sure you have a pantheon `TERMINUS_MACHINE_TOKEN=abcde` in `.ddev/.env`.
+First make sure you have a [Pantheon machine token](https://docs.pantheon.io/machine-tokens): `TERMINUS_MACHINE_TOKEN=abcde` in `.ddev/.env`.
 
 Then, check what is the configuration of `.ddev/providers/pantheon.yml`
 
