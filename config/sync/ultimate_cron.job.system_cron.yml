@@ -8,7 +8,7 @@ title: 'Cleanup (caches, batch, flood, temp-files, etc.)'
 id: system_cron
 weight: 0
 module: system
-callback: system_cron
+callback: 'system#cron'
 scheduler:
   id: simple
 launcher:
