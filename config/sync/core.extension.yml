@@ -51,6 +51,7 @@ module:
   media_library: 0
   menu_ui: 0
   metatag: 0
+  metatag_open_graph: 0
   mysql: 0
   navigation: 0
   node: 0
