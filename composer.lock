@@ -344,16 +344,16 @@
         },
         {
             "name": "composer/ca-bundle",
-            "version": "1.5.3",
+            "version": "1.5.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/ca-bundle.git",
-                "reference": "3b1fc3f0be055baa7c6258b1467849c3e8204eb2"
+                "reference": "08c50d5ec4c6ced7d0271d2862dec8c1033283e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/3b1fc3f0be055baa7c6258b1467849c3e8204eb2",
-                "reference": "3b1fc3f0be055baa7c6258b1467849c3e8204eb2",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/08c50d5ec4c6ced7d0271d2862dec8c1033283e6",
+                "reference": "08c50d5ec4c6ced7d0271d2862dec8c1033283e6",
                 "shasum": ""
             },
             "require": {
@@ -400,7 +400,7 @@
             "support": {
                 "irc": "irc://irc.freenode.org/composer",
                 "issues": "https://github.com/composer/ca-bundle/issues",
-                "source": "https://github.com/composer/ca-bundle/tree/1.5.3"
+                "source": "https://github.com/composer/ca-bundle/tree/1.5.5"
             },
             "funding": [
                 {
@@ -416,7 +416,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-11-04T10:15:26+00:00"
+            "time": "2025-01-08T16:17:16+00:00"
         },
         {
             "name": "composer/installers",
@@ -1168,25 +1168,24 @@
         },
         {
             "name": "crowdsec/capi-client",
-            "version": "v3.2.0",
+            "version": "v3.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/crowdsecurity/php-capi-client.git",
-                "reference": "e43eb8f1e5ab74119f550a30d77fd85f0058090f"
+                "reference": "45606872ec8e696cbb320e25c96a29ede9b08f86"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/crowdsecurity/php-capi-client/zipball/e43eb8f1e5ab74119f550a30d77fd85f0058090f",
-                "reference": "e43eb8f1e5ab74119f550a30d77fd85f0058090f",
+                "url": "https://api.github.com/repos/crowdsecurity/php-capi-client/zipball/45606872ec8e696cbb320e25c96a29ede9b08f86",
+                "reference": "45606872ec8e696cbb320e25c96a29ede9b08f86",
                 "shasum": ""
             },
             "require": {
-                "crowdsec/common": "^2.2.0",
+                "crowdsec/common": "^3.0.0",
                 "ext-json": "*",
-                "monolog/monolog": "^1.17 || ^2.1",
                 "php": "^7.2.5 || ^8.0",
-                "symfony/config": "^4.4.44 || ^5.4.11 || ^6.0.11",
-                "symfony/uid": "^5.4.19 || ^6.2.5"
+                "symfony/config": "^4.4.44 || ^5.4.11 || ^6.0.11 || ^7.2.0",
+                "symfony/uid": "^5.4.19 || ^6.2.5 || ^7.2.0"
             },
             "require-dev": {
                 "ext-curl": "*",
@@ -1229,29 +1228,30 @@
             ],
             "support": {
                 "issues": "https://github.com/crowdsecurity/php-capi-client/issues",
-                "source": "https://github.com/crowdsecurity/php-capi-client/tree/v3.2.0"
+                "source": "https://github.com/crowdsecurity/php-capi-client/tree/v3.4.0"
             },
-            "time": "2024-09-12T03:24:06+00:00"
+            "time": "2025-01-31T00:46:49+00:00"
         },
         {
             "name": "crowdsec/common",
-            "version": "v2.3.2",
+            "version": "v3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/crowdsecurity/php-common.git",
-                "reference": "dd63ec228a0038986fd37903e06029c49cd3b613"
+                "reference": "3ebd0c509e09a2d609d0f7ca0b72525f57d28985"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/crowdsecurity/php-common/zipball/dd63ec228a0038986fd37903e06029c49cd3b613",
-                "reference": "dd63ec228a0038986fd37903e06029c49cd3b613",
+                "url": "https://api.github.com/repos/crowdsecurity/php-common/zipball/3ebd0c509e09a2d609d0f7ca0b72525f57d28985",
+                "reference": "3ebd0c509e09a2d609d0f7ca0b72525f57d28985",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "monolog/monolog": "^1.17 || ^2.1",
+                "monolog/monolog": "^1.17 || ^2.1 || ^3.8",
                 "php": "^7.2.5 || ^8.0",
-                "symfony/config": "^4.4.44 || ^5.4.11 || ^6.0.11"
+                "psr/log": "^1.0 || ^2.0 || ^3.0",
+                "symfony/config": "^4.4.44 || ^5.4.11 || ^6.0.11 || ^7.2.0"
             },
             "require-dev": {
                 "ext-curl": "*",
@@ -1296,30 +1296,29 @@
             ],
             "support": {
                 "issues": "https://github.com/crowdsecurity/php-common/issues",
-                "source": "https://github.com/crowdsecurity/php-common/tree/v2.3.2"
+                "source": "https://github.com/crowdsecurity/php-common/tree/v3.0.0"
             },
-            "time": "2024-10-18T00:26:02+00:00"
+            "time": "2025-01-31T00:14:40+00:00"
         },
         {
             "name": "crowdsec/lapi-client",
-            "version": "v3.3.2",
+            "version": "v3.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/crowdsecurity/php-lapi-client.git",
-                "reference": "77f8703d5f54833751664c2ac0aec0b479be6287"
+                "reference": "d99b00b3601146d93ae666a260ee291bd77bed46"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/crowdsecurity/php-lapi-client/zipball/77f8703d5f54833751664c2ac0aec0b479be6287",
-                "reference": "77f8703d5f54833751664c2ac0aec0b479be6287",
+                "url": "https://api.github.com/repos/crowdsecurity/php-lapi-client/zipball/d99b00b3601146d93ae666a260ee291bd77bed46",
+                "reference": "d99b00b3601146d93ae666a260ee291bd77bed46",
                 "shasum": ""
             },
             "require": {
-                "crowdsec/common": "^2.3.0",
+                "crowdsec/common": "^3.0.0",
                 "ext-json": "*",
-                "monolog/monolog": "^1.17 || ^2.1",
                 "php": "^7.2.5 || ^8.0",
-                "symfony/config": "^4.4.44 || ^5.4.11 || ^6.0.11"
+                "symfony/config": "^4.4.44 || ^5.4.11 || ^6.0.11 || ^7.2.0"
             },
             "require-dev": {
                 "ext-curl": "*",
@@ -1363,35 +1362,37 @@
             ],
             "support": {
                 "issues": "https://github.com/crowdsecurity/php-lapi-client/issues",
-                "source": "https://github.com/crowdsecurity/php-lapi-client/tree/v3.3.2"
+                "source": "https://github.com/crowdsecurity/php-lapi-client/tree/v3.6.0"
             },
-            "time": "2024-10-21T08:18:50+00:00"
+            "time": "2025-01-31T00:26:39+00:00"
         },
         {
             "name": "crowdsec/remediation-engine",
-            "version": "v3.5.0",
+            "version": "v4.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/crowdsecurity/php-remediation-engine.git",
-                "reference": "f9332611299665f2c3c89b49c1c4cecd14093480"
+                "reference": "779724acdb8fb2b703d3faf45f563b17caf9fcf2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/crowdsecurity/php-remediation-engine/zipball/f9332611299665f2c3c89b49c1c4cecd14093480",
-                "reference": "f9332611299665f2c3c89b49c1c4cecd14093480",
+                "url": "https://api.github.com/repos/crowdsecurity/php-remediation-engine/zipball/779724acdb8fb2b703d3faf45f563b17caf9fcf2",
+                "reference": "779724acdb8fb2b703d3faf45f563b17caf9fcf2",
                 "shasum": ""
             },
             "require": {
-                "crowdsec/capi-client": "^3.2.0",
-                "crowdsec/common": "^2.3.2",
-                "crowdsec/lapi-client": "^3.3.0",
+                "crowdsec/capi-client": "^3.3.0",
+                "crowdsec/common": "^3.0.0",
+                "crowdsec/lapi-client": "^3.5.0",
                 "ext-json": "*",
                 "geoip2/geoip2": "^2.13.0",
                 "mlocati/ip-lib": "^1.18",
-                "monolog/monolog": "^1.17 || ^2.1",
+                "monolog/monolog": "^1.17 || ^2.1 || ^3.8",
                 "php": "^7.2.5 || ^8.0",
-                "symfony/cache": "^5.4.11|| ^6.0.11",
-                "symfony/config": "^4.4.27 || ^5.2 || ^6.0"
+                "psr/cache": "^1.0 || ^2.0 || ^3.0",
+                "psr/log": "^1.0 || ^2.0 || ^3.0",
+                "symfony/cache": "^5.4.11 || ^6.0.11 || ^7.2.1",
+                "symfony/config": "^4.4.27 || ^5.2 || ^6.0 || ^7.2"
             },
             "conflict": {
                 "symfony/cache": "6.2.3 || 6.1.9 || 6.0.17 || 5.4.17"
@@ -1443,9 +1444,9 @@
             ],
             "support": {
                 "issues": "https://github.com/crowdsecurity/php-remediation-engine/issues",
-                "source": "https://github.com/crowdsecurity/php-remediation-engine/tree/v3.5.0"
+                "source": "https://github.com/crowdsecurity/php-remediation-engine/tree/v4.2.0"
             },
-            "time": "2024-10-18T05:40:39+00:00"
+            "time": "2025-01-31T02:50:02+00:00"
         },
         {
             "name": "cweagans/composer-patches",
@@ -2657,20 +2658,20 @@
         },
         {
             "name": "drupal/crowdsec",
-            "version": "1.1.5",
+            "version": "1.1.8",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/crowdsec.git",
-                "reference": "1.1.5"
+                "reference": "1.1.8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/crowdsec-1.1.5.zip",
-                "reference": "1.1.5",
-                "shasum": "df78187c5221c1684485cc2e57400deec154950b"
+                "url": "https://ftp.drupal.org/files/projects/crowdsec-1.1.8.zip",
+                "reference": "1.1.8",
+                "shasum": "b960dc8ef2d51b591d8edc3f84583d1023f9ce24"
             },
             "require": {
-                "crowdsec/remediation-engine": "^3.0",
+                "crowdsec/remediation-engine": "^4.1",
                 "drupal/core": "^10 || ^11",
                 "php": ">=8.1"
             },
@@ -2680,8 +2681,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "1.1.5",
-                    "datestamp": "1734709731",
+                    "version": "1.1.8",
+                    "datestamp": "1740645065",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -7856,16 +7857,16 @@
         },
         {
             "name": "mlocati/ip-lib",
-            "version": "1.18.1",
+            "version": "1.20.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mlocati/ip-lib.git",
-                "reference": "08bb43b4949069c543ebdf099a6b2c322d0172ab"
+                "reference": "fd45fc3bf08ed6c7e665e2e70562082ac954afd4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mlocati/ip-lib/zipball/08bb43b4949069c543ebdf099a6b2c322d0172ab",
-                "reference": "08bb43b4949069c543ebdf099a6b2c322d0172ab",
+                "url": "https://api.github.com/repos/mlocati/ip-lib/zipball/fd45fc3bf08ed6c7e665e2e70562082ac954afd4",
+                "reference": "fd45fc3bf08ed6c7e665e2e70562082ac954afd4",
                 "shasum": ""
             },
             "require": {
@@ -7911,7 +7912,7 @@
             ],
             "support": {
                 "issues": "https://github.com/mlocati/ip-lib/issues",
-                "source": "https://github.com/mlocati/ip-lib/tree/1.18.1"
+                "source": "https://github.com/mlocati/ip-lib/tree/1.20.0"
             },
             "funding": [
                 {
@@ -7923,46 +7924,47 @@
                     "type": "other"
                 }
             ],
-            "time": "2024-10-29T15:44:19+00:00"
+            "time": "2025-02-04T17:30:58+00:00"
         },
         {
             "name": "monolog/monolog",
-            "version": "2.10.0",
+            "version": "3.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "5cf826f2991858b54d5c3809bee745560a1042a7"
+                "reference": "aef6ee73a77a66e404dd6540934a9ef1b3c855b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/5cf826f2991858b54d5c3809bee745560a1042a7",
-                "reference": "5cf826f2991858b54d5c3809bee745560a1042a7",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/aef6ee73a77a66e404dd6540934a9ef1b3c855b4",
+                "reference": "aef6ee73a77a66e404dd6540934a9ef1b3c855b4",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.2",
-                "psr/log": "^1.0.1 || ^2.0 || ^3.0"
+                "php": ">=8.1",
+                "psr/log": "^2.0 || ^3.0"
             },
             "provide": {
-                "psr/log-implementation": "1.0.0 || 2.0.0 || 3.0.0"
+                "psr/log-implementation": "3.0.0"
             },
             "require-dev": {
-                "aws/aws-sdk-php": "^2.4.9 || ^3.0",
+                "aws/aws-sdk-php": "^3.0",
                 "doctrine/couchdb": "~1.0@dev",
                 "elasticsearch/elasticsearch": "^7 || ^8",
                 "ext-json": "*",
-                "graylog2/gelf-php": "^1.4.2 || ^2@dev",
-                "guzzlehttp/guzzle": "^7.4",
+                "graylog2/gelf-php": "^1.4.2 || ^2.0",
+                "guzzlehttp/guzzle": "^7.4.5",
                 "guzzlehttp/psr7": "^2.2",
                 "mongodb/mongodb": "^1.8",
                 "php-amqplib/php-amqplib": "~2.4 || ^3",
-                "phpspec/prophecy": "^1.15",
-                "phpstan/phpstan": "^1.10",
-                "phpunit/phpunit": "^8.5.38 || ^9.6.19",
-                "predis/predis": "^1.1 || ^2.0",
-                "rollbar/rollbar": "^1.3 || ^2 || ^3",
-                "ruflin/elastica": "^7",
-                "swiftmailer/swiftmailer": "^5.3|^6.0",
+                "php-console/php-console": "^3.1.8",
+                "phpstan/phpstan": "^2",
+                "phpstan/phpstan-deprecation-rules": "^2",
+                "phpstan/phpstan-strict-rules": "^2",
+                "phpunit/phpunit": "^10.5.17 || ^11.0.7",
+                "predis/predis": "^1.1 || ^2",
+                "rollbar/rollbar": "^4.0",
+                "ruflin/elastica": "^7 || ^8",
                 "symfony/mailer": "^5.4 || ^6",
                 "symfony/mime": "^5.4 || ^6"
             },
@@ -7985,7 +7987,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "2.x-dev"
+                    "dev-main": "3.x-dev"
                 }
             },
             "autoload": {
@@ -8013,7 +8015,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Seldaek/monolog/issues",
-                "source": "https://github.com/Seldaek/monolog/tree/2.10.0"
+                "source": "https://github.com/Seldaek/monolog/tree/3.8.1"
             },
             "funding": [
                 {
@@ -8025,7 +8027,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-11-12T12:43:37+00:00"
+            "time": "2024-12-05T17:15:07+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -9637,31 +9639,32 @@
         },
         {
             "name": "symfony/cache",
-            "version": "v6.4.14",
+            "version": "v7.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/cache.git",
-                "reference": "36fb8aa88833708e9f29014b6f15fac051a8b613"
+                "reference": "d33cd9e14326e14a4145c21e600602eaf17cc9e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/cache/zipball/36fb8aa88833708e9f29014b6f15fac051a8b613",
-                "reference": "36fb8aa88833708e9f29014b6f15fac051a8b613",
+                "url": "https://api.github.com/repos/symfony/cache/zipball/d33cd9e14326e14a4145c21e600602eaf17cc9e7",
+                "reference": "d33cd9e14326e14a4145c21e600602eaf17cc9e7",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.1",
+                "php": ">=8.2",
                 "psr/cache": "^2.0|^3.0",
                 "psr/log": "^1.1|^2|^3",
                 "symfony/cache-contracts": "^2.5|^3",
+                "symfony/deprecation-contracts": "^2.5|^3.0",
                 "symfony/service-contracts": "^2.5|^3",
-                "symfony/var-exporter": "^6.3.6|^7.0"
+                "symfony/var-exporter": "^6.4|^7.0"
             },
             "conflict": {
-                "doctrine/dbal": "<2.13.1",
-                "symfony/dependency-injection": "<5.4",
-                "symfony/http-kernel": "<5.4",
-                "symfony/var-dumper": "<5.4"
+                "doctrine/dbal": "<3.6",
+                "symfony/dependency-injection": "<6.4",
+                "symfony/http-kernel": "<6.4",
+                "symfony/var-dumper": "<6.4"
             },
             "provide": {
                 "psr/cache-implementation": "2.0|3.0",
@@ -9670,15 +9673,16 @@
             },
             "require-dev": {
                 "cache/integration-tests": "dev-master",
-                "doctrine/dbal": "^2.13.1|^3|^4",
+                "doctrine/dbal": "^3.6|^4",
                 "predis/predis": "^1.1|^2.0",
                 "psr/simple-cache": "^1.0|^2.0|^3.0",
-                "symfony/config": "^5.4|^6.0|^7.0",
-                "symfony/dependency-injection": "^5.4|^6.0|^7.0",
-                "symfony/filesystem": "^5.4|^6.0|^7.0",
-                "symfony/http-kernel": "^5.4|^6.0|^7.0",
-                "symfony/messenger": "^5.4|^6.0|^7.0",
-                "symfony/var-dumper": "^5.4|^6.0|^7.0"
+                "symfony/clock": "^6.4|^7.0",
+                "symfony/config": "^6.4|^7.0",
+                "symfony/dependency-injection": "^6.4|^7.0",
+                "symfony/filesystem": "^6.4|^7.0",
+                "symfony/http-kernel": "^6.4|^7.0",
+                "symfony/messenger": "^6.4|^7.0",
+                "symfony/var-dumper": "^6.4|^7.0"
             },
             "type": "library",
             "autoload": {
@@ -9713,7 +9717,7 @@
                 "psr6"
             ],
             "support": {
-                "source": "https://github.com/symfony/cache/tree/v6.4.14"
+                "source": "https://github.com/symfony/cache/tree/v7.2.4"
             },
             "funding": [
                 {
@@ -9729,7 +9733,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-11-05T15:34:40+00:00"
+            "time": "2025-02-26T09:57:54+00:00"
         },
         {
             "name": "symfony/cache-contracts",
@@ -11568,8 +11572,8 @@
             "type": "library",
             "extra": {
                 "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
                 }
             },
             "autoload": {
@@ -12195,24 +12199,24 @@
         },
         {
             "name": "symfony/uid",
-            "version": "v6.4.13",
+            "version": "v7.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/uid.git",
-                "reference": "18eb207f0436a993fffbdd811b5b8fa35fa5e007"
+                "reference": "2d294d0c48df244c71c105a169d0190bfb080426"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/uid/zipball/18eb207f0436a993fffbdd811b5b8fa35fa5e007",
-                "reference": "18eb207f0436a993fffbdd811b5b8fa35fa5e007",
+                "url": "https://api.github.com/repos/symfony/uid/zipball/2d294d0c48df244c71c105a169d0190bfb080426",
+                "reference": "2d294d0c48df244c71c105a169d0190bfb080426",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.1",
+                "php": ">=8.2",
                 "symfony/polyfill-uuid": "^1.15"
             },
             "require-dev": {
-                "symfony/console": "^5.4|^6.0|^7.0"
+                "symfony/console": "^6.4|^7.0"
             },
             "type": "library",
             "autoload": {
@@ -12249,7 +12253,7 @@
                 "uuid"
             ],
             "support": {
-                "source": "https://github.com/symfony/uid/tree/v6.4.13"
+                "source": "https://github.com/symfony/uid/tree/v7.2.0"
             },
             "funding": [
                 {
@@ -12265,7 +12269,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-09-25T14:18:03+00:00"
+            "time": "2024-09-25T14:21:43+00:00"
         },
         {
             "name": "symfony/validator",
