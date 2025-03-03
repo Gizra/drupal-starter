@@ -4203,31 +4203,40 @@
         },
         {
             "name": "drupal/pantheon_advanced_page_cache",
-            "version": "2.3.1",
+            "version": "2.3.2",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/pantheon_advanced_page_cache.git",
-                "reference": "2.3.1"
+                "reference": "2.3.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/pantheon_advanced_page_cache-2.3.1.zip",
-                "reference": "2.3.1",
-                "shasum": "1df3a05810ed0f83f11bd57312c67d7dae06b6e0"
+                "url": "https://ftp.drupal.org/files/projects/pantheon_advanced_page_cache-2.3.2.zip",
+                "reference": "2.3.2",
+                "shasum": "dfc46bf24b77787192c6caa7154e5ae021cf16a9"
             },
             "require": {
-                "drupal/core": "^9.4 || ^10 || ^11"
+                "drupal/core": "^9.4 || ^10 || ^11",
+                "guzzlehttp/psr7": "^2.4.5",
+                "php": ">=7.4",
+                "symfony/http-foundation": "^6 || ^7"
             },
             "require-dev": {
-                "drupal/coder": "^8.2",
-                "drupal/drupal-extension": "^3.3",
-                "phpunit/phpunit": "^6.3"
+                "consolidation/robo": "^5.1",
+                "czproject/git-php": "^4.3",
+                "drupal/coder": "@stable",
+                "drupal/drupal-extension": "@stable",
+                "phpunit/phpunit": "@stable",
+                "psy/psysh": "@stable",
+                "squizlabs/php_codesniffer": "@stable",
+                "symfony/finder": "^4.4|^5|^6|^7",
+                "symfony/yaml": "^4.4|^5|^6|^7"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "2.3.1",
-                    "datestamp": "1727889724",
+                    "version": "2.3.2",
+                    "datestamp": "1740801035",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -4241,22 +4250,25 @@
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
             "scripts": {
-                "codesniff": [
-                    "phpcs --report=full --extensions=php,module,inc,theme,info,install --standard=vendor/drupal/coder/coder_sniffer/Drupal src",
-                    "phpcs --report=full --extensions=php,module,inc,theme,info,install --standard=vendor/drupal/coder/coder_sniffer/Drupal tests/modules",
-                    "phpcs  tests/behat  --standard=PSR2"
+                "code:fix": [
+                    "vendor/bin/phpcs --config-set installed_paths vendor/drupal/coder/coder_sniffer",
+                    "vendor/bin/phpcbf . --ignore=vendor src"
                 ],
-                "phpcbf": [
-                    "phpcbf --report=full --extensions=php,module,inc,theme,info,install --standard=vendor/drupal/coder/coder_sniffer/Drupal src",
-                    "phpcbf --report=full --extensions=php,module,inc,theme,info,install --standard=vendor/drupal/coder/coder_sniffer/Drupal tests/modules",
-                    "phpcbf  tests/behat  --standard=PSR2"
+                "code:lint": [
+                    "vendor/bin/phpcs --config-set installed_paths vendor/drupal/coder/coder_sniffer",
+                    "vendor/bin/phpcs --ignore=RoboFile.php,vendor,.github . "
                 ],
-                "phpunit": [
-                    "phpunit tests --colors=always"
+                "test": [
+                    "vendor/bin/robo test:full"
+                ],
+                "pre-commit": [
+                    "composer validate --strict",
+                    "@code:fix",
+                    "@code:lint"
                 ]
             },
             "license": [
-                "GPL-2.0-or-later"
+                "MIT"
             ],
             "authors": [
                 {
@@ -4264,7 +4276,7 @@
                     "homepage": "https://www.drupal.org/user/93254"
                 },
                 {
-                    "name": "Ec1ipsis",
+                    "name": "ec1ipsis",
                     "homepage": "https://www.drupal.org/user/1600400"
                 },
                 {
@@ -4282,9 +4294,13 @@
                 {
                     "name": "stevector",
                     "homepage": "https://www.drupal.org/user/179805"
+                },
+                {
+                    "name": "stovak",
+                    "homepage": "https://www.drupal.org/user/1074930"
                 }
             ],
-            "description": "Advanced page cache capabilities for Pantheon.",
+            "description": "Drupal Integration for the Pantheon Advanced Page Cache. Code mirror at drupal/pantheon_advanced_page_cache.",
             "homepage": "https://www.drupal.org/project/pantheon_advanced_page_cache",
             "support": {
                 "source": "https://git.drupalcode.org/project/pantheon_advanced_page_cache"
