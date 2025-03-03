@@ -1,13 +1,13 @@
 <?php
 
-namespace Drupal\server_style_guide;
+namespace Drupal\server_style_guide\ThemeTrait;
 
 use Drupal\Component\Utility\Html;
 
 /**
  * Helper method for wrapping an element.
  */
-trait StyleGuideElementWrapTrait {
+trait StyleGuideElementWrapThemeTrait {
 
   /**
    * Wrap an element, with no container.

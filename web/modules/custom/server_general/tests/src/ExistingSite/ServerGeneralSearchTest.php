@@ -120,14 +120,14 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
    * @see https://stackoverflow.com/questions/77230889/how-do-i-fix-symfony-6-error-input-value-contains-a-non-scalar-value
    */
   public function testSpecialQueryParameter() {
-    $this->failOnPhpWatchdogMessages = FALSE;
     $this->drupalGet('/search', [
       'query' => [
         'key[$testing]' => '1',
       ],
     ]);
     $this->assertSession()->statusCodeEquals(400);
-    $this->assertSession()->elementExists('css', '#search-input');
+    // We have an error message that describes the problem.
+    $this->assertStringContainsString("contains an array", $this->getCurrentPage()->getContent());
   }
 
   /**
