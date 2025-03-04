@@ -9,7 +9,7 @@ hooks:
     # Private files directory.
     - exec: mkdir -p /var/www/private
 
-    # Terminus secrets plugin.
+    # Install the Terminus secrets plugin.
     - exec: terminus self:plugin:install terminus-secrets-manager-plugin
 
     # Create a private key for Two-factor Authentication if not yet added.
