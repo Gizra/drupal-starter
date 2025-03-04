@@ -1,51 +1,38 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\server_general;
 
-use Drupal\Core\Url;
+use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\server_general\ThemeTrait\SocialShareThemeTrait;
 
 /**
  * Helper methods for getting themed social share buttons.
  */
 trait SocialShareTrait {
 
+  use SocialShareThemeTrait;
+
   /**
-   * Build the social media buttons element.
+   * Build the social media buttons.
    *
-   * @param string $title
-   *   The email subject for the "Email" service.
-   * @param \Drupal\Core\Url $url
-   *   The URL of the entity.
+   * @param \Drupal\Core\Entity\ContentEntityInterface $entity
+   *   The entity that's being shared.
    *
    * @return array
    *   The render array.
+   *
+   * @throws \Drupal\Core\Entity\EntityMalformedException
    */
-  protected function buildSocialShare(string $title, Url $url): array {
-    $items = [];
-    $services = [
-      'x',
-      'linkedin',
-      'facebook',
-      'email',
-    ];
-    foreach ($services as $service) {
-      $item = [
-        '#theme' => 'server_theme_social_share_button',
-        '#url' => $url,
-        '#service' => $service,
-        '#email_subject' => $title,
-      ];
+  protected function buildSocialShare(ContentEntityInterface $entity): array {
+    // In preview state, since we don't have any URL for the entity yet.
+    $url = $entity->isNew() ? '' : $entity->toUrl('canonical', ['absolute' => TRUE]);
 
-      if ($service === 'email') {
-        $item['#email_subject'] = $title;
-      }
-      $items[] = $item;
-    }
-
-    return [
-      '#theme' => 'server_theme_social_share_buttons',
-      '#items' => $items,
-    ];
+    return $this->buildElementSocialShare(
+      $entity->label(),
+      $url,
+    );
   }
 
 }
