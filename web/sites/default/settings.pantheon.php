@@ -127,10 +127,10 @@ if (!empty($pantheon_env) && !empty($_ENV['CACHE_HOST'])) {
   $settings['cache']['bins']['form'] = 'cache.backend.database';
 }
 
-if (file_exists('/files/private/secrets.json')) {
-  $secrets = json_decode(file_get_contents('/files/private/secrets.json'), TRUE);
-  if (isset($secrets['tfa'])) {
-    putenv('TFA_KEY="' . $secrets['tfa'] . "\"");
+if (function_exists('pantheon_get_secret') ) {
+  $secret_value = pantheon_get_secret('tfa');
+  if (!empty($secret_value)) {
+    putenv('TFA_KEY="' . $secret_value . "\"");
   }
 }
 
