@@ -269,7 +269,7 @@ corepack_enable: false
 #
 hooks:
   post-start:
-    # Terminus Secrets plugin.
+    # Install the Terminus secrets plugin.
     - exec: terminus self:plugin:install terminus-secrets-manager-plugin
 
 # or
