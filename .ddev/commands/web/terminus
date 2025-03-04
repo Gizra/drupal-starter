@@ -4,4 +4,19 @@
 ## Usage: terminus [flags] [args]
 ## Example: "ddev terminus remote:drush drupal-starter.live uli"
 
-terminus $@
+# Function to check if the terminus-secrets-manager-plugin is installed.
+is_plugin_installed() {
+  terminus self:plugin:list | grep -q "terminus-secrets-manager-plugin"
+}
+
+# Check if the first argument is in the "secret" namespace.
+if [[ $1 == secret:* ]]; then
+  # Check if the plugin is not installed
+  if ! is_plugin_installed; then
+    echo "Installing terminus-secrets-manager-plugin..."
+    terminus self:plugin:install terminus-secrets-manager-plugin
+  fi
+fi
+
+# Run the terminus command with all provided arguments
+terminus "$@"
