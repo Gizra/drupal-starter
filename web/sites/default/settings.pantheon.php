@@ -128,7 +128,7 @@ if (!empty($pantheon_env) && !empty($_ENV['CACHE_HOST'])) {
 }
 
 if (function_exists('pantheon_get_secret') ) {
-  $secret_value = pantheon_get_secret('tfa');
+  $secret_value = pantheon_get_secret('tfa_key');
   if (!empty($secret_value)) {
     putenv('TFA_KEY="' . $secret_value . "\"");
   }
