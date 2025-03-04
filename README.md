@@ -215,6 +215,24 @@ You can also watch what the tests are doing in the browser using noVNC. To do so
 https://drupal-starter.ddev.site:7900 and click Connect. The password is `secret`. Now simply run the tests
 and you can see the test running in the browser.
 
+### Contrib module coverage
+
+The `ddev phpunit-contrib` command allows you to run PHPUnit tests specifically for contributed modules within your Drupal site. It allows you to ensure the integrity of a module after applying custom patch(es) to it.
+
+#### Usage
+
+```bash
+ddev phpunit-contrib <module_name>
+```
+
+#### Example
+
+To run PHPUnit tests for the `migrate_tools` contributed module, you would use:
+
+```bash
+ddev phpunit-contrib migrate_tools
+```
+
 ## Debugging
 
 ## Visual Studio Code instructions
