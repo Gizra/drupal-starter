@@ -172,7 +172,7 @@ The starter kit comes out of the box with Solr.
 It can happen that an index is polluted and Search API cannot restore it using "Delete all indexed items". Then there's a Drush command of the integration module to reset the index, drop all data inside:
 
 ```bash
-ddev exec terminus remote:drush gizra-drupal-starter.qa search-api-pantheon:force-cleanup
+ddev terminus remote:drush gizra-drupal-starter.qa search-api-pantheon:force-cleanup
 ```
 
 Then you can re-index the data and check the sanity of the search.
@@ -268,7 +268,7 @@ Then edit `scripts/mass_patch.config.sh` and add the proper project names.
 Then, you can create a new site in Pantheon which can also be done with a
 [terminus command](https://pantheon.io/docs/guides/drupal8-commandline):
 
-    ddev exec terminus site:create my-site "My Site" "Drupal 10 Start State"
+    ddev terminus site:create my-site "My Site" "Drupal 10 Start State"
 
 #### Change to nested docroot structure
 
@@ -537,12 +537,22 @@ To import the config translations:
 
 ## Two-factor Authentication (TFA)
 
-TFA is enabled for the Administrator and Content editor users.
+TFA is disabled by default. Edit the [Pantheon-specific settings](https://github.com/Gizra/drupal-starter/blob/main/web/sites/default/settings.pantheon.php#L96) to activate it.
 The default settings under `/admin/config/people/tfa` define "Skip Validation" is 1. That is,
 when a privileged user will login, they must enable their TFA. Otherwise, on a second
 login, they will already be blocked. A site admin may reset their validation tries
 under the `/admin/people` page.
 The TFA method that is enabled is one that uses Google authenticator (or similar).
+
+You should set the TFA secret using:
+```bash
+ddev terminus secret:site:set gizra-drupal-starter tfa_key $(openssl rand -base64 32) --type=runtime --scope=web,user
+```
+
+If you need to override the secret on a specific Pantheon environment:
+```bash
+ddev terminus secret:site:set gizra-drupal-starter.qa tfa_key $(openssl rand -base64 32)
+```
 
 ## WAF - Crowdsec
 
