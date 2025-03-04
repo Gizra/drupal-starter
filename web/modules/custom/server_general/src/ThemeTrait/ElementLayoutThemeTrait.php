@@ -128,7 +128,6 @@ trait ElementLayoutThemeTrait {
     $elements = [];
     $elements[] = $wrapped_items;
     $elements[] = $this->buildButton($this->t('View more'), Url::fromUserInput('#'));
-    ;
     $elements = $this->wrapContainerVerticalSpacing($elements);
 
     return [

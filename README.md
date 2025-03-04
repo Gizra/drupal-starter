@@ -177,6 +177,14 @@ ddev exec terminus remote:drush gizra-drupal-starter.qa search-api-pantheon:forc
 
 Then you can re-index the data and check the sanity of the search.
 
+## AI Integration
+
+This project supports AI-based features using OpenAI.
+
+1. Obtain your [API key](https://platform.openai.com/settings/organization/api-keys) from OpenAI.
+1. Add the API key to your DDEV global configuration `ddev config global --web-environment-add="OPENAI_API_KEY=your-key-here"`
+1. `ddev restart`
+
 ## PHPCS (Code Sniffer)
 
     ddev phpcs
