@@ -109,6 +109,7 @@
         "drupal/potx": "^1.0@alpha",
         "gettext/gettext": "^5.7",
         "mglaman/phpstan-drupal": "1.2.10",
+        "mikey179/vfsstream": "^1.6",
         "mpyw/phpunit-patch-serializable-comparison": "^0.0.2",
         "natxet/cssmin": "^3.0",
         "phpspec/prophecy-phpunit": "^2",
