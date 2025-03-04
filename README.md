@@ -541,7 +541,7 @@ You should set the TFA secret using:
 ddev terminus secret:site:set gizra-drupal-starter tfa_key $(openssl rand -base64 32) --type=runtime --scope=web,user
 ```
 
-If you need environment-based override, you can do the following:
+If you need to override the secret on a specific Pantheon environment:
 ```bash
 ddev terminus secret:site:set gizra-drupal-starter.qa tfa_key $(openssl rand -base64 32)
 ```
