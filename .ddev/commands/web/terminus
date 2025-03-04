@@ -1,0 +1,7 @@
+#!/bin/bash
+
+## Description: Run terminus inside the web container
+## Usage: terminus [flags] [args]
+## Example: "ddev terminus remote:drush drupal-starter.live uli"
+
+terminus $@

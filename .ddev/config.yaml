@@ -266,8 +266,12 @@ corepack_enable: false
 # and you can't erase existing hooks or all environment variables.
 # However, with "override_config: true" in a particular config.*.yaml file,
 # 'use_dns_when_possible: false' can override the existing values, and
-# hooks:
-#   post-start: []
+#
+hooks:
+  post-start:
+    # Terminus Secrets plugin.
+    - exec: terminus self:plugin:install terminus-secrets-manager-plugin
+
 # or
 # web_environment: []
 # or

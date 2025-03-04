@@ -172,7 +172,7 @@ The starter kit comes out of the box with Solr.
 It can happen that an index is polluted and Search API cannot restore it using "Delete all indexed items". Then there's a Drush command of the integration module to reset the index, drop all data inside:
 
 ```bash
-ddev exec terminus remote:drush gizra-drupal-starter.qa search-api-pantheon:force-cleanup
+ddev terminus remote:drush gizra-drupal-starter.qa search-api-pantheon:force-cleanup
 ```
 
 Then you can re-index the data and check the sanity of the search.
@@ -260,7 +260,7 @@ Then edit `scripts/mass_patch.config.sh` and add the proper project names.
 Then, you can create a new site in Pantheon which can also be done with a
 [terminus command](https://pantheon.io/docs/guides/drupal8-commandline):
 
-    ddev exec terminus site:create my-site "My Site" "Drupal 10 Start State"
+    ddev terminus site:create my-site "My Site" "Drupal 10 Start State"
 
 #### Change to nested docroot structure
 
