@@ -18,6 +18,11 @@ targetEntityType: node
 bundle: news
 mode: search_index
 content:
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: -20
+    region: content
   field_body:
     type: text_default
     label: above

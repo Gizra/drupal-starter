@@ -8,7 +8,7 @@ title: 'Default cron handler'
 id: google_analytics_cron
 weight: 0
 module: google_analytics
-callback: google_analytics_cron
+callback: 'google_analytics#cron'
 scheduler:
   id: simple
 launcher:

@@ -1,0 +1,29 @@
+_core:
+  default_config_hash: RGedRkFydKZjS0ZJ6vbtZH00KbhYVGsK-ABILHdQLyw
+prompt_logging: false
+prompt_logging_tags: ''
+default_providers:
+  chat:
+    provider_id: openai
+    model_id: gpt-4o
+  chat_with_complex_json:
+    provider_id: openai
+    model_id: gpt-4o
+  chat_with_image_vision:
+    provider_id: openai
+    model_id: gpt-4o
+  embeddings:
+    provider_id: openai
+    model_id: text-embedding-3-small
+  moderation:
+    provider_id: openai
+    model_id: omni-moderation-latest
+  speech_to_text:
+    provider_id: openai
+    model_id: whisper-1
+  text_to_image:
+    provider_id: openai
+    model_id: dall-e-3
+  text_to_speech:
+    provider_id: openai
+    model_id: tts-1-hd
