@@ -172,10 +172,22 @@ The starter kit comes out of the box with Solr.
 It can happen that an index is polluted and Search API cannot restore it using "Delete all indexed items". Then there's a Drush command of the integration module to reset the index, drop all data inside:
 
 ```bash
-ddev exec terminus remote:drush gizra-drupal-starter.qa search-api-pantheon:force-cleanup
+ddev terminus remote:drush gizra-drupal-starter.qa search-api-pantheon:force-cleanup
 ```
 
 Then you can re-index the data and check the sanity of the search.
+
+## AI Integration
+
+This project supports AI-based features using OpenAI.
+
+1. Obtain your [API key](https://platform.openai.com/settings/organization/api-keys) from OpenAI.
+1. Add the API key to your DDEV global configuration `ddev config global --web-environment-add="OPENAI_API_KEY=your-key-here"`
+1. `ddev restart`
+1. Upon deployment to Pantheon, you can add the API key as a secret:
+```bash
+ddev terminus secret:site:set gizra-drupal-starter openai_api_key your-key-here --type=runtime --scope=web,user
+```
 
 ## PHPCS (Code Sniffer)
 
@@ -206,6 +218,24 @@ local debugging purposes.**
 You can also watch what the tests are doing in the browser using noVNC. To do so, simply open a browser and open
 https://drupal-starter.ddev.site:7900 and click Connect. The password is `secret`. Now simply run the tests
 and you can see the test running in the browser.
+
+### Contrib module coverage
+
+The `ddev phpunit-contrib` command allows you to run PHPUnit tests specifically for contributed modules within your Drupal site. It allows you to ensure the integrity of a module after applying custom patch(es) to it.
+
+#### Usage
+
+```bash
+ddev phpunit-contrib <module_name>
+```
+
+#### Example
+
+To run PHPUnit tests for the `migrate_tools` contributed module, you would use:
+
+```bash
+ddev phpunit-contrib migrate_tools
+```
 
 ## Debugging
 
@@ -260,7 +290,7 @@ Then edit `scripts/mass_patch.config.sh` and add the proper project names.
 Then, you can create a new site in Pantheon which can also be done with a
 [terminus command](https://pantheon.io/docs/guides/drupal8-commandline):
 
-    ddev exec terminus site:create my-site "My Site" "Drupal 10 Start State"
+    ddev terminus site:create my-site "My Site" "Drupal 10 Start State"
 
 #### Change to nested docroot structure
 
@@ -529,12 +559,22 @@ To import the config translations:
 
 ## Two-factor Authentication (TFA)
 
-TFA is enabled for the Administrator and Content editor users.
+TFA is disabled by default. Edit the [Pantheon-specific settings](https://github.com/Gizra/drupal-starter/blob/main/web/sites/default/settings.pantheon.php#L96) to activate it.
 The default settings under `/admin/config/people/tfa` define "Skip Validation" is 1. That is,
 when a privileged user will login, they must enable their TFA. Otherwise, on a second
 login, they will already be blocked. A site admin may reset their validation tries
 under the `/admin/people` page.
 The TFA method that is enabled is one that uses Google authenticator (or similar).
+
+You should set the TFA secret using:
+```bash
+ddev terminus secret:site:set gizra-drupal-starter tfa_key $(openssl rand -base64 32) --type=runtime --scope=web,user
+```
+
+If you need to override the secret on a specific Pantheon environment:
+```bash
+ddev terminus secret:site:set gizra-drupal-starter.qa tfa_key $(openssl rand -base64 32)
+```
 
 ## WAF - Crowdsec
 

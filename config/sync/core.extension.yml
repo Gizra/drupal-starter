@@ -1,6 +1,15 @@
 _core:
   default_config_hash: R4IF-ClDHXxblLcG0L7MgsLvfBIMAvi_skumNFQwkDc
 module:
+  ai: 0
+  ai_api_explorer: 0
+  ai_automators: 0
+  ai_ckeditor: 0
+  ai_content_suggestions: 0
+  ai_image_alt_text: 0
+  ai_logging: 0
+  ai_provider_openai: 0
+  ai_translate: 0
   ban: 0
   big_pipe: 0
   block: 0

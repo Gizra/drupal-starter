@@ -29,6 +29,9 @@
         "composer/installers": "^1.9",
         "cweagans/composer-patches": "^1.7",
         "drupal/admin_toolbar": "^3.4",
+        "drupal/ai": "^1.0",
+        "drupal/ai_image_alt_text": "^1.0",
+        "drupal/ai_provider_openai": "^1.0",
         "drupal/block_plugin_view_builder": "^1.0",
         "drupal/classy": "^1.0",
         "drupal/config_filter": "^2.4",
@@ -106,6 +109,7 @@
         "drupal/potx": "^1.0@alpha",
         "gettext/gettext": "^5.7",
         "mglaman/phpstan-drupal": "1.2.10",
+        "mikey179/vfsstream": "^1.6",
         "mpyw/phpunit-patch-serializable-comparison": "^0.0.2",
         "natxet/cssmin": "^3.0",
         "phpspec/prophecy-phpunit": "^2",
@@ -134,8 +138,9 @@
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "drupal/core-composer-scaffold": true,
             "drupal/core-project-message": true,
+            "mglaman/composer-drupal-lenient": true,
             "oomphinc/composer-installers-extender": true,
-            "mglaman/composer-drupal-lenient": true
+            "php-http/discovery": true
         }
     },
     "extra": {
@@ -148,7 +153,8 @@
                 "web-root": "web/"
             },
             "file-mapping": {
-                "[web-root]/sites/development.services.yml": false
+                "[web-root]/sites/development.services.yml": false,
+                "[web-root]/sites/services.yml": false
             }
         },
         "installer-paths": {
