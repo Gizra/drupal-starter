@@ -184,6 +184,10 @@ This project supports AI-based features using OpenAI.
 1. Obtain your [API key](https://platform.openai.com/settings/organization/api-keys) from OpenAI.
 1. Add the API key to your DDEV global configuration `ddev config global --web-environment-add="OPENAI_API_KEY=your-key-here"`
 1. `ddev restart`
+1. Upon deployment to Pantheon, you can add the API key as a secret:
+```bash
+ddev terminus secret:site:set gizra-drupal-starter openai_api_key your-key-here --type=runtime --scope=web,user
+```
 
 ## PHPCS (Code Sniffer)
 

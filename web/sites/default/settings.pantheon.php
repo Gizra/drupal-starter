@@ -127,10 +127,17 @@ if (!empty($pantheon_env) && !empty($_ENV['CACHE_HOST'])) {
   $settings['cache']['bins']['form'] = 'cache.backend.database';
 }
 
+// Setting secrets for various contrib modules.
+// @see https://docs.pantheon.io/guides/secrets
 if (function_exists('pantheon_get_secret')) {
-  $secret_value = pantheon_get_secret('tfa_key');
-  if (!empty($secret_value)) {
-    putenv('TFA_KEY="' . $secret_value . "\"");
+  $tfa_key = pantheon_get_secret('tfa_key');
+  if (!empty($tfa_key)) {
+    putenv('TFA_KEY="' . $tfa_key . "\"");
+  }
+
+  $openai_api_key = pantheon_get_secret('openai_api_key');
+  if (!empty($openai_api_key)) {
+    putenv('OPENAI_API_KEY"' . $openai_api_key . "\"");
   }
 }
 
