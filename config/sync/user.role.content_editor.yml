@@ -8,6 +8,7 @@ dependencies:
     - workflows.workflow.default
   module:
     - content_moderation
+    - google_tag
     - navigation
     - node
     - system
@@ -18,6 +19,7 @@ is_admin: null
 permissions:
   - 'access content overview'
   - 'access navigation'
+  - 'administer google_tag_container'
   - 'administer nodes'
   - 'create landing_page content'
   - 'create news content'

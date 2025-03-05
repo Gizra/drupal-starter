@@ -18,6 +18,7 @@ module:
   breakpoint: 0
   ckeditor5: 0
   config: 0
+  config_filter: 0
   config_ignore: 0
   config_pages: 0
   config_translation: 0
@@ -41,7 +42,7 @@ module:
   file: 0
   filter: 0
   focal_point: 0
-  google_analytics: 0
+  google_tag: 0
   help: 0
   history: 0
   image: 0
