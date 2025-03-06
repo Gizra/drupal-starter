@@ -2,6 +2,8 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
+use Symfony\Component\HttpFoundation\Response;
+
 /**
  * Test 'news' content type.
  */
@@ -52,7 +54,7 @@ class ServerGeneralNodeNewsTest extends ServerGeneralNodeTestBase {
 
     // We can browse pages.
     $this->drupalGet($node->toUrl());
-    $this->assertSession()->statusCodeEquals(200);
+    $this->assertSession()->statusCodeEquals(Response::HTTP_OK);
     $this->assertSession()->elementExists('css', 'meta[property="og:title"]');
     $this->assertSession()->elementExists('css', 'meta[property="og:image"]');
 
