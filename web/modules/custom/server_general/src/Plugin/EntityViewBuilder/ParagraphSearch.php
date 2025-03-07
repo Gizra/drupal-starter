@@ -139,7 +139,7 @@ class ParagraphSearch extends EntityViewBuilderPluginAbstract {
     }
 
     // Check if page parameter exists.
-    $page_exists = $this->request->query->has('page') && $this->request->query->get('page') !== null;
+    $page_exists = $this->request->query->has('page') && $this->request->query->get('page') !== NULL;
 
     return $key_exists || $f_exists || $page_exists;
   }
