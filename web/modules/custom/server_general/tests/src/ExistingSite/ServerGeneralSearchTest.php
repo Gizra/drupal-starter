@@ -129,7 +129,7 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
     ]);
     $this->assertSession()->statusCodeEquals(Response::HTTP_BAD_REQUEST);
     // We have an error message that describes the problem.
-    $this->assertStringContainsString("contains an array", $this->getCurrentPage()->getContent());
+    $this->assertStringContainsString("contains a non-scalar", $this->getCurrentPage()->getContent());
   }
 
   /**

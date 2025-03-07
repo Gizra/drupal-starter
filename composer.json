@@ -154,7 +154,8 @@
             },
             "file-mapping": {
                 "[web-root]/sites/development.services.yml": false,
-                "[web-root]/sites/services.yml": false
+                "[web-root]/sites/services.yml": false,
+                "[web-root]/robots.txt": false
             }
         },
         "installer-paths": {
