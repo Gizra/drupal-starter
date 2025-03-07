@@ -131,7 +131,7 @@ class ParagraphSearch extends EntityViewBuilderPluginAbstract {
     $key_exists = $this->request->query->has($key) && !empty($this->request->query->get($key));
 
     // Check if 'f' exists and properly handle it as an array.
-    $f_exists = false;
+    $f_exists = FALSE;
     if ($this->request->query->has('f')) {
       // Get 'f' parameter safely, regardless of whether it's an array or not.
       $f = $this->request->query->all('f');
