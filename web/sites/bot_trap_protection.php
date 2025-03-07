@@ -9,6 +9,8 @@
  * These bots can lead to excessive
  * system load. This snippet detects such patterns
  * and blocks them by sending a 403 Forbidden response.
+ *
+ * @see https://acquia.my.site.com/s/article/How-do-I-manage-an-application-that-receives-lots-of-requests-for-faceted-searches
  */
 
 $request_uri_query = $_SERVER['QUERY_STRING'] ?? '';
