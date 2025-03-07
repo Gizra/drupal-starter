@@ -50,7 +50,7 @@
         "drupal/facets": "^2.0",
         "drupal/fast_404": "^3.3",
         "drupal/focal_point": "^2.0",
-        "drupal/google_analytics": "^4.0",
+        "drupal/google_tag": "^2.0",
         "drupal/inline_entity_form": "^3.0@RC",
         "drupal/intl_date": "^1.1",
         "drupal/lang_dropdown": "^2.1",
