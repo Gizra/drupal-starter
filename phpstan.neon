@@ -21,6 +21,7 @@ parameters:
     - '*/tests/fixtures/*.php'
     - 'web/core/*'
     - 'web/sites/default/files/*'
+    - 'web/sites/default/*.php'
     - 'web/sites/default/default.settings.php'
     - 'web/sites/default/settings.php'
     - 'web/sites/default/settings.local.php'
