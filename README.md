@@ -591,4 +591,4 @@ you need to make sure Drupal is aware of the real IP of the visitors.
 - [ ] DNS config
 - [ ] Redirects
 - [ ] Ensure email sending (SMTP) works
-- [ ] Remove http auth for LIVE environment
+- [ ] Remove HTTP auth for LIVE environment
