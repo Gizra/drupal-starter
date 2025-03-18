@@ -2,11 +2,11 @@
 
 namespace Drupal\PHPStan\Custom;
 
-use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Scalar\LNumber;
 
 /**

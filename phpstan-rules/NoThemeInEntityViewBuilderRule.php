@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Drupal\PHPStan\Custom;
 
-use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
@@ -12,6 +11,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\ArrayDimFetch;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\Assign;
+use PhpParser\Node\Scalar\String_;
 
 /**
  * Disallows the use of '#theme' directly in EntityViewBuilder classes.
