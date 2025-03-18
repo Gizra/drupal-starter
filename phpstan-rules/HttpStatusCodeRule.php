@@ -2,7 +2,7 @@
 
 namespace Drupal\PHPStan\Custom;
 
-use Node\Identifier;
+use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PhpParser\Node;
@@ -10,19 +10,24 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Scalar\LNumber;
 
 /**
+ * Custom PHPStan rule to enforce using Symfony Response constants.
  *
+ * Detects HTTP status codes and suggests using Symfony Response constants.
+ *
+ * This rule checks for numeric HTTP status codes in statusCodeEquals() calls
+ * and suggests using the corresponding Symfony Response class constants.
  */
 class HttpStatusCodeRule implements Rule {
 
   /**
-   *
+   * {@inheritdoc}
    */
   public function getNodeType(): string {
     return MethodCall::class;
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
   public function processNode(Node $node, Scope $scope): array {
     if (!$node instanceof MethodCall) {

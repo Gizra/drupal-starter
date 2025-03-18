@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\PHPStan\Custom;
 
-use Node\Scalar\String_;
+use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
@@ -16,8 +16,10 @@ use PhpParser\Node\Expr\Assign;
 /**
  * Disallows the use of '#theme' directly in EntityViewBuilder classes.
  *
- * This rule checks for the presence of '#theme' keys in arrays and assignments within classes
- * that implement Drupal\pluggable_entity_view_builder\EntityViewBuilder\EntityViewBuilderPluginInterface,
+ * This rule checks for the presence of '#theme' keys in arrays and assignments
+ * within classes
+ * that implement the Drupal\pluggable_entity_view_builder\EntityViewBuilder\
+ * EntityViewBuilderPluginInterface,
  * and reports an error if found, unless the usage is within a trait.
  *
  * @implements \PHPStan\Rules\Rule<\PhpParser\Node>
@@ -44,7 +46,8 @@ class NoThemeInEntityViewBuilderRule implements Rule {
    * @param \PHPStan\Analyser\Scope $scope
    *   The current analysis scope.
    *
-   * @return array<int, \PHPStan\Rules\RuleError> An array of errors, empty if no issues are found.
+   * @return array<int, \PHPStan\Rules\RuleError>
+   *   An array of errors, empty if no issues are found.
    */
   public function processNode(Node $node, Scope $scope): array {
     // Only proceed if we're in an EntityViewBuilder class.
@@ -89,7 +92,8 @@ class NoThemeInEntityViewBuilderRule implements Rule {
    * @param \PHPStan\Analyser\Scope $scope
    *   The current analysis scope.
    *
-   * @return bool TRUE if the scope is an EntityViewBuilder class, FALSE otherwise.
+   * @return bool
+   *   TRUE if the scope is an EntityViewBuilder class, FALSE otherwise.
    */
   private function isInEntityViewBuilder(Scope $scope): bool {
     $class = $scope->getClassReflection();
@@ -109,7 +113,8 @@ class NoThemeInEntityViewBuilderRule implements Rule {
    * @param \PhpParser\Node\Expr\Array_ $node
    *   The array node to inspect.
    *
-   * @return bool TRUE if '#theme' is found, FALSE otherwise.
+   * @return bool
+   *   TRUE if '#theme' is found, FALSE otherwise.
    */
   private function checkArrayLiteral(Array_ $node): bool {
     foreach ($node->items as $item) {
@@ -128,7 +133,8 @@ class NoThemeInEntityViewBuilderRule implements Rule {
    * @param \PhpParser\Node\Expr\Assign $node
    *   The assignment node to inspect.
    *
-   * @return bool TRUE if assignment targets '#theme', FALSE otherwise.
+   * @return bool
+   *   TRUE if assignment targets '#theme', FALSE otherwise.
    */
   private function checkAssignment(Assign $node): bool {
     if ($node->var instanceof ArrayDimFetch) {

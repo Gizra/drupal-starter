@@ -22,14 +22,14 @@ class NoEntityInterfaceInThemeTraitRule implements Rule {
   private const ERROR_MESSAGE = "Methods in ThemeTrait classes cannot accept EntityInterface arguments.";
 
   /**
-   *
+   * {@inheritdoc}
    */
   public function getNodeType(): string {
     return ClassMethod::class;
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
   public function processNode(Node $node, Scope $scope): array {
     if (!$this->isInEntityViewBuilder($scope)) {
@@ -72,7 +72,8 @@ class NoEntityInterfaceInThemeTraitRule implements Rule {
    * @param \PHPStan\Analyser\Scope $scope
    *   The current analysis scope.
    *
-   * @return bool TRUE if the scope is an EntityViewBuilder class, FALSE otherwise.
+   * @return bool
+   *   TRUE if the scope is an EntityViewBuilder class, FALSE otherwise.
    */
   private function isInEntityViewBuilder(Scope $scope): bool {
     $class = $scope->getClassReflection();
@@ -85,7 +86,13 @@ class NoEntityInterfaceInThemeTraitRule implements Rule {
   }
 
   /**
+   * Checks if the current scope is within a ThemeTrait namespace.
    *
+   * @param \PHPStan\Analyser\Scope $scope
+   *   The current analysis scope.
+   *
+   * @return bool
+   *   TRUE if the scope is in a ThemeTrait namespace, FALSE otherwise.
    */
   private function isInThemeTraitNamespace(Scope $scope): bool {
     if (!$scope->isInTrait()) {
@@ -97,7 +104,13 @@ class NoEntityInterfaceInThemeTraitRule implements Rule {
   }
 
   /**
+   * Checks if a parameter is of EntityInterface type or a subtype.
    *
+   * @param \PHPStan\Reflection\ParameterReflection $param
+   *   The parameter to check.
+   *
+   * @return bool
+   *   TRUE if the parameter is an EntityInterface or subtype, FALSE otherwise.
    */
   private function isEntityInterfaceParameter(ParameterReflection $param): bool {
     $paramType = $param->getType();
