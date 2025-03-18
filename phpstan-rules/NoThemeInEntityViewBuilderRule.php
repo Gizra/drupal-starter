@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Drupal\PHPStan\Custom;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\Array_;
-use PhpParser\Node\Expr\ArrayDimFetch;
-use PhpParser\Node\Expr\Assign;
+use Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
-use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
+use PhpParser\Node\Expr\ArrayDimFetch;
+use PhpParser\Node\Expr\Array_;
+use PhpParser\Node\Expr\Assign;
 
 /**
  * Disallows the use of '#theme' directly in EntityViewBuilder classes.
@@ -39,8 +39,10 @@ class NoThemeInEntityViewBuilderRule implements Rule {
   /**
    * Processes nodes to check for '#theme' usage.
    *
-   * @param Node $node The node being analyzed.
-   * @param Scope $scope The current analysis scope.
+   * @param \PhpParser\Node $node
+   *   The node being analyzed.
+   * @param \PHPStan\Analyser\Scope $scope
+   *   The current analysis scope.
    *
    * @return array<int, \PHPStan\Rules\RuleError> An array of errors, empty if no issues are found.
    */
@@ -77,14 +79,15 @@ class NoThemeInEntityViewBuilderRule implements Rule {
         ->line($node->getStartLine())
         ->addTip('PEVB are meant to extract the dynamic data from the entity and pass it to the ThemeTrait traits. Like that we can call it from the Style guide, without needing to mock entities.')
         ->identifier('themeTrait.NoThemeInEntityViewBuilderRule')
-        ->build()
+        ->build(),
     ];
   }
 
   /**
    * Checks if the current scope is within an EntityViewBuilder class.
    *
-   * @param Scope $scope The current analysis scope.
+   * @param \PHPStan\Analyser\Scope $scope
+   *   The current analysis scope.
    *
    * @return bool TRUE if the scope is an EntityViewBuilder class, FALSE otherwise.
    */
@@ -103,13 +106,14 @@ class NoThemeInEntityViewBuilderRule implements Rule {
    *
    * $element = ['#theme' => 'foo'];
    *
-   * @param Array_ $node The array node to inspect.
+   * @param \PhpParser\Node\Expr\Array_ $node
+   *   The array node to inspect.
    *
    * @return bool TRUE if '#theme' is found, FALSE otherwise.
    */
   private function checkArrayLiteral(Array_ $node): bool {
     foreach ($node->items as $item) {
-      if ($item !== NULL && $item->key instanceof Node\Scalar\String_ && $item->key->value === '#theme') {
+      if ($item !== NULL && $item->key instanceof String_ && $item->key->value === '#theme') {
         return TRUE;
       }
     }
@@ -121,15 +125,17 @@ class NoThemeInEntityViewBuilderRule implements Rule {
    *
    * $element['#theme'] = 'foo';
    *
-   * @param Assign $node The assignment node to inspect.
+   * @param \PhpParser\Node\Expr\Assign $node
+   *   The assignment node to inspect.
    *
    * @return bool TRUE if assignment targets '#theme', FALSE otherwise.
    */
   private function checkAssignment(Assign $node): bool {
     if ($node->var instanceof ArrayDimFetch) {
       $dim = $node->var->dim;
-      return ($dim instanceof Node\Scalar\String_ && $dim->value === '#theme');
+      return ($dim instanceof String_ && $dim->value === '#theme');
     }
     return FALSE;
   }
+
 }

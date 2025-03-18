@@ -2,39 +2,46 @@
 
 namespace Drupal\PHPStan\Custom;
 
+use Node\Identifier;
+use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Scalar\LNumber;
-use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
-use PHPStan\Type\ObjectType;
 
-class HttpStatusCodeRule implements Rule
-{
-  public function getNodeType(): string
-  {
+/**
+ *
+ */
+class HttpStatusCodeRule implements Rule {
+
+  /**
+   *
+   */
+  public function getNodeType(): string {
     return MethodCall::class;
   }
 
-  public function processNode(Node $node, Scope $scope): array
-  {
+  /**
+   *
+   */
+  public function processNode(Node $node, Scope $scope): array {
     if (!$node instanceof MethodCall) {
       return [];
     }
 
-    // Check if the method name is statusCodeEquals
-    if (!$node->name instanceof Node\Identifier || $node->name->toString() !== 'statusCodeEquals') {
+    // Check if the method name is statusCodeEquals.
+    if (!$node->name instanceof Identifier || $node->name->toString() !== 'statusCodeEquals') {
       return [];
     }
 
-    // Check if the first argument is a numeric literal
+    // Check if the first argument is a numeric literal.
     if (!isset($node->args[0]) || !$node->args[0]->value instanceof LNumber) {
       return [];
     }
 
     $statusCode = $node->args[0]->value->value;
 
-    // Common HTTP status codes and their constant names
+    // Common HTTP status codes and their constant names.
     $statusCodes = [
       100 => 'HTTP_CONTINUE',
       101 => 'HTTP_SWITCHING_PROTOCOLS',
@@ -107,4 +114,5 @@ class HttpStatusCodeRule implements Rule
 
     return [];
   }
+
 }

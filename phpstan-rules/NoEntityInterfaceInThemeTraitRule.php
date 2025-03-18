@@ -2,14 +2,13 @@
 
 namespace Drupal\PHPStan\Custom;
 
-use PhpParser\Node;
-use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
-use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParameterReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\ObjectType;
+use PhpParser\Node;
+use PhpParser\Node\Stmt\ClassMethod;
 
 /**
  * Disallows EntityInterface arguments in methods within ThemeTrait classes.
@@ -22,10 +21,16 @@ use PHPStan\Type\ObjectType;
 class NoEntityInterfaceInThemeTraitRule implements Rule {
   private const ERROR_MESSAGE = "Methods in ThemeTrait classes cannot accept EntityInterface arguments.";
 
+  /**
+   *
+   */
   public function getNodeType(): string {
     return ClassMethod::class;
   }
 
+  /**
+   *
+   */
   public function processNode(Node $node, Scope $scope): array {
     if (!$this->isInEntityViewBuilder($scope)) {
       return [];
@@ -36,7 +41,7 @@ class NoEntityInterfaceInThemeTraitRule implements Rule {
     }
 
     $classReflection = $scope->getClassReflection();
-    if ($classReflection === null) {
+    if ($classReflection === NULL) {
       return [];
     }
 
@@ -52,7 +57,7 @@ class NoEntityInterfaceInThemeTraitRule implements Rule {
               ->line($node->getStartLine())
               ->addTip('Instead of passing an EntityInterface, since this is a ThemeTrait, you should pass only simple objects: int, bool, string, array, Stringable, TranslatableMarkup, Url and Link.')
               ->identifier('themeTrait.noEntityInterfaceInThemeTrait')
-              ->build()
+              ->build(),
           ];
         }
       }
@@ -64,7 +69,8 @@ class NoEntityInterfaceInThemeTraitRule implements Rule {
   /**
    * Checks if the current scope is within an EntityViewBuilder class.
    *
-   * @param Scope $scope The current analysis scope.
+   * @param \PHPStan\Analyser\Scope $scope
+   *   The current analysis scope.
    *
    * @return bool TRUE if the scope is an EntityViewBuilder class, FALSE otherwise.
    */
@@ -78,6 +84,9 @@ class NoEntityInterfaceInThemeTraitRule implements Rule {
     );
   }
 
+  /**
+   *
+   */
   private function isInThemeTraitNamespace(Scope $scope): bool {
     if (!$scope->isInTrait()) {
       return FALSE;
@@ -87,6 +96,9 @@ class NoEntityInterfaceInThemeTraitRule implements Rule {
     return str_contains($traitReflection->getName(), '\ThemeTrait');
   }
 
+  /**
+   *
+   */
   private function isEntityInterfaceParameter(ParameterReflection $param): bool {
     $paramType = $param->getType();
     if (!$paramType->isObject()->yes()) {
@@ -96,4 +108,5 @@ class NoEntityInterfaceInThemeTraitRule implements Rule {
     $entityInterfaceType = new ObjectType('Drupal\Core\Entity\EntityInterface');
     return $entityInterfaceType->isSuperTypeOf($paramType)->yes();
   }
+
 }
