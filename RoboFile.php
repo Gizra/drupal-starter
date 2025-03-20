@@ -6,6 +6,7 @@ use Drupal\Core\DrupalKernel;
 use Robo\Tasks;
 use RoboComponents\BootstrapTrait;
 use RoboComponents\DeploymentTrait;
+use RoboComponents\PantheonRemoteTrait;
 use RoboComponents\PhpcsTrait;
 use RoboComponents\ReleaseNotesTrait;
 use RoboComponents\SecurityTrait;
@@ -31,6 +32,7 @@ class RoboFile extends Tasks {
   use ReleaseNotesTrait;
   use ThemeTrait;
   use SecurityTrait;
+  use PantheonRemoteTrait;
 
   /**
    * Defines a list of languages installed on the site.
