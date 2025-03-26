@@ -353,3 +353,61 @@ function server_general_preprocess_media_oembed_iframe(array &$variables) {
     $variables['media'] = IFrameMarkup::create(str_replace('youtube.com/', 'youtube-nocookie.com/', $variables['media']));
   }
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter() for language_content_settings_form().
+ *
+ * When admin visits the content translation settings page, the following code
+ * will enable the translations for any newly created paragraphs.
+ */
+function server_general_form_language_content_settings_form_alter(array &$form, FormStateInterface $form_state) {
+  if (empty($form['settings']['paragraph'])) {
+    return;
+  }
+
+  foreach ($form['settings']['paragraph'] as $key => $paragraph_element) {
+    if (!is_array($paragraph_element) || empty($paragraph_element['translatable']) || $paragraph_element['translatable']['#type'] !== 'checkbox') {
+      continue;
+    }
+
+    // Proceed only if this is a newly created paragraph and thus there's no
+    // translation config for the paragraph yet.
+    // We do this by checking for existence of the translation config.
+    // We don't use \Drupal::service('content_translation.manager')->isEnabled()
+    // because it returns FALSE for both the following cases:
+    // 1. An entity bundle where translation has been disabled intentionally.
+    // 1. An entity bundle where translation has not been configured yet.
+    $translation_config = \Drupal::configFactory()->get("language.content_settings.paragraph.{$key}");
+    if (!empty($translation_config->getRawData())) {
+      continue;
+    }
+
+    // Check the box to make the paragraph translatable.
+    $form['settings']['paragraph'][$key]['translatable']['#default_value'] = TRUE;
+
+    // Check the boxes to make the fields translatable.
+    foreach ($paragraph_element['fields'] as $key2 => $field_element) {
+      // Uncheck the 'status' & 'created' fields.
+      if (in_array($key2, ['status', 'created'])) {
+        $form['settings']['paragraph'][$key]['fields'][$key2]['#default_value'] = FALSE;
+        continue;
+      }
+
+      // Skip if not a valid field.
+      $field_definition = \Drupal::entityDefinitionUpdateManager()->getFieldStorageDefinition($key2, 'paragraph');
+      if (empty($field_definition)) {
+        continue;
+      }
+
+      // Uncheck any paragraph reference fields.
+      // @see https://www.drupal.org/docs/contributed-modules/paragraphs/multilingual-paragraphs-configuration.
+      if ($field_definition->getType() == 'entity_reference_revisions') {
+        $form['settings']['paragraph'][$key]['fields'][$key2]['#default_value'] = FALSE;
+        continue;
+      }
+
+      // Check all other fields.
+      $form['settings']['paragraph'][$key]['fields'][$key2]['#default_value'] = TRUE;
+    }
+  }
+}

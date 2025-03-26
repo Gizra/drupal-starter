@@ -1,0 +1,22 @@
+uuid: 78386aee-3545-4ad1-aab4-a84b9735d72b
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.news_teasers
+id: paragraph.news_teasers.status
+field_name: status
+entity_type: paragraph
+bundle: news_teasers
+label: Published
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean
