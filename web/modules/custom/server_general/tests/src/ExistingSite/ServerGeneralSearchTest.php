@@ -2,6 +2,8 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
+use Symfony\Component\HttpFoundation\Response;
+
 /**
  * A test case to test search integration.
  */
@@ -125,9 +127,9 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
         'key[$testing]' => '1',
       ],
     ]);
-    $this->assertSession()->statusCodeEquals(400);
+    $this->assertSession()->statusCodeEquals(Response::HTTP_BAD_REQUEST);
     // We have an error message that describes the problem.
-    $this->assertStringContainsString("contains an array", $this->getCurrentPage()->getContent());
+    $this->assertStringContainsString("contains a non-scalar", $this->getCurrentPage()->getContent());
   }
 
   /**

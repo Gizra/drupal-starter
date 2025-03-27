@@ -58,7 +58,6 @@ trait ElementNodeNewsThemeTrait {
 
     // Main content and sidebar.
     $element = $this->buildMainAndSidebar(
-      $title,
       $image,
       $this->wrapProseText($body),
       $tags,
@@ -107,8 +106,6 @@ trait ElementNodeNewsThemeTrait {
   /**
    * Build the Main content and the sidebar.
    *
-   * @param string $title
-   *   The node title.
    * @param array $image
    *   The responsive image render array.
    * @param array $body
@@ -121,7 +118,7 @@ trait ElementNodeNewsThemeTrait {
    * @return array
    *   Render array
    */
-  private function buildMainAndSidebar(string $title, array $image, array $body, array $tags, array $social_share): array {
+  private function buildMainAndSidebar(array $image, array $body, array $tags, array $social_share): array {
     $main_elements = [];
     $sidebar_elements = [];
 

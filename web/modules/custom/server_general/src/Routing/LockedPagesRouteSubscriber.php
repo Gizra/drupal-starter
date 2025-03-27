@@ -71,10 +71,13 @@ final class LockedPagesRouteSubscriber extends RouteSubscriberBase {
    */
   public function access(AccountInterface $account) {
     $node = $this->routeMatch->getParameter('node');
+    if (!$node instanceof NodeInterface) {
+      return AccessResult::neutral();
+    }
     // Get the list of bundles that can be restricted.
     $bundles = $this->lockedPagesService->getReferencedBundles();
     // If node is locked, we don't allow accesing the delete page at all.
-    if ($node instanceof NodeInterface && in_array($node->getType(), $bundles) && $this->lockedPagesService->isNodeLocked($node)) {
+    if (in_array($node->getType(), $bundles) && $this->lockedPagesService->isNodeLocked($node)) {
       $main_settings = $this->lockedPagesService->getMainSettings();
       $cache_tags = $main_settings->getCacheTags();
       return AccessResult::forbidden()->addCacheableDependency($node)->addCacheTags($cache_tags);

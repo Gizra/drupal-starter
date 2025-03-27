@@ -8,3 +8,11 @@ services:
         class: Drupal\PHPStan\Custom\NoEntityInterfaceInThemeTraitRule
         tags:
             - phpstan.rules.rule
+    -
+        class: Drupal\PHPStan\Custom\HttpStatusCodeRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: Drupal\PHPStan\Custom\CacheableDependency
+        tags:
+            - phpstan.rules.rule

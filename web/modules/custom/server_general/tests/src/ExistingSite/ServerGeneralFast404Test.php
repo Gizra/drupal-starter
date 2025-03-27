@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
+use Symfony\Component\HttpFoundation\Response;
 use weitzman\DrupalTestTraits\ExistingSiteBase;
 
 /**
@@ -33,7 +34,7 @@ class ServerGeneralFast404Test extends ExistingSiteBase {
       $duration = $end_time - $start_time;
 
       // Assert that the status code is 404.
-      $this->assertSession()->statusCodeEquals(404);
+      $this->assertSession()->statusCodeEquals(Response::HTTP_NOT_FOUND);
 
       $this->assertLessThan(0.2, $duration, "The response for $path took too long: $duration seconds.");
 

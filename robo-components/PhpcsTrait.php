@@ -34,6 +34,8 @@ trait PhpcsTrait {
       '../RoboFile.php',
       '../robo-components',
       'sites/default/settings.pantheon.php',
+      'sites/bot_trap_protection.php',
+      '../phpstan-rules',
     ];
 
     $error_code = NULL;
