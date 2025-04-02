@@ -36,6 +36,7 @@ trait PhpcsTrait {
       'sites/default/settings.pantheon.php',
       'sites/bot_trap_protection.php',
       '../phpstan-rules',
+      '../.bootstrap-fast.php',
     ];
 
     $error_code = NULL;
