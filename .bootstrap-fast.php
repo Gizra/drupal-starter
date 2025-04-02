@@ -33,17 +33,17 @@ $class_loader->addPsr4('Drupal\Tests\drupal_test_assertions\\', "$root/modules/c
 // Automatically register namespaces for all custom modules.
 $custom_modules_dir = "$root/modules/custom";
 if (is_dir($custom_modules_dir)) {
-    $custom_modules = scandir($custom_modules_dir);
-    foreach ($custom_modules as $module) {
-        if ($module !== '.' && $module !== '..' && is_dir("$custom_modules_dir/$module")) {
-            // Register module namespace.
-            if (is_dir("$custom_modules_dir/$module/src")) {
-                $class_loader->addPsr4("Drupal\\$module\\", "$custom_modules_dir/$module/src");
-            }
-            // Register tests namespace.
-            if (is_dir("$custom_modules_dir/$module/tests/src")) {
-                $class_loader->addPsr4("Drupal\\Tests\\$module\\", "$custom_modules_dir/$module/tests/src");
-            }
-        }
+  $custom_modules = scandir($custom_modules_dir);
+  foreach ($custom_modules as $module) {
+    if ($module !== '.' && $module !== '..' && is_dir("$custom_modules_dir/$module")) {
+      // Register module namespace.
+      if (is_dir("$custom_modules_dir/$module/src")) {
+        $class_loader->addPsr4("Drupal\\$module\\", "$custom_modules_dir/$module/src");
+      }
+      // Register tests namespace.
+      if (is_dir("$custom_modules_dir/$module/tests/src")) {
+        $class_loader->addPsr4("Drupal\\Tests\\$module\\", "$custom_modules_dir/$module/tests/src");
+      }
     }
+  }
 }
