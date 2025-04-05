@@ -1,0 +1,9 @@
+uuid: 8e4c795b-56e2-4e4c-8917-c111266c8e54
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: 2XwlkUytFAWSvMmOhSbxRNu8xuGCMzPm2gqbfm3EqDY
+type: default
+name: Default
+description: 'Default OG membership type'
