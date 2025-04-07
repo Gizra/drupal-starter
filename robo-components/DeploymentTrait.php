@@ -254,8 +254,8 @@ trait DeploymentTrait {
     $this->_exec("cp web/sites/default/settings.pantheon.php $pantheon_directory/web/sites/default/settings.php");
 
     // Prevent attackers to reach these standalone scripts.
-    unlink('web/core/install.php');
-    unlink('web/core/update.php');
+    $this->_exec("rm -rf web/core/install.php");
+    $this->_exec("rm -rf web/core/update.php");
 
     // Flag the current version in the artifact repo.
     file_put_contents($deployment_version_path, $current_version);
