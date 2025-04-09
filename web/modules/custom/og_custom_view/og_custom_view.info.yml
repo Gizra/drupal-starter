@@ -1,0 +1,8 @@
+name: 'og_custom_view'
+type: module
+description: 'customize group view'
+package: Custom
+core_version_requirement: ^10 || ^11
+dependencies:
+  - og:og
+  - pluggable_entity_view_builder:pluggable_entity_view_builder
