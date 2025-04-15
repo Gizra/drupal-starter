@@ -3006,27 +3006,26 @@
         },
         {
             "name": "drupal/emptyparagraphkiller",
-            "version": "2.0.2",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/emptyparagraphkiller.git",
-                "reference": "2.0.2"
+                "reference": "2.1.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/emptyparagraphkiller-2.0.2.zip",
-                "reference": "2.0.2",
-                "shasum": "c9a76ad8ea59761f5d0ec9046a5ee96aa8149644"
+                "url": "https://ftp.drupal.org/files/projects/emptyparagraphkiller-2.1.1.zip",
+                "reference": "2.1.1",
+                "shasum": "8d18b7feec00d0e32965790ee0c61c5d4983fc72"
             },
             "require": {
-                "drupal/core": "^8.9 || ^9.0 || ^10.0",
-                "php": "^7.3 || ^8.0"
+                "drupal/core": "^8||^9||^10||^11"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "2.0.1",
-                    "datestamp": "1695151302",
+                    "version": "2.1.1",
+                    "datestamp": "1742982182",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -3040,22 +3039,26 @@
             ],
             "authors": [
                 {
-                    "name": "Drupal Community",
-                    "homepage": "https://www.drupal.org/about"
+                    "name": "Richard Sheppard (siliconmeadow)",
+                    "homepage": "https://www.drupal.org/u/siliconmeadow",
+                    "role": "Creator/Maintainer"
                 },
                 {
-                    "name": "siliconmeadow",
-                    "homepage": "https://www.drupal.org/user/55284"
+                    "name": "Sang Lostrie (baikho)",
+                    "homepage": "https://www.drupal.org/u/baikho",
+                    "role": "Maintainer"
                 },
                 {
                     "name": "skaught",
-                    "homepage": "https://www.drupal.org/user/297907"
+                    "homepage": "https://www.drupal.org/u/skaught",
+                    "role": "Maintainer"
                 }
             ],
             "description": "Removes empty paragraphs from Drupal content",
             "homepage": "https://www.drupal.org/project/emptyparagraphkiller",
             "support": {
-                "source": "https://git.drupalcode.org/project/emptyparagraphkiller"
+                "source": "https://git.drupalcode.org/project/emptyparagraphkiller",
+                "issues": "https://www.drupal.org/project/issues/emptyparagraphkiller"
             }
         },
         {
