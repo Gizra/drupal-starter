@@ -39,6 +39,12 @@ name: 'Pantheon Search'
 description: ''
 backend: search_api_solr
 backend_config:
+  retrieve_data: false
+  highlight_data: false
+  site_hash: false
+  server_prefix: ''
+  domain: generic
+  environment: default
   connector: pantheon
   connector_config:
     timeout: 5
@@ -52,6 +58,8 @@ backend_config:
     jmx: false
     jts: false
     solr_install_dir: ''
+  optimize: false
+  fallback_multiple: false
   disabled_field_types: {  }
   disabled_caches: {  }
   disabled_request_handlers:
@@ -61,11 +69,3 @@ backend_config:
     - request_dispatcher_httpcachingnever_default_7_0_0
   rows: 10
   index_single_documents_fallback_count: 10
-  retrieve_data: false
-  highlight_data: false
-  fallback_multiple: false
-  server_prefix: ''
-  domain: generic
-  environment: default
-  optimize: false
-  site_hash: false

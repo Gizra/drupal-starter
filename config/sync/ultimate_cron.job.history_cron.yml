@@ -8,7 +8,7 @@ title: 'Deletes history'
 id: history_cron
 weight: 0
 module: history
-callback: history_cron
+callback: 'history#cron'
 scheduler:
   id: simple
 launcher:

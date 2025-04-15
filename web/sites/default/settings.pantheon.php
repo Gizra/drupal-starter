@@ -127,16 +127,25 @@ if (!empty($pantheon_env) && !empty($_ENV['CACHE_HOST'])) {
   $settings['cache']['bins']['form'] = 'cache.backend.database';
 }
 
-if (file_exists('/files/private/secrets.json')) {
-  $secrets = json_decode(file_get_contents('/files/private/secrets.json'), TRUE);
-  if (isset($secrets['tfa'])) {
-    putenv('TFA_KEY="' . $secrets['tfa'] . "\"");
+// Setting secrets for various contrib modules.
+// @see https://docs.pantheon.io/guides/secrets
+if (function_exists('pantheon_get_secret')) {
+  $tfa_key = pantheon_get_secret('tfa_key');
+  if (!empty($tfa_key)) {
+    putenv('TFA_KEY="' . $tfa_key . "\"");
+  }
+
+  $openai_api_key = pantheon_get_secret('openai_api_key');
+  if (!empty($openai_api_key)) {
+    putenv('OPENAI_API_KEY"' . $openai_api_key . "\"");
   }
 }
 
 if (file_exists(__DIR__ . '/settings.fast404.php')) {
   include __DIR__ . '/settings.fast404.php';
 }
+
+require __DIR__ . '/../bot_trap_protection.php';
 
 $config['search_api.index.server_dev']['server'] = 'pantheon_solr8';
 // As we push to Solr config of DDEV to Pantheon as well, we disable it here.

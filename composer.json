@@ -25,10 +25,13 @@
         "ext-intl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "bower-asset/fontawesome": "^6.4",
+        "bower-asset/font-awesome": "^6",
         "composer/installers": "^1.9",
         "cweagans/composer-patches": "^1.7",
         "drupal/admin_toolbar": "^3.4",
+        "drupal/ai": "^1.0",
+        "drupal/ai_image_alt_text": "^1.0",
+        "drupal/ai_provider_openai": "^1.0",
         "drupal/block_plugin_view_builder": "^1.0",
         "drupal/classy": "^1.0",
         "drupal/config_filter": "^2.4",
@@ -47,11 +50,11 @@
         "drupal/facets": "^2.0",
         "drupal/fast_404": "^3.3",
         "drupal/focal_point": "^2.0",
-        "drupal/google_analytics": "^4.0",
+        "drupal/google_tag": "^2.0",
         "drupal/inline_entity_form": "^3.0@RC",
         "drupal/intl_date": "^1.1",
         "drupal/lang_dropdown": "^2.1",
-        "drupal/maxlength": "^2.1",
+        "drupal/maxlength": "^3.1",
         "drupal/media_entity_browser": "^2",
         "drupal/metatag": "^2.0",
         "drupal/migrate_file": "^2.0",
@@ -71,7 +74,7 @@
         "drupal/redis": "^1.7",
         "drupal/rollbar": "^2.1",
         "drupal/search_api": "^1.18",
-        "drupal/search_api_pantheon": "^8.2",
+        "drupal/search_api_pantheon": "^8.3",
         "drupal/search_api_solr": "^4.3.2",
         "drupal/seckit": "^2.0.3",
         "drupal/select2": "^1.15",
@@ -106,6 +109,7 @@
         "drupal/potx": "^1.0@alpha",
         "gettext/gettext": "^5.7",
         "mglaman/phpstan-drupal": "1.2.10",
+        "mikey179/vfsstream": "^1.6",
         "mpyw/phpunit-patch-serializable-comparison": "^0.0.2",
         "natxet/cssmin": "^3.0",
         "phpspec/prophecy-phpunit": "^2",
@@ -120,9 +124,10 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "autoload": {
+    "autoload-dev": {
         "psr-4": {
-            "RoboComponents\\": "./robo-components/"
+            "RoboComponents\\": "./robo-components/",
+            "Drupal\\PHPStan\\Custom\\": "phpstan-rules/"
         }
     },
     "config": {
@@ -133,8 +138,9 @@
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "drupal/core-composer-scaffold": true,
             "drupal/core-project-message": true,
+            "mglaman/composer-drupal-lenient": true,
             "oomphinc/composer-installers-extender": true,
-            "mglaman/composer-drupal-lenient": true
+            "php-http/discovery": true
         }
     },
     "extra": {
@@ -147,7 +153,9 @@
                 "web-root": "web/"
             },
             "file-mapping": {
-                "[web-root]/sites/development.services.yml": false
+                "[web-root]/sites/development.services.yml": false,
+                "[web-root]/sites/services.yml": false,
+                "[web-root]/robots.txt": false
             }
         },
         "installer-paths": {

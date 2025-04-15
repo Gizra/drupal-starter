@@ -86,6 +86,8 @@ trait DeploymentTrait {
     'package-lock.json',
     'composer.json',
     'composer.lock',
+    'web/libraries/font-awesome/js-packages',
+    'web/libraries/font-awesome/metadata',
   ];
 
   /**
@@ -252,6 +254,10 @@ trait DeploymentTrait {
     // The settings.pantheon.php is managed by Pantheon, there can be updates,
     // site-specific modifications belong to settings.php.
     $this->_exec("cp web/sites/default/settings.pantheon.php $pantheon_directory/web/sites/default/settings.php");
+
+    // Prevent attackers to reach these standalone scripts.
+    $this->_exec("rm -rf web/core/install.php");
+    $this->_exec("rm -rf web/core/update.php");
 
     // Flag the current version in the artifact repo.
     file_put_contents($deployment_version_path, $current_version);
@@ -512,8 +518,15 @@ trait DeploymentTrait {
       throw new \Exception("Cannot parse the response of terminus: " . serialize($parsed_output));
     }
 
+    $exclude = (string) getenv('DEPLOY_EXCLUDE_WARNING');
+    $exclude_list = explode('|', $exclude);
+
     foreach ($parsed_output as $requirement) {
       if ($requirement['severity'] !== 'Error') {
+        continue;
+      }
+      if (in_array($requirement['title'], $exclude_list) || in_array($requirement['value'], $exclude_list)) {
+        // A warning we decided to exclude.
         continue;
       }
       $errors[] = '## ' . trim($requirement['title']) . "\n" . trim($requirement['value']);
