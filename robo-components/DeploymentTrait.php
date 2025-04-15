@@ -830,6 +830,11 @@ trait DeploymentTrait {
     }
 
     $installed_modules_data = json_decode($installed_modules_result->getMessage(), TRUE);
+    if (!is_array($installed_modules_data) || empty($installed_modules_data)) {
+      $this->yell($installed_modules_result->getMessage());
+      $this->yell("Failed to get the list of modules, see the output of terminus above");
+      return;
+    }
     $installed_modules = array_keys($installed_modules_data);
 
     $core_extension_file = 'config/sync/core.extension.yml';
