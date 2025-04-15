@@ -853,9 +853,12 @@ trait DeploymentTrait {
         $uninstall_success = $this->taskExec("terminus remote:drush $pantheon_terminus_environment -- pm:uninstall " . implode(' ', $modules_to_uninstall) . " --yes")
           ->run()
           ->getExitCode();
-        $needs_revert = !$uninstall_success;
+        // If it's successful, it is exit code 0, which means FALSE.
+        // If it fails, it's non-zero, which is PHP-ish TRUE.
+        $needs_revert = (bool) $uninstall_success;
       }
       catch (\Exception $e) {
+        $this->say($e->getMessage());
         $needs_revert = TRUE;
       }
 
