@@ -1,6 +1,6 @@
 version: "~> 1.0"
 language: php
-dist: jammy
+dist: noble
 php:
 - 8.3
 services:
