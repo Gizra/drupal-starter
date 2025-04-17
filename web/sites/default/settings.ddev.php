@@ -120,3 +120,7 @@ require __DIR__ . '/../bot_trap_protection.php';
 
 // Disable CrowdSec's "whisper" locally. So one doesn't get blocked locally, or PHPUnit can work well.
 $config['crowdsec.settings']['whisper']['enable'] = 0;
+
+$config['social_auth_google.settings']['client_secret'] = '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';
+$config['social_auth_facebook.settings']['client_secret'] = '8ac1d7276a45659b12d755f83422df72';
+
