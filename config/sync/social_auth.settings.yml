@@ -1,0 +1,8 @@
+_core:
+  default_config_hash: 0E8z47ONguVcapiw1PGWDRs6g0NRDCzrym4mP_jcELU
+auth: {  }
+post_login: /user
+redirect_user_form: false
+disable_admin_login: true
+disabled_roles: {  }
+user_allowed: register
