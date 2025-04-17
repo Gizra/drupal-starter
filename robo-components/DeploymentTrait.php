@@ -255,7 +255,7 @@ trait DeploymentTrait {
     $this->_exec("rm -f $pantheon_directory/web/core/update.php");
 
     // Remove the dev dependencies before pushing up to Pantheon.
-    $this->taskExec("(cd $pantheon_directory && rm -rf vendor)")->run();
+    $this->taskExec("rm -rf $pantheon_directory/vendor")->run();
     $this->taskExec("(cd $pantheon_directory && composer install --no-dev)")->run();
     $this->taskExec("(cd $pantheon_directory && composer dump-autoload)")->run();
 
