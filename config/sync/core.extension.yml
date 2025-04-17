@@ -28,6 +28,7 @@ module:
   crowdsec: 0
   datetime: 0
   dblog: 0
+  default_content: 0
   dynamic_page_cache: 0
   editor: 0
   emptyparagraphkiller: 0
@@ -91,6 +92,10 @@ module:
   shortcut: 0
   simple_sitemap: 0
   smart_trim: 0
+  social_api: 0
+  social_auth: 0
+  social_auth_facebook: 0
+  social_auth_google: 0
   system: 0
   taxonomy: 0
   text: 0
