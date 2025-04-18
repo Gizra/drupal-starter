@@ -1,0 +1,31 @@
+#!/bin/bash
+#ddev-generated
+
+mkdir -p test/playwright
+if [ ! -f test/playwright/package.json ]; then
+  echo "No playwright installation exists at test/playwright."
+  # https://github.com/microsoft/playwright/issues/11843
+  echo "Playwright does not support a non-interactive setup and must be done manually."
+  echo ""
+  echo "Run the following to use npm:"
+  echo   ddev exec -d /var/www/html/test/playwright npm init playwright@latest
+  echo ""
+  echo "Run the following to use yarn instead:"
+  echo   ddev exec -d /var/www/html/test/playwright yarn create playwright
+  echo ""
+  echo "Answer "no" when it asks to install browsers and operating system dependencies,"
+  echo "as those will be erased when ddev restarts."
+  echo ""
+  echo "As well, add ignoreHTTPSErrors: true to playwright.config.ts."
+  echo ""
+  echo "See https://playwright.dev/docs/intro for more details."
+  echo ""
+  echo "When done, run: ddev install-playwright"
+  exit 1
+fi
+
+# ddev errors out on subsequent builds if we symlink these files. Instead, we
+# copy them each time.
+echo "Rebuilding web service with playwright dependencies..."
+cp .ddev/web-build/disabled.Dockerfile.playwright .ddev/web-build/Dockerfile.playwright
+ddev restart

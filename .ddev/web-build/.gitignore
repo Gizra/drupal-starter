@@ -1,0 +1,7 @@
+#ddev-generated
+# This directory is always copied from /test/playwright.
+playwright
+
+# This file is optionally copied to enable playwright from
+# disabled.Dockerfile.playwright.
+Dockerfile.playwright

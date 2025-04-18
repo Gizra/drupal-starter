@@ -1,0 +1,77 @@
+#ddev-generated
+# Debian images by default disable apt caching, so turn it on until we finish
+# the build.
+RUN mv /etc/apt/apt.conf.d/docker-clean /etc/apt/docker-clean-disabled
+
+RUN apt-get update
+
+# Install Playwright browsers and system dependencies.
+#
+# Manual changes to Dockerfile.playwright will be reverted every time ddev
+# start is run. In general, edit this file instead.
+#
+# We want to install whatever browsers are used by the currently locked version
+# of playwright in test/playwright. What this does is:
+#
+# 1. Creates a copy of the playwright directory in the image. We need this
+#    because Playwright keeps a hidden .links/<hash> file with the path of
+#    what browsers are installed by what apps. Without it, Playwright will re-
+#    download browsers even though they are in the directory. As the Docker
+#    context is the web-build directory, we have a pre-start hook in
+#    config.yaml that copies in the current test files.
+# 2. $username doesn't work in --mount... lines as it's a shell variable set by
+#    ddev. Instead, we mount the .cache cache into /dot-cache, and symlink it
+#    in.
+# 3. Then we remove the symlink, and copy the cache directory into ~/.cache so
+#    it is persisted in the image.
+#
+# See https://github.com/ddev/ddev/issues/4727.
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+  --mount=type=cache,target=/var/lib/apt,sharing=locked \
+  --mount=type=cache,target=/dot-cache,sharing=locked \
+  --mount=type=bind,source=./playwright,target=/playwright \
+  sudo -u $username mkdir -p /var/www/html/test \
+  && cp -a /playwright /var/www/html/test \
+  && chown -R $username:$username /var/www/html/test/playwright \
+  && chown -R $username:$username /dot-cache \
+  && sudo -u $username ln -s /dot-cache /home/$username/.cache \
+  && cd /var/www/html/test/playwright \
+  && ([ -f yarn.lock ] && export JS_PKG_MANAGER=yarn || export JS_PKG_MANAGER=npx \
+    && sudo -u $username $JS_PKG_MANAGER \
+    && sudo -u $username $JS_PKG_MANAGER playwright install-deps \
+    && sudo -u $username $JS_PKG_MANAGER playwright install \
+    ) \
+  && rm -rf /var/www/html/test/playwright \
+  && rm /home/$username/.cache \
+  && sudo -u $username mkdir -p /home/$username/.cache \
+  && sudo -u $username cp -a /dot-cache/* /home/$username/.cache/
+
+# Install a window manager.
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+  --mount=type=cache,target=/var/lib/apt,sharing=locked \
+  sudo apt-get install -y icewm \
+    xauth
+
+# Install kasmvnc for remote access.
+COPY install-kasmvnc.sh /usr/local/bin
+RUN chmod +x /usr/local/bin/install-kasmvnc.sh
+
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+  --mount=type=cache,target=/var/lib/apt,sharing=locked \
+  install-kasmvnc.sh
+
+# We can't add the user to the ssl-cert group. Rather, we can add them, but it
+# won't actually apply to ddev ssh / docker exec.
+# Even though we disable requiring SSL because we route through the ddev
+# router, kasmvnc still requires reading the TLS cert.
+RUN sudo chgrp -R $gid /etc/ssl/private
+
+RUN sudo -u $username mkdir /home/$username/.vnc
+COPY kasmvnc.yaml xstartup /home/$username/.vnc
+RUN chown $username:$username /home/$username/.vnc/*
+RUN sudo -u $username touch /home/$username/.vnc/.de-was-selected
+
+RUN sudo -u $username /bin/bash -c 'echo -e "secret\nsecret\n" | kasmvncpasswd -wo -u $USER'
+
+# We're done with apt so disable caching again for the final image.
+RUN mv /etc/apt/docker-clean-disabled /etc/apt/apt.conf.d/docker-clean

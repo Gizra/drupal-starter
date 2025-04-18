@@ -1,0 +1,34 @@
+#ddev-generated
+hooks:
+  pre-start:
+    # If Playwright is enabled, make sure we get any changes.
+    - exec-host: |
+        ([[ -f .ddev/web-build/Dockerfile.playwright ]] && \
+          cp .ddev/web-build/disabled.Dockerfile.playwright .ddev/web-build/Dockerfile.playwright) || true
+    - exec-host: |
+        if [[ -f .ddev/web-build/Dockerfile.playwright ]]
+        then
+          rm -rf .ddev/web-build/playwright
+          cp -r test/playwright .ddev/web-build/
+        fi
+  post-start:
+    # Clean up the playwright directory copied for builds.
+    # We want to remove this otherwise future ddev get's will not copy in
+    # changes to the web-build directory.
+    - exec-host: rm -rf .ddev/web-build/playwright
+web_environment:
+  - DISPLAY=:1
+# We add the sleep so this doesn't error out when not using playwright.
+web_extra_daemons:
+  - name: "kasmvnc"
+    command: "kasmvncserver -fg || sleep infinity"
+    directory: /var/www/html
+web_extra_exposed_ports:
+  - name: playwright
+    container_port: 9323
+    http_port: 8323
+    https_port: 9324
+  - name: kasmvnc
+    container_port: 8444
+    http_port: 8443
+    https_port: 8444
