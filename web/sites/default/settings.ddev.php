@@ -86,7 +86,7 @@ $config['smtp.settings']['smtp_port'] = '1025';
 $config['system.logging']['error_level'] = 'verbose';
 
 $settings['redis.connection']['interface'] = 'PhpRedis'; // Can be "Predis".
-$settings['redis.connection']['host']      = 'redis';  // Your Redis instance hostname.
+$settings['redis.connection']['host'] = 'redis';  // Your Redis instance hostname.
 $settings['cache']['default'] = 'cache.backend.redis';
 $settings['container_yamls'][] = 'modules/contrib/redis/redis.services.yml';
 $settings['container_yamls'][] = 'modules/contrib/redis/example.services.yml';
