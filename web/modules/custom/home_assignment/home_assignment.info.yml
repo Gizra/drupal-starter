@@ -1,0 +1,8 @@
+name: "Home Assignment"
+type: module
+description: "assignment"
+package: Custom
+core_version_requirement: ^10 || ^11
+dependencies:
+  - pluggable_entity_view_builder:pluggable_entity_view_builder
+  - paragraphs:paragraphs
