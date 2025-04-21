@@ -255,9 +255,8 @@ trait DeploymentTrait {
     $this->_exec("rm -f $pantheon_directory/web/core/update.php");
 
     // Remove the dev dependencies before pushing up to Pantheon.
-    $this->taskExec("rm -rf $pantheon_directory/vendor")->run();
-    $this->taskExec("(cd $pantheon_directory && composer install --no-dev)")->run();
-    $this->taskExec("(cd $pantheon_directory && composer dump-autoload)")->run();
+    $this->_exec("rm -rf $pantheon_directory/vendor");
+    $this->_exec("(cd $pantheon_directory && composer install --no-dev && composer dump-autoload)");
 
     // Flag the current version in the artifact repo.
     file_put_contents($deployment_version_path, $current_version);
