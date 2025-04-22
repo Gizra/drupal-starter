@@ -238,9 +238,6 @@ trait DeploymentTrait {
     // Compile theme.
     $this->themeCompile();
 
-    // Remove the dev dependencies before pushing up to Pantheon.
-    $this->taskExec("composer install --no-dev")->run();
-
     $rsync_exclude_string = '--exclude=' . implode(' --exclude=', self::$deploySyncExcludes);
 
     // Copy all files and folders.
@@ -254,8 +251,12 @@ trait DeploymentTrait {
     $this->_exec("cp web/sites/default/settings.pantheon.php $pantheon_directory/web/sites/default/settings.php");
 
     // Prevent attackers to reach these standalone scripts.
-    $this->_exec("rm -rf web/core/install.php");
-    $this->_exec("rm -rf web/core/update.php");
+    $this->_exec("rm -f $pantheon_directory/web/core/install.php");
+    $this->_exec("rm -f $pantheon_directory/web/core/update.php");
+
+    // Remove the dev dependencies before pushing up to Pantheon.
+    $this->_exec("rm -rf $pantheon_directory/vendor");
+    $this->_exec("(cd $pantheon_directory && composer install --no-dev && composer dump-autoload)");
 
     // Flag the current version in the artifact repo.
     file_put_contents($deployment_version_path, $current_version);
