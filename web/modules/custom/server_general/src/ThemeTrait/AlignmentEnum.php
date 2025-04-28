@@ -9,7 +9,7 @@ namespace Drupal\server_general\ThemeTrait;
  */
 enum AlignmentEnum: string {
 
-  // Default alignment options.
+  // The default alignment option.
   case DEFAULT = 'stretch';
   case START = 'start';
   case CENTER = 'center';
