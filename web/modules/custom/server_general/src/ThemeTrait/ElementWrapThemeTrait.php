@@ -8,7 +8,6 @@ use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\paragraphs\ParagraphInterface;
-use Drupal\server_general\ThemeTrait\AlignmentEnum;
 
 /**
  * Helper method for wrapping an element.
@@ -75,8 +74,7 @@ trait ElementWrapThemeTrait {
    * @param array $element
    *   Render array.
    * @param \Drupal\server_general\ThemeTrait\AlignmentEnum $align
-   *   Determine if flex should also have an alignment. Possible values are
-   *   AlignmentEnum::START, AlignmentEnum::CENTER, AlignmentEnum::END or NULL to have no change.
+   *   Determine if flex should also have an alignment.
    *
    * @return array
    *   Render array.
