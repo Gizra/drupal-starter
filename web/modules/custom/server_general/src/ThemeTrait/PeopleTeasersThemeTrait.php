@@ -64,13 +64,13 @@ trait PeopleTeasersThemeTrait {
 
     $inner_elements = [];
 
-    $element = $this->wrapTextFontWeight($name, 'bold');
+    $element = $this->wrapTextFontWeight($name, FontWeightEnum::BOLD);
     $inner_elements[] = $this->wrapTextCenter($element);
 
     if ($subtitle) {
-      $element = $this->wrapTextResponsiveFontSize($subtitle, 'sm');
+      $element = $this->wrapTextResponsiveFontSize($subtitle, FontSizeEnum::SM);
       $element = $this->wrapTextCenter($element);
-      $inner_elements[] = $this->wrapTextColor($element, 'gray');
+      $inner_elements[] = $this->wrapTextColor($element, TextColorEnum::GRAY);
     }
 
     $elements[] = $this->wrapContainerVerticalSpacingTiny($inner_elements, AlignmentEnum::CENTER);
