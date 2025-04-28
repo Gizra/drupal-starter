@@ -43,7 +43,7 @@ trait CtaThemeTrait {
     // Button.
     $elements[] = $this->buildButton($link->getText(), $link->getUrl(), 'primary', NULL, $link->getUrl()->isExternal());
 
-    $elements = $this->wrapContainerVerticalSpacingBig($elements, 'center');
+    $elements = $this->wrapContainerVerticalSpacingBig($elements, AlignmentEnum::CENTER);
 
     $elements = $this->buildInnerElementLayout($elements, 'light-gray');
     return $this->wrapContainerNarrow($elements);

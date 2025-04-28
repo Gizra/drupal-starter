@@ -73,7 +73,7 @@ trait PeopleTeasersThemeTrait {
       $inner_elements[] = $this->wrapTextColor($element, 'gray');
     }
 
-    $elements[] = $this->wrapContainerVerticalSpacingTiny($inner_elements, 'center');
+    $elements[] = $this->wrapContainerVerticalSpacingTiny($inner_elements, AlignmentEnum::CENTER);
 
     return $this->buildInnerElementLayoutCentered($elements);
   }

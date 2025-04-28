@@ -74,7 +74,7 @@ trait ElementWrapThemeTrait {
    * @param array $element
    *   Render array.
    * @param \Drupal\server_general\ThemeTrait\AlignmentEnum $align
-   *   Determine if flex should also have an alignment.
+   *   Determine the alignment of flex.
    *
    * @return array
    *   Render array.
@@ -98,14 +98,13 @@ trait ElementWrapThemeTrait {
    *
    * @param array $element
    *   Render array.
-   * @param string $align
-   *   Determine if flex should also have an alignment. Possible values are
-   *   `start`, `center`, `end` or NULL to have no change.
+   * @param \Drupal\server_general\ThemeTrait\AlignmentEnum $align
+   *   Determine the alignment of flex.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapContainerVerticalSpacingTiny(array $element, ?string $align = NULL): array {
+  protected function wrapContainerVerticalSpacingTiny(array $element, AlignmentEnum $align = AlignmentEnum::START): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
@@ -115,7 +114,7 @@ trait ElementWrapThemeTrait {
     return [
       '#theme' => 'server_theme_container_vertical_spacing_tiny',
       '#items' => $element,
-      '#align' => $align,
+      '#align' => $align->value,
     ];
   }
 
@@ -124,14 +123,13 @@ trait ElementWrapThemeTrait {
    *
    * @param array $element
    *   Render array.
-   * @param string $align
-   *   Determine if flex should also have an alignment. Possible values are
-   *   `start`, `center`, `end` or NULL to have no change.
+   * @param \Drupal\server_general\ThemeTrait\AlignmentEnum $align
+   *   Determine the alignment of flex.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapContainerVerticalSpacingBig(array $element, ?string $align = NULL): array {
+  protected function wrapContainerVerticalSpacingBig(array $element, AlignmentEnum $align = AlignmentEnum::START): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
@@ -141,7 +139,7 @@ trait ElementWrapThemeTrait {
     return [
       '#theme' => 'server_theme_container_vertical_spacing_big',
       '#items' => $element,
-      '#align' => $align,
+      '#align' => $align->value,
     ];
   }
 
@@ -150,14 +148,13 @@ trait ElementWrapThemeTrait {
    *
    * @param array $element
    *   Render array.
-   * @param string $align
-   *   Determine if flex should also have an alignment. Possible values are
-   *   `start`, `center`, `end` or NULL to have no change.
+   * @param \Drupal\server_general\ThemeTrait\AlignmentEnum $align
+   *   Determine the alignment of flex.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapContainerVerticalSpacingHuge(array $element, ?string $align = NULL): array {
+  protected function wrapContainerVerticalSpacingHuge(array $element, AlignmentEnum $align = AlignmentEnum::START): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
@@ -167,7 +164,7 @@ trait ElementWrapThemeTrait {
     return [
       '#theme' => 'server_theme_container_vertical_spacing_huge',
       '#items' => $element,
-      '#align' => $align,
+      '#align' => $align->value,
     ];
   }
 

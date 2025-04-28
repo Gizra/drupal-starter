@@ -68,7 +68,7 @@ trait InfoCardThemeTrait {
       $bottom_elements[] = $this->wrapTextColor($element, 'gray');
     }
 
-    $bottom_elements = $this->wrapContainerVerticalSpacingTiny($bottom_elements, 'center');
+    $bottom_elements = $this->wrapContainerVerticalSpacingTiny($bottom_elements, AlignmentEnum::CENTER);
     $elements[] = $bottom_elements;
 
     $elements = $this->wrapContainerVerticalSpacing($elements, AlignmentEnum::CENTER);
