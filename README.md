@@ -429,6 +429,25 @@ install without doing a backup.
     # To pull only the database:
     ddev pull pantheon --skip-files
 
+## Use remote services from Pantheon
+
+Pantheon provides a managed SQL database, filesystem for the public and
+private files, Redis and more for your Drupal website.
+`terminus` exposed the connection information for those services, the Starter
+Kit allows you to connect easily. To have the connection information inside the
+DDEV container, you need to perform ahead, once:
+```
+ddev auth ssh
+ddev terminus login --machine-token=[token]
+```
+
+Examples:
+```
+ddev robo pantheon:connect-sql qa
+ddev robo pantheon:connect-sftp live
+ddev robo pantheon:connect-redis mymultidev
+```
+
 ## Stage File Proxy
 If you don't want to copy production files locally, you can enable stage_file_proxy module.
 It saves you time and disk space by sending requests to your development environment's files directory
