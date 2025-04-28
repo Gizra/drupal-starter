@@ -71,7 +71,7 @@ trait InfoCardThemeTrait {
     $bottom_elements = $this->wrapContainerVerticalSpacingTiny($bottom_elements, 'center');
     $elements[] = $bottom_elements;
 
-    $elements = $this->wrapContainerVerticalSpacing($elements, 'center');
+    $elements = $this->wrapContainerVerticalSpacing($elements, AlignmentEnum::CENTER);
 
     return $this->buildInnerElementLayout($elements, 'light-gray');
   }

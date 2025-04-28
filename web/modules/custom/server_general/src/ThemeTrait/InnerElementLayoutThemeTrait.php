@@ -53,7 +53,7 @@ trait InnerElementLayoutThemeTrait {
   protected function buildInnerElementLayoutCentered(array $items): array {
     return [
       '#theme' => 'server_theme_inner_element_layout__centered',
-      '#items' => $this->wrapContainerVerticalSpacing($items, 'center'),
+      '#items' => $this->wrapContainerVerticalSpacing($items, AlignmentEnum::CENTER),
     ];
   }
 
