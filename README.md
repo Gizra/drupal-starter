@@ -205,6 +205,9 @@ See the [example](https://github.com/Gizra/drupal-starter/blob/main/web/modules/
     ddev phpunit --filter ServerGeneralHomepageTest
 
     # Run a single method from a test file.
+    ddev phpunit --filter testUniqueTestMethodName
+
+    # Run a single method from a test file.
     ddev phpunit --filter testHomepageCache web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralHomepageTest.php
 
 We also have capability to write tests which run on a headless chrome browser with
