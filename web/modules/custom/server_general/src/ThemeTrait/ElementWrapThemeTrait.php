@@ -8,6 +8,7 @@ use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\paragraphs\ParagraphInterface;
+use Drupal\server_general\ThemeTrait\AlignmentEnum;
 
 /**
  * Helper method for wrapping an element.
@@ -73,14 +74,14 @@ trait ElementWrapThemeTrait {
    *
    * @param array $element
    *   Render array.
-   * @param string|null $align
+   * @param \Drupal\server_general\ThemeTrait\AlignmentEnum|null $align
    *   Determine if flex should also have an alignment. Possible values are
-   *   `start`, `center`, `end` or NULL to have no change.
+   *   AlignmentEnum::START, AlignmentEnum::CENTER, AlignmentEnum::END or NULL to have no change.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapContainerVerticalSpacing(array $element, ?string $align = NULL): array {
+  protected function wrapContainerVerticalSpacing(array $element, ?AlignmentEnum $align = NULL): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
@@ -90,7 +91,7 @@ trait ElementWrapThemeTrait {
     return [
       '#theme' => 'server_theme_container_vertical_spacing',
       '#items' => $element,
-      '#align' => $align,
+      '#align' => $align?->value,
     ];
   }
 
