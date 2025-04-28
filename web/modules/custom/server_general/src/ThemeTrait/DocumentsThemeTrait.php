@@ -29,7 +29,7 @@ trait DocumentsThemeTrait {
       $title,
       $body,
       $this->buildElementLayoutItemsWithViewMore($items, 2),
-      'light-gray'
+      BackgroundColorEnum::LIGHT_GRAY,
     );
   }
 
