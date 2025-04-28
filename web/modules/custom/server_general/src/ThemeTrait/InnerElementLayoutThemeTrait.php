@@ -25,15 +25,13 @@ trait InnerElementLayoutThemeTrait {
    *
    * @param array $items
    *   The elements as render array.
-   * @param string|null $bg_color
-   *   Optional; The background color. Allowed values are:
-   *   - 'light-gray'.
-   *   If NULL, a transparent background will be added.
+   * @param BackgroundColorEnum $bg_color
+   *   The background color.
    *
    * @return array
    *   Render array.
    */
-  protected function buildInnerElementLayout(array $items, ?string $bg_color = NULL): array {
+  protected function buildInnerElementLayout(array $items, BackgroundColorEnum $bg_color = BackgroundColorEnum::TRANSPARENT): array {
     return [
       '#theme' => 'server_theme_inner_element_layout',
       '#items' => $this->wrapContainerVerticalSpacing($items),
@@ -53,7 +51,7 @@ trait InnerElementLayoutThemeTrait {
   protected function buildInnerElementLayoutCentered(array $items): array {
     return [
       '#theme' => 'server_theme_inner_element_layout__centered',
-      '#items' => $this->wrapContainerVerticalSpacing($items, 'center'),
+      '#items' => $this->wrapContainerVerticalSpacing($items, AlignmentEnum::CENTER),
     ];
   }
 

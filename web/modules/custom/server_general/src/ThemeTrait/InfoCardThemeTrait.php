@@ -52,28 +52,28 @@ trait InfoCardThemeTrait {
   protected function buildElementInfoCard(string $header, string $title, ?string $subtitle = NULL): array {
     $elements = [];
 
-    $element = $this->wrapTextFontWeight($header, 'bold');
-    $element = $this->wrapTextResponsiveFontSize($element, '3xl');
+    $element = $this->wrapTextFontWeight($header, FontWeightEnum::BOLD);
+    $element = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::THREE_XL);
     $element = $this->wrapTextCenter($element);
     $elements[] = $element;
 
     $bottom_elements = [];
-    $element = $this->wrapTextResponsiveFontSize($title, '2xl');
+    $element = $this->wrapTextResponsiveFontSize($title, FontSizeEnum::TWO_XL);
     $element = $this->wrapTextCenter($element);
     $bottom_elements[] = $element;
 
     if ($subtitle) {
-      $element = $this->wrapTextResponsiveFontSize($subtitle, 'lg');
+      $element = $this->wrapTextResponsiveFontSize($subtitle, FontSizeEnum::LG);
       $element = $this->wrapTextCenter($element);
-      $bottom_elements[] = $this->wrapTextColor($element, 'gray');
+      $bottom_elements[] = $this->wrapTextColor($element, TextColorEnum::GRAY);
     }
 
-    $bottom_elements = $this->wrapContainerVerticalSpacingTiny($bottom_elements, 'center');
+    $bottom_elements = $this->wrapContainerVerticalSpacingTiny($bottom_elements, AlignmentEnum::CENTER);
     $elements[] = $bottom_elements;
 
-    $elements = $this->wrapContainerVerticalSpacing($elements, 'center');
+    $elements = $this->wrapContainerVerticalSpacing($elements, AlignmentEnum::CENTER);
 
-    return $this->buildInnerElementLayout($elements, 'light-gray');
+    return $this->buildInnerElementLayout($elements, BackgroundColorEnum::LIGHT_GRAY);
   }
 
 }

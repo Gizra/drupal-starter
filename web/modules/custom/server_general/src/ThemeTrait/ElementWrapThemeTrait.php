@@ -19,15 +19,13 @@ trait ElementWrapThemeTrait {
    *
    * @param array $element
    *   The render array.
-   * @param string|null $bg_color
-   *   Optional; The background color. Allowed values are:
-   *   - 'light-gray'.
-   *   If NULL, a transparent background will be added.
+   * @param \Drupal\server_general\ThemeTrait\BackgroundColorEnum $bg_color
+   *   The background color.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapContainerWide(array $element, ?string $bg_color = NULL): array {
+  protected function wrapContainerWide(array $element, BackgroundColorEnum $bg_color = BackgroundColorEnum::TRANSPARENT): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
@@ -37,7 +35,7 @@ trait ElementWrapThemeTrait {
     return [
       '#theme' => 'server_theme_container_wide',
       '#element' => $element,
-      '#bg_color' => $bg_color,
+      '#bg_color' => $bg_color->value,
     ];
   }
 
@@ -46,15 +44,14 @@ trait ElementWrapThemeTrait {
    *
    * @param array $element
    *   The render array.
-   * @param string|null $bg_color
-   *   Optional; The background color. Allowed values are:
-   *   - 'light-gray'.
+   * @param \Drupal\server_general\ThemeTrait\BackgroundColorEnum $bg_color
+   *   Optional; The background color.
    *   If NULL, a transparent background will be added.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapContainerNarrow(array $element, ?string $bg_color = NULL): array {
+  protected function wrapContainerNarrow(array $element, BackgroundColorEnum $bg_color = BackgroundColorEnum::TRANSPARENT): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
@@ -64,7 +61,7 @@ trait ElementWrapThemeTrait {
     return [
       '#theme' => 'server_theme_container_narrow',
       '#element' => $element,
-      '#bg_color' => $bg_color,
+      '#bg_color' => $bg_color->value,
     ];
   }
 
@@ -73,14 +70,13 @@ trait ElementWrapThemeTrait {
    *
    * @param array $element
    *   Render array.
-   * @param string|null $align
-   *   Determine if flex should also have an alignment. Possible values are
-   *   `start`, `center`, `end` or NULL to have no change.
+   * @param \Drupal\server_general\ThemeTrait\AlignmentEnum $align
+   *   Determine the alignment of flex.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapContainerVerticalSpacing(array $element, ?string $align = NULL): array {
+  protected function wrapContainerVerticalSpacing(array $element, AlignmentEnum $align = AlignmentEnum::DEFAULT): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
@@ -90,7 +86,7 @@ trait ElementWrapThemeTrait {
     return [
       '#theme' => 'server_theme_container_vertical_spacing',
       '#items' => $element,
-      '#align' => $align,
+      '#align' => $align->value,
     ];
   }
 
@@ -99,14 +95,13 @@ trait ElementWrapThemeTrait {
    *
    * @param array $element
    *   Render array.
-   * @param string $align
-   *   Determine if flex should also have an alignment. Possible values are
-   *   `start`, `center`, `end` or NULL to have no change.
+   * @param \Drupal\server_general\ThemeTrait\AlignmentEnum $align
+   *   Determine the alignment of flex.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapContainerVerticalSpacingTiny(array $element, ?string $align = NULL): array {
+  protected function wrapContainerVerticalSpacingTiny(array $element, AlignmentEnum $align = AlignmentEnum::START): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
@@ -116,7 +111,7 @@ trait ElementWrapThemeTrait {
     return [
       '#theme' => 'server_theme_container_vertical_spacing_tiny',
       '#items' => $element,
-      '#align' => $align,
+      '#align' => $align->value,
     ];
   }
 
@@ -125,14 +120,13 @@ trait ElementWrapThemeTrait {
    *
    * @param array $element
    *   Render array.
-   * @param string $align
-   *   Determine if flex should also have an alignment. Possible values are
-   *   `start`, `center`, `end` or NULL to have no change.
+   * @param \Drupal\server_general\ThemeTrait\AlignmentEnum $align
+   *   Determine the alignment of flex.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapContainerVerticalSpacingBig(array $element, ?string $align = NULL): array {
+  protected function wrapContainerVerticalSpacingBig(array $element, AlignmentEnum $align = AlignmentEnum::START): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
@@ -142,7 +136,7 @@ trait ElementWrapThemeTrait {
     return [
       '#theme' => 'server_theme_container_vertical_spacing_big',
       '#items' => $element,
-      '#align' => $align,
+      '#align' => $align->value,
     ];
   }
 
@@ -151,14 +145,13 @@ trait ElementWrapThemeTrait {
    *
    * @param array $element
    *   Render array.
-   * @param string $align
-   *   Determine if flex should also have an alignment. Possible values are
-   *   `start`, `center`, `end` or NULL to have no change.
+   * @param \Drupal\server_general\ThemeTrait\AlignmentEnum $align
+   *   Determine the alignment of flex.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapContainerVerticalSpacingHuge(array $element, ?string $align = NULL): array {
+  protected function wrapContainerVerticalSpacingHuge(array $element, AlignmentEnum $align = AlignmentEnum::START): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
@@ -168,7 +161,7 @@ trait ElementWrapThemeTrait {
     return [
       '#theme' => 'server_theme_container_vertical_spacing_huge',
       '#items' => $element,
-      '#align' => $align,
+      '#align' => $align->value,
     ];
   }
 
@@ -238,15 +231,15 @@ trait ElementWrapThemeTrait {
    *
    * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
    *   The render array, string or a TranslatableMarkup object.
-   * @param string $width
-   *   Max width. Allowed values are `lg`, `xl`, `2xl` and `3xl`.
+   * @param \Drupal\server_general\ThemeTrait\WidthEnum $width
+   *   Max width.
    * @param bool $is_center
    *   Defines if content is centered.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapContainerMaxWidth(array|string|TranslatableMarkup $element, string $width, bool $is_center = FALSE): array {
+  protected function wrapContainerMaxWidth(array|string|TranslatableMarkup $element, WidthEnum $width, bool $is_center = FALSE): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
@@ -256,7 +249,7 @@ trait ElementWrapThemeTrait {
     return [
       '#theme' => 'server_theme_container_max_width',
       '#element' => $element,
-      '#width' => $width,
+      '#width' => $width->value,
       '#is_center' => $is_center,
     ];
   }
@@ -407,14 +400,13 @@ trait ElementWrapThemeTrait {
    *
    * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
    *   The render array, string or a TranslatableMarkup object.
-   * @param string $weight
-   *   Font weight of the text. Allowed values are `normal`, `medium`, and
-   *   `bold`. Defaults to `normal`.
+   * @param \Drupal\server_general\ThemeTrait\FontWeightEnum $weight
+   *   Font weight of the text.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapTextFontWeight(array|string|TranslatableMarkup $element, string $weight = 'normal'): array {
+  protected function wrapTextFontWeight(array|string|TranslatableMarkup $element, FontWeightEnum $weight = FontWeightEnum::NORMAL): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       return [];
@@ -422,28 +414,23 @@ trait ElementWrapThemeTrait {
 
     return [
       '#theme' => 'server_theme_text_decoration__font_weight',
-      '#font_weight' => $weight,
+      '#font_weight' => $weight->value,
       '#element' => $element,
     ];
   }
 
   /**
-   * Wrap a text element with font weight.
+   * Wrap a text element with font size.
    *
    * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
    *   The render array, string or a TranslatableMarkup object.
-   * @param string $size
-   *   Font size of the text. Allowed values are `xs`, `sm`, `base`, `lg`, `xl`,
-   *   `2xl`, and `3xl`. Those sizes refer to the size on desktop. While
-   *   Tailwind works as  mobile first, when we implement the design that in
-   *   reality we start from the desktop, and work our way down to the mobile.
-   *   Furthermore, on mobile the font size may remain bigger, and won't become
-   *   smaller - to keep things readable. Defaults to `base`.
+   * @param \Drupal\server_general\ThemeTrait\FontSizeEnum $size
+   *   Font size of the text.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapTextResponsiveFontSize(array|string|TranslatableMarkup $element, string $size = 'base'): array {
+  protected function wrapTextResponsiveFontSize(array|string|TranslatableMarkup $element, FontSizeEnum $size = FontSizeEnum::BASE): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       return [];
@@ -451,7 +438,7 @@ trait ElementWrapThemeTrait {
 
     return [
       '#theme' => 'server_theme_text_decoration__responsive_font_size',
-      '#size' => $size,
+      '#size' => $size->value,
       '#element' => $element,
     ];
   }
@@ -548,14 +535,13 @@ trait ElementWrapThemeTrait {
    *
    * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
    *   The render array, string or a TranslatableMarkup object.
-   * @param string $color
-   *   The font color. Possible values are: `light-gray`, `gray` and
-   *   `dark-gray`.
+   * @param \Drupal\server_general\ThemeTrait\TextColorEnum $color
+   *   The font color.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapTextColor(array|string|TranslatableMarkup $element, string $color): array {
+  protected function wrapTextColor(array|string|TranslatableMarkup $element, TextColorEnum $color): array {
     if (is_array($element)) {
       $element = $this->filterEmptyElements($element);
     }
@@ -566,7 +552,7 @@ trait ElementWrapThemeTrait {
 
     return [
       '#theme' => 'server_theme_text_decoration__font_color',
-      '#color' => $color,
+      '#color' => $color->value,
       '#element' => $element,
     ];
   }

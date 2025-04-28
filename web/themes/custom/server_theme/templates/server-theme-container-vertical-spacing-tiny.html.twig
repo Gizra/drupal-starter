@@ -1,6 +1,7 @@
 {% macro getClass(align) %}
   {% set classes = [
     'flex flex-col gap-y-2',
+    align == 'stretch' ? 'items-stretch',
     align == 'start' ? 'items-start',
     align == 'center' ? 'items-center',
     align == 'end' ? 'items-end',

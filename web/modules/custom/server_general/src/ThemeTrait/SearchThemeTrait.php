@@ -119,8 +119,8 @@ trait SearchThemeTrait {
 
     // Title as link, wrapped in h3 tag.
     $element = $this->buildLink($title, $url, 'dark-gray');
-    $element = $this->wrapTextResponsiveFontSize($element, '3xl');
-    $element = $this->wrapTextFontWeight($element, 'bold');
+    $element = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::THREE_XL);
+    $element = $this->wrapTextFontWeight($element, FontWeightEnum::BOLD);
     $elements[] = [
       '#type' => 'html_tag',
       '#tag' => 'h3',
@@ -132,8 +132,8 @@ trait SearchThemeTrait {
 
     // Date.
     $element = IntlDate::formatPattern($timestamp, 'short');
-    $element = $this->wrapTextColor($element, 'light-gray');
-    $elements[] = $this->wrapTextResponsiveFontSize($element, 'sm');
+    $element = $this->wrapTextColor($element, TextColorEnum::LIGHT_GRAY);
+    $elements[] = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::SM);
 
     return $this->buildInnerElementLayout($elements);
   }

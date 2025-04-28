@@ -33,9 +33,9 @@ trait CtaThemeTrait {
 
     // Title.
     $element = $title;
-    $element = $this->wrapTextResponsiveFontSize($element, '3xl');
+    $element = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::THREE_XL);
     $element = $this->wrapTextCenter($element);
-    $elements[] = $this->wrapTextFontWeight($element, 'bold');
+    $elements[] = $this->wrapTextFontWeight($element, FontWeightEnum::BOLD);
 
     // Text.
     $elements[] = $this->wrapProseText($body);
@@ -43,9 +43,9 @@ trait CtaThemeTrait {
     // Button.
     $elements[] = $this->buildButton($link->getText(), $link->getUrl(), 'primary', NULL, $link->getUrl()->isExternal());
 
-    $elements = $this->wrapContainerVerticalSpacingBig($elements, 'center');
+    $elements = $this->wrapContainerVerticalSpacingBig($elements, AlignmentEnum::CENTER);
 
-    $elements = $this->buildInnerElementLayout($elements, 'light-gray');
+    $elements = $this->buildInnerElementLayout($elements, BackgroundColorEnum::LIGHT_GRAY);
     return $this->wrapContainerNarrow($elements);
   }
 

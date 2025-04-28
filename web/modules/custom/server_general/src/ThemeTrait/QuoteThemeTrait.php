@@ -34,11 +34,11 @@ trait QuoteThemeTrait {
     $items[] = ['#theme' => 'server_theme_quotation_sign'];
 
     // Quote.
-    $element = $this->wrapTextResponsiveFontSize($quote, '2xl');
-    $items[] = $this->wrapTextColor($element, 'gray');
+    $element = $this->wrapTextResponsiveFontSize($quote, FontSizeEnum::TWO_XL);
+    $items[] = $this->wrapTextColor($element, TextColorEnum::GRAY);
 
     // Quote by.
-    $element = $this->wrapTextResponsiveFontSize($subtitle, 'sm');
+    $element = $this->wrapTextResponsiveFontSize($subtitle, FontSizeEnum::SM);
     $items[] = $this->wrapTextItalic($element);
 
     // The photo credit on top of the image.
