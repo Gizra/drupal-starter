@@ -76,7 +76,7 @@ trait ElementWrapThemeTrait {
    * @return array
    *   Render array.
    */
-  protected function wrapContainerVerticalSpacing(array $element, AlignmentEnum $align = AlignmentEnum::START): array {
+  protected function wrapContainerVerticalSpacing(array $element, AlignmentEnum $align = AlignmentEnum::DEFAULT): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
