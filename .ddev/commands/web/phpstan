@@ -4,4 +4,4 @@
 ## Usage: phpstan
 ## Example: "ddev phpstan"
 
-PHP_MEMORY_LIMIT=2G ./vendor/bin/phpstan --no-progress analyse -c phpstan.neon --level max
+PHP_MEMORY_LIMIT=2G ./vendor/bin/phpstan --no-progress analyse -c phpstan.neon
