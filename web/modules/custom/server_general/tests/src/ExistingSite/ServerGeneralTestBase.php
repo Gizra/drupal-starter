@@ -32,4 +32,14 @@ abstract class ServerGeneralTestBase extends ExistingSiteBase {
     }
   }
 
+  /**
+   * Creates a snapshot of the virtual browser for debugging purposes.
+   */
+  public function createSnapshot() : void {
+    if (!file_exists('../phpunit_debug')) {
+      mkdir('../phpunit_debug');
+    }
+    file_put_contents('../phpunit_debug/' . microtime(TRUE) . '.html', $this->getCurrentPage()->getOuterHtml());
+  }
+
 }
