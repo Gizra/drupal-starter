@@ -35,11 +35,17 @@ abstract class ServerGeneralTestBase extends ExistingSiteBase {
   /**
    * Creates a snapshot of the virtual browser for debugging purposes.
    */
-  public function createHtmlSnapshot() : void {
+  public function createHtmlSnapshot(): void {
     if (!file_exists('../phpunit_debug')) {
       mkdir('../phpunit_debug');
     }
-    file_put_contents('../phpunit_debug/' . microtime(TRUE) . '.html', $this->getCurrentPage()->getOuterHtml());
+
+    $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2);
+    $caller = $backtrace[1]['function'] ?? 'unknown';
+    $timestamp = microtime(TRUE);
+    $filename = '../phpunit_debug/' . $caller . '_' . $timestamp . '.html';
+    file_put_contents($filename, $this->getCurrentPage()->getOuterHtml());
+    \Drupal::logger('server_general')->notice('HTML snapshot created: ' . $filename);
   }
 
 }
