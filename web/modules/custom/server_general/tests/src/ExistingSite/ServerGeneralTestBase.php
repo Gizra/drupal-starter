@@ -49,7 +49,7 @@ abstract class ServerGeneralTestBase extends ExistingSiteBase {
     // If it's a closure, try to get the next level up.
     if (str_contains($caller, '{closure}') && isset($backtrace[$level + 1])) {
       $level++;
-      $caller = $backtrace[$level]['function'] ?? 'closure_caller';
+      $caller = $backtrace[$level]['function'];
     }
 
     if (isset($backtrace[$level]['class'])) {
