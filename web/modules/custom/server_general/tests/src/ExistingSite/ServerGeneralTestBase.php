@@ -40,12 +40,26 @@ abstract class ServerGeneralTestBase extends ExistingSiteBase {
       mkdir('../phpunit_debug');
     }
 
-    $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2);
-    $caller = $backtrace[1]['function'] ?? 'unknown';
+    $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+
+    // Start with level 1 (the immediate caller).
+    $level = 1;
+    $caller = $backtrace[$level]['function'] ?? 'unknown';
+
+    // If it's a closure, try to get the next level up.
+    if (str_contains($caller, '{closure}') && isset($backtrace[$level + 1])) {
+      $level++;
+      $caller = $backtrace[$level]['function'] ?? 'closure_caller';
+    }
+
+    if (isset($backtrace[$level]['class'])) {
+      $caller = $backtrace[$level]['class'] . '::' . $caller;
+    }
+
     $timestamp = microtime(TRUE);
     $filename = '../phpunit_debug/' . $caller . '_' . $timestamp . '.html';
     file_put_contents($filename, $this->getCurrentPage()->getOuterHtml());
-    \Drupal::logger('server_general')->notice('HTML snapshot created: ' . $filename);
+    \Drupal::logger('server_general')->notice('HTML snapshot created: ' . str_replace('../', '', $filename));
   }
 
 }
