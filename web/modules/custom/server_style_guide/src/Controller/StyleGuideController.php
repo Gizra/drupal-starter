@@ -572,7 +572,7 @@ class StyleGuideController extends ControllerBase {
     $build = [];
 
     // Font weight for a string.
-    $element = $this->wrapTextFontWeight($this->getRandomTitle(), FontWeightEnum::BOLD);
+    $element = $this->wrapTextFontWeight($this->getRandomTitle(), FontWeightEnum::Bold);
     $build[] = $this->wrapElementWideContainer($element, 'Text decoration - Font weight');
 
     // Font size for an array.

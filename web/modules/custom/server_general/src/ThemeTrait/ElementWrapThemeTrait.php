@@ -25,7 +25,7 @@ trait ElementWrapThemeTrait {
    * @return array
    *   Render array.
    */
-  protected function wrapContainerWide(array $element, BackgroundColorEnum $bg_color = BackgroundColorEnum::TRANSPARENT): array {
+  protected function wrapContainerWide(array $element, BackgroundColorEnum $bg_color = BackgroundColorEnum::Transparent): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
@@ -51,7 +51,7 @@ trait ElementWrapThemeTrait {
    * @return array
    *   Render array.
    */
-  protected function wrapContainerNarrow(array $element, BackgroundColorEnum $bg_color = BackgroundColorEnum::TRANSPARENT): array {
+  protected function wrapContainerNarrow(array $element, BackgroundColorEnum $bg_color = BackgroundColorEnum::Transparent): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
@@ -76,7 +76,7 @@ trait ElementWrapThemeTrait {
    * @return array
    *   Render array.
    */
-  protected function wrapContainerVerticalSpacing(array $element, AlignmentEnum $align = AlignmentEnum::DEFAULT): array {
+  protected function wrapContainerVerticalSpacing(array $element, AlignmentEnum $align = AlignmentEnum::Default): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
@@ -101,7 +101,7 @@ trait ElementWrapThemeTrait {
    * @return array
    *   Render array.
    */
-  protected function wrapContainerVerticalSpacingTiny(array $element, AlignmentEnum $align = AlignmentEnum::START): array {
+  protected function wrapContainerVerticalSpacingTiny(array $element, AlignmentEnum $align = AlignmentEnum::Start): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
@@ -126,7 +126,7 @@ trait ElementWrapThemeTrait {
    * @return array
    *   Render array.
    */
-  protected function wrapContainerVerticalSpacingBig(array $element, AlignmentEnum $align = AlignmentEnum::START): array {
+  protected function wrapContainerVerticalSpacingBig(array $element, AlignmentEnum $align = AlignmentEnum::Start): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
@@ -151,7 +151,7 @@ trait ElementWrapThemeTrait {
    * @return array
    *   Render array.
    */
-  protected function wrapContainerVerticalSpacingHuge(array $element, AlignmentEnum $align = AlignmentEnum::START): array {
+  protected function wrapContainerVerticalSpacingHuge(array $element, AlignmentEnum $align = AlignmentEnum::Start): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       // Element is empty, so no need to wrap it.
@@ -406,7 +406,7 @@ trait ElementWrapThemeTrait {
    * @return array
    *   Render array.
    */
-  protected function wrapTextFontWeight(array|string|TranslatableMarkup $element, FontWeightEnum $weight = FontWeightEnum::NORMAL): array {
+  protected function wrapTextFontWeight(array|string|TranslatableMarkup $element, FontWeightEnum $weight = FontWeightEnum::Normal): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       return [];
@@ -430,7 +430,7 @@ trait ElementWrapThemeTrait {
    * @return array
    *   Render array.
    */
-  protected function wrapTextResponsiveFontSize(array|string|TranslatableMarkup $element, FontSizeEnum $size = FontSizeEnum::BASE): array {
+  protected function wrapTextResponsiveFontSize(array|string|TranslatableMarkup $element, FontSizeEnum $size = FontSizeEnum::Base): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       return [];

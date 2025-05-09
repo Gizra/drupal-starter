@@ -8,7 +8,7 @@ namespace Drupal\server_general\ThemeTrait;
  * Enum for text color options used in theme wrappers.
  */
 enum TextColorEnum: string {
-  case LIGHT_GRAY = 'light-gray';
-  case GRAY = 'gray';
-  case DARK_GRAY = 'dark-gray';
+  case LightGray = 'light-gray';
+  case Gray = 'gray';
+  case DarkGray = 'dark-gray';
 }

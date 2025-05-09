@@ -59,7 +59,7 @@ trait CarouselThemeTrait {
       $title,
       $body,
       $elements,
-      BackgroundColorEnum::LIGHT_GRAY,
+      BackgroundColorEnum::LightGray,
     );
   }
 

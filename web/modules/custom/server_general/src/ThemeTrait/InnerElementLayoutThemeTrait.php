@@ -31,7 +31,7 @@ trait InnerElementLayoutThemeTrait {
    * @return array
    *   Render array.
    */
-  protected function buildInnerElementLayout(array $items, BackgroundColorEnum $bg_color = BackgroundColorEnum::TRANSPARENT): array {
+  protected function buildInnerElementLayout(array $items, BackgroundColorEnum $bg_color = BackgroundColorEnum::Transparent): array {
     return [
       '#theme' => 'server_theme_inner_element_layout',
       '#items' => $this->wrapContainerVerticalSpacing($items),
@@ -51,7 +51,7 @@ trait InnerElementLayoutThemeTrait {
   protected function buildInnerElementLayoutCentered(array $items): array {
     return [
       '#theme' => 'server_theme_inner_element_layout__centered',
-      '#items' => $this->wrapContainerVerticalSpacing($items, AlignmentEnum::CENTER),
+      '#items' => $this->wrapContainerVerticalSpacing($items, AlignmentEnum::Center),
     ];
   }
 

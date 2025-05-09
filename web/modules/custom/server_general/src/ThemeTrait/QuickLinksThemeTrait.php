@@ -52,10 +52,10 @@ trait QuickLinksThemeTrait {
    */
   protected function buildElementQuickLinkItem(string $title, Url $url, ?string $subtitle = NULL): array {
     $items = [];
-    $items[] = $this->wrapTextResponsiveFontSize($title, FontSizeEnum::XL);
+    $items[] = $this->wrapTextResponsiveFontSize($title, FontSizeEnum::Xl);
 
     if (!empty($subtitle)) {
-      $items[] = $this->wrapTextResponsiveFontSize($subtitle, FontSizeEnum::SM);
+      $items[] = $this->wrapTextResponsiveFontSize($subtitle, FontSizeEnum::Sm);
     }
 
     return [
