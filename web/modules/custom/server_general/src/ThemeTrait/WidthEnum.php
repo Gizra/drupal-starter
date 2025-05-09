@@ -8,8 +8,8 @@ namespace Drupal\server_general\ThemeTrait;
  * Enum for width options used in theme wrappers.
  */
 enum WidthEnum: string {
-  case LG = 'lg';
-  case XL = 'xl';
-  case TWO_XL = '2xl';
-  case THREE_XL = '3xl';
+  case Lg = 'lg';
+  case Xl = 'xl';
+  case TwoXl = '2xl';
+  case ThreeXl = '3xl';
 }

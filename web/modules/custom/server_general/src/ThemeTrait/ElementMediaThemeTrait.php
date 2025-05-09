@@ -136,7 +136,7 @@ trait ElementMediaThemeTrait {
     $elements = [];
 
     if (!empty($credit)) {
-      $element = $this->wrapTextResponsiveFontSize('© ' . $credit, FontSizeEnum::SM);
+      $element = $this->wrapTextResponsiveFontSize('© ' . $credit, FontSizeEnum::Sm);
       $element = $this->wrapTextItalic($element);
       $elements[] = $element;
     }

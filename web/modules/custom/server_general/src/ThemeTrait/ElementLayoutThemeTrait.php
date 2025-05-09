@@ -80,17 +80,17 @@ trait ElementLayoutThemeTrait {
    * @return array
    *   The render array.
    */
-  protected function buildElementLayoutTitleBodyAndItems(string $title, array $body, array $items, BackgroundColorEnum $bg_color = BackgroundColorEnum::TRANSPARENT): array {
+  protected function buildElementLayoutTitleBodyAndItems(string $title, array $body, array $items, BackgroundColorEnum $bg_color = BackgroundColorEnum::Transparent): array {
     $top_elements = [];
     $elements = [];
     $top_elements[] = $this->buildParagraphTitle($title);
 
     $body = $this->wrapProseText($body);
-    $body = $this->wrapTextColor($body, TextColorEnum::DARK_GRAY);
+    $body = $this->wrapTextColor($body, TextColorEnum::DarkGray);
     $top_elements[] = $body;
 
     $top_elements = $this->wrapContainerVerticalSpacingTiny($top_elements);
-    $top_elements = $this->wrapContainerMaxWidth($top_elements, WidthEnum::THREE_XL);
+    $top_elements = $this->wrapContainerMaxWidth($top_elements, WidthEnum::ThreeXl);
 
     $elements[] = $top_elements;
     $elements[] = $items;

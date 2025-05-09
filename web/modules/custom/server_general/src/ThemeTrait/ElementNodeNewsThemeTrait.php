@@ -100,7 +100,7 @@ trait ElementNodeNewsThemeTrait {
 
     $elements = $this->wrapContainerVerticalSpacing($elements);
 
-    return $this->wrapContainerMaxWidth($elements, WidthEnum::THREE_XL);
+    return $this->wrapContainerMaxWidth($elements, WidthEnum::ThreeXl);
   }
 
   /**

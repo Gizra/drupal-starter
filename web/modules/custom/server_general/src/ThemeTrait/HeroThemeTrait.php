@@ -35,11 +35,11 @@ trait HeroThemeTrait {
 
     // Title.
     $element = $this->wrapHtmlTag($title, 'h1');
-    $elements[] = $this->wrapTextFontWeight($element, FontWeightEnum::BOLD);
+    $elements[] = $this->wrapTextFontWeight($element, FontWeightEnum::Bold);
 
     // Subtitle.
-    $element = $this->wrapTextResponsiveFontSize($subtitle, FontSizeEnum::XL);
-    $elements[] = $this->wrapTextFontWeight($element, FontWeightEnum::MEDIUM);
+    $element = $this->wrapTextResponsiveFontSize($subtitle, FontSizeEnum::Xl);
+    $elements[] = $this->wrapTextFontWeight($element, FontWeightEnum::Medium);
 
     // Button.
     if ($link) {
