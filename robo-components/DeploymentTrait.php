@@ -370,7 +370,17 @@ trait DeploymentTrait {
    * @throws \Exception
    */
   protected function getPantheonNameAndEnv() : array {
-    $yaml = Yaml::parseFile('./.ddev/providers/pantheon.yaml');
+    $yaml_path = './.ddev/providers/pantheon.yaml';
+    // This way we can use most commands natively, if we want.
+    // The preferred, supported way is still via DDEV.
+    // I had one case where I wanted to rely on the nameservers
+    // defined by the host only - that could be one use-case.
+    if (file_exists($yaml_path)) {
+      $yaml = Yaml::parseFile($yaml_path);
+    }
+    else {
+      $yaml = Yaml::parseFile('../' . $yaml_path);
+    }
     if (empty($yaml['environment_variables']['project'])) {
       throw new \Exception("`environment_variables.project` is missing from .ddev/providers/pantheon.yaml");
     }
