@@ -96,11 +96,11 @@ trait ElementNodeNewsThemeTrait {
     $element = IntlDate::formatPattern($timestamp, 'long');
 
     // Make text bigger.
-    $elements[] = $this->wrapTextResponsiveFontSize($element, 'lg');
+    $elements[] = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::LG);
 
     $elements = $this->wrapContainerVerticalSpacing($elements);
 
-    return $this->wrapContainerMaxWidth($elements, '3xl');
+    return $this->wrapContainerMaxWidth($elements, WidthEnum::ThreeXl);
   }
 
   /**

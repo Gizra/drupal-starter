@@ -73,24 +73,24 @@ trait ElementLayoutThemeTrait {
    *   The body render array. Maybe empty.
    * @param array $items
    *   The items render array.
-   * @param string|null $bg_color
-   *   Optional; The background color. See
+   * @param BackgroundColorEnum $bg_color
+   *   The background color. See
    *   ElementWrapThemeTrait::wrapContainerWide for the allowed values.
    *
    * @return array
    *   The render array.
    */
-  protected function buildElementLayoutTitleBodyAndItems(string $title, array $body, array $items, ?string $bg_color = NULL): array {
+  protected function buildElementLayoutTitleBodyAndItems(string $title, array $body, array $items, BackgroundColorEnum $bg_color = BackgroundColorEnum::Transparent): array {
     $top_elements = [];
     $elements = [];
     $top_elements[] = $this->buildParagraphTitle($title);
 
     $body = $this->wrapProseText($body);
-    $body = $this->wrapTextColor($body, 'dark-gray');
+    $body = $this->wrapTextColor($body, TextColorEnum::DarkGray);
     $top_elements[] = $body;
 
     $top_elements = $this->wrapContainerVerticalSpacingTiny($top_elements);
-    $top_elements = $this->wrapContainerMaxWidth($top_elements, '3xl');
+    $top_elements = $this->wrapContainerMaxWidth($top_elements, WidthEnum::ThreeXl);
 
     $elements[] = $top_elements;
     $elements[] = $items;

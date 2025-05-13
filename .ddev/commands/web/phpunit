@@ -6,8 +6,8 @@
 
 if [ $# -eq 0 ]; then
   # If no arguments are provided, run non-Rollbar tests
-  ./vendor/bin/phpunit -c phpunit.xml.dist --exclude-group=Rollbar
+  PHP_MEMORY_LIMIT=2G ./vendor/bin/phpunit -c phpunit.xml.dist --exclude-group=Rollbar
 else
   # If arguments are provided, pass them to PHPUnit
-  ./vendor/bin/phpunit -c phpunit.xml.dist "$@"
+  PHP_MEMORY_LIMIT=2G ./vendor/bin/phpunit -c phpunit.xml.dist "$@"
 fi

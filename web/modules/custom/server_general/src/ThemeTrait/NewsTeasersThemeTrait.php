@@ -62,17 +62,17 @@ trait NewsTeasersThemeTrait {
 
     // Labels.
     $element = $this->buildLabelsFromText([$this->t('News')]);
-    $elements[] = $this->wrapTextResponsiveFontSize($element, 'sm');
+    $elements[] = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::Sm);
 
     // Date.
     $element = IntlDate::formatPattern($timestamp, 'short');
-    $element = $this->wrapTextColor($element, 'gray');
-    $elements[] = $this->wrapTextResponsiveFontSize($element, 'sm');
+    $element = $this->wrapTextColor($element, TextColorEnum::Gray);
+    $elements[] = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::Sm);
 
     // Title as link.
     $element = $this->buildLink($title, $url, 'dark-gray');
-    $element = $this->wrapTextResponsiveFontSize($element, 'lg');
-    $elements[] = $this->wrapTextFontWeight($element, 'bold');
+    $element = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::LG);
+    $elements[] = $this->wrapTextFontWeight($element, FontWeightEnum::Bold);
 
     // Body teaser.
     $elements[] = $this->wrapTextLineClamp($summary, 4);
@@ -102,17 +102,17 @@ trait NewsTeasersThemeTrait {
 
     // Labels.
     $element = $this->buildLabelsFromText([$this->t('News')]);
-    $elements[] = $this->wrapTextResponsiveFontSize($element, 'sm');
+    $elements[] = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::Sm);
 
     // Date.
     $element = ['#markup' => IntlDate::formatPattern($timestamp, 'short')];
-    $element = $this->wrapTextColor($element, 'gray');
-    $elements[] = $this->wrapTextResponsiveFontSize($element, 'sm');
+    $element = $this->wrapTextColor($element, TextColorEnum::Gray);
+    $elements[] = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::Sm);
 
     // Title as link.
     $element = $this->buildLink($title, $url, 'dark-gray');
-    $element = $this->wrapTextResponsiveFontSize($element, 'lg');
-    $elements[] = $this->wrapTextFontWeight($element, 'bold');
+    $element = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::LG);
+    $elements[] = $this->wrapTextFontWeight($element, FontWeightEnum::Bold);
 
     // Body teaser.
     $elements[] = $this->wrapTextLineClamp($summary, 4);

@@ -17,6 +17,8 @@ use Drupal\server_general\ThemeTrait\ElementMediaThemeTrait;
 use Drupal\server_general\ThemeTrait\ElementNodeNewsThemeTrait;
 use Drupal\server_general\ThemeTrait\ElementWrapThemeTrait;
 use Drupal\server_general\ThemeTrait\ExpandingTextThemeTrait;
+use Drupal\server_general\ThemeTrait\FontSizeEnum;
+use Drupal\server_general\ThemeTrait\FontWeightEnum;
 use Drupal\server_general\ThemeTrait\HeroThemeTrait;
 use Drupal\server_general\ThemeTrait\InfoCardThemeTrait;
 use Drupal\server_general\ThemeTrait\LinkThemeTrait;
@@ -570,14 +572,14 @@ class StyleGuideController extends ControllerBase {
     $build = [];
 
     // Font weight for a string.
-    $element = $this->wrapTextFontWeight($this->getRandomTitle(), 'bold');
+    $element = $this->wrapTextFontWeight($this->getRandomTitle(), FontWeightEnum::Bold);
     $build[] = $this->wrapElementWideContainer($element, 'Text decoration - Font weight');
 
     // Font size for an array.
     $element = [
       '#markup' => $this->getRandomTitle(),
     ];
-    $element = $this->wrapTextResponsiveFontSize($element, 'lg');
+    $element = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::LG);
     $build[] = $this->wrapElementWideContainer($element, 'Text decoration - Font size');
 
     // Italic format for `TranslatableMarkup`.

@@ -15,6 +15,18 @@ use weitzman\DrupalTestTraits\ExistingSiteSelenium2DriverTestBase;
 class ServerGeneralSelenium2TestBase extends ExistingSiteSelenium2DriverTestBase {
 
   /**
+   * {@inheritDoc}
+   */
+  protected function setUp(): void {
+    parent::setUp();
+
+    $session = $this->getSession();
+    // Make takeScreenshot() more developer friendly, capture
+    // as many details as possible.
+    $session->resizeWindow(1900, 1900);
+  }
+
+  /**
    * Tear down and unset variables.
    *
    * This is needed in order to reduce the memory usage by PHPUnit.

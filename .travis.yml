@@ -42,7 +42,7 @@ jobs:
       script:
         - "$TRAVIS_BUILD_DIR/ci-scripts/test_syntax.sh || travis_terminate 1;"
         - composer install
-        - vendor/bin/phpstan analyse -c phpstan.neon
+        - PHP_MEMORY_LIMIT=2G ./vendor/bin/phpstan --no-progress analyse -c phpstan.neon
 
     - stage: Lint
       name: Drupal coding standard
