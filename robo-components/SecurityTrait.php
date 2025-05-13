@@ -46,7 +46,7 @@ trait SecurityTrait {
     $this->say("Analyzing $totalRequests total requests");
 
     // Parse IPs from log file.
-    $output = shell_exec("cat " . self::$accessLogPath . " | awk -F '\"' '{ print $8 }' | awk -F ',' '{print $1}' | sort | uniq -c | sort -frn");
+    $output = shell_exec("cat " . escapeshellarg(self::$accessLogPath) . " | awk -F '\"' '{ print $8 }' | awk -F ',' '{print $1}' | sort | uniq -c | sort -frn");
     $lines = explode("\n", trim($output));
 
     // Ensure whois is installed.
@@ -95,7 +95,7 @@ trait SecurityTrait {
       $ip_data['host'] = $host;
 
       // Get network information using whois.
-      $whois_info = shell_exec("whois $ip 2>/dev/null | grep -i 'netname\|organization\|orgname\|cidr\|inetnum\|netblock' | head -5");
+      $whois_info = shell_exec("whois escapeshellarg($ip) 2>/dev/null | grep -i 'netname\|organization\|orgname\|cidr\|inetnum\|netblock' | head -5");
 
       // Extract CIDR or subnet.
       $network = "Unknown";
@@ -168,12 +168,12 @@ trait SecurityTrait {
 
     // Generate request distribution by hour.
     $this->printReleaseNotesTitle("Request Distribution by Hour");
-    $hourly_distribution = shell_exec("cat " . self::$accessLogPath . " | awk '{print $4}' | cut -d: -f2 | sort | uniq -c");
+    $hourly_distribution = shell_exec("cat " . escapeshellarg(self::$accessLogPath) . " | awk '{print $4}' | cut -d: -f2 | sort | uniq -c");
     echo "```\n$hourly_distribution\n```\n";
 
     // Generate request distribution by status code.
     $this->printReleaseNotesTitle("Status Code Distribution");
-    $status_distribution = shell_exec("cat " . self::$accessLogPath . " | awk '{print $9}' | sort | uniq -c | sort -rn");
+    $status_distribution = shell_exec("cat " . escapeshellarg(self::$accessLogPath) . " | awk '{print $9}' | sort | uniq -c | sort -rn");
     echo "```\n$status_distribution\n```\n";
 
     // Clean up if we fetched the log file.
