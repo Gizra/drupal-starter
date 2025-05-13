@@ -95,7 +95,7 @@ trait SecurityTrait {
       $ip_data['host'] = $host;
 
       // Get network information using whois.
-      $whois_info = shell_exec('whois ' . escapeshellarg($ip). " 2>/dev/null | grep -i 'netname\|organization\|orgname\|cidr\|inetnum\|netblock' | head -5");
+      $whois_info = shell_exec('whois ' . escapeshellarg($ip) . " 2>/dev/null | grep -i 'netname\|organization\|orgname\|cidr\|inetnum\|netblock' | head -5");
 
       // Extract CIDR or subnet.
       $network = "Unknown";
