@@ -213,7 +213,6 @@ function server_general_form_alter(array &$form, FormStateInterface $form_state)
   if (!$form_object instanceof ContentEntityFormInterface) {
     return;
   }
-
   /** @var \Drupal\node\NodeInterface $entity */
   $entity = $form_object->getEntity();
   // Check that entity is a node.
@@ -227,6 +226,41 @@ function server_general_form_alter(array &$form, FormStateInterface $form_state)
   }
   /** @var \Drupal\server_general\LockedPages $locked_pages_service */
   $locked_pages_service = \Drupal::service('server_general.locked_pages');
+
+  // Do nothing if scheduler module is not installed and node is not locked.
+  if (!\Drupal::moduleHandler()->moduleExists('scheduler') && !$locked_pages_service->isNodeLocked($entity)) {
+    return;
+  }
+
+  $publish_on = $entity->hasField('publish_on') ? $entity->get('publish_on')->value : NULL;
+  $unpublish_on = $entity->hasField('unpublish_on') ? $entity->get('unpublish_on')->value : NULL;
+  // If node is locked and schedule dates are not set,
+  // remove publish_on, unpublish_on and scheduler_settings.
+  if (!$publish_on && !$unpublish_on && $locked_pages_service->isNodeLocked($entity)) {
+    $scheduler_fields = ['publish_on', 'unpublish_on', 'scheduler_settings'];
+    foreach (array_keys($form) as $key) {
+      if (in_array($key, $scheduler_fields)) {
+        unset($form[$key]);
+      }
+    }
+  }
+
+  $request_time = \Drupal::time()->getCurrentTime();
+  // If schedule dates are set and node is locked,
+  // make them readonly and disabled.
+  if ((($publish_on > $request_time) || ($unpublish_on > $request_time)) && $locked_pages_service->isNodeLocked($entity)) {
+    $form['scheduler_settings']['#description'] = [
+      '#type' => 'inline_template',
+      '#template' => '<strong class="action-link--danger">{{ message }}</strong>',
+      '#context' => [
+        'message' => t("This page is locked hence the publish and unpublish dates can not be changed. Also scheduling dates won't work."),
+      ],
+    ];
+    $form['publish_on']['widget'][0]['value']['#attributes']['readonly'] = 'readonly';
+    $form['publish_on']['widget'][0]['value']['#attributes']['disabled'] = TRUE;
+    $form['unpublish_on']['widget'][0]['value']['#attributes']['readonly'] = 'readonly';
+    $form['unpublish_on']['widget'][0]['value']['#attributes']['disabled'] = TRUE;
+  }
 
   // Check if node is locked or not.
   if (!$locked_pages_service->isNodeLocked($entity)) {
@@ -352,4 +386,19 @@ function server_general_preprocess_media_oembed_iframe(array &$variables) {
   if (strpos((string) $variables['media'], 'youtube.com') !== FALSE) {
     $variables['media'] = IFrameMarkup::create(str_replace('youtube.com/', 'youtube-nocookie.com/', $variables['media']));
   }
+}
+
+/**
+ * Implements hook_scheduler_unpublishing_allowed().
+ */
+function server_general_scheduler_unpublishing_allowed(NodeInterface $entity) {
+  // Do nothing if node is not a landing page.
+  if ($entity->bundle() !== 'landing_page') {
+    return;
+  }
+
+  /** @var \Drupal\server_general\LockedPages $locked_pages_service */
+  $locked_pages_service = \Drupal::service('server_general.locked_pages');
+
+  return !$locked_pages_service->isNodeLocked($entity);
 }
