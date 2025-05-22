@@ -45,3 +45,11 @@ form {
     @apply h-56 w-72 md:w-[30rem] lg:w-[48rem] rounded-lg;
   }
 }
+
+.js-search-form {
+  @apply absolute bottom-0 start-0 transform origin-right scale-x-0 transition duration-300;
+
+  .js-search-form-open & {
+    @apply scale-x-100;
+  }
+}
