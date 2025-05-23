@@ -1,0 +1,88 @@
+.js-menu-open {
+  @apply overflow-y-scroll fixed w-full;
+  top: var(--server-theme-scroll-position, 0);
+}
+
+.main-menu-wrapper {
+  @apply flex transform opacity-0 -translate-y-full transition-all duration-500;
+
+  top: var(--drupal-displace-offset-top);
+  height: calc(100dvh - var(--drupal-displace-offset-top));
+
+  .js-menu-open & {
+    @apply translate-y-0 opacity-100;
+  }
+
+  .sub-menu {
+    @apply max-h-0 lg:max-h-fit hidden -translate-x-4 transition-all duration-300 pointer-events-none;
+
+    &.active {
+      @apply max-h-[500dvh] lg:max-h-fit block lg:flex opacity-100 translate-x-0 pointer-events-auto;
+    }
+
+    .menu-sub-item {
+      &:hover,
+      &.active {
+        @apply text-yellow-500;
+      }
+    }
+
+    &[data-menu-level="2"] ul {
+      @apply border-l py-2 px-8;
+
+      li {
+        @apply text-base font-normal first:lg:text-xl first:font-bold;
+      }
+    }
+  }
+}
+
+.expand-indicator {
+  &::before,
+  &::after {
+    @apply ease-out duration-300 content-[''] block w-3.5 h-0.5 absolute m-auto bg-white rounded-full;
+  }
+
+  &::before {
+    @apply rotate-180;
+  }
+
+  &::after {
+    @apply rotate-90;
+  }
+
+  &--expanded {
+    &::before,
+    &::after {
+      @apply rotate-0;
+    }
+  }
+}
+
+:hover .expand-indicator:not(.expand-indicator--expanded) {
+  &::before {
+    @apply rotate-[180deg];
+  }
+
+  &::after {
+    @apply rotate-[90deg];
+  }
+}
+
+.menu-root-item {
+  @apply text-gray-300 relative;
+
+  &::after {
+    @apply block absolute bottom-0 w-0 h-0 border-b border-gray-300 transition-all duration-200 ease-out;
+    content: '';
+  }
+
+  &.active ,
+  &:hover {
+    @apply text-white;
+
+    &::after {
+      @apply w-full;
+    }
+  }
+}

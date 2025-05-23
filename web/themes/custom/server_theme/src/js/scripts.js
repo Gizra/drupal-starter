@@ -61,4 +61,117 @@
     },
   };
 
+  Drupal.behaviors.serverThemeMenuToggle = {
+    attach: function (context, settings) {
+      const $main_menu = $(once('menu-toggle', 'nav.main-menu-wrapper', context));
+
+      if (!$main_menu.length) {
+        // Nothing to process.
+        return;
+      }
+
+      const root = document.querySelector(':root');
+      const behavior = this;
+      const $body = $(document.body);
+      const $open_menu = $(once('menu-toggle', 'button.js-open-menu', context));
+      const $close_menu = $main_menu.find('button.js-close-menu');
+      const $root_menu_items = $main_menu.find('button.menu-root-item');
+      const $sub_menu_items = $main_menu.find('button.menu-sub-item');
+      const $menu_containers = $main_menu.find('.menu.sub-menu');
+
+      const toggleMenu = function (event) {
+        event.preventDefault();
+        const top = window.scrollY * -1 + 'px';
+
+        $main_menu.show();
+        $body.toggleClass('js-menu-open');
+        if ($body.hasClass('js-menu-open')) {
+          // Menu opened.
+          // Lock the body position to prevent the background from scrolling
+          // while the menu is open.
+          // Get the current scroll position and negate it.
+          root.style.setProperty('--server-theme-scroll-position', top);
+          return;
+        }
+        // Menu closed.
+        // Reset the window's scroll position back to where it was.
+        const rootstyle = getComputedStyle(root);
+        var scrollY = rootstyle.getPropertyValue('--server-theme-scroll-position');
+        // scrollY will be a negative value, so we negate it again to make it
+        // positive.
+        $(window).scrollTop(parseInt(scrollY || '0') * -1);
+      };
+
+      $open_menu.each(function () {
+        $(this).on('click', toggleMenu);
+      });
+
+
+      $close_menu.each(function () {
+        $(this).on('click', toggleMenu);
+      });
+
+      $root_menu_items.each(function () {
+        $(this).on('click', function (event) {
+          event.preventDefault();
+          const $this = $(this);
+
+          let $active_items = $root_menu_items.filter('.active');
+          let $active_containers = $menu_containers.filter('.active');
+          if (!$active_items.is($(this))) {
+            // Clicked on a closed item. Hide all active items before activating
+            // the new one.
+            behavior.closeActiveItems($active_items);
+          }
+          // Always close the sub menu items when interactive with the root item
+          behavior.closeActiveItems($active_containers);
+
+          behavior.toggleActiveItem($(this));
+        });
+      });
+
+      $sub_menu_items.each(function () {
+        $(this).on('click', function (event) {
+          event.preventDefault();
+          const $this = $(this);
+
+          let $active_items = $sub_menu_items.filter('.active');
+          let $active_containers = $menu_containers.filter('.active').filter('[data-menu-level=2]');
+          if (!$active_items.is($this)) {
+            // Clicked on a closed item. Hide all active items before activating
+            // the new one.
+            behavior.closeActiveItems($active_items);
+            behavior.closeActiveItems($active_containers);
+          }
+          behavior.toggleActiveItem($this);
+        });
+      });
+    },
+    closeActiveItems: function ($elements) {
+      $elements
+        .removeClass('active')
+        .next('.sub-menu.active')
+        .removeClass('active');
+
+      $elements
+        .find('.expand-indicator')
+        .removeClass('expand-indicator--expanded');
+    },
+    toggleActiveItem: function ($element) {
+      let child_id = '#' + $element.data('menu-child');
+      const $child_menu = $(child_id);
+
+      $element
+        .toggleClass('active')
+        .next('ul')
+        .toggleClass('active');
+
+      $child_menu.toggleClass('active');
+
+      $element
+        .find('.expand-indicator')
+        .toggleClass('expand-indicator--expanded');
+    }
+  };
+
 })(jQuery, Drupal, once);
