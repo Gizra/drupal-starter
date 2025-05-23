@@ -505,8 +505,11 @@ Purges entries related to IP `193.165.2.3` from Pantheon's `test` environment, o
 ## DDOS attack mitigation
 
 If you experience a site outage or a slowdown, you should consider DDOS attack
-as a possible root cause.
+as a possible root cause. First make sure you have a
+[Pantheon machine token](https://docs.pantheon.io/machine-tokens): `TERMINUS_MACHINE_TOKEN=abcde` in `.ddev/.env`.
+
 ```
+ddev auth ssh # One-time prerequisite
 ddev robo security:check-ddos
 ```
 
@@ -520,6 +523,7 @@ If that simple check if not enough, if there's uncertainity, [`goaccess`](https:
 can help to understand the nature of the traffic. You can run `goaccess` with this command:
 
 ```
+ddev auth ssh # One-time prerequisite
 ddev robo security:access-log-overview
 ```
 
