@@ -38,7 +38,7 @@ trait SecurityTrait {
     }
 
     if (!file_exists(self::$accessLogPath)) {
-      $this->yell("Error: Log file does not exist at " . self::$accessLogPath, 40, 'red');
+      $this->yell('Error: Log file does not exist at ' . self::$accessLogPath, 40, 'red');
       return;
     }
 
@@ -193,12 +193,14 @@ trait SecurityTrait {
    */
   protected function getLogFile(string $env) {
     $pantheon_info = $this->getPantheonNameAndEnv();
-    $this->_exec("$(terminus connection:info --field=sftp_command " . $pantheon_info['name'] . ".$env) <<EOF
+    $this->_exec('$(terminus connection:info --field=sftp_command ' . $pantheon_info['name'] . ".$env) <<EOF
 cd logs/nginx
 get nginx-access.log " . self::$accessLogPath . "
 EOF
 ");
     if (!file_exists(self::$accessLogPath)) {
+      $this->say('Try to use "ddev auth ssh" first to fix this issue. It will let DDEV download the logs via SFTP with the keys of the host system.');
+      $this->say('https://ddev.readthedocs.io/en/stable/users/usage/cli/#ssh-into-containers');
       throw new \Exception('Failed to download the logfiles');
     }
   }
@@ -322,6 +324,19 @@ EOF
 
     // The IP address is public.
     return TRUE;
+  }
+
+  /**
+   * Analyze security access log interactively.
+   *
+   * @param string $env
+   *   Environment name to check, defaults to live.
+   */
+  public function securityAccessLogOverview(string $env = 'live') {
+    $this->getLogFile($env);
+    $this->taskExec("sudo apt install goaccess --yes")->run();
+    $this->_exec("goaccess " . self::$accessLogPath);
+    unlink(self::$accessLogPath);
   }
 
 }

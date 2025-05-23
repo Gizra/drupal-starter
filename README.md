@@ -505,21 +505,25 @@ Purges entries related to IP `193.165.2.3` from Pantheon's `test` environment, o
 ## DDOS attack mitigation
 
 If you experience a site outage or a slowdown, you should consider DDOS attack
-as a possible root cause.
+as a possible root cause. First make sure you have a
+[Pantheon machine token](https://docs.pantheon.io/machine-tokens): `TERMINUS_MACHINE_TOKEN=abcde` in `.ddev/.env`.
+
 ```
+ddev auth ssh # One-time prerequisite
 ddev robo security:check-ddos
 ```
 
 Will provide a list of top IP address by number of requests. If the top few IP
 addresses issue the majority of the requests, spot check a few requests from
 the access log, then ban those IPs if they issue malicious requests.
-Check `web/sites/default/settings.pantheon.php` on how to block individual IPs
+Check [settings.pantheon.php](https://github.com/Gizra/drupal-starter/blob/24dd08d2deef80d0df1651d1295ce2a928b8deb9/web/sites/default/settings.pantheon.php#L13) on how to block individual IPs
 on Pantheon.
 
 If that simple check if not enough, if there's uncertainity, [`goaccess`](https://goaccess.io/man)
 can help to understand the nature of the traffic. You can run `goaccess` with this command:
 
 ```
+ddev auth ssh # One-time prerequisite
 ddev robo security:access-log-overview
 ```
 
