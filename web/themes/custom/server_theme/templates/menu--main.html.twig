@@ -24,7 +24,7 @@
   We call a macro which calls itself to render the full tree.
   @see https://twig.symfony.com/doc/1.x/tags/macro.html
 #}
-<div class="lg:hidden py-6 overflow-auto w-full">
+<div class="lg:hidden overflow-auto w-full">
   {{ menus.menu_links(items, attributes, 0) }}
 </div>
 
@@ -38,20 +38,16 @@
         'm-0',
         'flex',
         'flex-col',
-        'space-y-2',
+        'gap-4 md:gap-6',
       ] %}
       <ul{{ attributes.addClass(menu_classes) }}>
     {% else %}
       {% set menu_classes = [
         'sub-menu',
+        'flex flex-col gap-4 md:gap-6',
+        'ps-10',
         'text-lg',
       ] %}
-
-      {% if menu_level == 1 %}
-        {% set menu_classes = menu_classes|merge(['font-normal']) %}
-      {% elseif menu_level == 2 %}
-        {% set menu_classes = menu_classes|merge(['font-normal']) %}
-      {% endif %}
 
       {% for item in items %}
         {% if item.in_active_trail %}
@@ -65,18 +61,16 @@
         'menu-item',
         'flex',
         'flex-col',
-        menu_level != 0 ? 'my-2.5 px-2.5',
+        'gap-4 md:gap-6'
       ] %}
       <li{{ item.attributes.addClass(item_classes) }}>
         {% set item_tag = item.below ? "button" : "a" %}
-        {% if item.below and menu_level == 0 %}
-          <{{ item_tag }} href="{{ item.url }}" class="menu-root-item flex items-center text-2xl leading-11 font-header w-full text-left {{ item.in_active_trail ? 'active' }}">{{ item.title }} <span class="expand-indicator flex justify-center items-center w-6 h-6 border-1 rounded-full border-white ml-4 {{ item.in_active_trail ? 'expand-indicator--expanded' }}"></span></{{ item_tag }}>
-        {% elseif menu_level == 0 %}
-          <{{ item_tag }} href="{{ item.url }}" class="menu-root-item block text-2xl leading-11 font-header w-full text-left {{ item.in_active_trail ? 'active' }}">{{ item.title }}</{{ item_tag }}>
-        {% elseif item.below and menu_level < 2 %}
-          <{{ item_tag }} class="menu-sub-item flex items-center py-2 text-left {{ item.in_active_trail ? 'active' }}">{{ item.title }} <span class="expand-indicator flex justify-center items-center w-6 h-6 border-1 rounded-full border-white ml-4 {{ item.in_active_trail ? 'expand-indicator--expanded' }}"></span></{{ item_tag }}>
+        {% if menu_level == 0 %}
+          <{{ item_tag }} href="{{ item.url }}" class="menu-root-item pb-2 flex items-center text-xl md:text-2xl w-full text-left {{ item.in_active_trail ? 'active' }}">{{ item.title }}{% if item.below %} <span class="expand-indicator flex justify-center items-center w-6 h-6 border-1 rounded-full border-white ml-4 {{ item.in_active_trail ? 'expand-indicator--expanded' }}"></span>{% endif %}</{{ item_tag }}>
+        {% elseif menu_level == 1 %}
+          <{{ item_tag }} href="{{ item.url }}" class="menu-sub-item pb-2 flex items-center text-lg md:text-xl text-left {{ item.in_active_trail ? 'active' }}">{{ item.title }} {% if item.below %} <span class="expand-indicator flex justify-center items-center w-6 h-6 border-1 rounded-full border-white ml-4 {{ item.in_active_trail ? 'expand-indicator--expanded' }}"></span>{% endif %}</{{ item_tag }}>
         {% else %}
-          <{{ item_tag }} href="{{ item.url }}" class="menu-sub-item py-2 block {{ item.in_active_trail ? 'active' }}">{{ item.title }}</{{ item_tag }}>
+          <{{ item_tag }} href="{{ item.url }}" class="menu-sub-item pb-2 block {{ item.in_active_trail ? 'active' }}">{{ item.title }}</{{ item_tag }}>
         {% endif %}
         {#
          Loops recursively to create all lower levels of the menu structure.
@@ -100,8 +94,6 @@ We call a macro which calls itself to render the full tree.
   "hidden",
   "lg:block",
   "menu_level_0",
-  "py-6",
-  "pr-8",
   "overflow-auto",
   "scrollbar",
   "scrollbar-thin",
@@ -132,36 +124,23 @@ We call a macro which calls itself to render the full tree.
         'm-0',
         'flex',
         'flex-col',
-        'space-y-3',
-        'lg:space-y-3',
-        'lg:relative',
+        'gap-6',
       ] %}
-      {# <ul{{ attributes.addClass(menu_classes) }}> #}
     {% else %}
       {% set menu_container_classes = [
         'menu',
         'sub-menu',
       ] %}
       {% set menu_classes = [
-        'lg:flex-col',
-        'lg:space-y-3',
-        'lg:xl',
-        'lg:ml-12',
-        'lg:px-2.5',
+        'flex flex-col',
+        'gap-5',
       ] %}
-
-      {% if menu_starting_level == 1 %}
-        {% set menu_classes = menu_classes|merge([]) %}
-      {% elseif menu_starting_level == 2 %}
-        {% set menu_classes = menu_classes|merge(['lg:left-full']) %}
-      {% endif %}
 
       {% for item in items %}
         {% if item.in_active_trail %}
           {% set menu_container_classes = menu_container_classes|merge(['active']) %}
         {% endif %}
       {% endfor %}
-      {# <ul class="{{ menu_classes|join(' ')|trim }}"> #}
     {% endif %}
 
     {% if menu_render_level == menu_starting_level %}
@@ -178,14 +157,12 @@ We call a macro which calls itself to render the full tree.
 
             <li{{ item.attributes.setAttributes('class', item_classes) }}>
               {% set item_tag = item.below ? "button" : "a" %}
-              {% if item.below and menu_starting_level == 0 %}
-                <{{ item_tag }} data-menu-child="{{ item.below ? key|split(':')|last : '' }}" href="{{ item.url }}" class="menu-root-item flex items-center base leading-11 lg:text-xl font-header lg:pb-2 w-full text-left {{ item.in_active_trail ? 'active' }}">{{ item.title }} <span class="expand-indicator flex justify-center items-center w-6 h-6 border-1 rounded-full border-white ml-4 {{ item.in_active_trail ? 'expand-indicator--expanded' }}"></span></{{ item_tag }}>
-              {% elseif menu_starting_level == 0 %}
-                <{{ item_tag }} data-menu-child="{{ item.below ? key|split(':')|last : '' }}" href="{{ item.url }}" class="menu-root-item block base leading-11 lg:text-xl font-header lg:pb-2 w-full text-left {{ item.in_active_trail ? 'active' }}">{{ item.title }}</{{ item_tag }}>
-              {% elseif item.below and menu_starting_level < 2 %}
-                <{{ item_tag }} data-menu-child="{{ item.below ? key|split(':')|last : '' }}" class="menu-sub-item flex items-center py-2 lg:py-0 text-left {{ item.in_active_trail ? 'active' }}">{{ item.title }} <span class="expand-indicator flex justify-center items-center w-6 h-6 border-1 rounded-full border-white ml-4 {{ item.in_active_trail ? 'expand-indicator--expanded' }}"></span></{{ item_tag }}>
+              {% if menu_starting_level == 0 %}
+                <{{ item_tag }} data-menu-child="{{ item.below ? key|split(':')|last : '' }}" href="{{ item.url }}" class="menu-root-item flex items-center base leading-11 lg:text-xl font-header pb-2 w-full text-left {{ item.in_active_trail ? 'active' }}">{{ item.title }} {% if item.below %}<span class="expand-indicator flex justify-center items-center w-6 h-6 border-1 rounded-full border-white ml-4 {{ item.in_active_trail ? 'expand-indicator--expanded' }}"></span>{% endif %}</{{ item_tag }}>
+              {% elseif menu_starting_level == 1 %}
+                <{{ item_tag }} data-menu-child="{{ item.below ? key|split(':')|last : '' }}" href="{{ item.url }}" class="menu-sub-item flex items-center pb-2 text-left {{ item.in_active_trail ? 'active' }}">{{ item.title }} {% if item.below %}<span class="expand-indicator flex justify-center items-center w-6 h-6 border-1 rounded-full border-white ml-4 {{ item.in_active_trail ? 'expand-indicator--expanded' }}"></span>{% endif %}</{{ item_tag }}>
               {% else %}
-                <{{ item_tag }} data-menu-child="{{ item.below ? key|split(':')|last : '' }}" href="{{ item.url }}" class="menu-sub-item py-2 lg:py-0 block {{ item.in_active_trail ? 'active' }}">{{ item.title }}</{{ item_tag }}>
+                <{{ item_tag }} data-menu-child="{{ item.below ? key|split(':')|last : '' }}" href="{{ item.url }}" class="menu-sub-item pb-2 block {{ item.in_active_trail ? 'active' }}">{{ item.title }}</{{ item_tag }}>
               {% endif %}
               {#
               Loops recursively to create all lower levels of the menu structure.

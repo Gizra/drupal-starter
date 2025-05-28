@@ -1,7 +1,7 @@
-<nav class="main-menu-wrapper flex-col items-stretch z-[999] fixed inset-0 w-full h-screen bg-gray-900 text-white overflow-scroll lg:overflow-hidden {{ microsite_class }}" role="navigation">
-  <div class="px-4 sm:px-6 lg:px-8 xl:px-20 py-5 lg:py-6 flex flex-row justify-between items-center border-b border-gray-300">
+<nav class="main-menu-wrapper flex-col items-stretch z-[999] fixed inset-0 w-full h-screen bg-blue-950 text-white overflow-scroll lg:overflow-hidden {{ microsite_class }}" role="navigation">
+  <div class="px-4 md:px-10 lg:px-20 pt-4 pb-5 md:pt-5 md:pb-10 lg:pt-10 flex flex-row justify-between items-start border-b border-gray-500">
     <div>
-      <img src="/{{ directory }}/dist/images/logo.svg" alt="{{ 'Logo'|t }}">
+      <a href="/" title="{{ 'Homepage'|t }}"><img src="/{{ directory }}/dist/images/logo.svg" alt="{{ 'Logo'|t }}"></a>
     </div>
     <button name="close_menu" class="js-close-menu mt-2 w-6 h-6">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -17,10 +17,7 @@
       <span class="sr-only">{{ 'Close menu'|t }}</span>
     </button>
   </div>
-  <div class="flex lg:flex-row px-4 sm:px-6 lg:px-8 xl:px-20 lg:overflow-hidden grow relative">
+  <div class="flex lg:grid lg:grid-cols-[repeat(3,_fit-content(30%))] lg:gap-20 px-4 md:px-10 lg:px-20 py-5 md:py-10 lg:overflow-hidden grow relative">
     {{ main_menu }}
-  </div>
-  <div class="px-4 sm:px-6 lg:px-8 xl:px-20 py-5 lg:py-6 bg-gray-700">
-    {{ quick_links }}
   </div>
 </nav>
