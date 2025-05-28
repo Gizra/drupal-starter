@@ -5,6 +5,7 @@
  * Theme custom logic.
  */
 
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Url;
 use Drupal\lang_dropdown\LanguageDropdownConstants;
 
@@ -609,7 +610,9 @@ function server_theme_prepare_block(string $bid, array $config): array {
   $block_manager = \Drupal::service('plugin.manager.block');
   $plugin_block = $block_manager->createInstance($bid, $config);
   $render = $plugin_block->build();
-  \Drupal::service('renderer')->addCacheableDependency($render, $plugin_block);
+  CacheableMetadata::createFromRenderArray($render)
+    ->addCacheableDependency($plugin_block)
+    ->applyTo($render);
 
   return $render;
 }
