@@ -118,9 +118,6 @@ function server_theme_theme() {
       'site_name' => \Drupal::config('system.site')->get('name'),
       // Site messages passed by \Drupal::messenger().
       'messages' => NULL,
-      'microsite_logo' => NULL,
-      'is_microsite' => NULL,
-      'microsite_home' => NULL,
     ],
   ];
 
