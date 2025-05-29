@@ -605,40 +605,7 @@ function server_theme_theme_suggestions_page_title_alter(array &$suggestions, ar
  *   Render array.
  */
 function server_theme_prepare_block(string $bid, array $config): array {
-  $block_manager = \Drupal::service('plugin.manager.block');
-  $plugin_block = $block_manager->createInstance($bid, $config);
-  $render = $plugin_block->build();
-
-  return $render;
-}
-
-/**
- * Prepare menu links.
- *
- * @param string $menu_name
- *   Menu name.
- *
- * @return array
- *   Menu links array.
- */
-
-/**
- * Prepare menu links.
- *
- * @param string $menu_name
- *   Menu name.
- *
- * @return array
- *   Menu links array.
- */
-function server_theme_prepare_menu_links(string $menu_name) {
-  $menu_tree = \Drupal::service('menu.link_tree');
-  // Build the typical default set of menu tree parameters.
-  $parameters = $menu_tree->getCurrentRouteMenuTreeParameters($menu_name);
-  // Load the tree based on this set of parameters.
-  $tree = $menu_tree->load($menu_name, $parameters);
-  // Build a hierarchical menu and return that.
-  return _server_theme_extract_menu_level($tree);
+  return \Drupal::service('block_plugin.view_builder')->view($bid, $config);
 }
 
 /**
