@@ -556,7 +556,6 @@ function server_theme_preprocess_page(array &$variables) {
   $variables['page']['primary_menu'] = [
     '#theme' => 'server_theme_header_menu',
     '#main_menu' => server_theme_prepare_block('system_menu_block:main', []),
-    '#items' => server_theme_prepare_menu_links('main'),
   ];
 
   $variables['page']['footer'] = [

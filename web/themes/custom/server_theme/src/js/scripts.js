@@ -54,9 +54,7 @@
       $body.on('click', function(event) {
         $body.removeClass('js-search-form-open');
 
-        if ($(this).hasClass('js-search-form-open')) {
-          $(this).removeClass('js-search-form-open');
-        }
+        $(this).removeClass('js-search-form-open');
       });
     },
   };
