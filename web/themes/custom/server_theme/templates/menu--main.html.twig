@@ -1,0 +1,191 @@
+{#
+/**
+ * @file
+ * Theme override to display a menu.
+ *
+ * Available variables:
+ * - menu_name: The machine name of the menu.
+ * - items: A nested list of menu items. Each menu item contains:
+ *   - attributes: HTML attributes for the menu item.
+ *   - below: The menu item child items.
+ *   - title: The menu link title.
+ *   - url: The menu link url, instance of \Drupal\Core\Url
+ *   - localized_options: Menu link localized options.
+ *   - is_expanded: TRUE if the link has visible children within the current
+ *     menu tree.
+ *   - is_collapsed: TRUE if the link has children within the current menu tree
+ *     that are not currently visible.
+ *   - in_active_trail: TRUE if the link is in the active trail.
+ */
+#}
+{% import _self as menus %}
+
+{#
+  We call a macro which calls itself to render the full tree.
+  @see https://twig.symfony.com/doc/1.x/tags/macro.html
+#}
+<div class="lg:hidden overflow-auto w-full">
+  {{ menus.menu_links(items, attributes, 0) }}
+</div>
+
+{% macro menu_links(items, attributes, menu_level) %}
+  {% import _self as menus %}
+  {% if items %}
+    {% if menu_level == 0 %}
+      {% set menu_classes = [
+        'menu',
+        'main-menu',
+        'm-0',
+        'flex',
+        'flex-col',
+        'gap-4 md:gap-6',
+      ] %}
+      <ul{{ attributes.addClass(menu_classes) }}>
+    {% else %}
+      {% set menu_classes = [
+        'sub-menu',
+        'flex flex-col gap-4 md:gap-6',
+        'ps-10',
+        'text-lg',
+      ] %}
+
+      {% for item in items %}
+        {% if item.in_active_trail %}
+          {% set menu_classes = menu_classes|merge(['active']) %}
+        {% endif %}
+      {% endfor %}
+      <ul class="{{ menu_classes|join(' ')|trim }}">
+    {% endif %}
+    {% for item in items %}
+      {% set item_classes = [
+        'menu-item',
+        'flex',
+        'flex-col',
+        'gap-4 md:gap-6'
+      ] %}
+      <li{{ item.attributes.addClass(item_classes) }}>
+        {% set item_tag = item.below ? "button" : "a" %}
+        {% if menu_level == 0 %}
+          <{{ item_tag }} href="{{ item.url }}" class="menu-root-item pb-2 flex items-center text-xl md:text-2xl w-full text-left {{ item.in_active_trail ? 'active' }}">{{ item.title }}{% if item.below %} <span class="expand-indicator flex justify-center items-center w-6 h-6 border-1 rounded-full border-white ml-4 {{ item.in_active_trail ? 'expand-indicator--expanded' }}"></span>{% endif %}</{{ item_tag }}>
+        {% elseif menu_level == 1 %}
+          <{{ item_tag }} href="{{ item.url }}" class="menu-sub-item pb-2 flex items-center text-lg md:text-xl text-left {{ item.in_active_trail ? 'active' }}">{{ item.title }} {% if item.below %} <span class="expand-indicator flex justify-center items-center w-6 h-6 border-1 rounded-full border-white ml-4 {{ item.in_active_trail ? 'expand-indicator--expanded' }}"></span>{% endif %}</{{ item_tag }}>
+        {% else %}
+          <{{ item_tag }} href="{{ item.url }}" class="menu-sub-item pb-2 block {{ item.in_active_trail ? 'active' }}">{{ item.title }}</{{ item_tag }}>
+        {% endif %}
+        {#
+         Loops recursively to create all lower levels of the menu structure.
+         Forcing a break at menu_level < 2 to ensure that only 3 levels are rendered.
+        #}
+        {% if item.below and menu_level < 2 %}
+          {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
+        {% endif %}
+      </li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endmacro %}
+
+
+{#
+We call a macro which calls itself to render the full tree.
+@see https://twig.symfony.com/doc/1.x/tags/macro.html
+#}
+{% set menu_container_classes = [
+  "hidden",
+  "lg:block",
+  "menu_level_0",
+  "overflow-auto",
+  "scrollbar",
+  "scrollbar-thin",
+  "scrollbar-thumb-blue-gray",
+  "scrollbar-rounded-full",
+  "scrollbar-track-blue-dark",
+] %}
+<div class="menu_level_0 {{ menu_container_classes|join(" ") }}">
+  {{ menus.menu_links_desktop(items, attributes, 0) }}
+</div>
+<div class="menu_level_1 {{ menu_container_classes|join(" ") }}">
+  {{ menus.menu_links_desktop(items, attributes, 1) }}
+</div>
+<div class="menu_level_2 {{ menu_container_classes|join(" ") }}">
+  {{ menus.menu_links_desktop(items, attributes, 2) }}
+</div>
+
+
+{% macro menu_links_desktop(items, attributes, menu_render_level, menu_starting_level = 0, parent_key = 'root') %}
+  {% import _self as menus %}
+  {% if items %}
+    {% if menu_render_level == 0 %}
+      {% set menu_container_classes = [
+        'menu',
+        'main-menu',
+      ] %}
+      {% set menu_classes = [
+        'm-0',
+        'flex',
+        'flex-col',
+        'gap-6',
+      ] %}
+    {% else %}
+      {% set menu_container_classes = [
+        'menu',
+        'sub-menu',
+      ] %}
+      {% set menu_classes = [
+        'flex flex-col',
+        'gap-5',
+      ] %}
+
+      {% for item in items %}
+        {% if item.in_active_trail %}
+          {% set menu_container_classes = menu_container_classes|merge(['active']) %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+
+    {% if menu_render_level == menu_starting_level %}
+      <div data-menu-level="{{ menu_starting_level }}" id="{{ parent_key|split(':')|last }}" class="{{ menu_container_classes|join(' ')|trim }}">
+        <ul class="{{ menu_classes|join(' ')|trim }}">
+          {% for key, item in items %}
+            {% set item_classes = [
+              'menu-item',
+              'flex',
+              'flex-col',
+              'w-full',
+              menu_starting_level != 0 ? 'my-2.5 px-2.5 lg:my-0 lg:px-0',
+            ] %}
+
+            <li{{ item.attributes.setAttributes('class', item_classes) }}>
+              {% set item_tag = item.below ? "button" : "a" %}
+              {% if menu_starting_level == 0 %}
+                <{{ item_tag }} data-menu-child="{{ item.below ? key|split(':')|last : '' }}" href="{{ item.url }}" class="menu-root-item flex items-center base leading-11 lg:text-xl font-header pb-2 w-full text-left {{ item.in_active_trail ? 'active' }}">{{ item.title }} {% if item.below %}<span class="expand-indicator flex justify-center items-center w-6 h-6 border-1 rounded-full border-white ml-4 {{ item.in_active_trail ? 'expand-indicator--expanded' }}"></span>{% endif %}</{{ item_tag }}>
+              {% elseif menu_starting_level == 1 %}
+                <{{ item_tag }} data-menu-child="{{ item.below ? key|split(':')|last : '' }}" href="{{ item.url }}" class="menu-sub-item flex items-center pb-2 text-left {{ item.in_active_trail ? 'active' }}">{{ item.title }} {% if item.below %}<span class="expand-indicator flex justify-center items-center w-6 h-6 border-1 rounded-full border-white ml-4 {{ item.in_active_trail ? 'expand-indicator--expanded' }}"></span>{% endif %}</{{ item_tag }}>
+              {% else %}
+                <{{ item_tag }} data-menu-child="{{ item.below ? key|split(':')|last : '' }}" href="{{ item.url }}" class="menu-sub-item pb-2 block {{ item.in_active_trail ? 'active' }}">{{ item.title }}</{{ item_tag }}>
+              {% endif %}
+              {#
+              Loops recursively to create all lower levels of the menu structure.
+              Forcing a break at menu_starting_level < 2 to ensure that only 3 levels are rendered.
+              #}
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    {% for key, item in items %}
+      {% if item.below and menu_starting_level == 1 %}
+        {% set pk = 'l2-' ~ parent_key|split(':')|last ~ '-' ~ key %}
+      {% else %}
+        {% set pk = key %}
+      {% endif %}
+
+      {% if item.below and menu_starting_level < 2 %}
+        {{ menus.menu_links_desktop(item.below, attributes, menu_render_level, menu_starting_level + 1, pk) }}
+      {% endif %}
+    {% endfor %}
+    {# </ul> #}
+  {% endif %}
+
+{% endmacro %}

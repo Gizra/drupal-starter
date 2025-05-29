@@ -1,31 +1,43 @@
-<div class="container-wide flex flex-col gap-y-5">
+<div class="container-wide relative py-2 md:py-5">
+  <div class="grid grid-cols-[fit-content(40%)_auto_fit-content(10%)_fit-content(10%)] gap-x-8 gap-y-5 md:gap-x-10 grid-rows-[auto_1fr]">
+    <div class="col-start-1 row-start-1 row-span-2 flex items-center" id="main-logo">
+      <a href="{{ path('<front>') }}" class="flex flex-col sm:flex-row gap-2 items-center">
+        <img src="/{{ directory }}/dist/images/logo.svg" alt="{{ 'Logo'|t }}">
+        <span class="main-logo-text text-lg">
+          {{ site_name }}
+        </span>
+      </a>
+    </div>
 
-  <div class="flex items-center justify-between">
-
-    <a href="{{ path('<front>') }}" rel="home" class="flex gap-x-2 items-center">
-      <img class="h-16 w-16" src="/{{ directory }}/dist/images/logo.svg" alt="{{ site_name }}">
-    </a>
-
-    <div class="w-1/2 text-right">
+    <div class="col-start-3 row-start-1 col-span-2">
       <div class="language-block-dropdown block sm:hidden">{{ language_block_dropdown }}</div>
       <div class="language-block-links hidden sm:block">{{ language_block_links }}</div>
     </div>
+
+    <div class="col-start-3 row-start-2 flex items-center justify-center lg:justify-end">
+      <button class="js-search-toggle flex items-center gap-x-4 sm:px-2 sm:py-2.5 sm:border sm:hover:bg-gray-300 sm:focus-visible:bg-gray-300 transition-colors duration-300">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21.0008 21.0008L15.8038 15.8038M15.8038 15.8038C17.2104 14.3972 18.0006 12.4895 18.0006 10.5003C18.0006 8.51108 17.2104 6.60336 15.8038 5.19678C14.3972 3.79021 12.4895 3 10.5003 3C8.51108 3 6.60336 3.79021 5.19678 5.19678C3.79021 6.60336 3 8.51108 3 10.5003C3 12.4895 3.79021 14.3972 5.19678 15.8038C6.60336 17.2104 8.51108 18.0006 10.5003 18.0006C12.4895 18.0006 14.3972 17.2104 15.8038 15.8038Z" stroke="#204E96" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+
+        <span class="hidden sm:block">{{ 'Search'|t }}</span>
+      </button>
+    </div>
+
+    <div class="col-start-4 row-start-2 flex items-center justify-center">
+      <button type="button" name="open_menu" class="js-open-menu flex items-center gap-x-6 sm:px-2 sm:py-2.5 sm:border sm:hover:bg-gray-300 sm:focus-visible:bg-gray-300 transition-colors duration-300">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3.75 6.75H20.25M3.75 12H20.25M3.75 17.25H20.25" stroke="#204E96" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+
+        <span class="hidden sm:block" id="header-menu">{{ 'Menu'|t }}</span>
+      </button>
+    </div>
+
+    <div class="col-start-1 col-span-4 row-start-2 sm:col-start-1 sm:col-span-3 lg:col-start-3 lg:row-start-2 lg:col-span-1 lg:w-[460px] pointer-events-none [.js-search-form-open_&]:pointer-events-auto">
+      {{ search_block }}
+    </div>
+
   </div>
-
-  <div class="flex flex-row-reverse sm:flex-row justify-between items-center">
-
-    {{ menu }}
-
-    {# The hamburger icon and menu that would appear on mobile devices #}
-    <button class="block sm:hidden w-7 js-mobile-menu-button js-hide-mobile-menu-trigger">
-      <img src="/{{ directory }}/dist/images/menu.svg" alt="{{ 'Menu'|t }}">
-    </button>
-
-    {{ search_block }}
-
-  </div>
-
-  {{ messages }}
-
 
 </div>

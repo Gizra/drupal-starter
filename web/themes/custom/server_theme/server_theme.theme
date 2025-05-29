@@ -123,7 +123,7 @@ function server_theme_theme() {
 
   $info['server_theme_header_menu'] = [
     'variables' => [
-      'items' => [],
+      'main_menu' => [],
     ],
   ];
 
@@ -550,20 +550,12 @@ function server_theme_preprocess_page(array &$variables) {
     ],
     '#language_block_dropdown' => server_theme_prepare_block('language_dropdown_block:language_interface', $language_block_config),
     '#language_block_links' => server_theme_prepare_block('language_block:language_interface', $language_block_config),
-    '#menu' => [
-      '#theme' => 'server_theme_header_menu',
-      '#items' => server_theme_prepare_menu_links('main'),
-      '#cache' => [
-        'tags' => [
-          'config:system.menu.main',
-        ],
-        'contexts' => [
-          'languages:language_interface',
-          'user.roles',
-        ],
-      ],
-    ],
     '#messages' => $messages,
+  ];
+
+  $variables['page']['primary_menu'] = [
+    '#theme' => 'server_theme_header_menu',
+    '#main_menu' => server_theme_prepare_block('system_menu_block:main', []),
   ];
 
   $variables['page']['footer'] = [
@@ -614,35 +606,6 @@ function server_theme_theme_suggestions_page_title_alter(array &$suggestions, ar
  */
 function server_theme_prepare_block(string $bid, array $config): array {
   return \Drupal::service('block_plugin.view_builder')->view($bid, $config);
-}
-
-/**
- * Prepare menu links.
- *
- * @param string $menu_name
- *   Menu name.
- *
- * @return array
- *   Menu links array.
- */
-
-/**
- * Prepare menu links.
- *
- * @param string $menu_name
- *   Menu name.
- *
- * @return array
- *   Menu links array.
- */
-function server_theme_prepare_menu_links(string $menu_name) {
-  $menu_tree = \Drupal::service('menu.link_tree');
-  // Build the typical default set of menu tree parameters.
-  $parameters = $menu_tree->getCurrentRouteMenuTreeParameters($menu_name);
-  // Load the tree based on this set of parameters.
-  $tree = $menu_tree->load($menu_name, $parameters);
-  // Build a hierarchical menu and return that.
-  return _server_theme_extract_menu_level($tree);
 }
 
 /**
