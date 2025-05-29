@@ -77,22 +77,23 @@
 
       const toggleMenu = function (event) {
         event.preventDefault();
+        // Get the current scroll position and negate it.
         const top = window.scrollY * -1 + 'px';
 
-        $main_menu.show();
         $body.toggleClass('js-menu-open');
+
         if ($body.hasClass('js-menu-open')) {
           // Menu opened.
-          // Lock the body position to prevent the background from scrolling
-          // while the menu is open.
-          // Get the current scroll position and negate it.
+          // Set var to place the scroll in correct position while the menu is
+          // open, as the window scroll is locked while the menu is open.
           root.style.setProperty('--server-theme-scroll-position', top);
           return;
         }
+
         // Menu closed.
         // Reset the window's scroll position back to where it was.
         const rootstyle = getComputedStyle(root);
-        var scrollY = rootstyle.getPropertyValue('--server-theme-scroll-position');
+        const scrollY = rootstyle.getPropertyValue('--server-theme-scroll-position');
         // scrollY will be a negative value, so we negate it again to make it
         // positive.
         $(window).scrollTop(parseInt(scrollY || '0') * -1);
@@ -112,9 +113,9 @@
           event.preventDefault();
           const $this = $(this);
 
-          let $active_items = $root_menu_items.filter('.active');
-          let $active_containers = $menu_containers.filter('.active');
-          if (!$active_items.is($(this))) {
+          const $active_items = $root_menu_items.filter('.active');
+          const $active_containers = $menu_containers.filter('.active');
+          if (!$active_items.is($this)) {
             // Clicked on a closed item. Hide all active items before activating
             // the new one.
             behavior.closeActiveItems($active_items);
@@ -122,7 +123,7 @@
           // Always close the sub menu items when interactive with the root item
           behavior.closeActiveItems($active_containers);
 
-          behavior.toggleActiveItem($(this));
+          behavior.toggleActiveItem($this);
         });
       });
 
@@ -154,7 +155,7 @@
         .removeClass('expand-indicator--expanded');
     },
     toggleActiveItem: function ($element) {
-      let child_id = '#' + $element.data('menu-child');
+      const child_id = '#' + $element.data('menu-child');
       const $child_menu = $(child_id);
 
       $element
