@@ -608,7 +608,7 @@ class StyleGuideController extends ControllerBase {
     // Wrap Html tag from h1 to h5.
     foreach (range(1, 5) as $index) {
       $tag = 'h' . $index;
-      $elements[] = $this->wrapHtmlTag('This is an example for ' . $tag, $tag);
+      $elements[] = $this->wrapHeadingTag('This is an example for ' . $tag, $tag);
     }
     $build[] = $this->wrapElementWideContainer($elements, 'Headings (h1 - h5)');
 
