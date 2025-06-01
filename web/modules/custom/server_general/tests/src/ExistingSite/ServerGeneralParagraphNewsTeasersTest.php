@@ -54,7 +54,7 @@ class ServerGeneralParagraphNewsTeasersTest extends ServerGeneralParagraphTestBa
 
     // Create node.news with allowed and disallowed html tags in field_body.
     // @see Drupal\server_general\ProcessedTextBuilderTrait
-    $body = 'This heading tag should be stripped but <strong>this strong one not.</strong>';
+    $body = 'The wrapping h3 tag should be stripped but <strong>this strong one not.</strong>';
 
     $this->createNode([
       'title' => 'Test News',
