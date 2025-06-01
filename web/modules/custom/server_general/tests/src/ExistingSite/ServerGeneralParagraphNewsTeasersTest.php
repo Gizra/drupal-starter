@@ -31,6 +31,7 @@ class ServerGeneralParagraphNewsTeasersTest extends ServerGeneralParagraphTestBa
   public function getOptionalFields(): array {
     return [
       'field_title',
+      'field_body',
     ];
   }
 
