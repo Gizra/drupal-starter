@@ -72,7 +72,7 @@ trait ProcessedTextBuilderTrait {
       // Keep only a limited set of tags.
       $element[0]['#output']['#text'] = strip_tags($element[0]['#output']['#text'], [
         'strong',
-        'italic',
+        'em',
         'ul',
         'ol',
       ]);
