@@ -59,14 +59,17 @@ class ServerGeneralParagraphNewsTeasersTest extends ServerGeneralParagraphTestBa
     $this->createNode([
       'title' => 'Test News',
       'type' => 'news',
-      'field_body' => '<h3>' . $body . '</h3>',
+      'field_body' => [
+        'value' => '<h3>' . $body . '</h3>',
+        'format' => 'full_html',
+      ],
       'moderation_state' => 'published',
     ]);
 
     $this->drupalGet($landing_page_node->toUrl());
     $this->assertSession()->elementNotExists('css', '.node--type-news.node--view-mode-teaser .field--name-field-body h3');
     $this->assertSession()->elementExists('css', '.node--type-news.node--view-mode-teaser .field--name-field-body strong');
-    $this->assertSession()->pageTextContains($body);
+    $this->assertStringContainsString($body, $this->getCurrentPage()->getOuterHtml());
   }
 
 }
