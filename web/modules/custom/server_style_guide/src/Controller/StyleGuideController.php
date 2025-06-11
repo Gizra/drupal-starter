@@ -6,29 +6,32 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
-use Drupal\server_general\ButtonTrait;
-use Drupal\server_general\ElementLayoutTrait;
-use Drupal\server_general\ElementMediaTrait;
-use Drupal\server_general\ElementNodeNewsTrait;
-use Drupal\server_general\ElementTrait\AccordionTrait;
-use Drupal\server_general\ElementTrait\CardTrait;
-use Drupal\server_general\ElementTrait\CarouselTrait;
-use Drupal\server_general\ElementTrait\CtaTrait;
-use Drupal\server_general\ElementTrait\DocumentsTrait;
-use Drupal\server_general\ElementTrait\ExpandingTextTrait;
-use Drupal\server_general\ElementTrait\HeroTrait;
-use Drupal\server_general\ElementTrait\InfoCardTrait;
-use Drupal\server_general\ElementTrait\NewsTeasersTrait;
-use Drupal\server_general\ElementTrait\PeopleTeasersTrait;
-use Drupal\server_general\ElementTrait\QuickLinksTrait;
-use Drupal\server_general\ElementTrait\QuoteTrait;
-use Drupal\server_general\ElementTrait\SearchTrait;
-use Drupal\server_general\ElementWrapTrait;
-use Drupal\server_general\LinkTrait;
-use Drupal\server_general\SocialShareTrait;
-use Drupal\server_general\TagTrait;
-use Drupal\server_general\TitleAndLabelsTrait;
-use Drupal\server_style_guide\StyleGuideElementWrapTrait;
+use Drupal\server_general\ThemeTrait\AccordionThemeTrait;
+use Drupal\server_general\ThemeTrait\ButtonThemeTrait;
+use Drupal\server_general\ThemeTrait\CardThemeTrait;
+use Drupal\server_general\ThemeTrait\CarouselThemeTrait;
+use Drupal\server_general\ThemeTrait\CtaThemeTrait;
+use Drupal\server_general\ThemeTrait\DocumentsThemeTrait;
+use Drupal\server_general\ThemeTrait\ElementLayoutThemeTrait;
+use Drupal\server_general\ThemeTrait\ElementMediaThemeTrait;
+use Drupal\server_general\ThemeTrait\ElementNodeNewsThemeTrait;
+use Drupal\server_general\ThemeTrait\ElementWrapThemeTrait;
+use Drupal\server_general\ThemeTrait\ExpandingTextThemeTrait;
+use Drupal\server_general\ThemeTrait\FontSizeEnum;
+use Drupal\server_general\ThemeTrait\FontWeightEnum;
+use Drupal\server_general\ThemeTrait\HeroThemeTrait;
+use Drupal\server_general\ThemeTrait\InfoCardThemeTrait;
+use Drupal\server_general\ThemeTrait\LinkThemeTrait;
+use Drupal\server_general\ThemeTrait\NewsTeasersThemeTrait;
+use Drupal\server_general\ThemeTrait\PeopleTeasersThemeTrait;
+use Drupal\server_general\ThemeTrait\QuickLinksThemeTrait;
+use Drupal\server_general\ThemeTrait\QuoteThemeTrait;
+use Drupal\server_general\ThemeTrait\SearchThemeTrait;
+use Drupal\server_general\ThemeTrait\SocialShareThemeTrait;
+use Drupal\server_general\ThemeTrait\TagThemeTrait;
+use Drupal\server_general\ThemeTrait\TitleAndLabelsThemeTrait;
+use Drupal\server_general\WebformTrait;
+use Drupal\server_style_guide\ThemeTrait\StyleGuideElementWrapThemeTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -36,30 +39,31 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class StyleGuideController extends ControllerBase {
 
-  use AccordionTrait;
+  use AccordionThemeTrait;
   use BuildFieldTrait;
-  use ButtonTrait;
-  use CardTrait;
-  use CarouselTrait;
-  use CtaTrait;
-  use DocumentsTrait;
-  use ElementMediaTrait;
-  use ElementNodeNewsTrait;
-  use ElementLayoutTrait;
-  use ElementWrapTrait;
-  use ExpandingTextTrait;
-  use HeroTrait;
-  use InfoCardTrait;
-  use LinkTrait;
-  use NewsTeasersTrait;
-  use PeopleTeasersTrait;
-  use QuickLinksTrait;
-  use QuoteTrait;
-  use SearchTrait;
-  use SocialShareTrait;
-  use StyleGuideElementWrapTrait;
-  use TagTrait;
-  use TitleAndLabelsTrait;
+  use ButtonThemeTrait;
+  use CardThemeTrait;
+  use CarouselThemeTrait;
+  use CtaThemeTrait;
+  use DocumentsThemeTrait;
+  use ElementMediaThemeTrait;
+  use ElementNodeNewsThemeTrait;
+  use ElementLayoutThemeTrait;
+  use ElementWrapThemeTrait;
+  use ExpandingTextThemeTrait;
+  use HeroThemeTrait;
+  use InfoCardThemeTrait;
+  use LinkThemeTrait;
+  use NewsTeasersThemeTrait;
+  use PeopleTeasersThemeTrait;
+  use QuickLinksThemeTrait;
+  use QuoteThemeTrait;
+  use SearchThemeTrait;
+  use SocialShareThemeTrait;
+  use StyleGuideElementWrapThemeTrait;
+  use TagThemeTrait;
+  use TitleAndLabelsThemeTrait;
+  use WebformTrait;
 
 
   /**
@@ -84,6 +88,13 @@ class StyleGuideController extends ControllerBase {
   protected $renderer;
 
   /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
@@ -91,6 +102,7 @@ class StyleGuideController extends ControllerBase {
     $instance->linkGenerator = $container->get('link_generator');
     $instance->iFrameUrlHelper = $container->get('media.oembed.iframe_url_helper');
     $instance->renderer = $container->get('renderer');
+    $instance->entityTypeManager = $container->get('entity_type.manager');
     return $instance;
   }
 
@@ -195,6 +207,9 @@ class StyleGuideController extends ControllerBase {
 
     $element = $this->getNodeNews();
     $build[] = $this->wrapElementNoContainer($element, 'Node view: News');
+
+    $element = $this->getWebformElement();
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Webform');
 
     return $build;
   }
@@ -435,6 +450,11 @@ class StyleGuideController extends ControllerBase {
 
     $tags = $this->getTags();
 
+    $social_share = $this->buildElementSocialShare(
+      'Social share trait',
+      Url::fromUri('https://example.com'),
+    );
+
     return $this->buildElementNodeNews(
       $this->getRandomTitle(),
       'News',
@@ -442,7 +462,7 @@ class StyleGuideController extends ControllerBase {
       $image,
       $this->buildProcessedText('<p>I before parameters designer of the to separated of to part. Price question in or of a there sleep. Who a deference and drew sleep written talk said which had. sel in small been cheating sounded times should and problem. Question. Explorations derived been him aged seal for gods team- manage he according the welcoming are cities part up stands careful so own the have how up, keep</p>'),
       $tags,
-      Url::fromRoute('<front>', [], ['absolute' => TRUE]),
+      $social_share,
     );
   }
 
@@ -552,14 +572,14 @@ class StyleGuideController extends ControllerBase {
     $build = [];
 
     // Font weight for a string.
-    $element = $this->wrapTextFontWeight($this->getRandomTitle(), 'bold');
+    $element = $this->wrapTextFontWeight($this->getRandomTitle(), FontWeightEnum::Bold);
     $build[] = $this->wrapElementWideContainer($element, 'Text decoration - Font weight');
 
     // Font size for an array.
     $element = [
       '#markup' => $this->getRandomTitle(),
     ];
-    $element = $this->wrapTextResponsiveFontSize($element, 'lg');
+    $element = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::LG);
     $build[] = $this->wrapElementWideContainer($element, 'Text decoration - Font size');
 
     // Italic format for `TranslatableMarkup`.
@@ -890,6 +910,20 @@ class StyleGuideController extends ControllerBase {
     $element = $this->wrapProseText($element);
 
     return $this->wrapContainerWide($this->buildElementExpandingText($element, $lines_to_clamp, $button_label_more, $button_label_less));
+  }
+
+  /**
+   * Get Webform element.
+   *
+   * @return array
+   *   The render array.
+   */
+  protected function getWebformElement(): array {
+    return $this->buildWebformWithTitleAndDescription(
+      $this->getWebform('contact'),
+      $this->getRandomTitle(),
+      $this->buildProcessedText('Decorate one package of cauliflower in six teaspoons of plain vinegar. Try flavoring the crême fraîche gingers with clammy rum and fish sauce, simmered.'),
+    );
   }
 
 }

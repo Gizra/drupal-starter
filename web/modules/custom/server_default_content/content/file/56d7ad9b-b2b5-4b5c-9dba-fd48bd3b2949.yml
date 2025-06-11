@@ -4,6 +4,9 @@ _meta:
   uuid: 56d7ad9b-b2b5-4b5c-9dba-fd48bd3b2949
   default_langcode: en
 default:
+  uid:
+    -
+      target_id: 1
   filename:
     -
       value: cafe-800x600_55.jpg

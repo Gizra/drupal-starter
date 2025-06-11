@@ -1,6 +1,15 @@
 _core:
   default_config_hash: R4IF-ClDHXxblLcG0L7MgsLvfBIMAvi_skumNFQwkDc
 module:
+  ai: 0
+  ai_api_explorer: 0
+  ai_automators: 0
+  ai_ckeditor: 0
+  ai_content_suggestions: 0
+  ai_image_alt_text: 0
+  ai_logging: 0
+  ai_provider_openai: 0
+  ai_translate: 0
   ban: 0
   big_pipe: 0
   block: 0
@@ -9,10 +18,10 @@ module:
   breakpoint: 0
   ckeditor5: 0
   config: 0
+  config_filter: 0
   config_ignore: 0
   config_pages: 0
   config_translation: 0
-  contact: 0
   content_moderation: 0
   contextual: 0
   crop: 0
@@ -33,7 +42,7 @@ module:
   file: 0
   filter: 0
   focal_point: 0
-  google_analytics: 0
+  google_tag: 0
   help: 0
   history: 0
   image: 0
@@ -52,6 +61,7 @@ module:
   media_library: 0
   menu_ui: 0
   metatag: 0
+  metatag_open_graph: 0
   mysql: 0
   navigation: 0
   node: 0
@@ -71,7 +81,9 @@ module:
   redirect: 0
   redis: 0
   responsive_image: 0
+  rollbar: 0
   search_api: 0
+  search_api_pantheon: 0
   search_api_solr: 0
   seckit: 0
   select2: 0
@@ -89,6 +101,8 @@ module:
   user: 0
   username_enumeration_prevention: 0
   views_ui: 0
+  webform: 0
+  webform_ui: 0
   workflows: 0
   wpf: 0
   fast404: 1

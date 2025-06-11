@@ -7,7 +7,7 @@ else
   docker login --password "$DOCKER_PASSWORD" --username amitaibu
 fi
 
-DDEV_VERSION="v1.23.5"
+DDEV_VERSION="v1.24.1"
 
 if ! command -v ddev &>/dev/null; then
     echo "Installing ddev."
@@ -36,12 +36,15 @@ else
     echo "Docker network ddev_default already exists."
 fi
 
-# Run ddev composer install, checking for success
 echo "Running ddev composer install."
 if ! ddev composer install; then
     echo "ddev composer install failed."
     ddev logs
     exit 1
+fi
+
+if [ -n "$ROLLBAR_SERVER_TOKEN" ]; then
+  ddev config global --web-environment-add="ROLLBAR_SERVER_TOKEN=$ROLLBAR_SERVER_TOKEN"
 fi
 
 echo "DDEV installation completed successfully."

@@ -36,6 +36,17 @@ default:
   moderation_state:
     -
       value: published
+  metatag:
+    -
+      tag: meta
+      attributes:
+        name: title
+        content: 'How to be Happier in 2021: Toss Out Your Usual List of New Year’s Resolutions, Says Study | Drupal Starter'
+    -
+      tag: link
+      attributes:
+        rel: canonical
+        href: 'https://drupal-starter.ddev.site:4443/news/how-be-happier-2021-toss-out-your-usual-list-new-years-resolutions-says-study'
   path:
     -
       alias: /news/how-be-happier-2021-toss-out-your-usual-list-new-years-resolutions-says-study

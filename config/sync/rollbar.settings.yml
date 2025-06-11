@@ -1,0 +1,33 @@
+_core:
+  default_config_hash: g3JxEht84C1N0JlziQfFKn3w4H26jVpZ2viFZnDfBnU
+enabled: false
+access_token: 1234
+access_token_frontend: 1234
+capture_uncaught: false
+capture_unhandled_rejections: false
+environment: ddev
+log_level:
+  - '0'
+  - '1'
+  - '2'
+  - '3'
+  - 0
+  - 0
+  - 0
+  - 0
+channels: ''
+rollbar_js_url: 'https://cdn.rollbar.com/rollbarjs/refs/tags/v2.26.3/rollbar.min.js'
+host_white_list: ''
+person_tracking: 'off'
+ignored_headers: {  }
+ignored_messages: {  }
+scrub_fields:
+  - passwd
+  - password
+  - secret
+  - confirm_password
+  - password_confirmation
+  - auth_token
+  - csrf_token
+max_nesting_depth: 3
+local_vars_dump: false

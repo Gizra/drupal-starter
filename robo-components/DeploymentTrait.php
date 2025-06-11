@@ -84,9 +84,77 @@ trait DeploymentTrait {
     'mass_patch.sh',
     'package.json',
     'package-lock.json',
-    'composer.json',
-    'composer.lock',
+    'web/libraries/font-awesome/js-packages',
+    'web/libraries/font-awesome/metadata',
   ];
+
+  /**
+   * Get the full URL for a Pantheon environment with basic auth credentials.
+   *
+   * @param string $pantheon_environment
+   *   The Pantheon environment (e.g., 'site.env').
+   *
+   * @return string
+   *   The full URL with credentials if available.
+   *
+   * @throws \Exception
+   */
+  public function deployGetEnvironmentUrl(string $pantheon_environment): string {
+    // Get lock info to check for HTTP basic auth.
+    $lock_result = $this->taskExec("terminus lock:info $pantheon_environment --format=json")
+      ->printOutput(FALSE)
+      ->run();
+
+    $lock_info = [];
+    if ($lock_result->getExitCode() === 0) {
+      $lock_output = trim($lock_result->getMessage());
+      if (!empty($lock_output)) {
+        $lock_info = json_decode($lock_output, TRUE);
+      }
+    }
+
+    // Get domains associated with the environment.
+    $domain_result = $this->taskExec("terminus domain:list $pantheon_environment --format=json")
+      ->printOutput(FALSE)
+      ->run();
+
+    $base_url = '';
+    if ($domain_result->getExitCode() === 0) {
+      $domain_output = trim($domain_result->getMessage());
+      if (!empty($domain_output)) {
+        $domains = json_decode($domain_output, TRUE);
+        if (!empty($domains) && is_array($domains)) {
+          // Use the first domain in the list.
+          $base_url = array_key_first($domains);
+        }
+      }
+    }
+
+    // Fallback to default pantheonsite.io domain.
+    if (empty($base_url)) {
+      $parts = explode('.', $pantheon_environment);
+      if (count($parts) === 2) {
+        $site_name = $parts[0];
+        $env_name = $parts[1];
+        $base_url = "$env_name-$site_name.pantheonsite.io";
+      }
+      else {
+        throw new \Exception("Invalid Pantheon environment format: $pantheon_environment");
+      }
+    }
+
+    // Check if environment is locked and has auth credentials.
+    $is_locked = !empty($lock_info['locked']) && $lock_info['locked'] === TRUE;
+    $has_auth = $is_locked && !empty($lock_info['username']) && !empty($lock_info['password']);
+
+    if ($has_auth) {
+      $username = $lock_info['username'];
+      $password = $lock_info['password'];
+      return "https://$username:$password@$base_url/";
+    }
+
+    return "https://$base_url/";
+  }
 
   /**
    * Deploy a tag (specific release) to Pantheon.
@@ -236,9 +304,6 @@ trait DeploymentTrait {
     // Compile theme.
     $this->themeCompile();
 
-    // Remove the dev dependencies before pushing up to Pantheon.
-    $this->taskExec("composer install --no-dev")->run();
-
     $rsync_exclude_string = '--exclude=' . implode(' --exclude=', self::$deploySyncExcludes);
 
     // Copy all files and folders.
@@ -250,6 +315,14 @@ trait DeploymentTrait {
     // The settings.pantheon.php is managed by Pantheon, there can be updates,
     // site-specific modifications belong to settings.php.
     $this->_exec("cp web/sites/default/settings.pantheon.php $pantheon_directory/web/sites/default/settings.php");
+
+    // Prevent attackers to reach these standalone scripts.
+    $this->_exec("rm -f $pantheon_directory/web/core/install.php");
+    $this->_exec("rm -f $pantheon_directory/web/core/update.php");
+
+    // Remove the dev dependencies before pushing up to Pantheon.
+    $this->_exec("rm -rf $pantheon_directory/vendor");
+    $this->_exec("(cd $pantheon_directory && composer install --no-dev && composer dump-autoload)");
 
     // Flag the current version in the artifact repo.
     file_put_contents($deployment_version_path, $current_version);
@@ -365,7 +438,17 @@ trait DeploymentTrait {
    * @throws \Exception
    */
   protected function getPantheonNameAndEnv() : array {
-    $yaml = Yaml::parseFile('./.ddev/providers/pantheon.yaml');
+    $yaml_path = './.ddev/providers/pantheon.yaml';
+    // This way we can use most commands natively, if we want.
+    // The preferred, supported way is still via DDEV.
+    // I had one case where I wanted to rely on the nameservers
+    // defined by the host only - that could be one use-case.
+    if (file_exists($yaml_path)) {
+      $yaml = Yaml::parseFile($yaml_path);
+    }
+    else {
+      $yaml = Yaml::parseFile('../' . $yaml_path);
+    }
     if (empty($yaml['environment_variables']['project'])) {
       throw new \Exception("`environment_variables.project` is missing from .ddev/providers/pantheon.yaml");
     }
@@ -510,8 +593,15 @@ trait DeploymentTrait {
       throw new \Exception("Cannot parse the response of terminus: " . serialize($parsed_output));
     }
 
+    $exclude = (string) getenv('DEPLOY_EXCLUDE_WARNING');
+    $exclude_list = explode('|', $exclude);
+
     foreach ($parsed_output as $requirement) {
       if ($requirement['severity'] !== 'Error') {
+        continue;
+      }
+      if (in_array($requirement['title'], $exclude_list) || in_array($requirement['value'], $exclude_list)) {
+        // A warning we decided to exclude.
         continue;
       }
       $errors[] = '## ' . trim($requirement['title']) . "\n" . trim($requirement['value']);
@@ -752,6 +842,8 @@ trait DeploymentTrait {
     }
 
     $pantheon_info = $this->getPantheonNameAndEnv();
+    $pantheon_terminus_environment = $pantheon_info['name'] . '.' . $pantheon_environment;
+
     // Let's figure out if the repository is public or not via GitHub API.
     $repo = $this->taskExec("curl -H \"Authorization: token $github_token\" https://api.github.com/repos/" . self::$githubProject)
       ->printOutput(FALSE)
@@ -763,11 +855,7 @@ trait DeploymentTrait {
       return;
     }
     if ($repo->private) {
-      // If the repository is private, we can put a login link into the comment.
-      $quick_link = $this->taskExec("terminus remote:drush " . $pantheon_info['name'] . "." . $pantheon_environment . " uli -- --name=" . self::$adminUser)
-        ->printOutput(FALSE)
-        ->run()
-        ->getMessage();
+      $quick_link = $this->deployGetEnvironmentUrl($pantheon_terminus_environment);
     }
     else {
       // Otherwise, just link the environment.

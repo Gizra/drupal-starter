@@ -68,11 +68,11 @@ trait ProcessedTextBuilderTrait {
 
     $element = $entity->get($field)->view($options);
 
-    if ($strip_tags && !empty($element[0]['#text'])) {
+    if ($strip_tags && !empty($element[0]['#output']['#text'])) {
       // Keep only a limited set of tags.
-      $element[0]['#text'] = strip_tags($element[0]['#text'], [
+      $element[0]['#output']['#text'] = strip_tags($element[0]['#output']['#text'], [
         'strong',
-        'italic',
+        'em',
         'ul',
         'ol',
       ]);

@@ -8,7 +8,7 @@ title: 'Default cron handler'
 id: layout_builder_cron
 weight: 0
 module: layout_builder
-callback: layout_builder_cron
+callback: 'layout_builder#cron'
 scheduler:
   id: simple
 launcher:

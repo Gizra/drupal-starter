@@ -75,9 +75,10 @@ if (!empty($pantheon_env)) {
   if ($pantheon_env == 'live' || $pantheon_env == 'test') {
     $config['rollbar.settings']['environment'] = $pantheon_site_name . '.' . $pantheon_env;
     $config['rollbar.settings']['enabled'] = TRUE;
-    // Placeholders for adding the actual access token values.
-    // $config['rollbar.settings']['access_token'] = '';
-    // $config['rollbar.settings']['access_token_frontend'] = '';.
+    /* Placeholders for adding the actual access token values.
+     * $config['rollbar.settings']['access_token'] = '';
+     * $config['rollbar.settings']['access_token_frontend'] = '';
+     */
   }
 
   $config['environment_indicator.indicator']['name'] = strtoupper($pantheon_env);
@@ -91,8 +92,9 @@ if (!empty($pantheon_env)) {
       $config['environment_indicator.indicator']['bg_color'] = '#c81300';
       $config['environment_indicator.indicator']['fg_color'] = '#ffffff';
 
-      $config['tfa.settings']['enabled'] = TRUE;
-
+      /* Uncomment after going live.
+       * $config['tfa.settings']['enabled'] = TRUE;
+       */
       $config['crowdsec.settings']['env'] = 'prod';
       break;
 
@@ -125,13 +127,26 @@ if (!empty($pantheon_env) && !empty($_ENV['CACHE_HOST'])) {
   $settings['cache']['bins']['form'] = 'cache.backend.database';
 }
 
-if (file_exists('/files/private/secrets.json')) {
-  $secrets = json_decode(file_get_contents('/files/private/secrets.json'), TRUE);
-  if (isset($secrets['tfa'])) {
-    putenv('TFA_KEY="' . $secrets['tfa'] . "\"");
+// Setting secrets for various contrib modules.
+// @see https://docs.pantheon.io/guides/secrets
+if (function_exists('pantheon_get_secret')) {
+  $tfa_key = pantheon_get_secret('tfa_key');
+  if (!empty($tfa_key)) {
+    putenv('TFA_KEY="' . $tfa_key . "\"");
+  }
+
+  $openai_api_key = pantheon_get_secret('openai_api_key');
+  if (!empty($openai_api_key)) {
+    putenv('OPENAI_API_KEY"' . $openai_api_key . "\"");
   }
 }
 
 if (file_exists(__DIR__ . '/settings.fast404.php')) {
   include __DIR__ . '/settings.fast404.php';
 }
+
+require __DIR__ . '/../bot_trap_protection.php';
+
+$config['search_api.index.server_dev']['server'] = 'pantheon_solr8';
+// As we push to Solr config of DDEV to Pantheon as well, we disable it here.
+$config['search_api.server.solr']['status'] = FALSE;

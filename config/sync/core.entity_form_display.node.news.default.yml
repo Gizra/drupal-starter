@@ -8,7 +8,9 @@ dependencies:
     - field.field.node.news.field_publish_date
     - field.field.node.news.field_tags
     - node.type.news
+    - workflows.workflow.default
   module:
+    - content_moderation
     - datetime
     - media_library
     - path
@@ -62,6 +64,12 @@ content:
     region: content
     settings:
       include_locked: false
+    third_party_settings: {  }
+  moderation_state:
+    type: moderation_state_default
+    weight: 100
+    region: content
+    settings: {  }
     third_party_settings: {  }
   path:
     type: path

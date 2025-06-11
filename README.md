@@ -40,7 +40,7 @@ The only requirement is having [DDEV](https://ddev.readthedocs.io/en/stable/) in
     ddev restart
 
 Once the Drupal installation is complete you can use `ddev login` to
-log in to the site as admin userusing your default browser.
+log in to the site as admin user using your default browser.
 
 ## Default content management
 
@@ -172,10 +172,22 @@ The starter kit comes out of the box with Solr.
 It can happen that an index is polluted and Search API cannot restore it using "Delete all indexed items". Then there's a Drush command of the integration module to reset the index, drop all data inside:
 
 ```bash
-ddev exec terminus remote:drush gizra-drupal-starter.qa search-api-pantheon:force-cleanup
+ddev terminus remote:drush gizra-drupal-starter.qa search-api-pantheon:force-cleanup
 ```
 
 Then you can re-index the data and check the sanity of the search.
+
+## AI Integration
+
+This project supports AI-based features using OpenAI.
+
+1. Obtain your [API key](https://platform.openai.com/settings/organization/api-keys) from OpenAI.
+1. Add the API key to your DDEV global configuration `ddev config global --web-environment-add="OPENAI_API_KEY=your-key-here"`
+1. `ddev restart`
+1. Upon deployment to Pantheon, you can add the API key as a secret:
+```bash
+ddev terminus secret:site:set gizra-drupal-starter openai_api_key your-key-here --type=runtime --scope=web,user
+```
 
 ## PHPCS (Code Sniffer)
 
@@ -193,19 +205,49 @@ See the [example](https://github.com/Gizra/drupal-starter/blob/main/web/modules/
     ddev phpunit --filter ServerGeneralHomepageTest
 
     # Run a single method from a test file.
+    ddev phpunit --filter testUniqueTestMethodName
+
+    # Run a single method from a test file.
     ddev phpunit --filter testHomepageCache web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralHomepageTest.php
 
 We also have capability to write tests which run on a headless chrome browser with
 Javascript capabilities. See [`Drupal\Tests\server_general\ExistingSite\ServerGeneralSelenium2TestBase`](https://github.com/Gizra/drupal-starter/blob/aa3c204dc7ac279964a694c675c35062c7fbcd9f/web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralSelenium2TestBase.php)
 for the test base, and [`Drupal\Tests\server_general\ExistingSite\ServerGeneralHomepageTest`](https://github.com/Gizra/drupal-starter/blob/aa3c204dc7ac279964a694c675c35062c7fbcd9f/web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralHomepageTest.php) for the
-example implementation. By extending the above base class you can also take screenshots using the
-`takeScreenshot()` method. This captures and saves the screenshot in `/web/sites/simpletest/screenshots`.
-**Note: You should not leave calls to `takeScreenshot` in the codebase when committing, this is meant only for
-local debugging purposes.**
+example implementation.
 
+### Debugging
+
+When it is hard to understand a test failure, a peek into the browser might help.
+For Selenium-based ones, you can take screenshots using the `takeScreenshot()` method. This captures and saves
+the screenshot in `/web/sites/simpletest/screenshots`.
 You can also watch what the tests are doing in the browser using noVNC. To do so, simply open a browser and open
 https://drupal-starter.ddev.site:7900 and click Connect. The password is `secret`. Now simply run the tests
 and you can see the test running in the browser.
+
+For faster, virtual browser-based tests, you can use `createHtmlSnapshot` and it will dump the HTML content
+of the virtual browser into the `phpunit_debug` directory. For the exact filename, refer to the output of
+`ddev drush watchdog-show --type=server_general`.
+
+**Note: You should not leave calls to `takeScreenshot` or `createHtmlSnapshot` in the codebase when committing,
+this is meant only for local debugging purposes.**
+
+### Contrib module coverage
+
+The `ddev phpunit-contrib` command allows you to run PHPUnit tests specifically for contributed modules within your Drupal site. It allows you to ensure the integrity of a module after applying custom patch(es) to it.
+
+#### Usage
+
+```bash
+ddev phpunit-contrib <module_name>
+```
+
+#### Example
+
+To run PHPUnit tests for the `migrate_tools` contributed module, you would use:
+
+```bash
+ddev phpunit-contrib migrate_tools
+```
 
 ## Debugging
 
@@ -260,7 +302,7 @@ Then edit `scripts/mass_patch.config.sh` and add the proper project names.
 Then, you can create a new site in Pantheon which can also be done with a
 [terminus command](https://pantheon.io/docs/guides/drupal8-commandline):
 
-    ddev exec terminus site:create my-site "My Site" "Drupal 10 Start State"
+    ddev terminus site:create my-site "My Site" "Drupal 10 Start State"
 
 #### Change to nested docroot structure
 
@@ -375,10 +417,45 @@ The deployment script will read this environment variable and exclude the specif
 
 ## Pulling DB & Files From Pantheon
 
+First make sure you have a [Pantheon machine token](https://docs.pantheon.io/machine-tokens): `TERMINUS_MACHINE_TOKEN=abcde` in `.ddev/.env`.
+
+Then, check what is the configuration of `.ddev/providers/pantheon.yml`
+
+Here for example is configured to pull the DB and Files from QA:
+```
+environment_variables:
+  project: your-project.qa
+```
+
+Beware pulling the database and files from Pantheon will replace your existing
+install without doing a backup.
+
     ddev auth ssh
 
     # Pull DB & Files
     ddev pull pantheon
+
+    # To pull only the database:
+    ddev pull pantheon --skip-files
+
+## Use remote services from Pantheon
+
+Pantheon provides a managed SQL database, filesystem for the public and
+private files, Redis and more for your Drupal website.
+`terminus` exposed the connection information for those services, the Starter
+Kit allows you to connect easily. To have the connection information inside the
+DDEV container, you need to perform ahead, once:
+```
+ddev auth ssh
+ddev terminus login --machine-token=[token]
+```
+
+Examples:
+```
+ddev robo pantheon:connect-sql qa
+ddev robo pantheon:connect-sftp live
+ddev robo pantheon:connect-redis mymultidev
+```
 
 ## Stage File Proxy
 If you don't want to copy production files locally, you can enable stage_file_proxy module.
@@ -428,21 +505,25 @@ Purges entries related to IP `193.165.2.3` from Pantheon's `test` environment, o
 ## DDOS attack mitigation
 
 If you experience a site outage or a slowdown, you should consider DDOS attack
-as a possible root cause.
+as a possible root cause. First make sure you have a
+[Pantheon machine token](https://docs.pantheon.io/machine-tokens): `TERMINUS_MACHINE_TOKEN=abcde` in `.ddev/.env`.
+
 ```
+ddev auth ssh # One-time prerequisite
 ddev robo security:check-ddos
 ```
 
 Will provide a list of top IP address by number of requests. If the top few IP
 addresses issue the majority of the requests, spot check a few requests from
 the access log, then ban those IPs if they issue malicious requests.
-Check `web/sites/default/settings.pantheon.php` on how to block individual IPs
+Check [settings.pantheon.php](https://github.com/Gizra/drupal-starter/blob/24dd08d2deef80d0df1651d1295ce2a928b8deb9/web/sites/default/settings.pantheon.php#L13) on how to block individual IPs
 on Pantheon.
 
 If that simple check if not enough, if there's uncertainity, [`goaccess`](https://goaccess.io/man)
 can help to understand the nature of the traffic. You can run `goaccess` with this command:
 
 ```
+ddev auth ssh # One-time prerequisite
 ddev robo security:access-log-overview
 ```
 
@@ -513,12 +594,22 @@ To import the config translations:
 
 ## Two-factor Authentication (TFA)
 
-TFA is enabled for the Administrator and Content editor users.
+TFA is disabled by default. Edit the [Pantheon-specific settings](https://github.com/Gizra/drupal-starter/blob/main/web/sites/default/settings.pantheon.php#L96) to activate it.
 The default settings under `/admin/config/people/tfa` define "Skip Validation" is 1. That is,
 when a privileged user will login, they must enable their TFA. Otherwise, on a second
 login, they will already be blocked. A site admin may reset their validation tries
 under the `/admin/people` page.
 The TFA method that is enabled is one that uses Google authenticator (or similar).
+
+You should set the TFA secret using:
+```bash
+ddev terminus secret:site:set gizra-drupal-starter tfa_key $(openssl rand -base64 32) --type=runtime --scope=web,user
+```
+
+If you need to override the secret on a specific Pantheon environment:
+```bash
+ddev terminus secret:site:set gizra-drupal-starter.qa tfa_key $(openssl rand -base64 32)
+```
 
 ## WAF - Crowdsec
 
@@ -526,3 +617,13 @@ It is recommended to use a proper WAF, either from Cloudflare, or from another v
 for smaller sites, it is not always possible.  [Crowdsec](https://www.crowdsec.net/) is integrated
 to protect the client sites from known malicious visitors. If used in conjuction with Cloudflare or with other type of gateway that hides the originating address,
 you need to make sure Drupal is aware of the real IP of the visitors.
+
+## Go Live Checklist
+
+- [ ] [Enable 2FA](https://github.com/Gizra/drupal-starter/blob/ce2f737bda16e550ee0c8accfd40f44e2d60a703/web/sites/default/settings.pantheon.php#L95-L97)
+- [ ] Bump Pantheon plan
+- [ ] Set up automatic backups
+- [ ] DNS config
+- [ ] Redirects
+- [ ] Ensure email sending (SMTP) works
+- [ ] Remove http auth for LIVE environment

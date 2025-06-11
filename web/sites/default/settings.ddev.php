@@ -91,6 +91,16 @@ $settings['cache']['default'] = 'cache.backend.redis';
 $settings['container_yamls'][] = 'modules/contrib/redis/redis.services.yml';
 $settings['container_yamls'][] = 'modules/contrib/redis/example.services.yml';
 
+/**
+ * State caching.
+ *
+ * State caching uses the cache collector pattern to cache all requested keys
+ * from the state API in a single cache entry, which can greatly reduce the
+ * amount of database queries. However, some sites may use state with a
+ * lot of dynamic keys which could result in a very large cache.
+ */
+$settings['state_cache'] = TRUE;
+
 //$config['system.performance']['css']['preprocess'] = FALSE;
 //$config['system.performance']['js']['preprocess'] = FALSE;
 
@@ -105,3 +115,8 @@ $settings['config_exclude_modules'] = [
 if (file_exists(__DIR__ . '/settings.fast404.php')) {
   include __DIR__ . '/settings.fast404.php';
 }
+
+require __DIR__ . '/../bot_trap_protection.php';
+
+// Disable CrowdSec's "whisper" locally. So one doesn't get blocked locally, or PHPUnit can work well.
+$config['crowdsec.settings']['whisper']['enable'] = 0;

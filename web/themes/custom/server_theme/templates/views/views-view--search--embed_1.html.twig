@@ -30,6 +30,8 @@
  * @see template_preprocess_views_view()
  */
 #}
+{% import '@server_theme/server-theme-container-vertical-spacing-big.html.twig' as verticalSpacingBig %}
+{% import '@server_theme/server-theme-container-vertical-spacing.html.twig' as verticalSpacing %}
 {%
   set classes = [
     'view',
@@ -37,7 +39,7 @@
     'view-id-' ~ id,
     'view-display-id-' ~ display_id,
     dom_id ? 'js-view-dom-id-' ~ dom_id,
-    'flex flex-col gap-y-8 md:gap-y-10'
+    verticalSpacingBig.getClass()
   ]
 %}
 <div{{ attributes.addClass(classes) }}>
@@ -66,7 +68,7 @@
   {% endif %}
 
   {% if rows %}
-    <div class="view-content flex flex-col gap-y-3 md:gap-y-5">
+    <div class="view-content {{ verticalSpacing.getClass() }}">
       {{ rows }}
     </div>
   {% elseif empty %}
