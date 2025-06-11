@@ -324,33 +324,33 @@ trait ElementWrapThemeTrait {
    *
    * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup|\Drupal\Core\Link $element
    *   The render array, string or a TranslatableMarkup object.
-   * @param string $tag
+   * @param \Drupal\server_general\ThemeTrait\HeadingTagEnum $tag
    *   The name of the tag. For example `h1` would result with a
    *   `<h1></h1>` tag.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapHeadingTag(array|string|TranslatableMarkup|Link $element, string $tag): array {
+  protected function wrapHeadingTag(array|string|TranslatableMarkup|Link $element, HeadingTagEnum $tag): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       return [];
     }
 
     if (!in_array($tag, [
-      'h1',
-      'h2',
-      'h3',
-      'h4',
-      'h5',
-      'h6',
+      HeadingTagEnum::H1,
+      HeadingTagEnum::H2,
+      HeadingTagEnum::H3,
+      HeadingTagEnum::H4,
+      HeadingTagEnum::H5,
+      HeadingTagEnum::H6,
     ])) {
       throw new \Exception("Only heading tags are allowed", 1);
     }
 
     return [
       '#theme' => 'server_theme_wrap_heading_tag',
-      '#tag' => $tag,
+      '#tag' => $tag->value,
       '#element' => $element,
     ];
   }

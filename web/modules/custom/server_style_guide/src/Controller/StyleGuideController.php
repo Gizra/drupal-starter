@@ -19,6 +19,7 @@ use Drupal\server_general\ThemeTrait\ElementWrapThemeTrait;
 use Drupal\server_general\ThemeTrait\ExpandingTextThemeTrait;
 use Drupal\server_general\ThemeTrait\FontSizeEnum;
 use Drupal\server_general\ThemeTrait\FontWeightEnum;
+use Drupal\server_general\ThemeTrait\HeadingTagEnum;
 use Drupal\server_general\ThemeTrait\HeroThemeTrait;
 use Drupal\server_general\ThemeTrait\InfoCardThemeTrait;
 use Drupal\server_general\ThemeTrait\LinkThemeTrait;
@@ -149,7 +150,11 @@ class StyleGuideController extends ControllerBase {
 
     $build[] = $this->getTextDecorations();
 
-    $build[] = $this->getTextStyles();
+    $element = $this->getHeadings();
+    $build[] = $this->wrapElementWideContainer($element, 'Headings (h1 - h6)');
+
+    $element = $this->getTextProse();
+    $build[] = $this->wrapElementWideContainer($element, 'Text (Prose)');
 
     $element = $this->getAccordion();
     $build[] = $this->wrapElementWideContainer($element, 'Element: Accordion');
@@ -599,24 +604,29 @@ class StyleGuideController extends ControllerBase {
    * @return array
    *   A render array.
    */
-  protected function getTextStyles(): array {
-    $build = [];
-
-    // For non-prose text we will use the element wrappers.
+  protected function getHeadings(): array {
     $elements = [];
 
     // Wrap Html tag from h1 to h5.
-    foreach (range(1, 5) as $index) {
-      $tag = 'h' . $index;
-      $elements[] = $this->wrapHeadingTag('This is an example for ' . $tag, $tag);
-    }
-    $build[] = $this->wrapElementWideContainer($elements, 'Headings (h1 - h5)');
+    $elements[] = $this->wrapHeadingTag('This is an example for H1', HeadingTagEnum::H1);
+    $elements[] = $this->wrapHeadingTag('This is an example for H2', HeadingTagEnum::H2);
+    $elements[] = $this->wrapHeadingTag('This is an example for H3', HeadingTagEnum::H3);
+    $elements[] = $this->wrapHeadingTag('This is an example for H4', HeadingTagEnum::H4);
+    $elements[] = $this->wrapHeadingTag('This is an example for H5', HeadingTagEnum::H5);
+    $elements[] = $this->wrapHeadingTag('This is an example for H6', HeadingTagEnum::H6);
+    return $this->wrapContainerVerticalSpacing($elements);
+  }
+
+  /**
+   * Get text styles prose, and non-prose.
+   *
+   * @return array
+   *   A render array.
+   */
+  protected function getTextProse(): array {
 
     $element = ['#theme' => 'server_style_guide_text_styles'];
-    $element = $this->wrapProseText($element);
-    $build[] = $this->wrapElementWideContainer($element, 'Text styles (Prose)');
-
-    return $build;
+    return $this->wrapProseText($element);
   }
 
   /**
