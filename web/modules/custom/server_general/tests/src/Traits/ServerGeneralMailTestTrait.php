@@ -28,7 +28,7 @@ trait ServerGeneralMailTestTrait {
    *   The string to search for in outgoing emails.
    */
   public function assertOutgoingMailContains(string $needle): void {
-    $messages = json_decode(\Drupal::httpClient()->get($this->getMailpitBaseUrl() . '/api/v1/messages')->getBody());
+    $messages = json_decode(\Drupal::httpClient()->get($this->getMailpitBaseUrl() . '/api/v1/messages')->getBody()->getContents());
     $messages_item_string = '';
     foreach ($messages->messages as $message) {
       $messages_item_string .= $this->decodeSoftReturns(\Drupal::httpClient()->get($this->getMailpitBaseUrl() . '/api/v1/message/' . $message->ID)->getBody()->getContents());
@@ -64,7 +64,7 @@ trait ServerGeneralMailTestTrait {
    *   The expected number of emails.
    */
   public function assertOutgoingMailNumber(int $amount): void {
-    $messages = json_decode(\Drupal::httpClient()->get($this->getMailpitBaseUrl() . '/api/v1/messages')->getBody());
+    $messages = json_decode(\Drupal::httpClient()->get($this->getMailpitBaseUrl() . '/api/v1/messages')->getBody()->getContents());
     $this->assertCount($amount, $messages->messages);
   }
 
