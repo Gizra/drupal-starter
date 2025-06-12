@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\Tests\server_general\Traits;
 
 /**
@@ -11,18 +13,21 @@ trait ServerGeneralMailTestTrait {
    * Mailpit base URL as provided by DDEV.
    *
    * @return string
-   *   Fully qualified URL of Mailhog.
+   *   Fully qualified URL of Mailpit.
    */
-  public function getMailpitBaseUrl() {
+  public function getMailpitBaseUrl(): string {
     $hostnames = getenv('DDEV_HOSTNAME');
     $hostnames = explode(',', $hostnames);
     return 'https://' . reset($hostnames) . ':8026';
   }
 
   /**
-   * Asserts that a string appears in the output of Mailhog.
+   * Asserts that a string appears in the output of Mailpit.
+   *
+   * @param string $needle
+   *   The string to search for in outgoing emails.
    */
-  public function assertOutgoingMailContains(string $needle) {
+  public function assertOutgoingMailContains(string $needle): void {
     $messages = json_decode(\Drupal::httpClient()->get($this->getMailpitBaseUrl() . '/api/v1/messages')->getBody());
     $messages_item_string = '';
     foreach ($messages->messages as $message) {
@@ -32,9 +37,12 @@ trait ServerGeneralMailTestTrait {
   }
 
   /**
-   * Asserts that a string does not appear in the output of Mailhog.
+   * Asserts that a string does not appear in the output of Mailpit.
+   *
+   * @param string $needle
+   *   The string that should not appear in outgoing emails.
    */
-  public function assertOutgoingMailNotContains(string $needle) {
+  public function assertOutgoingMailNotContains(string $needle): void {
     $messages = json_decode(\Drupal::httpClient()->get($this->getMailpitBaseUrl() . '/api/v1/messages')->getBody());
     foreach ($messages->messages as $message) {
       $message_item = $this->decodeSoftReturns(\Drupal::httpClient()->get($this->getMailpitBaseUrl() . '/api/v1/message/' . $message->ID)->getBody()->getContents());
@@ -43,19 +51,19 @@ trait ServerGeneralMailTestTrait {
   }
 
   /**
-   * Drops the collected outgoing emails in Mailhog.
+   * Drops the collected outgoing emails in Mailpit.
    */
-  public function resetOutgoingMails() {
+  public function resetOutgoingMails(): void {
     \Drupal::httpClient()->delete($this->getMailpitBaseUrl() . '/api/v1/messages');
   }
 
   /**
-   * The amount of emails in the inbox of Mailhog.
+   * Asserts the number of emails in the Mailpit inbox.
    *
    * @param int $amount
-   *   The amount of emails.
+   *   The expected number of emails.
    */
-  public function assertOutgoingMailNumber($amount) {
+  public function assertOutgoingMailNumber(int $amount): void {
     $messages = json_decode(\Drupal::httpClient()->get($this->getMailpitBaseUrl() . '/api/v1/messages')->getBody());
     $this->assertCount($amount, $messages->messages);
   }
