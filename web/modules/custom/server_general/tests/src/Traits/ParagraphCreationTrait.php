@@ -68,11 +68,11 @@ trait ParagraphCreationTrait {
    */
   protected function createMultipleParagraphs(string $type, int $count, array $base_field_values = []): array {
     $paragraphs = [];
-    
+
     for ($i = 0; $i < $count; $i++) {
       $paragraphs[] = $this->createParagraphOfType($type, $base_field_values);
     }
-    
+
     return $paragraphs;
   }
 

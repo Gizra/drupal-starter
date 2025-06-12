@@ -47,7 +47,7 @@ class ServerGeneralParagraphTextTest extends ServerGeneralParagraphTestBase {
       'field_title' => 'Test Title',
       // Intentionally omitting field_body which is required.
     ]);
-    
+
     // Verify the paragraph was created but has empty required field.
     $this->assertInstanceOf('Drupal\paragraphs\ParagraphInterface', $paragraph);
     $this->assertTrue($paragraph->get('field_body')->isEmpty());
@@ -62,7 +62,7 @@ class ServerGeneralParagraphTextTest extends ServerGeneralParagraphTestBase {
   public function testParagraphWithLongTextContent(): void {
     // Create a very long text string (10,000 characters).
     $long_text = str_repeat('This is a very long text content. ', 250);
-    
+
     $paragraph = $this->createParagraph([
       'type' => $this->getEntityBundle(),
       'field_body' => [
@@ -71,7 +71,7 @@ class ServerGeneralParagraphTextTest extends ServerGeneralParagraphTestBase {
       ],
       'field_title' => 'Long Content Test',
     ]);
-    
+
     // Verify the paragraph was created successfully.
     $this->assertInstanceOf('Drupal\paragraphs\ParagraphInterface', $paragraph);
     $this->assertEquals($long_text, $paragraph->get('field_body')->value);
@@ -88,7 +88,7 @@ class ServerGeneralParagraphTextTest extends ServerGeneralParagraphTestBase {
       'basic_html' => '<p>Basic HTML content with <strong>bold</strong> text</p>',
       'full_html' => '<div class="custom"><h2>Full HTML content</h2><p>With more formatting</p></div>',
     ];
-    
+
     foreach ($test_cases as $format => $content) {
       $paragraph = $this->createParagraph([
         'type' => $this->getEntityBundle(),
@@ -98,10 +98,10 @@ class ServerGeneralParagraphTextTest extends ServerGeneralParagraphTestBase {
         ],
         'field_title' => "Test {$format}",
       ]);
-      
+
       $this->assertInstanceOf('Drupal\paragraphs\ParagraphInterface', $paragraph);
       $this->assertEquals($content, $paragraph->get('field_body')->value);
-      $this->assertEquals($format, $paragraph->get('field_body')->format);
+      $this->assertEquals($format, $paragraph->get('field_body')->first()->get('format')->getValue());
     }
   }
 

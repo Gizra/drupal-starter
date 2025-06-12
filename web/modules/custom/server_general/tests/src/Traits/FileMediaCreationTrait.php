@@ -34,17 +34,17 @@ trait FileMediaCreationTrait {
   protected function createTestFile(string $filename = TestConfiguration::DEFAULT_TEST_IMAGE, string $uri_scheme = 'public'): FileInterface {
     $source_path = TestConfiguration::getTestImagePath($filename);
     $destination = $uri_scheme . '://' . $filename;
-    
+
     // Copy the test file to the destination.
     file_unmanaged_copy($source_path, $destination, FILE_EXISTS_REPLACE);
-    
+
     $file = File::create([
       'uri' => $destination,
       'filename' => $filename,
       'status' => 1,
     ]);
     $file->save();
-    
+
     return $file;
   }
 
@@ -65,7 +65,7 @@ trait FileMediaCreationTrait {
    */
   protected function createTestMedia(string $media_type = 'image', string $filename = TestConfiguration::DEFAULT_TEST_IMAGE, array $additional_values = []): MediaInterface {
     $file = $this->createTestFile($filename);
-    
+
     $media_values = [
       'bundle' => $media_type,
       'name' => 'Test ' . $media_type,
@@ -77,24 +77,24 @@ trait FileMediaCreationTrait {
       case 'image':
         $media_values['field_media_image'] = $file->id();
         break;
-        
+
       case 'document':
         $media_values['field_media_document'] = $file->id();
         break;
-        
+
       case 'video':
         $media_values['field_media_video_file'] = $file->id();
         break;
-        
+
       default:
         // For custom media types, assume the field follows the pattern.
         $media_values['field_media_' . $media_type] = $file->id();
         break;
     }
-    
+
     $media = Media::create($media_values);
     $media->save();
-    
+
     return $media;
   }
 
@@ -113,16 +113,16 @@ trait FileMediaCreationTrait {
    */
   protected function createMultipleTestMedia(int $count, string $media_type = 'image', array $base_values = []): array {
     $media_entities = [];
-    
+
     for ($i = 0; $i < $count; $i++) {
       $values = $base_values;
       if (!isset($values['name'])) {
         $values['name'] = "Test {$media_type} {$i}";
       }
-      
+
       $media_entities[] = $this->createTestMedia($media_type, TestConfiguration::DEFAULT_TEST_IMAGE, $values);
     }
-    
+
     return $media_entities;
   }
 
