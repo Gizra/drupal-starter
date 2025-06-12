@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\server_general\ThemeTrait;
 
+use Drupal\Core\Link;
 use Drupal\Core\Url;
 
 /**
@@ -127,7 +128,9 @@ trait ElementLayoutThemeTrait {
 
     $elements = [];
     $elements[] = $wrapped_items;
-    $elements[] = $this->buildButton($this->t('View more'), Url::fromUserInput('#'));
+
+    $link = Link::fromTextAndUrl($this->t('View more'), Url::fromUserInput('#'));
+    $elements[] = $this->buildButtonSecondary($link);
     $elements = $this->wrapContainerVerticalSpacing($elements);
 
     return [

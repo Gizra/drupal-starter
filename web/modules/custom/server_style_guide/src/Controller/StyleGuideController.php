@@ -527,16 +527,24 @@ class StyleGuideController extends ControllerBase {
     $url = Url::fromRoute('<front>');
 
     // Primary button with icon.
-    $element = $this->buildButton($this->t('Download file'), $url, 'primary', 'download');
+    $link = Link::fromTextAndUrl($this->t('Home'), $url);
+    $element = $this->buildButtonPrimary($link);
     $build[] = $this->wrapElementWideContainer($element, 'Primary button');
 
     // Secondary button.
-    $element = $this->buildButton($this->t('Register'), $url, 'secondary');
+    $link = Link::fromTextAndUrl($this->t('Register'), $url);
+    $element = $this->buildButtonSecondary($link);
     $build[] = $this->wrapElementWideContainer($element, 'Secondary button');
 
     // Tertiary button.
-    $element = $this->buildButton($this->t('Login'), $url, 'tertiary');
+    $link = Link::fromTextAndUrl($this->t('Login'), $url);
+    $element = $this->buildButtonTertiary($link);
     $build[] = $this->wrapElementWideContainer($element, 'Tertiary button');
+
+    // Download button.
+    $link = Link::fromTextAndUrl($this->t('Download'), $url);
+    $element = $this->buildButtonDownload($link);
+    $build[] = $this->wrapElementWideContainer($element, 'Download button');
 
     return $build;
   }
@@ -714,7 +722,8 @@ class StyleGuideController extends ControllerBase {
     $url = Url::fromRoute('<front>');
 
     // Show button only if it's not featured content.
-    $button = !$is_featured ? $this->buildButton('View more', $url) : NULL;
+    $link = Link::fromTextAndUrl('View more', $url);
+    $button = !$is_featured ? $this->buildButtonSecondary($link) : NULL;
     $items = $this->getRelatedContent(6, $is_featured);
 
     return $this->buildElementCarousel(

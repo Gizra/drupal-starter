@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\server_general\ThemeTrait;
 
+use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Drupal\intl_date\IntlDate;
 
@@ -118,7 +119,8 @@ trait NewsTeasersThemeTrait {
     $elements[] = $this->wrapTextLineClamp($summary, 4);
 
     // Read more button.
-    $elements[] = $this->buildButton($this->t('Explore further'), $url);
+    $link = Link::fromTextAndUrl($this->t('Explore further'), $url);
+    $elements[] = $this->buildButtonSecondary($link);
 
     return $this->buildInnerElementLayoutWithImageHorizontal($url, $image, $elements);
   }

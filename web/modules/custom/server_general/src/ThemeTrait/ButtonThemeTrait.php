@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\server_general\ThemeTrait;
 
-use Drupal\Core\StringTranslation\TranslatableMarkup;
-use Drupal\Core\Url;
+use Drupal\Core\Link;
 use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
 
 /**
@@ -16,36 +15,92 @@ trait ButtonThemeTrait {
   use BuildFieldTrait;
 
   /**
-   * Build a button.
+   * Build a Primary button.
    *
-   * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $title
-   *   The button's title.
-   * @param \Drupal\Core\Url $url
-   *   The button's URL as Url object.
-   * @param string $button_type
-   *   Type of button. Acceptable values: 'primary', 'secondary', 'tertiary'.
-   *   Defaults to 'primary'.
-   * @param string|null $icon
-   *   The name of the icon to add as prefix. Allowed values are:
-   *   - `download`.
-   *   If NULL, no icon would be added. Defaults to NULL.
-   * @param bool $open_new_tab
-   *   Whether the button should open in a new tab, defaults to FALSE.
+   * @param \Drupal\Core\Link $link
+   *   The link object.
    *
    * @return array
    *   The rendered button array.
    */
-  protected function buildButton(array|string|TranslatableMarkup $title, Url $url, string $button_type = 'primary', ?string $icon = NULL, bool $open_new_tab = FALSE): array {
-    $button_types = ['primary', 'secondary', 'tertiary'];
-    if (!in_array($button_type, $button_types)) {
-      $button_type = 'primary';
-    }
+  protected function buildButtonPrimary(Link $link): array {
+    return $this->buildButtonHelper($link, ButtonTypeEnum::Primary);
+  }
+
+  /**
+   * Build a Primary button that opens in a new tab, if link is external.
+   *
+   * @param \Drupal\Core\Link $link
+   *   The link object.
+   *
+   * @return array
+   *   The rendered button array.
+   */
+  protected function buildButtonPrimaryOpenInNewTabOnExternalLink(Link $link): array {
+    return $this->buildButtonHelper($link, ButtonTypeEnum::Primary, $link->getUrl()->isExternal());
+  }
+
+  /**
+   * Build a Secondary button.
+   *
+   * @param \Drupal\Core\Link $link
+   *   The link object.
+   *
+   * @return array
+   *   The rendered button array.
+   */
+  protected function buildButtonSecondary(Link $link): array {
+    return $this->buildButtonHelper($link, ButtonTypeEnum::Secondary);
+  }
+
+  /**
+   * Build a Tertiary button.
+   *
+   * @param \Drupal\Core\Link $link
+   *   The link object.
+   *
+   * @return array
+   *   The rendered button array.
+   */
+  protected function buildButtonTertiary(Link $link): array {
+    return $this->buildButtonHelper($link, ButtonTypeEnum::Tertiary);
+  }
+
+  /**
+   * Build a Download button that opens in a new tab.
+   *
+   * @param \Drupal\Core\Link $link
+   *   The link object.
+   *
+   * @return array
+   *   The rendered button array.
+   */
+  protected function buildButtonDownload(Link $link): array {
+    return $this->buildButtonHelper($link, ButtonTypeEnum::Secondary, TRUE, ButtonIconEnum::Download);
+  }
+
+  /**
+   * Build a button.
+   *
+   * @param \Drupal\Core\Link $link
+   *   The link object..
+   * @param \Drupal\server_general\ThemeTrait\ButtonTypeEnum $button_type
+   *   Type of button.
+   * @param bool $open_new_tab
+   *   Whether the button should open in a new tab, defaults to FALSE.
+   * @param \Drupal\server_general\ThemeTrait\ButtonIconEnum $icon
+   *   The name of the icon to add as prefix.
+   *
+   * @return array
+   *   The rendered button array.
+   */
+  private function buildButtonHelper(Link $link, ButtonTypeEnum $button_type = ButtonTypeEnum::Primary, bool $open_new_tab = FALSE, ButtonIconEnum $icon = ButtonIconEnum::NoIcon): array {
     return [
       '#theme' => 'server_theme_button',
-      '#url' => $url,
-      '#title'  => $title,
-      '#button_type' => $button_type,
-      '#icon' => $icon,
+      '#url' => $link->getUrl(),
+      '#title'  => $link->getText(),
+      '#button_type' => $button_type->value,
+      '#icon' => $icon->value,
       '#open_new_tab' => $open_new_tab,
     ];
   }

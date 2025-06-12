@@ -41,7 +41,7 @@ trait CtaThemeTrait {
     $elements[] = $this->wrapProseText($body);
 
     // Button.
-    $elements[] = $this->buildButton($link->getText(), $link->getUrl(), 'primary', NULL, $link->getUrl()->isExternal());
+    $elements[] = $this->buildButtonPrimaryOpenInNewTabOnExternalLink($link);
 
     $elements = $this->wrapContainerVerticalSpacingBig($elements, AlignmentEnum::Center);
 
