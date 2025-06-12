@@ -28,7 +28,7 @@ trait ButtonThemeTrait {
   }
 
   /**
-   * Build a Primary button that opens in a new tab, if link is external
+   * Build a Primary button that opens in a new tab, if link is external.
    *
    * @param \Drupal\Core\Link $link
    *   The link object.
