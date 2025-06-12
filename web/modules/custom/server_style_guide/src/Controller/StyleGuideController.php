@@ -527,8 +527,8 @@ class StyleGuideController extends ControllerBase {
     $url = Url::fromRoute('<front>');
 
     // Primary button with icon.
-    $link = Link::fromTextAndUrl($this->t('Download file'), $url);
-    $element = $this->buildDownloadButton($link);
+    $link = Link::fromTextAndUrl($this->t('Home'), $url);
+    $element = $this->buildButtonPrimary($link);
     $build[] = $this->wrapElementWideContainer($element, 'Primary button');
 
     // Secondary button.
@@ -540,6 +540,11 @@ class StyleGuideController extends ControllerBase {
     $link = Link::fromTextAndUrl($this->t('Login'), $url);
     $element = $this->buildButtonTertiary($link);
     $build[] = $this->wrapElementWideContainer($element, 'Tertiary button');
+
+    // Download button.
+    $link = Link::fromTextAndUrl($this->t('Download'), $url);
+    $element = $this->buildButtonDownload($link);
+    $build[] = $this->wrapElementWideContainer($element, 'Download button');
 
     return $build;
   }

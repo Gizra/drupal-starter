@@ -75,7 +75,7 @@ trait ButtonThemeTrait {
    * @return array
    *   The rendered button array.
    */
-  protected function buildDownloadButton(Link $link): array {
+  protected function buildButtonDownload(Link $link): array {
     return $this->buildButtonHelper($link, ButtonTypeEnum::Secondary, TRUE, ButtonIconEnum::Download);
   }
 

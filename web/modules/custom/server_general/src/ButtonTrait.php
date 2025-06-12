@@ -71,7 +71,7 @@ trait ButtonTrait {
 
     $title = $value['title'] ?? $this->t('Download');
     $link = Link::fromTextAndUrl($title, $value['url']);
-    return $this->buildDownloadButton($link);
+    return $this->buildButtonDownload($link);
   }
 
 }
