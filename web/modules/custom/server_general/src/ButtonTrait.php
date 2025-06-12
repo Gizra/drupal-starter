@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\server_general;
 
 use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Link;
 use Drupal\file\FileInterface;
 use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
 use Drupal\server_general\ThemeTrait\ButtonThemeTrait;
@@ -40,7 +41,9 @@ trait ButtonTrait {
 
     // If title is empty, show the URL itself.
     $title = $value['title'] ?? $value['url']->toString();
-    return $this->buildButton($title, $value['url']);
+
+    $link = Link::fromTextAndUrl($title, $value['url']);
+    return $this->buildButtonPrimary($link);
   }
 
   /**
@@ -67,7 +70,8 @@ trait ButtonTrait {
     }
 
     $title = $value['title'] ?? $this->t('Download');
-    return $this->buildButton($title, $value['url']);
+    $link = Link::fromTextAndUrl($title, $value['url']);
+    return $this->buildDownloadButton($link);
   }
 
 }
