@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\server_general\ThemeTrait;
 
 use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
+use Drupal\Core\Link;
 use Drupal\Core\Render\Element;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\paragraphs\ParagraphInterface;
@@ -319,38 +320,39 @@ trait ElementWrapThemeTrait {
   }
 
   /**
-   * Wrap an element with a tag, e.g. `<h1></h1>` or `<p></p>`.
+   * Wrap an element with a heading tag.
    *
-   * If the tag is h1 to h5, the element will be wrapped with `::wrapProseText`.
-   * This ensures that the heading is styled the same for prose and non-prose.
-   * The non-prose version should not have a margin applied to it.
-   *
-   * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
+   * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup|\Drupal\Core\Link $element
    *   The render array, string or a TranslatableMarkup object.
-   * @param string $tag
+   * @param \Drupal\server_general\ThemeTrait\HeadingTagEnum $tag
    *   The name of the tag. For example `h1` would result with a
    *   `<h1></h1>` tag.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapHtmlTag(array|string|TranslatableMarkup $element, string $tag): array {
+  protected function wrapHeadingTag(array|string|TranslatableMarkup|Link $element, HeadingTagEnum $tag): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       return [];
     }
 
-    $element = [
-      '#theme' => 'server_theme_wrap_html_tag',
-      '#tag' => $tag,
-      '#element' => $element,
-    ];
-
-    if (in_array($tag, ['h1', 'h2', 'h3', 'h4', 'h5'])) {
-      $element = $this->wrapProseText($element);
+    if (!in_array($tag, [
+      HeadingTagEnum::H1,
+      HeadingTagEnum::H2,
+      HeadingTagEnum::H3,
+      HeadingTagEnum::H4,
+      HeadingTagEnum::H5,
+      HeadingTagEnum::H6,
+    ])) {
+      throw new \Exception("Only heading tags are allowed", 1);
     }
 
-    return $element;
+    return [
+      '#theme' => 'server_theme_wrap_heading_tag',
+      '#tag' => $tag->value,
+      '#element' => $element,
+    ];
   }
 
   /**
