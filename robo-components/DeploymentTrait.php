@@ -304,6 +304,11 @@ trait DeploymentTrait {
     // Compile theme.
     $this->themeCompile();
 
+    // Safety check to verify theme was properly compiled before deployment.
+    if (!file_exists('web/themes/custom/server_theme/dist/css/style.css')) {
+      throw new \Exception('Theme compilation failed. Aborting the release to prevent a broken theme.');
+    }
+
     $rsync_exclude_string = '--exclude=' . implode(' --exclude=', self::$deploySyncExcludes);
 
     // Copy all files and folders.
