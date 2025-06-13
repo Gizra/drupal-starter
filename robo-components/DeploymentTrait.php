@@ -240,7 +240,7 @@ trait DeploymentTrait {
 
     if ($result->getMessage()) {
       $this->say($result->getMessage());
-      throw new \Exception('The Pantheon directory is dirty. Please commit any pending changes.');
+      throw new \Exception('The project directory is dirty. Please commit any pending changes.');
     }
 
     $result = $this
