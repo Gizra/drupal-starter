@@ -51,6 +51,11 @@ trait ThemeTrait {
 
     $result = $this->_exec("cd $theme_dir && npx postcss ./src/pcss/style.pcss --output=./dist/css/style.css");
 
+    // Safety check to verify theme was properly compiled before deployment.
+    if (!file_exists(sprintf('%s/dist/css/style.css', self::$themeBase))) {
+      throw new \Exception('Theme compilation failed.');
+    }
+
     if ($result->getExitCode() !== 0) {
       $this->taskCleanDir(['dist/css']);
       return;
