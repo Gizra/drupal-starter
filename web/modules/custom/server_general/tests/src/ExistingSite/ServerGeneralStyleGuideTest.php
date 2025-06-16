@@ -11,7 +11,7 @@ use weitzman\DrupalTestTraits\ExistingSiteBase;
 class ServerGeneralStyleGuideTest extends ExistingSiteBase {
 
   /**
-   * Test freetext search.
+   * Test Style guide.
    */
   public function testStyleGuide() {
     $this->drupalGet('/style-guide');
