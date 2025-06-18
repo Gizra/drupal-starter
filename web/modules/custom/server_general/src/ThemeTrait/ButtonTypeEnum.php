@@ -8,6 +8,7 @@ namespace Drupal\server_general\ThemeTrait;
  * Enum for button type options used in theme wrappers.
  */
 enum ButtonTypeEnum: string {
+  case Download = 'download';
   case Primary = 'primary';
   case Secondary = 'secondary';
   case Tertiary = 'tertiary';
