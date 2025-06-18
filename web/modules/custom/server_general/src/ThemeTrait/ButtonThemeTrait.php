@@ -28,19 +28,6 @@ trait ButtonThemeTrait {
   }
 
   /**
-   * Build a Primary button that opens in a new tab, if link is external.
-   *
-   * @param \Drupal\Core\Link $link
-   *   The link object.
-   *
-   * @return array
-   *   The rendered button array.
-   */
-  protected function buildButtonPrimaryOpenInNewTabOnExternalLink(Link $link): array {
-    return $this->buildButtonHelper($link, ButtonTypeEnum::Primary, $link->getUrl()->isExternal());
-  }
-
-  /**
    * Build a Secondary button.
    *
    * @param \Drupal\Core\Link $link
@@ -76,32 +63,27 @@ trait ButtonThemeTrait {
    *   The rendered button array.
    */
   protected function buildButtonDownload(Link $link): array {
-    return $this->buildButtonHelper($link, ButtonTypeEnum::Secondary, TRUE, ButtonIconEnum::Download);
+    return $this->buildButtonHelper($link, ButtonTypeEnum::Download);
   }
 
   /**
    * Build a button.
    *
    * @param \Drupal\Core\Link $link
-   *   The link object..
+   *   The link object.
    * @param \Drupal\server_general\ThemeTrait\ButtonTypeEnum $button_type
    *   Type of button.
-   * @param bool $open_new_tab
-   *   Whether the button should open in a new tab, defaults to FALSE.
-   * @param \Drupal\server_general\ThemeTrait\ButtonIconEnum $icon
-   *   The name of the icon to add as prefix.
    *
    * @return array
    *   The rendered button array.
    */
-  private function buildButtonHelper(Link $link, ButtonTypeEnum $button_type = ButtonTypeEnum::Primary, bool $open_new_tab = FALSE, ButtonIconEnum $icon = ButtonIconEnum::NoIcon): array {
+  private function buildButtonHelper(Link $link, ButtonTypeEnum $button_type = ButtonTypeEnum::Primary): array {
     return [
       '#theme' => 'server_theme_button',
+      '#button_type' => $button_type->value,
       '#url' => $link->getUrl(),
       '#title'  => $link->getText(),
-      '#button_type' => $button_type->value,
-      '#icon' => $icon->value,
-      '#open_new_tab' => $open_new_tab,
+      '#open_new_tab' => $link->getUrl()->isExternal(),
     ];
   }
 

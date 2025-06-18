@@ -43,7 +43,7 @@ trait HeroThemeTrait {
 
     // Button.
     if ($link) {
-      $elements[] = $this->buildButtonPrimaryOpenInNewTabOnExternalLink($link);
+      $elements[] = $this->buildButtonPrimary($link);
     }
 
     $elements = $this->wrapContainerVerticalSpacingBig($elements);

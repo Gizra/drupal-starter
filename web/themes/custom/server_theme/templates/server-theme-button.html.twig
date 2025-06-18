@@ -1,28 +1,25 @@
-{# If we want to add an icon, we have to get the SVG here. We don't use <img>
-   As we can't apply color to svg loaded through the img tag.
-#}
-{% macro getIconPath(icon) %}
-  {% if icon == 'download' %}
-    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
-  {% endif %}
-{% endmacro %}
+{% set is_download = button_type == 'download' %}
+{# `Download` button uses the same look as a `secondary` button #}
+{% set actual_button_type = is_download ? 'secondary' : button_type %}
 
 {% set classes = [
   'flex flex-row items-center gap-x-4 rounded-lg px-6 py-3 text-xl border-2 border-blue-500 hover:bg-blue-600 w-fit transition duration-300',
-  button_type == 'primary' ? 'bg-blue-500 text-white hover:bg-white hover:text-blue-500 focus-visible:bg-white focus-visible:text-blue-500',
-  button_type == 'secondary' ? 'text-blue-900 bg-white border-blue-900 hover:text-white hover:bg-blue-900 focus-visible:text-white focus-visible:bg-blue-900',
-  button_type == 'tertiary' ? 'text-white bg-emerald-900 border-emerald-900 hover:text-emerald-900 hover:bg-white focus-visible:text-emerald-900 focus-visible:bg-white',
+  actual_button_type == 'primary' ? 'bg-blue-500 text-white hover:bg-white hover:text-blue-500 focus-visible:bg-white focus-visible:text-blue-500',
+  actual_button_type == 'secondary' ? 'text-blue-900 bg-white border-blue-900 hover:text-white hover:bg-blue-900 focus-visible:text-white focus-visible:bg-blue-900',
+  actual_button_type == 'tertiary' ? 'text-white bg-emerald-900 border-emerald-900 hover:text-emerald-900 hover:bg-white focus-visible:text-emerald-900 focus-visible:bg-white',
 ] | join(' ') | trim %}
 
 {% set target = open_new_tab ? '_blank' : '_self' %}
 
 <div class="inline-block button-wrapper">
   <a class="{{ classes }}" href="{{ url }}" target="{{ target }}">
-    {% if icon %}
+
+    {% if is_download %}
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-        {{ _self.getIconPath(icon) }}
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
       </svg>
     {% endif %}
+
     <div>{{ title }}</div>
   </a>
 </div>
