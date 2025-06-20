@@ -4,7 +4,8 @@
       "d.o. #3315245": "patches/2938.patch",
       "d.o. #2351685": "https://www.drupal.org/files/issues/2023-02-03/2351685-22.patch",
       "d.o. #3400204": "https://www.drupal.org/files/issues/2024-06-27/3400204-claro-layout-overflow-fix-2.patch",
-      "d.o. #3456176: Fix Messages rendering with bigpipe": "https://www.drupal.org/files/issues/2024-06-28/3456176-45-missing-status-messages-theme-suggestions.patch"
+      "d.o. #3456176: Fix Messages rendering with bigpipe": "https://www.drupal.org/files/issues/2024-06-28/3456176-45-missing-status-messages-theme-suggestions.patch",
+      "d.o. #2950869": "patches/core-query-revision-performance.patch"
     },
     "drupal/elasticsearch_connector": {
       "Preserve ES index settings": "https://www.drupal.org/files/issues/2020-01-28/3109361-elasticsearch_connector-preserve-index-settings-1.patch",
