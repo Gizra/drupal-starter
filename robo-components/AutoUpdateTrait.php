@@ -18,6 +18,8 @@ trait AutoUpdateTrait {
     if (\Drupal::moduleHandler()->moduleExists('update')) {
       $this->say("Update module is installed, checking status of projects.");
       if ($available = update_get_available(TRUE)) {
+        \Drupal::moduleHandler()->loadInclude('update', 'compare.inc');
+        // @phpstan-ignore-next-line
         $data = update_calculate_project_data($available);
         foreach ($data as $project) {
           if (isset($project['recommended'])) {
@@ -29,7 +31,8 @@ trait AutoUpdateTrait {
                 ->run()
                 ->getExitCode();
               if ($exit_code === 0) {
-                // Update successful, add composer.lock to staging area, then commit it.
+                // Update successful, add composer.lock to staging area,
+                // then commit it.
                 $this->taskExec("git add composer.lock")->printOutput(TRUE)->run();
                 $git_command = "git commit -m 'Update " . $package . ' to ' . $project['recommended'] . "'";
                 $this->taskExec($git_command)->printOutput(TRUE)->run();
