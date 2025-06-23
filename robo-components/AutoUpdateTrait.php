@@ -29,7 +29,7 @@ trait AutoUpdateTrait {
                 ->run()
                 ->getExitCode();
               if ($exit_code === 0) {
-                // Update successful, add composer lock to staging area, then commit it.
+                // Update successful, add composer.lock to staging area, then commit it.
                 $this->taskExec("git add composer.lock")->printOutput(TRUE)->run();
                 $git_command = "git commit -m 'Update " . $package . ' to ' . $project['recommended'] . "'";
                 $this->taskExec($git_command)->printOutput(TRUE)->run();
