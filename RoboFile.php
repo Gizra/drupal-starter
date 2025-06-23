@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Drupal\Core\DrupalKernel;
 use Robo\Tasks;
+use RoboComponents\AutoUpdateTrait;
 use RoboComponents\BootstrapTrait;
 use RoboComponents\DeploymentTrait;
 use RoboComponents\PantheonRemoteTrait;
@@ -23,16 +24,17 @@ $GLOBALS['drupal_autoloader'] = require_once 'web/autoload.php';
  */
 class RoboFile extends Tasks {
 
+  use AutoUpdateTrait;
   use BootstrapTrait;
   use DeploymentTrait;
   use ExportFromConfig;
   use ImportToConfig;
   use ImportToUi;
   use PhpcsTrait;
-  use ReleaseNotesTrait;
-  use ThemeTrait;
-  use SecurityTrait;
   use PantheonRemoteTrait;
+  use ReleaseNotesTrait;
+  use SecurityTrait;
+  use ThemeTrait;
 
   /**
    * Defines a list of languages installed on the site.
