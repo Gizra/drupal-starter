@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
@@ -18,9 +18,9 @@ class ServerGeneralSearchTestBase extends ServerGeneralTestBase {
   const ES_RETRY_LIMIT = 20;
 
   /**
-   * Wait for Elasticsearch index to be updated.
+   * Wait for Solr index to be updated.
    *
-   * As Elasticsearch takes a while to index, we repeat the same assertions for
+   * As Solr takes a while to index, we repeat the same assertions for
    * several attempts, in case we fail.
    *
    * @param callable $callable
@@ -31,7 +31,7 @@ class ServerGeneralSearchTestBase extends ServerGeneralTestBase {
    * @see ES_RETRY_LIMIT
    * @see ES_WAIT_SECONDS
    */
-  protected function waitForElasticSearchIndex(callable $callable): void {
+  protected function waitForSearchIndex(callable $callable): void {
     $attempts = 0;
     do {
       sleep(self::ES_WAIT_SECONDS);

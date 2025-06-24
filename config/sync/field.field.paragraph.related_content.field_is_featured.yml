@@ -10,7 +10,7 @@ field_name: field_is_featured
 entity_type: paragraph
 bundle: related_content
 label: Featured
-description: 'Determine of cards should show as "Featured" - bigger cards, and only a single one at a time.'
+description: 'Determine if cards should show as "Featured" - bigger cards, and only a single one at a time.'
 required: false
 translatable: false
 default_value:

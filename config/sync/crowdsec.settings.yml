@@ -1,0 +1,30 @@
+_core:
+  default_config_hash: HUXhJzgWiujd9gs4ATeqsfufuPTpEEdH9uvEe89a41s
+log_level: 5
+env: dev
+api_timeout: '120'
+cti_api_key: ''
+signal_scenarios:
+  - drupal/core-ban
+  - drupal/auth-bruteforce
+  - drupal/4xx-scan
+scenarios:
+  - drupal/core-ban
+  - drupal/auth-bruteforce
+  - drupal/4xx-scan
+  - crowdsecurity/http-backdoors-attempts
+  - crowdsecurity/http-bad-user-agent
+  - crowdsecurity/http-crawl-non_statics
+  - crowdsecurity/http-probing
+  - crowdsecurity/http-path-traversal-probing
+  - crowdsecurity/http-sensitive-files
+  - crowdsecurity/http-sqli-probing
+  - crowdsecurity/http-xss-probing
+  - crowdsecurity/http-w00tw00t
+  - crowdsecurity/http-generic-bf
+  - crowdsecurity/http-open-proxy
+whisper:
+  enable: true
+  leak_speed: 10
+  bucket_capacity: 10
+  ban_duration: 3600

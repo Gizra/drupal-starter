@@ -3,6 +3,7 @@
 namespace Drupal\Tests\server_general\ExistingSite;
 
 use Drupal\paragraphs\Entity\Paragraph;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * A test case to test search integration.
@@ -14,57 +15,44 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
   const ES_RETRY_LIMIT = 20;
 
   /**
-   * Test basic indexing.
-   */
-  public function testBasicIndexing() {
-    $admin = $this->createUser([], NULL, TRUE);
-    $this->drupalLogin($admin);
-    $this->drupalGet('/admin/config/search/elasticsearch-connector/cluster/server');
-    $empty_text = 'There are 0 items indexed on the server for this index.';
-
-    // The server is available.
-    $this->assertSession()->elementTextContains('css', '.admin-elasticsearch-statistics tr td', '1 Nodes');
-    $this->assertSession()->elementTextNotContains('css', '.admin-elasticsearch-statistics', 'red');
-
-    $this->drupalGet('/admin/config/search/search-api/index/server_dev/clear');
-    $this->submitForm([], 'Confirm');
-
-    // After the purge, we should not have items.
-    $this->drupalGet('/admin/config/search/search-api/index/server_dev');
-    $this->assertSession()->pageTextContains($empty_text);
-
-    $node = $this->createNode([
-      'title' => 'Search API + ES test',
-      'type' => 'news',
-      'uid' => $admin->id(),
-    ]);
-    $node->setPublished()->save();
-    $this->triggerPostRequestIndexing();
-
-    $this->waitForElasticSearchIndex(function () use ($empty_text) {
-      $this->drupalGet('/admin/config/search/search-api/index/server_dev');
-      $this->assertSession()->pageTextNotContains($empty_text);
-      $this
-        ->assertSession()
-        ->pageTextMatches('/There (are|is) [0-9]+ item(s)* indexed on the server for this index/');
-    });
-  }
-
-  /**
    * Test freetext search.
    */
   public function testFreetextSearch() {
-    $english_node_title = 'This is a test';
+    $english_node_title = 'This is a node that should be indexed';
     $this->createNode([
       'title' => $english_node_title,
       'type' => 'news',
       'langcode' => 'en',
+      'moderation_state' => 'published',
     ]);
     $this->triggerPostRequestIndexing();
-    $this->waitForElasticSearchIndex(function () use ($english_node_title) {
+    $this->waitForSearchIndex(function () use ($english_node_title) {
       $this->drupalGet('/search', [
         'query' => [
-          'key' => 'This is',
+          'key' => 'indexed',
+        ],
+      ]);
+      $session = $this->assertSession();
+      $session->elementTextContains('css', '.view-search', $english_node_title);
+    });
+  }
+
+  /**
+   * Test synonyms.
+   */
+  public function testSynonyms() {
+    $english_node_title = 'Dress';
+    $this->createNode([
+      'title' => $english_node_title,
+      'type' => 'news',
+      'langcode' => 'en',
+      'moderation_state' => 'published',
+    ]);
+    $this->triggerPostRequestIndexing();
+    $this->waitForSearchIndex(function () use ($english_node_title) {
+      $this->drupalGet('/search', [
+        'query' => [
+          'key' => 'clothing',
         ],
       ]);
       $session = $this->assertSession();
@@ -80,18 +68,18 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
       'type' => 'news',
       'title' => 'aspecialword in the title',
       'body' => 'something else in the body',
-      'status' => 1,
+      'moderation_state' => 'published',
     ]);
     $node->setPublished()->save();
     $node = $this->createNode([
       'type' => 'news',
       'title' => 'something else in the title',
       'field_body' => 'aspecialword in the body',
-      'status' => 1,
+      'moderation_state' => 'published',
     ]);
     $node->setPublished()->save();
     $this->triggerPostRequestIndexing();
-    $this->waitForElasticSearchIndex(function () {
+    $this->waitForSearchIndex(function () {
       $assert = $this->assertSession();
       $this->drupalGet('/search', [
         'query' => [
@@ -166,7 +154,7 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
     // Trigger indexing.
     $this->triggerPostRequestIndexing();
 
-    $this->waitForElasticSearchIndex(function () use ($node): void {
+    $this->waitForSearchIndex(function () use ($node): void {
       $this->drupalGet('/search', [
         'query' => [
           'key' => $node->label(),
@@ -204,7 +192,7 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
     $this->triggerPostRequestIndexing();
 
     // Wait for indexing to complete.
-    $this->waitForElasticSearchIndex(function () use ($node): void {
+    $this->waitForSearchIndex(function () use ($node): void {
       // First search using the exact long phrase.
       $this->drupalGet('/search', [
         'query' => [
@@ -217,6 +205,32 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
 
     // Restore original settings.
     $config->set('processor_settings.exclude_nodes_by_path_alias.excluded_nodes', $excluded_nodes_original);
+    $config->save();
+  }
+
+  /**
+   * Tests that special query parameters don't crash the search.
+   *
+   * @see https://stackoverflow.com/questions/77230889/how-do-i-fix-symfony-6-error-input-value-contains-a-non-scalar-value
+   */
+  public function testSpecialQueryParameter() {
+    $this->drupalGet('/search', [
+      'query' => [
+        'key[$testing]' => '1',
+      ],
+    ]);
+    $this->assertSession()->statusCodeEquals(Response::HTTP_BAD_REQUEST);
+    // We have an error message that describes the problem.
+    $this->assertStringContainsString("contains a non-scalar", $this->getCurrentPage()->getContent());
+  }
+
+  /**
+   * Test that facets are set to be preserved when using filters in Search view.
+   */
+  public function testFacetsPreservedWhenUsingFilters() {
+    $config = $this->container->get('config.factory')->get('views.view.search');
+    $preserve_facets = $config->get('display.default.display_options.query.options.preserve_facet_query_args');
+    $this->assertTrue($preserve_facets);
   }
 
 }

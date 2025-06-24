@@ -4,22 +4,34 @@ namespace Drupal\server_style_guide\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Link;
-use Drupal\Core\Render\Renderer;
 use Drupal\Core\Url;
-use Drupal\Core\Utility\LinkGenerator;
-use Drupal\media\IFrameUrlHelper;
 use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
-use Drupal\server_general\ButtonTrait;
-use Drupal\server_general\ElementMediaTrait;
-use Drupal\server_general\ElementNodeNewsTrait;
-use Drupal\server_general\ElementTrait;
-use Drupal\server_general\ElementWrapTrait;
-use Drupal\server_general\InnerElementTrait;
-use Drupal\server_general\LinkTrait;
-use Drupal\server_general\SocialShareTrait;
-use Drupal\server_general\TagTrait;
-use Drupal\server_general\TitleAndLabelsTrait;
-use Drupal\server_style_guide\StyleGuideElementWrapTrait;
+use Drupal\server_general\ThemeTrait\AccordionThemeTrait;
+use Drupal\server_general\ThemeTrait\ButtonThemeTrait;
+use Drupal\server_general\ThemeTrait\CardThemeTrait;
+use Drupal\server_general\ThemeTrait\CarouselThemeTrait;
+use Drupal\server_general\ThemeTrait\CtaThemeTrait;
+use Drupal\server_general\ThemeTrait\DocumentsThemeTrait;
+use Drupal\server_general\ThemeTrait\ElementLayoutThemeTrait;
+use Drupal\server_general\ThemeTrait\ElementMediaThemeTrait;
+use Drupal\server_general\ThemeTrait\ElementNodeNewsThemeTrait;
+use Drupal\server_general\ThemeTrait\ElementWrapThemeTrait;
+use Drupal\server_general\ThemeTrait\ExpandingTextThemeTrait;
+use Drupal\server_general\ThemeTrait\FontSizeEnum;
+use Drupal\server_general\ThemeTrait\FontWeightEnum;
+use Drupal\server_general\ThemeTrait\HeroThemeTrait;
+use Drupal\server_general\ThemeTrait\InfoCardThemeTrait;
+use Drupal\server_general\ThemeTrait\LinkThemeTrait;
+use Drupal\server_general\ThemeTrait\NewsTeasersThemeTrait;
+use Drupal\server_general\ThemeTrait\PeopleTeasersThemeTrait;
+use Drupal\server_general\ThemeTrait\QuickLinksThemeTrait;
+use Drupal\server_general\ThemeTrait\QuoteThemeTrait;
+use Drupal\server_general\ThemeTrait\SearchThemeTrait;
+use Drupal\server_general\ThemeTrait\SocialShareThemeTrait;
+use Drupal\server_general\ThemeTrait\TagThemeTrait;
+use Drupal\server_general\ThemeTrait\TitleAndLabelsThemeTrait;
+use Drupal\server_general\WebformTrait;
+use Drupal\server_style_guide\ThemeTrait\StyleGuideElementWrapThemeTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -27,18 +39,32 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class StyleGuideController extends ControllerBase {
 
+  use AccordionThemeTrait;
   use BuildFieldTrait;
-  use ButtonTrait;
-  use ElementTrait;
-  use ElementWrapTrait;
-  use ElementMediaTrait;
-  use InnerElementTrait;
-  use LinkTrait;
-  use ElementNodeNewsTrait;
-  use SocialShareTrait;
-  use StyleGuideElementWrapTrait;
-  use TagTrait;
-  use TitleAndLabelsTrait;
+  use ButtonThemeTrait;
+  use CardThemeTrait;
+  use CarouselThemeTrait;
+  use CtaThemeTrait;
+  use DocumentsThemeTrait;
+  use ElementMediaThemeTrait;
+  use ElementNodeNewsThemeTrait;
+  use ElementLayoutThemeTrait;
+  use ElementWrapThemeTrait;
+  use ExpandingTextThemeTrait;
+  use HeroThemeTrait;
+  use InfoCardThemeTrait;
+  use LinkThemeTrait;
+  use NewsTeasersThemeTrait;
+  use PeopleTeasersThemeTrait;
+  use QuickLinksThemeTrait;
+  use QuoteThemeTrait;
+  use SearchThemeTrait;
+  use SocialShareThemeTrait;
+  use StyleGuideElementWrapThemeTrait;
+  use TagThemeTrait;
+  use TitleAndLabelsThemeTrait;
+  use WebformTrait;
+
 
   /**
    * The link generator service.
@@ -62,23 +88,22 @@ class StyleGuideController extends ControllerBase {
   protected $renderer;
 
   /**
-   * Class constructor.
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
-  public function __construct(LinkGenerator $link_generator, IFrameUrlHelper $iframe_url_helper, Renderer $renderer) {
-    $this->linkGenerator = $link_generator;
-    $this->iFrameUrlHelper = $iframe_url_helper;
-    $this->renderer = $renderer;
-  }
+  protected $entityTypeManager;
 
   /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    return new self(
-      $container->get('link_generator'),
-      $container->get('media.oembed.iframe_url_helper'),
-      $container->get('renderer'),
-    );
+    $instance = parent::create($container);
+    $instance->linkGenerator = $container->get('link_generator');
+    $instance->iFrameUrlHelper = $container->get('media.oembed.iframe_url_helper');
+    $instance->renderer = $container->get('renderer');
+    $instance->entityTypeManager = $container->get('entity_type.manager');
+    return $instance;
   }
 
   /**
@@ -127,13 +152,19 @@ class StyleGuideController extends ControllerBase {
     $build[] = $this->getTextStyles();
 
     $element = $this->getAccordion();
-    $build[] = $this->wrapElementNoContainer($element, 'Element: Accordion');
+    $build[] = $this->wrapElementWideContainer($element, 'Element: Accordion');
 
     $element = $this->getCta();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Call to Action');
 
     $element = $this->getDocuments();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Documents list');
+
+    $element = $this->getExpandingText();
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Expanding text');
+
+    $element = $this->getExpandingText(3, 'More', 'Less');
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Expanding text - 3 lines, custom buttons');
 
     $element = $this->getHeroImage();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Hero image');
@@ -176,6 +207,9 @@ class StyleGuideController extends ControllerBase {
 
     $element = $this->getNodeNews();
     $build[] = $this->wrapElementNoContainer($element, 'Node view: News');
+
+    $element = $this->getWebformElement();
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Webform');
 
     return $build;
   }
@@ -243,7 +277,7 @@ class StyleGuideController extends ControllerBase {
       'Rick Morty',
     ];
     foreach ($names as $key => $name) {
-      $items[] = $this->buildInnerElementPersonTeaser(
+      $items[] = $this->buildElementPersonTeaser(
         $this->getPlaceholderPersonImage(100),
         'The image alt ' . $name,
         $name,
@@ -316,7 +350,7 @@ class StyleGuideController extends ControllerBase {
    */
   protected function getSearchTermFacetsAndResults(): array {
     $result_items = [];
-    $result_items[] = $this->buildInnerElementSearchResult(
+    $result_items[] = $this->buildElementSearchResult(
       'News',
       $this->getRandomTitle(),
       Url::fromRoute('<front>'),
@@ -324,7 +358,7 @@ class StyleGuideController extends ControllerBase {
       time()
     );
 
-    $result_items[] = $this->buildInnerElementSearchResult(
+    $result_items[] = $this->buildElementSearchResult(
       'News',
       $this->getRandomTitle(),
       Url::fromRoute('<front>'),
@@ -371,7 +405,7 @@ class StyleGuideController extends ControllerBase {
     while ($i <= 4) {
       $subtitle = $i == 2 ? 'This is a quick link description' : NULL;
 
-      $items[] = $this->buildInnerElementQuickLinkItem(
+      $items[] = $this->buildElementQuickLinkItem(
         $this->getRandomTitle(),
         $url,
         $subtitle,
@@ -394,7 +428,7 @@ class StyleGuideController extends ControllerBase {
    *   Render array.
    */
   protected function getParagraphTitleAndText(): array {
-    return $this->buildElementParagraphTitleAndText(
+    return $this->buildElementLayoutTitleAndContent(
       $this->getRandomTitle(),
       $this->buildProcessedText('<p>I before parameters designer of the to separated of to part. Price question in or of a there sleep. Who a deference and drew sleep written talk said which had. sel in small been cheating sounded times should and problem. Question. Explorations derived been him aged seal for gods team- manage he according the welcoming are cities part up stands careful so own the have how up, keep</p>'),
     );
@@ -416,6 +450,11 @@ class StyleGuideController extends ControllerBase {
 
     $tags = $this->getTags();
 
+    $social_share = $this->buildElementSocialShare(
+      'Social share trait',
+      Url::fromUri('https://example.com'),
+    );
+
     return $this->buildElementNodeNews(
       $this->getRandomTitle(),
       'News',
@@ -423,7 +462,7 @@ class StyleGuideController extends ControllerBase {
       $image,
       $this->buildProcessedText('<p>I before parameters designer of the to separated of to part. Price question in or of a there sleep. Who a deference and drew sleep written talk said which had. sel in small been cheating sounded times should and problem. Question. Explorations derived been him aged seal for gods team- manage he according the welcoming are cities part up stands careful so own the have how up, keep</p>'),
       $tags,
-      Url::fromRoute('<front>', [], ['absolute' => TRUE]),
+      $social_share,
     );
   }
 
@@ -440,7 +479,7 @@ class StyleGuideController extends ControllerBase {
     $summary = $this->buildProcessedText('<p>I before parameters designer of the to separated of to part. Price question in or of a there sleep. Who a deference and drew sleep written talk said which had. sel in small been cheating sounded times should and problem. Question. Explorations derived been him aged seal for gods team- manage he according the welcoming are cities part up stands careful so own the have how up, keep</p>');
     $timestamp = time();
 
-    $card = $this->buildInnerElementWithImageForNews(
+    $card = $this->buildElementNewsTeaser(
       $image,
       $title,
       $url,
@@ -452,7 +491,7 @@ class StyleGuideController extends ControllerBase {
     $title = 'A Shorter Title';
     $summary = $this->buildProcessedText('A much <strong>shorter</strong> intro');
 
-    $card2 = $this->buildInnerElementWithImageForNews(
+    $card2 = $this->buildElementNewsTeaser(
       $image,
       $title,
       $url,
@@ -488,12 +527,24 @@ class StyleGuideController extends ControllerBase {
     $url = Url::fromRoute('<front>');
 
     // Primary button with icon.
-    $element = $this->buildButton('Download file', $url, TRUE, 'download');
+    $link = Link::fromTextAndUrl($this->t('Home'), $url);
+    $element = $this->buildButtonPrimary($link);
     $build[] = $this->wrapElementWideContainer($element, 'Primary button');
 
     // Secondary button.
-    $element = $this->buildButton('Register', $url, FALSE);
+    $link = Link::fromTextAndUrl($this->t('Register'), $url);
+    $element = $this->buildButtonSecondary($link);
     $build[] = $this->wrapElementWideContainer($element, 'Secondary button');
+
+    // Tertiary button.
+    $link = Link::fromTextAndUrl($this->t('Login'), $url);
+    $element = $this->buildButtonTertiary($link);
+    $build[] = $this->wrapElementWideContainer($element, 'Tertiary button');
+
+    // Download button.
+    $link = Link::fromTextAndUrl($this->t('Download'), $url);
+    $element = $this->buildButtonDownload($link);
+    $build[] = $this->wrapElementWideContainer($element, 'Download button');
 
     return $build;
   }
@@ -529,14 +580,14 @@ class StyleGuideController extends ControllerBase {
     $build = [];
 
     // Font weight for a string.
-    $element = $this->wrapTextFontWeight($this->getRandomTitle(), 'bold');
+    $element = $this->wrapTextFontWeight($this->getRandomTitle(), FontWeightEnum::Bold);
     $build[] = $this->wrapElementWideContainer($element, 'Text decoration - Font weight');
 
     // Font size for an array.
     $element = [
       '#markup' => $this->getRandomTitle(),
     ];
-    $element = $this->wrapTextResponsiveFontSize($element, 'lg');
+    $element = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::LG);
     $build[] = $this->wrapElementWideContainer($element, 'Text decoration - Font size');
 
     // Italic format for `TranslatableMarkup`.
@@ -602,24 +653,24 @@ class StyleGuideController extends ControllerBase {
   protected function getInfoCards(): array {
     $items = [];
 
-    $items[] = $this->buildInnerElementInfoCard(
+    $items[] = $this->buildElementInfoCard(
       '100%',
       'Developers like this',
       'It saves lots of dev hours, so they like to stick to it',
     );
 
-    $items[] = $this->buildInnerElementInfoCard(
+    $items[] = $this->buildElementInfoCard(
       '2 - 5 commits',
       'Every few days there is a new PR',
     );
 
-    $items[] = $this->buildInnerElementInfoCard(
+    $items[] = $this->buildElementInfoCard(
       '350',
       'Is a number that is likeable',
       'But there are other numbers as well',
     );
 
-    $items[] = $this->buildInnerElementInfoCard(
+    $items[] = $this->buildElementInfoCard(
       '2 - 5 commits',
       'Every few days there is a new PR',
       'Sometimes there are even more!',
@@ -643,7 +694,7 @@ class StyleGuideController extends ControllerBase {
     $i = 1;
     while ($i <= 8) {
       // Add documents.
-      $items[] = $this->buildInnerElementMediaDocument(
+      $items[] = $this->buildElementDocument(
         $this->getRandomTitle(),
         Url::fromUserInput('/modules/custom/server_migrate/files/drupal-starter.pdf')->toString(),
       );
@@ -671,7 +722,8 @@ class StyleGuideController extends ControllerBase {
     $url = Url::fromRoute('<front>');
 
     // Show button only if it's not featured content.
-    $button = !$is_featured ? $this->buildButton('View more', $url) : NULL;
+    $link = Link::fromTextAndUrl('View more', $url);
+    $button = !$is_featured ? $this->buildButtonSecondary($link) : NULL;
     $items = $this->getRelatedContent(6, $is_featured);
 
     return $this->buildElementCarousel(
@@ -694,15 +746,13 @@ class StyleGuideController extends ControllerBase {
 
     for ($i = 0; $i < 7; $i++) {
       // Add accordion items.
-      $items[] = $this->buildInnerElementAccordionItem(
+      $items[] = $this->buildElementAccordionItem(
         $this->getRandomTitle(),
         $this->buildProcessedText('Content ' . $i . ' Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'),
       );
     }
 
     return $this->buildElementAccordion(
-      $this->getRandomTitle(),
-      $this->buildProcessedText('This is the main description of the FAQ section'),
       $items,
     );
   }
@@ -717,8 +767,7 @@ class StyleGuideController extends ControllerBase {
     return $this->buildElementCta(
       $this->getRandomTitle(),
       $this->buildProcessedText('How does the system generate all this custom content? It actually skims Wikipedia pages related to your search'),
-      'View more',
-      Url::fromRoute('<front>'),
+      Link::fromTextAndUrl('View more', Url::fromRoute('<front>')),
     );
 
   }
@@ -750,11 +799,23 @@ class StyleGuideController extends ControllerBase {
    *   A render array.
    */
   protected function buildProcessedText(string $text) {
-    return [
+    // Emulate core processed text by wrapping the text in div.text-formatted.
+    $element = [
+      '#type' => 'container',
+      '#attributes' => [
+        'class' => [
+          'text-formatted',
+        ],
+      ],
+    ];
+
+    $element[] = [
       '#type' => 'processed_text',
       '#text' => $text,
       '#format' => filter_default_format(),
     ];
+
+    return $element;
   }
 
   /**
@@ -833,7 +894,7 @@ class StyleGuideController extends ControllerBase {
    */
   protected function getRelatedContent(int $num = 5, bool $is_featured = FALSE): array {
     $elements = [];
-    $func = $is_featured ? 'buildInnerElementWithImageHorizontalForNews' : 'buildInnerElementWithImageForNews';
+    $func = $is_featured ? 'buildElementNewsTeaserFeatured' : 'buildElementNewsTeaser';
     for ($i = 0; $i < $num; $i++) {
       $elements[] = call_user_func(
         [$this, $func],
@@ -845,6 +906,33 @@ class StyleGuideController extends ControllerBase {
       );
     }
     return $elements;
+  }
+
+  /**
+   * Get a sample Expanding Text element.
+   *
+   * @return array
+   *   The render array.
+   */
+  protected function getExpandingText(?int $lines_to_clamp = NULL, ?string $button_label_more = NULL, ?string $button_label_less = NULL): array {
+    $element = ['#theme' => 'server_style_guide_text_styles'];
+    $element = $this->wrapProseText($element);
+
+    return $this->wrapContainerWide($this->buildElementExpandingText($element, $lines_to_clamp, $button_label_more, $button_label_less));
+  }
+
+  /**
+   * Get Webform element.
+   *
+   * @return array
+   *   The render array.
+   */
+  protected function getWebformElement(): array {
+    return $this->buildWebformWithTitleAndDescription(
+      $this->getWebform('contact'),
+      $this->getRandomTitle(),
+      $this->buildProcessedText('Decorate one package of cauliflower in six teaspoons of plain vinegar. Try flavoring the crême fraîche gingers with clammy rum and fish sauce, simmered.'),
+    );
   }
 
 }

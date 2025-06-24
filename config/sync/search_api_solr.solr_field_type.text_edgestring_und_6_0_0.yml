@@ -1,0 +1,45 @@
+uuid: 8e8f91ad-500f-48e0-bd2b-ae136b1d5050
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: bWSErrOZirxgC9CR3TdPlJXHNmex1pARA9RNC--VqY8
+id: text_edgestring_und_6_0_0
+label: 'Edge NGram String Field'
+minimum_solr_version: 6.0.0
+custom_code: edgestring
+field_type_language_code: und
+domains: {  }
+field_type:
+  name: text_edgenstring
+  class: solr.TextField
+  positionIncrementGap: 100
+  storeOffsetsWithPositions: true
+  analyzers:
+    -
+      type: index
+      tokenizer:
+        class: solr.KeywordTokenizerFactory
+      filters:
+        -
+          class: solr.LowerCaseFilterFactory
+        -
+          class: solr.RemoveDuplicatesTokenFilterFactory
+        -
+          class: solr.EdgeNGramFilterFactory
+          minGramSize: 2
+          maxGramSize: 25
+    -
+      type: query
+      tokenizer:
+        class: solr.KeywordTokenizerFactory
+      filters:
+        -
+          class: solr.LowerCaseFilterFactory
+        -
+          class: solr.RemoveDuplicatesTokenFilterFactory
+unstemmed_field_type: null
+spellcheck_field_type: null
+collated_field_type: null
+solr_configs: {  }
+text_files: {  }

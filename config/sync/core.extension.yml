@@ -1,29 +1,35 @@
 _core:
   default_config_hash: R4IF-ClDHXxblLcG0L7MgsLvfBIMAvi_skumNFQwkDc
 module:
-  admin_toolbar: 0
-  admin_toolbar_links_access_filter: 0
-  admin_toolbar_search: 0
-  admin_toolbar_tools: 0
-  automated_cron: 0
+  ai: 0
+  ai_api_explorer: 0
+  ai_automators: 0
+  ai_ckeditor: 0
+  ai_content_suggestions: 0
+  ai_image_alt_text: 0
+  ai_logging: 0
+  ai_provider_openai: 0
+  ai_translate: 0
+  ban: 0
   big_pipe: 0
   block: 0
   block_content: 0
+  block_plugin_view_builder: 0
   breakpoint: 0
   ckeditor5: 0
-  comment: 0
   config: 0
   config_filter: 0
   config_ignore: 0
+  config_pages: 0
   config_translation: 0
-  contact: 0
+  content_moderation: 0
   contextual: 0
   crop: 0
+  crowdsec: 0
   datetime: 0
   dblog: 0
   dynamic_page_cache: 0
   editor: 0
-  elasticsearch_connector: 0
   emptyparagraphkiller: 0
   encrypt: 0
   entity_browser: 0
@@ -36,7 +42,7 @@ module:
   file: 0
   filter: 0
   focal_point: 0
-  google_analytics: 0
+  google_tag: 0
   help: 0
   history: 0
   image: 0
@@ -45,6 +51,8 @@ module:
   key: 0
   lang_dropdown: 0
   language: 0
+  layout_builder: 0
+  layout_discovery: 0
   link: 0
   locale: 0
   maxlength: 0
@@ -52,26 +60,33 @@ module:
   media_entity_browser: 0
   media_library: 0
   menu_ui: 0
+  metatag: 0
+  metatag_open_graph: 0
   mysql: 0
+  navigation: 0
   node: 0
   options: 0
   page_cache: 0
   pantheon_advanced_page_cache: 0
   paragraphs_edit: 0
+  password_policy_blacklist: 0
+  password_policy_character_types: 0
+  password_policy_length: 0
+  password_policy_username: 0
   path: 0
   path_alias: 0
-  permissions_filter: 0
   pluggable_entity_view_builder: 0
   quickedit: 0
   real_aes: 0
   redirect: 0
   redis: 0
   responsive_image: 0
+  rollbar: 0
   search_api: 0
+  search_api_pantheon: 0
+  search_api_solr: 0
   seckit: 0
   select2: 0
-  server_general: 0
-  server_search: 0
   server_style_guide: 0
   shortcut: 0
   simple_sitemap: 0
@@ -81,15 +96,21 @@ module:
   text: 0
   tfa: 0
   token: 0
-  toolbar: 0
+  ultimate_cron: 0
   update: 0
   user: 0
   username_enumeration_prevention: 0
   views_ui: 0
+  webform: 0
+  webform_ui: 0
+  workflows: 0
+  wpf: 0
   fast404: 1
   menu_link_content: 1
   pathauto: 1
   content_translation: 10
+  password_policy: 10
+  server_general: 10
   views: 10
   paragraphs: 11
   server: 1000

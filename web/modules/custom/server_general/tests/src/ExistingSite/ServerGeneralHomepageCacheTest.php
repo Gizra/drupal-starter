@@ -15,6 +15,11 @@ class ServerGeneralHomepageCacheTest extends ServerGeneralTestBase {
     $this->assertSession()->responseHeaderEquals('Cache-Control', 'max-age=1800, public');
     $this->drupalGet('<front>');
     $this->assertSession()->responseHeaderExists('X-Drupal-Cache', 'HIT');
+
+    $this->drupalLogin($this->createUser());
+    $this->drupalGet('<front>');
+    $this->drupalGet('<front>');
+    $this->assertSession()->responseHeaderEquals('X-Drupal-Dynamic-Cache', 'HIT');
   }
 
 }

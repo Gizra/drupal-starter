@@ -1,0 +1,300 @@
+uuid: 9520b925-1722-4d6b-996c-189d89c39900
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: zrykB_mRYGoFIjh7feT0Seg1qQax8_TGGLudHZnewck
+id: text_ar_6_0_0
+label: 'Arabic Text Field'
+minimum_solr_version: 6.0.0
+custom_code: null
+field_type_language_code: ar
+domains: {  }
+field_type:
+  name: text_ar
+  class: solr.TextField
+  positionIncrementGap: 100
+  storeOffsetsWithPositions: true
+  analyzers:
+    -
+      type: index
+      tokenizer:
+        class: solr.StandardTokenizerFactory
+      filters:
+        -
+          class: solr.LowerCaseFilterFactory
+        -
+          class: solr.StopFilterFactory
+          ignoreCase: true
+          words: stopwords_ar.txt
+        -
+          class: solr.ArabicNormalizationFilterFactory
+        -
+          class: solr.ArabicStemFilterFactory
+    -
+      type: query
+      tokenizer:
+        class: solr.StandardTokenizerFactory
+      filters:
+        -
+          class: solr.LowerCaseFilterFactory
+        -
+          class: solr.StopFilterFactory
+          ignoreCase: true
+          words: stopwords_ar.txt
+        -
+          class: solr.ArabicNormalizationFilterFactory
+        -
+          class: solr.SynonymFilterFactory
+          ignoreCase: true
+          synonyms: synonyms_ar.txt
+          expand: true
+        -
+          class: solr.ArabicStemFilterFactory
+unstemmed_field_type:
+  name: text_unstemmed_ar
+  class: solr.TextField
+  positionIncrementGap: 100
+  storeOffsetsWithPositions: true
+  analyzers:
+    -
+      type: index
+      tokenizer:
+        class: solr.StandardTokenizerFactory
+      filters:
+        -
+          class: solr.LowerCaseFilterFactory
+        -
+          class: solr.StopFilterFactory
+          ignoreCase: true
+          words: stopwords_ar.txt
+        -
+          class: solr.ArabicNormalizationFilterFactory
+    -
+      type: query
+      tokenizer:
+        class: solr.StandardTokenizerFactory
+      filters:
+        -
+          class: solr.LowerCaseFilterFactory
+        -
+          class: solr.StopFilterFactory
+          ignoreCase: true
+          words: stopwords_ar.txt
+        -
+          class: solr.ArabicNormalizationFilterFactory
+        -
+          class: solr.SynonymFilterFactory
+          ignoreCase: true
+          synonyms: synonyms_ar.txt
+          expand: true
+spellcheck_field_type: null
+collated_field_type:
+  name: collated_ar
+  class: solr.ICUCollationField
+  locale: ar
+  strength: primary
+  caseLevel: false
+solr_configs:
+  searchComponents:
+    -
+      name: spellcheck
+      class: solr.SpellCheckComponent
+      lst:
+        -
+          name: spellchecker
+          str:
+            -
+              name: name
+              VALUE: ar
+            -
+              name: field
+              VALUE: spellcheck_ar
+            -
+              name: classname
+              VALUE: solr.DirectSolrSpellChecker
+            -
+              name: distanceMeasure
+              VALUE: internal
+            -
+              name: accuracy
+              VALUE: '0.5'
+            -
+              name: maxEdits
+              VALUE: '2'
+            -
+              name: minPrefix
+              VALUE: '1'
+            -
+              name: maxInspections
+              VALUE: '5'
+            -
+              name: minQueryLength
+              VALUE: '4'
+            -
+              name: maxQueryFrequency
+              VALUE: '0.01'
+            -
+              name: thresholdTokenFrequency
+              VALUE: '.01'
+            -
+              name: onlyMorePopular
+              VALUE: 'true'
+    -
+      name: suggest
+      class: solr.SuggestComponent
+      lst:
+        -
+          name: suggester
+          str:
+            -
+              name: name
+              VALUE: ar
+            -
+              name: lookupImpl
+              VALUE: AnalyzingInfixLookupFactory
+            -
+              name: dictionaryImpl
+              VALUE: DocumentDictionaryFactory
+            -
+              name: field
+              VALUE: twm_suggest
+            -
+              name: suggestAnalyzerFieldType
+              VALUE: text_ar
+            -
+              name: contextField
+              VALUE: sm_context_tags
+            -
+              name: buildOnCommit
+              VALUE: 'false'
+            -
+              name: buildOnStartup
+              VALUE: 'false'
+text_files:
+  stopwords: |
+    من
+    ومن
+    منها
+    منه
+    في
+    وفي
+    فيها
+    فيه
+    و
+    ف
+    ثم
+    او
+    أو
+    ب
+    بها
+    به
+    ا
+    أ
+    اى
+    اي
+    أي
+    أى
+    لا
+    ولا
+    الا
+    ألا
+    إلا
+    لكن
+    ما
+    وما
+    كما
+    فما
+    عن
+    مع
+    اذا
+    إذا
+    ان
+    أن
+    إن
+    انها
+    أنها
+    إنها
+    انه
+    أنه
+    إنه
+    بان
+    بأن
+    فان
+    فأن
+    وان
+    وأن
+    وإن
+    التى
+    التي
+    الذى
+    الذي
+    الذين
+    الى
+    الي
+    إلى
+    إلي
+    على
+    عليها
+    عليه
+    اما
+    أما
+    إما
+    ايضا
+    أيضا
+    كل
+    وكل
+    لم
+    ولم
+    لن
+    ولن
+    هى
+    هي
+    هو
+    وهى
+    وهي
+    وهو
+    فهى
+    فهي
+    فهو
+    انت
+    أنت
+    لك
+    لها
+    له
+    هذه
+    هذا
+    تلك
+    ذلك
+    هناك
+    كانت
+    كان
+    يكون
+    تكون
+    وكانت
+    وكان
+    غير
+    بعض
+    قد
+    نحو
+    بين
+    بينما
+    منذ
+    ضمن
+    حيث
+    الان
+    الآن
+    خلال
+    بعد
+    قبل
+    حتى
+    عند
+    عندما
+    لدى
+    جميع
+  protwords: |
+
+  accents: ''
+  synonyms: |
+    drupal, durpal
+  nouns: ''

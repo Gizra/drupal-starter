@@ -3,6 +3,7 @@
 namespace Drupal\Tests\server_general\ExistingSite;
 
 use Drupal\taxonomy\Entity\Vocabulary;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * A model test case using traits from Drupal Test Traits.
@@ -34,12 +35,13 @@ class ServerGeneralExampleTest extends ServerGeneralTestBase {
         'target_id' => $term->id(),
       ],
       'uid' => $author->id(),
+      'moderation_state' => 'published',
     ]);
     $this->assertEquals($author->id(), $node->getOwnerId());
 
     // We can browse pages.
     $this->drupalGet($node->toUrl());
-    $this->assertSession()->statusCodeEquals(200);
+    $this->assertSession()->statusCodeEquals(Response::HTTP_OK);
 
     // We can login and browse admin pages.
     $this->drupalLogin($author);

@@ -7,7 +7,7 @@ web_environment:
 hooks:
   post-start:
     # Private files directory.
-    - exec: mkdir /var/www/private
+    - exec: mkdir -p /var/www/private
 
     # Create a private key for Two-factor Authentication if not yet added.
     - exec-host: ddev set-tfa-key
@@ -17,12 +17,6 @@ hooks:
 
     # Import translations.
     - exec: robo locale:import
-
-    # Make sure Elasticsearch can accept connections.
-    - exec: while ! echo exit | nc elasticsearch 9200; do sleep 1; done
-
-    # Setup Elasticsearch
-    - exec: "./vendor/bin/robo elasticsearch:provision http://elasticsearch:9200 '' ''"
 
     # Compile theme in debug, so we can develop with all Tailwinds' classes.
     # On deploy, we purge un-needed CSS.
@@ -47,13 +41,23 @@ hooks:
     # Enable Devel.
     - exec: drush pm-enable devel -y
 
-    # Login as admin.
+    # @see https://www.drupal.org/node/947312
+    - exec: drush user-block --uid=1
+
+    # Login as AdminOne.
     - exec-host: ddev login
 
-    # Make sure PHP CLI has no memory limit, this is
-    # especially for unit testing.
-    # Web requests should be still limited, as the
-    # hosting environment won't provide unlimited
-    # memory either.
-    # @see https://github.com/drud/ddev/issues/1825#issuecomment-529964728
-    - exec: perl -pi -e 's/memory_limit.*$/memory_limit = -1/' /etc/php/${DDEV_PHP_VERSION}/cli/conf.d/*.ini
+  post-import-db:
+    # Run DB updates.
+    - exec: drush updb
+    # Clear cache before config import.
+    - exec: drush cr
+    # Import config.
+    - exec: drush cim -y
+    # Reindex.
+    - exec: drush sapi-c
+    - exec: drush sapi-i
+    # Compile theme.
+    - exec-host: ddev robo theme:compile
+    # Login as admin.
+    - exec-host: ddev login

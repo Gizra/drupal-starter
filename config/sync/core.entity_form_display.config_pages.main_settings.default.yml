@@ -1,0 +1,26 @@
+uuid: 05c58d99-c85b-4018-99bc-acec007d0a9c
+langcode: en
+status: true
+dependencies:
+  config:
+    - config_pages.type.main_settings
+    - field.field.config_pages.main_settings.field_locked_pages
+  module:
+    - select2
+id: config_pages.main_settings.default
+targetEntityType: config_pages
+bundle: main_settings
+mode: default
+content:
+  field_locked_pages:
+    type: select2_entity_reference
+    weight: 1
+    region: content
+    settings:
+      width: 100%
+      autocomplete: false
+      match_operator: CONTAINS
+      match_limit: 10
+    third_party_settings: {  }
+hidden:
+  label: true

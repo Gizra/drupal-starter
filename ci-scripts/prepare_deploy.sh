@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e
+set -x
 
 cd "$TRAVIS_BUILD_DIR" || exit 1
 
@@ -13,7 +14,14 @@ ddev config global --web-environment-add="TERMINUS_MACHINE_TOKEN=$TERMINUS_TOKEN
 
 export GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 
-git clone "$PANTHEON_GIT_URL" -b master .pantheon
+if [ -z "$PANTHEON_GIT_URL" ]; then
+  echo "Error: PANTHEON_GIT_URL is not set. Add it to .travis.yml"
+  exit 1
+fi
+
+if [[ ! -d .pantheon ]]; then
+  git clone "$PANTHEON_GIT_URL" -b master .pantheon
+fi
 
 ddev stop
 
@@ -23,7 +31,7 @@ ddev stop
 # and comma itself.
 # These could break the YAML/Bash syntax.
 # shellcheck disable=SC2001
-TRAVIS_COMMIT_MESSAGE=$(echo "$TRAVIS_COMMIT_MESSAGE" | sed -e 's/[{},&*?|<>=%@\"'\''`-]//g')
+TRAVIS_COMMIT_MESSAGE=$(echo "$TRAVIS_COMMIT_MESSAGE" | tr '\n' ' ' | sed -e 's/[{},&*?|<>=%@\"'\''`-]//g')
 ddev config global --web-environment-add="TRAVIS_COMMIT_MESSAGE=$TRAVIS_COMMIT_MESSAGE"
 ddev config global --web-environment-add="GITHUB_TOKEN=$GITHUB_TOKEN"
 if [ -n "${DEPLOY_EXCLUDE_WARNING}" ]; then

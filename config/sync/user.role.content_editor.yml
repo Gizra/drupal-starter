@@ -2,17 +2,40 @@ uuid: 13ca0114-0815-46bb-8b22-086f079bfc9f
 langcode: en
 status: true
 dependencies:
+  config:
+    - node.type.landing_page
+    - node.type.news
+    - workflows.workflow.default
   module:
+    - content_moderation
+    - google_tag
+    - navigation
     - node
     - system
-    - toolbar
 id: content_editor
 label: 'Content Editor'
 weight: -7
 is_admin: null
 permissions:
   - 'access content overview'
-  - 'access toolbar'
+  - 'access navigation'
+  - 'administer google_tag_container'
   - 'administer nodes'
+  - 'create landing_page content'
+  - 'create news content'
+  - 'delete any landing_page content'
+  - 'delete any news content'
+  - 'delete own landing_page content'
+  - 'delete own news content'
+  - 'edit any landing_page content'
+  - 'edit any news content'
+  - 'edit own landing_page content'
+  - 'edit own news content'
+  - 'use default transition create_new_draft'
+  - 'use default transition publish'
+  - 'use default transition submit_for_review'
+  - 'use default transition unpublish'
+  - 'view landing_page revisions'
+  - 'view news revisions'
   - 'view own unpublished content'
   - 'view the administration theme'

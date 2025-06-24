@@ -2,12 +2,13 @@
 
 namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
+use Drupal\Core\Link;
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
-use Drupal\server_general\ButtonTrait;
-use Drupal\server_general\ElementTrait;
-use Drupal\server_general\ElementWrapTrait;
 use Drupal\server_general\ProcessedTextBuilderTrait;
+use Drupal\server_general\ThemeTrait\ButtonThemeTrait;
+use Drupal\server_general\ThemeTrait\CtaThemeTrait;
+use Drupal\server_general\ThemeTrait\ElementWrapThemeTrait;
 
 /**
  * The "Call to Action" paragraph plugin.
@@ -20,9 +21,9 @@ use Drupal\server_general\ProcessedTextBuilderTrait;
  */
 class ParagraphCta extends EntityViewBuilderPluginAbstract {
 
-  use ButtonTrait;
-  use ElementTrait;
-  use ElementWrapTrait;
+  use ButtonThemeTrait;
+  use CtaThemeTrait;
+  use ElementWrapThemeTrait;
   use ProcessedTextBuilderTrait;
 
   /**
@@ -45,8 +46,7 @@ class ParagraphCta extends EntityViewBuilderPluginAbstract {
     $element = $this->buildElementCta(
       $this->getTextFieldValue($entity, 'field_title'),
       $this->buildProcessedText($entity),
-      $link['title'],
-      $link['url'],
+      Link::fromTextAndUrl($link['title'], $link['url']),
     );
 
     $build[] = $element;

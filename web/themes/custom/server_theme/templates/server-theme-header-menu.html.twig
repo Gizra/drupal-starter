@@ -1,15 +1,18 @@
-{% macro internalLink(name, url, last) %}
-  <a href="{{ url }}" class="border-b hover:border-b-gray-400 py-2">
-    {{ name }}
-  </a>
-{% endmacro %}
-
-{# We will add the `flex` class via JS, when toggling the `hidden` class,
-  when viewing on mobile. We still have `sm:flex` to make sure menu is visible
-  on wider devices.
-#}
-<div class="absolute right-0 w-full self-start mt-12 px-4 z-10 sm:static sm:mt-0 sm:px-0 sm:z-0 js-hide-mobile-menu hidden sm:flex flex-col gap-y-4 sm:flex-row gap-x-8 text-white sm:text-gray-700 bg-gray-700 sm:bg-transparent py-4 sm:py-0">
-  {% for item in items %}
-    {{ _self.internalLink(item.title, item.href, loop.last) }}
-  {% endfor %}
-</div>
+<nav class="main-menu-wrapper flex-col items-stretch z-[999] fixed inset-0 w-full h-screen bg-blue-950 text-white overflow-scroll lg:overflow-hidden" role="navigation">
+  <div class="px-4 md:px-10 lg:px-20 pt-4 pb-5 md:pt-5 md:pb-10 lg:pt-10 flex flex-row justify-between items-center border-b border-gray-500">
+    <div>
+      <a href="{{ path('<front>') }}" title="{{ 'Homepage'|t }}"><img src="/{{ directory }}/dist/images/logo.svg" alt="{{ 'Logo'|t }}"></a>
+    </div>
+    <button name="close_menu" class="js-close-menu mt-2 w-6 h-6 text-white hover:text-slate-500 focus-visible:text-slate-500 transition duration-300">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g clip-path="url(#clip0_11743_33122)">
+          <path d="M0 24L24 0M0 0L24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+      </svg>
+      <span class="sr-only">{{ 'Close menu'|t }}</span>
+    </button>
+  </div>
+  <div class="flex lg:grid lg:grid-cols-[repeat(3,_fit-content(30%))] lg:gap-20 px-4 md:px-10 lg:px-20 py-5 md:py-10 lg:overflow-hidden grow relative">
+    {{ main_menu }}
+  </div>
+</nav>

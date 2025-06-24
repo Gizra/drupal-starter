@@ -1,0 +1,39 @@
+{
+  "patches": {
+    "drupal/core": {
+      "d.o. #3315245": "patches/2938.patch",
+      "d.o. #2351685": "https://www.drupal.org/files/issues/2023-02-03/2351685-22.patch",
+      "d.o. #3400204": "https://www.drupal.org/files/issues/2024-06-27/3400204-claro-layout-overflow-fix-2.patch",
+      "d.o. #3456176: Fix Messages rendering with bigpipe": "https://www.drupal.org/files/issues/2024-06-28/3456176-45-missing-status-messages-theme-suggestions.patch",
+      "d.o. #2950869": "patches/core-query-revision-performance.patch"
+    },
+    "drupal/elasticsearch_connector": {
+      "Preserve ES index settings": "https://www.drupal.org/files/issues/2020-01-28/3109361-elasticsearch_connector-preserve-index-settings-1.patch",
+      "d.o. #3106003 - Content access fixes": "https://www.drupal.org/files/issues/2021-01-12/missing-special-fields-3106003-8.patch",
+      "d.o. #3194318 - More robust language filtering": "https://www.drupal.org/files/issues/2021-01-25/3194318-hypen-lang-5.patch",
+      "d.o. #3014805 - Views filtering with facets": "https://www.drupal.org/files/issues/2019-12-20/elasticsearch_connector-facet_OR_global_aggregation_does_not_take_views_filter_into_account-3014805-15.patch",
+      "d.o. #2952301": "https://www.drupal.org/files/issues/2021-03-11/elasticsearch_connector_luceneFlattenKeys--2952301-14.patch"
+    },
+    "drupal/entity_reference_revisions": {
+      "d.o. #2799479": "https://www.drupal.org/files/issues/2022-06-01/entity_reference_revisions-relationship_host_id-2799479-176.patch"
+    },
+    "nodespark/des-connector": {
+      "php 8.1 compatibility": "patches/des-connector-php-compat.patch"
+    },
+    "drupal/ultimate_cron": {
+      "d.o. #3351276": "https://www.drupal.org/files/issues/2023-04-03/3351276-4.patch"
+    },
+    "drupal/webp": {
+      "d.o. #3281606": "https://git.drupalcode.org/project/webp/-/merge_requests/33.diff"
+    },
+    "npm-asset/anchor-js": {
+      "remove font-face": "patches/remove-anchorjs-fontface.patch"
+    },
+    "drupal/seckit": {
+      "d.o. #3206728": "https://www.drupal.org/files/issues/2024-09-06/seckit-2_x-src-field-length-3206728-8.patch"
+    },
+    "drupal/rollbar": {
+      "d.o. #3432364": "patches/3432364-rollbar-vars.patch"
+    }
+  }
+}

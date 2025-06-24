@@ -1,0 +1,30 @@
+#!/bin/bash
+
+## Description: Run terminus inside the web container
+## Usage: terminus [flags] [args]
+## Example: "ddev terminus remote:drush drupal-starter.live uli"
+
+# Function to check if a specified plugin is installed.
+is_plugin_installed() {
+  local plugin_name="$1"
+  terminus self:plugin:list | grep -q "$plugin_name"
+}
+
+# Function to install a specified plugin if it's not installed.
+install_plugin_if_missing() {
+  local plugin_name="$1"
+  if ! is_plugin_installed "$plugin_name"; then
+    echo "Installing $plugin_name..."
+    terminus self:plugin:install "$plugin_name"
+  fi
+}
+
+# Secret Manager is rarely needed, this way we do not install it
+# again and again at the CI environment for instance.
+# Only when it's actually needed, we install it on-the-fly.
+if [[ $1 == secret:* ]]; then
+  install_plugin_if_missing "terminus-secrets-manager-plugin"
+fi
+
+# Run the terminus command with all provided arguments
+terminus "$@"

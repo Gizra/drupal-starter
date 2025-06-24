@@ -2,13 +2,15 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
-use Drupal\paragraphs\Entity\Paragraph;
+use Drupal\Tests\server_general\Traits\ParagraphCreationTrait;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Test 'Quick link' paragraph type.
  */
 class ServerGeneralParagraphQuickLinksTest extends ServerGeneralParagraphTestBase {
+
+  use ParagraphCreationTrait;
 
   /**
    * {@inheritdoc}
@@ -47,27 +49,28 @@ class ServerGeneralParagraphQuickLinksTest extends ServerGeneralParagraphTestBas
       $title = 'This is the Quick link item title ' . $key;
       $body = 'This is the Quick link subtitle ' . $key;
 
-      /** @var \Drupal\paragraphs\ParagraphInterface $paragraph */
-      $paragraph = Paragraph::create(['type' => 'quick_link_item']);
-      $paragraph->set('field_link', [
-        'uri' => 'https://example.com',
-        'title' => $title,
+      $paragraph = $this->createParagraph([
+        'type' => 'quick_link_item',
+        'field_link' => [
+          'uri' => 'https://example.com',
+          'title' => $title,
+        ],
+        'field_subtitle' => $body,
       ]);
-      $paragraph->set('field_subtitle', $body);
-      $paragraph->save();
-      $this->markEntityForCleanup($paragraph);
+
       $paragraphs[] = $paragraph;
     }
 
     // Create Quick links.
     $title = 'This is the Quick links title';
     $body = 'This is the Quick links description';
-    $paragraph = Paragraph::create(['type' => $this->getEntityBundle()]);
-    $paragraph->set('field_title', $title);
-    $paragraph->set('field_body', $body);
-    $paragraph->set('field_quick_link_items', $paragraphs);
-    $paragraph->save();
-    $this->markEntityForCleanup($paragraph);
+
+    $paragraph = $this->createParagraph([
+      'type' => $this->getEntityBundle(),
+      'field_title' => $title,
+      'field_body' => $body,
+      'field_quick_link_items' => $paragraphs,
+    ]);
 
     $user = $this->createUser();
     $node = $this->createNode([
@@ -77,6 +80,7 @@ class ServerGeneralParagraphQuickLinksTest extends ServerGeneralParagraphTestBas
       'field_paragraphs' => [
         $this->getParagraphReferenceValues($paragraph),
       ],
+      'moderation_state' => 'published',
     ]);
     $node->setPublished()->save();
 

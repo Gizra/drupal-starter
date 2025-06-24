@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Url;
+use Drupal\lang_dropdown\LanguageDropdownConstants;
 
 /**
  * Implements hook_theme().
@@ -95,6 +96,7 @@ function server_theme_theme() {
     'variables' => [
       'element' => [],
       'width' => NULL,
+      'is_center' => FALSE,
     ],
   ];
 
@@ -121,7 +123,7 @@ function server_theme_theme() {
 
   $info['server_theme_header_menu'] = [
     'variables' => [
-      'items' => [],
+      'main_menu' => [],
     ],
   ];
 
@@ -270,8 +272,8 @@ function server_theme_theme() {
       'url' => NULL,
       // The button's text.
       'title'  => NULL,
-      // Indicate if button should be primary or secondary.
-      'is_primary' => NULL,
+      // Specify button type. One of: 'primary', 'secondary' or 'tertiary'.
+      'button_type' => NULL,
       // Specify an icon. Any icon should be added as SVG in
       // `server-theme-button`.
       'icon' => NULL,
@@ -303,6 +305,8 @@ function server_theme_theme() {
       'is_infinite' => FALSE,
       // The render array of `server_theme_button`.
       'button' => NULL,
+      // Indicates the carousel direction.
+      'direction' => NULL,
     ],
   ];
 
@@ -427,7 +431,7 @@ function server_theme_theme() {
     'variables' => [
       'url' => NULL,
       // Types can be:
-      // `twitter`, `linkedin`, `facebook`, and `email`.
+      // `x`, `linkedin`, `facebook`, and `email`.
       'service' => NULL,
       // Will be used as the subject for sharing by email (e.g. the node
       // title).
@@ -451,7 +455,7 @@ function server_theme_theme() {
   ];
 
   // A single "Accordion item" inside the Accordion element.
-  $info['server_theme_inner_element__accordion_item'] = [
+  $info['server_theme_element__accordion_item'] = [
     'variables' => [
       'title' => NULL,
       'description' => NULL,
@@ -459,11 +463,25 @@ function server_theme_theme() {
   ];
 
   // A card that is linkable.
-  $info['server_theme_inner_element__quick_link_item'] = [
+  $info['server_theme_element__quick_link_item'] = [
     'variables' => [
       // The title and the optional description as a render array.
       'items' => [],
       'url' => NULL,
+    ],
+  ];
+
+  // An element which displays clamped text with "Read more" option.
+  $info['server_theme_element__expanding_text'] = [
+    'variables' => [
+      // This needs to be a processed text wrapped with `text-formatted` class
+      // (i.e., a processed text field type).
+      'text' => NULL,
+      // Customize the Read more/less button text if needed.
+      'button_label_more' => NULL,
+      'button_label_less' => NULL,
+      // Customize how much clamping is done. 1 to 6. Default is 6.
+      'lines_to_clamp' => NULL,
     ],
   ];
 
@@ -503,31 +521,41 @@ function server_theme_preprocess_page(array &$variables) {
   $language = \Drupal::languageManager()->getCurrentLanguage();
 
   $language_block_config = [
-    'widget' => LANGDROPDOWN_SIMPLE_SELECT,
+    'widget' => LanguageDropdownConstants::LANGDROPDOWN_SIMPLE_SELECT,
     'hide_only_one' => FALSE,
     'showall' => TRUE,
     'width' => 'auto',
-    'display' => LANGDROPDOWN_DISPLAY_NATIVE,
+    'display' => LanguageDropdownConstants::LANGDROPDOWN_DISPLAY_NATIVE,
   ];
 
   $messages = !empty($variables['page']['header']['server_theme_messages']) ? $variables['page']['header']['server_theme_messages'] : NULL;
+
+  try {
+    $search_key = \Drupal::request()->query->get('key');
+  }
+  catch (Exception $e) {
+    // For instance, we have this on malicious input.
+    $search_key = '';
+  }
+
   $variables['page']['header'] = [
     '#theme' => 'server_theme_header',
     '#search_block' => [
       '#theme' => 'server_theme_search',
       // Pass the search term, in case one was entered.
-      '#search_term' => \Drupal::request()->query->get('key'),
+      '#search_term' => $search_key,
       '#search_url' => Url::fromUserInput('/search', [
         'language' => $language,
       ]),
     ],
     '#language_block_dropdown' => server_theme_prepare_block('language_dropdown_block:language_interface', $language_block_config),
     '#language_block_links' => server_theme_prepare_block('language_block:language_interface', $language_block_config),
-    '#menu' => [
-      '#theme' => 'server_theme_header_menu',
-      '#items' => server_theme_prepare_menu_links('main'),
-    ],
     '#messages' => $messages,
+  ];
+
+  $variables['page']['primary_menu'] = [
+    '#theme' => 'server_theme_header_menu',
+    '#main_menu' => server_theme_prepare_block('system_menu_block:main', []),
   ];
 
   $variables['page']['footer'] = [
@@ -577,31 +605,27 @@ function server_theme_theme_suggestions_page_title_alter(array &$suggestions, ar
  *   Render array.
  */
 function server_theme_prepare_block(string $bid, array $config): array {
-  $block_manager = \Drupal::service('plugin.manager.block');
-  $plugin_block = $block_manager->createInstance($bid, $config);
-  $render = $plugin_block->build();
-  \Drupal::service('renderer')->addCacheableDependency($render, $plugin_block);
-
-  return $render;
+  return \Drupal::service('block_plugin.view_builder')->view($bid, $config);
 }
 
 /**
- * Prepare menu links.
+ * Extracts menu links recursively.
  *
- * @param string $menu_name
+ * @param array $tree
  *   Menu name.
  *
  * @return array
  *   Menu links array.
  */
-function server_theme_prepare_menu_links(string $menu_name) {
-  $menu_tree = \Drupal::service('menu.link_tree');
-  // Build the typical default set of menu tree parameters.
-  $parameters = $menu_tree->getCurrentRouteMenuTreeParameters($menu_name);
-  // Load the tree based on this set of parameters.
-  $tree = $menu_tree->load($menu_name, $parameters);
+function _server_theme_extract_menu_level(array $tree) {
   $menu = [];
+  /** @var \Drupal\Core\Menu\MenuLinkTreeElement $element */
   foreach ($tree as $element) {
+    // If we have a subtree, extract that.
+    $child_links = NULL;
+    if (!empty($element->subtree)) {
+      $child_links = _server_theme_extract_menu_level($element->subtree);
+    }
     $menu_link = $element->link;
     if (!$menu_link->isEnabled()) {
       continue;
@@ -617,9 +641,28 @@ function server_theme_prepare_menu_links(string $menu_name) {
     $menu[$weight] = [
       'title' => $menu_link->getTitle(),
       'href' => $url->toString(),
+      'children' => $child_links,
     ];
   }
   ksort($menu);
-
   return $menu;
+}
+
+/**
+ * Implements template_preprocess_image_style().
+ *
+ * Lighthouse penalizes lazy loaded images that appear above the fold.
+ * So, for mobile styles, we don't use lazy.
+ *
+ * @see https://www.drupal.org/node/3173719#comment-14891412
+ */
+function server_theme_preprocess_image_style(array &$variables) {
+  $eager_styles = [
+    'hero_mobile_1x',
+    'hero_mobile_2x',
+  ];
+
+  if (in_array($variables['style_name'], $eager_styles, TRUE)) {
+    $variables['image']['#attributes']['loading'] = 'eager';
+  }
 }

@@ -51,6 +51,11 @@ trait ThemeTrait {
 
     $result = $this->_exec("cd $theme_dir && npx postcss ./src/pcss/style.pcss --output=./dist/css/style.css");
 
+    // Safety check to verify theme was properly compiled before deployment.
+    if (!file_exists(sprintf('%s/dist/css/style.css', self::$themeBase))) {
+      throw new \Exception('Theme compilation failed.');
+    }
+
     if ($result->getExitCode() !== 0) {
       $this->taskCleanDir(['dist/css']);
       return;
@@ -70,6 +75,9 @@ trait ThemeTrait {
     else {
       $this->_copyDir(self::$themeBase . '/src/js', self::$themeBase . '/dist/js');
     }
+
+    // Fonts.
+    $this->_copyDir(self::$themeBase . '/src/fonts', self::$themeBase . '/dist/fonts');
 
     // Images - Copy everything first.
     $this->_copyDir(self::$themeBase . '/src/images', self::$themeBase . '/dist/images');

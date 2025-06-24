@@ -4,23 +4,57 @@ declare(strict_types=1);
 
 namespace Drupal\server_migrate\Plugin\migrate\process;
 
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\File\FileSystemInterface;
+use Drupal\Core\Logger\LoggerChannelInterface;
 use Drupal\file\FileInterface;
 use Drupal\media\MediaInterface;
 use Drupal\migrate\MigrateExecutableInterface;
+use Drupal\migrate\Plugin\MigrateProcessInterface;
 use Drupal\migrate\ProcessPluginBase;
 use Drupal\migrate\Row;
 use Masterminds\HTML5;
+use Symfony\Component\Mime\MimeTypeGuesserInterface;
 
 /**
  * Base class for migrate process plugins which generate media embeds.
- *
- * @property \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
- * @property \Drupal\Core\File\FileSystemInterface $fileSystem
- * @property \Drupal\migrate\Plugin\MigrateProcessInterface $fileCopyPlugin
- * @property \Drupal\Core\Logger\LoggerChannelInterface $logger
- * @property \Symfony\Component\Mime\MimeTypeGuesserInterface $mimeTypeGuesser
  */
 abstract class MediaEmbedProcessPluginBase extends ProcessPluginBase {
+
+  /**
+   * Entity Type Manager service.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected EntityTypeManagerInterface $entityTypeManager;
+
+  /**
+   * File system service.
+   *
+   * @var \Drupal\Core\File\FileSystemInterface
+   */
+  protected FileSystemInterface $fileSystem;
+
+  /**
+   * Migrate transform plugin.
+   *
+   * @var \Drupal\migrate\Plugin\MigrateProcessInterface
+   */
+  protected MigrateProcessInterface $fileCopyPlugin;
+
+  /**
+   * Logger service.
+   *
+   * @var \Drupal\Core\Logger\LoggerChannelInterface
+   */
+  protected LoggerChannelInterface $logger;
+
+  /**
+   * Mime type guesser service.
+   *
+   * @var \Symfony\Component\Mime\MimeTypeGuesserInterface
+   */
+  protected MimeTypeGuesserInterface $mimeTypeGuesser;
 
   /**
    * These are the image extensions that the Image media type accepts.
@@ -205,7 +239,7 @@ abstract class MediaEmbedProcessPluginBase extends ProcessPluginBase {
     // @see \Drupal\filter\Plugin\Filter\FilterCaption
     // @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figcaption
     $target_node = $item;
-    if ($item->parentNode->tagName === 'figure') {
+    if ($item->parentNode->nodeName === 'figure') {
       $target_node = $item->parentNode;
       foreach ($item->parentNode->childNodes as $child) {
         if ($child instanceof \DOMElement && $child->tagName === 'figcaption') {

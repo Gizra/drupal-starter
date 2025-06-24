@@ -2,13 +2,15 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
-use Drupal\paragraphs\Entity\Paragraph;
+use Drupal\Tests\server_general\Traits\ParagraphCreationTrait;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Test 'Cta' paragraph type.
  */
 class ServerGeneralParagraphCtaTest extends ServerGeneralParagraphTestBase {
+
+  use ParagraphCreationTrait;
 
   /**
    * {@inheritdoc}
@@ -40,15 +42,18 @@ class ServerGeneralParagraphCtaTest extends ServerGeneralParagraphTestBase {
    * Test render of the paragraph.
    */
   public function testRender() {
-    $cta = Paragraph::create(['type' => 'cta']);
-    $cta->set('field_title', 'Lorem ipsum dolor sit amet');
-    $cta->set('field_body', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
-    $cta->set('field_link', [
-      'uri' => 'https://example.com',
-      'title' => 'Button text',
+    $title = 'Lorem ipsum dolor sit amet';
+    $body = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
+
+    $cta = $this->createParagraph([
+      'type' => $this->getEntityBundle(),
+      'field_title' => $title,
+      'field_body' => $body,
+      'field_link' => [
+        'uri' => 'https://example.com',
+        'title' => 'Button text',
+      ],
     ]);
-    $cta->save();
-    $this->markEntityForCleanup($cta);
 
     $user = $this->createUser();
     $node = $this->createNode([
@@ -58,6 +63,7 @@ class ServerGeneralParagraphCtaTest extends ServerGeneralParagraphTestBase {
       'field_paragraphs' => [
         $this->getParagraphReferenceValues($cta),
       ],
+      'moderation_state' => 'published',
     ]);
     $node->setPublished()->save();
     $this->assertEquals($user->id(), $node->getOwnerId());

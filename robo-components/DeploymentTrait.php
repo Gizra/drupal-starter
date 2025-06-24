@@ -31,6 +31,13 @@ trait DeploymentTrait {
   public static string $githubProject = 'Gizra/drupal-starter';
 
   /**
+   * The name of the admin user (UID 1 is blocked by default).
+   *
+   * @var string
+   */
+  public static string $adminUser = 'AdminOne';
+
+  /**
    * The files / directories to exclude from deployment.
    *
    * @var array|string[]
@@ -50,6 +57,7 @@ trait DeploymentTrait {
     'phpunit.xml.dist',
     'README.md',
     'RoboFile.php',
+    'robo-components',
     'server.es.secrets.json',
     'travis-key.enc',
     'travis-key',
@@ -76,9 +84,77 @@ trait DeploymentTrait {
     'mass_patch.sh',
     'package.json',
     'package-lock.json',
-    'composer.json',
-    'composer.lock',
+    'web/libraries/font-awesome/js-packages',
+    'web/libraries/font-awesome/metadata',
   ];
+
+  /**
+   * Get the full URL for a Pantheon environment with basic auth credentials.
+   *
+   * @param string $pantheon_environment
+   *   The Pantheon environment (e.g., 'site.env').
+   *
+   * @return string
+   *   The full URL with credentials if available.
+   *
+   * @throws \Exception
+   */
+  public function deployGetEnvironmentUrl(string $pantheon_environment): string {
+    // Get lock info to check for HTTP basic auth.
+    $lock_result = $this->taskExec("terminus lock:info $pantheon_environment --format=json")
+      ->printOutput(FALSE)
+      ->run();
+
+    $lock_info = [];
+    if ($lock_result->getExitCode() === 0) {
+      $lock_output = trim($lock_result->getMessage());
+      if (!empty($lock_output)) {
+        $lock_info = json_decode($lock_output, TRUE);
+      }
+    }
+
+    // Get domains associated with the environment.
+    $domain_result = $this->taskExec("terminus domain:list $pantheon_environment --format=json")
+      ->printOutput(FALSE)
+      ->run();
+
+    $base_url = '';
+    if ($domain_result->getExitCode() === 0) {
+      $domain_output = trim($domain_result->getMessage());
+      if (!empty($domain_output)) {
+        $domains = json_decode($domain_output, TRUE);
+        if (!empty($domains) && is_array($domains)) {
+          // Use the first domain in the list.
+          $base_url = array_key_first($domains);
+        }
+      }
+    }
+
+    // Fallback to default pantheonsite.io domain.
+    if (empty($base_url)) {
+      $parts = explode('.', $pantheon_environment);
+      if (count($parts) === 2) {
+        $site_name = $parts[0];
+        $env_name = $parts[1];
+        $base_url = "$env_name-$site_name.pantheonsite.io";
+      }
+      else {
+        throw new \Exception("Invalid Pantheon environment format: $pantheon_environment");
+      }
+    }
+
+    // Check if environment is locked and has auth credentials.
+    $is_locked = !empty($lock_info['locked']) && $lock_info['locked'] === TRUE;
+    $has_auth = $is_locked && !empty($lock_info['username']) && !empty($lock_info['password']);
+
+    if ($has_auth) {
+      $username = $lock_info['username'];
+      $password = $lock_info['password'];
+      return "https://$username:$password@$base_url/";
+    }
+
+    return "https://$base_url/";
+  }
 
   /**
    * Deploy a tag (specific release) to Pantheon.
@@ -126,8 +202,7 @@ trait DeploymentTrait {
     }
     // Check out the original branch regardless of success or failure.
     $this->taskExec("git checkout -")->run();
-    // Exit.
-    $this->taskExec("exit $exit")->run();
+    exit($exit);
   }
 
   /**
@@ -149,6 +224,15 @@ trait DeploymentTrait {
       throw new \Exception('Clone the Pantheon artifact repository first into the .pantheon directory');
     }
 
+    $pantheon_info = $this->getPantheonNameAndEnv();
+    $pantheon_env = $branch_name == 'master' ? 'dev' : $branch_name;
+    $pantheon_terminus_environment = $pantheon_info['name'] . '.' . $pantheon_env;
+    $result = $this->_exec("terminus connection:set $pantheon_terminus_environment git")->getExitCode();
+
+    if ($result !== 0) {
+      throw new \Exception("The Git mode could not be activated at $pantheon_terminus_environment, try to do it manually from the Pantheon dashboard.");
+    }
+
     $result = $this
       ->taskExec('git status -s')
       ->printOutput(FALSE)
@@ -156,7 +240,7 @@ trait DeploymentTrait {
 
     if ($result->getMessage()) {
       $this->say($result->getMessage());
-      throw new \Exception('The Pantheon directory is dirty. Please commit any pending changes.');
+      throw new \Exception('The project directory is dirty. Please commit any pending changes.');
     }
 
     $result = $this
@@ -205,7 +289,7 @@ trait DeploymentTrait {
         ->run();
 
       if ($result->getMessage() !== 'commit') {
-        $this->yell(strtr('This current commit @current-commit cannot be deployed, since new commits have been created since, so we don\'t want to deploy an older version. Result was: @result', [
+        $this->yell(strtr('This current commit @current-commit cannot be deployed, as new commits have been created since, so we don\'t want to deploy an older version. Result was: @result', [
           '@current-commit' => $current_version,
           '@result' => $result->getMessage(),
         ]));
@@ -220,9 +304,6 @@ trait DeploymentTrait {
     // Compile theme.
     $this->themeCompile();
 
-    // Remove the dev dependencies before pushing up to Pantheon.
-    $this->taskExec("composer install --no-dev")->run();
-
     $rsync_exclude_string = '--exclude=' . implode(' --exclude=', self::$deploySyncExcludes);
 
     // Copy all files and folders.
@@ -234,6 +315,14 @@ trait DeploymentTrait {
     // The settings.pantheon.php is managed by Pantheon, there can be updates,
     // site-specific modifications belong to settings.php.
     $this->_exec("cp web/sites/default/settings.pantheon.php $pantheon_directory/web/sites/default/settings.php");
+
+    // Prevent attackers to reach these standalone scripts.
+    $this->_exec("rm -f $pantheon_directory/web/core/install.php");
+    $this->_exec("rm -f $pantheon_directory/web/core/update.php");
+
+    // Remove the dev dependencies before pushing up to Pantheon.
+    $this->_exec("rm -rf $pantheon_directory/vendor");
+    $this->_exec("(cd $pantheon_directory && composer install --no-dev && composer dump-autoload)");
 
     // Flag the current version in the artifact repo.
     file_put_contents($deployment_version_path, $current_version);
@@ -282,15 +371,22 @@ trait DeploymentTrait {
       }
     }
     $commit_message = escapeshellarg($commit_message);
-    $result = $this->taskExec("cd $pantheon_directory && git pull && git add . && git commit -am $commit_message && git push")
+    $result = $this->taskExec("cd $pantheon_directory && git pull --ff-only && git pull && git add . && git commit -am $commit_message && git push")
       ->printOutput(FALSE)
       ->run();
+
+    // We want to halt the deployment only where the commit push failed while
+    // actually trying to push new code. If the deploy fails because some other
+    // requirements (like existing content not properly removed) allow re-run
+    // the deployment via the Continuous Integration UI.
+    $nothing_to_commit = FALSE;
     if (str_contains($result->getMessage(), 'nothing to commit, working tree clean')) {
       $this->say('Nothing to commit, working tree clean');
+      $nothing_to_commit = TRUE;
     }
     print $result->getMessage();
 
-    if ($result->getExitCode() !== 0) {
+    if ($result->getExitCode() !== 0 && $nothing_to_commit === FALSE) {
       throw new \Exception('Pushing to the remote repository failed');
     }
 
@@ -298,7 +394,6 @@ trait DeploymentTrait {
     // This "git push" above is as async operation, so prevent invoking
     // for instance drush cim before the new changes are there.
     usleep(self::$deploymentWaitTime);
-    $pantheon_env = $branch_name == 'master' ? 'dev' : $branch_name;
 
     $this->waitForCodeDeploy($pantheon_env);
     $this->deployPantheonSync($pantheon_env, FALSE);
@@ -343,7 +438,17 @@ trait DeploymentTrait {
    * @throws \Exception
    */
   protected function getPantheonNameAndEnv() : array {
-    $yaml = Yaml::parseFile('./.ddev/providers/pantheon.yaml');
+    $yaml_path = './.ddev/providers/pantheon.yaml';
+    // This way we can use most commands natively, if we want.
+    // The preferred, supported way is still via DDEV.
+    // I had one case where I wanted to rely on the nameservers
+    // defined by the host only - that could be one use-case.
+    if (file_exists($yaml_path)) {
+      $yaml = Yaml::parseFile($yaml_path);
+    }
+    else {
+      $yaml = Yaml::parseFile('../' . $yaml_path);
+    }
     if (empty($yaml['environment_variables']['project'])) {
       throw new \Exception("`environment_variables.project` is missing from .ddev/providers/pantheon.yaml");
     }
@@ -388,6 +493,7 @@ trait DeploymentTrait {
       ->exec("terminus remote:drush $pantheon_terminus_environment -- cim --no-interaction")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- cim --no-interaction")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- cr")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- deploy:hook --no-interaction")
       ->run()
       ->getExitCode();
     if ($result !== 0) {
@@ -405,6 +511,17 @@ trait DeploymentTrait {
 
     $result = $this->taskExecStack()
       ->stopOnFail()
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- user-block --uid=1")
+      ->run()
+      ->getExitCode();
+
+    if ($result !== 0) {
+      $message = "The code deploy went well to $env, but blocking #1 user failed.";
+      $this->deployNotify($env, $message);
+    }
+
+    $result = $this->taskExecStack()
+      ->stopOnFail()
       ->exec("terminus remote:drush $pantheon_terminus_environment -- sapi-r")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- sapi-i")
       ->run()
@@ -418,7 +535,7 @@ trait DeploymentTrait {
 
     $result = $this->taskExecStack()
       ->stopOnFail()
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- uli")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- uli --name=" . self::$adminUser)
       ->run()
       ->getExitCode();
 
@@ -432,9 +549,17 @@ trait DeploymentTrait {
       $this->deployCheckRequirementErrors($env);
     }
     catch (\Exception $e) {
+      // On purpose, we do not halt the process here or make the build red.
+      // Requirement errors are bad, we would like to know about them via
+      // a GitHub message, but it should not abort a live deployment
+      // for instance.
       $message = "The deployment went well to $env, but there are requirement errors. Address these:" . PHP_EOL . $e->getMessage();
-      $this->deployNotify($env, $message);
-      throw new \Exception($message);
+      try {
+        $this->deployNotify($env, $message);
+      }
+      catch (\Exception $e) {
+        $this->yell($e->getMessage());
+      }
     }
   }
 
@@ -452,40 +577,39 @@ trait DeploymentTrait {
     $task = $this->taskExecStack()
       ->stopOnFail();
     $output = $task
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- rq --format=csv")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- rq --format=json")
       ->printOutput(FALSE)
       ->run()
       ->getMessage();
 
+    if (empty($output)) {
+      throw new \Exception("Cannot get requirement errors via terminus, try to authenticate first: ddev auth ssh && ddev . terminus login --machine-token=[TOKEN]");
+    }
+
     $errors = [];
-    $parsed_output = str_getcsv($output, "\n");
-    if (empty($parsed_output)) {
-      return;
+    $parsed_output = json_decode($output, TRUE);
+
+    if (!is_array($parsed_output)) {
+      throw new \Exception("Cannot parse the response of terminus: " . serialize($parsed_output));
     }
 
     $exclude = (string) getenv('DEPLOY_EXCLUDE_WARNING');
     $exclude_list = explode('|', $exclude);
 
-    foreach ($parsed_output as $row) {
-      $row = str_getcsv($row, ",");
-      if (empty($row[0])) {
+    foreach ($parsed_output as $requirement) {
+      if ($requirement['severity'] !== 'Error') {
         continue;
       }
-      if (empty($row[1])) {
+      if (in_array($requirement['title'], $exclude_list) || in_array($requirement['value'], $exclude_list)) {
+        // A warning we decided to exclude.
         continue;
       }
-      if ($row[1] !== 'Error') {
-        continue;
-      }
-      if (in_array($row[0], $exclude_list)) {
-        continue;
-      }
-      $errors[] = $row[2];
+      $errors[] = '## ' . trim($requirement['title']) . "\n" . trim($requirement['value']);
     }
     if (empty($errors)) {
       return;
     }
-    throw new \Exception(print_r($errors, TRUE));
+    throw new \Exception(implode("\n\n", $errors));
   }
 
   /**
@@ -498,10 +622,14 @@ trait DeploymentTrait {
    *   The environment to install.
    * @param string $pantheon_name
    *   The Pantheon site name.
+   * @param array $options
+   *   Extra options for this command.
+   *
+   * @option backup Will create a multidev environment named env-YYMMDD with the database and files of the environment being reinstalled.
    *
    * @throws \Exception
    */
-  public function deployPantheonInstallEnv(string $env = 'qa', string $pantheon_name = NULL): void {
+  public function deployPantheonInstallEnv(string $env = 'qa', ?string $pantheon_name = NULL, array $options = ['backup' => FALSE]): void {
     $forbidden_envs = [
       'live',
     ];
@@ -523,13 +651,25 @@ trait DeploymentTrait {
       ->taskExecStack()
       ->stopOnFail();
 
+    // If --backup is specified, backup the environment before reinstalling it.
+    if (!empty($options['backup'])) {
+      // Example qa-231230, or test-231230.
+      $backup_name = sprintf("%s-%s", $env, date('ymd'));
+      $task->exec("terminus multidev:create $pantheon_terminus_environment $backup_name");
+    }
+
+    // Drupal checks is the settings.php is writable. With the connection
+    // mode switch, we can fulfill this.
     $task
+      ->exec("terminus connection:set $pantheon_terminus_environment sftp")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- si server --no-interaction --existing-config")
+      ->exec("terminus connection:set $pantheon_terminus_environment git --yes")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- pm-enable default_content --no-interaction")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- pm-enable server_default_content --no-interaction")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- pm:uninstall server_default_content default_content --no-interaction")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- set-homepage")
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- uli");
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- cr")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- uli --name=" . self::$adminUser);
 
     $result = $task->run()->getExitCode();
 
@@ -598,6 +738,12 @@ trait DeploymentTrait {
       ->run();
     if ($result->getExitCode() !== 0) {
       throw new \Exception('The encryption of the Terminus token failed.');
+    }
+
+    $result = $this->taskExec('travis encrypt GITHUB_TOKEN="' . $github_token . '" --add --no-interactive --pro')
+      ->run();
+    if ($result->getExitCode() !== 0) {
+      throw new \Exception('The encryption of the Github token failed.');
     }
 
     $result = $this->taskExec("terminus connection:info $project_name.dev --fields='Git Command' --format=string | awk '{print $3}'")
@@ -695,12 +841,9 @@ trait DeploymentTrait {
       }
     }
 
-    if (empty($issue_numbers)) {
-      $this->say("Giving up, no notification sent to GitHub");
-      return;
-    }
-
     $pantheon_info = $this->getPantheonNameAndEnv();
+    $pantheon_terminus_environment = $pantheon_info['name'] . '.' . $pantheon_environment;
+
     // Let's figure out if the repository is public or not via GitHub API.
     $repo = $this->taskExec("curl -H \"Authorization: token $github_token\" https://api.github.com/repos/" . self::$githubProject)
       ->printOutput(FALSE)
@@ -712,11 +855,7 @@ trait DeploymentTrait {
       return;
     }
     if ($repo->private) {
-      // If the repository is private, we can put a login link into the comment.
-      $quick_link = $this->taskExec("terminus remote:drush " . $pantheon_info['name'] . "." . $pantheon_environment . " uli")
-        ->printOutput(FALSE)
-        ->run()
-        ->getMessage();
+      $quick_link = $this->deployGetEnvironmentUrl($pantheon_terminus_environment);
     }
     else {
       // Otherwise, just link the environment.

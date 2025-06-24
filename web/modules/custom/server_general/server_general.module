@@ -5,8 +5,15 @@
  * Module file.
  */
 
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Entity\ContentEntityFormInterface;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageInterface;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\config_pages\Entity\ConfigPages;
+use Drupal\media\IFrameMarkup;
+use Drupal\node\NodeInterface;
 use Drupal\server_general\ArabicNumberConverter;
 
 /**
@@ -93,4 +100,256 @@ function server_general_field_info_alter(array &$info) {
  */
 function server_general_field_widget_single_element_language_select_form_alter(array &$element, FormStateInterface $form_state, array $context) {
   $element['value']['#languages'] = LanguageInterface::STATE_CONFIGURABLE;
+}
+
+/**
+ * Implements hook_field_widget_single_element_WIDGET_TYPE_form_alter().
+ *
+ * Unpublish option should not be available for moderation of locked nodes.
+ */
+function server_general_field_widget_single_element_moderation_state_default_form_alter(array &$element, FormStateInterface $form_state, array $context) {
+  /** @var \Drupal\Core\Entity\EntityFormInterface $form_object */
+  $form_object = $form_state->getFormObject();
+  /** @var \Drupal\node\NodeInterface $entity */
+  $entity = $form_object->getEntity();
+
+  // Not a node, so return early.
+  if (!$entity instanceof NodeInterface) {
+    return;
+  }
+
+  /** @var \Drupal\server_general\LockedPages $locked_pages_service */
+  $locked_pages_service = \Drupal::service('server_general.locked_pages');
+  // The bundles that can be locked.
+  $bundles = $locked_pages_service->getReferencedBundles();
+
+  // Node is not locked or options do not include unpublished, return early.
+  if (!in_array($entity->bundle(), $bundles) || !$locked_pages_service->isNodeLocked($entity) || !isset($element['state']['#options']['unpublished'])) {
+    return;
+  }
+
+  unset($element['state']['#options']['unpublished']);
+
+}
+
+/**
+ * Implements hook_entity_access().
+ */
+function server_general_node_access(NodeInterface $entity, string $op, AccountInterface $account) {
+  /** @var \Drupal\server_general\LockedPages $locked_pages_service */
+  $locked_pages_service = \Drupal::service('server_general.locked_pages');
+  // The bundles that can be locked.
+  $bundles = $locked_pages_service->getReferencedBundles();
+
+  if (!in_array($entity->bundle(), $bundles)) {
+    return AccessResult::neutral();
+  }
+
+  $main_settings = $locked_pages_service->getMainSettings();
+
+  if ($op === 'delete' && $main_settings instanceof ConfigPages && $locked_pages_service->isNodeLocked($entity)) {
+    // Add cache tags to the cache metadata.
+    $cache_tags = $main_settings->getCacheTags();
+    return AccessResult::forbidden()->addCacheableDependency($entity)->addCacheTags($cache_tags);
+  }
+
+  return AccessResult::neutral();
+}
+
+/**
+ * Implements hook_entity_predelete().
+ */
+function server_general_node_predelete(NodeInterface $entity) {
+  /** @var \Drupal\server_general\LockedPages $locked_pages_service */
+  $locked_pages_service = \Drupal::service('server_general.locked_pages');
+
+  if (!$locked_pages_service->isNodeLocked($entity)) {
+    return;
+  }
+
+  throw new Exception("This node is locked and can't be removed");
+}
+
+/**
+ * Implements hook_node_presave().
+ */
+function server_general_node_presave(NodeInterface $entity) {
+  /** @var \Drupal\server_general\LockedPages $locked_pages_service */
+  $locked_pages_service = \Drupal::service('server_general.locked_pages');
+
+  if (!$locked_pages_service->isNodeLocked($entity)) {
+    return;
+  }
+
+  // Get the module handler service.
+  $module_handler = \Drupal::service('module_handler');
+  if ($entity->isNew()) {
+    return;
+  }
+  /** @var \Drupal\node\NodeInterface $original */
+  $original = \Drupal::entityTypeManager()->getStorage('node')->loadUnchanged($entity->id());
+  // If content moderation is used, don't allow unpublish for locked pages.
+  if ($module_handler->moduleExists('content_moderation') && $original->get('moderation_state')->getString() === 'published' && $entity->get('moderation_state')->getString() === 'unpublished') {
+    $entity->set('moderation_state', 'published');
+  }
+
+  if ($original->isPublished() && !$entity->isPublished()) {
+    $entity->setPublished();
+  }
+
+  if ($entity->get('moderation_state')->value == 'unpublished') {
+    $entity->set('moderation_state', $original->get('moderation_state')->value);
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function server_general_form_alter(array &$form, FormStateInterface $form_state) {
+  /** @var \Drupal\Core\Entity\EntityFormInterface $form_object */
+  $form_object = $form_state->getFormObject();
+
+  // Check that form object is instance of ContentEntityFormInterface.
+  if (!$form_object instanceof ContentEntityFormInterface) {
+    return;
+  }
+
+  /** @var \Drupal\node\NodeInterface $entity */
+  $entity = $form_object->getEntity();
+  // Check that entity is a node.
+  if ($entity->getEntityType()->id() !== 'node') {
+    return;
+  }
+
+  // Check that we are on the node edit page.
+  if ($form['#form_id'] !== "node_{$entity->bundle()}_edit_form") {
+    return;
+  }
+  /** @var \Drupal\server_general\LockedPages $locked_pages_service */
+  $locked_pages_service = \Drupal::service('server_general.locked_pages');
+
+  // Check if node is locked or not.
+  if (!$locked_pages_service->isNodeLocked($entity)) {
+    return;
+  }
+
+  unset($form['actions']['delete']);
+  // Unset "Delete translation" button.
+  // @See server_general_module_implements_alter().
+  unset($form['actions']['delete_translation']);
+  $form['status']['#access'] = FALSE;
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function server_general_module_implements_alter(array &$implementations, string $hook) {
+  if ($hook == 'form_alter' && isset($implementations['server_general'])) {
+    // Move this module's implementation of form_alter to the end of the list.
+    // We're doing this so that we can override
+    // "content_translation_form_alter()" in our hook_form_alter.
+    $hook_init = $implementations['server_general'];
+    unset($implementations['server_general']);
+    $implementations['server_general'] = $hook_init;
+  }
+}
+
+/**
+ * Implements hook_entity_operation_alter().
+ */
+function server_general_entity_operation_alter(array &$operations, EntityInterface $entity) {
+  // Check that entity is a node.
+  if ($entity->getEntityType()->id() !== 'node') {
+    return;
+  }
+  /** @var \Drupal\server_general\LockedPages $locked_pages_service */
+  $locked_pages_service = \Drupal::service('server_general.locked_pages');
+
+  // Check if node is locked or not.
+  /** @var \Drupal\node\NodeInterface $entity */
+  if (!$locked_pages_service->isNodeLocked($entity)) {
+    return;
+  }
+
+  unset($operations['delete']);
+}
+
+/**
+ * Implements hook_content_translation_overview_alter().
+ */
+function server_general_content_translation_overview_alter(array $build, EntityInterface $entity) {
+  if (!$entity instanceof NodeInterface || $entity->bundle() !== 'landing_page') {
+    // Not a Landing page.
+    return;
+  }
+  /** @var \Drupal\server_general\LockedPages $locked_pages_service */
+  $locked_pages_service = \Drupal::service('server_general.locked_pages');
+
+  /** @var \Drupal\node\NodeInterface $entity */
+  if (!$locked_pages_service->isNodeLocked($entity)) {
+    // Node isn't locked.
+    return;
+  }
+  if (!isset($build['content_translation_overview']['#rows'])) {
+    // There's no content to translate.
+    return;
+  }
+  $content_translation_overview_rows = &$build['content_translation_overview']['#rows'];
+  // Check for each language and unset delete operation.
+  // Delete operation will exist only if node translation exists for
+  // given language.
+  foreach ($content_translation_overview_rows as &$language_data) {
+    foreach ($language_data as &$element) {
+      // Check if the "delete" operation exists, then unset it.
+      if (is_array($element) && isset($element['data']['#type']) && $element['data']['#type'] === 'operations' && isset($element['data']['#links']['delete'])) {
+        unset($element['data']['#links']['delete']);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_menu_local_tasks_alter().
+ */
+function server_general_menu_local_tasks_alter(array &$data, string $route_name): void {
+  if (!isset($data['tabs'][0]['entity.node.delete_form'])) {
+    return;
+  }
+
+  $routes = [
+    'entity.node.canonical',
+    'entity.node.edit_form',
+  ];
+
+  if (!in_array($route_name, $routes)) {
+    return;
+  }
+
+  /** @var \Drupal\node\NodeInterface $entity */
+  $entity = \Drupal::routeMatch()->getParameter('node');
+  if (!$entity instanceof NodeInterface) {
+    return;
+  }
+
+  /** @var \Drupal\server_general\LockedPages $locked_pages_service */
+  $locked_pages_service = \Drupal::service('server_general.locked_pages');
+
+  // Check if node is locked or not.
+  /** @var \Drupal\node\NodeInterface $entity */
+  if (!$locked_pages_service->isNodeLocked($entity)) {
+    return;
+  }
+
+  unset($data['tabs'][0]['entity.node.delete_form']);
+}
+
+/**
+ * Implements hook_preprocess_media_oembed_iframe().
+ */
+function server_general_preprocess_media_oembed_iframe(array &$variables) {
+  // Turn on privacy-enhanced mode for youtube videos.
+  // @see https://support.google.com/youtube/answer/171780
+  if (strpos((string) $variables['media'], 'youtube.com') !== FALSE) {
+    $variables['media'] = IFrameMarkup::create(str_replace('youtube.com/', 'youtube-nocookie.com/', $variables['media']));
+  }
 }

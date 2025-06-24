@@ -1,0 +1,17 @@
+uuid: 56d5d6b5-e856-4cf7-82b4-1f7468da7dd2
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: 8US9Yb33EXUGI8LNE2tUeFZGOdYR9ZEQnSmQ9oK_X98
+id: cache_document_default_9_0_0
+label: 'Document Cache'
+minimum_solr_version: 9.0.0
+environments: {  }
+cache:
+  name: document
+  class: solr.CaffeineCache
+  size: 512
+  initialSize: 512
+  autowarmCount: 0
+solr_configs: null

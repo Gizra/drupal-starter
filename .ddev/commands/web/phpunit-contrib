@@ -1,0 +1,7 @@
+#!/bin/bash
+
+## Description: Run PHPunit tests inside the web container.
+## Usage: phpunit-contrib
+## Example: "ddev phpunit-contrib migrate_tools"
+
+phpunit --bootstrap $PWD/$DDEV_DOCROOT/core/tests/bootstrap.php $DDEV_DOCROOT/modules/contrib/$1

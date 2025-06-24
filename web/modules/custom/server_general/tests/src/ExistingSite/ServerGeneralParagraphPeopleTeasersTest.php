@@ -2,13 +2,15 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
-use Drupal\paragraphs\Entity\Paragraph;
+use Drupal\Tests\server_general\Traits\ParagraphCreationTrait;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Test 'People teasers' paragraph type.
  */
 class ServerGeneralParagraphPeopleTeasersTest extends ServerGeneralParagraphTestBase {
+
+  use ParagraphCreationTrait;
 
   /**
    * {@inheritdoc}
@@ -49,25 +51,28 @@ class ServerGeneralParagraphPeopleTeasersTest extends ServerGeneralParagraphTest
       $title = 'This is the Person teaser title ' . $key;
       $subtitle = 'This is the Person teaser subtitle ' . $key;
 
-      /** @var \Drupal\paragraphs\ParagraphInterface $paragraph */
-      $paragraph = Paragraph::create(['type' => 'person_teaser']);
-      $paragraph->set('field_title', $title);
-      $paragraph->set('field_subtitle', $subtitle);
-      $paragraph->set('field_image', $media);
-      $paragraph->save();
-      $this->markEntityForCleanup($paragraph);
+      $paragraph = $this->createParagraph([
+        'type' => 'person_teaser',
+        'field_title' => $title,
+        'field_subtitle' => $subtitle,
+        'field_image' => [
+          'target_id' => $media->id(),
+        ],
+      ]);
+
       $person_teasers[] = $paragraph;
     }
 
     // Create accordion.
     $title = 'This is the People teasers title';
     $subtitle = 'This is the People teasers description';
-    $paragraph = Paragraph::create(['type' => $this->getEntityBundle()]);
-    $paragraph->set('field_title', $title);
-    $paragraph->set('field_body', $subtitle);
-    $paragraph->set('field_person_teasers', $person_teasers);
-    $paragraph->save();
-    $this->markEntityForCleanup($paragraph);
+
+    $paragraph = $this->createParagraph([
+      'type' => $this->getEntityBundle(),
+      'field_title' => $title,
+      'field_body' => $subtitle,
+      'field_person_teasers' => $person_teasers,
+    ]);
 
     $user = $this->createUser();
     $node = $this->createNode([
@@ -77,6 +82,7 @@ class ServerGeneralParagraphPeopleTeasersTest extends ServerGeneralParagraphTest
       'field_paragraphs' => [
         $this->getParagraphReferenceValues($paragraph),
       ],
+      'moderation_state' => 'published',
     ]);
     $node->setPublished()->save();
 

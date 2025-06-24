@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
+use Drupal\Tests\server_general\TestConfiguration;
+use Drupal\Tests\server_general\Traits\MemoryManagementTrait;
 use weitzman\DrupalTestTraits\ExistingSiteSelenium2DriverTestBase;
 
 /**
@@ -14,25 +16,26 @@ use weitzman\DrupalTestTraits\ExistingSiteSelenium2DriverTestBase;
  */
 class ServerGeneralSelenium2TestBase extends ExistingSiteSelenium2DriverTestBase {
 
+  use MemoryManagementTrait;
+
   /**
-   * Tear down and unset variables.
-   *
-   * This is needed in order to reduce the memory usage by PHPUnit.
-   *
-   * @see https://stackoverflow.com/questions/13537545/clear-memory-being-used-by-php
+   * {@inheritDoc}
+   */
+  protected function setUp(): void {
+    parent::setUp();
+
+    $session = $this->getSession();
+    // Make takeScreenshot() more developer friendly, capture
+    // as many details as possible.
+    $session->resizeWindow(TestConfiguration::BROWSER_WIDTH, TestConfiguration::BROWSER_HEIGHT);
+  }
+
+  /**
+   * {@inheritdoc}
    */
   public function tearDown(): void {
     parent::tearDown();
-    $refl = new \ReflectionObject($this);
-    foreach ($refl->getProperties() as $prop) {
-      if (!$prop->isStatic()
-        && 0 !== strpos($prop->getDeclaringClass()->getName(), 'PHPUnit_')
-        && $prop->getType()?->allowsNull() !== FALSE
-      ) {
-        $prop->setAccessible(TRUE);
-        $prop->setValue($this, NULL);
-      }
-    }
+    $this->performMemoryCleanup();
   }
 
   /**
@@ -69,7 +72,7 @@ class ServerGeneralSelenium2TestBase extends ExistingSiteSelenium2DriverTestBase
     // Take the screenshot and save it in /sites/simpletest/screenshots.
     $filename = $screenshot_file_base_name . time() . '.png';
     $screenshot = $this->getDriverInstance()->getScreenshot();
-    file_put_contents($dir . $filename, $screenshot);
+    file_put_contents($dirs[1] . $filename, $screenshot);
   }
 
 }
