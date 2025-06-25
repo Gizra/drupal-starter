@@ -26,26 +26,30 @@ trait AutoUpdateTrait {
     // @phpstan-ignore-next-line
     $data = update_calculate_project_data($available);
     foreach ($data as $project) {
-      if (isset($project['recommended'])) {
-        if ($project['status'] != UpdateManagerInterface::CURRENT || $project['existing_version'] !== $project['recommended']) {
-          $this->say('Updating the ' . $project['name'] . ' module to version ' . $project['recommended'] . '.');
-          $package = $project['name'] == 'drupal' ? 'core-*' : $project['name'];
-          $exit_code = $this->taskExec("composer update 'drupal/" . $package . ":^" . $project['recommended'] . "' -W")
-            ->printOutput(TRUE)
-            ->run()
-            ->getExitCode();
-          if ($exit_code === 0) {
-            // Update successful, add composer.lock to staging area,
-            // then commit it.
-            $this->taskExec("git add composer.lock")->printOutput(TRUE)->run();
-            $git_command = "git commit -m 'Update " . $package . ' to ' . $project['recommended'] . "'";
-            $this->taskExec($git_command)->printOutput(TRUE)->run();
-          }
-          else {
-            $this->yell('There was an error updating ' . $package . ' to version ' . $project['recommended']);
-          }
-        }
+      if (!isset($project['recommended'])) {
+        $this->yell('No recommended version is set for ' . $project['name']);
+        continue;
       }
+      // Drupal core is simply called drupal.
+      $package = $project['name'] == 'drupal' ? 'core-*' : $project['name'];
+      if ($project['status'] == UpdateManagerInterface::CURRENT && $project['existing_version'] === $project['recommended']) {
+        $this->say($project['name'] . ' is up-to-date.');
+        // No need to update.
+        continue;
+      }
+      $this->say('Updating ' . $package . ' to version ' . $project['recommended'] . '.');
+      $exit_code = $this->taskExec("composer update 'drupal/" . $package . ":^" . $project['recommended'] . "' -W")
+        ->printOutput(TRUE)
+        ->run()
+        ->getExitCode();
+      if ($exit_code !== 0) {
+        $this->yell('There was an error updating ' . $package . ' to version ' . $project['recommended']);
+      }
+      // Update successful, add composer.lock to staging area,
+      // then commit it.
+      $this->taskExec("git add composer.lock")->printOutput(TRUE)->run();
+      $git_command = "git commit -m 'Update " . $package . ' to ' . $project['recommended'] . "'";
+      $this->taskExec($git_command)->printOutput(TRUE)->run();
     }
   }
 
