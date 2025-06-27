@@ -36,6 +36,10 @@ else
     echo "Docker network ddev_default already exists."
 fi
 
+# Make the DDEV container aware of your SSH keys for installing any 
+# private packagees.
+ddev auth ssh
+
 echo "Running ddev composer install."
 if ! ddev composer install; then
     echo "ddev composer install failed."
