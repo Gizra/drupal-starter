@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\server_rollbar_test\ExistingSite;
 
+use Drupal\Core\Extension\ModuleInstallerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use weitzman\DrupalTestTraits\ExistingSiteBase;
 
@@ -20,6 +21,8 @@ class ServerGeneralRollbarTest extends ExistingSiteBase {
   public function testRollbarCrash(): void {
     $this->failOnPhpWatchdogMessages = FALSE;
     $users = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties(['name' => 'AdminOne']);
+
+    /** @var \Drupal\user\Entity\User|false $user */
     $user = reset($users);
     $this->drupalLogin($user);
     $this->drupalGet('/admin/debug/rollbar-error-reporting');
