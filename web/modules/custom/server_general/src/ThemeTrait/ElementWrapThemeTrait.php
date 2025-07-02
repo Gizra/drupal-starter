@@ -345,9 +345,7 @@ trait ElementWrapThemeTrait {
       '#element' => $element,
     ];
 
-    if (in_array($tag->value, ['h1', 'h2', 'h3', 'h4', 'h5'])) {
-      $element = $this->wrapProseText($element);
-    }
+    $element = $this->wrapProseText($element);
 
     return $element;
   }
