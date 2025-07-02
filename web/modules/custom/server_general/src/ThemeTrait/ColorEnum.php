@@ -9,4 +9,5 @@ namespace Drupal\server_general\ThemeTrait;
  */
 enum ColorEnum: string {
   case DarkGray = 'dark-gray';
+  case Gray = 'gray';
 }
