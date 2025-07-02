@@ -71,12 +71,12 @@ trait NewsTeasersThemeTrait {
     $elements[] = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::Sm);
 
     // Title as link.
-    $element = $this->buildLink($title, $url, 'dark-gray');
+    $element = $this->buildLink($title, $url, ColorEnum::DarkGray);
     $element = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::LG);
     $elements[] = $this->wrapTextFontWeight($element, FontWeightEnum::Bold);
 
     // Body teaser.
-    $elements[] = $this->wrapTextLineClamp($summary, 4);
+    $elements[] = $this->wrapTextLineClamp($summary, LineClampEnum::Four);
 
     return $this->buildInnerElementLayoutWithImage($url, $image, $elements);
   }
@@ -111,12 +111,12 @@ trait NewsTeasersThemeTrait {
     $elements[] = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::Sm);
 
     // Title as link.
-    $element = $this->buildLink($title, $url, 'dark-gray');
+    $element = $this->buildLink($title, $url, ColorEnum::DarkGray);
     $element = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::LG);
     $elements[] = $this->wrapTextFontWeight($element, FontWeightEnum::Bold);
 
     // Body teaser.
-    $elements[] = $this->wrapTextLineClamp($summary, 4);
+    $elements[] = $this->wrapTextLineClamp($summary, LineClampEnum::Four);
 
     // Read more button.
     $link = Link::fromTextAndUrl($this->t('Explore further'), $url);

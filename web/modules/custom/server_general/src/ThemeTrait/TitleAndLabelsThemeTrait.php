@@ -63,7 +63,7 @@ trait TitleAndLabelsThemeTrait {
    *   Render array.
    */
   protected function buildParagraphTitle(string $title): array {
-    return $this->wrapHtmlTag($title, 'h2');
+    return $this->wrapHtmlTag($title, HtmlTagEnum::H2);
   }
 
 }

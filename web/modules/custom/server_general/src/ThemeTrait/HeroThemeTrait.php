@@ -34,7 +34,7 @@ trait HeroThemeTrait {
     $elements = [];
 
     // Title.
-    $element = $this->wrapHtmlTag($title, 'h1');
+    $element = $this->wrapHtmlTag($title, HtmlTagEnum::H1);
     $elements[] = $this->wrapTextFontWeight($element, FontWeightEnum::Bold);
 
     // Subtitle.

@@ -194,9 +194,9 @@ trait ElementWrapThemeTrait {
     // The paragraph types that don't require a bottom padding, if they are
     // the last paragraph on the page.
     $paragraph_types_with_no_bottom_padding = [
-      'documents',
-      'related_content',
-      'quote',
+      ParagraphTypeEnum::Documents->value,
+      ParagraphTypeEnum::RelatedContent->value,
+      ParagraphTypeEnum::Quote->value,
     ];
 
     return in_array($paragraph->bundle(), $paragraph_types_with_no_bottom_padding) ? $element : $this->wrapContainerBottomPadding($element);
@@ -327,14 +327,13 @@ trait ElementWrapThemeTrait {
    *
    * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
    *   The render array, string or a TranslatableMarkup object.
-   * @param string $tag
-   *   The name of the tag. For example `h1` would result with a
-   *   `<h1></h1>` tag.
+   * @param \Drupal\server_general\ThemeTrait\HtmlTagEnum $tag
+   *   The HTML tag to wrap the element with.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapHtmlTag(array|string|TranslatableMarkup $element, string $tag): array {
+  protected function wrapHtmlTag(array|string|TranslatableMarkup $element, HtmlTagEnum $tag): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       return [];
@@ -342,11 +341,11 @@ trait ElementWrapThemeTrait {
 
     $element = [
       '#theme' => 'server_theme_wrap_html_tag',
-      '#tag' => $tag,
+      '#tag' => $tag->value,
       '#element' => $element,
     ];
 
-    if (in_array($tag, ['h1', 'h2', 'h3', 'h4', 'h5'])) {
+    if (in_array($tag->value, ['h1', 'h2', 'h3', 'h4', 'h5'])) {
       $element = $this->wrapProseText($element);
     }
 
@@ -490,13 +489,13 @@ trait ElementWrapThemeTrait {
    *
    * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
    *   The render array, string or a TranslatableMarkup object.
-   * @param int $lines
-   *   The lines to clamp. Values are 1 to 4.
+   * @param \Drupal\server_general\ThemeTrait\LineClampEnum $lines
+   *   The lines to clamp.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapTextLineClamp(array|string|TranslatableMarkup $element, int $lines): array {
+  protected function wrapTextLineClamp(array|string|TranslatableMarkup $element, LineClampEnum $lines): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       return [];
@@ -504,7 +503,7 @@ trait ElementWrapThemeTrait {
 
     return [
       '#theme' => 'server_theme_text_decoration__line_clamp',
-      '#lines' => $lines,
+      '#lines' => $lines->value,
       '#element' => $element,
     ];
   }

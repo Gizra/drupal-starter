@@ -19,17 +19,14 @@ trait LinkThemeTrait {
    *   The content of the link.
    * @param \Drupal\Core\Url $url
    *   The URL object.
-   * @param string $color
+   * @param \Drupal\server_general\ThemeTrait\ColorEnum $color
    *   The color of the link. The color on hover will be calculated from it.
    *   see `server-theme-text-decoration--link.html.twig`.
    * @param int|null $lines_clamp
    *   The lines to clamp. Values are 1 to 4, or NULL for none. Defaults to 3.
-   * @param string $underline
-   *   Determine if an underline should appear. Possible values are:
-   *   - `always`: Always show.
-   *   - `hover`: Show only on hover.
-   *   - NULL: No underline at all.
-   *   Defaults to `hover.
+   * @param \Drupal\server_general\ThemeTrait\UnderlineEnum $underline
+   *   Determine if an underline should appear.
+   *   Defaults to Hover.
    * @param bool $show_external_icon
    *   Determine if an external icon suffix should appear if the URL is
    *   external. Defaults to TRUE.
@@ -37,7 +34,7 @@ trait LinkThemeTrait {
    * @return array
    *   Render array.
    */
-  public function buildLink(array|string|TranslatableMarkup $content, Url $url, string $color = 'dark-gray', ?int $lines_clamp = 3, string $underline = 'hover', bool $show_external_icon = TRUE): array {
+  public function buildLink(array|string|TranslatableMarkup $content, Url $url, ColorEnum $color = ColorEnum::DarkGray, ?int $lines_clamp = 3, UnderlineEnum $underline = UnderlineEnum::Hover, bool $show_external_icon = TRUE): array {
     $element = [
       '#theme' => 'server_theme_link',
       '#url' => $url,
@@ -48,8 +45,8 @@ trait LinkThemeTrait {
 
     return [
       '#theme' => 'server_theme_text_decoration__link',
-      '#color' => $color,
-      '#underline' => $underline,
+      '#color' => $color->value,
+      '#underline' => $underline->value,
       '#element' => $element,
     ];
   }
