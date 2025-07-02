@@ -194,9 +194,9 @@ trait ElementWrapThemeTrait {
     // The paragraph types that don't require a bottom padding, if they are
     // the last paragraph on the page.
     $paragraph_types_with_no_bottom_padding = [
-      ParagraphTypeEnum::Documents->value,
-      ParagraphTypeEnum::RelatedContent->value,
-      ParagraphTypeEnum::Quote->value,
+      'documents',
+      'related_content',
+      'quote',
     ];
 
     return in_array($paragraph->bundle(), $paragraph_types_with_no_bottom_padding) ? $element : $this->wrapContainerBottomPadding($element);
