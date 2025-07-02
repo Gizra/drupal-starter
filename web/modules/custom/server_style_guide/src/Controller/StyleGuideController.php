@@ -9,6 +9,7 @@ use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
 use Drupal\server_general\ThemeTrait\AccordionThemeTrait;
 use Drupal\server_general\ThemeTrait\ButtonThemeTrait;
 use Drupal\server_general\ThemeTrait\CardThemeTrait;
+use Drupal\server_general\ThemeTrait\ColorEnum;
 use Drupal\server_general\ThemeTrait\CarouselThemeTrait;
 use Drupal\server_general\ThemeTrait\CtaThemeTrait;
 use Drupal\server_general\ThemeTrait\DocumentsThemeTrait;
@@ -20,6 +21,7 @@ use Drupal\server_general\ThemeTrait\ExpandingTextThemeTrait;
 use Drupal\server_general\ThemeTrait\FontSizeEnum;
 use Drupal\server_general\ThemeTrait\FontWeightEnum;
 use Drupal\server_general\ThemeTrait\HeroThemeTrait;
+use Drupal\server_general\ThemeTrait\HtmlTagEnum;
 use Drupal\server_general\ThemeTrait\InfoCardThemeTrait;
 use Drupal\server_general\ThemeTrait\LinkThemeTrait;
 use Drupal\server_general\ThemeTrait\NewsTeasersThemeTrait;
@@ -30,6 +32,7 @@ use Drupal\server_general\ThemeTrait\SearchThemeTrait;
 use Drupal\server_general\ThemeTrait\SocialShareThemeTrait;
 use Drupal\server_general\ThemeTrait\TagThemeTrait;
 use Drupal\server_general\ThemeTrait\TitleAndLabelsThemeTrait;
+use Drupal\server_general\ThemeTrait\UnderlineEnum;
 use Drupal\server_general\WebformTrait;
 use Drupal\server_style_guide\ThemeTrait\StyleGuideElementWrapThemeTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -560,11 +563,11 @@ class StyleGuideController extends ControllerBase {
 
     $url = Url::fromRoute('<front>');
 
-    $element = $this->buildLink('Internal link', $url, 'gray');
+    $element = $this->buildLink('Internal link', $url, ColorEnum::Gray);
     $build[] = $this->wrapElementWideContainer($element, 'Link');
 
     $url = Url::fromUri('https://example.com');
-    $element = $this->buildLink('External link', $url, 'dark-gray', NULL, 'hover');
+    $element = $this->buildLink('External link', $url, ColorEnum::DarkGray, NULL, UnderlineEnum::Hover);
     $build[] = $this->wrapElementWideContainer($element, 'External link');
 
     return $build;
@@ -614,9 +617,8 @@ class StyleGuideController extends ControllerBase {
     $elements = [];
 
     // Wrap Html tag from h1 to h5.
-    foreach (range(1, 5) as $index) {
-      $tag = 'h' . $index;
-      $elements[] = $this->wrapHtmlTag('This is an example for ' . $tag, $tag);
+    foreach (HtmlTagEnum::cases() as $tag) {
+      $elements[] = $this->wrapHtmlTag('This is an example for ' . $tag->value, $tag);
     }
     $build[] = $this->wrapElementWideContainer($elements, 'Headings (h1 - h5)');
 
