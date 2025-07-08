@@ -6,6 +6,9 @@ namespace Drupal\server_general\ThemeTrait;
 
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
+use Drupal\server_general\ThemeTrait\Enum\ColorEnum;
+use Drupal\server_general\ThemeTrait\Enum\LineClampEnum;
+use Drupal\server_general\ThemeTrait\Enum\UnderlineEnum;
 
 /**
  * Helper method for building a link, and decorating it.
@@ -19,12 +22,12 @@ trait LinkThemeTrait {
    *   The content of the link.
    * @param \Drupal\Core\Url $url
    *   The URL object.
-   * @param \Drupal\server_general\ThemeTrait\ColorEnum $color
+   * @param \Drupal\server_general\ThemeTrait\Enum\ColorEnum $color
    *   The color of the link. The color on hover will be calculated from it.
    *   see `server-theme-text-decoration--link.html.twig`.
-   * @param \Drupal\server_general\ThemeTrait\LineClampEnum $lines_clamp
+   * @param \Drupal\server_general\ThemeTrait\Enum\LineClampEnum $lines_clamp
    *   The lines to clamp. Defaults to Three.
-   * @param \Drupal\server_general\ThemeTrait\UnderlineEnum $underline
+   * @param \Drupal\server_general\ThemeTrait\Enum\UnderlineEnum $underline
    *   Determine if an underline should appear.
    *   Defaults to Hover.
    * @param bool $show_external_icon

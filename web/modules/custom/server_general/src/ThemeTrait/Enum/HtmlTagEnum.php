@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Drupal\server_general\ThemeTrait;
+namespace Drupal\server_general\ThemeTrait\Enum;
 
 /**
  * Enum for HTML tag options used in theme wrappers.

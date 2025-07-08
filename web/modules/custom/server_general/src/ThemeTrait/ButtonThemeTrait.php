@@ -6,6 +6,7 @@ namespace Drupal\server_general\ThemeTrait;
 
 use Drupal\Core\Link;
 use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
+use Drupal\server_general\ThemeTrait\Enum\ButtonTypeEnum;
 
 /**
  * Helper methods for getting a themed button.
@@ -71,7 +72,7 @@ trait ButtonThemeTrait {
    *
    * @param \Drupal\Core\Link $link
    *   The link object.
-   * @param \Drupal\server_general\ThemeTrait\ButtonTypeEnum $button_type
+   * @param \Drupal\server_general\ThemeTrait\Enum\ButtonTypeEnum $button_type
    *   Type of button.
    *
    * @return array

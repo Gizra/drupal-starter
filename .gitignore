@@ -61,3 +61,6 @@ phpunit_debug
 *.rej
 
 travis_wait*log
+
+# AI
+.claude

@@ -6,6 +6,11 @@ namespace Drupal\server_general\ThemeTrait;
 
 use Drupal\Core\Url;
 use Drupal\intl_date\IntlDate;
+use Drupal\server_general\ThemeTrait\Enum\ColorEnum;
+use Drupal\server_general\ThemeTrait\Enum\FontSizeEnum;
+use Drupal\server_general\ThemeTrait\Enum\FontWeightEnum;
+use Drupal\server_general\ThemeTrait\Enum\LineClampEnum;
+use Drupal\server_general\ThemeTrait\Enum\TextColorEnum;
 
 /**
  * Helper methods for rendering Search/Search results related elements.
