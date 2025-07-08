@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Drupal\server_general\ThemeTrait;
 
 use Drupal\Core\Link;
+use Drupal\server_general\ThemeTrait\Enum\FontSizeEnum;
+use Drupal\server_general\ThemeTrait\Enum\FontWeightEnum;
+use Drupal\server_general\ThemeTrait\Enum\HtmlTagEnum;
 
 /**
  * Helper methods for rendering Hero elements.
@@ -34,7 +37,7 @@ trait HeroThemeTrait {
     $elements = [];
 
     // Title.
-    $element = $this->wrapHtmlTag($title, 'h1');
+    $element = $this->wrapHtmlTag($title, HtmlTagEnum::H1);
     $elements[] = $this->wrapTextFontWeight($element, FontWeightEnum::Bold);
 
     // Subtitle.

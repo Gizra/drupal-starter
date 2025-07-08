@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Drupal\server_general\ThemeTrait;
 
 use Drupal\Core\Url;
+use Drupal\server_general\ThemeTrait\Enum\AlignmentEnum;
+use Drupal\server_general\ThemeTrait\Enum\BackgroundColorEnum;
 
 /**
  * Helper methods for rendering different "inner element" layouts such as cards.
@@ -25,7 +27,7 @@ trait InnerElementLayoutThemeTrait {
    *
    * @param array $items
    *   The elements as render array.
-   * @param BackgroundColorEnum $bg_color
+   * @param \Drupal\server_general\ThemeTrait\Enum\BackgroundColorEnum $bg_color
    *   The background color.
    *
    * @return array
