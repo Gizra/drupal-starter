@@ -23,6 +23,7 @@ use Drupal\server_general\ThemeTrait\FontWeightEnum;
 use Drupal\server_general\ThemeTrait\HeroThemeTrait;
 use Drupal\server_general\ThemeTrait\HtmlTagEnum;
 use Drupal\server_general\ThemeTrait\InfoCardThemeTrait;
+use Drupal\server_general\ThemeTrait\LineClampEnum;
 use Drupal\server_general\ThemeTrait\LinkThemeTrait;
 use Drupal\server_general\ThemeTrait\NewsTeasersThemeTrait;
 use Drupal\server_general\ThemeTrait\PeopleTeasersThemeTrait;
@@ -567,7 +568,7 @@ class StyleGuideController extends ControllerBase {
     $build[] = $this->wrapElementWideContainer($element, 'Link');
 
     $url = Url::fromUri('https://example.com');
-    $element = $this->buildLink('External link', $url, ColorEnum::DarkGray, NULL, UnderlineEnum::Hover);
+    $element = $this->buildLink('External link', $url, ColorEnum::DarkGray, LineClampEnum::Three, UnderlineEnum::Hover);
     $build[] = $this->wrapElementWideContainer($element, 'External link');
 
     return $build;
