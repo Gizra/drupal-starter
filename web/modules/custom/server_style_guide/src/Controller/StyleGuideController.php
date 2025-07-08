@@ -568,7 +568,7 @@ class StyleGuideController extends ControllerBase {
     $build[] = $this->wrapElementWideContainer($element, 'Link');
 
     $url = Url::fromUri('https://example.com');
-    $element = $this->buildLink('External link', $url, ColorEnum::DarkGray, LineClampEnum::Three, UnderlineEnum::Hover);
+    $element = $this->buildLink('External link', $url);
     $build[] = $this->wrapElementWideContainer($element, 'External link');
 
     return $build;
