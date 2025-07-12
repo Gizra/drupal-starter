@@ -49,7 +49,7 @@ trait ThemeTrait {
     // Make sure we have all the node packages.
     $this->_exec("cd $theme_dir && npm install");
 
-    $result = $this->_exec("cd $theme_dir && npx postcss ./src/pcss/style.pcss --output=./dist/css/style.css");
+    $result = $this->_exec("cd $theme_dir && npx @tailwindcss/cli -i ./src/pcss/style.css -o ./dist/css/style.css");
 
     // Safety check to verify theme was properly compiled before deployment.
     if (!file_exists(sprintf('%s/dist/css/style.css', self::$themeBase))) {
