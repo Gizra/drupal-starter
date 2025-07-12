@@ -15,5 +15,8 @@
     "postcss-strip-inline-comments": "^0.1.5",
     "svgo": "^2.8.0",
     "tailwindcss": "^4.1.0"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.11"
   }
 }
