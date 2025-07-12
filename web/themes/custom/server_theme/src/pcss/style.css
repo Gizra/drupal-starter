@@ -1,12 +1,4 @@
 @import "tailwindcss";
-
-@theme {
-  --font-headers: "Roboto", sans-serif;
-  --font-body: "Open Sans", sans-serif;
-  --max-width-8xl: 90rem;
-  --text-underline-offset-6: 6px;
-}
-
 @import "./container.css";
 @import "./form.css";
 @import "./language.css";
@@ -19,6 +11,13 @@
 @import "./typography.css";
 @import "./user.css";
 @import "./video.css";
+
+@theme {
+  --font-headers: "Roboto", sans-serif;
+  --font-body: "Open Sans", sans-serif;
+  --max-width-8xl: 90rem;
+  --text-underline-offset-6: 6px;
+}
 
 
 
