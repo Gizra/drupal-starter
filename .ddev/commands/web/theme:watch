@@ -4,4 +4,4 @@
 ## Usage: theme:watch
 ## Example: "ddev theme:watch"
 
-cd ./web/themes/custom/server_theme && npx postcss ./src/pcss/style.pcss --output=./dist/css/style.css --watch --verbose
+cd ./web/themes/custom/server_theme && npx @tailwindcss/cli -i ./src/pcss/style.css -o ./dist/css/style.css --watch
