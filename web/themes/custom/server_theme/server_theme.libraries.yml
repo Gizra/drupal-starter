@@ -1,5 +1,4 @@
 global-styling:
-  version: 1.0
   css:
     theme:
       dist/css/style.css: {}
