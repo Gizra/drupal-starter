@@ -132,9 +132,10 @@ trait PantheonRemoteTrait {
    * interactive commands (for better Robo integration and output formatting).
    */
   private function executeCommand(string $command): void {
-    // Check if stdin is being piped.
+    // We want to make the following working:
+    // echo "select * from node" | ddev robo ...
+    // That's why simple ->_exec does not fit entirely.
     if (!posix_isatty(STDIN)) {
-      // Input is piped, use passthru for stdin support.
       passthru($command);
     }
     else {
