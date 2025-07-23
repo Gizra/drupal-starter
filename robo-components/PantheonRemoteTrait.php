@@ -28,8 +28,7 @@ trait PantheonRemoteTrait {
 
     $sftp_command = trim($result->getMessage());
 
-    // Execute the SFTP command.
-    $this->_exec($sftp_command);
+    $this->executeCommand($sftp_command);
   }
 
   /**
@@ -55,7 +54,7 @@ trait PantheonRemoteTrait {
     // Do not try to read all table data ahead.
     $mysql_command = str_replace('mysql ', 'mysql -A ', $mysql_command);
 
-    $this->_exec($mysql_command);
+    $this->executeCommand($mysql_command);
   }
 
   /**
@@ -83,7 +82,7 @@ trait PantheonRemoteTrait {
       throw new \Exception("Redis connection information for $pantheon_terminus_environment is empty, likely this site does not have Redis add-on.");
     }
 
-    $this->_exec($redis_command);
+    $this->executeCommand($redis_command);
   }
 
   /**
@@ -123,6 +122,24 @@ trait PantheonRemoteTrait {
 
     if ($result->getExitCode() !== 0) {
       throw new \Exception("Could not get connection information for $pantheon_terminus_environment");
+    }
+  }
+
+  /**
+   * Execute a command using the appropriate method based on stdin status.
+   *
+   * Uses passthru() when input is piped (for stdin support) or _exec() for
+   * interactive commands (for better Robo integration and output formatting).
+   */
+  private function executeCommand(string $command): void {
+    // Check if stdin is being piped.
+    if (!posix_isatty(STDIN)) {
+      // Input is piped, use passthru for stdin support.
+      passthru($command);
+    }
+    else {
+      // Interactive mode, use Robo's _exec for better experience.
+      $this->_exec($command);
     }
   }
 
