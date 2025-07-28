@@ -191,6 +191,7 @@ ddev terminus secret:site:set gizra-drupal-starter openai_api_key your-key-here 
 ## reCAPTCHA Configuration
 
 1. Create a site in Google reCAPTCHA.
+`https://www.google.com/recaptcha/admin/create`
 2. Add the required domains, then retrieve the site key and secret key from the reCAPTCHA settings.
 3. Add these keys to the reCAPTCHA configuration at:
 `/admin/config/people/captcha/recaptcha`
