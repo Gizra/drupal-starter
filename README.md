@@ -188,6 +188,15 @@ This project supports AI-based features using OpenAI.
 ```bash
 ddev terminus secret:site:set gizra-drupal-starter openai_api_key your-key-here --type=runtime --scope=web,user
 ```
+## reCAPTCHA Configuration
+
+1. Create a site in Google reCAPTCHA.
+2. Add the required domains, then retrieve the site key and secret key from the reCAPTCHA settings.
+3. Add these keys to the reCAPTCHA configuration at:
+`/admin/config/people/captcha/recaptcha`
+4. Save the configuration.
+
+Note: reCAPTCHA will not work without these keys.
 
 ## PHPCS (Code Sniffer)
 
