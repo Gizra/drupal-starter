@@ -55,6 +55,7 @@ jobs:
         - "(travis_retry $TRAVIS_BUILD_DIR/ci-scripts/install_ddev.sh) || travis_terminate 1;"
         - "$TRAVIS_BUILD_DIR/ci-scripts/install_drupal.sh || travis_terminate 1;"
         - "$TRAVIS_BUILD_DIR/ci-scripts/test_phpunit.sh || travis_terminate 1;"
+        - "$TRAVIS_BUILD_DIR/ci-scripts/test_phpunit_rollbar.sh || travis_terminate 1;"
 
     - stage: Deploy
       env: CAN_FAIL=true
@@ -64,6 +65,7 @@ jobs:
         - "(travis_retry $TRAVIS_BUILD_DIR/ci-scripts/install_ddev.sh) || travis_terminate 1;"
         - "$TRAVIS_BUILD_DIR/ci-scripts/install_drupal.sh || travis_terminate 1;"
         - "$TRAVIS_BUILD_DIR/ci-scripts/test_phpunit.sh || travis_terminate 1;"
+        - "$TRAVIS_BUILD_DIR/ci-scripts/test_phpunit_rollbar.sh || travis_terminate 1;"
         - "(travis_retry $TRAVIS_BUILD_DIR/ci-scripts/prepare_deploy.sh) || travis_terminate 1;"
         - ddev composer install || travis_terminate 1;
         - "(travis_retry ddev robo deploy:pantheon qa --no-interaction) || travis_terminate 1;"
