@@ -70,6 +70,7 @@
         "drupal/pluggable_entity_view_builder": "^1.1",
         "drupal/quickedit": "^1.0",
         "drupal/real_aes": "^2.5",
+        "drupal/recaptcha": "^3.4",
         "drupal/redirect": "^1.6",
         "drupal/redis": "^1.7",
         "drupal/rollbar": "^2.1",
