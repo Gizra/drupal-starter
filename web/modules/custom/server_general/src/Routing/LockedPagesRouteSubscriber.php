@@ -64,16 +64,12 @@ final class LockedPagesRouteSubscriber extends RouteSubscriberBase {
   }
 
   /**
-   * Checks if current node can be accessed.
+   * Checks if current node delete form can be accessed.
    *
    * @return \Drupal\Core\Access\AccessResultInterface
    *   The access result.
    */
-  public function access(AccountInterface $account) {
-    $node = $this->routeMatch->getParameter('node');
-    if (!$node instanceof NodeInterface) {
-      return AccessResult::neutral();
-    }
+  public function access(AccountInterface $account, NodeInterface $node) {
     // Get the list of bundles that can be restricted.
     $bundles = $this->lockedPagesService->getReferencedBundles();
     // If node is locked, we don't allow accesing the delete page at all.
@@ -83,7 +79,10 @@ final class LockedPagesRouteSubscriber extends RouteSubscriberBase {
       return AccessResult::forbidden()->addCacheableDependency($node)->addCacheTags($cache_tags);
     }
 
-    return AccessResult::allowed()->addCacheableDependency($node);
+    $has_delete_permission = $account->hasPermission("delete any {$node->bundle()} content") || ($node->getOwnerId() === $account->id() && $account->hasPermission("delete own {$node->bundle()} content"));
+    $result = AccessResult::allowedIf($has_delete_permission);
+    $result->addCacheableDependency($node);
+    return $result;
   }
 
 }
