@@ -2,7 +2,9 @@
 
 namespace Drupal\server_general\Routing;
 
+use Drupal\config_pages\Entity\ConfigPages;
 use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Access\AccessResultInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Routing\RouteSubscriberBase;
@@ -64,26 +66,44 @@ final class LockedPagesRouteSubscriber extends RouteSubscriberBase {
   }
 
   /**
-   * Checks if current node can be accessed.
+   * Checks if current node delete form can be accessed.
+   *
+   * @param \Drupal\Core\Session\AccountInterface $account
+   *   The account to check access for.
+   * @param \Drupal\node\NodeInterface $node
+   *   The node to check access for.
    *
    * @return \Drupal\Core\Access\AccessResultInterface
    *   The access result.
    */
-  public function access(AccountInterface $account) {
-    $node = $this->routeMatch->getParameter('node');
-    if (!$node instanceof NodeInterface) {
-      return AccessResult::neutral();
-    }
+  public function access(AccountInterface $account, NodeInterface $node): AccessResultInterface {
     // Get the list of bundles that can be restricted.
     $bundles = $this->lockedPagesService->getReferencedBundles();
-    // If node is locked, we don't allow accesing the delete page at all.
-    if (in_array($node->getType(), $bundles) && $this->lockedPagesService->isNodeLocked($node)) {
-      $main_settings = $this->lockedPagesService->getMainSettings();
+    $main_settings = $this->lockedPagesService->getMainSettings();
+    $cache_tags = NULL;
+    if ($main_settings instanceof ConfigPages) {
       $cache_tags = $main_settings->getCacheTags();
-      return AccessResult::forbidden()->addCacheableDependency($node)->addCacheTags($cache_tags);
+    }
+    // If node is locked, we don't allow accessing the delete page at all.
+    if (in_array($node->getType(), $bundles) && $this->lockedPagesService->isNodeLocked($node)) {
+      $result = AccessResult::forbidden()->addCacheableDependency($node);
+      if (!empty($cache_tags)) {
+        $result->addCacheTags($cache_tags);
+      }
+      return $result;
     }
 
-    return AccessResult::allowed()->addCacheableDependency($node);
+    // Check access by permission. If the user can delete any node of this
+    // bundle, or if the user can delete own node of this bundle and is the
+    // owner.
+    $has_delete_permission = $account->hasPermission("delete any {$node->bundle()} content") || ($node->getOwnerId() === $account->id() && $account->hasPermission("delete own {$node->bundle()} content"));
+    $result = AccessResult::allowedIf($has_delete_permission);
+    $result->addCacheableDependency($node);
+    if (!empty($cache_tags)) {
+      $result->addCacheTags($cache_tags);
+    }
+
+    return $result;
   }
 
 }
