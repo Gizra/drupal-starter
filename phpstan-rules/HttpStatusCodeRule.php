@@ -4,6 +4,7 @@ namespace Drupal\PHPStan\Custom;
 
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleErrorBuilder;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
@@ -109,11 +110,12 @@ class HttpStatusCodeRule implements Rule {
 
     if (isset($statusCodes[$statusCode])) {
       return [
-        sprintf(
+        RuleErrorBuilder::message(sprintf(
           'Hardcoded HTTP status code %d should be replaced with Response::%s constant.',
           $statusCode,
           $statusCodes[$statusCode]
-        ),
+        ))->identifier('http.statuscode')
+          ->build(),
       ];
     }
 

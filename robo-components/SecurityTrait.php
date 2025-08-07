@@ -83,6 +83,7 @@ trait SecurityTrait {
 
     // Only perform DNS and whois lookups on the top N IPs.
     $data = [];
+    /** @var array<string, array{count: int, ips: int, organization: string}> */
     $subnet_stats = [];
 
     // Only process the top $limit IPs with whois.
@@ -139,7 +140,7 @@ trait SecurityTrait {
     }
 
     // Sort network stats by count.
-    uasort($subnet_stats, function ($a, $b) {
+    uasort($subnet_stats, function ($a, $b): int {
       return $b['count'] - $a['count'];
     });
 

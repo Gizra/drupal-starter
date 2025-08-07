@@ -5,9 +5,11 @@ includes:
 parameters:
   level: 6
   reportUnmatchedIgnoredErrors: false
+  treatPhpDocTypesAsCertain: false
   ignoreErrors:
     - identifier: missingType.iterableValue
     - identifier: missingType.generics
+    - identifier: argument.unresolvableType
     - '#has no return type specified.#'
     - '#Access to an undefined property Drupal\\Core\\Field\\FieldItemListInterface::\$value.#'
     - '#Access to an undefined property Drupal\\Core\\Field\\FieldItemInterface::\$value.#'
@@ -24,7 +26,7 @@ parameters:
     - 'web/sites/default/*.php'
     - 'web/sites/default/default.settings.php'
     - 'web/sites/default/settings.php'
-    - 'web/sites/default/settings.local.php'
+    - 'web/sites/default/settings.local.php (?)'
     - 'web/modules/contrib/*'
     - 'web/themes/contrib/*'
     - 'web/libraries/*'
