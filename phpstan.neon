@@ -5,6 +5,7 @@ includes:
 parameters:
   level: 6
   reportUnmatchedIgnoredErrors: false
+  treatPhpDocTypesAsCertain: false
   ignoreErrors:
     - identifier: missingType.iterableValue
     - identifier: missingType.generics
@@ -23,8 +24,8 @@ parameters:
     - 'web/sites/default/files/*'
     - 'web/sites/default/*.php'
     - 'web/sites/default/default.settings.php'
-    - 'web/sites/default/settings.php'
-    - 'web/sites/default/settings.local.php'
+    - 'web/sites/default/settings.php (?)'
+    - 'web/sites/default/settings.local.php (?)'
     - 'web/modules/contrib/*'
     - 'web/themes/contrib/*'
     - 'web/libraries/*'

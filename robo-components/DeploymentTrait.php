@@ -828,17 +828,11 @@ trait DeploymentTrait {
         return;
       }
       foreach ($issue_matches[1] as $issue_match) {
-        if (!is_numeric($issue_match)) {
-          continue;
-        }
         $issue_numbers[] = $issue_match;
       }
     }
     else {
       $issue_numbers[] = $issue_matches[1][0];
-      if (!is_numeric($issue_numbers[0])) {
-        throw new \Exception("Could not determine the issue number from the branch name in the commit message: $git_commit_message");
-      }
     }
 
     $pantheon_info = $this->getPantheonNameAndEnv();
