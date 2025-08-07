@@ -2,6 +2,7 @@
 
 namespace Drupal\server_general\Routing;
 
+use Drupal\config_pages\Entity\ConfigPages;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Access\AccessResultInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -79,10 +80,17 @@ final class LockedPagesRouteSubscriber extends RouteSubscriberBase {
     // Get the list of bundles that can be restricted.
     $bundles = $this->lockedPagesService->getReferencedBundles();
     $main_settings = $this->lockedPagesService->getMainSettings();
-    $cache_tags = $main_settings->getCacheTags();
-    // If node is locked, we don't allow accesing the delete page at all.
+    $cache_tags = NULL;
+    if ($main_settings instanceof ConfigPages) {
+      $cache_tags = $main_settings->getCacheTags();
+    }
+    // If node is locked, we don't allow accessing the delete page at all.
     if (in_array($node->getType(), $bundles) && $this->lockedPagesService->isNodeLocked($node)) {
-      return AccessResult::forbidden()->addCacheableDependency($node)->addCacheTags($cache_tags);
+      $result = AccessResult::forbidden()->addCacheableDependency($node);
+      if (!empty($cache_tags)) {
+        $result->addCacheTags($cache_tags);
+      }
+      return $result;
     }
 
     // Check access by permission. If the user can delete any node of this
@@ -90,8 +98,10 @@ final class LockedPagesRouteSubscriber extends RouteSubscriberBase {
     // owner.
     $has_delete_permission = $account->hasPermission("delete any {$node->bundle()} content") || ($node->getOwnerId() === $account->id() && $account->hasPermission("delete own {$node->bundle()} content"));
     $result = AccessResult::allowedIf($has_delete_permission);
-    $result->addCacheableDependency($node)
-      ->addCacheTags($cache_tags);
+    $result->addCacheableDependency($node);
+    if (!empty($cache_tags)) {
+      $result->addCacheTags($cache_tags);
+    }
 
     return $result;
   }
