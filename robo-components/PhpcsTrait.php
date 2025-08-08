@@ -43,7 +43,7 @@ trait PhpcsTrait {
 
     foreach ($directories as $directory) {
       foreach ($standards as $standard) {
-        $arguments = "--parallel=8 --standard=$standard -p --ignore=" . self::$themeName . "/dist,node_modules,server_default_content/content --colors --extensions=php,module,inc,install,test,profile,theme,css,yaml,txt,md,yml";
+        $arguments = "--parallel=8 --standard=$standard -p --ignore=" . self::$themeName . "/dist,node_modules,server_default_content/content --colors --extensions=php,module,inc,install,test,profile,theme,css,yaml,yml,txt,md";
 
         foreach ($commands as $command) {
           $result = $this->_exec("cd web && ../vendor/bin/$command $directory $arguments");
