@@ -11,8 +11,8 @@ install:
   - dynamic_page_cache
 
 dependencies:
-  - node
-  - block
+  - drupal:node
+  - drupal:block
 
 themes:
   - classy
