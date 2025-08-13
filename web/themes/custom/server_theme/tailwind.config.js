@@ -25,6 +25,7 @@ module.exports = {
     // Custom module and the Style guide may have needed classes.
     '../../../modules/custom/**/*.php',
     '../../../modules/custom/**/*.html.twig',
+    '../../../modules/custom/*/js/**/*.js',
   ],
   safelist: [
     // Add here custom class names.
