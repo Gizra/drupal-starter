@@ -210,10 +210,8 @@ See the [example](https://github.com/Gizra/drupal-starter/blob/main/web/modules/
     # Run a single method from a test file.
     ddev phpunit --filter testHomepageCache web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralHomepageTest.php
 
-We also have capability to write tests which run on a headless chrome browser with
-Javascript capabilities. See [`Drupal\Tests\server_general\ExistingSite\ServerGeneralSelenium2TestBase`](https://github.com/Gizra/drupal-starter/blob/aa3c204dc7ac279964a694c675c35062c7fbcd9f/web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralSelenium2TestBase.php)
-for the test base, and [`Drupal\Tests\server_general\ExistingSite\ServerGeneralHomepageTest`](https://github.com/Gizra/drupal-starter/blob/aa3c204dc7ac279964a694c675c35062c7fbcd9f/web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralHomepageTest.php) for the
-example implementation.
+We also have capability to write tests which run on a headless Chrome browser with
+Javascript capabilities. See [`ServerGeneralHomepageTest`](https://github.com/Gizra/drupal-starter/blob/aa3c204dc7ac279964a694c675c35062c7fbcd9f/web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralHomepageTest.php) for an example.
 
 ### Debugging
 
@@ -221,7 +219,7 @@ When it is hard to understand a test failure, a peek into the browser might help
 For Selenium-based ones, you can take screenshots using the `takeScreenshot()` method. This captures and saves
 the screenshot in `/web/sites/simpletest/screenshots`.
 You can also watch what the tests are doing in the browser using noVNC. To do so, simply open a browser and open
-https://drupal-starter.ddev.site:7900 and click Connect. The password is `secret`. Now simply run the tests
+https://drupal-starter.ddev.site:7900 and click Connect. Now run the tests
 and you can see the test running in the browser.
 
 For faster, virtual browser-based tests, you can use `createHtmlSnapshot` and it will dump the HTML content
