@@ -44,8 +44,7 @@ hooks:
     # @see https://www.drupal.org/node/947312
     - exec: drush user-block --uid=1
 
-    # Run deploy hooks.
-    - exec: drush deploy:hook --no-interaction
+    - exec: drush deploy
 
     # Make sure PHP CLI has no memory limit, this is
     # especially for unit testing.
@@ -59,12 +58,8 @@ hooks:
     - exec-host: ddev login
 
   post-import-db:
-    # Run deploy hooks.
-    - exec: drush deploy:hook --no-interaction
-    # Clear cache before config import.
-    - exec: drush cr
-    # Import config.
-    - exec: drush cim -y
+    # Run updates, sync config, and deploy hooks.
+    - exec: drush deploy
     # Reindex.
     - exec: drush sapi-c
     - exec: drush sapi-i

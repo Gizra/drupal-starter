@@ -6,6 +6,8 @@ namespace Drupal\server_general\ThemeTrait;
 
 use Drupal\intl_date\IntlDate;
 use Drupal\server_general\EntityDateTrait;
+use Drupal\server_general\ThemeTrait\Enum\FontSizeEnum;
+use Drupal\server_general\ThemeTrait\Enum\WidthEnum;
 
 /**
  * Helper method for building the Node news element.
@@ -100,7 +102,7 @@ trait ElementNodeNewsThemeTrait {
 
     $elements = $this->wrapContainerVerticalSpacing($elements);
 
-    return $this->wrapContainerMaxWidth($elements, WidthEnum::THREE_XL);
+    return $this->wrapContainerMaxWidth($elements, WidthEnum::ThreeXl);
   }
 
   /**

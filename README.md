@@ -213,14 +213,23 @@ See the [example](https://github.com/Gizra/drupal-starter/blob/main/web/modules/
 We also have capability to write tests which run on a headless chrome browser with
 Javascript capabilities. See [`Drupal\Tests\server_general\ExistingSite\ServerGeneralSelenium2TestBase`](https://github.com/Gizra/drupal-starter/blob/aa3c204dc7ac279964a694c675c35062c7fbcd9f/web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralSelenium2TestBase.php)
 for the test base, and [`Drupal\Tests\server_general\ExistingSite\ServerGeneralHomepageTest`](https://github.com/Gizra/drupal-starter/blob/aa3c204dc7ac279964a694c675c35062c7fbcd9f/web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralHomepageTest.php) for the
-example implementation. By extending the above base class you can also take screenshots using the
-`takeScreenshot()` method. This captures and saves the screenshot in `/web/sites/simpletest/screenshots`.
-**Note: You should not leave calls to `takeScreenshot` in the codebase when committing, this is meant only for
-local debugging purposes.**
+example implementation.
 
+### Debugging
+
+When it is hard to understand a test failure, a peek into the browser might help.
+For Selenium-based ones, you can take screenshots using the `takeScreenshot()` method. This captures and saves
+the screenshot in `/web/sites/simpletest/screenshots`.
 You can also watch what the tests are doing in the browser using noVNC. To do so, simply open a browser and open
 https://drupal-starter.ddev.site:7900 and click Connect. The password is `secret`. Now simply run the tests
 and you can see the test running in the browser.
+
+For faster, virtual browser-based tests, you can use `createHtmlSnapshot` and it will dump the HTML content
+of the virtual browser into the `phpunit_debug` directory. For the exact filename, refer to the output of
+`ddev drush watchdog-show --type=server_general`.
+
+**Note: You should not leave calls to `takeScreenshot` or `createHtmlSnapshot` in the codebase when committing,
+this is meant only for local debugging purposes.**
 
 ### Contrib module coverage
 
@@ -496,21 +505,25 @@ Purges entries related to IP `193.165.2.3` from Pantheon's `test` environment, o
 ## DDOS attack mitigation
 
 If you experience a site outage or a slowdown, you should consider DDOS attack
-as a possible root cause.
+as a possible root cause. First make sure you have a
+[Pantheon machine token](https://docs.pantheon.io/machine-tokens): `TERMINUS_MACHINE_TOKEN=abcde` in `.ddev/.env`.
+
 ```
+ddev auth ssh # One-time prerequisite
 ddev robo security:check-ddos
 ```
 
 Will provide a list of top IP address by number of requests. If the top few IP
 addresses issue the majority of the requests, spot check a few requests from
 the access log, then ban those IPs if they issue malicious requests.
-Check `web/sites/default/settings.pantheon.php` on how to block individual IPs
+Check [settings.pantheon.php](https://github.com/Gizra/drupal-starter/blob/24dd08d2deef80d0df1651d1295ce2a928b8deb9/web/sites/default/settings.pantheon.php#L13) on how to block individual IPs
 on Pantheon.
 
 If that simple check if not enough, if there's uncertainity, [`goaccess`](https://goaccess.io/man)
 can help to understand the nature of the traffic. You can run `goaccess` with this command:
 
 ```
+ddev auth ssh # One-time prerequisite
 ddev robo security:access-log-overview
 ```
 

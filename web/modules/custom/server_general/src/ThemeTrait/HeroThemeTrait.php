@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Drupal\server_general\ThemeTrait;
 
 use Drupal\Core\Link;
+use Drupal\server_general\ThemeTrait\Enum\FontSizeEnum;
+use Drupal\server_general\ThemeTrait\Enum\FontWeightEnum;
+use Drupal\server_general\ThemeTrait\Enum\HtmlTagEnum;
 
 /**
  * Helper methods for rendering Hero elements.
@@ -34,16 +37,16 @@ trait HeroThemeTrait {
     $elements = [];
 
     // Title.
-    $element = $this->wrapHtmlTag($title, 'h1');
-    $elements[] = $this->wrapTextFontWeight($element, FontWeightEnum::BOLD);
+    $element = $this->wrapHtmlTag($title, HtmlTagEnum::H1);
+    $elements[] = $this->wrapTextFontWeight($element, FontWeightEnum::Bold);
 
     // Subtitle.
-    $element = $this->wrapTextResponsiveFontSize($subtitle, FontSizeEnum::XL);
-    $elements[] = $this->wrapTextFontWeight($element, FontWeightEnum::MEDIUM);
+    $element = $this->wrapTextResponsiveFontSize($subtitle, FontSizeEnum::Xl);
+    $elements[] = $this->wrapTextFontWeight($element, FontWeightEnum::Medium);
 
     // Button.
     if ($link) {
-      $elements[] = $this->buildButton($link->getText(), $link->getUrl(), 'primary', NULL, $link->getUrl()->isExternal());
+      $elements[] = $this->buildButtonPrimary($link);
     }
 
     $elements = $this->wrapContainerVerticalSpacingBig($elements);

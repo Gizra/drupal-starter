@@ -4,8 +4,14 @@ declare(strict_types=1);
 
 namespace Drupal\server_general\ThemeTrait;
 
+use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Drupal\intl_date\IntlDate;
+use Drupal\server_general\ThemeTrait\Enum\ColorEnum;
+use Drupal\server_general\ThemeTrait\Enum\FontSizeEnum;
+use Drupal\server_general\ThemeTrait\Enum\FontWeightEnum;
+use Drupal\server_general\ThemeTrait\Enum\LineClampEnum;
+use Drupal\server_general\ThemeTrait\Enum\TextColorEnum;
 
 /**
  * Helper methods for rendering News Teaser elements.
@@ -62,20 +68,20 @@ trait NewsTeasersThemeTrait {
 
     // Labels.
     $element = $this->buildLabelsFromText([$this->t('News')]);
-    $elements[] = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::SM);
+    $elements[] = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::Sm);
 
     // Date.
     $element = IntlDate::formatPattern($timestamp, 'short');
-    $element = $this->wrapTextColor($element, TextColorEnum::GRAY);
-    $elements[] = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::SM);
+    $element = $this->wrapTextColor($element, TextColorEnum::Gray);
+    $elements[] = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::Sm);
 
     // Title as link.
-    $element = $this->buildLink($title, $url, 'dark-gray');
+    $element = $this->buildLink($title, $url, ColorEnum::DarkGray);
     $element = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::LG);
-    $elements[] = $this->wrapTextFontWeight($element, FontWeightEnum::BOLD);
+    $elements[] = $this->wrapTextFontWeight($element, FontWeightEnum::Bold);
 
     // Body teaser.
-    $elements[] = $this->wrapTextLineClamp($summary, 4);
+    $elements[] = $this->wrapTextLineClamp($summary, LineClampEnum::Four);
 
     return $this->buildInnerElementLayoutWithImage($url, $image, $elements);
   }
@@ -102,23 +108,24 @@ trait NewsTeasersThemeTrait {
 
     // Labels.
     $element = $this->buildLabelsFromText([$this->t('News')]);
-    $elements[] = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::SM);
+    $elements[] = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::Sm);
 
     // Date.
     $element = ['#markup' => IntlDate::formatPattern($timestamp, 'short')];
-    $element = $this->wrapTextColor($element, TextColorEnum::GRAY);
-    $elements[] = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::SM);
+    $element = $this->wrapTextColor($element, TextColorEnum::Gray);
+    $elements[] = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::Sm);
 
     // Title as link.
-    $element = $this->buildLink($title, $url, 'dark-gray');
+    $element = $this->buildLink($title, $url, ColorEnum::DarkGray);
     $element = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::LG);
-    $elements[] = $this->wrapTextFontWeight($element, FontWeightEnum::BOLD);
+    $elements[] = $this->wrapTextFontWeight($element, FontWeightEnum::Bold);
 
     // Body teaser.
-    $elements[] = $this->wrapTextLineClamp($summary, 4);
+    $elements[] = $this->wrapTextLineClamp($summary, LineClampEnum::Four);
 
     // Read more button.
-    $elements[] = $this->buildButton($this->t('Explore further'), $url);
+    $link = Link::fromTextAndUrl($this->t('Explore further'), $url);
+    $elements[] = $this->buildButtonSecondary($link);
 
     return $this->buildInnerElementLayoutWithImageHorizontal($url, $image, $elements);
   }

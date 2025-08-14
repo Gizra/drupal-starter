@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace Drupal\server_general\ThemeTrait;
 
+use Drupal\server_general\ThemeTrait\Enum\AlignmentEnum;
+use Drupal\server_general\ThemeTrait\Enum\FontSizeEnum;
+use Drupal\server_general\ThemeTrait\Enum\FontWeightEnum;
+use Drupal\server_general\ThemeTrait\Enum\TextColorEnum;
+
 /**
  * Helper methods for rendering People/Person Teaser elements.
  */
@@ -64,16 +69,16 @@ trait PeopleTeasersThemeTrait {
 
     $inner_elements = [];
 
-    $element = $this->wrapTextFontWeight($name, FontWeightEnum::BOLD);
+    $element = $this->wrapTextFontWeight($name, FontWeightEnum::Bold);
     $inner_elements[] = $this->wrapTextCenter($element);
 
     if ($subtitle) {
-      $element = $this->wrapTextResponsiveFontSize($subtitle, FontSizeEnum::SM);
+      $element = $this->wrapTextResponsiveFontSize($subtitle, FontSizeEnum::Sm);
       $element = $this->wrapTextCenter($element);
-      $inner_elements[] = $this->wrapTextColor($element, TextColorEnum::GRAY);
+      $inner_elements[] = $this->wrapTextColor($element, TextColorEnum::Gray);
     }
 
-    $elements[] = $this->wrapContainerVerticalSpacingTiny($inner_elements, AlignmentEnum::CENTER);
+    $elements[] = $this->wrapContainerVerticalSpacingTiny($inner_elements, AlignmentEnum::Center);
 
     return $this->buildInnerElementLayoutCentered($elements);
   }

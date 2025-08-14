@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\server_general\ThemeTrait;
 
+use Drupal\server_general\ThemeTrait\Enum\BackgroundColorEnum;
+
 /**
  * Helper methods for rendering Carousel elements.
  */
@@ -59,7 +61,7 @@ trait CarouselThemeTrait {
       $title,
       $body,
       $elements,
-      BackgroundColorEnum::LIGHT_GRAY,
+      BackgroundColorEnum::LightGray,
     );
   }
 

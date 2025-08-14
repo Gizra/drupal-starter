@@ -52,11 +52,15 @@ web/themes/custom/server_theme/.cache
 # Place for custom Drush config
 web/sites/all/drush
 
-# PHPunit cache file
+# PHPunit
 .phpunit.result.cache
+phpunit_debug
 
 # Patching leftover.
 *.orig
 *.rej
 
 travis_wait*log
+
+# AI
+.claude

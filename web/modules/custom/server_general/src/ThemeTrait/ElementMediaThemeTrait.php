@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\server_general\ThemeTrait;
 
 use Drupal\Core\Url;
+use Drupal\server_general\ThemeTrait\Enum\FontSizeEnum;
 
 /**
  * Helper method for building caption for a Media of type Video.
@@ -136,7 +137,7 @@ trait ElementMediaThemeTrait {
     $elements = [];
 
     if (!empty($credit)) {
-      $element = $this->wrapTextResponsiveFontSize('© ' . $credit, FontSizeEnum::SM);
+      $element = $this->wrapTextResponsiveFontSize('© ' . $credit, FontSizeEnum::Sm);
       $element = $this->wrapTextItalic($element);
       $elements[] = $element;
     }

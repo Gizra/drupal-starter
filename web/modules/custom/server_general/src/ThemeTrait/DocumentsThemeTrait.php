@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\server_general\ThemeTrait;
 
+use Drupal\server_general\ThemeTrait\Enum\BackgroundColorEnum;
+
 /**
  * Helper methods for rendering Documents media elements.
  */
@@ -29,7 +31,7 @@ trait DocumentsThemeTrait {
       $title,
       $body,
       $this->buildElementLayoutItemsWithViewMore($items, 2),
-      BackgroundColorEnum::LIGHT_GRAY,
+      BackgroundColorEnum::LightGray,
     );
   }
 

@@ -28,6 +28,7 @@ libraries-override:
         css/components/details.css: false
         css/components/form.css: false
         css/components/links.css: false
+        css/components/menu.css: false
   classy/file:
     css:
       component:

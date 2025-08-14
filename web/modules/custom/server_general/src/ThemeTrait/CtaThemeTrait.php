@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace Drupal\server_general\ThemeTrait;
 
 use Drupal\Core\Link;
+use Drupal\server_general\ThemeTrait\Enum\AlignmentEnum;
+use Drupal\server_general\ThemeTrait\Enum\BackgroundColorEnum;
+use Drupal\server_general\ThemeTrait\Enum\FontSizeEnum;
+use Drupal\server_general\ThemeTrait\Enum\FontWeightEnum;
 
 /**
  * Helper methods for rendering Call to Action elements.
@@ -33,19 +37,19 @@ trait CtaThemeTrait {
 
     // Title.
     $element = $title;
-    $element = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::THREE_XL);
+    $element = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::ThreeXl);
     $element = $this->wrapTextCenter($element);
-    $elements[] = $this->wrapTextFontWeight($element, FontWeightEnum::BOLD);
+    $elements[] = $this->wrapTextFontWeight($element, FontWeightEnum::Bold);
 
     // Text.
     $elements[] = $this->wrapProseText($body);
 
     // Button.
-    $elements[] = $this->buildButton($link->getText(), $link->getUrl(), 'primary', NULL, $link->getUrl()->isExternal());
+    $elements[] = $this->buildButtonPrimary($link);
 
-    $elements = $this->wrapContainerVerticalSpacingBig($elements, AlignmentEnum::CENTER);
+    $elements = $this->wrapContainerVerticalSpacingBig($elements, AlignmentEnum::Center);
 
-    $elements = $this->buildInnerElementLayout($elements, BackgroundColorEnum::LIGHT_GRAY);
+    $elements = $this->buildInnerElementLayout($elements, BackgroundColorEnum::LightGray);
     return $this->wrapContainerNarrow($elements);
   }
 

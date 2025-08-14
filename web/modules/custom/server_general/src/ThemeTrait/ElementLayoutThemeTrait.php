@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace Drupal\server_general\ThemeTrait;
 
+use Drupal\Core\Link;
 use Drupal\Core\Url;
+use Drupal\server_general\ThemeTrait\Enum\BackgroundColorEnum;
+use Drupal\server_general\ThemeTrait\Enum\TextColorEnum;
+use Drupal\server_general\ThemeTrait\Enum\WidthEnum;
 
 /**
  * Helper methods to build Page layouts.
@@ -73,24 +77,24 @@ trait ElementLayoutThemeTrait {
    *   The body render array. Maybe empty.
    * @param array $items
    *   The items render array.
-   * @param BackgroundColorEnum $bg_color
+   * @param \Drupal\server_general\ThemeTrait\Enum\BackgroundColorEnum $bg_color
    *   The background color. See
    *   ElementWrapThemeTrait::wrapContainerWide for the allowed values.
    *
    * @return array
    *   The render array.
    */
-  protected function buildElementLayoutTitleBodyAndItems(string $title, array $body, array $items, BackgroundColorEnum $bg_color = BackgroundColorEnum::TRANSPARENT): array {
+  protected function buildElementLayoutTitleBodyAndItems(string $title, array $body, array $items, BackgroundColorEnum $bg_color = BackgroundColorEnum::Transparent): array {
     $top_elements = [];
     $elements = [];
     $top_elements[] = $this->buildParagraphTitle($title);
 
     $body = $this->wrapProseText($body);
-    $body = $this->wrapTextColor($body, TextColorEnum::DARK_GRAY);
+    $body = $this->wrapTextColor($body, TextColorEnum::DarkGray);
     $top_elements[] = $body;
 
     $top_elements = $this->wrapContainerVerticalSpacingTiny($top_elements);
-    $top_elements = $this->wrapContainerMaxWidth($top_elements, WidthEnum::THREE_XL);
+    $top_elements = $this->wrapContainerMaxWidth($top_elements, WidthEnum::ThreeXl);
 
     $elements[] = $top_elements;
     $elements[] = $items;
@@ -127,7 +131,9 @@ trait ElementLayoutThemeTrait {
 
     $elements = [];
     $elements[] = $wrapped_items;
-    $elements[] = $this->buildButton($this->t('View more'), Url::fromUserInput('#'));
+
+    $link = Link::fromTextAndUrl($this->t('View more'), Url::fromUserInput('#'));
+    $elements[] = $this->buildButtonSecondary($link);
     $elements = $this->wrapContainerVerticalSpacing($elements);
 
     return [
