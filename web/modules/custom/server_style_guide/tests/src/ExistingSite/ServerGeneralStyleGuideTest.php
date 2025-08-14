@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Tests\server_general\ExistingSite;
+namespace Drupal\Tests\server_style_guide\ExistingSite;
 
 use Symfony\Component\HttpFoundation\Response;
 use weitzman\DrupalTestTraits\ExistingSiteBase;
