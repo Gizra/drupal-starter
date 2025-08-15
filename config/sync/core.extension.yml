@@ -16,6 +16,7 @@ module:
   block_content: 0
   block_plugin_view_builder: 0
   breakpoint: 0
+  captcha: 0
   ckeditor5: 0
   config: 0
   config_filter: 0
@@ -78,6 +79,7 @@ module:
   pluggable_entity_view_builder: 0
   quickedit: 0
   real_aes: 0
+  recaptcha: 0
   redirect: 0
   redis: 0
   responsive_image: 0
