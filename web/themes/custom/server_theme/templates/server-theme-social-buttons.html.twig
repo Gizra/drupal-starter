@@ -1,0 +1,26 @@
+{% macro socialButton(url, title, icon) %}
+  <a href="{{ url }}" class="flex gap-2 items-center py-2 px-4 md:px-5 lg:py-3 lg:px-10 bg-white border border-gratz-blue hover:border-gratz-blue-light text-gratz-text hover:text-gratz-blue-light w-full no-underline transition-colors duration-300">
+    <img src="/themes/custom/server_theme/dist/images/social_button_{{ icon }}.svg" class="w-6 h-6">
+    <span>{{ title }}</span>
+  </a>
+{% endmacro %}
+
+<hr class="w-full border-gratz-blue">
+
+<div class="flex flex-col gap-4 items-center px-[66px] md:px-[80px] lg:px-[50px] text-sm md:text-base lg:text-lg">
+  {% if context == 'login' %}
+    {% if google_url %}
+      {{ _self.socialButton(google_url, 'Login with Google'|t, 'google') }}
+    {% endif %}
+    {% if facebook_url %}
+      {{ _self.socialButton(facebook_url, 'Login with Facebook'|t, 'facebook') }}
+    {% endif %}
+  {% else %}
+    {% if google_url %}
+      {{ _self.socialButton(google_url, 'Continue with Google'|t, 'google') }}
+    {% endif %}
+    {% if facebook_url %}
+      {{ _self.socialButton(facebook_url, 'Continue with Facebook'|t, 'facebook') }}
+    {% endif %}
+  {% endif %}
+</div>

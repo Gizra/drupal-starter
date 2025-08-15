@@ -5,6 +5,7 @@
  * Theme custom logic.
  */
 
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 use Drupal\lang_dropdown\LanguageDropdownConstants;
 
@@ -511,6 +512,14 @@ function server_theme_theme() {
     'variables' => [],
   ];
 
+  $info['server_theme_social_buttons'] = [
+    'variables' => [
+      'facebook_url' => NULL,
+      'google_url' => NULL,
+      'context' => NULL,
+    ],
+  ];
+
   return $info;
 }
 
@@ -665,4 +674,61 @@ function server_theme_preprocess_image_style(array &$variables) {
   if (in_array($variables['style_name'], $eager_styles, TRUE)) {
     $variables['image']['#attributes']['loading'] = 'eager';
   }
+}
+
+/**
+ * Add social login buttons to the given form.
+ *
+ * @param array $form
+ *   The form.
+ * @param string $context
+ *   The current context. Either 'login' or 'registration'. If 'login' the
+ *   buttons will say 'Login with [service]'. Otherwise the buttons will say
+ *   'Continue with [service]'.
+ */
+function _server_theme_form_alter_add_social_login_buttons(array &$form, string $context = 'login'): void {
+  $google_url = Url::fromRoute('social_auth.network.redirect', ['network' => 'google'])->toString();
+  $facebook_url = Url::fromRoute('social_auth.network.redirect', ['network' => 'facebook'])->toString();
+
+  $render_array = [
+    '#theme' => 'server_theme_social_buttons',
+    '#google_url' => $google_url,
+    '#facebook_url' => $facebook_url,
+    '#context' => $context,
+  ];
+
+  $form['social_login_buttons'] = [
+    '#markup' => \Drupal::service('renderer')->render($render_array),
+    '#weight' => 999,
+  ];
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function server_theme_form_user_login_form_alter(array &$form, FormStateInterface $form_state) {
+  _server_theme_form_alter_add_social_login_buttons($form);
+
+  $form['actions']['forgot_pass'] = [
+    '#theme' => 'server_theme_button',
+    '#url' => Url::fromRoute('user.pass'),
+    '#title' => t('Forgot password?'),
+    '#text_only' => TRUE,
+  ];
+
+  $form['name']['#description_display'] = 'invisible';
+  $form['pass']['#description_display'] = 'invisible';
+}
+
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function server_theme_form_user_register_form_alter(array &$form, FormStateInterface $form_state) {
+  _server_theme_form_alter_add_social_login_buttons($form, 'registration');
+
+  // Remove description on email.
+  $form['account']['mail']['#description_display'] = 'invisible';
+
+  $form['actions']['submit']['#value'] = t('Create account');
 }
