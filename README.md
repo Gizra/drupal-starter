@@ -211,15 +211,18 @@ See the [example](https://github.com/Gizra/drupal-starter/blob/main/web/modules/
     ddev phpunit --filter testHomepageCache web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralHomepageTest.php
 
 We also have capability to write tests which run on a headless chrome browser with
-Javascript capabilities. See [`Drupal\Tests\server_general\ExistingSite\ServerGeneralSelenium2TestBase`](https://github.com/Gizra/drupal-starter/blob/aa3c204dc7ac279964a694c675c35062c7fbcd9f/web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralSelenium2TestBase.php)
-for the test base, and [`Drupal\Tests\server_general\ExistingSite\ServerGeneralHomepageTest`](https://github.com/Gizra/drupal-starter/blob/aa3c204dc7ac279964a694c675c35062c7fbcd9f/web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralHomepageTest.php) for the
-example implementation.
+Javascript capabilities. See [`ServerGeneralHomepageTest`](https://github.com/Gizra/drupal-starter/blob/aa3c204dc7ac279964a694c675c35062c7fbcd9f/web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralHomepageTest.php)
+for an example.
 
 ### Debugging
 
 When it is hard to understand a test failure, a peek into the browser might help.
 For Selenium-based ones, you can take screenshots using the `takeScreenshot()` method. This captures and saves
-the screenshot in `/web/sites/simpletest/screenshots`.
+the screenshot in `/web/sites/simpletest/screenshots` locally, or in CI environments uses AI to analyze the
+screenshot and output a description with ASCII art representation.
+
+You can also use `takeScreenshotWithAi()` to force AI analysis regardless of environment for testing purposes.
+
 You can also watch what the tests are doing in the browser using noVNC. To do so, simply open a browser and open
 https://drupal-starter.ddev.site:7900 and click Connect. The password is `secret`. Now simply run the tests
 and you can see the test running in the browser.
@@ -227,6 +230,15 @@ and you can see the test running in the browser.
 For faster, virtual browser-based tests, you can use `createHtmlSnapshot` and it will dump the HTML content
 of the virtual browser into the `phpunit_debug` directory. For the exact filename, refer to the output of
 `ddev drush watchdog-show --type=server_general`.
+
+#### AI Screenshot Analysis
+
+In CI environments, screenshots are automatically analyzed using OpenAI's vision model. The analysis includes:
+- Detailed description of page content and any error messages
+- ASCII art representation of the main visual elements
+
+To use AI analysis, ensure the `OPEN_AI_TOKEN` environment variable is set. In CI, this is passed from Travis
+to DDEV containers automatically.
 
 **Note: You should not leave calls to `takeScreenshot` or `createHtmlSnapshot` in the codebase when committing,
 this is meant only for local debugging purposes.**
