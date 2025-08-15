@@ -8,7 +8,7 @@ use weitzman\DrupalTestTraits\ExistingSiteBase;
 /**
  * A test case to test the Style Guide.
  */
-class ServerGeneralStyleGuideTest extends ExistingSiteBase {
+class ServerStyleGuidePageTest extends ExistingSiteBase {
 
   /**
    * Test Style guide.
