@@ -18,7 +18,7 @@ $request_user_agent = strtolower($_SERVER['HTTP_USER_AGENT'] ?? '');
 
 // Define the patterns to search for.
 $query_patterns = [
-  // URL encoded form of 'f['
+  // URL encoded form of 'f['.
   'f%5B',
   // Double URL encoded form of 'f['. Bots seem to use it.
   'f%255b',
