@@ -4,6 +4,7 @@ namespace Drupal\PHPStan\Custom;
 
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleErrorBuilder;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
@@ -45,7 +46,9 @@ class CacheableDependency implements Rule {
       return [];
     }
     return [
-      'Calling addCacheableDependency($object) when $object does not implement CacheableDependencyInterface effectively disables caching and should be avoided.',
+      RuleErrorBuilder::message('Calling addCacheableDependency($object) when $object does not implement CacheableDependencyInterface effectively disables caching and should be avoided.')
+        ->identifier('cacheable.dependency')
+        ->build(),
     ];
   }
 

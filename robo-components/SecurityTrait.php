@@ -83,6 +83,7 @@ trait SecurityTrait {
 
     // Only perform DNS and whois lookups on the top N IPs.
     $data = [];
+    /** @var array<string, array{count: int, ips: int, organization: string}> $subnet_stats */
     $subnet_stats = [];
 
     // Only process the top $limit IPs with whois.
@@ -139,9 +140,11 @@ trait SecurityTrait {
     }
 
     // Sort network stats by count.
-    uasort($subnet_stats, function ($a, $b) {
+    $sort_callback = function (array $a, array $b): int {
       return $b['count'] - $a['count'];
-    });
+    };
+    // @phpstan-ignore-next-line argument.unresolvableType
+    uasort($subnet_stats, $sort_callback);
 
     // Display IP statistics.
     $this->printReleaseNotesTitle("Top $limit IP Addresses");
