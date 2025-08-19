@@ -87,6 +87,15 @@ class ServerGeneralLockedPagesTest extends ServerGeneralTestBase {
     $this->drupalGet("/node/{$node->id()}/delete");
     $this->assertSession()->statusCodeEquals(Response::HTTP_OK);
 
+    $this->drupalGet('/admin/content', [
+      'query' => [
+        'title' => 'locked',
+        'type' => 'landing_page',
+      ],
+    ]);
+    $this->assertSession()
+      ->linkByHrefExists("/node/{$node->id()}/delete");
+
     // Make page locked.
     $main_settings = $this->loadOrCreateConfigPages('main_settings');
 
@@ -101,6 +110,15 @@ class ServerGeneralLockedPagesTest extends ServerGeneralTestBase {
 
     $this->drupalGet("/node/{$node->id()}/delete");
     $this->assertSession()->statusCodeEquals(Response::HTTP_FORBIDDEN);
+
+    $this->drupalGet('/admin/content', [
+      'query' => [
+        'title' => 'locked',
+        'type' => 'landing_page',
+      ],
+    ]);
+    $this->assertSession()
+      ->linkByHrefNotExists("/node/{$node->id()}/delete");
 
     // Test translations.
     $node_es = $node->addTranslation('es', $node->toArray());
