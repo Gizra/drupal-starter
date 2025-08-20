@@ -60,20 +60,11 @@ class ServerGeneralSelenium2TestBase extends ExistingSiteSelenium2DriverTestBase
     $screenshot_name = $this->generateScreenshotName();
     $screenshot = $this->getDriverInstance()->getScreenshot();
 
-    if (getenv('CI') === 'true') {
-      // In CI environment, use AI to analyze the screenshot.
-      $this->analyzeScreenshotWithAi($screenshot, $screenshot_name);
-      return;
-    }
-
-    // Local environment: save screenshot to file.
     $this->saveScreenshotToFile($screenshot, $screenshot_name);
   }
 
   /**
    * Take a screenshot and analyze it using AI.
-   *
-   * Forces AI analysis regardless of environment for testing purposes.
    *
    * @param string|null $question
    *   Optional specific question to ask about the screenshot.
@@ -86,7 +77,8 @@ class ServerGeneralSelenium2TestBase extends ExistingSiteSelenium2DriverTestBase
     $screenshot_name = $this->generateScreenshotName();
     $screenshot = $this->getDriverInstance()->getScreenshot();
 
-    // Always use AI analysis.
+    $this->takeScreenshot();
+
     $this->analyzeScreenshotWithAi($screenshot, $screenshot_name, $question);
   }
 
@@ -270,4 +262,5 @@ class ServerGeneralSelenium2TestBase extends ExistingSiteSelenium2DriverTestBase
 
     return implode("\n", $parts);
   }
+
 }
