@@ -75,16 +75,19 @@ class ServerGeneralSelenium2TestBase extends ExistingSiteSelenium2DriverTestBase
    *
    * Forces AI analysis regardless of environment for testing purposes.
    *
+   * @param string|null $question
+   *   Optional specific question to ask about the screenshot.
+   *
    * @throws \Behat\Mink\Exception\DriverException
    * @throws \Behat\Mink\Exception\UnsupportedDriverActionException
    */
-  protected function takeScreenshotWithAi(): void {
+  protected function takeScreenshotWithAi(?string $question = NULL): void {
     // Generate filename and get screenshot.
     $screenshot_name = $this->generateScreenshotName();
     $screenshot = $this->getDriverInstance()->getScreenshot();
 
     // Always use AI analysis.
-    $this->analyzeScreenshotWithAi($screenshot, $screenshot_name);
+    $this->analyzeScreenshotWithAi($screenshot, $screenshot_name, $question);
   }
 
   /**
@@ -134,7 +137,9 @@ class ServerGeneralSelenium2TestBase extends ExistingSiteSelenium2DriverTestBase
 
     // Save the screenshot.
     $filename = $screenshot_name . '.png';
-    file_put_contents($dirs[1] . $filename, $screenshot);
+    $screenshot_path = $dirs[1] . $filename;
+    file_put_contents($screenshot_path, $screenshot);
+    echo "🖼️  Screenshot '{$screenshot_name}' captured at {$screenshot_path}.\n";
   }
 
   /**
@@ -144,8 +149,10 @@ class ServerGeneralSelenium2TestBase extends ExistingSiteSelenium2DriverTestBase
    *   Base64 encoded PNG screenshot data.
    * @param string $screenshot_name
    *   Name/context of the screenshot for reference.
+   * @param string|null $question
+   *   Optional specific question to ask about the screenshot.
    */
-  private function analyzeScreenshotWithAi(string $screenshot_data, string $screenshot_name): void {
+  private function analyzeScreenshotWithAi(string $screenshot_data, string $screenshot_name, ?string $question = NULL): void {
     // Generate file path for reference.
     $working_dir = getcwd();
     $screenshot_path = "{$working_dir}/sites/simpletest/screenshots/{$screenshot_name}.png";
@@ -172,16 +179,7 @@ class ServerGeneralSelenium2TestBase extends ExistingSiteSelenium2DriverTestBase
             'content' => [
               [
                 'type' => 'text',
-                'text' => 'Please analyze this screenshot from a Selenium test and provide:
-1. A detailed description of what you see on the page. If there is an error message, include it in the description.
-2. An ASCII art representation of the main visual elements on the page, including any error messages or important UI components.
-
-Format your response as:
-DESCRIPTION:
-[your description here]
-
-ASCII:
-[your ascii art here]',
+                'text' => $this->buildPromptText($question),
               ],
               [
                 'type' => 'image_url',
@@ -230,4 +228,46 @@ ASCII:
     }
   }
 
+  /**
+   * Build the prompt text for AI analysis.
+   *
+   * @param string|null $question
+   *   Optional specific question to ask about the screenshot.
+   *
+   * @return string
+   *   The formatted prompt text.
+   */
+  private function buildPromptText(?string $question = NULL): string {
+    $parts = [];
+
+    if ($question) {
+      $parts[] = "Please analyze this screenshot from a Selenium test and answer: {$question}";
+    }
+    else {
+      $parts[] = 'Please analyze this screenshot from a Selenium test and provide:';
+    }
+
+    $parts[] = "Also provide:";
+    $parts[] = '1. A detailed description of what you see on the page. If there is an error message, include it in the description.';
+    $parts[] = '2. An ASCII art representation of the main visual elements on the page, including any error messages or important UI components. ASCII should be in landscape layout.';
+    $parts[] = '';
+    $parts[] = 'Format your response as:';
+
+    if ($question) {
+      $parts[] = 'QUESTION:';
+      $parts[] = $question;
+      $parts[] = '';
+      $parts[] = 'ANSWER:';
+      $parts[] = '[your answer here]';
+      $parts[] = '';
+    }
+
+    $parts[] = 'DESCRIPTION:';
+    $parts[] = '[your description here]';
+    $parts[] = '';
+    $parts[] = 'ASCII:';
+    $parts[] = '[your ascii art here]';
+
+    return implode("\n", $parts);
+  }
 }
