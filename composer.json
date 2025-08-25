@@ -89,7 +89,6 @@
         "drupal/webform": "^6.2",
         "drupal/wpf": "^1.2",
         "drush/drush": "^12.4",
-        "longwave/laminas-diactoros": "^2.14",
         "mglaman/phpstan-drupal": "^2.0",
         "npm-asset/anchor-js": "^5.0",
         "npm-asset/select2": "^4.0",
