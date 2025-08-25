@@ -43,6 +43,12 @@
     },
     "consolidation/robo": {
       "PHP 8.4 nullable parameter compatibility": "patches/consolidation_robo-php84-nullable-params.patch"
+    },
+    "drupal/drupal_test_assertions": {
+      "PHP 8.4 nullable parameter compatibility": "patches/drupal_test_assertions-php84-nullable-params.patch"
+    },
+    "drupal/pathauto": {
+      "PHP 8.4 nullable parameter compatibility": "patches/pathauto-php84-nullable-params.patch"
     }
   }
 }
