@@ -1,0 +1,26 @@
+diff --git a/src/AliasStorageHelper.php b/src/AliasStorageHelper.php
+index 1234567..abcdefg 100644
+--- a/src/AliasStorageHelper.php
++++ b/src/AliasStorageHelper.php
+@@ -76,7 +76,7 @@ class AliasStorageHelper implements AliasStorageHelperInterface {
+    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+    *   The entity type manger.
+    */
+-  public function __construct(ConfigFactoryInterface $config_factory, AliasRepositoryInterface $alias_repository, Connection $database, MessengerInterface $messenger, TranslationInterface $string_translation, EntityTypeManagerInterface $entity_type_manager = NULL) {
++  public function __construct(ConfigFactoryInterface $config_factory, AliasRepositoryInterface $alias_repository, Connection $database, MessengerInterface $messenger, TranslationInterface $string_translation, ?EntityTypeManagerInterface $entity_type_manager = NULL) {
+     $this->configFactory = $config_factory;
+     $this->aliasRepository = $alias_repository;
+     $this->database = $database;
+diff --git a/src/PathautoGenerator.php b/src/PathautoGenerator.php
+index 2345678..bcdefgh 100644
+--- a/src/PathautoGenerator.php
++++ b/src/PathautoGenerator.php
+@@ -136,7 +136,7 @@ class PathautoGenerator implements PathautoGeneratorInterface {
+    * @param \Drupal\pathauto\AliasTypeManager $alias_type_manager
+    *   Manages pathauto alias type plugins.
+    */
+-  public function __construct(ConfigFactoryInterface $config_factory, ModuleHandlerInterface $module_handler, Token $token, AliasCleanerInterface $alias_cleaner, AliasStorageHelperInterface $alias_storage_helper, AliasUniquifierInterface $alias_uniquifier, MessengerInterface $pathauto_messenger, TranslationInterface $string_translation, TokenEntityMapperInterface $token_entity_mapper, EntityTypeManagerInterface $entity_type_manager, AliasTypeManager $alias_type_manager = NULL) {
++  public function __construct(ConfigFactoryInterface $config_factory, ModuleHandlerInterface $module_handler, Token $token, AliasCleanerInterface $alias_cleaner, AliasStorageHelperInterface $alias_storage_helper, AliasUniquifierInterface $alias_uniquifier, MessengerInterface $pathauto_messenger, TranslationInterface $string_translation, TokenEntityMapperInterface $token_entity_mapper, EntityTypeManagerInterface $entity_type_manager, ?AliasTypeManager $alias_type_manager = NULL) {
+     $this->configFactory = $config_factory;
+     $this->moduleHandler = $module_handler;
+     $this->token = $token;
