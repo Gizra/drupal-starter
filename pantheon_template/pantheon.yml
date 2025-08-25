@@ -1,7 +1,7 @@
 api_version: 1
 web_docroot: true
 build_step: false
-php_version: 8.3
+php_version: 8.4
 enforce_https: transitional
 search:
   version: 8
