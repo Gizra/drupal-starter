@@ -35,9 +35,6 @@
     "drupal/rollbar": {
       "d.o. #3432364": "patches/3432364-rollbar-vars.patch"
     },
-    "drupal/webform": {
-      "PHP 8.4 nullable parameter compatibility": "patches/webform-php84-nullable-params.patch"
-    },
     "drupal/google_tag": {
       "PHP 8.4 nullable parameter compatibility": "patches/google_tag-php84-nullable-params.patch"
     },
