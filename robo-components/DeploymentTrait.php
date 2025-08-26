@@ -718,7 +718,7 @@ trait DeploymentTrait {
       }
     }
 
-    $result = $this->taskExec('ssh-keygen -f travis-key -P ""')->run();
+    $result = $this->taskExec('ssh-keygen -t rsa -f travis-key -P ""')->run();
     if ($result->getExitCode() !== 0) {
       throw new \Exception('The key generation failed.');
     }
