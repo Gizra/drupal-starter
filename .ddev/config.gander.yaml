@@ -1,0 +1,3 @@
+#ddev-generated
+web_environment:
+  - "OTEL_COLLECTOR=http://otel-collector:4318/v1/traces"

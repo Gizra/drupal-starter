@@ -20,4 +20,4 @@ web_environment:
   - DRUPAL_NIGHTWATCH_IGNORE_DIRECTORIES=node_modules,vendor,.*,sites/*/files,sites/*/private,sites/simpletest
   - DRUPAL_NIGHTWATCH_OUTPUT=reports/nightwatch
   - DTT_BASE_URL=http://web
-  - DTT_MINK_DRIVER_ARGS=[\"chrome\", {\"browserName\":\"chrome\",\"chromeOptions\":{\"w3c\":false,\"args\":[\"--window-size=1920,1080\", \"--disable-gpu\", \"--no-sandbox\", \"--disable-dev-shm-usage\"]}}, \"http://selenium-chrome:4444/wd/hub\"]
+  - DTT_MINK_DRIVER_ARGS=[\"chrome\", {\"browserName\":\"chrome\",\"goog:loggingPrefs\":{\"performance\":\"ALL\"}, \"chromeOptions\":{\"w3c\":false, \"args\":[\"--window-size=1920,1080\", \"--disable-gpu\", \"--no-sandbox\", \"--disable-dev-shm-usage\"]}}, \"http://selenium-chrome:4444/wd/hub\"]
