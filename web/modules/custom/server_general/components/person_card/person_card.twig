@@ -1,0 +1,57 @@
+
+<div class="bg-white border rounded-lg shadow-md max-w-full w-[344px] mx-auto text-center overflow-hidden" data-cid="person_card">
+  <div class="p-8">
+    <!-- Profile Image -->
+    <div class="w-24 h-24 mx-auto mb-9">
+      <img
+        class="w-full h-full object-cover rounded-full"
+        src="{{ src|default('https://fastly.picsum.photos/id/369/128/128.jpg?hmac=mBFmIVE3PaM7ATDp-bGF6kusHHN-JMJh7HV07Rlh7bI') }}"
+        alt="{{ name|default('Person') }}"
+      >
+    </div>
+
+    <!-- Name -->
+    <div class="flex flex-col gap-2 items-center">
+      <span class="text-sm font-medium text-gray-900">
+        {{ name|default('Name') }}
+      </span>
+
+      <!-- Title/Subtitle -->
+      {% if title %}
+        <p class="text-sm text-gray-500 m-0">
+          {{ title }}
+        </p>
+      {% endif %}
+
+      <!-- Role Badge -->
+      {% if role %}
+        <span class="inline-block bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded-full">
+          {{ role }}
+        </span>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="flex border-t border-t-gray-200">
+    {% if email %}
+      <a
+        href="mailto:{{ email }}"
+        class="flex-1 flex items-center border-r border-r-gray-200 justify-center px-4 py-4 bg-gray-50 text-gray-700 text-sm font-medium hover:bg-gray-200 transition-colors gap-2"
+      >
+        <i class="fa-solid fa-envelope"></i>
+        Email
+      </a>
+    {% endif %}
+
+    {% if phone %}
+      <a
+        href="tel:{{ phone }}"
+        class="flex-1 flex items-center justify-center px-4 py-4 bg-gray-50 text-gray-700 text-sm font-medium hover:bg-gray-200 transition-colors gap-2"
+      >
+        <i class="fa-solid fa-phone"></i>
+        Call
+      </a>
+    {% endif %}
+  </div>
+</div>

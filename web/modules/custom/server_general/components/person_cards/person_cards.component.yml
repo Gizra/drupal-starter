@@ -1,0 +1,12 @@
+'$schema': 'https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json'
+name: Person Cards
+status: stable
+description: Displays a person card
+props:
+  type: object
+  properties: { }
+slots:
+  cards:
+    title: Cards
+    description: Person cards
+

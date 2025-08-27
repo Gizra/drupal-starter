@@ -6,6 +6,9 @@ module.exports = {
       maxWidth: {
         '8xl': '90rem'
       },
+      padding: {
+        '8': '32px'
+      },
       textUnderlineOffset: {
         '6': '6px'
       }
@@ -26,6 +29,7 @@ module.exports = {
     '../../../modules/custom/**/*.php',
     '../../../modules/custom/**/*.html.twig',
     '../../../modules/custom/*/js/**/*.js',
+    '../../../modules/custom/*/components/**/*.twig',
   ],
   safelist: [
     // Add here custom class names.

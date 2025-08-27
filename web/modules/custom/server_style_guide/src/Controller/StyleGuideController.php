@@ -192,6 +192,12 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getPeopleTeasers();
     $build[] = $this->wrapElementNoContainer($element, 'Element: People teasers');
 
+    $element = $this->getPersonCard();
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Person card');
+
+    $element = $this->getPersonCards();
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Person cards');
+
     $element = $this->getQuote();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Quote');
 
@@ -292,6 +298,77 @@ class StyleGuideController extends ControllerBase {
       $this->getRandomTitle(),
       $this->buildProcessedText('This is a directory list of awesome people'),
       $items,
+    );
+  }
+
+  /**
+   * Get People teasers element.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getPersonCard(): array {
+    return $this->buildElementLayoutTitleAndContent(
+      'Person Card',
+      [
+        '#type' => 'component',
+        '#component' => 'server_general:person_card',
+        '#props' => [
+          'name' => 'Jane Cooper',
+          'role' => 'Admin',
+          'title' => 'Paradigm Representative',
+          'email' => 'someone@somewhere.com',
+          'phone' => '+18001234567',
+          'src' => $this->getPlaceholderPersonImage(128),
+        ],
+      ]
+    );
+  }
+
+
+  /**
+   * Get People teasers element.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getPersonCards(): array {
+
+    $names = [
+      'Jane Cooper',
+      'John Doe',
+      'Smith Allen',
+      'David Bowie',
+      'Rick Sanchez',
+      'Morty Smith',
+      'Jane Doe',
+      'Steven Universe',
+    ];
+    $cards = [];
+    foreach ($names as $name) {
+      $cards[] = [
+        '#type' => 'component',
+        '#component' => 'server_general:person_card',
+        '#props' => [
+          'name' => $name,
+          'role' => 'Admin',
+          'title' => 'Paradigm Representative',
+          'email' => 'someone@somewhere.com',
+          'phone' => '+18001234567',
+          'src' => $this->getPlaceholderPersonImage(128),
+        ],
+      ];
+    }
+
+    return $this->buildElementLayoutTitleAndContent(
+      'Person Cards',
+      [
+        '#type' => 'component',
+        '#component' => 'server_general:person_cards',
+        '#slots' => [
+          'cards' => $cards,
+        ],
+      ]
     );
   }
 
