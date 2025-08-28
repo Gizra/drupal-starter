@@ -1,0 +1,27 @@
+diff --git a/src/Common/IO.php b/src/Common/IO.php
+index 1234567..abcdefg 100644
+--- a/src/Common/IO.php
++++ b/src/Common/IO.php
+@@ -45,7 +45,7 @@ trait IO
+     }
+ 
+     // This should typically only be called by State::restore()
+-    public function restoreState(InputInterface $input = null, OutputInterface $output = null, SymfonyStyle $io = null)
++    public function restoreState(?InputInterface $input = null, ?OutputInterface $output = null, ?SymfonyStyle $io = null)
+     {
+         $this->setInput($input);
+         $this->setOutput($output);
+
+diff --git a/src/Collection/CompletionWrapper.php b/src/Collection/CompletionWrapper.php
+index 2345678..bcdefgh 100644
+--- a/src/Collection/CompletionWrapper.php
++++ b/src/Collection/CompletionWrapper.php
+@@ -54,7 +54,7 @@ class CompletionWrapper implements TaskInterface
+      *
+      * @param \Robo\Contract\TaskInterface|null $rollbackTask
+      */
+-    public function __construct(Collection $collection, TaskInterface $task, TaskInterface $rollbackTask = null)
++    public function __construct(Collection $collection, TaskInterface $task, ?TaskInterface $rollbackTask = null)
+     {
+         $this->collection = $collection;
+         $this->task = ($task instanceof WrappedTaskInterface) ? $task->original() : $task;

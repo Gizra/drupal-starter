@@ -1,0 +1,284 @@
+diff --git a/includes/webform.date.inc b/includes/webform.date.inc
+index 1234567..abcdefg 100644
+--- a/includes/webform.date.inc
++++ b/includes/webform.date.inc
+@@ -38,7 +38,7 @@ use Drupal\webform\Plugin\WebformElement\DateTime;
+  *
+  * @see \Drupal\webform\Plugin\WebformElement\DateTime::prepare
+  */
+-function _webform_datetime_date(array &$element, FormStateInterface $form_state, DrupalDateTime $date = NULL) {
++function _webform_datetime_date(array &$element, FormStateInterface $form_state, ?DrupalDateTime $date = NULL) {
+   DateTime::dateCallback($element, $form_state, $date);
+ }
+ 
+@@ -54,7 +54,7 @@ function _webform_datetime_date(array &$element, FormStateInterface $form_state
+  *
+  * @see \Drupal\webform\Plugin\WebformElement\DateTime::prepare
+  */
+-function _webform_datetime_time(array &$element, FormStateInterface $form_state, DrupalDateTime $date = NULL) {
++function _webform_datetime_time(array &$element, FormStateInterface $form_state, ?DrupalDateTime $date = NULL) {
+   DateTime::timeCallback($element, $form_state, $date);
+ }
+
+diff --git a/src/WebformEntityReferenceManager.php b/src/WebformEntityReferenceManager.php
+index 2345678..bcdefgh 100644
+--- a/src/WebformEntityReferenceManager.php
++++ b/src/WebformEntityReferenceManager.php
+@@ -87,7 +87,7 @@ class WebformEntityReferenceManager implements WebformEntityReferenceManagerInt
+    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+    *   The entity type manager.
+    */
+-  public function __construct(RouteMatchInterface $route_match, AccountInterface $current_user, UserDataInterface $user_data, ModuleHandlerInterface $module_handler = NULL, EntityTypeManagerInterface $entity_type_manager = NULL) {
++  public function __construct(RouteMatchInterface $route_match, AccountInterface $current_user, UserDataInterface $user_data, ?ModuleHandlerInterface $module_handler = NULL, ?EntityTypeManagerInterface $entity_type_manager = NULL) {
+     $this->routeMatch = $route_match;
+     $this->currentUser = $current_user;
+     $this->userData = $user_data;
+@@ -166,7 +166,7 @@ class WebformEntityReferenceManager implements WebformEntityReferenceManagerInt
+   /**
+    * {@inheritdoc}
+    */
+-  public function hasField(EntityInterface $entity = NULL) {
++  public function hasField(?EntityInterface $entity = NULL) {
+     return $this->getFieldName($entity) ? TRUE : FALSE;
+   }
+ 
+@@ -173,7 +173,7 @@ class WebformEntityReferenceManager implements WebformEntityReferenceManagerInt
+   /**
+    * {@inheritdoc}
+    */
+-  public function getFieldName(EntityInterface $entity = NULL) {
++  public function getFieldName(?EntityInterface $entity = NULL) {
+     $field_names = $this->getFieldNames($entity);
+     return $field_names ? reset($field_names) : FALSE;
+   }
+@@ -181,7 +181,7 @@ class WebformEntityReferenceManager implements WebformEntityReferenceManagerInt
+   /**
+    * {@inheritdoc}
+    */
+-  public function getFieldNames(EntityInterface $entity = NULL) {
++  public function getFieldNames(?EntityInterface $entity = NULL) {
+     if (!$entity) {
+       $route_name = $this->routeMatch->getRouteName();
+       if (strpos($route_name, 'entity.') !== 0) {
+@@ -212,7 +212,7 @@ class WebformEntityReferenceManager implements WebformEntityReferenceManagerInt
+   /**
+    * {@inheritdoc}
+    */
+-  public function getWebform(EntityInterface $entity = NULL) {
++  public function getWebform(?EntityInterface $entity = NULL) {
+     $field_name = $this->getFieldName($entity);
+     if (!$field_name) {
+       return NULL;
+@@ -227,7 +227,7 @@ class WebformEntityReferenceManager implements WebformEntityReferenceManagerInt
+   /**
+    * {@inheritdoc}
+    */
+-  public function getWebforms(EntityInterface $entity = NULL) {
++  public function getWebforms(?EntityInterface $entity = NULL) {
+     $field_names = $this->getFieldNames($entity);
+     if (!$field_names) {
+       return [];
+
+diff --git a/src/WebformEntityReferenceManagerInterface.php b/src/WebformEntityReferenceManagerInterface.php
+index 3456789..cdefghi 100644
+--- a/src/WebformEntityReferenceManagerInterface.php
++++ b/src/WebformEntityReferenceManagerInterface.php
+@@ -67,7 +67,7 @@ interface WebformEntityReferenceManagerInterface {
+    * @return bool
+    *   TRUE if the entity has a webform entity reference field.
+    */
+-  public function hasField(EntityInterface $entity = NULL);
++  public function hasField(?EntityInterface $entity = NULL);
+ 
+   /**
+    * Get an entity's webform field name.
+@@ -78,7 +78,7 @@ interface WebformEntityReferenceManagerInterface {
+    * @return string
+    *   The name of the webform field or an empty string.
+    */
+-  public function getFieldName(EntityInterface $entity = NULL);
++  public function getFieldName(?EntityInterface $entity = NULL);
+ 
+   /**
+    * Get an entity's webform field names.
+@@ -89,7 +89,7 @@ interface WebformEntityReferenceManagerInterface {
+    * @return array
+    *   An array of webform field names.
+    */
+-  public function getFieldNames(EntityInterface $entity = NULL);
++  public function getFieldNames(?EntityInterface $entity = NULL);
+ 
+   /**
+    * Get an entity's webform.
+@@ -100,7 +100,7 @@ interface WebformEntityReferenceManagerInterface {
+    * @return \Drupal\webform\WebformInterface|null
+    *   A webform or NULL if the entity does not have a webform field.
+    */
+-  public function getWebform(EntityInterface $entity = NULL);
++  public function getWebform(?EntityInterface $entity = NULL);
+ 
+   /**
+    * Get an entity's webforms.
+@@ -111,7 +111,7 @@ interface WebformEntityReferenceManagerInterface {
+    * @return \Drupal\webform\WebformInterface[]
+    *   An array of webforms.
+    */
+-  public function getWebforms(EntityInterface $entity = NULL);
++  public function getWebforms(?EntityInterface $entity = NULL);
+
+diff --git a/src/WebformRequest.php b/src/WebformRequest.php
+index 4567890..defghij 100644
+--- a/src/WebformRequest.php
++++ b/src/WebformRequest.php
+@@ -226,7 +226,7 @@ class WebformRequest implements WebformRequestInterface {
+   /**
+    * {@inheritdoc}
+    */
+-  public function getUrl(EntityInterface $webform_entity, EntityInterface $source_entity = NULL, $route_name, array $route_options = []) {
++  public function getUrl(EntityInterface $webform_entity, ?EntityInterface $source_entity = NULL, $route_name, array $route_options = []) {
+     $route_name = $this->getRouteName($webform_entity, $source_entity, $route_name);
+     $route_parameters = $this->getRouteParameters($webform_entity, $source_entity);
+     return Url::fromRoute($route_name, $route_parameters, $route_options);
+@@ -235,7 +235,7 @@ class WebformRequest implements WebformRequestInterface {
+   /**
+    * {@inheritdoc}
+    */
+-  public function getRouteName(EntityInterface $webform_entity, EntityInterface $source_entity = NULL, $route_name) {
++  public function getRouteName(EntityInterface $webform_entity, ?EntityInterface $source_entity = NULL, $route_name) {
+     if (!$this->hasSourceEntityWebformRoutes($source_entity)) {
+       return $route_name;
+     }
+@@ -246,7 +246,7 @@ class WebformRequest implements WebformRequestInterface {
+   /**
+    * {@inheritdoc}
+    */
+-  public function getRouteParameters(EntityInterface $webform_entity, EntityInterface $source_entity = NULL) {
++  public function getRouteParameters(EntityInterface $webform_entity, ?EntityInterface $source_entity = NULL) {
+     $route_parameters = ['webform' => $webform_entity->id()];
+     if ($source_entity && $this->hasSourceEntityWebformRoutes($source_entity)) {
+       $route_parameters[$source_entity->getEntityTypeId()] = $source_entity->id();
+@@ -276,7 +276,7 @@ class WebformRequest implements WebformRequestInterface {
+   /**
+    * {@inheritdoc}
+    */
+-  public function getBaseRouteName(EntityInterface $webform_entity, EntityInterface $source_entity = NULL) {
++  public function getBaseRouteName(EntityInterface $webform_entity, ?EntityInterface $source_entity = NULL) {
+     if ($this->hasSourceEntityWebformRoutes($source_entity)) {
+       return 'entity.' . $source_entity->getEntityTypeId() . '.webform';
+     }
+@@ -298,7 +298,7 @@ class WebformRequest implements WebformRequestInterface {
+   /**
+    * {@inheritdoc}
+    */
+-  public function hasSourceEntityWebformRoutes(EntityInterface $source_entity = NULL) {
++  public function hasSourceEntityWebformRoutes(?EntityInterface $source_entity = NULL) {
+     return ($this->isValidSourceEntity($source_entity)
+       && $this->webformEntityReferenceManager->hasField($source_entity));
+   }
+@@ -310,7 +310,7 @@ class WebformRequest implements WebformRequestInterface {
+   /**
+    * {@inheritdoc}
+    */
+-  public function isValidSourceEntity(EntityInterface $source_entity = NULL) {
++  public function isValidSourceEntity(?EntityInterface $source_entity = NULL) {
+     return ($source_entity && method_exists($source_entity, 'hasField'));
+   }
+
+diff --git a/src/WebformRequestInterface.php b/src/WebformRequestInterface.php
+index 5678901..efghijk 100644
+--- a/src/WebformRequestInterface.php
++++ b/src/WebformRequestInterface.php
+@@ -111,7 +111,7 @@ interface WebformRequestInterface {
+    * @return \Drupal\Core\Url
+    *   A URL object.
+    */
+-  public function getUrl(EntityInterface $webform_entity, EntityInterface $source_entity = NULL, $route_name, array $route_options = []);
++  public function getUrl(EntityInterface $webform_entity, ?EntityInterface $source_entity = NULL, $route_name, array $route_options = []);
+ 
+   /**
+    * Get a webform's route name.
+@@ -127,7 +127,7 @@ interface WebformRequestInterface {
+    * @return string
+    *   The webform's route name.
+    */
+-  public function getRouteName(EntityInterface $webform_entity, EntityInterface $source_entity = NULL, $route_name);
++  public function getRouteName(EntityInterface $webform_entity, ?EntityInterface $source_entity = NULL, $route_name);
+ 
+   /**
+    * Get a webform's route parameters.
+@@ -140,7 +140,7 @@ interface WebformRequestInterface {
+    * @return array
+    *   An associative array of route parameters.
+    */
+-  public function getRouteParameters(EntityInterface $webform_entity, EntityInterface $source_entity = NULL);
++  public function getRouteParameters(EntityInterface $webform_entity, ?EntityInterface $source_entity = NULL);
+ 
+   /**
+    * Get a webform's base route name.
+@@ -154,7 +154,7 @@ interface WebformRequestInterface {
+    * @return string
+    *   The webform's base route name.
+    */
+-  public function getBaseRouteName(EntityInterface $webform_entity, EntityInterface $source_entity = NULL);
++  public function getBaseRouteName(EntityInterface $webform_entity, ?EntityInterface $source_entity = NULL);
+ 
+   /**
+    * Check if source entity has webform routes.
+@@ -165,7 +165,7 @@ interface WebformRequestInterface {
+    * @return bool
+    *   TRUE if the source entity has webform routes.
+    */
+-  public function hasSourceEntityWebformRoutes(EntityInterface $source_entity = NULL);
++  public function hasSourceEntityWebformRoutes(?EntityInterface $source_entity = NULL);
+ 
+   /**
+    * Check that source entity is valid.
+@@ -178,7 +178,7 @@ interface WebformRequestInterface {
+    * @return bool
+    *   TRUE if the source entity is valid.
+    */
+-  public function isValidSourceEntity(EntityInterface $source_entity = NULL);
++  public function isValidSourceEntity(?EntityInterface $source_entity = NULL);
+
+diff --git a/webform.tokens.inc b/webform.tokens.inc
+index 6789012..fghijkl 100644
+--- a/webform.tokens.inc
++++ b/webform.tokens.inc
+@@ -1186,7 +1186,7 @@ function _webform_token_format_date($date) {
+  * @return string
+  *   Formatted interval wait time.
+  */
+-function _webform_token_get_interval_wait($interval_setting, BubbleableMetadata $bubbleable_metadata, WebformInterface $webform = NULL, EntityInterface $source_entity = NULL, AccountInterface $account = NULL) {
++function _webform_token_get_interval_wait($interval_setting, BubbleableMetadata $bubbleable_metadata, ?WebformInterface $webform = NULL, ?EntityInterface $source_entity = NULL, ?AccountInterface $account = NULL) {
+   // Get last submission completed time.
+   /** @var \Drupal\webform\WebformSubmissionStorageInterface $submission_storage */
+   $submission_storage = \Drupal::entityTypeManager()->getStorage('webform_submission');
+
+diff --git a/modules/webform_ui/src/PathProcessor/WebformUiPathProcessor.php b/modules/webform_ui/src/PathProcessor/WebformUiPathProcessor.php
+index 7890123..ghijklm 100644
+--- a/modules/webform_ui/src/PathProcessor/WebformUiPathProcessor.php
++++ b/modules/webform_ui/src/PathProcessor/WebformUiPathProcessor.php
+@@ -14,7 +14,7 @@ class WebformUiPathProcessor implements OutboundPathProcessorInterface {
+   /**
+    * {@inheritdoc}
+    */
+-  public function processOutbound($path, &$options = [], Request $request = NULL, BubbleableMetadata $bubbleable_metadata = NULL) {
++  public function processOutbound($path, &$options = [], ?Request $request = NULL, ?BubbleableMetadata $bubbleable_metadata = NULL) {
+ 
+     $is_webform_path = (!empty($path) && str_contains($path, '/webform/'));
+     $has_query_string = (!empty($request) && !empty($request->getQueryString()));
+
+diff --git a/src/Twig/WebformTwigExtension.php b/src/Twig/WebformTwigExtension.php
+index 8901234..hijklmn 100644
+--- a/src/Twig/WebformTwigExtension.php
++++ b/src/Twig/WebformTwigExtension.php
+@@ -106,7 +106,7 @@ class WebformTwigExtension extends AbstractExtension {
+    *
+    * @see \Drupal\Core\Utility\Token::replace
+    */
+-  public function webformToken($token, EntityInterface $entity = NULL, array $data = [], array $options = NULL) {
++  public function webformToken($token, ?EntityInterface $entity = NULL, array $data = [], ?array $options = NULL) {
+     $options = $options ?: [];
+ 
+     // Allow the webform_token function to be tested during validation without
+ 

@@ -34,6 +34,21 @@
     },
     "drupal/rollbar": {
       "d.o. #3432364": "patches/3432364-rollbar-vars.patch"
+    },
+    "drupal/google_tag": {
+      "PHP 8.4 nullable parameter compatibility": "patches/google_tag-php84-nullable-params.patch"
+    },
+    "consolidation/config": {
+      "PHP 8.4 nullable parameter compatibility": "patches/consolidation_config-php84-nullable-params.patch"
+    },
+    "consolidation/robo": {
+      "PHP 8.4 nullable parameter compatibility": "patches/consolidation_robo-php84-nullable-params.patch"
+    },
+    "drupal/drupal_test_assertions": {
+      "PHP 8.4 nullable parameter compatibility": "patches/drupal_test_assertions-php84-nullable-params.patch"
+    },
+    "drupal/pathauto": {
+      "PHP 8.4 nullable parameter compatibility": "patches/pathauto-php84-nullable-params.patch"
     }
   }
 }
