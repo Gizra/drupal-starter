@@ -4,10 +4,30 @@
 ## Usage: phpunit [arguments]
 ## Example: "ddev phpunit" or "ddev phpunit web/modules/custom/server_general".
 
+# Function to check if path contains sequential group tests
+needs_sequential() {
+    local path="$1"
+    # Check if path contains tests marked with @group sequential
+    if [[ "$path" =~ (ServerGeneralHomepageCacheTest|ServerGeneralFast404Test|ServerStyleGuidePageTest|ServerGeneralParagraphFormTest) ]]; then
+        return 0
+    fi
+    return 1
+}
+
 if [ $# -eq 0 ]; then
-  # If no arguments are provided, run non-Rollbar tests
-  PHP_MEMORY_LIMIT=2G ./vendor/bin/phpunit -c phpunit.xml.dist --exclude-group=Rollbar
+  # If no arguments are provided, run most tests in parallel, sequential group tests separately
+  echo "Running tests in parallel (excluding sequential group)..."
+  PHP_MEMORY_LIMIT=2G ./vendor/bin/paratest -c phpunit.xml.dist --exclude-group=Rollbar,sequential
+  
+  echo "Running sequential group tests..."
+  PHP_MEMORY_LIMIT=2G ./vendor/bin/phpunit -c phpunit.xml.dist --exclude-group=Rollbar --group=sequential
 else
-  # If arguments are provided, pass them to PHPUnit
-  PHP_MEMORY_LIMIT=2G ./vendor/bin/phpunit -c phpunit.xml.dist "$@"
+  # Check if the path contains sequential tests
+  if needs_sequential "$*"; then
+    echo "Detected sequential tests - running with regular PHPUnit..."
+    PHP_MEMORY_LIMIT=2G ./vendor/bin/phpunit -c phpunit.xml.dist "$@"
+  else
+    echo "Running tests in parallel..."
+    PHP_MEMORY_LIMIT=2G ./vendor/bin/paratest -c phpunit.xml.dist "$@"
+  fi
 fi
