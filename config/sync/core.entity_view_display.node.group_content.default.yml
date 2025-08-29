@@ -1,0 +1,39 @@
+uuid: dff35242-414a-4d79-a47e-39e92edde952
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.group_content.body
+    - field.field.node.group_content.og_audience
+    - node.type.group_content
+  module:
+    - text
+    - user
+id: node.group_content.default
+targetEntityType: node
+bundle: group_content
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+  og_audience:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 101
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true

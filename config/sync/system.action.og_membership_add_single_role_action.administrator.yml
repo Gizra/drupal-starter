@@ -1,0 +1,12 @@
+uuid: f2c8ec90-40f6-46e4-9f20-1d119f979ec3
+langcode: en
+status: true
+dependencies:
+  module:
+    - og
+id: og_membership_add_single_role_action.administrator
+label: 'Add the administrator role to the selected members'
+type: og_membership
+plugin: og_membership_add_single_role_action
+configuration:
+  role_name: administrator
