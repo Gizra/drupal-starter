@@ -98,9 +98,11 @@
         "phpstan/phpstan-deprecation-rules": "^2.0"
     },
     "require-dev": {
+        "ext-posix": "*",
         "behat/mink": "^1.10",
         "behat/mink-browserkit-driver": "^2.1",
         "behat/mink-selenium2-driver": "^1.6",
+        "brianium/paratest": "^6.11",
         "consolidation/robo": "^4",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
         "drupal/cache_review": "1.1.x-dev@dev",
@@ -117,8 +119,7 @@
         "symfony/browser-kit": "^6.3",
         "symfony/phpunit-bridge": "^5.0",
         "totten/lurkerlite": "^1",
-        "weitzman/drupal-test-traits": "^2",
-        "ext-posix": "*"
+        "weitzman/drupal-test-traits": "^2"
     },
     "conflict": {
         "drupal/drupal": "*"

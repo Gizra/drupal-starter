@@ -4,6 +4,8 @@ namespace Drupal\Tests\server_general\ExistingSite;
 
 /**
  * Tests for the Homepage caching.
+ *
+ * @group sequential
  */
 class ServerGeneralHomepageCacheTest extends ServerGeneralTestBase {
 
