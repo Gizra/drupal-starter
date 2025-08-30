@@ -1,0 +1,17 @@
+uuid: 5547321e-7c30-4d4b-b756-05fab803c679
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: Group
+type: group
+description: 'Testing the OG setup.'
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: true

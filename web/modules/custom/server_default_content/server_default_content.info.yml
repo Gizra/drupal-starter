@@ -23,6 +23,8 @@ default_content:
     - e26f40ac-8dc2-4c25-990c-77e45399f09d # Li Europan lingues
     - f1dd02df-ef2f-4cc2-bd41-cf4ff0c34e01 # Current Digital Marketing Is...
     - fdfc2b97-a826-4887-8218-fb3a3add5f72 # Pandemic Moves Education Online
+    # Group
+    - 82b4bef1-5af3-4053-8a89-8fc0d6253153 # Drupal Wows
 
   menu_link_content:
     - 5e0d5c87-84f9-4c98-abaa-d4c2df6eda73 # About

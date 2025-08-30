@@ -1,0 +1,70 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: 82b4bef1-5af3-4053-8a89-8fc0d6253153
+  bundle: group
+  default_langcode: en
+  depends:
+    11318276-1099-48d3-ae54-1e4746558d2e: user
+default:
+  revision_uid:
+    -
+      entity: 11318276-1099-48d3-ae54-1e4746558d2e
+  status:
+    -
+      value: true
+  uid:
+    -
+      entity: 11318276-1099-48d3-ae54-1e4746558d2e
+  title:
+    -
+      value: 'Drupal WOWs'
+  created:
+    -
+      value: 1756448612
+  promote:
+    -
+      value: false
+  sticky:
+    -
+      value: false
+  revision_translation_affected:
+    -
+      value: true
+  metatag:
+    -
+      tag: meta
+      attributes:
+        name: title
+        content: 'Drupal WOWs | Drupal Starter'
+    -
+      tag: meta
+      attributes:
+        name: description
+        content: 'Brief, Concise and short but practical demos of some of the powerful no-code features of Drupal.'
+    -
+      tag: link
+      attributes:
+        rel: canonical
+        href: 'https://drupal-starter.ddev.site:4443/node/12'
+    -
+      tag: meta
+      attributes:
+        property: 'og:title'
+        content: 'Drupal WOWs'
+  path:
+    -
+      alias: ''
+      langcode: en
+      pathauto: 0
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  body:
+    -
+      value: '<p><span>Brief, Concise and short but practical demos of some of the powerful no-code features of Drupal.</span></p>'
+      format: basic_html
+      summary: ''
