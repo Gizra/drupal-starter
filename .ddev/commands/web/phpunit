@@ -23,11 +23,17 @@ has_group_filter() {
     return 1
 }
 
-# Function to ensure Rollbar group is always excluded
+# Function to ensure Rollbar group is excluded unless explicitly requested
 ensure_rollbar_excluded() {
     local args="$*"
     local result=""
     
+    # If user explicitly wants Rollbar tests, don't exclude them
+    if [[ "$args" =~ --group=.*Rollbar ]]; then
+        echo "$args"
+        return
+    fi
+
     # If there's already an --exclude-group, append Rollbar to it
     if [[ "$args" =~ --exclude-group=([^[:space:]]+) ]]; then
         local existing_groups="${BASH_REMATCH[1]}"
