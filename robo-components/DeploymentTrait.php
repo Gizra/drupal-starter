@@ -371,7 +371,6 @@ trait DeploymentTrait {
       }
     }
     $commit_message = escapeshellarg($commit_message);
-    $commit_message = escapeshellarg($commit_message);
     $result = $this->taskExecStack()
       ->dir('.pantheon')
       ->exec('git pull --ff-only')
