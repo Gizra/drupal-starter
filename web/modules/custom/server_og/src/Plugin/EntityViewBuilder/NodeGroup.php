@@ -1,4 +1,3 @@
-
 <?php
 
 namespace Drupal\server_og\Plugin\EntityViewBuilder;
@@ -7,7 +6,7 @@ use Drupal\Core\Url;
 use Drupal\node\NodeInterface;
 use Drupal\og\Og;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
-use Drupal\pluggable_entity_view_builder_example\ProcessedTextBuilderTrait;
+use Drupal\server_general\ProcessedTextBuilderTrait;
 
 /**
  * The "Node Group" plugin.
