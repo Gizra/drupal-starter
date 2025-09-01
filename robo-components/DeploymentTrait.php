@@ -371,8 +371,17 @@ trait DeploymentTrait {
       }
     }
     $commit_message = escapeshellarg($commit_message);
-    $result = $this->taskExec("cd $pantheon_directory && git pull --ff-only && git pull && git add . && git commit -am $commit_message && git push")
-      ->printOutput(FALSE)
+    $commit_message = escapeshellarg($commit_message);
+    $result = $this->taskExecStack()
+      ->dir('.pantheon')
+      ->exec('git pull --ff-only')
+      ->exec('git pull')
+      ->exec('git add .')
+      ->exec("git commit -qam $commit_message")
+      ->exec("git push --verbose origin HEAD:$branch_name")
+      ->printOutput(TRUE)
+      ->printMetadata(TRUE)
+      ->stopOnFail()
       ->run();
 
     // We want to halt the deployment only where the commit push failed while
