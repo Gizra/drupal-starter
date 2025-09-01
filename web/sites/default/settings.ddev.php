@@ -120,3 +120,7 @@ require __DIR__ . '/../bot_trap_protection.php';
 
 // Disable CrowdSec's "whisper" locally. So one doesn't get blocked locally, or PHPUnit can work well.
 $config['crowdsec.settings']['whisper']['enable'] = 0;
+
+$settings['cache']['bins']['render'] = 'cache.backend.null';
+$settings['cache']['bins']['page'] = 'cache.backend.null';
+$settings['cache']['bins']['dynamic_page_cache'] = 'cache.backend.null';

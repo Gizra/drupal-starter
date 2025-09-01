@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * @file
+ * server_og.module
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function server_og_theme($existing, $type, $theme, $path) {
+  return [
+    'server_og_subscribe_prompt' => [
+      'variables' => [
+        'name'  => NULL,
+        'label' => NULL,
+        'url'   => NULL,
+      ],
+    ],
+  ];
+}

@@ -61,6 +61,7 @@
         "drupal/migrate_plus": "^6.0",
         "drupal/migrate_source_csv": "^3.4",
         "drupal/migrate_tools": "^6.0",
+        "drupal/og": "^2.0@alpha",
         "drupal/pantheon_advanced_page_cache": "^2.2",
         "drupal/paragraphs": "^1.17",
         "drupal/paragraphs_edit": "^3.0",
@@ -98,6 +99,7 @@
         "phpstan/phpstan-deprecation-rules": "^2.0"
     },
     "require-dev": {
+        "ext-posix": "*",
         "behat/mink": "^1.10",
         "behat/mink-browserkit-driver": "^2.1",
         "behat/mink-selenium2-driver": "^1.6",
@@ -105,7 +107,7 @@
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
         "drupal/cache_review": "1.1.x-dev@dev",
         "drupal/coder": "^8.3.1",
-        "drupal/devel": "^5",
+        "drupal/devel": "^5.4",
         "drupal/drupal_test_assertions": "1.0.x-dev",
         "drupal/potx": "^1.0@alpha",
         "gettext/gettext": "^5.7",
@@ -117,8 +119,7 @@
         "symfony/browser-kit": "^6.3",
         "symfony/phpunit-bridge": "^5.0",
         "totten/lurkerlite": "^1",
-        "weitzman/drupal-test-traits": "^2",
-        "ext-posix": "*"
+        "weitzman/drupal-test-traits": "^2"
     },
     "conflict": {
         "drupal/drupal": "*"

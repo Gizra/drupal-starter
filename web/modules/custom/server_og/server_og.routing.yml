@@ -1,0 +1,8 @@
+server_og.group_join:
+  path: '/server-og/group/{node}/join'
+  defaults:
+    _controller: '\Drupal\server_og\Controller\JoinGroupController::join'
+    _title: 'Join group'
+  requirements:
+    _permission: 'access content'
+    node: '\d+'
