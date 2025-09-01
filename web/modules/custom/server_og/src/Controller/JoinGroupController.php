@@ -1,4 +1,3 @@
-
 <?php
 
 namespace Drupal\server_og\Controller;
