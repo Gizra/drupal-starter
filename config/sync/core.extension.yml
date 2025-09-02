@@ -66,6 +66,7 @@ module:
   navigation: 0
   node: 0
   og: 0
+  og_entity_view_builder: 0
   og_ui: 0
   options: 0
   page_cache: 0

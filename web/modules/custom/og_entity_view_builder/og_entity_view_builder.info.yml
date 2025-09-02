@@ -1,0 +1,8 @@
+name: 'Organic Group Pluggable Entity View Builder'
+type: module
+description: 'Pluggable Entity View Builders for the Organic Group module.'
+package: Pluggable entity view builder
+core_version_requirement: ^10 || ^11
+dependencies:
+  - og:og
+  - pluggable_entity_view_builder:pluggable_entity_view_builder
