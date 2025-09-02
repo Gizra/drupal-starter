@@ -1,0 +1,17 @@
+uuid: 43e81072-2121-4d01-832d-50c2386a367b
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: Group
+type: group
+description: 'Use <em>group</em> to create and manage collaborative groups.'
+help: null
+new_revision: false
+preview_mode: 1
+display_submitted: false

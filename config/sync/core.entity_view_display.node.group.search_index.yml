@@ -1,0 +1,39 @@
+uuid: a06290fc-e376-489d-b05e-bcacaf4c1934
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.search_index
+    - field.field.node.group.field_body
+    - node.type.group
+  module:
+    - og
+    - text
+    - user
+id: node.group.search_index
+targetEntityType: node
+bundle: group
+mode: search_index
+content:
+  field_body:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+  og_group:
+    type: og_group_subscribe
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true

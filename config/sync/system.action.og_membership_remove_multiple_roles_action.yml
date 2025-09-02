@@ -1,0 +1,13 @@
+uuid: 3d14a74d-194b-47a5-ad43-2c6b7886bf6a
+langcode: en
+status: true
+dependencies:
+  module:
+    - og
+_core:
+  default_config_hash: XqO143YCbRvYollUSUotKIvNcda297WFaE49W1Sj-JQ
+id: og_membership_remove_multiple_roles_action
+label: 'Remove roles from the selected membership(s)'
+type: og_membership
+plugin: og_membership_remove_multiple_roles_action
+configuration: {  }

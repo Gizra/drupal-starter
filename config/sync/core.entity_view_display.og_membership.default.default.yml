@@ -1,0 +1,40 @@
+uuid: b1b81119-76c9-420b-a24d-1476a8bd81a8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.og_membership.default.og_membership_request
+    - og.og_membership_type.default
+_core:
+  default_config_hash: r5MkeMCbHwjFOHTONcs9jfJpNnABMJzdUJC_X9GQ-yA
+id: og_membership.default.default
+targetEntityType: og_membership
+bundle: default
+mode: default
+content:
+  og_membership_request:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  roles:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  uid:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true
+  state: true

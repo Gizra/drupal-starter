@@ -1,0 +1,16 @@
+uuid: ea8cab01-57f1-4b34-b1c8-69c8f09aeae2
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.group
+id: node-group-non-member
+label: Non-member
+weight: 0
+group_id: null
+group_type: node
+group_bundle: group
+is_admin: false
+permissions:
+  - subscribe
+role_type: required

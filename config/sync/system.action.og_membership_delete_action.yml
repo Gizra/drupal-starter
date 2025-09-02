@@ -1,0 +1,13 @@
+uuid: a76d4b60-e8e9-47cd-8fc5-d0c3518d75b2
+langcode: en
+status: true
+dependencies:
+  module:
+    - og
+_core:
+  default_config_hash: c2cdFgKVnpj_-UgkW-CcUExF0RFxrvFr0prqGRpL2V0
+id: og_membership_delete_action
+label: 'Delete the selected membership(s)'
+type: og_membership
+plugin: og_membership_delete_action
+configuration: {  }
