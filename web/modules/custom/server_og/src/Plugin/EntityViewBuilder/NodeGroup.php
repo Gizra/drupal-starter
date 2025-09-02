@@ -46,22 +46,21 @@ final class NodeGroup extends EntityViewBuilderPluginAbstract {
       return $build;
     }
 
+    // @todo: Add DI.
     $membership_manager = \Drupal::service('og.membership_manager');
-    $is_member = $membership_manager->isMember($entity, $current_user);
-
-    if (!$is_member) {
+    // If authenticated user is NOT member of OG then show link to subscribe.
+    if (!$membership_manager->isMember($entity, $current_user)) {
       // Build subscribe prompt.
       $join_url = Url::fromRoute('server_og.group_join', [
         'node' => $entity->id(),
       ], ['query' => ['destination' => \Drupal::service('path.current')->getPath()]]);
 
       $build['og_subscribe_prompt'] = [
-        '#theme'  => 'server_og_subscribe_prompt',
-        '#name'   => $current_user->getDisplayName(),
-        '#label'  => $entity->label(),
-        '#url'    => $join_url->toString(),
-        '#weight' => -1000,
-        '#cache'  => ['contexts' => ['user'], 'tags' => $entity->getCacheTags()],
+        '#theme' => 'server_og_subscribe_prompt',
+        '#name' => $current_user->getDisplayName(),
+        '#label' => $entity->label(),
+        '#url' => $join_url->toString(),
+        '#cache' => ['contexts' => ['user'], 'tags' => $entity->getCacheTags()],
       ];
 
     }
