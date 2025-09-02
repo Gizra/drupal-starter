@@ -6,7 +6,6 @@ use Drupal\Core\Url;
 use Drupal\node\NodeInterface;
 use Drupal\og\Og;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
-use Drupal\pluggable_entity_view_builder_example\ProcessedTextBuilderTrait;
 
 /**
  * The "Node Group" plugin.
@@ -19,8 +18,6 @@ use Drupal\pluggable_entity_view_builder_example\ProcessedTextBuilderTrait;
  */
 final class NodeGroup extends EntityViewBuilderPluginAbstract {
 
-  use ProcessedTextBuilderTrait;
-
   /**
    * Build full view mode.
    */
@@ -30,7 +27,8 @@ final class NodeGroup extends EntityViewBuilderPluginAbstract {
     // Only for OG groups.
     if (!Og::isGroup($entity->getEntityTypeId(), $entity->bundle())) {
       // Not a group: render normally.
-      $build[] = $this->buildProcessedText($entity);
+      // @todo: implement methods for rendering the rest of the fields.
+      $build[] = ['#markup' => $entity->label()];
       return $build;
     }
 
