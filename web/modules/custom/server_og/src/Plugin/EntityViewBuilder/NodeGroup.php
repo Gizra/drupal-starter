@@ -23,25 +23,18 @@ final class NodeGroup extends EntityViewBuilderPluginAbstract {
    */
   public function buildFull(array $build, NodeInterface $entity): array {
 
-    $current_user = \Drupal::currentUser();
-
-    // Only for OG groups.
+    // Only allow if OG content.
     if (!Og::isGroup($entity->getEntityTypeId(), $entity->bundle())) {
-      // Not a group: render normally.
-      // @todo: implement methods for rendering the rest of the fields.
-      $build[] = ['#markup' => $entity->label()];
       return $build;
     }
+
+    // @todo: Add DI.
+    $current_user = \Drupal::currentUser();
 
     // Anonymous: only invite to subscribe (no body).
     if ($current_user->isAnonymous()) {
       $build['og_subscribe_prompt'] = [
         '#markup' => $this->t('You must be an authenticated user and be in this group to view the content.'),
-        '#weight' => -1000,
-        '#cache' => [
-          'contexts' => ['user'],
-          'tags' => $entity->getCacheTags(),
-        ],
       ];
       return $build;
     }
@@ -60,9 +53,14 @@ final class NodeGroup extends EntityViewBuilderPluginAbstract {
         '#name' => $current_user->getDisplayName(),
         '#label' => $entity->label(),
         '#url' => $join_url->toString(),
-        '#cache' => ['contexts' => ['user'], 'tags' => $entity->getCacheTags()],
       ];
 
+    }
+    // If it is a member then show the rest of the fields.
+    else {
+      // @todo: implement methods for rendering the rest of the fields.
+      $build[] = ['#markup' => $entity->label()];
+      return $build;
     }
     return $build;
   }
