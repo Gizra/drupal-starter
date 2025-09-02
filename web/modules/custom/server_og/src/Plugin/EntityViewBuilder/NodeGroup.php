@@ -22,6 +22,7 @@ final class NodeGroup extends EntityViewBuilderPluginAbstract {
    * Build full view mode.
    */
   public function buildFull(array $build, NodeInterface $entity): array {
+
     $current_user = \Drupal::currentUser();
 
     // Only for OG groups.
@@ -35,7 +36,7 @@ final class NodeGroup extends EntityViewBuilderPluginAbstract {
     // Anonymous: only invite to subscribe (no body).
     if ($current_user->isAnonymous()) {
       $build['og_subscribe_prompt'] = [
-        '#markup' => $this->t('You must be an authenticated user and be in this group ' . $entity->label() . ' to view the content.'),
+        '#markup' => $this->t('You must be an authenticated user and be in this group to view the content.'),
         '#weight' => -1000,
         '#cache' => [
           'contexts' => ['user'],
@@ -49,7 +50,7 @@ final class NodeGroup extends EntityViewBuilderPluginAbstract {
     $is_member = $membership_manager->isMember($entity, $current_user);
 
     if (!$is_member) {
-      // Build subscribe prompt….
+      // Build subscribe prompt.
       $join_url = Url::fromRoute('server_og.group_join', [
         'node' => $entity->id(),
       ], ['query' => ['destination' => \Drupal::service('path.current')->getPath()]]);
@@ -63,10 +64,7 @@ final class NodeGroup extends EntityViewBuilderPluginAbstract {
         '#cache'  => ['contexts' => ['user'], 'tags' => $entity->getCacheTags()],
       ];
 
-      return $build;
     }
-
-    $build[] = $this->buildProcessedText($entity);
     return $build;
   }
 
