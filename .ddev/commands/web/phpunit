@@ -8,7 +8,7 @@
 needs_sequential() {
     local path="$1"
     # Check if path contains tests marked with @group sequential
-    if [[ "$path" =~ (ServerGeneralHomepageCacheTest|ServerGeneralFast404Test|ServerStyleGuidePageTest|ServerGeneralParagraphFormTest) ]]; then
+    if grep -q $'@group[[:space:]]\+sequential' "$path" 2>/dev/null; then
         return 0
     fi
     return 1
