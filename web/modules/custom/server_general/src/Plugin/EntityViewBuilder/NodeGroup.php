@@ -98,7 +98,7 @@ class NodeGroup extends NodeViewBuilderAbstract {
 
     $user_id = $this->account->id();
     if ($entity->getOwnerId() == $user_id) {
-      $element = $this->wrapTextItalic($this->t('You are the group manager'));
+      $element = $this->wrapTextItalic($this->t('You are the group manager.'));
       $build[] = $this->buildElementNodeGroup($entity, $element, $elements);
       return $build;
     }
@@ -126,11 +126,11 @@ class NodeGroup extends NodeViewBuilderAbstract {
       ];
       $url = Url::fromRoute('og.unsubscribe', $parameters);
 
-      $content = 'Hi {{ name }}, You are member of this group. {{ link }} to unsubscribe.';
+      $content = 'Hi {{ name }}, You are member of this group. Click {{ link }} to unsubscribe.';
       $context = [
         'name' => $this->account->getDisplayName(),
       ];
-      $link_text = $this->t('Click here');
+      $link_text = $this->t('here');
       $element = $this->buildElementGroupText($content, $url, $link_text, $context);
     }
     else {
@@ -148,12 +148,12 @@ class NodeGroup extends NodeViewBuilderAbstract {
             'og_membership_type' => OgMembershipInterface::TYPE_DEFAULT,
           ];
           $url = Url::fromRoute('og.subscribe', $parameters);
-          $content = 'Hi {{ name }}, {{ link }} if you would like to subscribe to this group called {{ label }}.';
+          $content = 'Hi {{ name }}, click {{ link }} if you would like to subscribe to this group called {{ label }}.';
           $context = [
             'name' => $this->account->getDisplayName(),
             'label' => $group_label,
           ];
-          $link_text = $this->t('click here');
+          $link_text = $this->t('here');
           $element = $this->buildElementGroupText($content, $url, $link_text, $context);
         }
       }
