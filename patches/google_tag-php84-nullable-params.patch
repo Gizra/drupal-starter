@@ -1,0 +1,13 @@
+diff --git a/src/Entity/TagContainer.php b/src/Entity/TagContainer.php
+index 1234567..abcdefg 100644
+--- a/src/Entity/TagContainer.php
++++ b/src/Entity/TagContainer.php
+@@ -185,7 +185,7 @@ class TagContainer extends ConfigEntityBase implements TagContainerInterface {
+    * @return array
+    *   Gtm settings.
+    */
+-  public function getGtmSettings(string $gtmid = NULL): array {
++  public function getGtmSettings(?string $gtmid = NULL): array {
+     // Choose first gtmID if none was supplied.
+     $gtmid = $gtmid ?? $this->getGtmId();
+ 

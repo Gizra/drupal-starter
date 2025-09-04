@@ -1,0 +1,13 @@
+diff --git a/tests/src/Assertions/EntityTrait.php b/tests/src/Assertions/EntityTrait.php
+index 1234567..abcdefg 100644
+--- a/tests/src/Assertions/EntityTrait.php
++++ b/tests/src/Assertions/EntityTrait.php
+@@ -10,7 +10,7 @@ trait EntityTrait {
+   /**
+    * Asserts an entity with a specific bundle exists.
+    */
+-  public function assertEntityExists(string $entity_type, string $bundle = NULL) {
++  public function assertEntityExists(string $entity_type, ?string $bundle = NULL) {
+     $bundles = \Drupal::service('entity_type.bundle.info')->getBundleInfo($entity_type);
+ 
+     $bundle = $bundle ?? $entity_type;
