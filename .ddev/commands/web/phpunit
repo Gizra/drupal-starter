@@ -4,10 +4,74 @@
 ## Usage: phpunit [arguments]
 ## Example: "ddev phpunit" or "ddev phpunit web/modules/custom/server_general".
 
+# Function to check if path contains sequential group tests
+needs_sequential() {
+    local path="$1"
+    # Check if path contains tests marked with @group sequential
+    if grep -q $'@group[[:space:]]\+sequential' "$path" 2>/dev/null; then
+        return 0
+    fi
+    return 1
+}
+
+# Function to check if arguments contain group-related options
+has_group_filter() {
+    local args="$*"
+    if [[ "$args" =~ --group=|--exclude-group= ]]; then
+        return 0
+    fi
+    return 1
+}
+
+# Function to ensure Rollbar group is excluded unless explicitly requested
+ensure_rollbar_excluded() {
+    local args="$*"
+    local result=""
+    
+    # If user explicitly wants Rollbar tests, don't exclude them
+    if [[ "$args" =~ --group=.*Rollbar ]]; then
+        echo "$args"
+        return
+    fi
+
+    # If there's already an --exclude-group, append Rollbar to it
+    if [[ "$args" =~ --exclude-group=([^[:space:]]+) ]]; then
+        local existing_groups="${BASH_REMATCH[1]}"
+        # Only add Rollbar if it's not already in the list
+        if [[ ! "$existing_groups" =~ Rollbar ]]; then
+            result=$(echo "$args" | sed "s/--exclude-group=$existing_groups/--exclude-group=$existing_groups,Rollbar/")
+        else
+            result="$args"
+        fi
+    else
+        # Add --exclude-group=Rollbar if no exclude-group exists
+        result="$args --exclude-group=Rollbar"
+    fi
+    
+    echo "$result"
+}
+
 if [ $# -eq 0 ]; then
-  # If no arguments are provided, run non-Rollbar tests
-  PHP_MEMORY_LIMIT=2G ./vendor/bin/phpunit -c phpunit.xml.dist --exclude-group=Rollbar
+  # If no arguments are provided, run most tests in parallel, sequential group tests separately
+  echo "Running tests in parallel (excluding sequential group)..."
+  PHP_MEMORY_LIMIT=2G ./vendor/bin/paratest -c phpunit.xml.dist --exclude-group=Rollbar,sequential
+  
+  echo "Running sequential group tests..."
+  PHP_MEMORY_LIMIT=2G ./vendor/bin/phpunit -c phpunit.xml.dist --exclude-group=Rollbar --group=sequential
 else
-  # If arguments are provided, pass them to PHPUnit
-  PHP_MEMORY_LIMIT=2G ./vendor/bin/phpunit -c phpunit.xml.dist "$@"
+  # Ensure Rollbar is always excluded
+  ARGS=$(ensure_rollbar_excluded "$*")
+  
+  # Check if we have group filters - if so, we might need to handle sequential tests differently
+  if has_group_filter "$ARGS"; then
+    # If user specified groups, respect their choice and run with phpunit to be safe
+    echo "Group filters detected - running with PHPUnit..."
+    PHP_MEMORY_LIMIT=2G ./vendor/bin/phpunit -c phpunit.xml.dist $ARGS
+  elif needs_sequential "$*"; then
+    echo "Detected sequential tests - running with regular PHPUnit..."
+    PHP_MEMORY_LIMIT=2G ./vendor/bin/phpunit -c phpunit.xml.dist $ARGS
+  else
+    echo "Running tests in parallel..."
+    PHP_MEMORY_LIMIT=2G ./vendor/bin/paratest -c phpunit.xml.dist $ARGS
+  fi
 fi
