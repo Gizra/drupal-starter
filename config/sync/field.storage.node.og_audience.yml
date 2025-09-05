@@ -1,0 +1,20 @@
+uuid: ce2c6f61-df4c-47ba-9aac-005c095b5bda
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - og
+id: node.og_audience
+field_name: og_audience
+entity_type: node
+type: og_standard_reference
+settings:
+  target_type: og_membership
+module: og
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

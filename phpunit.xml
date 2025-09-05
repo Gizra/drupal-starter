@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+         bootstrap="web/core/tests/bootstrap.php"
+         colors="true"
+         beStrictAboutTestsThatDoNotTestAnything="false"
+         beStrictAboutOutputDuringTests="false"
+         beStrictAboutChangesToGlobalState="false"
+         failOnWarning="false">
+  <testsuites>
+    <testsuite name="existing-site">
+      <directory>web/modules/custom/server_general/tests/src/ExistingSite</directory>
+    </testsuite>
+  </testsuites>
+  <php>
+    <ini name="error_reporting" value="32767"/>
+    <ini name="memory_limit" value="-1"/>
+    <env name="SIMPLETEST_BASE_URL" value="https://drupal-starter.ddev.site"/>
+    <env name="SIMPLETEST_DB" value="mysql://db:db@db/db"/>
+    <env name="BROWSERTEST_OUTPUT_DIRECTORY" value="/tmp"/>
+  </php>
+</phpunit>

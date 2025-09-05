@@ -1,0 +1,7 @@
+server_general.group_subscribe:
+  path: '/group/{node}/subscribe'
+  defaults:
+    _controller: '\Drupal\server_general\Controller\GroupSubscribeController::subscribe'
+  requirements:
+    _permission: 'access content'
+    node: \d+
