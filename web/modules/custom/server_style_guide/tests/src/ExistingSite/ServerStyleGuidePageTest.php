@@ -7,8 +7,6 @@ use weitzman\DrupalTestTraits\ExistingSiteBase;
 
 /**
  * A test case to test the Style Guide.
- *
- * @group sequential
  */
 class ServerStyleGuidePageTest extends ExistingSiteBase {
 
