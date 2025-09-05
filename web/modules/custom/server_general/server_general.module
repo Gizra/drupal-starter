@@ -353,3 +353,68 @@ function server_general_preprocess_media_oembed_iframe(array &$variables) {
     $variables['media'] = IFrameMarkup::create(str_replace('youtube.com/', 'youtube-nocookie.com/', $variables['media']));
   }
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter() for language_content_settings_form().
+ *
+ * When admin visits the content translation settings page, the following code
+ * will enable the translations for any newly created paragraphs.
+ */
+function server_general_form_language_content_settings_form_alter(array &$form, FormStateInterface $form_state) {
+  if (empty($form['settings']['paragraph'])) {
+    return;
+  }
+
+  $entity_definition_update_manager = \Drupal::entityDefinitionUpdateManager();
+  $logger = \Drupal::logger('server_general');
+
+  foreach ($form['settings']['paragraph'] as $para_type => $paragraph_element) {
+    if (!is_array($paragraph_element) || empty($paragraph_element['translatable']) || $paragraph_element['translatable']['#type'] !== 'checkbox') {
+      continue;
+    }
+
+    // Proceed only if this is a newly created paragraph and thus there's no
+    // translation config for the paragraph yet.
+    // We do this by checking for existence of the translation config.
+    // We don't use \Drupal::service('content_translation.manager')->isEnabled()
+    // because it returns FALSE for both the following cases:
+    // 1. An entity bundle where translation has been disabled intentionally.
+    // 2. An entity bundle where translation has not been configured yet.
+    $translation_config = \Drupal::configFactory()->get("language.content_settings.paragraph.{$para_type}");
+    if (!empty($translation_config->getRawData())) {
+      continue;
+    }
+
+    // Check the box to make the paragraph translatable.
+    $form['settings']['paragraph'][$para_type]['translatable']['# '] = TRUE;
+
+    // Check the boxes to make the fields translatable.
+    foreach ($paragraph_element['fields'] as $field_name => $field_element) {
+      // Uncheck the 'status' & 'created' fields.
+      if (in_array($field_name, ['status', 'created'])) {
+        $form['settings']['paragraph'][$para_type]['fields'][$field_name]['#default_value'] = FALSE;
+        continue;
+      }
+
+      // Skip if not a valid field.
+      $field_definition = $entity_definition_update_manager->getFieldStorageDefinition($field_name, 'paragraph');
+      if (empty($field_definition)) {
+        $logger->error('Field %field_name does not exist in paragraph type %paragraph_type.', [
+          '%field_name' => $field_name,
+          '%paragraph_type' => $para_type,
+        ]);
+        continue;
+      }
+
+      // Uncheck any paragraph reference fields.
+      // @see https://www.drupal.org/docs/contributed-modules/paragraphs/multilingual-paragraphs-configuration.
+      if ($field_definition->getType() == 'entity_reference_revisions') {
+        $form['settings']['paragraph'][$para_type]['fields'][$field_name]['#default_value'] = FALSE;
+        continue;
+      }
+
+      // Check all other fields.
+      $form['settings']['paragraph'][$para_type]['fields'][$field_name]['#default_value'] = TRUE;
+    }
+  }
+}
