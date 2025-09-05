@@ -37,7 +37,7 @@ trait InnerElementLayoutThemeTrait {
     return [
       '#theme' => 'server_theme_inner_element_layout',
       '#items' => $this->wrapContainerVerticalSpacing($items),
-      '#bg_color' => $bg_color,
+      '#bg_color' => $bg_color->value,
     ];
   }
 
