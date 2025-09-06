@@ -38,6 +38,10 @@ jobs:
 
     - stage: Lint
       name: Drupal coding standard
+      addons:
+        apt:
+          packages:
+            - parallel
       script:
         - composer install || travis_terminate 1;
         - vendor/bin/robo phpcs || travis_terminate 1;
