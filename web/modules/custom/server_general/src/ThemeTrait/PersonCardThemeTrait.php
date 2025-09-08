@@ -1,29 +1,26 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\server_general\ThemeTrait;
 
 /**
- * Helper methods for rendering Hero elements.
+ * Provides helper methods for rendering Person Cards elements.
  */
 trait PersonCardThemeTrait {
 
   use ElementWrapThemeTrait;
 
   /**
-   * Build Person cards.
+   * Build a group of Person cards with a title and body.
    *
    * @param string $title
-   *   The title.
+   *   The section title.
    * @param array $body
-   *   The body render array.
+   *   A render array.
    * @param array $items
-   *   The render array built with
-   *   `ElementLayoutThemeTrait::buildElementLayoutTitleBodyAndItems`.
+   *   An array of Person Cards render arrays.
    *
    * @return array
-   *   The render array.
+   *   A render array representing the full Person Cards section.
    */
   protected function buildElementPersonCards(string $title, array $body, array $items): array {
     return $this->buildElementLayoutTitleBodyAndItems(
@@ -34,30 +31,31 @@ trait PersonCardThemeTrait {
   }
 
   /**
-   * Build a Person card.
+   * Build a single Person card.
    *
    * @param string $image_url
-   *   The URL of the image.
-   * @param string $title
-   *   The title.
-   * @param string $subtitle
-   *   The subtitle.
+   *   The URL of the profile image.
+   * @param string $name
+   *   The person’s title.
+   * @param string $role
+   *   The role of teh person.
+   * @param string $label
+   *   A label to display as a badge.
    * @param string|null $email
-   *   The email address.
-   *   If NULL, href will be empty. Defaults to NULL.
+   *   The email address. If NULL, the email button will not have an href.
    * @param string|null $phone
-   *   The phone number.
-   *   If NULL, href will be empty. Defaults to NULL.
+   *   The phone number. If NULL, the call button will not have an href.
    *
    * @return array
    *   Render array.
    */
-  protected function buildElementPersonCard(string $image_url, string $title, string $subtitle, ?string $email = NULL, ?string $phone = NULL): array {
+  protected function buildElementPersonCard(string $image_url, string $name, string $role, string $label, ?string $email = NULL, ?string $phone = NULL): array {
     return [
-      '#theme' => 'server_theme_element__person_card',
+      '#theme' => 'server_theme_element__person_cards',
       '#image_url' => $image_url,
-      '#title' => $title,
-      '#subtitle' => $subtitle,
+      '#name' => $name,
+      '#role' => $role,
+      '#label' => $label,
       '#email' => $email,
       '#phone' => $phone,
     ];

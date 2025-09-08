@@ -194,9 +194,6 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getPeopleTeasers();
     $build[] = $this->wrapElementNoContainer($element, 'Element: People teasers');
 
-    $element = $this->getPersonCard();
-    $build[] = $this->wrapElementWideContainer($element, 'Element: Person card');
-
     $element = $this->getPersonCards();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Person cards');
 
@@ -304,49 +301,53 @@ class StyleGuideController extends ControllerBase {
   }
 
   /**
-   * Get Person card element.
+   * Builds a render array of 10 sample Person cards.
+   *
+   * Each card contains:
+   * - A image.
+   * - A name.
+   * - A role.
+   * - A label.
+   *
+   * The cards are wrapped in a container element that includes:
+   * - A random title generated.
+   * - A processed text description.
+   * - The 10 Person cards items.
    *
    * @return array
-   *   Render array.
-   */
-  protected function getPersonCard(): array {
-    return $this->buildElementPersonCard(
-      $this->getPlaceholderPersonImage(100),
-      "Jane Cooper",
-      "Paradigm Representative"
-    );
-  }
-
-  /**
-   * Get 10 Person card elements.
-   *
-   * @return array
-   *   Render array.
+   *   A render array suitable for output in Drupal, representing
+   *   a responsive list of 10 Person cards.
    */
   protected function getPersonCards(): array {
     $items = [];
 
+    // List of names for the element.
     $names = [
       'Jon Doe',
       'Smith Allen',
       'David Bowie',
       'Rick Morty',
-      'Jon Doe',
-      'Smith Allen',
-      'David Bowie',
-      'Rick Morty',
-      'Jon Doe',
-      'Smith Allen',
+      'Ethan Walker',
+      'Olivia Johnson',
+      'Ava Thompson',
+      'James Wilson',
+      'Harper Brown',
+      'Sofía Mi',
     ];
 
+    // Build one Person card per name.
     foreach ($names as $name) {
       $items[] = $this->buildElementPersonCard(
         $this->getPlaceholderPersonImage(100),
         $name,
-        "Paradigm Representative"
+        "Paradigm Representative",
+        "Admin",
+        "user@example.com",
+        "963258741"
       );
     }
 
+    // Wrap all Person cards in a section.
     return $this->buildElementPersonCards(
       $this->getRandomTitle(),
       $this->buildProcessedText('List of 10 Person cards, which is responsive'),

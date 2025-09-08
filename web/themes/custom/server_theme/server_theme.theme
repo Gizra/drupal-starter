@@ -511,12 +511,13 @@ function server_theme_theme() {
     'variables' => [],
   ];
 
-  // Person card.
-  $info['server_theme_element__person_card'] = [
+  // Person cards.
+  $info['server_theme_element__person_cards'] = [
     'variables' => [
       'image_url' => NULL,
-      'title' => NULL,
-      'subtitle' => NULL,
+      'name' => NULL,
+      'role' => NULL,
+      'label' => NULL,
       'email' => NULL,
       'phone' => NULL,
     ],
