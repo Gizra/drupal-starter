@@ -1,0 +1,6 @@
+name: Server Group
+type: module
+description: Provides server group functionality.
+core_version_requirement: ^10 || ^11
+package: server
+version: 1.0.0
