@@ -26,6 +26,7 @@ use Drupal\server_general\ThemeTrait\InfoCardThemeTrait;
 use Drupal\server_general\ThemeTrait\LinkThemeTrait;
 use Drupal\server_general\ThemeTrait\NewsTeasersThemeTrait;
 use Drupal\server_general\ThemeTrait\PeopleTeasersThemeTrait;
+use Drupal\server_general\ThemeTrait\PersonCardThemeTrait;
 use Drupal\server_general\ThemeTrait\QuickLinksThemeTrait;
 use Drupal\server_general\ThemeTrait\QuoteThemeTrait;
 use Drupal\server_general\ThemeTrait\SearchThemeTrait;
@@ -58,6 +59,7 @@ class StyleGuideController extends ControllerBase {
   use LinkThemeTrait;
   use NewsTeasersThemeTrait;
   use PeopleTeasersThemeTrait;
+  use PersonCardThemeTrait;
   use QuickLinksThemeTrait;
   use QuoteThemeTrait;
   use SearchThemeTrait;
@@ -192,6 +194,12 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getPeopleTeasers();
     $build[] = $this->wrapElementNoContainer($element, 'Element: People teasers');
 
+    $element = $this->getPersonCard();
+    $build[] = $this->wrapElementWideContainer($element, 'Element: Person card');
+
+    $element = $this->getPersonCards();
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Person cards');
+
     $element = $this->getQuote();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Quote');
 
@@ -291,6 +299,57 @@ class StyleGuideController extends ControllerBase {
     return $this->buildElementPeopleTeasers(
       $this->getRandomTitle(),
       $this->buildProcessedText('This is a directory list of awesome people'),
+      $items,
+    );
+  }
+
+  /**
+   * Get Person card element.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getPersonCard(): array {
+    return $this->buildElementPersonCard(
+      $this->getPlaceholderPersonImage(100),
+      "Jane Cooper",
+      "Paradigm Representative"
+    );
+  }
+
+  /**
+   * Get 10 Person card elements.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getPersonCards(): array {
+    $items = [];
+
+    $names = [
+      'Jon Doe',
+      'Smith Allen',
+      'David Bowie',
+      'Rick Morty',
+      'Jon Doe',
+      'Smith Allen',
+      'David Bowie',
+      'Rick Morty',
+      'Jon Doe',
+      'Smith Allen',
+    ];
+
+    foreach ($names as $name) {
+      $items[] = $this->buildElementPersonCard(
+        $this->getPlaceholderPersonImage(100),
+        $name,
+        "Paradigm Representative"
+      );
+    }
+
+    return $this->buildElementPersonCards(
+      $this->getRandomTitle(),
+      $this->buildProcessedText('List of 10 Person cards, which is responsive'),
       $items,
     );
   }

@@ -1,0 +1,35 @@
+<div class="max-w-sm min-h-[360px] pt-8 h-full w-full bg-white rounded-xl shadow-xl text-center  flex flex-col items-center  gap-7 ">
+  <div class="image">
+    <img class="w-24 h-24 mx-auto rounded-full object-cover"
+    src="{{ image_url }}"
+    alt="{{ title }}">
+  </div>
+
+  <div class="content flex flex-col gap-2 mt-2 items-center">
+    <h3 class="mt-4 text-lg font-semibold text-[#111827]">{{ title }}</h3>
+    <p class="text-sm text-[#6B7280]">{{ subtitle }}</p>
+    <span class="inline-block mt-2 w-fit px-3 py-1 text-xs font-medium text-[#065F46] bg-green-100 rounded-full">
+      Admin
+    </span>
+  </div>
+
+  <div class="w-full border-t border-gray-200">
+    <div class=" w-full flex items-center justify-between gap-5">
+      <a href="mailto:{{ email }}"
+        class="w-full flex items-center justify-center gap-2 py-3 text-gray-600 hover:bg-gray-50 rounded-lg">
+        <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2.753 5.884L10.75 9.882L18.747 5.884C18.7174 5.37444 18.4941 4.89549 18.1228 4.54523C17.7516 4.19497 17.2604 3.99991 16.75 4H4.75C4.23958 3.99991 3.74845 4.19497 3.37718 4.54523C3.00591 4.89549 2.7826 5.37444 2.753 5.884Z" fill="#9CA3AF"/>
+          <path d="M18.75 8.118L10.75 12.118L2.75 8.118V14C2.75 14.5304 2.96071 15.0391 3.33579 15.4142C3.71086 15.7893 4.21957 16 4.75 16H16.75C17.2804 16 17.7891 15.7893 18.1642 15.4142C18.5393 15.0391 18.75 14.5304 18.75 14V8.118Z" fill="#9CA3AF"/>
+        </svg>
+        <span class="text-[#374151] font-medium">Email</span>
+      </a>
+      <a href="tel:{{ phone }}"
+        class="w-full flex items-center justify-center gap-2 py-3 text-gray-600 hover:bg-gray-50 rounded-lg">
+        <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2.25 3C2.25 2.44772 2.69772 2 3.25 2H5.40287C5.89171 2 6.3089 2.35341 6.38927 2.8356L7.12858 7.27147C7.20075 7.70451 6.98206 8.13397 6.5894 8.3303L5.04126 9.10437C6.15756 11.8783 8.37168 14.0924 11.1456 15.2087L11.9197 13.6606C12.116 13.2679 12.5455 13.0492 12.9785 13.1214L17.4144 13.8607C17.8966 13.9411 18.25 14.3583 18.25 14.8471V17C18.25 17.5523 17.8023 18 17.25 18H15.25C8.0703 18 2.25 12.1797 2.25 5V3Z" fill="#9CA3AF"/>
+        </svg>
+        <span class="text-[#374151] font-medium">Call</span>
+      </a>
+    </div>
+  </div>
+</div>
