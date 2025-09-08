@@ -1,0 +1,17 @@
+uuid: ad32ef72-095d-465a-9df9-8bb4f64022d8
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: Group
+type: group
+description: 'This is the test group to subscribe to registered users'
+help: null
+new_revision: true
+preview_mode: 0
+display_submitted: false

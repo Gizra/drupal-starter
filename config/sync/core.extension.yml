@@ -65,6 +65,8 @@ module:
   mysql: 0
   navigation: 0
   node: 0
+  og: 0
+  og_ui: 0
   options: 0
   page_cache: 0
   pantheon_advanced_page_cache: 0
@@ -87,6 +89,7 @@ module:
   search_api_solr: 0
   seckit: 0
   select2: 0
+  server_group: 0
   server_style_guide: 0
   shortcut: 0
   simple_sitemap: 0
