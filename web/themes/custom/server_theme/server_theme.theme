@@ -510,6 +510,22 @@ function server_theme_theme() {
   $info['server_theme_footer'] = [
     'variables' => [],
   ];
+  
+  //Personal Card on style guide page
+  $info['person_card'] = [
+  'variables' => [
+    'avatar' => NULL,
+    'name' => NULL,
+    'role' => NULL,
+    'badge' => NULL,
+  ],
+];
+
+$info['person_cards_grid'] = [
+  'variables' => [
+    'items' => [],
+  ],
+];
 
   return $info;
 }

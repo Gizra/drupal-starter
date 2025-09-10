@@ -87,3 +87,18 @@ expanding-text:
     - core/drupal
     - core/jquery
     - core/once
+
+# Person Card Component
+person-card:
+  css:
+    theme:
+      dist/css/person-card.css: {}
+  dependencies:
+    - core/drupal
+# Inter Font for Person Card
+inter-font:
+  css:
+    base:
+      '//fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap':
+        external: true
+        minified: true

@@ -126,7 +126,76 @@ class StyleGuideController extends ControllerBase {
 
     return $build;
   }
+  
+ /**
+ * Get single Person card element.
+ *
+ * @return array
+ *   Render array.
+ */
+protected function getPersonCard(): array {
+  return [
+    '#theme' => 'person_card',
+    '#avatar' => $this->getPlaceholderPersonImage(128),
+    '#name' => 'Jane Cooper',
+    '#role' => 'Paradigm Representative',
+    '#badge' => 'Admin',
+  ];
+}
 
+/**
+ * Get grid of Person cards.
+ *
+ * @return array
+ *   Render array.
+ */
+protected function getPersonCardsGrid(): array {
+  $items = [];
+  
+  $sample_data = [
+    ['name' => 'Jane Cooper', 'role' => 'Paradigm Representative', 'badge' => 'Admin'],
+    ['name' => 'Jordan Pickford', 'role' => 'Goalkeeper', 'badge' => 'User'],
+    ['name' => 'James Tarkowski', 'role' => 'Central Defender', 'badge' => 'User'],
+    ['name' => 'Seamus Coleman', 'role' => 'Right Back', 'badge' => 'Admin'],
+    ['name' => 'Jack Grilish', 'role' => 'Winger', 'badge' => 'User'],
+    ['name' => 'James Gardner', 'role' => 'Middlefielder', 'badge' => 'User'],
+    ['name' => 'Jarrad Branthwaite', 'role' => 'Central Defender', 'badge' => 'Editor'],
+    ['name' => 'David Moyes', 'role' => 'Manager', 'badge' => 'User'],
+    ['name' => 'Layton Baines', 'role' => 'Assistent Manager', 'badge' => 'Admin'],
+	['name' => 'Duncan Ferguson', 'role' => 'Legend', 'badge' => 'Admin'],
+  ];
+
+  foreach ($sample_data as $person) {
+    $items[] = [
+      '#theme' => 'person_card',
+      '#avatar' => $this->getPlaceholderPersonImage(128),
+      '#name' => $person['name'],
+      '#role' => $person['role'],
+      '#badge' => $person['badge'],
+    ];
+  }
+
+  return [
+    '#theme' => 'person_cards_grid',
+    '#items' => $items,
+  ];
+}
+
+// Update your getAllElements() method to include the new grid
+// Add this line in the getAllElements() method after the existing person card:
+
+// $element = $this->getPersonCardsGrid();
+// $build[] = $this->wrapElementNoContainer($element, 'Element: Person cards grid');
+
+/**
+ * Get person card image from module's images folder.
+ *
+ * @return string
+ *   URL to the person card image.
+ */
+protected function getPersonCardImage(): string {
+  return '/' . \Drupal::service('extension.list.module')->getPath('server_style_guide') . '/images/janecooper.png';
+}
   /**
    * Get all the elements that should be in the Style guide.
    *
@@ -212,6 +281,14 @@ class StyleGuideController extends ControllerBase {
 
     $element = $this->getWebformElement();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Webform');
+	
+	// Single person card
+	$element = $this->getPersonCard();
+	$build[] = $this->wrapElementWideContainer($element, 'Element: Person card');
+	
+	// Grid of 10 person cards
+	$element = $this->getPersonCardsGrid();
+	$build[] = $this->wrapElementWideContainer($element, 'Element: Person cards grid (10 cards)');
 
     return $build;
   }
