@@ -1,0 +1,4 @@
+greetings:
+  css:
+    component:
+      assets/css/greetings.css: {}

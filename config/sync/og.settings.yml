@@ -1,0 +1,16 @@
+_core:
+  default_config_hash: 3r2emFI83HVYv-o5sOIr3nycGMAXflzJR_3-8myD--k
+groups:
+  node:
+    - group
+group_manager_full_access: true
+node_access_strict: true
+delete_orphans: false
+delete_orphans_plugin_id: simple
+deny_subscribe_without_approval: true
+group_resolvers:
+  - route_group
+  - route_group_content
+  - request_query_argument
+  - user_access
+auto_add_group_owner_membership: true

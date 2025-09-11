@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * @file
+ * Module file.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function gizra_assignment_theme($existing, $type, $theme, $path): array {
+  return [
+    'gizra_assignment_greetings_item' => [
+      'variables' => [
+        'message' => NULL,
+        'type' => NULL,
+      ],
+    ],
+  ];
+}

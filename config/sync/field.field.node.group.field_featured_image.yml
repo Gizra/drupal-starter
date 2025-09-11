@@ -1,0 +1,36 @@
+uuid: c744d038-a583-4f3f-867b-dbb7e0a4910b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_featured_image
+    - media.type.image
+    - node.type.group
+  module:
+    - ai_translate
+third_party_settings:
+  ai_translate:
+    entity_reference:
+      translate_references: default
+    translate_references: default
+id: node.group.field_featured_image
+field_name: field_featured_image
+entity_type: node
+bundle: group
+label: 'Featured image'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

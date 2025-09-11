@@ -1,0 +1,14 @@
+.greetings {
+  padding: 2rem;
+  margin-bottom: 1rem;
+}
+.greetings--status {
+  border-color: rgba(0, 201, 81, 0.2);
+  background-color: rgba(0, 201, 81, 0.1);
+}
+.greetings--warning {
+  border-color: rgba(240, 177, 0, 0.15);
+  background-color: rgba(240, 177, 0, 0.1);
+}
+
+/*# sourceMappingURL=greetings.css.map */

@@ -1,0 +1,7 @@
+name: 'Gizra Assignment'
+type: module
+description: 'A sample module to complete the Gizra test assignment for the Drupal position'
+package: Custom
+core_version_requirement: ^10 || ^11
+dependencies:
+  - og:og

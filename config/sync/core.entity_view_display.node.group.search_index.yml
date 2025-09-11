@@ -1,0 +1,41 @@
+uuid: 6648b962-d303-4c7a-b3c8-49ff7377e727
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.search_index
+    - field.field.node.group.body
+    - field.field.node.group.field_featured_image
+    - node.type.group
+  module:
+    - og
+    - user
+id: node.group.search_index
+targetEntityType: node
+bundle: group
+mode: search_index
+content:
+  field_featured_image:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+  og_group:
+    type: og_group_subscribe
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  body: true
+  langcode: true
+  search_api_excerpt: true
