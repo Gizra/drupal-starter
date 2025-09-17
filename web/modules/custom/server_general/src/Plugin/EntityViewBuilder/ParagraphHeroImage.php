@@ -20,8 +20,6 @@ use Drupal\server_general\ThemeTrait\HeroThemeTrait;
  */
 class ParagraphHeroImage extends EntityViewBuilderPluginAbstract {
 
-  use BuildFieldTrait;
-  use ButtonThemeTrait;
   use HeroThemeTrait;
 
   const RESPONSIVE_IMAGE_STYLE_ID = 'hero';

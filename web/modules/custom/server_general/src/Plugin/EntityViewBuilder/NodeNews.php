@@ -28,16 +28,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class NodeNews extends NodeViewBuilderAbstract {
 
-  use ElementLayoutThemeTrait;
   use ElementNodeNewsThemeTrait;
-  use EntityDateTrait;
-  use LineSeparatorThemeTrait;
-  use LinkThemeTrait;
   use NewsTeasersThemeTrait;
   use SearchThemeTrait;
   use SocialShareTrait;
   use TagTrait;
-  use TitleAndLabelsThemeTrait;
 
   /**
    * The renderer.

@@ -23,7 +23,6 @@ use Drupal\server_general\ThemeTrait\QuoteThemeTrait;
  */
 class ParagraphQuote extends EntityViewBuilderPluginAbstract {
 
-  use ElementWrapThemeTrait;
   use ProcessedTextBuilderTrait;
   use QuoteThemeTrait;
 

@@ -20,9 +20,7 @@ use Drupal\server_general\ThemeTrait\ElementWrapThemeTrait;
  */
 class ParagraphDocuments extends EntityViewBuilderPluginAbstract {
 
-  use ButtonThemeTrait;
   use DocumentsThemeTrait;
-  use ElementWrapThemeTrait;
   use ProcessedTextBuilderTrait;
 
   /**

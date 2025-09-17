@@ -23,7 +23,6 @@ use Drupal\server_general\ThemeTrait\InfoCardThemeTrait;
  */
 class ParagraphInfoCards extends EntityViewBuilderPluginAbstract {
 
-  use ElementWrapThemeTrait;
   use InfoCardThemeTrait;
   use ProcessedTextBuilderTrait;
 

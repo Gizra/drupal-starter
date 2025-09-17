@@ -21,9 +21,7 @@ use Drupal\server_general\ThemeTrait\ElementWrapThemeTrait;
  */
 class ParagraphCta extends EntityViewBuilderPluginAbstract {
 
-  use ButtonThemeTrait;
   use CtaThemeTrait;
-  use ElementWrapThemeTrait;
   use ProcessedTextBuilderTrait;
 
   /**

@@ -24,8 +24,6 @@ use Drupal\server_general\ThemeTrait\QuickLinksThemeTrait;
  */
 class ParagraphQuickLinks extends EntityViewBuilderPluginAbstract {
 
-  use CardThemeTrait;
-  use ElementWrapThemeTrait;
   use ProcessedTextBuilderTrait;
   use QuickLinksThemeTrait;
 

@@ -42,29 +42,20 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class StyleGuideController extends ControllerBase {
 
   use AccordionThemeTrait;
-  use BuildFieldTrait;
-  use ButtonThemeTrait;
-  use CardThemeTrait;
   use CarouselThemeTrait;
   use CtaThemeTrait;
   use DocumentsThemeTrait;
   use ElementMediaThemeTrait;
   use ElementNodeNewsThemeTrait;
-  use ElementLayoutThemeTrait;
-  use ElementWrapThemeTrait;
   use ExpandingTextThemeTrait;
   use HeroThemeTrait;
   use InfoCardThemeTrait;
-  use LinkThemeTrait;
   use NewsTeasersThemeTrait;
   use PeopleTeasersThemeTrait;
   use QuickLinksThemeTrait;
   use QuoteThemeTrait;
   use SearchThemeTrait;
-  use SocialShareThemeTrait;
   use StyleGuideElementWrapThemeTrait;
-  use TagThemeTrait;
-  use TitleAndLabelsThemeTrait;
   use WebformTrait;
 
 

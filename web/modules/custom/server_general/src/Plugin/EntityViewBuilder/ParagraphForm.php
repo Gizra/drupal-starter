@@ -18,7 +18,6 @@ use Drupal\server_general\WebformTrait;
  */
 class ParagraphForm extends EntityViewBuilderPluginAbstract {
 
-  use ProcessedTextBuilderTrait;
   use WebformTrait;
 
   /**

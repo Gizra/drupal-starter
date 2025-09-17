@@ -22,7 +22,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class MediaVideo extends EntityViewBuilderPluginAbstract {
 
   use ElementMediaThemeTrait;
-  use ElementWrapThemeTrait;
 
   // Update from design as needed.
   const VIDEO_FULL_MAX_WIDTH = 1920;

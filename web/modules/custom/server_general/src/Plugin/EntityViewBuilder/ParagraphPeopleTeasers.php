@@ -24,8 +24,6 @@ use Drupal\server_general\ThemeTrait\PeopleTeasersThemeTrait;
  */
 class ParagraphPeopleTeasers extends EntityViewBuilderPluginAbstract {
 
-  use CardThemeTrait;
-  use ElementWrapThemeTrait;
   use PeopleTeasersThemeTrait;
   use ProcessedTextBuilderTrait;
 

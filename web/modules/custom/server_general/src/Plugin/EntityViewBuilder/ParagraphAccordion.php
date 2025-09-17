@@ -26,7 +26,6 @@ class ParagraphAccordion extends EntityViewBuilderPluginAbstract {
 
   use AccordionThemeTrait;
   use ElementLayoutThemeTrait;
-  use ElementWrapThemeTrait;
   use ProcessedTextBuilderTrait;
 
   /**

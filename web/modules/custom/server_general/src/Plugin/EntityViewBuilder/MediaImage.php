@@ -21,7 +21,6 @@ use Drupal\server_general\ThemeTrait\ElementWrapThemeTrait;
 class MediaImage extends EntityViewBuilderPluginAbstract {
 
   use ElementMediaThemeTrait;
-  use ElementWrapThemeTrait;
 
   /**
    * The iFrame URL helper service.
