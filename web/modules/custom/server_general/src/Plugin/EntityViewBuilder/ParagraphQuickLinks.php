@@ -7,8 +7,6 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
 use Drupal\server_general\ProcessedTextBuilderTrait;
-use Drupal\server_general\ThemeTrait\CardThemeTrait;
-use Drupal\server_general\ThemeTrait\ElementWrapThemeTrait;
 use Drupal\server_general\ThemeTrait\QuickLinksThemeTrait;
 
 /**
