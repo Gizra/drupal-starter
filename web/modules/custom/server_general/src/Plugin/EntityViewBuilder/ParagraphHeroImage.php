@@ -4,9 +4,7 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\Core\Link;
 use Drupal\paragraphs\ParagraphInterface;
-use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
-use Drupal\server_general\ThemeTrait\ButtonThemeTrait;
 use Drupal\server_general\ThemeTrait\HeroThemeTrait;
 
 /**

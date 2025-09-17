@@ -9,7 +9,6 @@ use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
 use Drupal\server_general\ProcessedTextBuilderTrait;
 use Drupal\server_general\ThemeTrait\AccordionThemeTrait;
 use Drupal\server_general\ThemeTrait\ElementLayoutThemeTrait;
-use Drupal\server_general\ThemeTrait\ElementWrapThemeTrait;
 
 /**
  * The "Accordion" paragraph plugin.

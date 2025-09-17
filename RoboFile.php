@@ -24,6 +24,7 @@ $GLOBALS['drupal_autoloader'] = require_once 'web/autoload.php';
 class RoboFile extends Tasks {
 
   use BootstrapTrait;
+  use DeploymentTrait;
   use ExportFromConfig;
   use ImportToConfig;
   use ImportToUi;
