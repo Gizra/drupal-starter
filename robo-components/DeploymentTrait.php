@@ -54,6 +54,7 @@ trait DeploymentTrait {
     'ci-scripts',
     'pantheon.upstream.yml',
     'phpstan.neon',
+    'phpstan-rules',
     'phpunit.xml.dist',
     'README.md',
     'RoboFile.php',

@@ -7,7 +7,6 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 use Drupal\media\MediaInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
 use Drupal\server_general\ThemeTrait\ElementMediaThemeTrait;
-use Drupal\server_general\ThemeTrait\ElementWrapThemeTrait;
 
 /**
  * The "Media: Image" plugin.
@@ -21,7 +20,6 @@ use Drupal\server_general\ThemeTrait\ElementWrapThemeTrait;
 class MediaImage extends EntityViewBuilderPluginAbstract {
 
   use ElementMediaThemeTrait;
-  use ElementWrapThemeTrait;
 
   /**
    * The iFrame URL helper service.
