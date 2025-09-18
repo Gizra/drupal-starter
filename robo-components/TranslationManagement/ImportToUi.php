@@ -3,7 +3,6 @@
 namespace RoboComponents\TranslationManagement;
 
 use Robo\ResultData;
-use RoboComponents\DeploymentTrait;
 
 /**
  * Logic to import translations into Drupal UI translations.
@@ -11,8 +10,6 @@ use RoboComponents\DeploymentTrait;
  * Imports translations from "config/po_files/[langcode].po" files.
  */
 trait ImportToUi {
-
-  use DeploymentTrait;
 
   /**
    * Import the interface translations from a PO file.

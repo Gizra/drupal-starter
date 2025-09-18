@@ -11,9 +11,6 @@ if [ -z "$ROOT_DIR" ]; then
   ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )/.."
 fi
 
-# -------------------------------------------------- #
-# Run PHPUnit tests
-# -------------------------------------------------- #
 cd "$ROOT_DIR"
 cp ci-scripts/memory-limit-minimal.php.ini "$ROOT_DIR"/.ddev/php/memory-limit.php.ini
 rm -rf .ddev/config.local.yaml
@@ -21,7 +18,7 @@ ddev restart
 git checkout web/sites/default/settings.ddev.php
 cat ci-scripts/settings_rollbar.php >> web/sites/default/settings.ddev.php
 ddev drush pm:enable server_rollbar_test --yes
-ddev phpunit --do-not-cache-result --testdox --group=Rollbar || (ddev drush watchdog-show --count=1000 && exit 1)
+ddev phpunit --do-not-cache-result --testdox --group=Rollbar
 git checkout "$ROOT_DIR"/.ddev/php/memory-limit.php.ini
 git checkout web/sites/default/settings.ddev.php
 ddev restart

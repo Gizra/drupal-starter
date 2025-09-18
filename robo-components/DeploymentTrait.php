@@ -54,6 +54,7 @@ trait DeploymentTrait {
     'ci-scripts',
     'pantheon.upstream.yml',
     'phpstan.neon',
+    'phpstan-rules',
     'phpunit.xml.dist',
     'README.md',
     'RoboFile.php',
@@ -371,8 +372,16 @@ trait DeploymentTrait {
       }
     }
     $commit_message = escapeshellarg($commit_message);
-    $result = $this->taskExec("cd $pantheon_directory && git pull --ff-only && git pull && git add . && git commit -am $commit_message && git push")
-      ->printOutput(FALSE)
+    $result = $this->taskExecStack()
+      ->dir('.pantheon')
+      ->exec('git pull --ff-only')
+      ->exec('git pull')
+      ->exec('git add .')
+      ->exec("git commit -qam $commit_message")
+      ->exec("git push --verbose origin HEAD:$branch_name")
+      ->printOutput(TRUE)
+      ->printMetadata(TRUE)
+      ->stopOnFail()
       ->run();
 
     // We want to halt the deployment only where the commit push failed while
@@ -718,7 +727,7 @@ trait DeploymentTrait {
       }
     }
 
-    $result = $this->taskExec('ssh-keygen -f travis-key -P ""')->run();
+    $result = $this->taskExec('ssh-keygen -t rsa -f travis-key -P ""')->run();
     if ($result->getExitCode() !== 0) {
       throw new \Exception('The key generation failed.');
     }
@@ -828,17 +837,11 @@ trait DeploymentTrait {
         return;
       }
       foreach ($issue_matches[1] as $issue_match) {
-        if (!is_numeric($issue_match)) {
-          continue;
-        }
         $issue_numbers[] = $issue_match;
       }
     }
     else {
       $issue_numbers[] = $issue_matches[1][0];
-      if (!is_numeric($issue_numbers[0])) {
-        throw new \Exception("Could not determine the issue number from the branch name in the commit message: $git_commit_message");
-      }
     }
 
     $pantheon_info = $this->getPantheonNameAndEnv();

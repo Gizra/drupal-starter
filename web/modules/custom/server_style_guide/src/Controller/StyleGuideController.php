@@ -5,31 +5,24 @@ namespace Drupal\server_style_guide\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
-use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
 use Drupal\server_general\ThemeTrait\AccordionThemeTrait;
-use Drupal\server_general\ThemeTrait\ButtonThemeTrait;
-use Drupal\server_general\ThemeTrait\CardThemeTrait;
+use Drupal\server_general\ThemeTrait\Enum\ColorEnum;
 use Drupal\server_general\ThemeTrait\CarouselThemeTrait;
 use Drupal\server_general\ThemeTrait\CtaThemeTrait;
 use Drupal\server_general\ThemeTrait\DocumentsThemeTrait;
-use Drupal\server_general\ThemeTrait\ElementLayoutThemeTrait;
 use Drupal\server_general\ThemeTrait\ElementMediaThemeTrait;
 use Drupal\server_general\ThemeTrait\ElementNodeNewsThemeTrait;
-use Drupal\server_general\ThemeTrait\ElementWrapThemeTrait;
 use Drupal\server_general\ThemeTrait\ExpandingTextThemeTrait;
-use Drupal\server_general\ThemeTrait\FontSizeEnum;
-use Drupal\server_general\ThemeTrait\FontWeightEnum;
+use Drupal\server_general\ThemeTrait\Enum\FontSizeEnum;
+use Drupal\server_general\ThemeTrait\Enum\FontWeightEnum;
 use Drupal\server_general\ThemeTrait\HeroThemeTrait;
+use Drupal\server_general\ThemeTrait\Enum\HtmlTagEnum;
 use Drupal\server_general\ThemeTrait\InfoCardThemeTrait;
-use Drupal\server_general\ThemeTrait\LinkThemeTrait;
 use Drupal\server_general\ThemeTrait\NewsTeasersThemeTrait;
 use Drupal\server_general\ThemeTrait\PeopleTeasersThemeTrait;
 use Drupal\server_general\ThemeTrait\QuickLinksThemeTrait;
 use Drupal\server_general\ThemeTrait\QuoteThemeTrait;
 use Drupal\server_general\ThemeTrait\SearchThemeTrait;
-use Drupal\server_general\ThemeTrait\SocialShareThemeTrait;
-use Drupal\server_general\ThemeTrait\TagThemeTrait;
-use Drupal\server_general\ThemeTrait\TitleAndLabelsThemeTrait;
 use Drupal\server_general\WebformTrait;
 use Drupal\server_style_guide\ThemeTrait\StyleGuideElementWrapThemeTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -40,29 +33,20 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class StyleGuideController extends ControllerBase {
 
   use AccordionThemeTrait;
-  use BuildFieldTrait;
-  use ButtonThemeTrait;
-  use CardThemeTrait;
   use CarouselThemeTrait;
   use CtaThemeTrait;
   use DocumentsThemeTrait;
   use ElementMediaThemeTrait;
   use ElementNodeNewsThemeTrait;
-  use ElementLayoutThemeTrait;
-  use ElementWrapThemeTrait;
   use ExpandingTextThemeTrait;
   use HeroThemeTrait;
   use InfoCardThemeTrait;
-  use LinkThemeTrait;
   use NewsTeasersThemeTrait;
   use PeopleTeasersThemeTrait;
   use QuickLinksThemeTrait;
   use QuoteThemeTrait;
   use SearchThemeTrait;
-  use SocialShareThemeTrait;
   use StyleGuideElementWrapThemeTrait;
-  use TagThemeTrait;
-  use TitleAndLabelsThemeTrait;
   use WebformTrait;
 
 
@@ -560,11 +544,11 @@ class StyleGuideController extends ControllerBase {
 
     $url = Url::fromRoute('<front>');
 
-    $element = $this->buildLink('Internal link', $url, 'gray');
+    $element = $this->buildLink('Internal link', $url, ColorEnum::Gray);
     $build[] = $this->wrapElementWideContainer($element, 'Link');
 
     $url = Url::fromUri('https://example.com');
-    $element = $this->buildLink('External link', $url, 'dark-gray', NULL, 'hover');
+    $element = $this->buildLink('External link', $url);
     $build[] = $this->wrapElementWideContainer($element, 'External link');
 
     return $build;
@@ -614,9 +598,8 @@ class StyleGuideController extends ControllerBase {
     $elements = [];
 
     // Wrap Html tag from h1 to h5.
-    foreach (range(1, 5) as $index) {
-      $tag = 'h' . $index;
-      $elements[] = $this->wrapHtmlTag('This is an example for ' . $tag, $tag);
+    foreach (HtmlTagEnum::cases() as $tag) {
+      $elements[] = $this->wrapHtmlTag('This is an example for ' . $tag->value, $tag);
     }
     $build[] = $this->wrapElementWideContainer($elements, 'Headings (h1 - h5)');
 

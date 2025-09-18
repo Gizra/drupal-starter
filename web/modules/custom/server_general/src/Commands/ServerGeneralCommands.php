@@ -58,7 +58,7 @@ class ServerGeneralCommands extends DrushCommands {
       'type' => 'landing_page',
       'status' => NodeInterface::PUBLISHED,
     ]);
-    /** @var \Consolidation\Log\Logger $logger */
+    /** @var \Drush\Log\DrushLoggerManager|null $logger */
     $logger = $this->logger();
     if (empty($homepage)) {
       $logger->error(dt('Unable to find any published landing_page nodes titled "Homepage".'));

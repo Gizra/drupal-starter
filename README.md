@@ -210,6 +210,12 @@ See the [example](https://github.com/Gizra/drupal-starter/blob/main/web/modules/
     # Run a single method from a test file.
     ddev phpunit --filter testHomepageCache web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralHomepageTest.php
 
+### Parallel Testing
+
+The project uses [ParaTest](https://github.com/paratestphp/paratest) for parallel test execution to improve speed. When running `ddev phpunit` without arguments, tests are automatically run in parallel using all available CPU cores, except for tests marked with `@group sequential` which run separately in serial mode.
+
+Tests requiring sequential execution (e.g., cache tests, form submission tests) should be marked with the `@group sequential` annotation. ParaTest automatically excludes Rollbar tests unless explicitly requested.
+
 We also have capability to write tests which run on a headless chrome browser with
 Javascript capabilities. See [`Drupal\Tests\server_general\ExistingSite\ServerGeneralSelenium2TestBase`](https://github.com/Gizra/drupal-starter/blob/aa3c204dc7ac279964a694c675c35062c7fbcd9f/web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralSelenium2TestBase.php)
 for the test base, and [`Drupal\Tests\server_general\ExistingSite\ServerGeneralHomepageTest`](https://github.com/Gizra/drupal-starter/blob/aa3c204dc7ac279964a694c675c35062c7fbcd9f/web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralHomepageTest.php) for the
