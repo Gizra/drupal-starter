@@ -19,6 +19,8 @@ trait AutoUpdateTrait {
       throw new \Exception("The update module should be installed in order to run this command.");
     }
     $this->say("Update module is installed, checking status of projects.");
+    $this->say("In case of some errors manually loading /admin/reports/updates can help.");
+
     if (!($available = update_get_available(TRUE))) {
       $this->say("Cannot fetch info about the releases.");
     }
