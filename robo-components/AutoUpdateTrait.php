@@ -39,7 +39,7 @@ trait AutoUpdateTrait {
         continue;
       }
       $version = $project['recommended'];
-      // Example input: "8.x-2.19"
+      // Example input: "8.x-2.19".
       if (preg_match('/^\d+\.x-(\d+)\.(\d+)$/', $project['recommended'], $matches)) {
         $major = $matches[1];
         $minor = $matches[2];
