@@ -61,7 +61,13 @@ trait AutoUpdateTrait {
       if (in_array($current_branch, ['master', 'main'], TRUE)) {
         throw new \Exception("This command cannot be run on the {$current_branch} branch.");
       }
-
+      // Check if composer.lock has changes. Using the -W flag can
+      // result in modules already being updated.
+      $lock_changed = trim(`git status --porcelain composer.lock`);
+      if (!$lock_changed) {
+        $this->say($package . 'is already at version ' . $version);
+        continue;
+      }
       // Update successful, add composer.lock to staging area,
       // then commit it.
       $this->taskExec("git add composer.lock")->printOutput(TRUE)->run();
