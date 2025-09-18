@@ -23,7 +23,6 @@ trait AutoUpdateTrait {
       $this->say("Cannot fetch info about the releases.");
     }
     \Drupal::moduleHandler()->loadInclude('update', 'compare.inc');
-    // @phpstan-ignore-next-line
     $data = update_calculate_project_data($available);
     foreach ($data as $project) {
       if (!isset($project['recommended'])) {
