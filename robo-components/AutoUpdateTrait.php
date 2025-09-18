@@ -20,6 +20,7 @@ trait AutoUpdateTrait {
     }
     $this->say("Update module is installed, checking status of projects.");
     $this->say("In case of some errors manually loading /admin/reports/updates can help.");
+    $this->yell("Don't forget to run ddev drush updb manually at the end!");
 
     if (!($available = update_get_available(TRUE))) {
       $this->say("Cannot fetch info about the releases.");
