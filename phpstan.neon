@@ -6,6 +6,8 @@ parameters:
   level: 6
   reportUnmatchedIgnoredErrors: false
   treatPhpDocTypesAsCertain: false
+  scanFiles:
+    - web/core/modules/update/update.compare.inc
   ignoreErrors:
     - identifier: missingType.iterableValue
     - identifier: missingType.generics
