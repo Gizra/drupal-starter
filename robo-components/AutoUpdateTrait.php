@@ -42,8 +42,16 @@ trait AutoUpdateTrait {
         ->run()
         ->getExitCode();
       if ($exit_code !== 0) {
-        $this->yell('There was an error updating ' . $package . ' to version ' . $project['recommended']);
+        throw new \Exception("There was an error updating " . $package . " to version " . $project['recommended']);
       }
+
+      $current_branch = trim(`git symbolic-ref --short HEAD`);
+
+      // Don't commit to master/main branch.
+      if (in_array($current_branch, ['master', 'main'], TRUE)) {
+        throw new \Exception("This command cannot be run on the {$current_branch} branch.");
+      }
+
       // Update successful, add composer.lock to staging area,
       // then commit it.
       $this->taskExec("git add composer.lock")->printOutput(TRUE)->run();
