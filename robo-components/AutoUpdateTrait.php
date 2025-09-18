@@ -38,13 +38,21 @@ trait AutoUpdateTrait {
         // No need to update.
         continue;
       }
-      $this->say('Updating ' . $package . ' to version ' . $project['recommended'] . '.');
-      $exit_code = $this->taskExec("composer update 'drupal/" . $package . ":^" . $project['recommended'] . "' -W")
+      $version = $project['recommended'];
+      // Example input: "8.x-2.19"
+      if (preg_match('/^\d+\.x-(\d+)\.(\d+)$/', $project['recommended'], $matches)) {
+        $major = $matches[1];
+        $minor = $matches[2];
+        $version = "{$major}.{$minor}";
+      }
+
+      $this->say('Updating ' . $package . ' to version ' . $version);
+      $exit_code = $this->taskExec("composer update 'drupal/" . $package . ":^" . $version . "' -W")
         ->printOutput(TRUE)
         ->run()
         ->getExitCode();
       if ($exit_code !== 0) {
-        throw new \Exception("There was an error updating " . $package . " to version " . $project['recommended']);
+        throw new \Exception("There was an error updating " . $package . " to version " . $version);
       }
 
       $current_branch = trim(`git symbolic-ref --short HEAD`);
@@ -57,7 +65,7 @@ trait AutoUpdateTrait {
       // Update successful, add composer.lock to staging area,
       // then commit it.
       $this->taskExec("git add composer.lock")->printOutput(TRUE)->run();
-      $git_command = "git commit -m 'Update " . $package . ' to ' . $project['recommended'] . "'";
+      $git_command = "git commit -m 'Update " . $package . ' to ' . $version . "'";
       $this->taskExec($git_command)->printOutput(TRUE)->run();
     }
   }
