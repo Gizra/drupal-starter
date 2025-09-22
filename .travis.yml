@@ -44,6 +44,7 @@ jobs:
             - parallel
       script:
         - composer install || travis_terminate 1;
+        - .ddev/commands/web/lint-newline || travis_terminate 1;
         - vendor/bin/robo phpcs || travis_terminate 1;
 
     - stage: Lint

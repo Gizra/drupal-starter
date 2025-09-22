@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Check for files missing a newline at the end.
+files_without_newline=$(find . -type f -exec bash -c '[ -s "$0" ] && [ "$(tail -c1 "$0" | wc -l)" -eq 0 ] && echo "No newline at end of $0"' {} \;)
+
+if [ -n "$files_without_newline" ]; then
+  echo "$files_without_newline"
+  exit 1
+fi
+
+exit 0
