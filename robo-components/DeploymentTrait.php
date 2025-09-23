@@ -177,7 +177,7 @@ trait DeploymentTrait {
 
     if ($result->getMessage()) {
       $this->say($result->getMessage());
-      throw new \Exception('The working directory is dirty. Please commit or stash the pending changes.');
+      throw new \Exception('The working directory is dirty. Please commit or stash the pending changes. If you allowed new files in the .gitignore file, also double check composer.json scaffold section.');
     }
 
     $this->taskExec("git checkout $tag")->run();
