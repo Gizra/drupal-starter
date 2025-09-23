@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+# Pre-commit hook to check for files missing newlines at the end
+# Only checks files that are being committed (staged) and excludes binary files
+
+echo "Running lint-newline check on staged files..."
+
+# Get list of staged files, excluding deleted files and binary files
+staged_files=$(git diff --cached --name-only --diff-filter=ACM)
+
+if [ -z "$staged_files" ]; then
+    echo "No files staged for commit."
+    exit 0
+fi
+
+# Filter out binary files by checking if they are text files
+text_files=""
+for file in $staged_files; do
+    if [ -f "$file" ] && file --mime-type "$file" | grep -q "text/"; then
+        text_files="$text_files $file"
+    fi
+done
+
+if [ -z "$text_files" ]; then
+    echo "No text files staged for commit."
+    exit 0
+fi
+
+# Check each text file for missing newline at end
+files_without_newline=""
+for file in $text_files; do
+    if [ -s "$file" ] && [ "$(tail -c1 "$file" | wc -l)" -eq 0 ]; then
+        files_without_newline="$files_without_newline\nNo newline at end of $file"
+    fi
+done
+
+if [ -n "$files_without_newline" ]; then
+    echo -e "$files_without_newline"
+    echo ""
+    echo "Please add newlines to the end of these files before committing."
+    exit 1
+fi
+
+echo "All staged text files have proper newlines at the end."
+exit 0
+

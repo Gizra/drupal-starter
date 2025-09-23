@@ -286,3 +286,8 @@ corepack_enable: false
 #   - exec: drush sql:sanitize
 #   - exec: drush updatedb
 #   - exec: drush cache:rebuild
+
+hooks:
+  pre-start:
+    - exec-host: cp .ddev/git/hooks/pre-commit .git/hooks
+    - exec-host: chmod +x .git/hooks/pre-commit
