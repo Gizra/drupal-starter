@@ -1,0 +1,79 @@
+#ddev-generated
+services:
+
+  # Tempo runs as user 10001, and docker compose creates the volume as root.
+  # As such, we need to chown the volume in order for Tempo to start correctly.
+  init:
+    image: &tempoImage grafana/tempo:latest
+    user: root
+    entrypoint:
+      - "chown"
+      - "10001:10001"
+      - "/var/tempo"
+    volumes:
+      - tempo-data:/var/tempo
+
+  # And put them in an OTEL collector pipeline...
+  otel-collector:
+    image: otel/opentelemetry-collector:0.61.0
+    container_name: ddev-${DDEV_SITENAME}-otel-collector
+    command: [ "--config=/etc/otel-collector.yaml" ]
+    labels:
+      com.ddev.site-name: ${DDEV_SITENAME}
+      com.ddev.approot: $DDEV_APPROOT
+    volumes:
+      - ./gander-config/otel-collector.yaml:/etc/otel-collector.yaml
+
+  # To eventually offload to Tempo...
+  tempo:
+    image: *tempoImage
+    container_name: ddev-${DDEV_SITENAME}-tempo
+    command: [ "-config.file=/etc/tempo.yaml" ]
+    labels:
+      com.ddev.site-name: ${DDEV_SITENAME}
+      com.ddev.approot: $DDEV_APPROOT
+    volumes:
+      - ./gander-config/tempo.yaml:/etc/tempo.yaml
+      - tempo-data:/var/tempo
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: ddev-${DDEV_SITENAME}-prometheus
+    command:
+      - --config.file=/etc/prometheus.yaml
+      - --web.enable-remote-write-receiver
+      - --enable-feature=exemplar-storage
+    volumes:
+      - ./gander-config/prometheus.yaml:/etc/prometheus.yaml
+    labels:
+      com.ddev.site-name: ${DDEV_SITENAME}
+      com.ddev.approot: $DDEV_APPROOT
+    environment:
+      - VIRTUAL_HOST=$DDEV_HOSTNAME
+      - HTTP_EXPOSE=9090:9090
+    ports:
+      - 9090
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: ddev-${DDEV_SITENAME}-grafana
+    volumes:
+      - ./gander-config/grafana-datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
+      - ./gander-config/grafana-dashboards.yaml:/etc/grafana/provisioning/dashboards/grafana-dashboards.yaml
+      - ./gander-dashboards:/etc/grafana/dashboards
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
+      - GF_FEATURE_TOGGLES_ENABLE=traceqlEditor
+      - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/etc/grafana/dashboards/umami.json
+      - VIRTUAL_HOST=$DDEV_HOSTNAME
+      - HTTP_EXPOSE=3002:3000
+    labels:
+      com.ddev.site-name: ${DDEV_SITENAME}
+      com.ddev.approot: $DDEV_APPROOT
+    ports:
+      - 3000
+
+volumes:
+  tempo-data:
