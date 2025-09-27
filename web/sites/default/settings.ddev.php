@@ -29,6 +29,13 @@ $databases['default']['default'] = array(
 );
 
 // Migrate source database.
+// If you want to migrate from a database on a different DDEV project, set
+// the DDEV_MIGRATE_REMOTE_SOURCE environment variable on your
+// .ddev/config.local.yaml
+// See https://github.com/Gizra/drupal-starter/blob/d9a29f739e7a24a3598207bb51cf7fc01b1c495c/.ddev/config.local.yaml.example#L6
+// Furthermore, to allow connection between two DDEV projects, follow
+// instructions in the DDEV documentation:
+// https://docs.ddev.com/en/stable/users/usage/faq/#communicate-via-https
 $ddev_migrate_remote_source = getenv('DDEV_MIGRATE_REMOTE_SOURCE');
 if (!empty($ddev_migrate_remote_source) && gethostbyname($ddev_migrate_remote_source) !== $ddev_migrate_remote_source) {
   $databases['migrate']['default'] = [
