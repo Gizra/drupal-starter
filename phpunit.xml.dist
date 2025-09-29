@@ -12,12 +12,6 @@
   <php>
     <env name="DTT_BASE_URL" value="http://web"/>
     <env name="DTT_API_URL" value="http://localhost:9222"/>
-    <!-- <env name="DTT_MINK_DRIVER_ARGS" value='["chrome", { "chromeOptions" : { "w3c": false } }, "http://localhost:4444/wd/hub"]'/> -->
-    <env name="DTT_MINK_DRIVER_ARGS" value='["firefox", null, "http://localhost:4444/wd/hub"]'/>
-    <env name="DTT_API_OPTIONS" value='{"socketTimeout": 360, "domWaitTimeout": 3600000}' />
-    <!-- Example BROWSERTEST_OUTPUT_DIRECTORY value: /tmp
-         Specify a temporary directory for storing debug images and html documents.
-         These artifacts get copied to /sites/simpletest/browser_output by BrowserTestBase. -->
     <env name="BROWSERTEST_OUTPUT_DIRECTORY" value=""/>
     <!-- To disable deprecation testing completely uncomment the next line. -->
     <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>

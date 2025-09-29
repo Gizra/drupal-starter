@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
+use Behat\Mink\Driver\DriverInterface;
 use Drupal\Tests\server_general\TestConfiguration;
 use Drupal\Tests\server_general\Traits\MemoryManagementTrait;
+use Mink\WebdriverClassicDriver\WebdriverClassicDriver;
 use weitzman\DrupalTestTraits\ExistingSiteSelenium2DriverTestBase;
 
 /**
@@ -17,6 +19,33 @@ use weitzman\DrupalTestTraits\ExistingSiteSelenium2DriverTestBase;
 class ServerGeneralSelenium2TestBase extends ExistingSiteSelenium2DriverTestBase {
 
   use MemoryManagementTrait;
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getDriverInstance(): DriverInterface {
+    if (!isset($this->driver)) {
+      $hostname = getenv('DRUPAL_TEST_WEBDRIVER_HOSTNAME') ?: 'selenium-chrome';
+      $port = getenv('DRUPAL_TEST_WEBDRIVER_PORT') ?: '4444';
+
+      $capabilities = [
+        'browserName' => 'chrome',
+        'goog:chromeOptions' => [
+          'args' => [
+            '--disable-dev-shm-usage',
+            '--disable-gpu',
+            '--headless',
+            '--dns-prefetch-disable',
+            '--no-sandbox',
+          ],
+        ],
+      ];
+
+      $url = "http://{$hostname}:{$port}";
+      $this->driver = new WebdriverClassicDriver('chrome', $capabilities, $url);
+    }
+    return $this->driver;
+  }
 
   /**
    * {@inheritDoc}

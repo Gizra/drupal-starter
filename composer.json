@@ -102,6 +102,7 @@
         "behat/mink": "^1.10",
         "behat/mink-browserkit-driver": "^2.1",
         "behat/mink-selenium2-driver": "^1.6",
+        "mink/webdriver-classic-driver": "^1.1",
         "brianium/paratest": "^6.11",
         "consolidation/robo": "^4",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
