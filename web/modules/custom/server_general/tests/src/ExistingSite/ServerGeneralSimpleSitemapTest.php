@@ -11,9 +11,8 @@ use Drupal\node\Entity\NodeType;
  */
 class ServerGeneralSimpleSitemapTest extends ServerGeneralTestBase {
 
-  const EXCLUDED_TYPES = [
-    'some_node_type',
-  ];
+  // Node types that should be excluded.
+  const EXCLUDED_TYPES = [];
 
   /**
    * Verfies all non exluded content type are indexed by simple sitemap.
