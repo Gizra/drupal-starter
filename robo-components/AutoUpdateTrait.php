@@ -20,6 +20,7 @@ trait AutoUpdateTrait {
     }
     $this->say("Update module is installed, checking status of projects.");
     $this->say("In case of some errors manually loading /admin/reports/updates can help.");
+    $this->yell("Don't forget to run ddev drush updb manually at the end!");
 
     if (!($available = update_get_available(TRUE))) {
       $this->say("Cannot fetch info about the releases.");
@@ -38,13 +39,21 @@ trait AutoUpdateTrait {
         // No need to update.
         continue;
       }
-      $this->say('Updating ' . $package . ' to version ' . $project['recommended'] . '.');
-      $exit_code = $this->taskExec("composer update 'drupal/" . $package . ":^" . $project['recommended'] . "' -W")
+      $version = $project['recommended'];
+      // Example input: "8.x-2.19".
+      if (preg_match('/^\d+\.x-(\d+)\.(\d+)$/', $project['recommended'], $matches)) {
+        $major = $matches[1];
+        $minor = $matches[2];
+        $version = "{$major}.{$minor}";
+      }
+
+      $this->say('Updating ' . $package . ' to version ' . $version);
+      $exit_code = $this->taskExec("composer update 'drupal/" . $package . ":^" . $version . "' -W")
         ->printOutput(TRUE)
         ->run()
         ->getExitCode();
       if ($exit_code !== 0) {
-        throw new \Exception("There was an error updating " . $package . " to version " . $project['recommended']);
+        throw new \Exception("There was an error updating " . $package . " to version " . $version);
       }
 
       $current_branch = trim(`git symbolic-ref --short HEAD`);
@@ -53,11 +62,17 @@ trait AutoUpdateTrait {
       if (in_array($current_branch, ['master', 'main'], TRUE)) {
         throw new \Exception("This command cannot be run on the {$current_branch} branch.");
       }
-
+      // Check if composer.lock has changes. Using the -W flag can
+      // result in modules already being updated.
+      $lock_changed = trim(`git status --porcelain composer.lock`);
+      if (!$lock_changed) {
+        $this->say($package . 'is already at version ' . $version);
+        continue;
+      }
       // Update successful, add composer.lock to staging area,
       // then commit it.
       $this->taskExec("git add composer.lock")->printOutput(TRUE)->run();
-      $git_command = "git commit -m 'Update " . $package . ' to ' . $project['recommended'] . "'";
+      $git_command = "git commit -m 'Update " . $package . ' to ' . $version . "'";
       $this->taskExec($git_command)->printOutput(TRUE)->run();
     }
   }
