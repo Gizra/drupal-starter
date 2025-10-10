@@ -2,6 +2,10 @@ includes:
   - vendor/mglaman/phpstan-drupal/extension.neon
   - vendor/phpstan/phpstan-deprecation-rules/rules.neon
   - phpstan-rules/phpstan-extension.neon
+  - vendor/spaze/phpstan-disallowed-calls/extension.neon
+  - vendor/spaze/phpstan-disallowed-calls/disallowed-dangerous-calls.neon
+  - vendor/spaze/phpstan-disallowed-calls/disallowed-execution-calls.neon
+  - vendor/spaze/phpstan-disallowed-calls/disallowed-insecure-calls.neon
 parameters:
   level: 6
   reportUnmatchedIgnoredErrors: false
