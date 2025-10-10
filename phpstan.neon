@@ -4,12 +4,48 @@ includes:
   - phpstan-rules/phpstan-extension.neon
   - vendor/spaze/phpstan-disallowed-calls/extension.neon
   - vendor/spaze/phpstan-disallowed-calls/disallowed-dangerous-calls.neon
-  - vendor/spaze/phpstan-disallowed-calls/disallowed-execution-calls.neon
   - vendor/spaze/phpstan-disallowed-calls/disallowed-insecure-calls.neon
 parameters:
   level: 6
   reportUnmatchedIgnoredErrors: false
   treatPhpDocTypesAsCertain: false
+  disallowedFunctionCalls:
+    -
+      function: 'exec()'
+      message: 'use Symfony Process instead'
+      allowIn:
+        - robo-components/*
+        - RoboFile.php
+    -
+      function: 'passthru()'
+      message: 'use Symfony Process instead'
+      allowIn:
+        - robo-components/*
+        - RoboFile.php
+    -
+      function: 'proc_open()'
+      message: 'use Symfony Process instead'
+      allowIn:
+        - robo-components/*
+        - RoboFile.php
+    -
+      function: 'shell_exec()'
+      message: 'use Symfony Process instead'
+      allowIn:
+        - robo-components/*
+        - RoboFile.php
+    -
+      function: 'system()'
+      message: 'use Symfony Process instead'
+      allowIn:
+        - robo-components/*
+        - RoboFile.php
+    -
+      function: 'popen()'
+      message: 'use Symfony Process instead'
+      allowIn:
+        - robo-components/*
+        - RoboFile.php
   scanFiles:
     - web/core/modules/update/update.compare.inc
   ignoreErrors:
