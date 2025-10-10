@@ -17,13 +17,13 @@ final class RollbarError extends ControllerBase {
     // Increase complexity by adding nested arrays and objects.
     if ($count < 500) {
       $new_data = [
-        'int' => rand(1, PHP_INT_MAX),
+        'int' => random_int(1, PHP_INT_MAX),
         'nested_array' => array_fill(0, 10, str_repeat('x', 1000)),
         'node_label' => $node->label(),
         'object' => (object) [
-          'id' => uniqid(),
+          'id' => bin2hex(random_bytes(16)),
           'timestamp' => time(),
-          'random' => rand(1, PHP_INT_MAX),
+          'random' => random_int(1, PHP_INT_MAX),
           'deep_nested' => new \stdClass(),
         ],
       ];
