@@ -40,11 +40,18 @@ trait AutoUpdateTrait {
         continue;
       }
       $version = $project['recommended'];
-      // Example input: "8.x-2.19".
-      if (preg_match('/^\d+\.x-(\d+)\.(\d+)$/', $project['recommended'], $matches)) {
+      if (preg_match('/^(?:\d+\.x-)?(\d+)\.(\d+)(?:\.(\d+))?(?:-([A-Za-z0-9.-]+))?$/', trim($project['recommended']), $matches)) {
+        // e.g., '8' or '2'.
         $major = $matches[1];
+        // e.g., '7' or '0'.
         $minor = $matches[2];
+        // e.g., 'alpha6' or 'rc8'.
+        $suffix = $matches[4] ?? '';
         $version = "{$major}.{$minor}";
+        if ($suffix) {
+          $cleaned_suffix = preg_replace('/\d+$/', '', $suffix);
+          $version .= "@{$cleaned_suffix}";
+        }
       }
 
       $this->say('Updating ' . $package . ' to version ' . $version);
