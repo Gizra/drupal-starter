@@ -40,6 +40,12 @@ trait AutoUpdateTrait {
         continue;
       }
       $version = $project['recommended'];
+      // Version numbers in drupal can take several patterns. We need to derive
+      // the composer update command from any of them:
+      // 4.0.0 => ^4.0
+      // 4.0.0-alpha6 => ^4.0@alpha
+      // 8.x-4.0 => ^4.0
+      // 8.x-4.0-alpha6 => ^4.0@alpha.
       if (preg_match('/^(?:\d+\.x-)?(\d+)\.(\d+)(?:\.(\d+))?(?:-([A-Za-z0-9.-]+))?$/', trim($project['recommended']), $matches)) {
         // e.g., '8' or '2'.
         $major = $matches[1];
