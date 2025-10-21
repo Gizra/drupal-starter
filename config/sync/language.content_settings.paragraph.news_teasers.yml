@@ -1,0 +1,18 @@
+uuid: 9e69f89c-b356-4786-b706-3ff660a2e618
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.news_teasers
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: paragraph.news_teasers
+target_entity_type_id: paragraph
+target_bundle: news_teasers
+default_langcode: site_default
+language_alterable: true

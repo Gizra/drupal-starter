@@ -6,7 +6,14 @@ dependencies:
     - field.storage.media.field_media_file
     - media.type.document
   module:
+    - content_translation
     - file
+third_party_settings:
+  content_translation:
+    translation_sync:
+      description: description
+      target_id: '0'
+      display: '0'
 id: media.document.field_media_file
 field_name: field_media_file
 entity_type: media
