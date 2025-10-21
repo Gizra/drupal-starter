@@ -39,6 +39,12 @@ trait AutoUpdateTrait {
         // No need to update.
         continue;
       }
+      // If recommended module is not compatible with current drupal
+      // core, we skip the update.
+      if (isset($project['releases'][$project['recommended']]['core_compatible']) && $project['releases'][$project['recommended']]['core_compatible'] === FALSE) {
+        $this->say($project['recommended'] . ' is not compatible with current drupal core, skipping it.');
+        continue;
+      }
       $version = $project['recommended'];
       // Version numbers in drupal can take several patterns. We need to derive
       // the composer update command from any of them:
@@ -60,13 +66,16 @@ trait AutoUpdateTrait {
         }
       }
 
-      $this->say('Updating ' . $package . ' to version ' . $version);
-      $exit_code = $this->taskExec("composer update 'drupal/" . $package . ":^" . $version . "' -W")
+      $this->say('Updating ' . $package . ' to version ^' . $version);
+      // Update core in a separate subprocess, as otherwise composer
+      // might get updated too, resulting in deleted files inside
+      // the /vendor directory causing an error.
+      $exit_code = $this->taskExec('bash -lc "exec composer update \'drupal/' . $package . ':^' . $version . '\' -W"')
         ->printOutput(TRUE)
         ->run()
         ->getExitCode();
       if ($exit_code !== 0) {
-        throw new \Exception("There was an error updating " . $package . " to version " . $version);
+        throw new \Exception("There was an error updating " . $package . " to version ^" . $version);
       }
 
       $current_branch = trim(`git symbolic-ref --short HEAD`);
