@@ -70,7 +70,8 @@ trait AutoUpdateTrait {
       // Update core in a separate subprocess, as otherwise composer
       // might get updated too, resulting in deleted files inside
       // the /vendor directory causing an error.
-      $exit_code = $this->taskExec('bash -lc "exec composer update \'drupal/' . $package . ':^' . $version . '\' -W"')
+      $escaped_package = escapeshellarg('drupal/' . $package . ':^' . $version);
+      $exit_code = $this->taskExec('bash -lc "exec composer update ' . $escaped_package . ' -W"')
         ->printOutput(TRUE)
         ->run()
         ->getExitCode();
