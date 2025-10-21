@@ -42,7 +42,7 @@ trait AutoUpdateTrait {
       // If recommended module is not compatible with current drupal
       // core, we skip the update.
       if (isset($project['releases'][$project['recommended']]['core_compatible']) && $project['releases'][$project['recommended']]['core_compatible'] === FALSE) {
-        $this->say($project['recommended'] . ' is not compatible with current drupal core, skipping it.');
+        $this->say($project['name'] . ' (version ' . $project['recommended'] . ') is not compatible with current drupal core, skipping it.');
         continue;
       }
       $version = $project['recommended'];
