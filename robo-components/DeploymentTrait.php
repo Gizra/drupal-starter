@@ -177,7 +177,7 @@ trait DeploymentTrait {
 
     if ($result->getMessage()) {
       $this->say($result->getMessage());
-      throw new \Exception('The working directory is dirty. Please commit or stash the pending changes. If you allowed new files in the .gitignore file, also double check composer.json scaffold section.');
+      throw new \Exception('The working directory is dirty. Please commit or stash the pending changes. If you allowed new files in the .gitignore file, also double check composer.json scaffold section. https://www.drupal.org/docs/develop/using-composer/using-drupals-composer-scaffold');
     }
 
     $this->taskExec("git checkout $tag")->run();
