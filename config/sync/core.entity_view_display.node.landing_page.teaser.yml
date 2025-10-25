@@ -5,6 +5,7 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.landing_page.field_is_title_hidden
+    - field.field.node.landing_page.field_metatag
     - field.field.node.landing_page.field_paragraphs
     - node.type.landing_page
   module:
@@ -14,6 +15,11 @@ targetEntityType: node
 bundle: landing_page
 mode: teaser
 content:
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: -20
+    region: content
   links:
     settings: {  }
     third_party_settings: {  }
@@ -21,6 +27,7 @@ content:
     region: content
 hidden:
   field_is_title_hidden: true
+  field_metatag: true
   field_paragraphs: true
   langcode: true
   search_api_excerpt: true
