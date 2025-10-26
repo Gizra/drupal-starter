@@ -135,7 +135,11 @@ function server_general_field_widget_single_element_moderation_state_default_for
 /**
  * Implements hook_entity_access().
  */
-function server_general_node_access(NodeInterface $entity, string $op, AccountInterface $account) {
+function server_general_entity_access(EntityInterface $entity, string $op, AccountInterface $account) {
+  if ($entity->getEntityType()->id() !== 'node') {
+    return AccessResult::neutral();
+  }
+
   /** @var \Drupal\server_general\LockedPages $locked_pages_service */
   $locked_pages_service = \Drupal::service('server_general.locked_pages');
   // The bundles that can be locked.
