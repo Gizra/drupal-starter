@@ -358,12 +358,12 @@ function server_general_preprocess_media_oembed_iframe(array &$variables) {
  * Implements hook_page_attachments().
  */
 function server_general_page_attachments(array &$attachments) {
-  // Add noindex,nofollow meta tag to the 404 page.
-  // The 404 page is identified by its path alias '/404'.
+  // Add noindex,nofollow meta tag to error pages (404 and 403).
+  // These pages are identified by their path aliases.
   $current_path = \Drupal::service('path.current')->getPath();
   $alias = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
 
-  if ($alias === '/404') {
+  if (in_array($alias, ['/404', '/403'])) {
     $noindex_tag = [
       '#tag' => 'meta',
       '#attributes' => [
@@ -371,6 +371,6 @@ function server_general_page_attachments(array &$attachments) {
         'content' => 'noindex,nofollow',
       ],
     ];
-    $attachments['#attached']['html_head'][] = [$noindex_tag, 'noindex_404'];
+    $attachments['#attached']['html_head'][] = [$noindex_tag, 'noindex_error_pages'];
   }
 }
