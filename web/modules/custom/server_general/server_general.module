@@ -353,3 +353,24 @@ function server_general_preprocess_media_oembed_iframe(array &$variables) {
     $variables['media'] = IFrameMarkup::create(str_replace('youtube.com/', 'youtube-nocookie.com/', $variables['media']));
   }
 }
+
+/**
+ * Implements hook_page_attachments().
+ */
+function server_general_page_attachments(array &$attachments) {
+  // Add noindex,nofollow meta tag to the 404 page.
+  // The 404 page is identified by its path alias '/404'.
+  $current_path = \Drupal::service('path.current')->getPath();
+  $alias = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
+
+  if ($alias === '/404') {
+    $noindex_tag = [
+      '#tag' => 'meta',
+      '#attributes' => [
+        'name' => 'robots',
+        'content' => 'noindex,nofollow',
+      ],
+    ];
+    $attachments['#attached']['html_head'][] = [$noindex_tag, 'noindex_404'];
+  }
+}
