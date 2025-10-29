@@ -20,8 +20,8 @@ parameters:
     # The installer scaffolds these per-project; analysing them just causes noise.
     - 'web/sites/default/*.php'
     - 'web/sites/default/default.settings.php'
-    - 'web/sites/default/settings.php'
-    - 'web/sites/default/settings.local.php'
+    - 'web/sites/default/settings.php (?)'
+    - 'web/sites/default/settings.local.php (?)'
     - 'web/modules/contrib/*'
     - 'web/themes/contrib/*'
     - 'web/libraries/*'
