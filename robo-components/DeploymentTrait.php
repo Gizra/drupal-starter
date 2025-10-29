@@ -609,7 +609,7 @@ trait DeploymentTrait {
       if ($requirement['severity'] !== 'Error') {
         continue;
       }
-      if (in_array($requirement['title'], $exclude_list) || in_array($requirement['value'], $exclude_list)) {
+      if (in_array($requirement['title'], $exclude_list, TRUE) || in_array($requirement['value'], $exclude_list, TRUE)) {
         // A warning we decided to exclude.
         continue;
       }
@@ -642,7 +642,7 @@ trait DeploymentTrait {
     $forbidden_envs = [
       'live',
     ];
-    if (in_array($env, $forbidden_envs)) {
+    if (in_array($env, $forbidden_envs, TRUE)) {
       throw new \Exception("Reinstalling the site on `$env` environment is forbidden.");
     }
 

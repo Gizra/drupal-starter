@@ -207,7 +207,7 @@ trait ElementWrapThemeTrait {
       'quote',
     ];
 
-    return in_array($paragraph->bundle(), $paragraph_types_with_no_bottom_padding) ? $element : $this->wrapContainerBottomPadding($element);
+    return in_array($paragraph->bundle(), $paragraph_types_with_no_bottom_padding, TRUE) ? $element : $this->wrapContainerBottomPadding($element);
   }
 
   /**

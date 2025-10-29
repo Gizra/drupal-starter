@@ -179,7 +179,7 @@ abstract class MediaEmbedProcessPluginBase extends ProcessPluginBase {
       // No extension, not an image.
       return FALSE;
     }
-    return in_array($extension, static::MEDIA_IMAGE_VALID_EXTENSIONS);
+    return in_array($extension, static::MEDIA_IMAGE_VALID_EXTENSIONS, TRUE);
   }
 
   /**
