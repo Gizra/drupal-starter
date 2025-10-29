@@ -11,8 +11,11 @@ FILES=$(git diff-tree --no-commit-id --name-only -r HEAD | grep -v yml$)
 
 for FILE in $FILES
 do
-  echo "$FILE"
   if [ -f "$FILE" ]; then
-    php -l "$FILE"
+    # Only lint actual PHP files using the file command
+    if file "$FILE" | grep -q "PHP script"; then
+      echo "$FILE"
+      php -l "$FILE"
+    fi
   fi
 done
