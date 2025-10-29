@@ -14,7 +14,6 @@ do
   if [ -f "$FILE" ]; then
     # Only lint actual PHP files using the file command
     if file "$FILE" | grep -q "PHP script"; then
-      echo "$FILE"
       php -l "$FILE"
     fi
   fi
