@@ -124,7 +124,7 @@ function server_general_field_widget_single_element_moderation_state_default_for
   $bundles = $locked_pages_service->getReferencedBundles();
 
   // Node is not locked or options do not include unpublished, return early.
-  if (!in_array($entity->bundle(), $bundles) || !$locked_pages_service->isNodeLocked($entity) || !isset($element['state']['#options']['unpublished'])) {
+  if (!in_array($entity->bundle(), $bundles, TRUE) || !$locked_pages_service->isNodeLocked($entity) || !isset($element['state']['#options']['unpublished'])) {
     return;
   }
 
@@ -141,7 +141,7 @@ function server_general_node_access(NodeInterface $entity, string $op, AccountIn
   // The bundles that can be locked.
   $bundles = $locked_pages_service->getReferencedBundles();
 
-  if (!in_array($entity->bundle(), $bundles)) {
+  if (!in_array($entity->bundle(), $bundles, TRUE)) {
     return AccessResult::neutral();
   }
 
@@ -321,7 +321,7 @@ function server_general_menu_local_tasks_alter(array &$data, string $route_name)
     'entity.node.edit_form',
   ];
 
-  if (!in_array($route_name, $routes)) {
+  if (!in_array($route_name, $routes, TRUE)) {
     return;
   }
 

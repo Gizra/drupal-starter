@@ -188,7 +188,7 @@ final class ImgToMedia extends MediaEmbedProcessPluginBase implements ContainerF
 
       // Skip transforming external files. Some links may include a host
       // to prod URL, we'll count them as internal files.
-      if (isset($url_parts['host']) && !in_array($url_parts['host'], self::DOMAINS)) {
+      if (isset($url_parts['host']) && !in_array($url_parts['host'], self::DOMAINS, TRUE)) {
         // Absolute URL that's not pointing at production.
         $iterator++;
         continue;
