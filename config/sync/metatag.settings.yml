@@ -4,6 +4,7 @@ entity_type_groups:
   node:
     landing_page:
       basic: basic
+      open_graph: open_graph
     news:
       basic: basic
       open_graph: open_graph
