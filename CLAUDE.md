@@ -11,6 +11,7 @@ This is a Drupal 10/11 starter project using DDEV, Robo, Pantheon, and Drupal be
 - Use `gh` CLI for GitHub operations
 - Only `git add` files you intended to change
 - Always specify branch name when doing `git push`
+- **Never do `git push --force`** - use `--force-with-lease` if absolutely necessary
 
 ## Drupal Best Practices
 
@@ -84,7 +85,7 @@ Avoid comments that restate the code.
 - **DDEV**: Local development environment
 - **Robo**: Task automation (PHP-based, preferred over bash)
 - **Pluggable Entity View Builder (PEVB)**: Entity rendering pattern
-- **Tailwind CSS**: Theme styling (JIT mode)
+- **Tailwind CSS 3.x**: Theme styling (JIT mode)
 - **Drupal Test Traits (DTT)**: Testing framework
 - **ParaTest**: Parallel test execution
 
@@ -163,11 +164,14 @@ ddev ssh                 # SSH into web container
 
 ### Drupal Commands
 ```bash
-ddev drush cr            # Clear cache
+ddev drush deploy        # Main command after git pull (runs updb + cim + cr)
 ddev drush cex           # Export config
-ddev drush cim           # Import config
-ddev drush updb          # Run database updates
 ddev drush uli           # Generate login link
+
+# Standalone commands (already included in deploy):
+ddev drush cr            # Clear cache only
+ddev drush cim           # Import config only
+ddev drush updb          # Run database updates only
 ```
 
 ### Custom DDEV Commands
@@ -181,7 +185,10 @@ ddev phpunit-contrib <module_name>   # Run contrib module tests
 ## Testing
 
 ### Test Types
-1. **Drupal Test Traits (DTT)**: Fast tests on existing installation
+
+**Preferred approach**: Use `weitzman\DrupalTestTraits\ExistingSiteBase` for tests in this project, rather than Kernel or Unit tests. ExistingSite tests run against a real Drupal installation and are faster and more practical for integration testing.
+
+1. **Drupal Test Traits (DTT)**: Fast tests on existing installation using `ExistingSiteBase`
 2. **Selenium Tests**: Headless Chrome with JavaScript support
 3. **Parallel Tests**: ParaTest runs tests concurrently
 4. **Sequential Tests**: Mark with `@group sequential` for tests that must run alone
@@ -189,8 +196,13 @@ ddev phpunit-contrib <module_name>   # Run contrib module tests
 ## Architecture Patterns
 
 ### Pluggable Entity View Builder (PEVB)
+
+**Important**: This project does NOT use standard Drupal rendering with view modes configured in the UI. All entity rendering is handled through PEVB plugins defined in code.
+
 Entity rendering via PEVB plugins. Example:
 - `web/modules/custom/server_general/src/Plugin/EntityViewBuilder/NodeLandingPage.php`
+
+View modes and display configurations must be defined in code via PEVB plugins, not through Drupal's UI manage display.
 
 ### Responsive Images
 1. Define component rules (how images transform at breakpoints)
