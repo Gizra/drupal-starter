@@ -12,6 +12,50 @@ This is a Drupal 10/11 starter project using DDEV, Robo, Pantheon, and Drupal be
 - Only `git add` files you intended to change
 - Always specify branch name when doing `git push`
 
+## Drupal Best Practices
+
+### Patterns to Follow ✅
+
+- **Use Drupal APIs**: Leverage Entity API, Form API, Cache API, Database API
+- **Dependency Injection**: Use services container for reusable logic
+- **Entity API**: Use for all data modeling and content operations
+- **Configuration Management**: Use Configuration entities for admin-configurable features
+- **Proper Hooks**: Implement hooks following conventions (`hook_form_alter`, `hook_theme`, etc.)
+- **Render Arrays**: Use Render API for all HTML output
+- **Translation**: Use `t()`, `\Drupal::translation()` for user-facing strings
+- **Caching**: Implement Cache API with proper cache tags and contexts
+- **Plugin System**: Create plugins for extensibility
+- **PHPDoc Comments**: Document all public functions
+- **Form Validation**: Use Form API validation handlers
+
+### Patterns to Avoid 🚫
+
+- **Direct Database Queries**: Use Entity Query or Database API instead
+- **Hardcoded Strings**: Use configuration or translation system
+- **Raw HTML Output**: Use render arrays, not `print` or `echo`
+- **Global Variables**: Use dependency injection and services
+- **jQuery**: Use vanilla JavaScript and ES6+ unless absolutely necessary
+- **Bypassing Permissions**: Never bypass Drupal's permission system
+- **Ignoring Cache Invalidation**: Always invalidate caches properly
+- **Writing Outside Designated Directories**: Respect Drupal's file structure
+
+### Security & Access Control
+
+- **Always implement proper access control** for custom functionality
+- **Validate all inputs** and sanitize outputs consistently
+- **Use permission system**: Check user permissions before granting access
+- **Sanitize output**: Use appropriate sanitization (`Xss::filter`, `Html::escape`)
+- **Validate forms**: Use Form API validation
+- **Use render arrays**: They provide automatic sanitization
+- **Check entity access**: Use `$entity->access()` before operations
+
+### Frontend Development
+
+- **Prefer Vanilla JavaScript**: Use ES6+ features over jQuery
+- **Drupal Behaviors**: Use `Drupal.behaviors` for proper initialization and AJAX compatibility
+- **Native DOM APIs**: Prefer modern DOM APIs over legacy jQuery patterns
+- **Progressive Enhancement**: Ensure functionality works without JavaScript when possible
+
 ## Code Quality
 
 ### Linting (Required Before Commit)
