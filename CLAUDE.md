@@ -87,7 +87,6 @@ Avoid comments that restate the code.
 - **Pluggable Entity View Builder (PEVB)**: Entity rendering pattern
 - **Tailwind CSS 3.x**: Theme styling (JIT mode)
 - **Drupal Test Traits (DTT)**: Testing framework
-- **ParaTest**: Parallel test execution
 
 ## Development Workflow
 
@@ -190,8 +189,6 @@ ddev phpunit-contrib <module_name>   # Run contrib module tests
 
 1. **Drupal Test Traits (DTT)**: Fast tests on existing installation using `ExistingSiteBase`
 2. **Selenium Tests**: Headless Chrome with JavaScript support
-3. **Parallel Tests**: ParaTest runs tests concurrently
-4. **Sequential Tests**: Mark with `@group sequential` for tests that must run alone
 
 ## Architecture Patterns
 
