@@ -11,7 +11,7 @@ This is a Drupal 10/11 starter project using DDEV, Robo, Pantheon, and Drupal be
 - Use `gh` CLI for GitHub operations
 - Only `git add` files you intended to change
 - Always specify branch name when doing `git push`
-- **Never do `git push --force`** - use `--force-with-lease` if absolutely necessary
+- Never do `git push --force
 
 ## Drupal Best Practices
 
