@@ -85,7 +85,7 @@ final class LockedPagesRouteSubscriber extends RouteSubscriberBase {
       $cache_tags = $main_settings->getCacheTags();
     }
     // If node is locked, we don't allow accessing the delete page at all.
-    if (in_array($node->getType(), $bundles) && $this->lockedPagesService->isNodeLocked($node)) {
+    if (in_array($node->getType(), $bundles, TRUE) && $this->lockedPagesService->isNodeLocked($node)) {
       $result = AccessResult::forbidden()->addCacheableDependency($node);
       if (!empty($cache_tags)) {
         $result->addCacheTags($cache_tags);

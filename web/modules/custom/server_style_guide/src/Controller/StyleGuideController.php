@@ -837,7 +837,7 @@ class StyleGuideController extends ControllerBase {
    *   URL with placeholder.
    */
   protected function getPlaceholderPersonImage(int $width_and_height) {
-    $unique_id = substr(str_shuffle(md5(microtime())), 0, 10);
+    $unique_id = bin2hex(random_bytes(5));
     return "https://i.pravatar.cc/{$width_and_height}?u=" . $unique_id;
   }
 
