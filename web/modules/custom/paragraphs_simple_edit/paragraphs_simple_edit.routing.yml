@@ -1,0 +1,8 @@
+paragraphs_simple_edit.add_form:
+  path: '/paragraphs-simple-edit/{root_parent_type}/{root_parent}/paragraph/{bundle}/add'
+  defaults:
+    _controller: '\Drupal\paragraphs_simple_edit\Controller\ParagraphsSimpleEditController::add'
+  requirements:
+    root_parent: \d+
+  options:
+    _admin_route: TRUE

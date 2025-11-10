@@ -1,0 +1,8 @@
+name: 'Paragraphs Simple Edit'
+type: module
+description: 'Provides a paragraphs field widget that allows editing, adding, and deleting paragraphs on dedicated pages.'
+package: Paragraphs
+core_version_requirement: ^10 || ^11
+dependencies:
+  - drupal:field
+  - paragraphs:paragraphs
