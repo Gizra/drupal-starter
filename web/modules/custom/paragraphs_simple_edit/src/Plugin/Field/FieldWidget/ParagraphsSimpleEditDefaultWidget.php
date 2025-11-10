@@ -149,8 +149,6 @@ class ParagraphsSimpleEditDefaultWidget extends ParagraphsWidget {
    * {@inheritdoc}
    */
   public function formMultipleElements(FieldItemListInterface $items, array &$form, FormStateInterface $form_state) {
-    $f = get_entity_add_route('paragraph', 'accordion');
-    ksm($f);
     $elements = parent::formMultipleElements($items, $form, $form_state);
 
     $field_name = $this->fieldDefinition->getName();
