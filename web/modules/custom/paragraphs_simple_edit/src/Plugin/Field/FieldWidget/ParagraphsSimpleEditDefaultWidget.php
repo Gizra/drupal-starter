@@ -290,6 +290,9 @@ final class ParagraphsSimpleEditDefaultWidget extends ParagraphsWidget {
           'paragraphs_type' => $bundle,
         ],
         [
+          'attributes' => [
+            'class' => ['paragraphs-simple-edit-add-link'],
+          ],
           'query' => $destination,
         ]),
       ];

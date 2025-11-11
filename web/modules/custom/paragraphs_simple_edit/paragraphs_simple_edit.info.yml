@@ -4,4 +4,5 @@ description: 'Provides a paragraphs field widget that allows editing, adding, an
 package: Paragraphs
 core_version_requirement: ^10 || ^11
 dependencies:
+  - paragraphs_edit:paragraphs_edit
   - paragraphs_modal_add:paragraphs_modal_add
