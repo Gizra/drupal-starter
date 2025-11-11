@@ -3,11 +3,10 @@
 namespace Drupal\paragraphs_simple_edit\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\Core\Session\AccountInterface;
-use Drupal\Core\Access\AccessResult;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\paragraphs\ParagraphsTypeInterface;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Controller for showing a Paragraph add form targeted to a host entity.
@@ -15,73 +14,54 @@ use Symfony\Component\HttpFoundation\Request;
 class ParagraphsSimpleEditController extends ControllerBase {
 
   /**
+   * Title callback.
+   */
+  public function addParagraphTitle(string $root_parent_type, ContentEntityInterface $root_parent, string $bundle) {
+    $paragraph_type = $this->entityTypeManager()->getStorage('paragraphs_type')->load($bundle);
+    if ($paragraph_type instanceof ParagraphsTypeInterface) {
+      return $this->t('Add new @bundle', [
+        '@bundle' => $paragraph_type->label(),
+      ]);
+    }
+    return $this->t('Add new paragraph');
+  }
+
+  /**
    * Show paragraph add form.
    */
-  public function add($root_parent_type, $root_parent, $bundle, Request $request) {
+  public function addParagraph(string $root_parent_type, ContentEntityInterface $root_parent, string $bundle) {
+    // Load parent entity storage & the parent entity itself.
+    $entity_storage = $this->entityTypeManager()->getStorage($root_parent_type);
+    if (!$entity_storage) {
+      throw new NotFoundHttpException("Unknown parent entity type: $root_parent_type");
+    }
 
-    // Load host entity storage and the host entity itself.
-    // $entity_storage = $this->entityTypeManager->getStorage($host_entity_type);
-    // if (!$entity_storage) {
-    //   throw new NotFoundHttpException("Unknown host entity type: $host_entity_type");
-    // }
+    // Ensure the current user can view the parent (basic protection).
+    if (!$root_parent->access('view')) {
+      throw new AccessDeniedHttpException("Parent entity not accessible.");
+    }
 
-    // $host = $entity_storage->load($host_entity);
-    // if (!$host) {
-    //   throw new NotFoundHttpException("Host entity not found: $host_entity_type $host_entity");
-    // }
-
-    // // Ensure the current user can view the host (basic protection).
-    // if (!$host->access('view')) {
-    //   throw new NotFoundHttpException("Host entity not accessible.");
-    // }
+    $paragraph_type = $this->entityTypeManager()->getStorage('paragraphs_type')->load($bundle);
+    if (!($paragraph_type instanceof ParagraphsTypeInterface)) {
+      throw new NotFoundHttpException("Paragraph bundle not found: $bundle");
+    }
 
     // Create a paragraph entity of the requested bundle (unsaved).
-    //$paragraph_storage = $this->entityTypeManager->getStorage('paragraph');
-    // if (!$paragraph_storage) {
-    //   // Paragraph module not enabled or entity type missing.
-    //   throw new NotFoundHttpException("Paragraph entity type is not available on this site.");
-    // }
+    $paragraph_storage = $this->entityTypeManager()->getStorage('paragraph');
 
-    //$paragraph = $paragraph_storage->create(['type' => $paragraph_type]);
+    $paragraph = $paragraph_storage->create(['type' => $bundle]);
 
     // Access check: can current user create this paragraph bundle?
-    // if (!$paragraph->access('create')) {
-    //   // Use access denied rather than 404 if you prefer.
-    //   return $this->accessDenied();
-    // }
+    if (!$paragraph->access('create')) {
+      throw new AccessDeniedHttpException("Access denied while creating paragraph of type $bundle.");
+    }
 
-    // OPTIONAL / HELPFUL: If you want the paragraph form to know which host it
-    // will be attached to (so you can attach in the save path), you can add
-    // these as form state values or as query parameters. Here we inject them
-    // as #attached form build info (a small, non-invasive approach):
-    //
-    // The form can read these values in a hook_form_alter or in a custom form
-    // submit handler.
-    // $paragraph->parent_type = $host_entity_type;
-    // $paragraph->parent_id = $host_entity;
+    $paragraph->set('parent_type', $root_parent_type);
+    $paragraph->set('parent_id', $root_parent);
 
     // Render and return the paragraph entity add form.
     // Use the standard entity form builder. We present the default form mode.
-    //$form = $this->entityFormBuilder->getForm($paragraph, 'add');
-
-    // Attach the host info as a hidden form element so submit handlers can
-    // pick it up easily. We must alter the built form structure here.
-    // Only add if form is an array and not cached markup.
-    // if (is_array($form)) {
-    //   $form['#cache']['contexts'][] = 'user'; // conservative cache context
-    //   // Add hidden values for downstream submit handlers.
-    //   $form['mymodule_host_info'] = [
-    //     '#type' => 'value',
-    //     '#value' => [
-    //       'host_entity_type' => $host_entity_type,
-    //       'host_entity_id' => $host_entity,
-    //     ],
-    //   ];
-    // }
-
-    $form['test'] = [
-      '#markup' => 'test',
-    ];
+    $form = $this->entityFormBuilder()->getForm($paragraph, 'default');
 
     return $form;
   }
