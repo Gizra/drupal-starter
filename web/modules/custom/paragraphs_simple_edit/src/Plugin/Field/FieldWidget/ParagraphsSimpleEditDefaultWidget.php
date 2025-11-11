@@ -157,6 +157,13 @@ class ParagraphsSimpleEditDefaultWidget extends ParagraphsWidget {
       return $elements;
     }
 
+    $host = $items->getEntity();
+
+    if (!$host->id()) {
+      // Add links require host entity ids.
+      return $elements;
+    }
+
     $bundle_fields = $this->entityFieldManager
       ->getFieldDefinitions($items->getEntity()->getEntityTypeId(), $items->getEntity()->bundle());
 
@@ -175,6 +182,8 @@ class ParagraphsSimpleEditDefaultWidget extends ParagraphsWidget {
       $target_bundles = array_keys($paragraph_types);
     }
 
+    $destination = $this->redirectDestination->getAsArray();
+
     $add_links = [];
     foreach ($target_bundles as $bundle) {
       $paragraph_type = $this->entityTypeManager
@@ -187,7 +196,15 @@ class ParagraphsSimpleEditDefaultWidget extends ParagraphsWidget {
 
       $add_links[$bundle] = [
         'title' => $this->t('Add @type', ['@type' => $paragraph_type->label()]),
-        'url' => Url::fromRoute('<front>'),
+        'url' => Url::fromRoute('paragraphs_modal_add.add_form', [
+          'root_parent_type' => $host->getEntityTypeId(),
+          'root_parent' => $host->id(),
+          'parent_field_name' => $field_name,
+          'paragraphs_type' => $bundle,
+        ],
+        [
+          'query' => $destination,
+        ]),
       ];
     }
 
