@@ -24,7 +24,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
   description: new TranslatableMarkup('The paragraphs form that allows editing, adding, and deleting paragraphs on dedicated pages.'),
   field_types: ['entity_reference_revisions']
 )]
-class ParagraphsSimpleEditDefaultWidget extends ParagraphsWidget {
+final class ParagraphsSimpleEditDefaultWidget extends ParagraphsWidget {
 
   /**
    * The entity type manager.
@@ -37,9 +37,18 @@ class ParagraphsSimpleEditDefaultWidget extends ParagraphsWidget {
   protected ThemeManagerInterface $themeManager;
 
   /**
-   * The redirect destination
+   * The redirect destination.
    */
   protected RedirectDestinationInterface $redirectDestination;
+
+  /**
+   * The settings that are no longer necessary.
+   */
+  protected static array $unusedSettings = [
+    'autocollapse' => 'none',
+    'closed_mode_threshold' => 0,
+    'add_mode' => 'dropdown',
+  ];
 
   /**
    * Constructs a ParagraphsSimpleEditDefaultWidget object.
@@ -90,10 +99,82 @@ class ParagraphsSimpleEditDefaultWidget extends ParagraphsWidget {
   /**
    * {@inheritdoc}
    */
+  public static function defaultSettings() {
+    $defaults = parent::defaultSettings();
+    // Set default values for unused settings. We are not removing these
+    // to avoid any problems when parent widget is being used.
+    foreach (static::$unusedSettings as $element_key => $element_value) {
+      $defaults[$element_key] = $element_value;
+    }
+    return $defaults;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function settingsForm(array $form, FormStateInterface $form_state) {
+    $elements = parent::settingsForm($form, $form_state);
+    // Instead of removing these elements, we are just hiding those
+    // to avoid any problems when parent widget is being used.
+    foreach (static::$unusedSettings as $element_key => $element_value) {
+      $elements[$element_key]['#access'] = FALSE;
+    }
+
+    // Form display mode is only useful when edit_mode is open.
+    if (!empty($elements['form_display_mode'])) {
+      $elements['form_display_mode']['#states'] = [
+        'visible' => [
+          'select[name="fields[' . $this->fieldDefinition->getName() . '][settings_edit_form][settings][edit_mode]"]' => ['value' => 'open'],
+        ],
+      ];
+    }
+    return $elements;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function settingsSummary() {
+    $summary = [];
+    $summary[] = $this->t('Title: @title', ['@title' => $this->getSetting('title')]);
+    $summary[] = $this->t('Plural title: @title_plural', [
+      '@title_plural' => $this->getSetting('title_plural'),
+    ]);
+
+    $edit_mode = $this->getSettingOptions('edit_mode')[$this->getSetting('edit_mode')];
+    $closed_mode = $this->getSettingOptions('closed_mode')[$this->getSetting('closed_mode')];
+
+    $summary[] = $this->t('Edit mode: @edit_mode', ['@edit_mode' => $edit_mode]);
+    $summary[] = $this->t('Closed mode: @closed_mode', ['@closed_mode' => $closed_mode]);
+
+    if ($this->getSetting('edit_mode') == 'open') {
+      $summary[] = $this->t('Form display mode: @form_display_mode', [
+        '@form_display_mode' => $this->getSetting('form_display_mode'),
+      ]);
+    }
+
+    if ($this->getDefaultParagraphTypeLabelName() !== NULL) {
+      $summary[] = $this->t('Default paragraph type: @default_paragraph_type', [
+        '@default_paragraph_type' => $this->getDefaultParagraphTypeLabelName(),
+      ]);
+    }
+    $features_labels = array_intersect_key($this->getSettingOptions('features'), array_filter($this->getSetting('features')));
+    if (!empty($features_labels)) {
+      $summary[] = $this->t('Features: @features', ['@features' => implode(', ', $features_labels)]);
+    }
+
+    return $summary;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
     $element = parent::formElement($items, $delta, $element, $form, $form_state);
 
-    $paragraph = $items[$delta]->entity;
+    /** @var \Drupal\Core\Field\Plugin\Field\FieldType\EntityReferenceItem $item */
+    $item = $items[$delta];
+    $paragraph = $item->entity;
     if (!$paragraph || $paragraph->isNew()) {
       return $element;
     }
@@ -103,6 +184,12 @@ class ParagraphsSimpleEditDefaultWidget extends ParagraphsWidget {
     if (!$host->id()) {
       // Edit and Delete links require saved paragraph entities with IDs.
       // For new host entities, paragraphs are created on form submission.
+      return $element;
+    }
+
+    // Links shouldn't be there when edit mode is set to open.
+    $edit_mode = $this->getSetting('edit_mode');
+    if ($edit_mode == 'open') {
       return $element;
     }
 
@@ -217,7 +304,7 @@ class ParagraphsSimpleEditDefaultWidget extends ParagraphsWidget {
       '#dropbutton_type' => 'extrasmall',
       '#links' => $add_links,
       '#attributes' => [
-        'class' => ['paragraph-simple-edit--add-button']
+        'class' => ['paragraph-simple-edit--add-button'],
       ],
     ];
 
