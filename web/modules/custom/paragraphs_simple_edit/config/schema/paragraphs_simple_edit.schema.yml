@@ -1,0 +1,36 @@
+field.widget.settings.paragraphs_simple_edit_default:
+  type: mapping
+  label: 'Paragraphs simple edit widget settings'
+  mapping:
+    title:
+      type: string
+      label: 'Title'
+    title_plural:
+      type: string
+      label: 'Title plural'
+    edit_mode:
+      type: string
+      label: 'Edit mode'
+    closed_mode:
+      type: string
+      label: 'Closed mode'
+    autocollapse:
+      type: string
+      label: 'Autocollapse'
+    closed_mode_threshold:
+      type: integer
+      label: 'Closed mode threshold'
+    add_mode:
+      type: string
+      label: 'Add mode'
+    form_display_mode:
+      type: string
+      label: 'Form display mode'
+    default_paragraph_type:
+      type: string
+      label: 'Default paragraph type'
+    features:
+      type: sequence
+      label: 'Features'
+      sequence:
+        type: string

@@ -202,6 +202,9 @@ final class ParagraphsSimpleEditDefaultWidget extends ParagraphsWidget {
     ],
     [
       'query' => $destination,
+      'attributes' => [
+        'class' => ['paragraphs-simple-edit-edit-link'],
+      ],
     ]);
 
     $delete_url = Url::fromRoute('paragraphs_edit.delete_form', [
@@ -211,6 +214,9 @@ final class ParagraphsSimpleEditDefaultWidget extends ParagraphsWidget {
     ],
     [
       'query' => $destination,
+      'attributes' => [
+        'class' => ['paragraphs-simple-edit-delete-link'],
+      ],
     ]);
 
     $element['top']['actions']['actions'] = [
@@ -252,31 +258,22 @@ final class ParagraphsSimpleEditDefaultWidget extends ParagraphsWidget {
     }
 
     $bundle_fields = $this->entityFieldManager
-      ->getFieldDefinitions($items->getEntity()->getEntityTypeId(), $items->getEntity()->bundle());
+      ->getFieldDefinitions($host->getEntityTypeId(), $host->bundle());
 
     if (!isset($bundle_fields[$field_name])) {
       return $elements;
     }
 
-    $field_config = $bundle_fields[$field_name];
-    $handler_settings = $field_config->getSetting('handler_settings');
-    $target_bundles = $handler_settings['target_bundles'] ?? [];
-
-    if (empty($target_bundles)) {
-      $paragraph_types = $this->entityTypeManager
-        ->getStorage('paragraphs_type')
-        ->loadMultiple();
-      $target_bundles = array_keys($paragraph_types);
-    }
+    $target_bundles = $this->getAccessibleOptions();
 
     $destination = $this->redirectDestination->getAsArray();
 
     $add_links = [];
-    foreach ($target_bundles as $bundle) {
+    foreach ($target_bundles as $bundle => $bundle_label) {
       $paragraph_type = $this->entityTypeManager
         ->getStorage('paragraphs_type')
         ->load($bundle);
-
+      // Additional check to make sure paragraph type exists.
       if (!$paragraph_type) {
         continue;
       }

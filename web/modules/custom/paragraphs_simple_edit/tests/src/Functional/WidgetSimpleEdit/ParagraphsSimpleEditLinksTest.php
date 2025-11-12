@@ -2,7 +2,7 @@
 
 namespace Drupal\Tests\paragraphs_simple_edit\Functional\WidgetSimpleEdit;
 
-use Drupal\paragraphs\Entity\ParagraphsType;
+use Drupal\Core\Entity\ContentEntityInterface;
 
 /**
  * Tests paragraphs simple edit links.
@@ -10,9 +10,9 @@ use Drupal\paragraphs\Entity\ParagraphsType;
 class ParagraphsSimpleEditLinksTest extends ParagraphsSimpleEditTestBase {
 
   /**
-   * Tests the add dropdown links.
+   * Tests the dropdown links.
    */
-  public function testDropDownAddLinks() {
+  public function testDropDownLinks() {
     $this->loginAsAdmin();
     // Add two Paragraph types.
     $this->addParagraphsType('btext');
@@ -27,9 +27,7 @@ class ParagraphsSimpleEditLinksTest extends ParagraphsSimpleEditTestBase {
     $this->drupalGet('admin/structure/types/manage/paragraphed_test/fields/node.' . $content_type . '.' . $paragraph_field_name);
     $this->submitForm([], 'Save settings');
 
-    $settings = [
-      'edit_mode' => 'closed',
-    ];
+    $settings = ['edit_mode' => 'closed'];
     $this->setSimpleEditWidget($content_type, $paragraph_field_name, $settings);
 
     $this->assertAddLinks(['Add btext', 'Add dtext'], $node);
@@ -48,19 +46,39 @@ class ParagraphsSimpleEditLinksTest extends ParagraphsSimpleEditTestBase {
 
     $this->setAllowedParagraphsTypes($content_type, ['atext', 'dtext', 'btext'], TRUE, $paragraph_field_name);
     $this->assertAddLinks(['Add atext', 'Add dtext', 'Add btext'], $node);
+
+    // Create paragraphs & add to the node.
+    foreach (['atext', 'btext'] as $type) {
+      $this->addParagraphToEntity($type, $node, $paragraph_field_name);
+    }
+    $this->assertActionLinks(2, $node);
+
+    $this->addParagraphToEntity('dtext', $node, $paragraph_field_name);
+    $this->assertActionLinks(3, $node);
   }
 
   /**
    * Asserts order and quantity of add links.
    */
-  protected function assertAddLinks($options, $node) {
+  protected function assertAddLinks(array $expected_links, ContentEntityInterface $node) {
     $this->drupalGet('node/' . $node->id() . '/edit');
     $links = $this->xpath('//a[@class="paragraphs-simple-edit-add-link"]');
     // Check if the buttons are in the same order as the given array.
     foreach ($links as $key => $link) {
-      $this->assertEquals($link->getValue(), $options[$key]);
+      $this->assertEquals($link->getText(), $expected_links[$key]);
     }
-    $this->assertEquals(count($links), count($options), 'The amount of drop down links matches with the given array');
+    $this->assertEquals(count($links), count($expected_links), 'The amount of drop down links matches with the given array');
+  }
+
+  /**
+   * Asserts quantity of edit/delete links.
+   */
+  protected function assertActionLinks(int $count, ContentEntityInterface $node) {
+    $this->drupalGet('node/' . $node->id() . '/edit');
+    $edit_links = $this->xpath('//a[@class="paragraphs-simple-edit-edit-link"]');
+    $this->assertEquals(count($edit_links), $count, 'The amount of edit links matches with the given count');
+    $delete_links = $this->xpath('//a[@class="paragraphs-simple-edit-delete-link"]');
+    $this->assertEquals(count($delete_links), $count, 'The amount of delete links matches with the given count');
   }
 
 }
