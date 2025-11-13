@@ -251,14 +251,31 @@ final class ParagraphsSimpleEditDefaultWidget extends ParagraphsWidget {
     }
 
     $host = $items->getEntity();
+    $bundle = $host->bundle();
 
     if (!$host->id()) {
-      // Add links require host entity ids.
+      $host_bundle_label = NULL;
+      $bundle_entity_type = $host->getEntityType()->getBundleEntityType();
+      if ($bundle_entity_type) {
+        $host_bundle = $this->entityTypeManager->getStorage($bundle_entity_type)->load($bundle);
+        $host_bundle_label = $host_bundle ? $host_bundle->label() : $bundle;
+      }
+      else {
+        // Entity type does not have bundles.
+        $host_bundle_label = $host->getEntityType()->getLabel();
+      }
+      // For new entities, we will just add a text.
+      $elements['add_more'] = [
+        '#markup' => $this->t('Save the @bundle first to add new @title_plural.', [
+          '@bundle' => $host_bundle_label,
+          '@title_plural' => $this->getSetting('title_plural'),
+        ]),
+      ];
       return $elements;
     }
 
     $bundle_fields = $this->entityFieldManager
-      ->getFieldDefinitions($host->getEntityTypeId(), $host->bundle());
+      ->getFieldDefinitions($host->getEntityTypeId(), $bundle);
 
     if (!isset($bundle_fields[$field_name])) {
       return $elements;
