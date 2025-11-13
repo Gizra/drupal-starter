@@ -28,6 +28,15 @@ abstract class ParagraphsSimpleEditTestBase extends ParagraphsTestBase {
   ];
 
   /**
+   * {@inheritdoc}
+   */
+  protected function setUp(): void {
+    parent::setUp();
+    $this->admin_permissions[] = 'administer user fields';
+    $this->admin_permissions[] = 'administer users';
+  }
+
+  /**
    * Create & add paragraph to the entity.
    */
   protected function addParagraphToEntity(string $type, ContentEntityInterface $entity, string $paragraph_field_name) {
@@ -44,8 +53,8 @@ abstract class ParagraphsSimpleEditTestBase extends ParagraphsTestBase {
   /**
    * Sets the Paragraphs widget to simple edit.
    */
-  protected function setSimpleEditWidget(string $content_type, string $paragraph_field_name, array $settings = []) {
-    $form_display = EntityFormDisplay::load('node.' . $content_type . '.default')
+  protected function setSimpleEditWidget(string $entity_type, string $bundle, string $paragraph_field_name, array $settings = []) {
+    $form_display = EntityFormDisplay::load($entity_type . '.' . $bundle . '.default')
       ->setComponent($paragraph_field_name, [
         'type' => 'paragraphs_simple_edit_default',
         'settings' => $settings,

@@ -22,13 +22,15 @@ class ParagraphsSimpleEditLinksTest extends ParagraphsSimpleEditTestBase {
     $paragraph_field_name = 'paragraphs';
 
     $this->addParagraphedContentType($content_type, $paragraph_field_name);
-    $node = $this->createNode(['type' => $content_type]);
+
     // Enter to the field config since the weight is set through the form.
-    $this->drupalGet('admin/structure/types/manage/paragraphed_test/fields/node.' . $content_type . '.' . $paragraph_field_name);
+    $this->drupalGet('admin/structure/types/manage/' . $content_type . '/fields/node.' . $content_type . '.' . $paragraph_field_name);
     $this->submitForm([], 'Save settings');
 
     $settings = ['edit_mode' => 'closed'];
-    $this->setSimpleEditWidget($content_type, $paragraph_field_name, $settings);
+    $this->setSimpleEditWidget('node', $content_type, $paragraph_field_name, $settings);
+
+    $node = $this->createNode(['type' => $content_type]);
 
     $this->assertAddLinks(['Add btext', 'Add dtext'], $node);
 
@@ -55,6 +57,84 @@ class ParagraphsSimpleEditLinksTest extends ParagraphsSimpleEditTestBase {
 
     $this->addParagraphToEntity('dtext', $node, $paragraph_field_name);
     $this->assertActionLinks(3, $node);
+  }
+
+  /**
+   * Tests the widget empty text for node.
+   */
+  public function testWidgetEmptyTextForNode() {
+    $this->loginAsAdmin();
+    // Add two Paragraph types.
+    $this->addParagraphsType('btext');
+    $this->addParagraphsType('dtext');
+
+    $content_type = 'paragraphed_test';
+    $paragraph_field_name = 'paragraphs';
+
+    $this->addParagraphedContentType($content_type, $paragraph_field_name);
+
+    // Enter to the field config since the weight is set through the form.
+    $this->drupalGet('admin/structure/types/manage/' . $content_type . '/fields/node.' . $content_type . '.' . $paragraph_field_name);
+    $this->submitForm([], 'Save settings');
+
+    $settings = ['edit_mode' => 'closed'];
+    $this->setSimpleEditWidget('node', $content_type, $paragraph_field_name, $settings);
+
+    // Go to node add page.
+    $this->drupalGet('node/add/' . $content_type);
+
+    $this->assertSession()->pageTextContains('Save the ' . $content_type . ' first to add new Paragraphs.');
+
+    // Change paragraphs title text.
+    $settings = [
+      'title' => 'Item',
+      'title_plural' => 'Items',
+    ];
+    $this->setParagraphsWidgetSettings($content_type, $paragraph_field_name, $settings);
+
+    // Go to node add page.
+    $this->drupalGet('node/add/' . $content_type);
+
+    $this->assertSession()->pageTextContains('Save the ' . $content_type . ' first to add new Items.');
+  }
+
+  /**
+   * Tests the widget empty text for user.
+   */
+  public function testWidgetEmptyTextForUser() {
+    $this->loginAsAdmin();
+    // Add two Paragraph types.
+    $this->addParagraphsType('btext');
+    $this->addParagraphsType('dtext');
+
+    $paragraph_field_name = 'paragraphs';
+
+    // Add paragraphs field to user.
+    $this->addParagraphsField('user', $paragraph_field_name, 'user');
+
+    // Enter to the field config since the weight is set through the form.
+    $this->drupalGet('admin/config/people/accounts/fields/user.user.' . $paragraph_field_name);
+    $this->submitForm([], 'Save settings');
+
+    $settings = ['edit_mode' => 'closed'];
+    $this->setSimpleEditWidget('user', 'user', $paragraph_field_name, $settings);
+
+    // Go to user add page.
+    $this->drupalGet('admin/people/create');
+
+    $this->assertSession()->pageTextContains('Save the User first to add new Paragraphs.');
+
+    // Change paragraphs title text.
+    $settings = [
+      'title' => 'Item',
+      'title_plural' => 'Items',
+    ];
+    $this->setParagraphsWidgetSettings('user', $paragraph_field_name, $settings, NULL, 'user');
+
+    // Go to user add page.
+    $this->drupalGet('admin/people/create');
+
+    $this->assertSession()->pageTextContains('Save the User first to add new Items.');
   }
 
   /**
