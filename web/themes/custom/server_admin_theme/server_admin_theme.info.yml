@@ -1,0 +1,18 @@
+name: 'Server Admin Theme'
+type: theme
+description: 'A custom administration theme that extends Claro.'
+core_version_requirement: '^10'
+base theme: claro
+
+regions:
+  header: Header
+  pre_content: Pre-content
+  breadcrumb: Breadcrumb
+  highlighted: Highlighted
+  help: Help
+  content: Content
+  page_top: Page top
+  page_bottom: Page bottom
+  sidebar_first: First sidebar
+regions_hidden:
+  - sidebar_first
