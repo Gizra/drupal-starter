@@ -2,18 +2,11 @@ includes:
   - vendor/mglaman/phpstan-drupal/extension.neon
   - vendor/phpstan/phpstan-deprecation-rules/rules.neon
   - phpstan-rules/phpstan-extension.neon
+  - vendor/spaze/phpstan-disallowed-calls/extension.neon
+  - vendor/spaze/phpstan-disallowed-calls/disallowed-dangerous-calls.neon
+  - vendor/spaze/phpstan-disallowed-calls/disallowed-insecure-calls.neon
 parameters:
   level: 6
-  reportUnmatchedIgnoredErrors: false
-  treatPhpDocTypesAsCertain: false
-  scanFiles:
-    - web/core/modules/update/update.compare.inc
-  ignoreErrors:
-    - identifier: missingType.iterableValue
-    - identifier: missingType.generics
-    - '#has no return type specified.#'
-    - '#Access to an undefined property Drupal\\Core\\Field\\FieldItemListInterface::\$value.#'
-    - '#Access to an undefined property Drupal\\Core\\Field\\FieldItemInterface::\$value.#'
   paths:
     - web
     - RoboFile.php
@@ -24,6 +17,7 @@ parameters:
     - '*/tests/fixtures/*.php'
     - 'web/core/*'
     - 'web/sites/default/files/*'
+    # The installer scaffolds these per-project; analysing them just causes noise.
     - 'web/sites/default/*.php'
     - 'web/sites/default/default.settings.php'
     - 'web/sites/default/settings.php (?)'
@@ -32,3 +26,63 @@ parameters:
     - 'web/themes/contrib/*'
     - 'web/libraries/*'
     - 'web/sites/simpletest/*'
+  reportUnmatchedIgnoredErrors: false
+  treatPhpDocTypesAsCertain: false
+  scanFiles:
+    # Update module ships with procedural helpers that Drupal still expects.
+    - web/core/modules/update/update.compare.inc
+  # Keep these ignores in sync with the upstream Drupal level 6 baseline.
+  ignoreErrors:
+    - identifier: missingType.iterableValue
+    - identifier: missingType.generics
+    - '#has no return type specified.#'
+    - '#Access to an undefined property Drupal\\Core\\Field\\FieldItemListInterface::\$value.#'
+    - '#Access to an undefined property Drupal\\Core\\Field\\FieldItemInterface::\$value.#'
+  disallowedFunctionCalls:
+    # Prefer the Symfony Process component for shell execution for better security and DX.
+    -
+      function: 'exec()'
+      message: 'use the Symfony Process component instead (https://symfony.com/doc/current/components/process.html)'
+      allowIn:
+        - robo-components/*
+        - RoboFile.php
+    -
+      function: 'passthru()'
+      message: 'use the Symfony Process component instead (https://symfony.com/doc/current/components/process.html)'
+      allowIn:
+        - robo-components/*
+        - RoboFile.php
+    -
+      function: 'proc_open()'
+      message: 'use the Symfony Process component instead (https://symfony.com/doc/current/components/process.html)'
+      allowIn:
+        - robo-components/*
+        - RoboFile.php
+    -
+      function: 'shell_exec()'
+      message: 'use the Symfony Process component instead (https://symfony.com/doc/current/components/process.html)'
+      allowIn:
+        - robo-components/*
+        - RoboFile.php
+    -
+      function: 'system()'
+      message: 'use the Symfony Process component instead (https://symfony.com/doc/current/components/process.html)'
+      allowIn:
+        - robo-components/*
+        - RoboFile.php
+    -
+      function: 'popen()'
+      message: 'use the Symfony Process component instead (https://symfony.com/doc/current/components/process.html)'
+      allowIn:
+        - robo-components/*
+        - RoboFile.php
+    -
+      function: 'print_r()'
+      message: 'use some logger instead'
+      allowParamsAnywhere:
+        2: true
+    -
+      function: 'in_array()'
+      message: 'set the third parameter $strict to `true` to also check the types to prevent type juggling bugs'
+      allowParamsAnywhere:
+        3: true

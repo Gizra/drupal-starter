@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ae38a3555fbcbcf247f26284a80b5560",
+    "content-hash": "06a2a04167afadf6d791f4abf9ad803c",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -17073,6 +17073,74 @@
                 }
             ],
             "time": "2025-05-01T09:40:50+00:00"
+        },
+        {
+            "name": "spaze/phpstan-disallowed-calls",
+            "version": "v4.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spaze/phpstan-disallowed-calls.git",
+                "reference": "d77ea1351ac2cc16c00a389ea0db87fc11072b80"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spaze/phpstan-disallowed-calls/zipball/d77ea1351ac2cc16c00a389ea0db87fc11072b80",
+                "reference": "d77ea1351ac2cc16c00a389ea0db87fc11072b80",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.4 || ^8.0",
+                "phpstan/phpstan": "^1.12.6 || ^2.0"
+            },
+            "require-dev": {
+                "nette/neon": "^3.3.1",
+                "nikic/php-parser": "^4.13.2 || ^5.0",
+                "php-parallel-lint/php-console-highlighter": "^1.0",
+                "php-parallel-lint/php-parallel-lint": "^1.2",
+                "phpstan/phpstan-deprecation-rules": "^1.2 || ^2.0",
+                "phpunit/phpunit": "^8.5.14 || ^10.1 || ^11.0 || ^12.0",
+                "shipmonk/dead-code-detector": "^0.12",
+                "spaze/coding-standard": "^1.8"
+            },
+            "type": "phpstan-extension",
+            "extra": {
+                "phpstan": {
+                    "includes": [
+                        "extension.neon"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spaze\\PHPStan\\Rules\\Disallowed\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michal Špaček",
+                    "email": "mail@michalspacek.cz",
+                    "homepage": "https://www.michalspacek.cz"
+                }
+            ],
+            "description": "PHPStan rules to detect disallowed method & function calls, constant, namespace, attribute & superglobal usages, with powerful rules to re-allow a call or a usage in places where it should be allowed.",
+            "keywords": [
+                "static analysis"
+            ],
+            "support": {
+                "issues": "https://github.com/spaze/phpstan-disallowed-calls/issues",
+                "source": "https://github.com/spaze/phpstan-disallowed-calls/tree/v4.6.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/spaze",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-07-11T18:17:33+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",

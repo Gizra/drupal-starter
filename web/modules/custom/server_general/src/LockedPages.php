@@ -65,7 +65,7 @@ class LockedPages {
    */
   public function isNodeLocked(NodeInterface $node): bool {
     $restricted_nodes = $this->getRestrictedNodes();
-    return in_array($node->id(), $restricted_nodes);
+    return in_array($node->id(), $restricted_nodes, TRUE);
   }
 
   /**
@@ -83,7 +83,7 @@ class LockedPages {
 
     $locked_entities = $main_settings->get('field_locked_pages')->getValue();
 
-    return array_column($locked_entities, 'target_id');
+    return array_map('strval', array_column($locked_entities, 'target_id'));
   }
 
   /**
