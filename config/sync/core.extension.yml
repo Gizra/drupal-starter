@@ -117,7 +117,6 @@ module:
 theme:
   stable: 0
   classy: 0
-  seven: 0
   server_theme: 0
   claro: 0
 profile: server
