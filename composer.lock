@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ae38a3555fbcbcf247f26284a80b5560",
+    "content-hash": "b875c706e8c6b12f478fcc5863c290c2",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -4991,81 +4991,6 @@
             "support": {
                 "source": "https://gitlab.com/drupalspoons/pluggable_entity_view_builder",
                 "issues": "https://gitlab.com/drupalspoons/pluggable_entity_view_builder/-/issues"
-            }
-        },
-        {
-            "name": "drupal/quickedit",
-            "version": "1.0.3",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/quickedit.git",
-                "reference": "1.0.3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/quickedit-1.0.3.zip",
-                "reference": "1.0.3",
-                "shasum": "2fb9eb812010743949dd7ec1a9fc0cff4c1fb4ce"
-            },
-            "require": {
-                "drupal/core": "^9.4 || ^10"
-            },
-            "require-dev": {
-                "drupal/ckeditor": "*"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "1.0.3",
-                    "datestamp": "1663069901",
-                    "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "devin carlson",
-                    "homepage": "https://www.drupal.org/user/290182"
-                },
-                {
-                    "name": "dww",
-                    "homepage": "https://www.drupal.org/user/46549"
-                },
-                {
-                    "name": "gábor hojtsy",
-                    "homepage": "https://www.drupal.org/user/4166"
-                },
-                {
-                    "name": "jessebeach",
-                    "homepage": "https://www.drupal.org/user/748566"
-                },
-                {
-                    "name": "nod_",
-                    "homepage": "https://www.drupal.org/user/598310"
-                },
-                {
-                    "name": "tkoleary",
-                    "homepage": "https://www.drupal.org/user/627430"
-                },
-                {
-                    "name": "webchick",
-                    "homepage": "https://www.drupal.org/user/24967"
-                },
-                {
-                    "name": "wim leers",
-                    "homepage": "https://www.drupal.org/user/99777"
-                }
-            ],
-            "description": "In-place content editing (contrib).",
-            "homepage": "https://www.drupal.org/project/quickedit",
-            "support": {
-                "source": "https://git.drupalcode.org/project/quickedit"
             }
         },
         {

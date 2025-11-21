@@ -77,7 +77,6 @@ module:
   path: 0
   path_alias: 0
   pluggable_entity_view_builder: 0
-  quickedit: 0
   real_aes: 0
   redirect: 0
   redis: 0
