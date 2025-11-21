@@ -16,7 +16,7 @@ dependencies:
     - media_library
     - metatag
     - path
-    - select2
+    - tagify
     - text
 id: node.news.default
 targetEntityType: node
@@ -59,14 +59,17 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_tags:
-    type: select2_entity_reference
+    type: tagify_entity_reference_autocomplete_widget
     weight: 4
     region: content
     settings:
-      width: 100%
-      autocomplete: true
       match_operator: CONTAINS
       match_limit: 10
+      placeholder: ''
+      suggestions_dropdown: 1
+      show_entity_id: 0
+      show_info_label: 0
+      info_label: ''
     third_party_settings: {  }
   langcode:
     type: language_select

@@ -12,6 +12,12 @@ default_providers:
   chat_with_image_vision:
     provider_id: openai
     model_id: gpt-4o
+  chat_with_structured_response:
+    provider_id: openai
+    model_id: gpt-4.1
+  chat_with_tools:
+    provider_id: openai
+    model_id: gpt-4.1
   embeddings:
     provider_id: openai
     model_id: text-embedding-3-small
