@@ -11,7 +11,6 @@ module:
   ai_provider_openai: 0
   ai_translate: 0
   ban: 0
-  big_pipe: 0
   block: 0
   block_content: 0
   block_plugin_view_builder: 0
