@@ -4,6 +4,8 @@
 ## Usage: phpunit [arguments]
 ## Example: "ddev phpunit" or "ddev phpunit web/modules/custom/server_general".
 
+set -euo pipefail
+
 # Function to check if path contains sequential group tests
 needs_sequential() {
     local path="$1"
