@@ -2149,29 +2149,28 @@
         },
         {
             "name": "drupal/ai_provider_openai",
-            "version": "1.0.2",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/ai_provider_openai.git",
-                "reference": "1.0.2"
+                "reference": "1.2.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/ai_provider_openai-1.0.2.zip",
-                "reference": "1.0.2",
-                "shasum": "1942f27fd2cac935e5a5cc34c466a7e9bb51b632"
+                "url": "https://ftp.drupal.org/files/projects/ai_provider_openai-1.2.0.zip",
+                "reference": "1.2.0",
+                "shasum": "de8caa2a9adb0cece69d2f36b27afaeeb1c3eadf"
             },
             "require": {
-                "drupal/ai": "^1.0.4",
+                "drupal/ai": "^1.2.0",
                 "drupal/core": "^10.3 || ^11",
-                "drupal/key": "^1.18",
-                "openai-php/client": ">=v0.10.1"
+                "drupal/key": "^1.18"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "1.0.2",
-                    "datestamp": "1738761667",
+                    "version": "1.2.0",
+                    "datestamp": "1760354152",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
