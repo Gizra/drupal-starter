@@ -90,7 +90,7 @@
         "mglaman/phpstan-drupal": "^2.0",
         "npm-asset/anchor-js": "^5.0",
         "npm-asset/select2": "^4.0",
-        "npm-asset/slick-carousel": "^1.8",
+        "npm-asset/slick-carousel": "dev-master#ecb6ea2345650a5769e81aee46bec10504ac2a36",
         "oomphinc/composer-installers-extender": "^2.0",
         "phpstan/phpstan-deprecation-rules": "^2.0"
     },

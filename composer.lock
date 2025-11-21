@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7ed1184ce03ee76f0a57f4a4bc3c6c97",
+    "content-hash": "83865cc180f78aacbe010510fba1b159",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -8375,10 +8375,16 @@
         },
         {
             "name": "npm-asset/slick-carousel",
-            "version": "1.8.1",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:kenwheeler/slick.git",
+                "reference": "ecb6ea2345650a5769e81aee46bec10504ac2a36"
+            },
             "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/slick-carousel/-/slick-carousel-1.8.1.tgz"
+                "type": "zip",
+                "url": "https://api.github.com/repos/kenwheeler/slick/zipball/ecb6ea2345650a5769e81aee46bec10504ac2a36",
+                "reference": "ecb6ea2345650a5769e81aee46bec10504ac2a36"
             },
             "type": "npm-asset",
             "license": [
@@ -17931,7 +17937,8 @@
         "drupal/inline_entity_form": 5,
         "drupal/potx": 15,
         "drupal/ultimate_cron": 15,
-        "drupal/webform": 10
+        "drupal/webform": 10,
+        "npm-asset/slick-carousel": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
