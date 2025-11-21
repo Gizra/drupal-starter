@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b875c706e8c6b12f478fcc5863c290c2",
+    "content-hash": "39920b7f8e95045fa05196b50e71e86d",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2259,27 +2259,27 @@
         },
         {
             "name": "drupal/classy",
-            "version": "1.0.2",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/classy.git",
-                "reference": "1.0.2"
+                "reference": "2.0.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/classy-1.0.2.zip",
-                "reference": "1.0.2",
-                "shasum": "c2f4fbfd9ae7d4e0cbd952d96247d00a0759da06"
+                "url": "https://ftp.drupal.org/files/projects/classy-2.0.0.zip",
+                "reference": "2.0.0",
+                "shasum": "d1aade177c5735c3de953b00d3ade323ca711db1"
             },
             "require": {
-                "drupal/core": "^9 || ^10",
-                "drupal/stable": "^2.0.0"
+                "drupal/core": "^10.3 || ^11",
+                "drupal/stable": "^2.1"
             },
             "type": "drupal-theme",
             "extra": {
                 "drupal": {
-                    "version": "1.0.2",
-                    "datestamp": "1663949784",
+                    "version": "2.0.0",
+                    "datestamp": "1744243951",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"

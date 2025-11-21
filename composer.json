@@ -33,7 +33,7 @@
         "drupal/ai_image_alt_text": "^1.0",
         "drupal/ai_provider_openai": "^1.0",
         "drupal/block_plugin_view_builder": "^1.0",
-        "drupal/classy": "^1.0",
+        "drupal/classy": "^2.0",
         "drupal/config_filter": "^2.4",
         "drupal/config_ignore": "^3.2",
         "drupal/config_pages": "^2.15",
