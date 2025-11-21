@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "83865cc180f78aacbe010510fba1b159",
+    "content-hash": "f484656b267f124ecf6dd697b81e959d",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -5576,63 +5576,6 @@
             }
         },
         {
-            "name": "drupal/select2",
-            "version": "2.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/select2.git",
-                "reference": "2.0.0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/select2-2.0.0.zip",
-                "reference": "2.0.0",
-                "shasum": "0a2eeb56ad26504a026bfbbed7a384dae6c1f46d"
-            },
-            "require": {
-                "drupal/core": "^10 || ^11",
-                "php": ">=8.1"
-            },
-            "require-dev": {
-                "drupal/better_exposed_filters": "^6.0 || ^7.0",
-                "drupal/facets": "^2.0",
-                "drupal/form_options_attributes": "^2.0",
-                "drupal/gin": "^3.0",
-                "drupal/search_api": "^1.35"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "2.0.0",
-                    "datestamp": "1736434228",
-                    "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Christian Fritsch",
-                    "homepage": "https://www.drupal.org/user/157725",
-                    "email": "christian.fritsch@burda.com"
-                },
-                {
-                    "name": "chr.fritsch",
-                    "homepage": "https://www.drupal.org/user/2103716"
-                }
-            ],
-            "description": "Integration with the select2 JavaScript library.",
-            "homepage": "https://www.drupal.org/project/select2",
-            "support": {
-                "source": "https://git.drupalcode.org/project/select2"
-            }
-        },
-        {
             "name": "drupal/simple_sitemap",
             "version": "4.2.2",
             "source": {
@@ -5900,6 +5843,59 @@
             "homepage": "https://www.drupal.org/project/stage_file_proxy",
             "support": {
                 "source": "https://git.drupalcode.org/project/stage_file_proxy"
+            }
+        },
+        {
+            "name": "drupal/tagify",
+            "version": "1.2.43",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/tagify.git",
+                "reference": "1.2.43"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/tagify-1.2.43.zip",
+                "reference": "1.2.43",
+                "shasum": "2e97f3c362696db2599e8b89812074a73bc358db"
+            },
+            "require": {
+                "drupal/core": "^8.8 || ^9 || ^10 || ^11"
+            },
+            "require-dev": {
+                "drupal/better_exposed_filters": "^7.0",
+                "drupal/facets": "^2.0",
+                "drupal/iconify_icons": "*",
+                "drupal/search_api": "^1.31",
+                "drupal/ui_icons": "*",
+                "drupal/ui_icons_field": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "1.2.43",
+                    "datestamp": "1763655607",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "David Galeano",
+                    "homepage": "https://www.drupal.org/u/gxleano"
+                }
+            ],
+            "description": "Integration with the Tagify JavaScript library.",
+            "homepage": "https://drupal.org/project/tagify",
+            "support": {
+                "source": "https://git.drupalcode.org/project/tagify",
+                "issues": "https://www.drupal.org/project/issues/tagify"
             }
         },
         {
