@@ -30,6 +30,10 @@ class ServerGeneralSelenium2TestBase extends ExistingSiteSelenium2DriverTestBase
 
       $capabilities = [
         'browserName' => 'chrome',
+        // Accept self-signed certificates in the local Selenium container.
+        // So calling https://drupal-starter.ddev.site:4443/
+        // wouldn't result in certificate errors.
+        'acceptInsecureCerts' => TRUE,
         'goog:chromeOptions' => [
           'args' => [
             '--disable-dev-shm-usage',
