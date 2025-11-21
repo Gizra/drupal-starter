@@ -3836,26 +3836,37 @@
         },
         {
             "name": "drupal/intl_date",
-            "version": "1.1.2",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/intl_date.git",
-                "reference": "1.1.2"
+                "reference": "1.2.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/intl_date-1.1.2.zip",
-                "reference": "1.1.2",
-                "shasum": "3498c5c56d570f605f4d3fc2ed01f402529d6962"
+                "url": "https://ftp.drupal.org/files/projects/intl_date-1.2.0.zip",
+                "reference": "1.2.0",
+                "shasum": "dce4d3fd7869c9dcd2eb3593c981c14e8eb53b90"
             },
             "require": {
-                "drupal/core": "^9 || ^10"
+                "drupal/core": "^10.1 || ^11",
+                "ext-intl": "*",
+                "php": ">=8.0"
+            },
+            "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+                "drupal/coder": "^8.3",
+                "drupal/core": "^10.1 || ^11",
+                "drupal/core-dev": "^10.1 || ^11",
+                "mglaman/phpstan-drupal": "^1.2",
+                "phpstan/extension-installer": "^1.3",
+                "phpstan/phpstan": "^1.10"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "1.1.2",
-                    "datestamp": "1692083097",
+                    "version": "1.2.0",
+                    "datestamp": "1761394889",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -3863,12 +3874,23 @@
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
+            "scripts": {
+                "phpcs": [
+                    "phpcs --standard=Drupal,DrupalPractice --extensions=php,module,inc,install,test,profile,theme,css,info,txt,md,yml"
+                ],
+                "phpcbf": [
+                    "phpcbf --standard=Drupal,DrupalPractice --extensions=php,module,inc,install,test,profile,theme,css,info,txt,md,yml"
+                ],
+                "phpstan": [
+                    "phpstan analyse"
+                ]
+            },
             "license": [
                 "GPL-2.0-or-later"
             ],
             "authors": [
                 {
-                    "name": "Aron Novak",
+                    "name": "aron novak",
                     "homepage": "https://www.drupal.org/user/61864"
                 },
                 {
@@ -3876,7 +3898,7 @@
                     "homepage": "https://www.drupal.org/user/154086"
                 }
             ],
-            "description": "Fine-grained localized date formatting.",
+            "description": "Fine-grained localized date formatting using PHP Intl extension",
             "homepage": "https://www.drupal.org/project/intl_date",
             "support": {
                 "source": "https://git.drupalcode.org/project/intl_date"
