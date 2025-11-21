@@ -1,0 +1,31 @@
+uuid: 64fbbe65-0a8b-41db-b45a-6f25140280b4
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - ai_translate
+id: ai_translate
+label: 'AI Translation prompt'
+variables:
+  -
+    name: sourceLang
+    help_text: 'ID of source language'
+    required: false
+  -
+    name: sourceLangName
+    help_text: 'Name of source language'
+    required: false
+  -
+    name: destLang
+    help_text: 'ID of destination language'
+    required: false
+  -
+    name: destLangName
+    help_text: 'Name of destination language'
+    required: true
+  -
+    name: inputText
+    help_text: 'The input text to translate'
+    required: true
+tokens: {  }
