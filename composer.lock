@@ -6128,23 +6128,24 @@
         },
         {
             "name": "drupal/tfa",
-            "version": "1.10.0",
+            "version": "1.12.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/tfa.git",
-                "reference": "8.x-1.10"
+                "reference": "8.x-1.12"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/tfa-8.x-1.10.zip",
-                "reference": "8.x-1.10",
-                "shasum": "c8314dfff47ad44ab78a1ea962f25e073abc9960"
+                "url": "https://ftp.drupal.org/files/projects/tfa-8.x-1.12.zip",
+                "reference": "8.x-1.12",
+                "shasum": "86d59b3937a02551099c1a90cc7716620110fa7b"
             },
             "require": {
                 "chillerlan/php-qrcode": "^1.0.9 || ^2.0 || ^3.2 || ^4.0",
                 "christian-riesen/otp": "^2.1",
                 "drupal/core": "^8 || ^9 || ^10 || ^11",
                 "drupal/encrypt": "~3.0",
+                "paragonie/constant_time_encoding": "^1.0 || ^2.0",
                 "php": ">=7.0"
             },
             "require-dev": {
@@ -6152,6 +6153,7 @@
                 "drupal/key": "*",
                 "drupal/services": "*",
                 "drush/drush": "^10 || ^11 || ^12 || ^13",
+                "jangregor/phpstan-prophecy": "^1",
                 "mglaman/phpstan-drupal": "^1.1",
                 "phpstan/extension-installer": "^1.2",
                 "phpstan/phpstan": "^1.9",
@@ -6161,8 +6163,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.10",
-                    "datestamp": "1741198609",
+                    "version": "8.x-1.12",
+                    "datestamp": "1752807547",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -8699,16 +8701,16 @@
         },
         {
             "name": "paragonie/constant_time_encoding",
-            "version": "v2.7.0",
+            "version": "v2.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/constant_time_encoding.git",
-                "reference": "52a0d99e69f56b9ec27ace92ba56897fe6993105"
+                "reference": "e30811f7bc69e4b5b6d5783e712c06c8eabf0226"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/constant_time_encoding/zipball/52a0d99e69f56b9ec27ace92ba56897fe6993105",
-                "reference": "52a0d99e69f56b9ec27ace92ba56897fe6993105",
+                "url": "https://api.github.com/repos/paragonie/constant_time_encoding/zipball/e30811f7bc69e4b5b6d5783e712c06c8eabf0226",
+                "reference": "e30811f7bc69e4b5b6d5783e712c06c8eabf0226",
                 "shasum": ""
             },
             "require": {
@@ -8762,7 +8764,7 @@
                 "issues": "https://github.com/paragonie/constant_time_encoding/issues",
                 "source": "https://github.com/paragonie/constant_time_encoding"
             },
-            "time": "2024-05-08T12:18:48+00:00"
+            "time": "2025-09-24T15:12:37+00:00"
         },
         {
             "name": "paragonie/random_compat",
