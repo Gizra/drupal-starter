@@ -87,6 +87,7 @@ trait DeploymentTrait {
     'package-lock.json',
     'web/libraries/font-awesome/js-packages',
     'web/libraries/font-awesome/metadata',
+    'recipes',
   ];
 
   /**

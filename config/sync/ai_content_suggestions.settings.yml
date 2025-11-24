@@ -5,3 +5,14 @@ plugins:
   taxonomy_suggest: openai__gpt-4o
   title_suggest: openai__gpt-4o
   tone: openai__gpt-4o
+field_widget_prompt: |-
+  You will be asked to help with content suggestions based on the input in markdown format. Answer with
+    suggestions only, do not repeat the task description, do not use any other text except for the suggestions.
+    Do not include any explanations, only provide a RFC8259 compliant JSON response following this format without deviation:
+    ```
+    [
+      {"suggestion": "First suggested text"},
+      {"suggestion": "Second suggested text"},
+    ]
+    ```
+    If you are enable to generate a response, respond with "Insufficient information provided, please add more data before generating suggestions."
