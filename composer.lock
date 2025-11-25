@@ -5300,27 +5300,27 @@
         },
         {
             "name": "drupal/rollbar",
-            "version": "2.1.2",
+            "version": "2.1.3",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/rollbar.git",
-                "reference": "2.1.2"
+                "reference": "2.1.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/rollbar-2.1.2.zip",
-                "reference": "2.1.2",
-                "shasum": "3d22612e94ddeb25ebb4a44ead87ed0ea1b30c62"
+                "url": "https://ftp.drupal.org/files/projects/rollbar-2.1.3.zip",
+                "reference": "2.1.3",
+                "shasum": "3da6a071d7b9bb607aa3f4b62b99dbfddf59be38"
             },
             "require": {
-                "drupal/core": "^10",
+                "drupal/core": "^10 || ^11",
                 "rollbar/rollbar": "^4.0"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "2.1.2",
-                    "datestamp": "1710407529",
+                    "version": "2.1.3",
+                    "datestamp": "1747734916",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -10090,16 +10090,16 @@
         },
         {
             "name": "rollbar/rollbar",
-            "version": "v4.1.3",
+            "version": "v4.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rollbar/rollbar-php.git",
-                "reference": "99eb7bd2ea1ef3be4a6e693b022911b1db1582bf"
+                "reference": "bb046d4e0a36d373be02ceb7881351ac2c6338a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rollbar/rollbar-php/zipball/99eb7bd2ea1ef3be4a6e693b022911b1db1582bf",
-                "reference": "99eb7bd2ea1ef3be4a6e693b022911b1db1582bf",
+                "url": "https://api.github.com/repos/rollbar/rollbar-php/zipball/bb046d4e0a36d373be02ceb7881351ac2c6338a9",
+                "reference": "bb046d4e0a36d373be02ceb7881351ac2c6338a9",
                 "shasum": ""
             },
             "require": {
@@ -10147,9 +10147,9 @@
             "support": {
                 "email": "support@rollbar.com",
                 "issues": "https://github.com/rollbar/rollbar-php/issues",
-                "source": "https://github.com/rollbar/rollbar-php/tree/v4.1.3"
+                "source": "https://github.com/rollbar/rollbar-php/tree/v4.1.4"
             },
-            "time": "2025-04-17T19:11:14+00:00"
+            "time": "2025-09-26T18:28:12+00:00"
         },
         {
             "name": "sebastian/diff",
