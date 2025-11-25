@@ -4501,17 +4501,17 @@
         },
         {
             "name": "drupal/pantheon_advanced_page_cache",
-            "version": "2.3.4",
+            "version": "2.3.2",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/pantheon_advanced_page_cache.git",
-                "reference": "2.3.4"
+                "reference": "2.3.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/pantheon_advanced_page_cache-2.3.4.zip",
-                "reference": "2.3.4",
-                "shasum": "dbb52fa98b44aaab17887c4a3d22ef90e8075f2b"
+                "url": "https://ftp.drupal.org/files/projects/pantheon_advanced_page_cache-2.3.2.zip",
+                "reference": "2.3.2",
+                "shasum": "dfc46bf24b77787192c6caa7154e5ae021cf16a9"
             },
             "require": {
                 "drupal/core": "^9.4 || ^10 || ^11",
@@ -4533,8 +4533,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "2.3.4",
-                    "datestamp": "1762527530",
+                    "version": "2.3.2",
+                    "datestamp": "1740801035",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -4570,12 +4570,12 @@
             ],
             "authors": [
                 {
-                    "name": "anaispantheor",
-                    "homepage": "https://www.drupal.org/user/3846519"
-                },
-                {
                     "name": "david strauss",
                     "homepage": "https://www.drupal.org/user/93254"
+                },
+                {
+                    "name": "ec1ipsis",
+                    "homepage": "https://www.drupal.org/user/1600400"
                 },
                 {
                     "name": "greg.1.anderson",
@@ -4590,20 +4590,12 @@
                     "homepage": "https://www.drupal.org/user/3735947"
                 },
                 {
-                    "name": "pwtyler",
-                    "homepage": "https://www.drupal.org/user/3835268"
-                },
-                {
-                    "name": "roshnykunjappan",
-                    "homepage": "https://www.drupal.org/user/3581210"
-                },
-                {
-                    "name": "scottbuscemi",
-                    "homepage": "https://www.drupal.org/user/3829532"
-                },
-                {
                     "name": "stevector",
                     "homepage": "https://www.drupal.org/user/179805"
+                },
+                {
+                    "name": "stovak",
+                    "homepage": "https://www.drupal.org/user/1074930"
                 }
             ],
             "description": "Drupal Integration for the Pantheon Advanced Page Cache. Code mirror at drupal/pantheon_advanced_page_cache.",
