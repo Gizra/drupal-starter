@@ -3467,17 +3467,17 @@
         },
         {
             "name": "drupal/facets",
-            "version": "2.0.9",
+            "version": "2.0.10",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/facets.git",
-                "reference": "2.0.9"
+                "reference": "2.0.10"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/facets-2.0.9.zip",
-                "reference": "2.0.9",
-                "shasum": "54512df3448c2464ef2bee7eefa825115562c9d5"
+                "url": "https://ftp.drupal.org/files/projects/facets-2.0.10.zip",
+                "reference": "2.0.10",
+                "shasum": "d7deeefd5a0c96c5f3715e236a4b766aaade945c"
             },
             "require": {
                 "drupal/core": "^10 || ^11"
@@ -3497,8 +3497,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "2.0.9",
-                    "datestamp": "1728492418",
+                    "version": "2.0.10",
+                    "datestamp": "1756314567",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
