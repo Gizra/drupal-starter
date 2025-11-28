@@ -284,15 +284,18 @@ trait DeploymentTrait {
     $current_version = trim($result->getMessage());
 
     if (!empty($currently_deployed_version)) {
-      $result = $this
-        ->taskExec('git cat-file -t ' . $currently_deployed_version)
+      // Check if the currently deployed version is an ancestor of the current version.
+      // This returns exit code 0 if it is an ancestor, 1 if not, and 128 if the object is missing.
+      // In any case other than 0, we must not deploy to prevent regression.
+      $is_ancestor = $this->taskExec("git merge-base --is-ancestor $currently_deployed_version $current_version")
         ->printOutput(FALSE)
-        ->run();
+        ->run()
+        ->getExitCode() === 0;
 
-      if ($result->getMessage() !== 'commit') {
-        $this->yell(strtr('This current commit @current-commit cannot be deployed, as new commits have been created since, so we don\'t want to deploy an older version. Result was: @result', [
-          '@current-commit' => $current_version,
-          '@result' => $result->getMessage(),
+      if (!$is_ancestor) {
+        $this->yell(strtr('The currently deployed version (@deployed) is not an ancestor of the current version (@current). Aborting the process to avoid going back in time.', [
+          '@deployed' => $currently_deployed_version,
+          '@current' => $current_version,
         ]));
         throw new \Exception('Aborting the process to avoid going back in time.');
       }
