@@ -6,6 +6,9 @@ on:
     branches:
       - {{ GITHUB_DEPLOY_BRANCH }}
 
+permissions:
+  contents: read
+
 jobs:
   phpstan:
     name: PhpStan

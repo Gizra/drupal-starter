@@ -5,6 +5,11 @@ on:
     tags:
       - '*live'
 
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
 jobs:
   deploy-live:
     name: 'Backend tests: Functional tests and deploy to Pantheon LIVE'

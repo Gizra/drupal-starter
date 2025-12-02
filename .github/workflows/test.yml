@@ -6,6 +6,9 @@ on:
     branches-ignore:
       - main
 
+permissions:
+  contents: read
+
 jobs:
   functional-tests:
     name: 'Backend tests: Functional tests'
