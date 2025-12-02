@@ -706,81 +706,66 @@ trait DeploymentTrait {
    * @throws \Exception
    */
   public function deployConfigAutodeploy(string $token, string $github_token, string $github_deploy_branch = 'main', string $pantheon_deploy_branch = 'qa'): void {
-    $this->_exec("cp .travis.template.yml .travis.yml");
     $pantheon_info = $this->getPantheonNameAndEnv();
     $project_name = $pantheon_info['name'];
 
-    if (empty(shell_exec("which travis"))) {
-      // We do not bake it into the Docker image to save on disk space.
-      // We rarely need this operation, also not all the developers
-      // will use it.
-      $result = $this->taskExecStack()
-        ->exec('sudo apt update')
-        ->exec('sudo apt install ruby ruby-dev make g++ --yes')
-        ->exec('sudo gem install travis --no-document')
-        ->stopOnFail()
-        ->run()
-        ->getExitCode();
-
-      if ($result !== 0) {
-        throw new \Exception('The installation of the dependencies failed.');
-      }
-    }
-
+    // Generate SSH key for deployment
     $result = $this->taskExec('ssh-keygen -t rsa -f travis-key -P ""')->run();
     if ($result->getExitCode() !== 0) {
       throw new \Exception('The key generation failed.');
     }
 
-    $result = $this->taskExec('travis login --pro --github-token="' . $github_token . '"')->run();
-    if ($result->getExitCode() !== 0) {
-      throw new \Exception('The authentication with GitHub via Travis CLI failed.');
-    }
+    // Encrypt the SSH key for use in GitHub Actions
+    $result = $this->taskExec('openssl rand -hex 32')->printOutput(FALSE)->run();
+    $encryption_key = trim($result->getMessage());
+    
+    $result = $this->taskExec('openssl rand -hex 16')->printOutput(FALSE)->run();
+    $encryption_iv = trim($result->getMessage());
 
-    $result = $this->taskExec('travis encrypt-file travis-key --add --no-interactive --pro')
-      ->run();
+    $result = $this->taskExec("openssl aes-256-cbc -K $encryption_key -iv $encryption_iv -in travis-key -out travis-key.enc")->run();
     if ($result->getExitCode() !== 0) {
       throw new \Exception('The encryption of the private key failed.');
-    }
-
-    $result = $this->taskExec('travis encrypt TERMINUS_TOKEN="' . $token . '" --add --no-interactive --pro')
-      ->run();
-    if ($result->getExitCode() !== 0) {
-      throw new \Exception('The encryption of the Terminus token failed.');
-    }
-
-    $result = $this->taskExec('travis encrypt GITHUB_TOKEN="' . $github_token . '" --add --no-interactive --pro')
-      ->run();
-    if ($result->getExitCode() !== 0) {
-      throw new \Exception('The encryption of the Github token failed.');
     }
 
     $result = $this->taskExec("terminus connection:info $project_name.dev --fields='Git Command' --format=string | awk '{print $3}'")
       ->printOutput(FALSE)
       ->run();
     $pantheon_git_url = trim($result->getMessage());
-    $this->taskReplaceInFile('.travis.yml')
-      ->from('{{ PANTHEON_GIT_URL }}')
-      ->to($pantheon_git_url)
-      ->run();
-    $this->taskReplaceInFile('.travis.yml')
-      ->from('{{ PANTHEON_DEPLOY_BRANCH }}')
-      ->to($pantheon_deploy_branch)
-      ->run();
-    $this->taskReplaceInFile('.travis.yml')
-      ->from('{{ GITHUB_DEPLOY_BRANCH }}')
-      ->to($github_deploy_branch)
-      ->run();
 
-    $result = $this->taskExec('git add .travis.yml travis-key.enc')->run();
+    // Update GitHub Actions workflows if they exist
+    if (file_exists('.github/workflows/lint.template.yml')) {
+      $this->_exec("cp .github/workflows/lint.template.yml .github/workflows/lint.yml");
+      $this->taskReplaceInFile('.github/workflows/lint.yml')
+        ->from('{{ GITHUB_DEPLOY_BRANCH }}')
+        ->to($github_deploy_branch)
+        ->run();
+    }
+
+    $result = $this->taskExec('git add travis-key.enc')->run();
     if ($result->getExitCode() !== 0) {
       throw new \Exception("git add failed.");
     }
-    $this->say("The project was prepared for the automatic deployment to Pantheon");
-    $this->say("Review the changes and make a commit from the added files.");
-    $this->say("Add the SSH key to the Pantheon account: https://pantheon.io/docs/ssh-keys .");
-    $this->say("Add the SSH key to the GitHub project as a deploy key: https://docs.github.com/en/developers/overview/managing-deploy-keys .");
-    $this->say("Convert the project to nested docroot: https://pantheon.io/docs/nested-docroot .");
+
+    $this->say("The project was prepared for automatic deployment to Pantheon using GitHub Actions");
+    $this->say("");
+    $this->say("Please complete the following steps:");
+    $this->say("");
+    $this->say("1. Add the following secrets to your GitHub repository:");
+    $this->say("   - Go to: Settings → Secrets and variables → Actions → New repository secret");
+    $this->say("   - PANTHEON_GIT_URL: " . $pantheon_git_url);
+    $this->say("   - TERMINUS_TOKEN: " . $token);
+    $this->say("   - ENCRYPTED_KEY: " . $encryption_key);
+    $this->say("   - ENCRYPTED_IV: " . $encryption_iv);
+    $this->say("   - GITHUB_TOKEN: (use the automatically provided token or your personal token)");
+    $this->say("   - ROLLBAR_SERVER_TOKEN: (your Rollbar token if applicable)");
+    $this->say("");
+    $this->say("2. Add the SSH public key to the Pantheon account:");
+    $this->say("   - Key location: travis-key.pub");
+    $this->say("   - Instructions: https://pantheon.io/docs/ssh-keys");
+    $this->say("");
+    $this->say("3. Review and commit the encrypted key file (travis-key.enc)");
+    $this->say("");
+    $this->say("4. Ensure nested docroot is configured: https://pantheon.io/docs/nested-docroot");
   }
 
   /**
