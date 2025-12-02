@@ -156,11 +156,6 @@ trait BootstrapTrait {
       ->to(str_replace('-', '_', $project_machine_name))
       ->run();
 
-    $this->taskReplaceInFile('.bootstrap/.travis.template.yml')
-      ->from('DOCKER_MIRROR')
-      ->to($docker_mirror_url)
-      ->run();
-
     $result = $this->taskExec("cd .bootstrap && composer update --lock")
       ->run()
       ->getExitCode();

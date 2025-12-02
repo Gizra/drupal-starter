@@ -17,7 +17,7 @@ else
     echo "ddev $DDEV_VERSION is already installed."
 fi
 
-# Upon travis_retry, have a fresh start.
+# Clean up Docker system if retrying.
 docker system prune -a --volumes -f
 
 echo "Configuring ddev."

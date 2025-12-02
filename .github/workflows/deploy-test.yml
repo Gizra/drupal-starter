@@ -44,9 +44,9 @@ jobs:
       - name: Prepare SSH key
         run: |
           openssl aes-256-cbc -K ${{ secrets.ENCRYPTED_KEY }} -iv ${{ secrets.ENCRYPTED_IV }} \
-            -in travis-key.enc -out travis-key -d
+            -in deploy-key.enc -out deploy-key -d
           mkdir -p ~/.ssh
-          cp travis-key ~/.ssh/id_rsa
+          cp deploy-key ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
       - name: Prepare deployment

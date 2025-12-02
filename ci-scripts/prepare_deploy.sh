@@ -3,12 +3,10 @@
 set -e
 set -x
 
-# Support both Travis CI and GitHub Actions
-BUILD_DIR="${TRAVIS_BUILD_DIR:-${GITHUB_WORKSPACE}}"
-cd "$BUILD_DIR" || exit 1
+cd "$GITHUB_WORKSPACE" || exit 1
 
 # Make Git operations possible.
-cp travis-key ~/.ssh/id_rsa
+cp deploy-key ~/.ssh/id_rsa
 chmod 600 ~/.ssh/id_rsa
 
 # Authenticate with Terminus.
@@ -28,15 +26,14 @@ fi
 ddev stop
 
 # Expose some environment variables to DDEV to be able to notify on auto-deploy.
-# Support both Travis CI and GitHub Actions
-COMMIT_MESSAGE="${TRAVIS_COMMIT_MESSAGE:-${GITHUB_COMMIT_MESSAGE}}"
+COMMIT_MESSAGE="${GITHUB_COMMIT_MESSAGE}"
 # Make sure commit message variable does not contain special characters:
 # { , } , [ , ] , & , * , # , ? , | , - , < , > , = , ! , % , @ , ", ', `
 # and comma itself.
 # These could break the YAML/Bash syntax.
 # shellcheck disable=SC2001
 COMMIT_MESSAGE=$(echo "$COMMIT_MESSAGE" | tr '\n' ' ' | sed -e 's/[{},&*?|<>=%@\"'\''`-]//g')
-ddev config global --web-environment-add="TRAVIS_COMMIT_MESSAGE=$COMMIT_MESSAGE"
+ddev config global --web-environment-add="GITHUB_COMMIT_MESSAGE=$COMMIT_MESSAGE"
 ddev config global --web-environment-add="GITHUB_TOKEN=$GITHUB_TOKEN"
 if [ -n "${DEPLOY_EXCLUDE_WARNING}" ]; then
   ddev config global --web-environment-add="DEPLOY_EXCLUDE_WARNING=$DEPLOY_EXCLUDE_WARNING"

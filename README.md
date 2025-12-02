@@ -391,7 +391,7 @@ In order to deploy upon every merge automatically using GitHub Actions, you shal
 1. Get a GitHub Personal access token. It will be used to post a comment to GitHub to the relevant issue when a merged PR is deployed, so set the expiry date far in the future enough for this.
 1. `ddev robo deploy:config-autodeploy [your terminus token] [your github token]`
 1. `git commit -m "Deployment secrets and configuration"`
-1. Add the public key in `travis-key.pub` to the newly created dummy [Pantheon user](https://pantheon.io/docs/ssh-keys)
+1. Add the public key in `deploy-key.pub` to the newly created dummy [Pantheon user](https://pantheon.io/docs/ssh-keys)
 1. Set up the following GitHub secrets in your repository settings:
    - `PANTHEON_GIT_URL`: The Pantheon Git URL for your project
    - `TERMINUS_TOKEN`: Your Pantheon machine token
