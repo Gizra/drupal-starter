@@ -267,7 +267,7 @@ trait DeploymentTrait {
 
     // We deal with versions as commit hashes.
     // The high-level goal is to prevent the auto-deploy process
-    // to overwrite the code with an older version if the Travis queue
+    // to overwrite the code with an older version if the CI queue
     // swaps the order of two jobs, so they are not executed in
     // chronological order.
     $currently_deployed_version = NULL;
@@ -716,9 +716,15 @@ trait DeploymentTrait {
 
     // Encrypt the SSH key for use in GitHub Actions
     $result = $this->taskExec('openssl rand -hex 32')->printOutput(FALSE)->run();
+    if ($result->getExitCode() !== 0) {
+      throw new \Exception('Failed to generate encryption key.');
+    }
     $encryption_key = trim($result->getMessage());
     
     $result = $this->taskExec('openssl rand -hex 16')->printOutput(FALSE)->run();
+    if ($result->getExitCode() !== 0) {
+      throw new \Exception('Failed to generate encryption IV.');
+    }
     $encryption_iv = trim($result->getMessage());
 
     $result = $this->taskExec("openssl aes-256-cbc -K $encryption_key -iv $encryption_iv -in deploy-key -out deploy-key.enc")->run();

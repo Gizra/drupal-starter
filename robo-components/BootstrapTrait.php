@@ -21,7 +21,7 @@ trait BootstrapTrait {
    * @param string $github_token
    *   The GitHub personal access token for a user with access to this project.
    * @param string $docker_mirror_url
-   *   The Docker mirror URL. Optional, but expect Travis failures if not set,
+   *   The Docker mirror URL. Optional, but expect CI failures if not set,
    *   this is due to rate limiting on Docker Hub.
    * @param string $http_basic_auth_user
    *   The HTTP basic auth user. Optional. If set, all the Pantheon environments
@@ -75,7 +75,7 @@ trait BootstrapTrait {
    * @param string $github_repository_url
    *   The clone URL of the GitHub repository.
    * @param string $docker_mirror_url
-   *   The Docker mirror URL. Optional, but expect Travis failures if not set.
+   *   The Docker mirror URL. Optional, but expect CI failures if not set.
    */
   protected function prepareGithubRepository(string $project_name, string $organization, string $project_machine_name, string $github_repository_url, string $docker_mirror_url = '') {
     $temp_remote = 'bootstrap_' . time();

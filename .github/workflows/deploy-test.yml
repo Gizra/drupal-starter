@@ -51,7 +51,7 @@ jobs:
 
       - name: Prepare deployment
         env:
-          GITHUB_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          GITHUB_COMMIT_MESSAGE: ${{ github.event.head_commit.message || github.event.commits[0].message || 'Manual deployment' }}
         run: ./ci-scripts/prepare_deploy.sh
 
       - name: Deploy to Pantheon TEST
