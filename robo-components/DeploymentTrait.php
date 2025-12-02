@@ -818,50 +818,44 @@ trait DeploymentTrait {
       throw new \Exception("Branch '$hotfix_branch' does not exist. Please check the branch name.");
     }
 
+    $pantheon_directory = '.pantheon';
     $pantheon_info = $this->getPantheonNameAndEnv();
     $pantheon_name = $pantheon_info['name'];
 
-    // Use a directory within the project root for the temp clone.
-    $temp_dir = getcwd() . '/.pantheon-hotfix';
-
-    // Clean up any existing temp directory.
-    if (is_dir($temp_dir)) {
-      $this->say("Cleaning up existing .pantheon-hotfix directory...");
-      $this->_exec("rm -rf " . escapeshellarg($temp_dir));
+    if (!file_exists($pantheon_directory) || !is_dir($pantheon_directory)) {
+      throw new \Exception('Clone the Pantheon artifact repository first into the .pantheon directory');
     }
 
-    // Step 1: Get Pantheon Git URL and clone the repo.
-    $this->say("Step 1: Cloning Pantheon repository...");
-    $result = $this->taskExec("terminus connection:info $pantheon_name.dev --fields='Git Command' --format=string | awk '{print \$3}'")
+    $pantheon_status = $this
+      ->taskExec("cd $pantheon_directory && git status -s")
       ->printOutput(FALSE)
       ->run();
 
-    if ($result->getExitCode() !== 0) {
-      throw new \Exception('Failed to get Pantheon Git URL. Make sure you are logged into Terminus (run: ddev auth ssh).');
+    if ($pantheon_status->getMessage()) {
+      throw new \Exception('The .pantheon directory has pending changes. Please clean it up before running the hotfix deployment.');
     }
 
-    $pantheon_git_url = trim($result->getMessage());
-    if (empty($pantheon_git_url)) {
-      throw new \Exception('Could not retrieve Pantheon Git URL.');
+    $this->taskExecStack()
+      ->dir($pantheon_directory)
+      ->stopOnFail()
+      ->exec('git checkout master')
+      ->exec('git fetch')
+      ->exec('git pull --ff-only')
+      ->run();
+
+    $temp_dir = getcwd() . '/.pantheon-hotfix';
+
+    if (is_dir($temp_dir)) {
+      $this->say("Cleaning up existing .pantheon-hotfix directory...");
+      $this->_exec("git worktree remove --force " . escapeshellarg($temp_dir) . " || rm -rf " . escapeshellarg($temp_dir));
     }
 
-    $this->say("Pantheon Git URL: $pantheon_git_url");
-
-    // Clone the Pantheon repo to temp directory.
-    $result = $this->taskExec("git clone $pantheon_git_url $temp_dir")
+    $this->say('Step 1: Preparing hotfix worktree...');
+    $result = $this->taskExec("git worktree add $temp_dir origin/$hotfix_branch")
       ->run();
 
     if ($result->getExitCode() !== 0) {
-      throw new \Exception('Failed to clone Pantheon repository.');
-    }
-
-    // Checkout master branch in Pantheon repo.
-    $result = $this->taskExec("cd $temp_dir && git checkout master")
-      ->run();
-
-    if ($result->getExitCode() !== 0) {
-      $this->cleanupHotfixTempDir($temp_dir);
-      throw new \Exception('Failed to checkout master branch in Pantheon repository.');
+      throw new \Exception('Failed to prepare hotfix worktree.');
     }
 
     // Step 2: Get changed files between main and hotfix branch.
@@ -888,56 +882,37 @@ trait DeploymentTrait {
       $this->say("  - $file");
     }
 
+    $theme_changes = array_filter($changed_files, function ($file) {
+      return str_starts_with($file, self::$themeBase . '/src') || in_array($file, [
+        self::$themeBase . '/postcss.config.js',
+        self::$themeBase . '/tailwind.config.js',
+      ]);
+    });
+
+    if (!empty($theme_changes)) {
+      $this->say('Theme changes detected, compiling theme assets from hotfix branch...');
+      $cwd = getcwd();
+      chdir($temp_dir);
+      $this->themeCompile();
+      chdir($cwd);
+    }
+
     // Step 3: Copy changed files from hotfix branch to Pantheon repo.
     $this->say("Step 3: Copying changed files to Pantheon repository...");
 
-    foreach ($changed_files as $file) {
-      // Skip files that should be excluded from deployment.
-      $should_exclude = FALSE;
-      foreach (self::$deploySyncExcludes as $exclude) {
-        if (str_starts_with($file, $exclude) || $file === $exclude) {
-          $should_exclude = TRUE;
-          $this->say("  Skipping excluded file: $file");
-          break;
-        }
-      }
+    $rsync_exclude_string = '--exclude=' . implode(' --exclude=', self::$deploySyncExcludes);
+    $result = $this->_exec("rsync -az -q --delete $rsync_exclude_string $temp_dir/ $pantheon_directory")->getExitCode();
 
-      if ($should_exclude) {
-        continue;
-      }
-
-      // Get the file content from the hotfix branch.
-      $result = $this->taskExec("git show origin/$hotfix_branch:$file")
-        ->printOutput(FALSE)
-        ->run();
-
-      if ($result->getExitCode() !== 0) {
-        $this->say("  File not found or deleted in hotfix branch: $file");
-        // If the file was deleted, we need to delete it in Pantheon repo too.
-        if (file_exists("$temp_dir/$file")) {
-          $this->_exec("rm -f " . escapeshellarg("$temp_dir/$file"));
-          $this->say("  Deleted from Pantheon repo: $file");
-        }
-        continue;
-      }
-
-      // Ensure the target directory exists.
-      $target_dir = dirname("$temp_dir/$file");
-      if (!is_dir($target_dir)) {
-        mkdir($target_dir, 0755, TRUE);
-      }
-
-      // Write the file content to Pantheon repo.
-      $file_content = $result->getMessage();
-      file_put_contents("$temp_dir/$file", $file_content);
-      $this->say("  Copied: $file");
+    if ($result !== 0) {
+      $this->cleanupHotfixTempDir($temp_dir);
+      throw new \Exception('File sync failed');
     }
 
     // Step 4: Review changes in Pantheon repo.
     $this->say("Step 4: Reviewing changes in Pantheon repository...");
 
-    $this->_exec("cd $temp_dir && git status");
-    $this->_exec("cd $temp_dir && git diff");
+    $this->_exec("cd $pantheon_directory && git status");
+    $this->_exec("cd $pantheon_directory && git diff");
 
     // Confirm before committing.
     $confirm = $this->confirm('Do you want to commit and push these changes to Pantheon?', TRUE);
@@ -951,7 +926,7 @@ trait DeploymentTrait {
     $this->say("Step 5: Committing and pushing to Pantheon master...");
 
     $commit_message = escapeshellarg("Hotfix deployment from branch: $hotfix_branch");
-    $result = $this->_exec("cd $temp_dir && git add . && git commit -m $commit_message && git push origin master");
+    $result = $this->_exec("cd $pantheon_directory && git add . && git commit -m $commit_message && git push origin master");
 
     if ($result !== 0) {
       $this->cleanupHotfixTempDir($temp_dir);
@@ -1011,7 +986,8 @@ trait DeploymentTrait {
    */
   protected function cleanupHotfixTempDir(string $temp_dir): void {
     if (is_dir($temp_dir)) {
-      $this->_exec("rm -rf " . escapeshellarg($temp_dir));
+      $this->_exec("git worktree remove --force " . escapeshellarg($temp_dir) . " || rm -rf " . escapeshellarg($temp_dir));
+      $this->_exec('git worktree prune');
       $this->say("Cleaned up temporary directory: $temp_dir");
     }
   }
