@@ -9,7 +9,7 @@ on:
 jobs:
   functional-tests:
     name: 'Backend tests: Functional tests'
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-22.04
     env:
       DDEV_NO_INSTRUMENTATION: true
       ROLLBAR_SERVER_TOKEN: df6ce617465b4980afdecc95ed1b42de

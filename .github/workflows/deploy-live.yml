@@ -8,7 +8,7 @@ on:
 jobs:
   deploy-live:
     name: 'Backend tests: Functional tests and deploy to Pantheon LIVE'
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-22.04
     env:
       DDEV_NO_INSTRUMENTATION: true
       ROLLBAR_SERVER_TOKEN: ${{ secrets.ROLLBAR_SERVER_TOKEN }}
@@ -52,9 +52,11 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
 
       - name: Prepare deployment
+        env:
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
         run: |
           export TRAVIS_BUILD_DIR="${GITHUB_WORKSPACE}"
-          export TRAVIS_COMMIT_MESSAGE="${{ github.event.head_commit.message }}"
+          export TRAVIS_COMMIT_MESSAGE="${COMMIT_MESSAGE}"
           ./ci-scripts/prepare_deploy.sh
 
       - name: Deploy to Pantheon LIVE
