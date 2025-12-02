@@ -56,11 +56,8 @@ jobs:
 
       - name: Prepare deployment
         env:
-          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
-        run: |
-          export TRAVIS_BUILD_DIR="${GITHUB_WORKSPACE}"
-          export TRAVIS_COMMIT_MESSAGE="${COMMIT_MESSAGE}"
-          ./ci-scripts/prepare_deploy.sh
+          GITHUB_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+        run: ./ci-scripts/prepare_deploy.sh
 
       - name: Deploy to Pantheon QA
         run: |
