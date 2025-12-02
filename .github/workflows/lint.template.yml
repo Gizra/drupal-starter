@@ -1,0 +1,62 @@
+name: Lint
+
+on:
+  pull_request:
+  push:
+    branches:
+      - {{ GITHUB_DEPLOY_BRANCH }}
+
+jobs:
+  phpstan:
+    name: PhpStan
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 500
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+
+      - name: Check syntax
+        run: |
+          ./ci-scripts/test_syntax.sh
+
+      - name: Install Composer dependencies
+        run: composer install
+
+      - name: Run PhpStan
+        run: PHP_MEMORY_LIMIT=2G ./vendor/bin/phpstan --no-progress analyse -c phpstan.neon
+
+  phpcs:
+    name: Drupal coding standard
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+
+      - name: Install Composer dependencies
+        run: composer install
+
+      - name: Run PHPCS
+        run: vendor/bin/robo phpcs
+
+  shellcheck:
+    name: 'Shell coding standard: shellcheck'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install shellcheck
+        run: ./ci-scripts/install_shell.sh
+
+      - name: Run shellcheck
+        run: ./ci-scripts/test_shell.sh

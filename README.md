@@ -1,4 +1,4 @@
-[![Build Status](https://app.travis-ci.com/Gizra/drupal-starter.svg?branch=main)](https://app.travis-ci.com/Gizra/drupal-starter)
+[![Build Status](https://github.com/Gizra/drupal-starter/actions/workflows/lint.yml/badge.svg)](https://github.com/Gizra/drupal-starter/actions)
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=250256146)
 
@@ -19,8 +19,8 @@ scripts. The reason for this is that it's
 assumed PHP developers are more comfortable with PHP than Bash, and it provides
 us with easier iteration, reading and manipulating yaml files, pre-defined
 [tasks](https://robo.li/tasks/Assets/), etc.
-1. We use Travis-CI for continuous integration. A pre-configured and working
-`.travis.yaml` is part of this repo.
+1. We use GitHub Actions for continuous integration. Pre-configured and working
+workflows are part of this repo.
 1. We use Pantheon for hosting. A `ddev robo deploy:pantheon` will take care of
 deployments. See more under ["Deploy to Pantheon"](#deploy-to-pantheon) section.
 1. We use [Pluggable Entity View Builder](https://www.drupal.org/project/pluggable_entity_view_builder) to define how an entity should look like. See [example](https://github.com/Gizra/drupal-starter/blob/main/web/modules/custom/server_general/src/Plugin/EntityViewBuilder/NodeLandingPage.php).
@@ -282,7 +282,7 @@ See the details [here](https://github.com/Gizra/drupal-starter/blob/main/robo-co
 
 As this repository gets copied several times, for different projects, it gets tedious to port small fixes.
 For larger-scale changes, due to conflicts and per-project considerations, we need to apply
-changes manually., However for tiny, trivial changes, such as Travis fixes, we have the following tool:
+changes manually., However for tiny, trivial changes, such as CI fixes, we have the following tool:
 ```
 # Go to the root of all the projects
 cd /home/user/your-projects
@@ -383,15 +383,20 @@ assembles it from the Git log.
 
 ## Automatic Deployment to Pantheon
 
-In order to deploy upon every merge automatically by Travis, you shall:
+In order to deploy upon every merge automatically using GitHub Actions, you shall:
 
 1. Initiate QA (`qa` branch) multidev environment for the given project.
 1. Double-check if `./.ddev/providers/pantheon.yaml` contains the proper Pantheon project name.
 1. Get a [Pantheon machine token](https://pantheon.io/docs/machine-tokens) (using a dummy new Pantheon user ideally, one user per project for the sake of security)
-1. Get a GitHub Personal access token, it is needed for [Travis CLI to authenticate](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token). It will be used like this: `travis login --pro --github-token=`. Also it will be used to post a comment to GitHub to the relevant issue when a merged PR is deployed, so set the expiry date far in the future enough for this.
+1. Get a GitHub Personal access token. It will be used to post a comment to GitHub to the relevant issue when a merged PR is deployed, so set the expiry date far in the future enough for this.
 1. `ddev robo deploy:config-autodeploy [your terminus token] [your github token]`
 1. `git commit -m "Deployment secrets and configuration"`
 1. Add the public key in `travis-key.pub` to the newly created dummy [Pantheon user](https://pantheon.io/docs/ssh-keys)
+1. Set up the following GitHub secrets in your repository settings:
+   - `PANTHEON_GIT_URL`: The Pantheon Git URL for your project
+   - `TERMINUS_TOKEN`: Your Pantheon machine token
+   - `ROLLBAR_SERVER_TOKEN`: Your Rollbar server token (optional)
+   - `ENCRYPTED_KEY` and `ENCRYPTED_IV`: The encryption key and IV from the `deploy:config-autodeploy` command output
 1. Actualize `public static string $githubProject = 'Gizra/the-client';` in the `RoboFile.php`.
 
 Optionally you can specify which target branch you'd like to push on Pantheon, by default it's `master`, so the target is the DEV environment, but alternatively you can issue:
@@ -409,14 +414,12 @@ loop, you can maintain an exclude list to filter out these acceptable warnings.
 
 To set up an exclude list:
 
-In your .travis.yml, set the `DEPLOY_EXCLUDE_WARNING` environment variable with a list of warnings to exclude.
+In your GitHub repository settings, create a configuration variable `DEPLOY_EXCLUDE_WARNING` with a list of warnings to exclude.
 The warning names should be separated by a | character.
 
 Example:
-```yml
-env:
-global:
-- DEPLOY_EXCLUDE_WARNING="Search API|Another"
+```
+DEPLOY_EXCLUDE_WARNING="Search API|Another"
 ```
 
 The deployment script will read this environment variable and exclude the specified warnings when posting to GitHub.

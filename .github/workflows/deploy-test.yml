@@ -1,0 +1,64 @@
+name: Deploy to Pantheon TEST
+
+on:
+  push:
+    tags:
+      - '*'
+      - '!*live'
+
+jobs:
+  deploy-test:
+    name: 'Backend tests: Functional tests and deploy to Pantheon TEST'
+    runs-on: ubuntu-24.04
+    env:
+      DDEV_NO_INSTRUMENTATION: true
+      ROLLBAR_SERVER_TOKEN: ${{ secrets.ROLLBAR_SERVER_TOKEN }}
+      PANTHEON_GIT_URL: ${{ secrets.PANTHEON_GIT_URL }}
+      TERMINUS_TOKEN: ${{ secrets.TERMINUS_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 500
+
+      - name: Set up DDEV
+        uses: ddev/github-action-setup-ddev@v1
+
+      - name: Configure DDEV
+        run: |
+          mkdir -p ~/.ddev
+          cp ci-scripts/global_config.yaml ~/.ddev/
+
+      - name: Set ROLLBAR_SERVER_TOKEN
+        if: env.ROLLBAR_SERVER_TOKEN != ''
+        run: ddev config global --web-environment-add="ROLLBAR_SERVER_TOKEN=$ROLLBAR_SERVER_TOKEN"
+
+      - name: Install Drupal
+        run: |
+          ddev composer install
+          ./ci-scripts/install_drupal.sh
+
+      - name: Run PHPUnit tests
+        run: ./ci-scripts/test_phpunit.sh
+
+      - name: Prepare SSH key
+        run: |
+          openssl aes-256-cbc -K ${{ secrets.ENCRYPTED_KEY }} -iv ${{ secrets.ENCRYPTED_IV }} \
+            -in travis-key.enc -out travis-key -d
+          mkdir -p ~/.ssh
+          cp travis-key ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      - name: Prepare deployment
+        run: |
+          export TRAVIS_BUILD_DIR="${GITHUB_WORKSPACE}"
+          export TRAVIS_COMMIT_MESSAGE="${{ github.event.head_commit.message }}"
+          ./ci-scripts/prepare_deploy.sh
+
+      - name: Deploy to Pantheon TEST
+        run: |
+          ddev composer install
+          ddev robo deploy:tag-pantheon --no-interaction ${{ github.ref_name }} master
+
+      - name: Sync Pantheon environments
+        run: ddev robo deploy:pantheon-sync
