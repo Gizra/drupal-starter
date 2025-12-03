@@ -5,6 +5,8 @@
  * Pantheon-specific settings.
  */
 
+use Drupal\Core\Installer\InstallerKernel;
+
 // Naive mitigation of bad traffic.
 // These IPs below are from
 // https://www.projecthoneypot.org/list_of_ips.php
@@ -105,12 +107,16 @@ if (!empty($pantheon_env)) {
   }
 }
 
-if (!empty($pantheon_env) && !empty($_ENV['CACHE_HOST'])) {
-  $settings['container_yamls'][] = 'modules/contrib/redis/redis.services.yml';
-  $settings['container_yamls'][] = 'modules/contrib/redis/example.services.yml';
+if (defined(
+  'PANTHEON_ENVIRONMENT'
+) && !InstallerKernel::installationAttempted(
+) && extension_loaded('redis')) {
+  // Set Redis as the default backend for any cache bin not otherwise specified.
+  $settings['cache']['default'] = 'cache.backend.redis';
 
   // Phpredis is built into the Pantheon application container.
   $settings['redis.connection']['interface'] = 'PhpRedis';
+
   // These are dynamic variables handled by Pantheon.
   $settings['redis.connection']['host'] = $_ENV['CACHE_HOST'];
   $settings['redis.connection']['port'] = $_ENV['CACHE_PORT'];
@@ -119,12 +125,65 @@ if (!empty($pantheon_env) && !empty($_ENV['CACHE_HOST'])) {
   $settings['redis_compress_length'] = 100;
   $settings['redis_compress_level'] = 1;
 
-  // Use Redis as the default cache.
-  $settings['cache']['default'] = 'cache.backend.redis';
   $settings['cache_prefix']['default'] = 'pantheon-redis';
 
   // Use the database for forms.
   $settings['cache']['bins']['form'] = 'cache.backend.database';
+
+  // Apply changes to the container configuration to make better use of Redis.
+  // This includes using Redis for the lock and flood control systems, as well
+  // as the cache tag checksum. Alternatively, copy the contents of that file
+  // to your project-specific services.yml file, modify as appropriate, and
+  // remove this line.
+  $settings['container_yamls'][] = 'modules/contrib/redis/example.services.yml';
+
+  // Allow the services to work before the Redis module itself is enabled.
+  $settings['container_yamls'][] = 'modules/contrib/redis/redis.services.yml';
+
+  // Manually add the classloader path, this is required for the container
+  // cache bin definition below.
+  $class_loader->addPsr4('Drupal\\redis\\', 'modules/contrib/redis/src');
+
+  // 30 days
+  $settings['redis.settings']['perm_ttl'] = 2630000;
+  $settings['redis.settings']['perm_ttl_config'] = 43200;
+  $settings['redis.settings']['perm_ttl_data'] = 43200;
+  $settings['redis.settings']['perm_ttl_default'] = 43200;
+  $settings['redis.settings']['perm_ttl_entity'] = 172800;
+
+  // Use redis for container cache.
+  // The container cache is used to load the container definition itself, and
+  // thus any configuration stored in the container itself is not available
+  // yet. These lines force the container cache to use Redis rather than the
+  // default SQL cache.
+  $settings['bootstrap_container_definition'] = [
+    'parameters' => [],
+    'services' => [
+      'redis.factory' => [
+        'class' => 'Drupal\redis\ClientFactory',
+      ],
+      'cache.backend.redis' => [
+        'class' => 'Drupal\redis\Cache\CacheBackendFactory',
+        'arguments' => [
+          '@redis.factory',
+          '@cache_tags_provider.container',
+          '@serialization.phpserialize',
+        ],
+      ],
+      'cache.container' => [
+        'class' => '\Drupal\redis\Cache\PhpRedis',
+        'factory' => ['@cache.backend.redis', 'get'],
+        'arguments' => ['container'],
+      ],
+      'cache_tags_provider.container' => [
+        'class' => 'Drupal\redis\Cache\RedisCacheTagsChecksum',
+        'arguments' => ['@redis.factory'],
+      ],
+      'serialization.phpserialize' => [
+        'class' => 'Drupal\Component\Serialization\PhpSerialize',
+      ],
+    ],
+  ];
 }
 
 // Setting secrets for various contrib modules.
