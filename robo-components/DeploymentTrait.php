@@ -838,7 +838,7 @@ trait DeploymentTrait {
     $this->taskExecStack()
       ->dir($pantheon_directory)
       ->stopOnFail()
-      ->exec('git checkout master')
+      ->exec('git checkout main')
       ->exec('git fetch')
       ->exec('git pull --ff-only')
       ->run();
