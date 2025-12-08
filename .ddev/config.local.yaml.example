@@ -60,5 +60,7 @@ hooks:
     - exec: drush sapi-i
     # Compile theme.
     - exec-host: ddev robo theme:compile
+     # Get rid of sensitive user data.
+    - exec: drush sql:sanitize --yes
     # Login as admin.
     - exec-host: ddev login
