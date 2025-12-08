@@ -283,4 +283,4 @@ corepack_enable: false
 # for them. Example:
 hooks:
  post-import-db:
-   - exec: drush sql:sanitize
+   - exec: drush sql:sanitize --yes
