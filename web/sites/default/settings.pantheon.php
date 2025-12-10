@@ -5,6 +5,7 @@
  * Pantheon-specific settings.
  */
 
+use Pantheon\Integrations\Assets;
 use Drupal\Core\Installer\InstallerKernel;
 
 // Naive mitigation of bad traffic.
@@ -34,8 +35,8 @@ $settings['container_yamls'][] = __DIR__ . '/services.pantheon.yml';
  *      a local development environment, to insure that
  *      the site settings remain consistent.
  */
-if (isset($_ENV['PANTHEON_ENVIRONMENT']) && file_exists(\Pantheon\Integrations\Assets::dir() . "/settings.pantheon.php")) {
-  include \Pantheon\Integrations\Assets::dir() . "/settings.pantheon.php";
+if (isset($_ENV['PANTHEON_ENVIRONMENT']) && file_exists(Assets::dir() . "/settings.pantheon.php")) {
+  include Assets::dir() . "/settings.pantheon.php";
 }
 
 $settings['config_sync_directory'] = '../config/sync';
