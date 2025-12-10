@@ -5,7 +5,7 @@ namespace Drupal\Tests\server_general\ExistingSite;
 /**
  * Tests entity references.
  */
-class ServerGeneralParagraphTranslatability extends ServerGeneralTestBase {
+class ServerGeneralParagraphTranslatabilityTest extends ServerGeneralTestBase {
 
   /**
    * Checks Paragraph reference sanity for translations.
