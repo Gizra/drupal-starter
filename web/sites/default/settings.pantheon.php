@@ -34,7 +34,9 @@ $settings['container_yamls'][] = __DIR__ . '/services.pantheon.yml';
  *      a local development environment, to insure that
  *      the site settings remain consistent.
  */
-include_once __DIR__ . "/settings.pantheon.php";
+if (isset($_ENV['PANTHEON_ENVIRONMENT']) && file_exists(\Pantheon\Integrations\Assets::dir() . "/settings.pantheon.php")) {
+  include \Pantheon\Integrations\Assets::dir() . "/settings.pantheon.php";
+}
 
 $settings['config_sync_directory'] = '../config/sync';
 

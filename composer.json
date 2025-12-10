@@ -92,6 +92,7 @@
         "npm-asset/select2": "^4.0",
         "npm-asset/slick-carousel": "dev-master",
         "oomphinc/composer-installers-extender": "^2.0",
+        "pantheon-systems/drupal-integrations": "^11",
         "phpstan/phpstan-deprecation-rules": "^2.0",
         "wikimedia/composer-merge-plugin": "^2.1"
     },
@@ -157,7 +158,9 @@
             "file-mapping": {
                 "[web-root]/sites/development.services.yml": false,
                 "[web-root]/sites/services.yml": false,
-                "[web-root]/robots.txt": false
+                "[web-root]/robots.txt": false,
+                "[web-root]/sites/default/settings.php": false,
+                "[web-root]/sites/default/settings.pantheon.php": false
             }
         },
         "installer-paths": {
