@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a1033c9e48108cc6b070b89c38e03ad9",
+    "content-hash": "8fbe68cb83c75e554eb61e72ff3aa861",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -4753,6 +4753,51 @@
             "homepage": "https://www.drupal.org/project/paragraphs_edit",
             "support": {
                 "source": "https://git.drupalcode.org/project/paragraphs_edit"
+            }
+        },
+        {
+            "name": "drupal/paragraphs_modal_add",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/paragraphs_modal_add.git",
+                "reference": "1.0.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/paragraphs_modal_add-1.0.0.zip",
+                "reference": "1.0.0",
+                "shasum": "7f4819c4168a85fae204956691afd9526acced8b"
+            },
+            "require": {
+                "drupal/core": "^10 | ^11",
+                "drupal/paragraphs": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "1.0.0",
+                    "datestamp": "1744336309",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Project has not opted into security advisory coverage!"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "ruby232",
+                    "homepage": "https://www.drupal.org/user/2604126"
+                }
+            ],
+            "description": "Allows users to add paragraphs.",
+            "homepage": "https://www.drupal.org/project/paragraphs_modal_add",
+            "support": {
+                "source": "https://git.drupalcode.org/project/paragraphs_modal_add"
             }
         },
         {
