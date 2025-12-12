@@ -3,19 +3,11 @@
 @plugin "@tailwindcss/forms";
 
 @theme {
-  --font-family-headers: "Roboto", sans-serif;
-  --font-family-body: "Open Sans", sans-serif;
-
-  /* Custom breakpoints matching Drupal's server_theme.breakpoints.yml
-   * These align with the responsive image system and theme breakpoints.
-   */
-  --breakpoint-sm: 40rem;
-  --breakpoint-md: 48rem;
-  --breakpoint-lg: 64rem;
-  --breakpoint-xl: 80rem;
-  --breakpoint-2xl: 96rem;
-
+  /* Extend max-width with custom 8xl size */
   --max-width-8xl: 90rem;
+  
+  /* Custom text-underline-offset */
+  --text-underline-offset-6: 6px;
 }
 
 @source "../../templates/**/*.html.twig";
