@@ -1,3 +1,6 @@
+/* Note: In Tailwind 4, custom component classes cannot be used with @apply.
+ * We inline the container-wide utilities here instead of @apply container-wide.
+ */
 body.path-user .region-content article {
   @apply max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-20;
 }

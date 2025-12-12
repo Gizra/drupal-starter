@@ -6,6 +6,9 @@
   --font-family-headers: "Roboto", sans-serif;
   --font-family-body: "Open Sans", sans-serif;
 
+  /* Custom breakpoints matching Drupal's server_theme.breakpoints.yml
+   * These align with the responsive image system and theme breakpoints.
+   */
   --breakpoint-sm: 40rem;
   --breakpoint-md: 48rem;
   --breakpoint-lg: 64rem;
