@@ -5,7 +5,7 @@
 @theme {
   /* Extend max-width with custom 8xl size */
   --max-width-8xl: 90rem;
-  
+
   /* Custom text-underline-offset */
   --text-underline-offset-6: 6px;
 }
