@@ -12,7 +12,7 @@
   --breakpoint-xl: 80rem;
   --breakpoint-2xl: 96rem;
 
-  --width-8xl: 90rem;
+  --max-width-8xl: 90rem;
 }
 
 @source "../../templates/**/*.html.twig";
@@ -22,17 +22,17 @@
 @source "../../../../../modules/custom/**/*.html.twig";
 @source "../../../../../modules/custom/*/js/**/*.js";
 
-@import "container.css";
-@import "form.css";
-@import "language.css";
-@import "list.css";
-@import "menu.css";
-@import "paragraph_search.css";
-@import "rtl.css";
-@import "slick.css";
-@import "toggler.css";
-@import "typography.css";
-@import "user.css";
-@import "video.css";
+@import "./container.css";
+@import "./form.css";
+@import "./language.css";
+@import "./list.css";
+@import "./menu.css";
+@import "./paragraph_search.css";
+@import "./rtl.css";
+@import "./slick.css";
+@import "./toggler.css";
+@import "./typography.css";
+@import "./user.css";
+@import "./video.css";
 
 
