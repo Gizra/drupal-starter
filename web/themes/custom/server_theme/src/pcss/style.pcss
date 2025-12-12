@@ -1,5 +1,27 @@
-@import "tailwindcss/base";
-@import "tailwindcss/components";
+@import "tailwindcss";
+
+@plugin "@tailwindcss/forms";
+
+@theme {
+  --font-headers: "Roboto", sans-serif;
+  --font-body: "Open Sans", sans-serif;
+
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+
+  --max-width-8xl: 90rem;
+  --text-underline-offset-6: 6px;
+}
+
+@source "./templates/**/*.html.twig";
+@source "./src/js/**/*.js";
+@source "./server_theme.theme";
+@source "../../../modules/custom/**/*.php";
+@source "../../../modules/custom/**/*.html.twig";
+@source "../../../modules/custom/*/js/**/*.js";
 
 @import "container.pcss";
 @import "form.pcss";
@@ -13,8 +35,5 @@
 @import "typography.pcss";
 @import "user.pcss";
 @import "video.pcss";
-
-// Must be last import.
-@import "tailwindcss/utilities";
 
 

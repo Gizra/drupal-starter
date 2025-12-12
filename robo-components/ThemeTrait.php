@@ -49,7 +49,9 @@ trait ThemeTrait {
     // Make sure we have all the node packages.
     $this->_exec("cd $theme_dir && npm install");
 
-    $result = $this->_exec("cd $theme_dir && npx postcss ./src/pcss/style.pcss --output=./dist/css/style.css");
+    // Use Tailwind CLI to compile CSS.
+    $minify_flag = $optimize ? ' --minify' : '';
+    $result = $this->_exec("cd $theme_dir && npx @tailwindcss/cli@next -i ./src/pcss/style.pcss -o ./dist/css/style.css" . $minify_flag);
 
     // Safety check to verify theme was properly compiled before deployment.
     if (!file_exists(sprintf('%s/dist/css/style.css', self::$themeBase))) {
