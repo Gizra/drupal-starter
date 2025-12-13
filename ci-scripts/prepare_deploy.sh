@@ -6,7 +6,7 @@ set -x
 cd "$GITHUB_WORKSPACE" || exit 1
 
 # Make Git operations possible.
-cp deploy-key ~/.ssh/id_rsa
+cp pantheon-key ~/.ssh/id_rsa
 chmod 600 ~/.ssh/id_rsa
 
 # Authenticate with Terminus.
