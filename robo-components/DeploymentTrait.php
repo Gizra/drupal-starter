@@ -179,7 +179,8 @@ trait DeploymentTrait {
       throw new \Exception('The working directory is dirty. Please commit or stash the pending changes. If you allowed new files in the .gitignore file, also double check composer.json scaffold section. https://www.drupal.org/docs/develop/using-composer/using-drupals-composer-scaffold');
     }
 
-    // Check out the tag first to validate pantheon.yml exists on the target branch.
+    // Check out the tag first to validate pantheon.yml exists on the
+    // target branch.
     $this->taskExec("git checkout $tag")->run();
 
     // Full installation with dev dependencies as we need some of them for the
