@@ -711,7 +711,7 @@ trait DeploymentTrait {
     $project_name = $pantheon_info['name'];
 
     // Generate SSH key for deployment.
-    $result = $this->taskExec('ssh-keygen -t rsa -f deploy-key -P ""')->run();
+    $result = $this->taskExec('ssh-keygen -t rsa -f pantheon-key -P ""')->run();
     if ($result->getExitCode() !== 0) {
       throw new \Exception('The key generation failed.');
     }
@@ -729,7 +729,7 @@ trait DeploymentTrait {
     }
     $encryption_iv = trim($result->getMessage());
 
-    $result = $this->taskExec("openssl aes-256-cbc -K $encryption_key -iv $encryption_iv -in deploy-key -out deploy-key.enc")->run();
+    $result = $this->taskExec("openssl aes-256-cbc -K $encryption_key -iv $encryption_iv -in pantheon-key -out pantheon-key.enc")->run();
     if ($result->getExitCode() !== 0) {
       throw new \Exception('The encryption of the private key failed.');
     }
@@ -748,7 +748,7 @@ trait DeploymentTrait {
         ->run();
     }
 
-    $result = $this->taskExec('git add deploy-key.enc')->run();
+    $result = $this->taskExec('git add pantheon-key.enc')->run();
     if ($result->getExitCode() !== 0) {
       throw new \Exception("git add failed.");
     }
@@ -767,10 +767,10 @@ trait DeploymentTrait {
     $this->say("   - ROLLBAR_SERVER_TOKEN: (your Rollbar token if applicable)");
     $this->say("");
     $this->say("2. Add the SSH public key to the Pantheon account:");
-    $this->say("   - Key location: deploy-key.pub");
+    $this->say("   - Key location: pantheon-key.pub");
     $this->say("   - Instructions: https://pantheon.io/docs/ssh-keys");
     $this->say("");
-    $this->say("3. Review and commit the encrypted key file (deploy-key.enc)");
+    $this->say("3. Review and commit the encrypted key file (pantheon-key.enc)");
     $this->say("");
     $this->say("4. Ensure nested docroot is configured: https://pantheon.io/docs/nested-docroot");
   }

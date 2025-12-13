@@ -1,4 +1,4 @@
-[![Build Status](https://github.com/Gizra/drupal-starter/actions/workflows/lint.yml/badge.svg)](https://github.com/Gizra/drupal-starter/actions)
+[![Build Status](https://github.com/Gizra/drupal-starter/actions/workflows/ci.yml/badge.svg)](https://github.com/Gizra/drupal-starter/actions)
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=250256146)
 
@@ -276,7 +276,7 @@ Make sure to add the correct site name under `environment_variables.project`.
 
 There's a Robo command to do the entire process of creating a new project:
 ```
-ddev robo bootstrap:project <project_name> <github_repository_url> <terminus_token> <github_token> [<docker_mirror_url> [<http_basic_auth_user> [<http_basic_auth_password>]]]
+ddev robo bootstrap:project <project_name> <github_repository_url> <terminus_token> <github_token> [<http_basic_auth_user> [<http_basic_auth_password>]]
 ```
 See the details [here](https://github.com/Gizra/drupal-starter/blob/main/robo-components/BootstrapTrait.php).
 
@@ -391,7 +391,7 @@ In order to deploy upon every merge automatically using GitHub Actions, you shal
 1. Get a GitHub Personal access token. It will be used to post a comment to GitHub to the relevant issue when a merged PR is deployed, so set the expiry date far in the future enough for this.
 1. `ddev robo deploy:config-autodeploy [your terminus token] [your github token]`
 1. `git commit -m "Deployment secrets and configuration"`
-1. Add the public key in `deploy-key.pub` to the newly created dummy [Pantheon user](https://pantheon.io/docs/ssh-keys)
+1. Add the public key in `pantheon-key.pub` to the newly created dummy [Pantheon user](https://pantheon.io/docs/ssh-keys)
 1. Set up the following GitHub secrets in your repository settings:
    - `PANTHEON_GIT_URL`: The Pantheon Git URL for your project
    - `TERMINUS_TOKEN`: Your Pantheon machine token
