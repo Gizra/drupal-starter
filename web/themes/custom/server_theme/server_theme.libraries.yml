@@ -1,9 +1,7 @@
 global-styling:
   css:
     theme:
-      dist/css/style.css:
-        # Load after any normalization layers so utility colors win the cascade.
-        weight: 10
+      dist/css/style.css: {}
 
 global-scripts:
   js:

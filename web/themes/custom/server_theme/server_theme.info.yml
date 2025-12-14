@@ -37,6 +37,7 @@ libraries-override:
     css:
       component:
         css/components/messages.css: false
+  core/normalize: false
   system/base:
     css:
       components:
