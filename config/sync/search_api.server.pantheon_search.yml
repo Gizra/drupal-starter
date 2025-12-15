@@ -34,7 +34,7 @@ dependencies:
     - search_api_solr
 _core:
   default_config_hash: 5Q1ZlUpNUSc4w8A7wHv4BG7qzalfvXHqEkyI6L60FXc
-id: pantheon_solr8
+id: pantheon_search
 name: 'Pantheon Search'
 description: ''
 backend: search_api_solr
