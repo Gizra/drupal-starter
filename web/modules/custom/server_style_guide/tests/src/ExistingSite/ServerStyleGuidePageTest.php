@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Styleguide tests.
  */
-class ServerGeneralStyleGuideTest extends ServerGeneralTestBase {
+class ServerStyleGuidePageTest extends ServerGeneralTestBase {
 
   /**
    * Anonymous users cannot access styleguide.
