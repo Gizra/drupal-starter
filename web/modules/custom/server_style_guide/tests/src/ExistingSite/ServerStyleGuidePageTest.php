@@ -6,12 +6,12 @@ use Drupal\Core\Url;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Styleguide tests.
+ * Style Guide tests.
  */
 class ServerStyleGuidePageTest extends ServerGeneralTestBase {
 
   /**
-   * Anonymous users cannot access styleguide.
+   * Anonymous users cannot access Style Guide.
    */
   public function testAnonymousAccess() {
     $this->drupalGet(Url::fromRoute('server_style_guide.style_guide'));
@@ -19,7 +19,7 @@ class ServerStyleGuidePageTest extends ServerGeneralTestBase {
   }
 
   /**
-   * Test that users with certain roles can access styleguide.
+   * Test users with certain roles can access the Style Guide.
    *
    * @dataProvider rolesProvider
    */
