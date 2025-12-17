@@ -93,12 +93,12 @@ settings:
       properties:
         reversed: true
         startIndex: true
+        styles: true
       multiBlock: true
     ckeditor5_sourceEditing:
       allowed_tags:
         - '<cite>'
         - '<blockquote cite>'
-        - '<ul type>'
         - '<dl>'
         - '<dt>'
         - '<dd>'
@@ -107,7 +107,6 @@ settings:
         - '<h4 id>'
         - '<h5 id>'
         - '<h6 id>'
-        - '<ol type>'
         - '<div class>'
         - '<span class>'
     media_media:

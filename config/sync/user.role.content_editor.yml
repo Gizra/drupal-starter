@@ -11,6 +11,7 @@ dependencies:
     - google_tag
     - navigation
     - node
+    - server_style_guide
     - system
 id: content_editor
 label: 'Content Editor'
@@ -32,6 +33,7 @@ permissions:
   - 'edit any news content'
   - 'edit own landing_page content'
   - 'edit own news content'
+  - 'rebuild node access permissions'
   - 'use default transition create_new_draft'
   - 'use default transition publish'
   - 'use default transition submit_for_review'
