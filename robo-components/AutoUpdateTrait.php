@@ -89,7 +89,7 @@ trait AutoUpdateTrait {
       // result in modules already being updated.
       $lock_changed = trim(`git status --porcelain composer.lock`);
       if (!$lock_changed) {
-        $this->say($package . 'is already at version ' . $version);
+        $this->say($package . ' is already at version ' . $version);
         continue;
       }
       // Update successful, add composer.lock to staging area,
