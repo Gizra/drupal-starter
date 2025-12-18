@@ -46,6 +46,7 @@ trait AutoUpdateTrait {
         continue;
       }
       $version = $project['recommended'];
+      $major = NULL;
       // Version numbers in drupal can take several patterns. We need to derive
       // the composer update command from any of them:
       // 4.0.0 => ^4.0
@@ -81,7 +82,7 @@ trait AutoUpdateTrait {
 
         // Check if the target version would be compatible with the constraint.
         // For example, if composer.json has "^2.0" but recommended is "3.0.0".
-        if (preg_match('/^\^([\d\.]+)/', $current_constraint, $constraint_matches)) {
+        if ($major && preg_match('/^\^([\d\.]+)/', $current_constraint, $constraint_matches)) {
           $constraint_major = (int) explode('.', $constraint_matches[1])[0];
           $target_major = (int) $major;
 
