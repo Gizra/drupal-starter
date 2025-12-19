@@ -14,45 +14,8 @@
             "url": "https://packages.drupal.org/8"
         },
         {
-            "type": "package",
-            "package": [
-                {
-                    "name": "npm-asset/anchor-js",
-                    "version": "5.0.0",
-                    "dist": {
-                        "type": "tar",
-                        "url": "https://registry.npmjs.org/anchor-js/-/anchor-js-5.0.0.tgz"
-                    },
-                    "type": "npm-asset",
-                    "license": [
-                        "MIT"
-                    ]
-                },
-                {
-                    "name": "npm-asset/select2",
-                    "version": "4.0.13",
-                    "dist": {
-                        "type": "tar",
-                        "url": "https://registry.npmjs.org/select2/-/select2-4.0.13.tgz"
-                    },
-                    "type": "npm-asset",
-                    "license": [
-                        "MIT"
-                    ]
-                },
-                {
-                    "name": "npm-asset/slick-carousel",
-                    "version": "1.8.1",
-                    "dist": {
-                        "type": "tar",
-                        "url": "https://registry.npmjs.org/slick-carousel/-/slick-carousel-1.8.1.tgz"
-                    },
-                    "type": "npm-asset",
-                    "license": [
-                        "MIT"
-                    ]
-                }
-            ]
+            "type": "composer",
+            "url": "https://asset-packagist.org"
         }
     ],
     "require": {
