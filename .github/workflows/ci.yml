@@ -1,49 +1,39 @@
 name: CI
 
 on:
-  pull_request:
   push:
+    branches:
+      - main
+  pull_request:
 
-permissions:
-  contents: read
-  issues: write
-  pull-requests: write
+env:
+  DDEV_NO_INSTRUMENTATION: true
 
 jobs:
-  phpstan:
-    name: PhpStan
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 500
-
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.3'
-          coverage: none
-
-      - name: Check syntax
-        run: ./ci-scripts/test_syntax.sh
-
-      - name: Install Composer dependencies
-        run: composer install
-
-      - name: Run PhpStan
-        run: PHP_MEMORY_LIMIT=2G ./vendor/bin/phpstan --no-progress analyse -c phpstan.neon
-
   phpcs:
     name: Drupal coding standard
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up PHP
+      - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'
-          coverage: none
+
+      - name: Install parallel
+        run: sudo apt-get update && sudo apt-get install -y parallel
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
 
       - name: Install Composer dependencies
         run: composer install
@@ -51,9 +41,54 @@ jobs:
       - name: Run PHPCS
         run: vendor/bin/robo phpcs
 
+  phpstan:
+    name: PhpStan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Test syntax
+        run: ./ci-scripts/test_syntax.sh
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install Composer dependencies
+        run: composer install
+
+      - name: Restore PHPStan result cache
+        uses: actions/cache/restore@v4
+        with:
+          path: .phpstan-cache
+          key: phpstan-result-cache-${{ github.sha }}
+          restore-keys: phpstan-result-cache-
+
+      - name: Run PHPStan
+        run: php -d memory_limit=2G ./vendor/bin/phpstan --no-progress analyse -c phpstan.neon
+
+      - name: Save PHPStan result cache
+        if: ${{ !cancelled() }}
+        uses: actions/cache/save@v4
+        with:
+          path: .phpstan-cache
+          key: phpstan-result-cache-${{ github.sha }}
+
   shellcheck:
-    name: Shell coding standard
-    runs-on: ubuntu-22.04
+    name: "Shell coding standard: shellcheck"
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
@@ -63,217 +98,28 @@ jobs:
       - name: Run shellcheck
         run: ./ci-scripts/test_shell.sh
 
-  functional-tests:
-    name: Backend tests
-    runs-on: ubuntu-22.04
+  test:
+    name: "Backend tests: Functional tests"
+    runs-on: ubuntu-latest
     needs: [phpcs, phpstan, shellcheck]
     env:
-      DDEV_NO_INSTRUMENTATION: true
-      ROLLBAR_SERVER_TOKEN: df6ce617465b4980afdecc95ed1b42de
+      ROLLBAR_SERVER_TOKEN: ${{ secrets.ROLLBAR_SERVER_TOKEN }}
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up DDEV
-        uses: ddev/github-action-setup-ddev@v1
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
 
-      - name: Configure DDEV
-        run: |
-          mkdir -p ~/.ddev
-          cp ci-scripts/global_config.yaml ~/.ddev/
-
-      - name: Set ROLLBAR_SERVER_TOKEN
-        run: ddev config global --web-environment-add="ROLLBAR_SERVER_TOKEN=$ROLLBAR_SERVER_TOKEN"
+      - name: Install DDEV
+        run: ./ci-scripts/install_ddev.sh
 
       - name: Install Drupal
-        run: |
-          ddev composer install
-          ./ci-scripts/install_drupal.sh
+        run: ./ci-scripts/install_drupal.sh
 
       - name: Run PHPUnit tests
         run: ./ci-scripts/test_phpunit.sh
 
       - name: Run PHPUnit Rollbar tests
         run: ./ci-scripts/test_phpunit_rollbar.sh
-
-  deploy-qa:
-    name: Deploy to Pantheon QA
-    runs-on: ubuntu-22.04
-    needs: [functional-tests]
-    if: github.ref == 'refs/heads/main'
-    continue-on-error: true
-    concurrency:
-      group: deploy-qa
-      cancel-in-progress: false
-    env:
-      DDEV_NO_INSTRUMENTATION: true
-      ROLLBAR_SERVER_TOKEN: ${{ secrets.ROLLBAR_SERVER_TOKEN }}
-      PANTHEON_GIT_URL: ${{ secrets.PANTHEON_GIT_URL }}
-      TERMINUS_TOKEN: ${{ secrets.TERMINUS_TOKEN }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      DEPLOY_EXCLUDE_WARNING: ${{ vars.DEPLOY_EXCLUDE_WARNING }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 500
-
-      - name: Set up DDEV
-        uses: ddev/github-action-setup-ddev@v1
-
-      - name: Configure DDEV
-        run: |
-          mkdir -p ~/.ddev
-          cp ci-scripts/global_config.yaml ~/.ddev/
-
-      - name: Set ROLLBAR_SERVER_TOKEN
-        if: env.ROLLBAR_SERVER_TOKEN != ''
-        run: ddev config global --web-environment-add="ROLLBAR_SERVER_TOKEN=$ROLLBAR_SERVER_TOKEN"
-
-      - name: Install Drupal
-        run: |
-          ddev composer install
-          ./ci-scripts/install_drupal.sh
-
-      - name: Run PHPUnit tests
-        run: ./ci-scripts/test_phpunit.sh
-
-      - name: Run PHPUnit Rollbar tests
-        run: ./ci-scripts/test_phpunit_rollbar.sh
-
-      - name: Prepare SSH key
-        run: |
-          openssl aes-256-cbc -K ${{ secrets.ENCRYPTED_KEY }} -iv ${{ secrets.ENCRYPTED_IV }} \
-            -in pantheon-key.enc -out pantheon-key -d
-          mkdir -p ~/.ssh
-          cp pantheon-key ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-
-      - name: Prepare deployment
-        env:
-          GITHUB_COMMIT_MESSAGE: ${{ github.event.head_commit.message || github.event.commits[0].message || 'Manual deployment' }}
-        run: ./ci-scripts/prepare_deploy.sh
-
-      - name: Deploy to Pantheon QA
-        run: |
-          ddev composer install
-          ddev robo deploy:pantheon qa --no-interaction
-
-      - name: Notify deployment
-        run: ddev robo deploy:notify
-
-  deploy-test:
-    name: Deploy to Pantheon TEST
-    runs-on: ubuntu-22.04
-    if: startsWith(github.ref, 'refs/tags/') && !endsWith(github.ref, 'live')
-    concurrency:
-      group: deploy-test
-      cancel-in-progress: false
-    env:
-      DDEV_NO_INSTRUMENTATION: true
-      ROLLBAR_SERVER_TOKEN: ${{ secrets.ROLLBAR_SERVER_TOKEN }}
-      PANTHEON_GIT_URL: ${{ secrets.PANTHEON_GIT_URL }}
-      TERMINUS_TOKEN: ${{ secrets.TERMINUS_TOKEN }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 500
-
-      - name: Set up DDEV
-        uses: ddev/github-action-setup-ddev@v1
-
-      - name: Configure DDEV
-        run: |
-          mkdir -p ~/.ddev
-          cp ci-scripts/global_config.yaml ~/.ddev/
-
-      - name: Set ROLLBAR_SERVER_TOKEN
-        if: env.ROLLBAR_SERVER_TOKEN != ''
-        run: ddev config global --web-environment-add="ROLLBAR_SERVER_TOKEN=$ROLLBAR_SERVER_TOKEN"
-
-      - name: Install Drupal
-        run: |
-          ddev composer install
-          ./ci-scripts/install_drupal.sh
-
-      - name: Run PHPUnit tests
-        run: ./ci-scripts/test_phpunit.sh
-
-      - name: Prepare SSH key
-        run: |
-          openssl aes-256-cbc -K ${{ secrets.ENCRYPTED_KEY }} -iv ${{ secrets.ENCRYPTED_IV }} \
-            -in pantheon-key.enc -out pantheon-key -d
-          mkdir -p ~/.ssh
-          cp pantheon-key ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-
-      - name: Prepare deployment
-        env:
-          GITHUB_COMMIT_MESSAGE: ${{ github.event.head_commit.message || github.event.commits[0].message || 'Manual deployment' }}
-        run: ./ci-scripts/prepare_deploy.sh
-
-      - name: Deploy to Pantheon TEST
-        run: |
-          ddev composer install
-          ddev robo deploy:tag-pantheon --no-interaction ${{ github.ref_name }} master
-
-      - name: Sync Pantheon environments
-        run: ddev robo deploy:pantheon-sync
-
-  deploy-live:
-    name: Deploy to Pantheon LIVE
-    runs-on: ubuntu-22.04
-    if: startsWith(github.ref, 'refs/tags/') && endsWith(github.ref, 'live')
-    concurrency:
-      group: deploy-live
-      cancel-in-progress: false
-    env:
-      DDEV_NO_INSTRUMENTATION: true
-      ROLLBAR_SERVER_TOKEN: ${{ secrets.ROLLBAR_SERVER_TOKEN }}
-      PANTHEON_GIT_URL: ${{ secrets.PANTHEON_GIT_URL }}
-      TERMINUS_TOKEN: ${{ secrets.TERMINUS_TOKEN }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 500
-
-      - name: Check live deploy
-        run: ./ci-scripts/check_live_deploy.sh
-
-      - name: Set up DDEV
-        uses: ddev/github-action-setup-ddev@v1
-
-      - name: Configure DDEV
-        run: |
-          mkdir -p ~/.ddev
-          cp ci-scripts/global_config.yaml ~/.ddev/
-
-      - name: Set ROLLBAR_SERVER_TOKEN
-        if: env.ROLLBAR_SERVER_TOKEN != ''
-        run: ddev config global --web-environment-add="ROLLBAR_SERVER_TOKEN=$ROLLBAR_SERVER_TOKEN"
-
-      - name: Install Drupal
-        run: |
-          ddev composer install
-          ./ci-scripts/install_drupal.sh
-
-      - name: Run PHPUnit tests
-        run: ./ci-scripts/test_phpunit.sh
-
-      - name: Prepare SSH key
-        run: |
-          openssl aes-256-cbc -K ${{ secrets.ENCRYPTED_KEY }} -iv ${{ secrets.ENCRYPTED_IV }} \
-            -in pantheon-key.enc -out pantheon-key -d
-          mkdir -p ~/.ssh
-          cp pantheon-key ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-
-      - name: Prepare deployment
-        env:
-          GITHUB_COMMIT_MESSAGE: ${{ github.event.head_commit.message || github.event.commits[0].message || 'Manual deployment' }}
-        run: ./ci-scripts/prepare_deploy.sh
-
-      - name: Deploy to Pantheon LIVE
-        run: |
-          ddev composer install
-          ddev robo deploy:pantheon-sync live
