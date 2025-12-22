@@ -1,21 +1,57 @@
 <?php
 
-namespace Drupal\Tests\server_style_guide\ExistingSite;
+namespace Drupal\Tests\server_general\ExistingSite;
 
+use Drupal\Core\Url;
 use Symfony\Component\HttpFoundation\Response;
-use weitzman\DrupalTestTraits\ExistingSiteBase;
 
 /**
- * A test case to test the Style Guide.
+ * Style Guide tests.
  */
-class ServerStyleGuidePageTest extends ExistingSiteBase {
+class ServerStyleGuidePageTest extends ServerGeneralTestBase {
 
   /**
-   * Test Style guide.
+   * Anonymous users cannot access Style Guide.
    */
-  public function testStyleGuide() {
-    $this->drupalGet('/style-guide');
+  public function testAnonymousAccess() {
+    $this->drupalGet(Url::fromRoute('server_style_guide.style_guide'));
+    $this->assertSession()->statusCodeEquals(Response::HTTP_FORBIDDEN);
+  }
+
+  /**
+   * Test users with certain roles can access the Style Guide.
+   *
+   * @dataProvider rolesProvider
+   */
+  public function testRoles(string $role) {
+    $user = $this->createUser();
+    $user->addRole($role);
+    $user->save();
+
+    $this->drupalLogin($user);
+
+    $this->drupalGet(Url::fromRoute('server_style_guide.style_guide'));
     $this->assertSession()->statusCodeEquals(Response::HTTP_OK);
+  }
+
+  /**
+   * Data provider for testRoles.
+   *
+   * @return array[]
+   *   Array of arrays, containing a role name.
+   */
+  public function rolesProvider(): array {
+    return [
+      [
+        'content_editor',
+      ],
+      [
+        'translator',
+      ],
+      [
+        'administrator',
+      ],
+    ];
   }
 
 }

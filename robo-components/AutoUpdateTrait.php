@@ -46,6 +46,7 @@ trait AutoUpdateTrait {
         continue;
       }
       $version = $project['recommended'];
+      $major = NULL;
       // Version numbers in drupal can take several patterns. We need to derive
       // the composer update command from any of them:
       // 4.0.0 => ^4.0
@@ -63,6 +64,32 @@ trait AutoUpdateTrait {
         if ($suffix) {
           $cleaned_suffix = preg_replace('/\d+$/', '', $suffix);
           $version .= "@{$cleaned_suffix}";
+        }
+      }
+
+      // Check composer.json for locked versions.
+      $composer_json = json_decode(file_get_contents('composer.json'), TRUE);
+      $package_name = 'drupal/' . $package;
+
+      if (isset($composer_json['require'][$package_name])) {
+        $current_constraint = $composer_json['require'][$package_name];
+
+        // Check if it's an exact version lock (e.g., "1.12.0").
+        if (preg_match('/^[\d\.]+$/', $current_constraint)) {
+          $this->yell($project['name'] . ' is locked to exact version ' . $current_constraint . ' in composer.json (recommended: ' . $project['recommended'] . '). Skipping - update composer.json manually if needed.');
+          continue;
+        }
+
+        // Check if the target version would be compatible with the constraint.
+        // For example, if composer.json has "^2.0" but recommended is "3.0.0".
+        if ($major && preg_match('/^\^([\d\.]+)/', $current_constraint, $constraint_matches)) {
+          $constraint_major = (int) explode('.', $constraint_matches[1])[0];
+          $target_major = (int) $major;
+
+          if ($constraint_major !== $target_major) {
+            $this->yell($project['name'] . ' has constraint ' . $current_constraint . ' in composer.json but recommended version is ' . $project['recommended'] . ' (different major version). Skipping - update composer.json manually if needed.');
+            continue;
+          }
         }
       }
 
@@ -89,7 +116,7 @@ trait AutoUpdateTrait {
       // result in modules already being updated.
       $lock_changed = trim(`git status --porcelain composer.lock`);
       if (!$lock_changed) {
-        $this->say($package . 'is already at version ' . $version);
+        $this->say($package . ' is already at version ' . $version);
         continue;
       }
       // Update successful, add composer.lock to staging area,
