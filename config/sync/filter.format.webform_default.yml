@@ -1,12 +1,10 @@
-uuid: cb4156f6-1797-458a-b597-234e13473285
+uuid: 7375a63f-3892-4347-a0cb-4b3b89eb5f5f
 langcode: en
 status: true
 dependencies:
   enforced:
     module:
       - webform
-_core:
-  default_config_hash: EeKp_M4Oid3erARiAam9rsgBKR91uEnFkEP3aZS2ol8
 name: 'Webform (Default) - DO NOT EDIT'
 format: webform_default
 weight: 100

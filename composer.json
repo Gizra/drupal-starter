@@ -33,14 +33,14 @@
         "drupal/ai_image_alt_text": "^1.0",
         "drupal/ai_provider_openai": "^1.0",
         "drupal/block_plugin_view_builder": "^1.0",
-        "drupal/classy": "^1.0",
+        "drupal/classy": "^2.0",
         "drupal/config_filter": "^2.4",
         "drupal/config_ignore": "^3.2",
         "drupal/config_pages": "^2.15",
-        "drupal/core": "^10.0",
-        "drupal/core-composer-scaffold": "^10",
-        "drupal/core-project-message": "^10",
-        "drupal/core-recommended": "^10.0",
+        "drupal/core": "^11",
+        "drupal/core-composer-scaffold": "^11",
+        "drupal/core-project-message": "^11",
+        "drupal/core-recommended": "^11",
         "drupal/crowdsec": "^1.1",
         "drupal/default_content": "^2.0@alpha",
         "drupal/emptyparagraphkiller": "^2.0",
@@ -55,9 +55,9 @@
         "drupal/intl_date": "^1.1",
         "drupal/lang_dropdown": "^2.1",
         "drupal/maxlength": "^3.1",
-        "drupal/media_entity_browser": "^2",
+        "drupal/media_entity_browser": "^3.0",
         "drupal/metatag": "^2.0",
-        "drupal/migrate_file": "^2.0",
+        "drupal/migrate_file": "^3",
         "drupal/migrate_plus": "^6.0",
         "drupal/migrate_source_csv": "^3.4",
         "drupal/migrate_tools": "^6.0",
@@ -66,9 +66,7 @@
         "drupal/paragraphs_edit": "^3.0",
         "drupal/password_policy": "^4.0",
         "drupal/pathauto": "^1.12",
-        "drupal/permissions_filter": "^1.3",
         "drupal/pluggable_entity_view_builder": "^1.1",
-        "drupal/quickedit": "^1.0",
         "drupal/real_aes": "^2.5",
         "drupal/redirect": "^1.6",
         "drupal/redis": "^1.7",
@@ -77,42 +75,43 @@
         "drupal/search_api_pantheon": "^8.3",
         "drupal/search_api_solr": "^4.3.2",
         "drupal/seckit": "^2.0.3",
-        "drupal/select2": "^1.15",
-        "drupal/seven": "^1.0",
         "drupal/simple_sitemap": "^4.1",
         "drupal/smart_trim": "^2.1",
         "drupal/stage_file_proxy": "^3",
+        "drupal/tagify": "^1.2",
         "drupal/tfa": "^1.5",
         "drupal/ultimate_cron": "^2.0@alpha",
         "drupal/upgrade_status": "^4.3.8",
         "drupal/username_enumeration_prevention": "^1.3",
-        "drupal/webform": "^6.2",
+        "drupal/webform": "^6.3@beta",
         "drupal/wpf": "^1.2",
-        "drush/drush": "^12.4",
+        "drush/drush": "^13",
         "longwave/laminas-diactoros": "^2.14",
         "mglaman/phpstan-drupal": "^2.0",
         "npm-asset/anchor-js": "^5.0",
         "npm-asset/select2": "^4.0",
-        "npm-asset/slick-carousel": "^1.8",
+        "npm-asset/slick-carousel": "dev-master#ecb6ea2345650a5769e81aee46bec10504ac2a36",
         "oomphinc/composer-installers-extender": "^2.0",
-        "phpstan/phpstan-deprecation-rules": "^2.0"
+        "pantheon-systems/drupal-integrations": "^11",
+        "phpstan/phpstan-deprecation-rules": "^2.0",
+        "wikimedia/composer-merge-plugin": "^2.1"
     },
     "require-dev": {
         "ext-posix": "*",
         "behat/mink": "^1.10",
         "behat/mink-browserkit-driver": "^2.1",
         "behat/mink-selenium2-driver": "^1.6",
-        "mink/webdriver-classic-driver": "^1.1",
         "brianium/paratest": "^6.11",
-        "consolidation/robo": "^4",
+        "consolidation/robo": "^5",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
         "drupal/cache_review": "1.1.x-dev@dev",
         "drupal/coder": "^8.3.1",
         "drupal/devel": "^5",
-        "drupal/drupal_test_assertions": "1.0.x-dev",
+        "drupal/drupal_test_assertions": "^1.0",
         "drupal/potx": "^1.0@alpha",
         "gettext/gettext": "^5.7",
         "mikey179/vfsstream": "^1.6",
+        "mink/webdriver-classic-driver": "^1.1",
         "mpyw/phpunit-patch-serializable-comparison": "^0.0.2",
         "natxet/cssmin": "^3.0",
         "phpspec/prophecy-phpunit": "^2",
@@ -143,7 +142,8 @@
             "drupal/core-project-message": true,
             "mglaman/composer-drupal-lenient": true,
             "oomphinc/composer-installers-extender": true,
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "wikimedia/composer-merge-plugin": true
         }
     },
     "extra": {
@@ -158,7 +158,9 @@
             "file-mapping": {
                 "[web-root]/sites/development.services.yml": false,
                 "[web-root]/sites/services.yml": false,
-                "[web-root]/robots.txt": false
+                "[web-root]/robots.txt": false,
+                "[web-root]/sites/default/settings.php": false,
+                "[web-root]/sites/default/settings.pantheon.php": false
             }
         },
         "installer-paths": {
@@ -179,11 +181,16 @@
             "bower-asset",
             "npm-asset"
         ],
+        "merge-plugin": {
+            "include": [
+                "web/modules/contrib/webform/composer.libraries.json"
+            ]
+        },
         "drupal-core-project-message": {
             "include-keys": ["homepage", "support"],
             "post-create-project-cmd-message": [
                 "<bg=blue;fg=white>                                                         </>",
-                "<bg=blue;fg=white>  Congratulations, you’ve installed the Drupal codebase  </>",
+                "<bg=blue;fg=white>  Congratulations, you've installed the Drupal codebase  </>",
                 "<bg=blue;fg=white>  from the drupal/recommended-project template!          </>",
                 "<bg=blue;fg=white>                                                         </>",
                 "",

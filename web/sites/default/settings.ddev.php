@@ -126,4 +126,4 @@ if (file_exists(__DIR__ . '/settings.fast404.php')) {
 require __DIR__ . '/../bot_trap_protection.php';
 
 // Disable CrowdSec's "whisper" locally. So one doesn't get blocked locally, or PHPUnit can work well.
-$config['crowdsec.settings']['whisper']['enable'] = 0;
+$config['crowdsec.settings']['plugins']['whisper']['enable'] = 0;
