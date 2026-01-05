@@ -37,6 +37,10 @@ jobs:
         - PHP_MEMORY_LIMIT=2G ./vendor/bin/phpstan --no-progress analyse -c phpstan.neon
 
     - stage: Lint
+      addons:
+        apt:
+          packages:
+          - parallel
       name: Drupal coding standard
       script:
         - composer install || travis_terminate 1;
