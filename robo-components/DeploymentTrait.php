@@ -818,6 +818,14 @@ trait DeploymentTrait {
       throw new \Exception("Branch '$hotfix_branch' does not exist. Please check the branch name.");
     }
 
+    // Warning to ensure hotfix branch is created from the correct base.
+    $this->yell("IMPORTANT: Ensure that '$hotfix_branch' was branched from the last deployed tag to avoid including unintended changes from the main branch.", 80, 'yellow');
+    $confirm = $this->confirm("Have you verified that the hotfix branch was created from the correct deployment tag?", FALSE);
+    if (!$confirm) {
+      $this->say('Hotfix deployment aborted. Please verify your branch base before proceeding.');
+      return;
+    }
+
     $pantheon_directory = '.pantheon';
     $pantheon_info = $this->getPantheonNameAndEnv();
     $pantheon_name = $pantheon_info['name'];
