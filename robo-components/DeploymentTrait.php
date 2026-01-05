@@ -866,124 +866,134 @@ trait DeploymentTrait {
       throw new \Exception('Failed to prepare hotfix worktree.');
     }
 
-    // Step 2: Get changed files between main and hotfix branch.
-    $this->say("Step 2: Getting changed files from hotfix branch compared to main...");
+    try {
+      // Step 2: Get the latest deployed tag.
+      $this->say("Step 2: Finding the latest deployed tag...");
 
-    $result = $this->taskExec("git diff --name-only origin/main...origin/$hotfix_branch")
-      ->printOutput(FALSE)
-      ->run();
+      $result = $this->taskExec("git describe --tags --abbrev=0")
+        ->printOutput(FALSE)
+        ->run();
 
-    if ($result->getExitCode() !== 0) {
+      if ($result->getExitCode() !== 0) {
+        throw new \Exception('Failed to get the latest tag. Make sure tags exist in the repository.');
+      }
+
+      $latest_tag = trim($result->getMessage());
+      $this->say("Latest tag: $latest_tag");
+
+      // Get changed files between the latest tag and hotfix branch.
+      $this->say("Getting changed files from hotfix branch compared to $latest_tag...");
+
+      $result = $this->taskExec("git diff --name-only $latest_tag...origin/$hotfix_branch")
+        ->printOutput(FALSE)
+        ->run();
+
+      if ($result->getExitCode() !== 0) {
+        throw new \Exception("Failed to get changed files. Make sure tag $latest_tag exists.");
+      }
+
+      $changed_files = array_filter(explode("\n", trim($result->getMessage())));
+
+      if (empty($changed_files)) {
+        throw new \Exception("No changed files found compared to $latest_tag.");
+      }
+
+      $this->say("Found " . count($changed_files) . " changed files:");
+      foreach ($changed_files as $file) {
+        $this->say("  - $file");
+      }
+
+      $theme_changes = array_filter($changed_files, function ($file) {
+        return str_starts_with($file, self::$themeBase . '/src') || in_array($file, [
+          self::$themeBase . '/postcss.config.js',
+          self::$themeBase . '/tailwind.config.js',
+        ]);
+      });
+
+      if (!empty($theme_changes)) {
+        $this->say('Theme changes detected, compiling theme assets from hotfix branch...');
+        $cwd = getcwd();
+        chdir($temp_dir);
+        $this->themeCompile();
+        chdir($cwd);
+      }
+
+      // Step 3: Copy changed files from hotfix branch to Pantheon repo.
+      $this->say("Step 3: Syncing hotfix branch to Pantheon repository...");
+
+      $rsync_exclude_string = '--exclude=' . implode(' --exclude=', self::$deploySyncExcludes);
+      $result = $this->_exec("rsync -az -q --delete $rsync_exclude_string $temp_dir/ $pantheon_directory")->getExitCode();
+
+      if ($result !== 0) {
+        throw new \Exception('File sync failed');
+      }
+
+      // Step 4: Review changes in Pantheon repo.
+      $this->say("Step 4: Reviewing changes in Pantheon repository...");
+
+      $this->_exec("cd $pantheon_directory && git status");
+      $this->_exec("cd $pantheon_directory && git diff");
+
+      // Confirm before committing.
+      $confirm = $this->confirm('Do you want to commit and push these changes to Pantheon?', TRUE);
+      if (!$confirm) {
+        $this->say('Deployment aborted by user.');
+        return;
+      }
+
+      // Step 5: Commit and push to Pantheon.
+      $this->say("Step 5: Committing and pushing to Pantheon master...");
+
+      $commit_message = escapeshellarg("Hotfix deployment from branch: $hotfix_branch");
+      $result = $this->_exec("cd $pantheon_directory && git add . && git commit -m $commit_message && git push origin master");
+
+      if ($result !== 0) {
+        throw new \Exception('Failed to commit and push to Pantheon.');
+      }
+
+      // Wait for code sync.
+      $this->say("Waiting for code sync on dev environment...");
+      usleep(self::$deploymentWaitTime);
+      $this->waitForCodeDeploy('dev');
+
+      // Step 6: Deploy to target environment.
+      $this->say("Step 6: Deploying to $target_env environment...");
+
+      $result = $this->_exec("terminus env:deploy $pantheon_name.$target_env");
+
+      if ($result !== 0) {
+        throw new \Exception("Failed to deploy to $target_env environment.");
+      }
+
+      // Wait for deploy sync.
+      usleep(self::$deploymentWaitTime);
+      $this->waitForCodeDeploy($target_env);
+
+      // Step 7: Run post-deployment Drush commands.
+      $this->say("Step 7: Running post-deployment Drush commands on $target_env...");
+
+      $pantheon_terminus_environment = "$pantheon_name.$target_env";
+      $result = $this->taskExecStack()
+        ->stopOnFail()
+        ->exec("terminus remote:drush $pantheon_terminus_environment -- updb --no-interaction")
+        ->exec("terminus remote:drush $pantheon_terminus_environment -- cim --no-interaction")
+        ->exec("terminus remote:drush $pantheon_terminus_environment -- cr")
+        ->exec("terminus remote:drush $pantheon_terminus_environment -- deploy:hook --no-interaction")
+        ->run()
+        ->getExitCode();
+
+      if ($result !== 0) {
+        throw new \Exception("Post-deployment Drush commands failed on $target_env.");
+      }
+
+      $this->yell("Hotfix deployment completed successfully!", 40, 'green');
+      $this->say("Branch '$hotfix_branch' has been deployed to Pantheon $target_env environment.");
+    }
+    finally {
+      // Step 8: Cleanup.
+      $this->say("Cleaning up temporary directory...");
       $this->cleanupHotfixTempDir($temp_dir);
-      throw new \Exception('Failed to get changed files. Make sure main branch exists.');
     }
-
-    $changed_files = array_filter(explode("\n", trim($result->getMessage())));
-
-    if (empty($changed_files)) {
-      $this->cleanupHotfixTempDir($temp_dir);
-      throw new \Exception('No changed files found compared to main branch.');
-    }
-
-    $this->say("Found " . count($changed_files) . " changed files:");
-    foreach ($changed_files as $file) {
-      $this->say("  - $file");
-    }
-
-    $theme_changes = array_filter($changed_files, function ($file) {
-      return str_starts_with($file, self::$themeBase . '/src') || in_array($file, [
-        self::$themeBase . '/postcss.config.js',
-        self::$themeBase . '/tailwind.config.js',
-      ]);
-    });
-
-    if (!empty($theme_changes)) {
-      $this->say('Theme changes detected, compiling theme assets from hotfix branch...');
-      $cwd = getcwd();
-      chdir($temp_dir);
-      $this->themeCompile();
-      chdir($cwd);
-    }
-
-    // Step 3: Copy changed files from hotfix branch to Pantheon repo.
-    $this->say("Step 3: Copying changed files to Pantheon repository...");
-
-    $rsync_exclude_string = '--exclude=' . implode(' --exclude=', self::$deploySyncExcludes);
-    $result = $this->_exec("rsync -az -q --delete $rsync_exclude_string $temp_dir/ $pantheon_directory")->getExitCode();
-
-    if ($result !== 0) {
-      $this->cleanupHotfixTempDir($temp_dir);
-      throw new \Exception('File sync failed');
-    }
-
-    // Step 4: Review changes in Pantheon repo.
-    $this->say("Step 4: Reviewing changes in Pantheon repository...");
-
-    $this->_exec("cd $pantheon_directory && git status");
-    $this->_exec("cd $pantheon_directory && git diff");
-
-    // Confirm before committing.
-    $confirm = $this->confirm('Do you want to commit and push these changes to Pantheon?', TRUE);
-    if (!$confirm) {
-      $this->cleanupHotfixTempDir($temp_dir);
-      $this->say('Deployment aborted by user.');
-      return;
-    }
-
-    // Step 5: Commit and push to Pantheon.
-    $this->say("Step 5: Committing and pushing to Pantheon master...");
-
-    $commit_message = escapeshellarg("Hotfix deployment from branch: $hotfix_branch");
-    $result = $this->_exec("cd $pantheon_directory && git add . && git commit -m $commit_message && git push origin master");
-
-    if ($result !== 0) {
-      $this->cleanupHotfixTempDir($temp_dir);
-      throw new \Exception('Failed to commit and push to Pantheon.');
-    }
-
-    // Wait for code sync.
-    $this->say("Waiting for code sync on dev environment...");
-    usleep(self::$deploymentWaitTime);
-    $this->waitForCodeDeploy('dev');
-
-    // Step 6: Deploy to target environment.
-    $this->say("Step 6: Deploying to $target_env environment...");
-
-    $result = $this->_exec("terminus env:deploy $pantheon_name.$target_env");
-
-    if ($result !== 0) {
-      $this->cleanupHotfixTempDir($temp_dir);
-      throw new \Exception("Failed to deploy to $target_env environment.");
-    }
-
-    // Wait for deploy sync.
-    usleep(self::$deploymentWaitTime);
-    $this->waitForCodeDeploy($target_env);
-
-    // Step 7: Run post-deployment Drush commands.
-    $this->say("Step 7: Running post-deployment Drush commands on $target_env...");
-
-    $pantheon_terminus_environment = "$pantheon_name.$target_env";
-    $result = $this->taskExecStack()
-      ->stopOnFail()
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- updb --no-interaction")
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- cim --no-interaction")
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- cr")
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- deploy:hook --no-interaction")
-      ->run()
-      ->getExitCode();
-
-    if ($result !== 0) {
-      $this->cleanupHotfixTempDir($temp_dir);
-      throw new \Exception("Post-deployment Drush commands failed on $target_env.");
-    }
-
-    // Step 8: Cleanup.
-    $this->say("Step 8: Cleaning up temporary directory...");
-    $this->cleanupHotfixTempDir($temp_dir);
-
-    $this->yell("Hotfix deployment completed successfully!", 40, 'green');
-    $this->say("Branch '$hotfix_branch' has been deployed to Pantheon $target_env environment.");
   }
 
   /**
