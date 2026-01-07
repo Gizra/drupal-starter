@@ -64,3 +64,19 @@ hooks:
     - exec: drush sql:sanitize --yes
     # Login as admin.
     - exec-host: ddev login
+  post-pull:
+    # Run DB updates.
+    - exec: drush updb
+    # Clear cache before config import.
+    - exec: drush cr
+    # Import config.
+    - exec: drush cim -y
+    # Reindex.
+    - exec: drush sapi-c
+    - exec: drush sapi-i
+    # Compile theme.
+    - exec-host: ddev robo theme:compile
+     # Get rid of sensitive user data.
+    - exec: drush sql:sanitize --yes
+    # Login as admin.
+    - exec-host: ddev login
