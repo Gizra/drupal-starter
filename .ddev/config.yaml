@@ -284,3 +284,5 @@ corepack_enable: false
 hooks:
  post-import-db:
    - exec: drush sql:sanitize --yes
+ post-pull:
+   - exec: drush sql:sanitize --yes
