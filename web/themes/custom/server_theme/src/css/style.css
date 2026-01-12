@@ -16,6 +16,7 @@
 
 @import "./container.css";
 @import "./form.css";
+@import "./hidden.module.css";
 @import "./language.css";
 @import "./list.css";
 @import "./menu.css";
