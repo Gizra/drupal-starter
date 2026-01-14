@@ -108,6 +108,15 @@ $settings['container_yamls'][] = 'modules/contrib/redis/example.services.yml';
  */
 $settings['state_cache'] = TRUE;
 
+/**
+ * Skip permissions hardening.
+ *
+ * Pantheon uses NGINX which handles file protection at the infrastructure
+ * level. This setting prevents the false alarm "Public files directory - Not
+ * fully protected" warning in Drupal's status report.
+ */
+$settings['skip_permissions_hardening'] = TRUE;
+
 //$config['system.performance']['css']['preprocess'] = FALSE;
 //$config['system.performance']['js']['preprocess'] = FALSE;
 
