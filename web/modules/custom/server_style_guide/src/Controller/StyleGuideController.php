@@ -571,7 +571,7 @@ class StyleGuideController extends ControllerBase {
     $element = [
       '#markup' => $this->getRandomTitle(),
     ];
-    $element = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::LG);
+    $element = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::Lg);
     $build[] = $this->wrapElementWideContainer($element, 'Text decoration - Font size');
 
     // Italic format for `TranslatableMarkup`.

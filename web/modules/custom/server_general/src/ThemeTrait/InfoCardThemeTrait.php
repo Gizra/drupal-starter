@@ -69,7 +69,7 @@ trait InfoCardThemeTrait {
     $bottom_elements[] = $element;
 
     if ($subtitle) {
-      $element = $this->wrapTextResponsiveFontSize($subtitle, FontSizeEnum::LG);
+      $element = $this->wrapTextResponsiveFontSize($subtitle, FontSizeEnum::Lg);
       $element = $this->wrapTextCenter($element);
       $bottom_elements[] = $this->wrapTextColor($element, TextColorEnum::Gray);
     }
