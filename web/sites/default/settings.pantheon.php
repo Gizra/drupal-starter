@@ -222,12 +222,3 @@ $config['search_api.server.solr']['status'] = FALSE;
  * lot of dynamic keys which could result in a very large cache.
  */
 $settings['state_cache'] = TRUE;
-
-/**
- * Skip permissions hardening.
- *
- * Pantheon uses NGINX which handles file protection at the infrastructure
- * level. This setting prevents the false alarm "Public files directory - Not
- * fully protected" warning in Drupal's status report.
- */
-$settings['skip_permissions_hardening'] = TRUE;
