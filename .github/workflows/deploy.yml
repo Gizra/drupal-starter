@@ -26,8 +26,8 @@ jobs:
       TERMINUS_TOKEN: ${{ secrets.TERMINUS_TOKEN }}
       COMMIT_MESSAGE: ${{ github.event.workflow_run.head_commit.message }}
       GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-      ROLLBAR_SERVER_TOKEN: ${{ secrets.ROLLBAR_SERVER_TOKEN }}
-      PANTHEON_GIT_URL: ${{ secrets.PANTHEON_GIT_URL }}
+      ROLLBAR_SERVER_TOKEN: ${{ vars.ROLLBAR_SERVER_TOKEN }}
+      PANTHEON_GIT_URL: ${{ vars.PANTHEON_GIT_URL }}
       DEPLOY_EXCLUDE_WARNING: ${{ vars.DEPLOY_EXCLUDE_WARNING }}
     steps:
       - uses: actions/checkout@v4
@@ -74,8 +74,8 @@ jobs:
       TERMINUS_TOKEN: ${{ secrets.TERMINUS_TOKEN }}
       COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
       GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-      ROLLBAR_SERVER_TOKEN: ${{ secrets.ROLLBAR_SERVER_TOKEN }}
-      PANTHEON_GIT_URL: ${{ secrets.PANTHEON_GIT_URL }}
+      ROLLBAR_SERVER_TOKEN: ${{ vars.ROLLBAR_SERVER_TOKEN }}
+      PANTHEON_GIT_URL: ${{ vars.PANTHEON_GIT_URL }}
     steps:
       - uses: actions/checkout@v4
 
@@ -121,8 +121,8 @@ jobs:
       TERMINUS_TOKEN: ${{ secrets.TERMINUS_TOKEN }}
       COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
       GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-      ROLLBAR_SERVER_TOKEN: ${{ secrets.ROLLBAR_SERVER_TOKEN }}
-      PANTHEON_GIT_URL: ${{ secrets.PANTHEON_GIT_URL }}
+      ROLLBAR_SERVER_TOKEN: ${{ vars.ROLLBAR_SERVER_TOKEN }}
+      PANTHEON_GIT_URL: ${{ vars.PANTHEON_GIT_URL }}
     steps:
       - uses: actions/checkout@v4
 

@@ -392,11 +392,18 @@ In order to deploy upon every merge automatically using GitHub Actions, you shal
 1. `ddev robo deploy:config-autodeploy [your terminus token] [your github token]`
 1. `git commit -m "Deployment secrets and configuration"`
 1. Add the public key in `pantheon-key.pub` to the newly created dummy [Pantheon user](https://pantheon.io/docs/ssh-keys)
-1. Set up the following GitHub secrets in your repository settings:
-   - `PANTHEON_GIT_URL`: The Pantheon Git URL for your project
+1. Set up the following in your GitHub repository settings:
+   
+   **GitHub Secrets** (Settings → Secrets and variables → Actions → Secrets):
    - `TERMINUS_TOKEN`: Your Pantheon machine token
+   - `PANTHEON_DEPLOY_KEY`: The SSH private key for deployment
+   - `GH_TOKEN`: GitHub personal access token for posting deployment comments
+   
+   **GitHub Variables** (Settings → Secrets and variables → Actions → Variables):
+   - `PANTHEON_GIT_URL`: The Pantheon Git URL for your project
    - `ROLLBAR_SERVER_TOKEN`: Your Rollbar server token (optional)
-   - `ENCRYPTED_KEY` and `ENCRYPTED_IV`: The encryption key and IV from the `deploy:config-autodeploy` command output
+   - `DEPLOY_EXCLUDE_WARNING`: Warnings to exclude from deployment notifications (optional)
+   
 1. Actualize `public static string $githubProject = 'Gizra/the-client';` in the `RoboFile.php`.
 
 Optionally you can specify which target branch you'd like to push on Pantheon, by default it's `master`, so the target is the DEV environment, but alternatively you can issue:
