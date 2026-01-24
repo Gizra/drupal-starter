@@ -212,3 +212,13 @@ require __DIR__ . '/../bot_trap_protection.php';
 $config['search_api.index.server_dev']['server'] = 'pantheon_solr8';
 // As we push to Solr config of DDEV to Pantheon as well, we disable it here.
 $config['search_api.server.solr']['status'] = FALSE;
+
+/**
+ * State caching.
+ *
+ * State caching uses the cache collector pattern to cache all requested keys
+ * from the state API in a single cache entry, which can greatly reduce the
+ * amount of database queries. However, some sites may use state with a
+ * lot of dynamic keys which could result in a very large cache.
+ */
+$settings['state_cache'] = TRUE;
