@@ -792,6 +792,7 @@ trait DeploymentTrait {
       $data = ['body' => $issue_comment];
       $issue_comment = json_encode($data);
     }
+    $github_token = getenv('GITHUB_TOKEN');
     $git_commit_message = getenv('GITHUB_COMMIT_MESSAGE');
     if (strstr($git_commit_message, 'Merge pull request') === FALSE && strstr($git_commit_message, ' (#') === FALSE) {
       $this->say($git_commit_message);
@@ -814,20 +815,21 @@ trait DeploymentTrait {
         $this->say("Could not determine the PR number from the commit message: $git_commit_message");
         return;
       }
-      // Retrieve the issue number from the PR description via GitHub CLI.
+      // Retrieve the issue number from the PR description via GitHub API.
       $pr_number = $pr_matches[1][0];
-      $pr_body = $this->taskExec("gh pr view $pr_number --json body --jq .body")
+      $pr = $this->taskExec("curl -H \"Authorization: token $github_token\" https://api.github.com/repos/" . self::$githubProject . "/pulls/$pr_number")
         ->printOutput(FALSE)
         ->run()
         ->getMessage();
-      if (empty(trim($pr_body))) {
+      $pr = json_decode($pr);
+      if (!isset($pr->body)) {
         $this->say("Could not determine the issue number from the PR: $git_commit_message");
         return;
       }
       // The issue number should be the "#1234"-like reference in the PR body.
-      preg_match_all('!#([0-9]+)\s+!', $pr_body, $issue_matches);
+      preg_match_all('!#([0-9]+)\s+!', $pr->body, $issue_matches);
       if (!isset($issue_matches[1][0])) {
-        $this->say("Could not determine the issue number from the PR description: $pr_body");
+        $this->say("Could not determine the issue number from the PR description: $pr->body");
         return;
       }
       foreach ($issue_matches[1] as $issue_match) {
@@ -841,13 +843,17 @@ trait DeploymentTrait {
     $pantheon_info = $this->getPantheonNameAndEnv();
     $pantheon_terminus_environment = $pantheon_info['name'] . '.' . $pantheon_environment;
 
-    // Check if the repository is private via GitHub CLI.
-    $is_private = $this->taskExec("gh repo view --json isPrivate --jq .isPrivate")
+    // Let's figure out if the repository is public or not via GitHub API.
+    $repo = $this->taskExec("curl -H \"Authorization: token $github_token\" https://api.github.com/repos/" . self::$githubProject)
       ->printOutput(FALSE)
       ->run()
       ->getMessage();
-    $is_private = trim($is_private) === 'true';
-    if ($is_private) {
+    $repo = json_decode($repo);
+    if (!isset($repo->private)) {
+      $this->yell("Could not determine if the repository is private or not.");
+      return;
+    }
+    if ($repo->private) {
       $quick_link = $this->deployGetEnvironmentUrl($pantheon_terminus_environment);
     }
     else {
@@ -857,25 +863,19 @@ trait DeploymentTrait {
 
     if (empty($issue_comment)) {
       if (empty($pr_number)) {
-        $comment_body = "The latest merged PR just got deployed successfully to Pantheon [`$pantheon_environment`]($quick_link) environment";
+        $issue_comment = "{\"body\": \"The latest merged PR just got deployed successfully to Pantheon [`$pantheon_environment`]($quick_link) environment\"}";
       }
       else {
-        $comment_body = "The latest merged PR #$pr_number just got deployed successfully to Pantheon [`$pantheon_environment`]($quick_link) environment";
+        $issue_comment = "{\"body\": \"The latest merged PR #$pr_number just got deployed successfully to Pantheon [`$pantheon_environment`]($quick_link) environment\"}";
       }
     }
-    else {
-      // Extract body from JSON if issue_comment was provided.
-      $comment_data = json_decode($issue_comment, TRUE);
-      $comment_body = $comment_data['body'] ?? $issue_comment;
-    }
-
     foreach ($issue_numbers as $issue_number) {
-      $result = $this->taskExec("gh issue comment $issue_number --body " . escapeshellarg($comment_body))
+      $result = $this->taskExec("curl -X POST -H 'Authorization: token $github_token' -d '$issue_comment' https://api.github.com/repos/" . self::$githubProject . "/issues/$issue_number/comments")
         ->printOutput(FALSE)
         ->run();
       $exit_code = $result->getExitCode();
       if ($exit_code) {
-        throw new \Exception("Could not notify GitHub of the deployment, GitHub CLI error: " . $result->getMessage());
+        throw new \Exception("Could not notify GitHub of the deployment, GitHub API error: " . $result->getMessage());
       }
     }
   }
