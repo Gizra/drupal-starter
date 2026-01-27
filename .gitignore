@@ -36,7 +36,8 @@ web/private/
 web/sites/default/default.services.pantheon.preproduction.yml
 pantheon_config.sh
 .pantheon
-travis-key
+pantheon-key
+pantheon-key.pub
 .bootstrap
 
 #SASS
@@ -59,8 +60,6 @@ phpunit_debug
 # Patching leftover.
 *.orig
 *.rej
-
-travis_wait*log
 
 # AI
 .claude

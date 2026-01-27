@@ -12,12 +12,12 @@ code_review () {
   echo "${LWHITE}$1${RESTORE}"
   # The exclusions are to ignore errors related to including other shell scripts
   # and allowing "cd dir" without explicit error handling.
-  if ! docker run -v "$TRAVIS_BUILD_DIR":/scripts koalaman/shellcheck:v0.7.2 -e SC1091,SC1090,SC2181,SC2164 /scripts/"$1"; then
+  if ! docker run -v "$GITHUB_WORKSPACE":/scripts koalaman/shellcheck:v0.7.2 -e SC1091,SC1090,SC2181,SC2164 /scripts/"$1"; then
     HAS_ERRORS=1
   fi
 }
 
-cd "$TRAVIS_BUILD_DIR" || exit 1
+cd "$GITHUB_WORKSPACE" || exit 1
 CI_SCRIPTS=$(find ci-scripts -name '*.sh')
 for FILE in $CI_SCRIPTS;  do
   code_review "$FILE"

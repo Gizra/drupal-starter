@@ -20,25 +20,22 @@ trait BootstrapTrait {
    *   The Pantheon machine token.
    * @param string $github_token
    *   The GitHub personal access token for a user with access to this project.
-   * @param string $docker_mirror_url
-   *   The Docker mirror URL. Optional, but expect Travis failures if not set,
-   *   this is due to rate limiting on Docker Hub.
    * @param string $http_basic_auth_user
    *   The HTTP basic auth user. Optional. If set, all the Pantheon environments
    *   will be protected with HTTP basic auth.
    * @param string $http_basic_auth_password
    *   The HTTP basic auth password. Optional.
    */
-  public function bootstrapProject(string $project_name, string $github_repository_url, string $terminus_token, string $github_token, string $docker_mirror_url = '', string $http_basic_auth_user = '', string $http_basic_auth_password = '') {
+  public function bootstrapProject(string $project_name, string $github_repository_url, string $terminus_token, string $github_token, string $http_basic_auth_user = '', string $http_basic_auth_password = '') {
     // Extract project name from $github_repository_url.
     // The syntax is like: git@github.com:Organization/projectname.git .
     preg_match('/github.com[:\/](.*)\/(.*)\.git/', $github_repository_url, $matches);
     $github_organization = $matches[1];
     $project_machine_name = $matches[2];
 
-    $this->verifyRequirements($project_name, $github_organization, $project_machine_name, $terminus_token, $github_token, $docker_mirror_url, $http_basic_auth_user, $http_basic_auth_password);
+    $this->verifyRequirements($project_name, $github_organization, $project_machine_name, $terminus_token, $github_token, $http_basic_auth_user, $http_basic_auth_password);
 
-    $this->prepareGithubRepository($project_name, $github_organization, $project_machine_name, $github_repository_url, $docker_mirror_url);
+    $this->prepareGithubRepository($project_name, $github_organization, $project_machine_name, $github_repository_url);
 
     $this->createPantheonProject($terminus_token, $project_name, $project_machine_name);
 
@@ -59,8 +56,8 @@ trait BootstrapTrait {
     $this->say("You might want to run the following commands to properly place the project:");
     $this->say("mv .bootstrap ../$project_machine_name");
     $this->say("mv .pantheon ../$project_machine_name/.pantheon");
-    $this->say("To configure autodeployment to pantheon run:");
-    $this->say("ddev robo deploy:config-autodeploy $terminus_token, $github_token");
+    $this->say("To configure autodeployment to Pantheon run:");
+    $this->say("ddev robo deploy:config-autodeploy $terminus_token $github_token");
   }
 
   /**
@@ -74,10 +71,8 @@ trait BootstrapTrait {
    *   The project machine name in GH slug.
    * @param string $github_repository_url
    *   The clone URL of the GitHub repository.
-   * @param string $docker_mirror_url
-   *   The Docker mirror URL. Optional, but expect Travis failures if not set.
    */
-  protected function prepareGithubRepository(string $project_name, string $organization, string $project_machine_name, string $github_repository_url, string $docker_mirror_url = '') {
+  protected function prepareGithubRepository(string $project_name, string $organization, string $project_machine_name, string $github_repository_url) {
     $temp_remote = 'bootstrap_' . time();
     $this->taskExec("git remote add $temp_remote $github_repository_url")
       ->run();
@@ -154,11 +149,6 @@ trait BootstrapTrait {
     $this->taskReplaceInFile('.bootstrap/web/sites/default/settings.pantheon.php')
       ->from('drupal_starter')
       ->to(str_replace('-', '_', $project_machine_name))
-      ->run();
-
-    $this->taskReplaceInFile('.bootstrap/.travis.template.yml')
-      ->from('DOCKER_MIRROR')
-      ->to($docker_mirror_url)
       ->run();
 
     $result = $this->taskExec("cd .bootstrap && composer update --lock")
@@ -375,14 +365,12 @@ trait BootstrapTrait {
    *   The Pantheon machine token.
    * @param string $github_token
    *   The GitHub token.
-   * @param string $docker_mirror_url
-   *   The Docker mirror URL.
    * @param string $http_basic_auth_user
    *   The HTTP basic auth user.
    * @param string $http_basic_auth_password
    *   The HTTP basic auth password.
    */
-  protected function verifyRequirements(string $project_name, string $organization, string $project_machine_name, string $terminus_token, string $github_token, string $docker_mirror_url, $http_basic_auth_user, $http_basic_auth_password) {
+  protected function verifyRequirements(string $project_name, string $organization, string $project_machine_name, string $terminus_token, string $github_token, $http_basic_auth_user, $http_basic_auth_password) {
     if (is_dir('.bootstrap')) {
       throw new \Exception('The .bootstrap directory already exists. Please remove / move it and try again.');
     }
@@ -406,12 +394,6 @@ trait BootstrapTrait {
     }
     if (empty(trim($github_token))) {
       throw new \Exception('The GitHub token is empty.');
-    }
-    if (empty(trim($docker_mirror_url))) {
-      throw new \Exception('The Docker mirror URL is empty.');
-    }
-    if (!empty($docker_mirror_url) && !filter_var($docker_mirror_url, FILTER_VALIDATE_URL)) {
-      throw new \Exception('The Docker mirror URL is not a valid URL.');
     }
   }
 
