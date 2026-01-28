@@ -23,7 +23,7 @@
       "d.o. #3351276": "https://www.drupal.org/files/issues/2023-04-03/3351276-4.patch"
     },
     "drupal/webp": {
-      "d.o. #3281606": "https://git.drupalcode.org/project/webp/-/merge_requests/33.diff"
+      "d.o. #3281606": "patches/webp-3281606.patch"
     },
     "npm-asset/anchor-js": {
       "remove font-face": "patches/remove-anchorjs-fontface.patch"
