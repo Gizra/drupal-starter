@@ -400,7 +400,7 @@ In order to deploy upon every merge automatically using GitHub Actions:
    ddev robo deploy:config-autodeploy [your terminus token] [your github token]
    ```
    
-   This will generate an SSH key pair. If you have the [GitHub CLI](https://cli.github.com/) (`gh`) installed, the command can automatically set up GitHub Secrets and Variables for you. Otherwise, it will provide manual instructions.
+   This will generate an SSH key pair. The command will automatically install the [GitHub CLI](https://cli.github.com/) (`gh`) if it's not already available in your DDEV environment, then offer to automatically set up GitHub Secrets and Variables. If installation fails, it will provide manual instructions.
 
 1. Follow the instructions provided by the command to:
    - Add the SSH public key (`pantheon-key.pub`) to your [Pantheon account](https://pantheon.io/docs/ssh-keys)

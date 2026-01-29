@@ -732,8 +732,40 @@ trait DeploymentTrait {
       ->run()
       ->wasSuccessful();
 
+    // If gh CLI is not available, try to install it.
+    if (!$gh_available) {
+      $this->say("GitHub CLI (gh) is not installed. Installing it now...");
+      
+      // Install gh CLI on Ubuntu/Debian.
+      $install_commands = [
+        'sudo apt-get update -qq',
+        'sudo apt-get install -y -qq curl',
+        'curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg 2>/dev/null',
+        'sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg',
+        'echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null',
+        'sudo apt-get update -qq',
+        'sudo apt-get install -y -qq gh',
+      ];
+      
+      $install_failed = FALSE;
+      foreach ($install_commands as $cmd) {
+        $result = $this->taskExec($cmd)->run();
+        if (!$result->wasSuccessful()) {
+          $this->say("Warning: Failed to install gh CLI automatically.");
+          $install_failed = TRUE;
+          break;
+        }
+      }
+      
+      if (!$install_failed) {
+        $this->say("✓ GitHub CLI installed successfully!");
+        $this->say("");
+        $gh_available = TRUE;
+      }
+    }
+
     if ($gh_available) {
-      $this->say("Detected gh CLI - GitHub Secrets and Variables can be set automatically.");
+      $this->say("GitHub Secrets and Variables can be set automatically using gh CLI.");
       $io = new ConsoleIO($this->input(), $this->output());
       $automate = $io->confirm('Would you like to automatically set up GitHub Secrets and Variables now?', TRUE);
 
@@ -775,7 +807,6 @@ trait DeploymentTrait {
       }
     }
     else {
-      $this->say("Note: Install gh CLI (https://cli.github.com/) to automate secret/variable setup.");
       $this->say("");
       $this->printManualInstructions($token, $github_token, $pantheon_git_url);
     }
