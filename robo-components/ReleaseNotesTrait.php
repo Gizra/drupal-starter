@@ -114,10 +114,6 @@ trait ReleaseNotesTrait {
         /** @var \stdClass $pr_details */
         $pr_details = $this->githubApiGet("repos/$github_org/$github_project/pulls/$pr_number");
         if (!empty($pr_details->user)) {
-          if (isset($pr_details->user->type) && $pr_details->user->type === 'Bot') {
-            // Exclude Dependabot merges from release notes.
-            continue;
-          }
           $contributors[] = '@' . $pr_details->user->login;
           $additions += $pr_details->additions;
           $deletions += $pr_details->deletions;
@@ -149,11 +145,19 @@ trait ReleaseNotesTrait {
         if (!empty($github_project) && !empty($github_org)) {
           $pr = $this->githubApiGet("repos/$github_org/$github_project/pulls/$pr_number");
         }
+
         if (!isset($pr->body)) {
           $no_issue_lines[] = "- $log_messages[1] (#$pr_number)";
           continue;
         }
-        preg_match_all('!#([0-9]+)!', $pr->body, $issue_matches);
+        $preg_pattern = '!#([0-9]+)!';
+        if (isset($pr->user->type) && $pr->user->type === 'Bot') {
+          // There's no other connecting information to the issue than the
+          // "Fixes Gizra/reponame#X" message in body when Copilot creates
+          // a PR.
+          $preg_pattern = '!Fixes .+#([0-9]+)!';
+        }
+        preg_match_all($preg_pattern, $pr->body, $issue_matches);
         if (!isset($issue_matches[1][0])) {
           $no_issue_lines[] = "- $log_messages[1] (#$pr_number)";
           continue;
@@ -276,7 +280,6 @@ trait ReleaseNotesTrait {
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
     $result = curl_exec($ch);
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
     $result = empty($result) ? NULL : json_decode($result);
     if ($http_code == 404) {
       throw new \Exception("404 Not Found error encountered while requesting the API path $path. The path either does not exist, or your token does not have sufficient permissions as Github API returns 404 instead of 403. Details: \n" . print_r($result, TRUE));
