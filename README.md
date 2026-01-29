@@ -409,11 +409,6 @@ In order to deploy upon every merge automatically using GitHub Actions:
 
 **Note**: If you used the `bootstrap:project` command to create your project, the `$githubProject` variable in `DeploymentTrait.php` is automatically updated with your organization and project name. Otherwise, you'll need to manually update `public static string $githubProject = 'YourOrg/your-project';` in `robo-components/DeploymentTrait.php`.
 
-Optionally you can specify which target branch you'd like to push on Pantheon, by default it's `master`, so the target is the DEV environment, but alternatively you can issue:
-```bash
-ddev robo deploy:config-autodeploy [your terminus token] [your github token] [github_deploy_branch] [pantheon_deploy_branch]
-```
-
 ### Tag-based Deployments
 
 After you have automatic deployment for a project, you are able to deploy to Pantheon `test` and `live` using Git tags.

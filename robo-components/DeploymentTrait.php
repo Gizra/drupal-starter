@@ -693,24 +693,21 @@ trait DeploymentTrait {
   }
 
   /**
-   * Prepares the repository to perform automatic deployment to Pantheon.
+   * Configures automatic deployment to Pantheon using GitHub Actions.
+   *
+   * This command generates an SSH key pair and provides instructions for
+   * setting up the necessary GitHub Secrets and Variables for automatic
+   * deployment.
    *
    * @param string $token
    *   Terminus machine token: https://pantheon.io/docs/machine-tokens.
    * @param string $github_token
    *   Personal GitHub token:
    *   https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token.
-   * @param string $github_deploy_branch
-   *   The branch that should be pushed automatically to Pantheon. By default,
-   *   it's 'main', the default GitHub branch for any new project.
-   * @param string $pantheon_deploy_branch
-   *   The branch at the artifact repo that should be the target of the
-   *   deployment. As we typically deploy to QA, the default value here is 'qa',
-   *   that multi-dev environment should be created by hand beforehand.
    *
    * @throws \Exception
    */
-  public function deployConfigAutodeploy(string $token, string $github_token, string $github_deploy_branch = 'main', string $pantheon_deploy_branch = 'qa'): void {
+  public function deployConfigAutodeploy(string $token, string $github_token): void {
     $pantheon_info = $this->getPantheonNameAndEnv();
     $project_name = $pantheon_info['name'];
 

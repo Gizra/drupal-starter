@@ -69,7 +69,7 @@ trait BootstrapTrait {
     $this->say("   - Adding the SSH public key to your Pantheon account");
     $this->say("");
     $this->say("For full deployment setup details, see:");
-    $this->say("https://github.com/$organization/$project_machine_name#automatic-deployment-to-pantheon");
+    $this->say("https://github.com/$github_organization/$project_machine_name#automatic-deployment-to-pantheon");
   }
 
   /**
