@@ -37,10 +37,12 @@ libraries-override:
     css:
       component:
         css/components/messages.css: false
+  core/normalize: false
   system/base:
     css:
-      components:
+      component:
         /themes/contrib/stable/css/system/components/ajax-progress.module.css: false
+        /themes/contrib/stable/css/system/components/hidden.module.css: false
 
 libraries-extend:
   core/drupal.message:
