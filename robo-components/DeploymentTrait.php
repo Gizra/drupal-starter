@@ -720,63 +720,39 @@ trait DeploymentTrait {
       throw new \Exception('The key generation failed.');
     }
 
-    // Encrypt the SSH key for use in GitHub Actions.
-    $result = $this->taskExec('openssl rand -hex 32')->printOutput(FALSE)->run();
-    if ($result->getExitCode() !== 0) {
-      throw new \Exception('Failed to generate encryption key.');
-    }
-    $encryption_key = trim($result->getMessage());
-
-    $result = $this->taskExec('openssl rand -hex 16')->printOutput(FALSE)->run();
-    if ($result->getExitCode() !== 0) {
-      throw new \Exception('Failed to generate encryption IV.');
-    }
-    $encryption_iv = trim($result->getMessage());
-
-    $result = $this->taskExec("openssl aes-256-cbc -K $encryption_key -iv $encryption_iv -in pantheon-key -out pantheon-key.enc")->run();
-    if ($result->getExitCode() !== 0) {
-      throw new \Exception('The encryption of the private key failed.');
-    }
-
     $result = $this->taskExec("terminus connection:info $project_name.dev --fields='Git Command' --format=string | awk '{print $3}'")
       ->printOutput(FALSE)
       ->run();
     $pantheon_git_url = trim($result->getMessage());
 
-    // Update GitHub Actions workflows if they exist.
-    if (file_exists('.github/workflows/lint.template.yml')) {
-      $this->_exec("cp .github/workflows/lint.template.yml .github/workflows/lint.yml");
-      $this->taskReplaceInFile('.github/workflows/lint.yml')
-        ->from('{{ GITHUB_DEPLOY_BRANCH }}')
-        ->to($github_deploy_branch)
-        ->run();
-    }
-
-    $result = $this->taskExec('git add pantheon-key.enc')->run();
-    if ($result->getExitCode() !== 0) {
-      throw new \Exception("git add failed.");
-    }
-
     $this->say("The project was prepared for automatic deployment to Pantheon using GitHub Actions");
     $this->say("");
     $this->say("Please complete the following steps:");
     $this->say("");
-    $this->say("1. Add the following secrets to your GitHub repository:");
-    $this->say("   - Go to: Settings → Secrets and variables → Actions → New repository secret");
-    $this->say("   - PANTHEON_GIT_URL: " . $pantheon_git_url);
-    $this->say("   - TERMINUS_TOKEN: " . $token);
-    $this->say("   - ENCRYPTED_KEY: " . $encryption_key);
-    $this->say("   - ENCRYPTED_IV: " . $encryption_iv);
-    $this->say("   - GITHUB_TOKEN: (use the automatically provided token or your personal token)");
-    $this->say("   - ROLLBAR_SERVER_TOKEN: (your Rollbar token if applicable)");
-    $this->say("");
-    $this->say("2. Add the SSH public key to the Pantheon account:");
+    $this->say("1. Add the SSH public key to the Pantheon account:");
     $this->say("   - Key location: pantheon-key.pub");
     $this->say("   - Instructions: https://pantheon.io/docs/ssh-keys");
     $this->say("");
-    $this->say("3. Review and commit the encrypted key file (pantheon-key.enc)");
+    $this->say("2. Set up the following GitHub Secrets:");
+    $this->say("   - Go to: Settings → Secrets and variables → Actions → Secrets → New repository secret");
+    $this->say("   - TERMINUS_TOKEN: " . $token);
+    $this->say("   - PANTHEON_DEPLOY_KEY: (paste the contents of pantheon-key file)");
+    $this->say("   - GH_TOKEN: " . $github_token);
     $this->say("");
-    $this->say("4. Ensure nested docroot is configured: https://pantheon.io/docs/nested-docroot");
+    $this->say("3. Set up the following GitHub Variables:");
+    $this->say("   - Go to: Settings → Secrets and variables → Actions → Variables → New repository variable");
+    $this->say("   - PANTHEON_GIT_URL: " . $pantheon_git_url);
+    $this->say("   - ROLLBAR_SERVER_TOKEN: (your Rollbar token, optional)");
+    $this->say("   - DEPLOY_EXCLUDE_WARNING: (warnings to exclude, optional)");
+    $this->say("");
+    $this->say("4. IMPORTANT: Keep the pantheon-key file secure and DO NOT commit it to the repository.");
+    $this->say("   You only need to add its contents as the PANTHEON_DEPLOY_KEY secret in GitHub.");
+    $this->say("");
+    $this->say("5. After setting up secrets and variables, you can delete the pantheon-key files locally.");
+    $this->say("");
+    $this->say("6. Ensure nested docroot is configured: https://pantheon.io/docs/nested-docroot");
+    $this->say("");
+    $this->say("For more details, see the 'Automatic Deployment to Pantheon' section in README.md");
   }
 
   /**

@@ -53,11 +53,23 @@ trait BootstrapTrait {
     $this->taskExec("terminus secrets:set $project_machine_name.dev tfa $tfa_secret")->run();
 
     $this->say("Bootstrap completed successfully.");
-    $this->say("You might want to run the following commands to properly place the project:");
-    $this->say("mv .bootstrap ../$project_machine_name");
-    $this->say("mv .pantheon ../$project_machine_name/.pantheon");
-    $this->say("To configure autodeployment to Pantheon run:");
-    $this->say("ddev robo deploy:config-autodeploy $terminus_token $github_token");
+    $this->say("");
+    $this->say("Next steps:");
+    $this->say("1. Move the project to its final location:");
+    $this->say("   mv .bootstrap ../$project_machine_name");
+    $this->say("   mv .pantheon ../$project_machine_name/.pantheon");
+    $this->say("");
+    $this->say("2. Configure automatic deployment to Pantheon with GitHub Actions:");
+    $this->say("   cd ../$project_machine_name");
+    $this->say("   ddev robo deploy:config-autodeploy $terminus_token $github_token");
+    $this->say("");
+    $this->say("   This will generate SSH keys and provide instructions for:");
+    $this->say("   - Setting up GitHub Secrets (TERMINUS_TOKEN, PANTHEON_DEPLOY_KEY, GH_TOKEN)");
+    $this->say("   - Setting up GitHub Variables (PANTHEON_GIT_URL, ROLLBAR_SERVER_TOKEN)");
+    $this->say("   - Adding the SSH public key to your Pantheon account");
+    $this->say("");
+    $this->say("For full deployment setup details, see:");
+    $this->say("https://github.com/$organization/$project_machine_name#automatic-deployment-to-pantheon");
   }
 
   /**
