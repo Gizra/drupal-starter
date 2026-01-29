@@ -2,6 +2,7 @@
 
 namespace RoboComponents;
 
+use Robo\Symfony\ConsoleIO;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -724,32 +725,99 @@ trait DeploymentTrait {
 
     $this->say("The project was prepared for automatic deployment to Pantheon using GitHub Actions");
     $this->say("");
-    $this->say("Please complete the following steps:");
+
+    // Check if gh CLI is available.
+    $gh_available = $this->taskExec('which gh')
+      ->printOutput(FALSE)
+      ->run()
+      ->wasSuccessful();
+
+    if ($gh_available) {
+      $this->say("Detected gh CLI - GitHub Secrets and Variables can be set automatically.");
+      $io = new ConsoleIO($this->input(), $this->output());
+      $automate = $io->confirm('Would you like to automatically set up GitHub Secrets and Variables now?', TRUE);
+
+      if ($automate) {
+        $this->say("");
+        $this->say("Setting up GitHub Secrets and Variables...");
+
+        // Set secrets.
+        $result = $this->taskExec("gh secret set TERMINUS_TOKEN --body '$token' --repo " . self::$githubProject)->run();
+        if ($result->wasSuccessful()) {
+          $this->say("✓ Set TERMINUS_TOKEN secret");
+        }
+
+        $result = $this->taskExec("gh secret set PANTHEON_DEPLOY_KEY < pantheon-key --repo " . self::$githubProject)->run();
+        if ($result->wasSuccessful()) {
+          $this->say("✓ Set PANTHEON_DEPLOY_KEY secret");
+        }
+
+        $result = $this->taskExec("gh secret set GH_TOKEN --body '$github_token' --repo " . self::$githubProject)->run();
+        if ($result->wasSuccessful()) {
+          $this->say("✓ Set GH_TOKEN secret");
+        }
+
+        // Set variables.
+        $result = $this->taskExec("gh variable set PANTHEON_GIT_URL --body '$pantheon_git_url' --repo " . self::$githubProject)->run();
+        if ($result->wasSuccessful()) {
+          $this->say("✓ Set PANTHEON_GIT_URL variable");
+        }
+
+        $this->say("");
+        $this->say("GitHub Secrets and Variables have been configured!");
+        $this->say("");
+        $this->say("Optional: You can also set ROLLBAR_SERVER_TOKEN and DEPLOY_EXCLUDE_WARNING variables if needed:");
+        $this->say("  gh variable set ROLLBAR_SERVER_TOKEN --body 'your-token' --repo " . self::$githubProject);
+        $this->say("  gh variable set DEPLOY_EXCLUDE_WARNING --body 'warning1|warning2' --repo " . self::$githubProject);
+      }
+      else {
+        $this->printManualInstructions($token, $github_token, $pantheon_git_url);
+      }
+    }
+    else {
+      $this->say("Note: Install gh CLI (https://cli.github.com/) to automate secret/variable setup.");
+      $this->say("");
+      $this->printManualInstructions($token, $github_token, $pantheon_git_url);
+    }
+
     $this->say("");
+    $this->say("Remaining steps:");
     $this->say("1. Add the SSH public key to the Pantheon account:");
     $this->say("   - Key location: pantheon-key.pub");
     $this->say("   - Instructions: https://pantheon.io/docs/ssh-keys");
     $this->say("");
-    $this->say("2. Set up the following GitHub Secrets:");
+    $this->say("2. IMPORTANT: Keep the pantheon-key file secure and DO NOT commit it to the repository.");
+    $this->say("   After adding the public key to Pantheon, you can delete the pantheon-key files locally.");
+    $this->say("");
+    $this->say("3. Ensure nested docroot is configured: https://pantheon.io/docs/nested-docroot");
+    $this->say("");
+    $this->say("For more details, see the 'Automatic Deployment to Pantheon' section in README.md");
+  }
+
+  /**
+   * Prints manual instructions for setting up GitHub Secrets and Variables.
+   *
+   * @param string $token
+   *   The Terminus token.
+   * @param string $github_token
+   *   The GitHub token.
+   * @param string $pantheon_git_url
+   *   The Pantheon Git URL.
+   */
+  protected function printManualInstructions(string $token, string $github_token, string $pantheon_git_url): void {
+    $this->say("Please complete the following steps manually:");
+    $this->say("");
+    $this->say("1. Set up the following GitHub Secrets:");
     $this->say("   - Go to: Settings → Secrets and variables → Actions → Secrets → New repository secret");
     $this->say("   - TERMINUS_TOKEN: " . $token);
     $this->say("   - PANTHEON_DEPLOY_KEY: (paste the contents of pantheon-key file)");
     $this->say("   - GH_TOKEN: " . $github_token);
     $this->say("");
-    $this->say("3. Set up the following GitHub Variables:");
+    $this->say("2. Set up the following GitHub Variables:");
     $this->say("   - Go to: Settings → Secrets and variables → Actions → Variables → New repository variable");
     $this->say("   - PANTHEON_GIT_URL: " . $pantheon_git_url);
     $this->say("   - ROLLBAR_SERVER_TOKEN: (your Rollbar token, optional)");
     $this->say("   - DEPLOY_EXCLUDE_WARNING: (warnings to exclude, optional)");
-    $this->say("");
-    $this->say("4. IMPORTANT: Keep the pantheon-key file secure and DO NOT commit it to the repository.");
-    $this->say("   You only need to add its contents as the PANTHEON_DEPLOY_KEY secret in GitHub.");
-    $this->say("");
-    $this->say("5. After setting up secrets and variables, you can delete the pantheon-key files locally.");
-    $this->say("");
-    $this->say("6. Ensure nested docroot is configured: https://pantheon.io/docs/nested-docroot");
-    $this->say("");
-    $this->say("For more details, see the 'Automatic Deployment to Pantheon' section in README.md");
   }
 
   /**

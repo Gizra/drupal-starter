@@ -400,12 +400,12 @@ In order to deploy upon every merge automatically using GitHub Actions:
    ddev robo deploy:config-autodeploy [your terminus token] [your github token]
    ```
    
-   This will generate an SSH key pair and provide instructions for setting up GitHub Secrets and Variables.
+   This will generate an SSH key pair. If you have the [GitHub CLI](https://cli.github.com/) (`gh`) installed, the command can automatically set up GitHub Secrets and Variables for you. Otherwise, it will provide manual instructions.
 
 1. Follow the instructions provided by the command to:
    - Add the SSH public key (`pantheon-key.pub`) to your [Pantheon account](https://pantheon.io/docs/ssh-keys)
-   - Set up GitHub Secrets (TERMINUS_TOKEN, PANTHEON_DEPLOY_KEY, GH_TOKEN)
-   - Set up GitHub Variables (PANTHEON_GIT_URL, ROLLBAR_SERVER_TOKEN, DEPLOY_EXCLUDE_WARNING)
+   - If using automated setup: Confirm when prompted to automatically configure GitHub Secrets and Variables
+   - If setting up manually: Configure GitHub Secrets (TERMINUS_TOKEN, PANTHEON_DEPLOY_KEY, GH_TOKEN) and Variables (PANTHEON_GIT_URL, ROLLBAR_SERVER_TOKEN, DEPLOY_EXCLUDE_WARNING) as instructed
 
 **Note**: If you used the `bootstrap:project` command to create your project, the `$githubProject` variable in `DeploymentTrait.php` is automatically updated with your organization and project name. Otherwise, you'll need to manually update `public static string $githubProject = 'YourOrg/your-project';` in `robo-components/DeploymentTrait.php`.
 
