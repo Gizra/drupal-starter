@@ -109,6 +109,7 @@
         "drupal/devel": "^5",
         "drupal/drupal_test_assertions": "^1.0",
         "drupal/potx": "^1.0@alpha",
+        "fenetikm/autoload-drupal": "^1.0",
         "gettext/gettext": "^5.7",
         "mikey179/vfsstream": "^1.6",
         "mink/webdriver-classic-driver": "^1.1",
@@ -140,6 +141,7 @@
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "drupal/core-composer-scaffold": true,
             "drupal/core-project-message": true,
+            "fenetikm/autoload-drupal": true,
             "mglaman/composer-drupal-lenient": true,
             "oomphinc/composer-installers-extender": true,
             "php-http/discovery": true,
@@ -185,6 +187,17 @@
             "include": [
                 "web/modules/contrib/webform/composer.libraries.json"
             ]
+        },
+        "extra": {
+            "autoload-drupal": {
+                "modules": [
+                    "app/modules/contrib/",
+                    "app/modules/custom/",
+                    "app/themes/contrib/",
+                    "app/themes/custom/",
+                    "app/core/modules/"
+                ]
+            }
         },
         "drupal-core-project-message": {
             "include-keys": ["homepage", "support"],
