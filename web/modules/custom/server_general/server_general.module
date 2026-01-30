@@ -5,6 +5,7 @@
  * Module file.
  */
 
+use Drupal\Component\Utility\Bytes;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\ContentEntityFormInterface;
 use Drupal\Core\Entity\EntityInterface;
@@ -373,4 +374,31 @@ function server_general_page_attachments(array &$attachments) {
     ];
     $attachments['#attached']['html_head'][] = [$noindex_tag, 'noindex_error_pages'];
   }
+
+  // Attach file size validation library and settings for client-side
+  // validation of file uploads.
+  $attachments['#attached']['library'][] = 'server_theme/file-size-validation';
+  $attachments['#attached']['drupalSettings']['fileSizeValidation'] = [
+    'maxFileSize' => server_general_get_max_upload_size(),
+  ];
+}
+
+/**
+ * Get the maximum file upload size in bytes.
+ *
+ * Returns the smaller of upload_max_filesize and post_max_size PHP settings.
+ *
+ * @return int
+ *   Maximum upload size in bytes.
+ */
+function server_general_get_max_upload_size(): int {
+  $upload_max = Bytes::toNumber(ini_get('upload_max_filesize'));
+  $post_max = Bytes::toNumber(ini_get('post_max_size'));
+
+  // post_max_size of 0 means unlimited.
+  if ($post_max == 0) {
+    return (int) $upload_max;
+  }
+
+  return (int) min($upload_max, $post_max);
 }
