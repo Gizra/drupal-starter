@@ -140,29 +140,21 @@ trait ReleaseNotesTrait {
         $issue_number = $issue_matches[1][0];
       }
       else {
-        // Retrieve the issue number from the PR description via GitHub API.
-        $pr = NULL;
         if (!empty($github_project) && !empty($github_org)) {
-          $pr = $this->githubApiGet("repos/$github_org/$github_project/pulls/$pr_number");
+          // Try GraphQL first (linked issues in Development section).
+          $linked_issues = $this->githubGraphQlGetLinkedIssuesFromPr((int) $pr_number, $github_project, $github_org);
+          $issue_number = !empty($linked_issues) ? array_key_first($linked_issues) : NULL;
+
+          // Fall back to parsing PR body if GraphQL didn't find anything.
+          if (empty($issue_number)) {
+            $issue_number = $this->githubApiGetLinkedIssuesFromPrBody((int) $pr_number, $github_project, $github_org);
+          }
         }
 
-        if (!isset($pr->body)) {
+        if (empty($issue_number)) {
           $no_issue_lines[] = "- $log_messages[1] (#$pr_number)";
           continue;
         }
-        $preg_pattern = '!#([0-9]+)!';
-        if (isset($pr->user->type) && $pr->user->type === 'Bot') {
-          // There's no other connecting information to the issue than the
-          // "Fixes Gizra/reponame#X" message in body when Copilot creates
-          // a PR.
-          $preg_pattern = '!Fixes .+#([0-9]+)!';
-        }
-        preg_match_all($preg_pattern, $pr->body, $issue_matches);
-        if (!isset($issue_matches[1][0])) {
-          $no_issue_lines[] = "- $log_messages[1] (#$pr_number)";
-          continue;
-        }
-        $issue_number = $issue_matches[1][0];
       }
 
       if (!empty($issue_number)) {
@@ -288,6 +280,140 @@ trait ReleaseNotesTrait {
       throw new \Exception("Error: $http_code - Failed to request the API path $path:\n" . print_r($result, TRUE));
     }
     return $result;
+  }
+
+  /**
+   * Get linked issues from a Pull Request using GitHub's Development links.
+   *
+   * This function uses GitHub's GraphQL API to fetch issues that are
+   * formally linked to the PR via the "Development" section
+   * (closingIssuesReferences).
+   *
+   * @param int $pr_number
+   *   The pull request number.
+   * @param string $repo
+   *   Github repo name.
+   * @param string $owner
+   *   Github user/organization name.
+   *
+   * @return array
+   *   An array of linked issues with 'number' and 'title' keys.
+   */
+  protected function githubGraphQlGetLinkedIssuesFromPr(int $pr_number, string $repo, string $owner): array {
+    $token = getenv('GITHUB_ACCESS_TOKEN');
+    if (empty($token)) {
+      return [];
+    }
+
+    $query = <<<'GRAPHQL'
+query($owner: String!, $repo: String!, $pr: Int!) {
+  repository(owner: $owner, name: $repo) {
+    pullRequest(number: $pr) {
+      closingIssuesReferences(first: 50) {
+        nodes {
+          number
+          title
+          repository {
+            name
+            owner {
+              login
+            }
+          }
+        }
+      }
+    }
+  }
+}
+GRAPHQL;
+
+    $payload = json_encode([
+      'query' => $query,
+      'variables' => [
+        'owner' => $owner,
+        'repo' => $repo,
+        'pr' => $pr_number,
+      ],
+    ]);
+
+    $ch = curl_init('https://api.github.com/graphql');
+    curl_setopt($ch, CURLOPT_USERAGENT, 'Drupal Starter Release Notes Generator');
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+      'Authorization: bearer ' . $token,
+      'Content-Type: application/json',
+    ]);
+    curl_setopt($ch, CURLOPT_POST, TRUE);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+
+    $result = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    if ($http_code !== 200 || empty($result)) {
+      return [];
+    }
+
+    $data = json_decode($result, TRUE);
+    $linked_issues = $data['data']['repository']['pullRequest']['closingIssuesReferences']['nodes'] ?? [];
+
+    $issues = [];
+    foreach ($linked_issues as $linked_issue) {
+      // Only include issues from the same repository.
+      $issue_repo = $linked_issue['repository']['name'] ?? '';
+      $issue_owner = $linked_issue['repository']['owner']['login'] ?? '';
+      if ($issue_repo !== $repo || $issue_owner !== $owner) {
+        continue;
+      }
+
+      $issue_number = $linked_issue['number'];
+      $issues[$issue_number] = [
+        'number' => $issue_number,
+        'title' => $linked_issue['title'] ?? '',
+      ];
+    }
+
+    return $issues;
+  }
+
+  /**
+   * Get linked issue from a Pull Request by parsing the PR body.
+   *
+   * This function uses GitHub's REST API to fetch the PR details and then
+   * parses the body to find issue references (e.g., #123 or "Fixes repo#123").
+   *
+   * @param int $pr_number
+   *   The pull request number.
+   * @param string $repo
+   *   Github repo name.
+   * @param string $owner
+   *   Github user/organization name.
+   *
+   * @return string|null
+   *   The issue number as a string, or NULL if not found.
+   */
+  protected function githubApiGetLinkedIssuesFromPrBody(int $pr_number, string $repo, string $owner): ?string {
+    $pr = $this->githubApiGet("repos/$owner/$repo/pulls/$pr_number");
+
+    if (!isset($pr->body)) {
+      return NULL;
+    }
+
+    $preg_pattern = '!#([0-9]+)!';
+    if (isset($pr->user->type) && $pr->user->type === 'Bot') {
+      // There's no other connecting information to the issue than the
+      // "Fixes Gizra/reponame#X" message in body when Copilot creates
+      // a PR.
+      $preg_pattern = '!Fixes .+#([0-9]+)!';
+    }
+
+    $issue_matches = [];
+    preg_match_all($preg_pattern, $pr->body, $issue_matches);
+
+    if (!isset($issue_matches[1][0])) {
+      return NULL;
+    }
+
+    return $issue_matches[1][0];
   }
 
 }
