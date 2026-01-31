@@ -13,7 +13,7 @@ trait BootstrapTrait {
    * Bootstrap a new client project on Pantheon.io.
    *
    * @param string $project_name
-   *   The project name.
+   *   The Pantheon project name.
    * @param string $github_repository_url
    *   The clone URL of the GitHub repository.
    * @param string $terminus_token
@@ -27,40 +27,39 @@ trait BootstrapTrait {
    *   The HTTP basic auth password. Optional.
    */
   public function bootstrapProject(string $project_name, string $github_repository_url, string $terminus_token, string $github_token, string $http_basic_auth_user = '', string $http_basic_auth_password = '') {
-    // Extract project name from $github_repository_url.
-    // The syntax is like: git@github.com:Organization/projectname.git .
+    // Extract organization and repo name from GitHub URL.
     preg_match('/github.com[:\/](.*)\/(.*)\.git/', $github_repository_url, $matches);
     $github_organization = $matches[1];
-    $project_machine_name = $matches[2];
+    $github_repo_name = $matches[2];
 
-    $this->verifyRequirements($project_name, $github_organization, $project_machine_name, $terminus_token, $github_token, $http_basic_auth_user, $http_basic_auth_password);
+    $this->verifyRequirements($project_name, $github_organization, $github_repo_name, $terminus_token, $github_token, $http_basic_auth_user, $http_basic_auth_password);
 
-    $this->prepareGithubRepository($project_name, $github_organization, $project_machine_name, $github_repository_url);
+    $this->prepareGithubRepository($project_name, $github_organization, $github_repo_name, $github_repository_url);
 
-    $this->createPantheonProject($terminus_token, $project_name, $project_machine_name);
+    $this->createPantheonProject($terminus_token, $project_name);
 
-    $this->deployPantheonInstallEnv('dev', $project_machine_name);
-    $this->deployPantheonInstallEnv('qa', $project_machine_name);
+    $this->deployPantheonInstallEnv('dev', $project_name);
+    $this->deployPantheonInstallEnv('qa', $project_name);
 
-    $this->lockPantheonEnvironments($project_machine_name, $http_basic_auth_user, $http_basic_auth_password);
+    $this->lockPantheonEnvironments($project_name, $http_basic_auth_user, $http_basic_auth_password);
 
     $tfa_secret = $this->taskExec("openssl rand -base64 32")
       ->printOutput(FALSE)
       ->run()
       ->getMessage();
     $this->taskExec('terminus self:plugin:install pantheon-systems/terminus-secrets-plugin')->run();
-    $this->taskExec("terminus secrets:set $project_machine_name.qa tfa $tfa_secret")->run();
-    $this->taskExec("terminus secrets:set $project_machine_name.dev tfa $tfa_secret")->run();
+    $this->taskExec("terminus secrets:set $project_name.qa tfa $tfa_secret")->run();
+    $this->taskExec("terminus secrets:set $project_name.dev tfa $tfa_secret")->run();
 
     $this->say("Bootstrap completed successfully.");
     $this->say("");
     $this->say("Next steps:");
     $this->say("1. Move the project to its final location:");
-    $this->say("   mv .bootstrap ../$project_machine_name");
-    $this->say("   mv .pantheon ../$project_machine_name/.pantheon");
+    $this->say("   mv .bootstrap ../$github_repo_name");
+    $this->say("   mv .pantheon ../$github_repo_name/.pantheon");
     $this->say("");
     $this->say("2. Configure automatic deployment to Pantheon with GitHub Actions:");
-    $this->say("   cd ../$project_machine_name");
+    $this->say("   cd ../$github_repo_name");
     $this->say("   ddev robo deploy:config-autodeploy $terminus_token $github_token");
     $this->say("");
     $this->say("   This will generate SSH keys and provide instructions for:");
@@ -69,22 +68,22 @@ trait BootstrapTrait {
     $this->say("   - Adding the SSH public key to your Pantheon account");
     $this->say("");
     $this->say("For full deployment setup details, see:");
-    $this->say("https://github.com/$github_organization/$project_machine_name#automatic-deployment-to-pantheon");
+    $this->say("https://github.com/$github_organization/$github_repo_name#automatic-deployment-to-pantheon");
   }
 
   /**
    * Prepares the new GitHub repository for the project.
    *
    * @param string $project_name
-   *   The project name.
-   * @param string $organization
+   *   The Pantheon site name.
+   * @param string $github_organization
    *   The GitHub organization.
-   * @param string $project_machine_name
-   *   The project machine name in GH slug.
+   * @param string $github_repo_name
+   *   The GitHub repository name.
    * @param string $github_repository_url
    *   The clone URL of the GitHub repository.
    */
-  protected function prepareGithubRepository(string $project_name, string $organization, string $project_machine_name, string $github_repository_url) {
+  protected function prepareGithubRepository(string $project_name, string $github_organization, string $github_repo_name, string $github_repository_url) {
     $temp_remote = 'bootstrap_' . time();
     $this->taskExec("git remote add $temp_remote $github_repository_url")
       ->run();
@@ -106,12 +105,12 @@ trait BootstrapTrait {
 
     $this->taskReplaceInFile('.bootstrap/robo-components/DeploymentTrait.php')
       ->from('Gizra/drupal-starter')
-      ->to("$organization/$project_machine_name")
+      ->to("$github_organization/$github_repo_name")
       ->run();
 
     $this->taskReplaceInFile('.bootstrap/.ddev/config.yaml')
       ->from('drupal-starter')
-      ->to($project_machine_name)
+      ->to($github_repo_name)
       ->run();
 
     $this->taskReplaceInFile('.bootstrap/.ddev/config.yaml')
@@ -136,12 +135,12 @@ trait BootstrapTrait {
 
     $this->taskReplaceInFile('.bootstrap/README.md')
       ->from('Gizra')
-      ->to($organization)
+      ->to($github_organization)
       ->run();
 
     $this->taskReplaceInFile('.bootstrap/README.md')
       ->from('drupal-starter')
-      ->to($project_machine_name)
+      ->to($github_repo_name)
       ->run();
 
     $this->taskReplaceInFile('.bootstrap/.ddev/providers/pantheon.yaml')
@@ -151,18 +150,28 @@ trait BootstrapTrait {
 
     $this->taskReplaceInFile('.bootstrap/composer.json')
       ->from('drupal-starter')
-      ->to(strtolower($project_machine_name))
+      ->to(strtolower($github_repo_name))
       ->run();
     $this->taskReplaceInFile('.bootstrap/composer.json')
       ->from('gizra')
-      ->to(strtolower($organization))
+      ->to(strtolower($github_organization))
       ->run();
 
     $this->taskReplaceInFile('.bootstrap/web/sites/default/settings.pantheon.php')
       ->from('drupal_starter')
-      ->to(str_replace('-', '_', $project_machine_name))
+      ->to(str_replace('-', '_', $github_repo_name))
       ->run();
 
+    // Run composer install first to get contrib modules (needed for
+    // merge-plugin to find webform's composer.libraries.json).
+    $result = $this->taskExec("cd .bootstrap && composer install --no-interaction")
+      ->run()
+      ->getExitCode();
+    if ($result !== 0) {
+      throw new \Exception("Failed to run composer install in GH repository.");
+    }
+
+    // Now update the lock file hash after the project name replacements.
     $result = $this->taskExec("cd .bootstrap && composer update --lock")
       ->run()
       ->getExitCode();
@@ -190,11 +199,9 @@ trait BootstrapTrait {
    * @param string $terminus_token
    *   The Pantheon machine token.
    * @param string $project_name
-   *   The project name.
-   * @param string $project_machine_name
-   *   The project machine name in GH slug.
+   *   The Pantheon site name.
    */
-  public function createPantheonProject(string $terminus_token, string $project_name, string $project_machine_name) {
+  public function createPantheonProject(string $terminus_token, string $project_name) {
     $result = $this->taskExec("terminus auth:login --machine-token=\"$terminus_token\"")
       ->run()
       ->getExitCode();
@@ -225,7 +232,7 @@ trait BootstrapTrait {
     // matches Drupal Starter.
     $upstream_id = "bde48795-b16d-443f-af01-8b1790caa1af";
 
-    $result = $this->taskExec("terminus site:create $project_machine_name \"$project_name\" \"$upstream_id\" --org=\"$selected_organization_id\"")
+    $result = $this->taskExec("terminus site:create $project_name \"$project_name\" \"$upstream_id\" --org=\"$selected_organization_id\"")
       ->run()
       ->getExitCode();
 
@@ -233,7 +240,7 @@ trait BootstrapTrait {
       throw new \Exception("Failed to create the Pantheon project.");
     }
 
-    $result = $this->taskExec("terminus connection:set $project_machine_name.dev git")
+    $result = $this->taskExec("terminus connection:set $project_name.dev git")
       ->run()
       ->getExitCode();
 
@@ -243,7 +250,7 @@ trait BootstrapTrait {
 
     // Retrieve Git repository from Pantheon, then clone the artifact repository
     // to .pantheon directory.
-    $pantheon_repository_url = $this->taskExec("terminus connection:info $project_machine_name.dev --field=git_url")
+    $pantheon_repository_url = $this->taskExec("terminus connection:info $project_name.dev --field=git_url")
       ->printOutput(FALSE)
       ->run()
       ->getMessage();
@@ -309,7 +316,7 @@ trait BootstrapTrait {
     }
 
     // Create QA environment on Pantheon.
-    $result = $this->taskExec("terminus multidev:create $project_machine_name.dev qa")
+    $result = $this->taskExec("terminus multidev:create $project_name.dev qa")
       ->run()
       ->getExitCode();
 
@@ -317,7 +324,7 @@ trait BootstrapTrait {
       throw new \Exception('Failed to create the Pantheon QA environment.');
     }
 
-    $result = $this->taskExec("terminus connection:set $project_machine_name.qa git")
+    $result = $this->taskExec("terminus connection:set $project_name.qa git")
       ->run()
       ->getExitCode();
 
@@ -329,33 +336,33 @@ trait BootstrapTrait {
   /**
    * Lock all Pantheon environments for the given site.
    *
-   * @param string $project_machine_name
-   *   The machine name of the project.
+   * @param string $project_name
+   *   The Pantheon site name.
    * @param string $http_basic_auth_user
    *   The HTTP basic auth user.
    * @param string $http_basic_auth_password
    *   The HTTP basic auth password.
    */
-  public function lockPantheonEnvironments(string $project_machine_name, string $http_basic_auth_user, string $http_basic_auth_password) {
+  public function lockPantheonEnvironments(string $project_name, string $http_basic_auth_user, string $http_basic_auth_password) {
     if (empty($http_basic_auth_user) || empty($http_basic_auth_password)) {
       $this->say("No HTTP basic auth credentials were provided. Pantheon environments will not be locked.");
       return;
     }
-    $pantheon_environments = $this->taskExec("terminus env:list $project_machine_name --field=ID --format=list")
+    $pantheon_environments = $this->taskExec("terminus env:list $project_name --field=ID --format=list")
       ->printOutput(FALSE)
       ->run()
       ->getMessage();
 
     $pantheon_environments = explode(PHP_EOL, $pantheon_environments);
     foreach ($pantheon_environments as $pantheon_environment) {
-      $result = $this->taskExec("terminus env:wake $project_machine_name.$pantheon_environment")
+      $result = $this->taskExec("terminus env:wake $project_name.$pantheon_environment")
         ->run()
         ->getExitCode();
       if ($result !== 0) {
         $this->say("Failed to wake up the Pantheon $pantheon_environment environment.");
         continue;
       }
-      $result = $this->taskExec("terminus lock:enable $project_machine_name.$pantheon_environment $http_basic_auth_user $http_basic_auth_password")
+      $result = $this->taskExec("terminus lock:enable $project_name.$pantheon_environment $http_basic_auth_user $http_basic_auth_password")
         ->run()
         ->getExitCode();
       if ($result !== 0) {
@@ -369,10 +376,10 @@ trait BootstrapTrait {
    *
    * @param string $project_name
    *   The project name.
-   * @param string $organization
+   * @param string $github_organization
    *   The GitHub organization.
-   * @param string $project_machine_name
-   *   The project machine name in GH slug.
+   * @param string $github_repo_name
+   *   The GitHub repository name.
    * @param string $terminus_token
    *   The Pantheon machine token.
    * @param string $github_token
@@ -382,7 +389,7 @@ trait BootstrapTrait {
    * @param string $http_basic_auth_password
    *   The HTTP basic auth password.
    */
-  protected function verifyRequirements(string $project_name, string $organization, string $project_machine_name, string $terminus_token, string $github_token, $http_basic_auth_user, $http_basic_auth_password) {
+  protected function verifyRequirements(string $project_name, string $github_organization, string $github_repo_name, string $terminus_token, string $github_token, $http_basic_auth_user, $http_basic_auth_password) {
     if (is_dir('.bootstrap')) {
       throw new \Exception('The .bootstrap directory already exists. Please remove / move it and try again.');
     }
@@ -392,20 +399,37 @@ trait BootstrapTrait {
     if (empty(trim($project_name))) {
       throw new \Exception('The project name is empty.');
     }
-    if (empty(trim($organization))) {
-      throw new \Exception('The organization is empty.');
+    $this->validatePantheonSiteName($project_name);
+
+    if (empty(trim($github_organization))) {
+      throw new \Exception('The GitHub organization is empty.');
     }
-    if (empty(trim($project_machine_name))) {
-      throw new \Exception('The project machine name is empty.');
-    }
-    if (str_contains($project_machine_name, ' ')) {
-      throw new \Exception('The project machine name contains spaces.');
+    if (empty(trim($github_repo_name))) {
+      throw new \Exception('The GitHub repository name is empty.');
     }
     if (empty(trim($terminus_token))) {
       throw new \Exception('The Pantheon machine token is empty.');
     }
     if (empty(trim($github_token))) {
       throw new \Exception('The GitHub token is empty.');
+    }
+  }
+
+  /**
+   * Validates a Pantheon site name.
+   *
+   * @param string $site_name
+   *   The site name to validate.
+   *
+   * @throws \Exception
+   *   If the site name is invalid.
+   */
+  protected function validatePantheonSiteName(string $site_name): void {
+    if (strlen($site_name) >= 52) {
+      throw new \Exception("The site name '$site_name' must be fewer than 52 characters.");
+    }
+    if (!preg_match('/^[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]$|^[a-zA-Z0-9]$/', $site_name)) {
+      throw new \Exception("The site name '$site_name' can only contain a-z, A-Z, 0-9, and dashes, and cannot begin or end with a dash.");
     }
   }
 
