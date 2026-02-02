@@ -501,13 +501,7 @@ trait DeploymentTrait {
     }
 
     $result = $task
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- updb --no-interaction")
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- cr")
-      // A repeat config import may be required. Run it in any case.
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- cim --no-interaction")
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- cim --no-interaction")
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- cr")
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- deploy:hook --no-interaction")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- deploy")
       ->run()
       ->getExitCode();
     if ($result !== 0) {
