@@ -68,6 +68,24 @@ $settings['trusted_host_patterns'] = ['.*'];
 // better performance.
 $settings['class_loader_auto_detect'] = FALSE;
 
+// Cache settings for local development. Below enables caching during testing,
+// and disables caching at other times on ddev which is handy during develoment.
+// If you wish to override below settings, you can do so in
+// /web/sites/default/settings.local.php (not /web/sites/settings.local.php!).
+$config['system.performance']['css']['preprocess'] = defined('DTT_BASE_URL');
+$config['system.performance']['js']['preprocess'] = defined('DTT_BASE_URL');
+if (!defined('DTT_BASE_URL')) {
+  // Enable local development services.
+  $settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml';
+  // Disable the render cache.
+  $settings['cache']['bins']['render'] = 'cache.backend.null';
+  // Disable Internal Page Cache.
+  $settings['cache']['bins']['page'] = 'cache.backend.null';
+  // Disable Dynamic Page Cache.
+  $settings['cache']['bins']['dynamic_page_cache'] = 'cache.backend.null';
+}
+
+// Include /web/sites/default/settings.local.php if it exists.
 if (isset($app_root) && isset($site_path)) {
   if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
     include $app_root . '/' . $site_path . '/settings.local.php';
