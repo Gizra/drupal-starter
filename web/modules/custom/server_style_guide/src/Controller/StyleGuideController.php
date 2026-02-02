@@ -619,8 +619,24 @@ class StyleGuideController extends ControllerBase {
   protected function getHeroImage(): array {
     $url = Url::fromRoute('<front>');
 
+    $image_dimensions = [
+      'mobile' => [
+        '1x' => [768, 576],
+        '2x' => [1536, 1152],
+      ],
+      'md' => [
+        '1x' => [1024, 580],
+        '2x' => [1536, 1160],
+      ],
+      'lg' => [
+        '1x' => [1440, 800],
+        '2x' => [2880, 1600],
+      ],
+    ];
+    $image = $this->buildResponsiveImage($image_dimensions, 'image_item', 'seed');
+
     return $this->buildElementHeroImage(
-      $this->buildImage($this->getPlaceholderImage(1600, 400)),
+      $image,
       $this->getRandomTitle(),
       $this->getRandomTitle(),
       Link::fromTextAndUrl('Learn more', $url),
@@ -769,6 +785,93 @@ class StyleGuideController extends ControllerBase {
       '#theme' => 'image',
       '#uri' => $url,
       '#alt' => 'Placeholder image',
+    ];
+  }
+
+  /**
+   * Build a responsive image using a <picture> element with breakpoint sources.
+   *
+   * Uses server_theme breakpoints to produce <source> elements per breakpoint.
+   * Each breakpoint key maps to srcset multipliers (1x, 2x) with
+   * [width, height].
+   *
+   * @param array $image_dimensions
+   *   Dimensions keyed by breakpoint, subkeyed by multiplier. Example:
+   *   @code
+   *   [
+   *     'mobile' => ['1x' => [400, 300], '2x' => [800, 600]],
+   *     'sm'     => ['1x' => [640, 480], '2x' => [1280, 960]],
+   *     'md'     => ['1x' => [768, 576], '2x' => [1536, 1152]],
+   *     'lg'     => ['1x' => [1024, 768], '2x' => [2048, 1536]],
+   *   ]
+   *   @endcode
+   * @param string $id
+   *   The placeholder image ID or seed.
+   * @param string $id_type
+   *   The type of the ID, either 'id' or 'seed'.
+   * @param string $alt
+   *   Alt text.
+   *
+   * @return array
+   *   A render array for a <picture> element.
+   */
+  private function buildResponsiveImage(array $image_dimensions, string $id = '', string $id_type = 'id', string $alt = ''): array {
+    $breakpoint_media_queries = [
+      '2xl' => 'all and (min-width: 1536px)',
+      'xl' => 'all and (min-width: 1280px)',
+      'lg' => 'all and (min-width: 1024px)',
+      'md' => 'all and (min-width: 768px)',
+      'sm' => 'all and (min-width: 640px)',
+      'mobile' => '',
+    ];
+
+    $sources = [];
+    // Iterate from largest to smallest so the browser picks the first match.
+    foreach ($breakpoint_media_queries as $breakpoint => $media_query) {
+      if (!isset($image_dimensions[$breakpoint])) {
+        continue;
+      }
+
+      $srcset_parts = [];
+      foreach ($image_dimensions[$breakpoint] as $multiplier => $dimensions) {
+        [$width, $height] = $dimensions;
+        $url = $this->getPlaceholderImage($width, $height, $id, $id_type);
+        $srcset_parts[] = "$url {$multiplier}";
+      }
+
+      $source = [
+        '#type' => 'html_tag',
+        '#tag' => 'source',
+        '#attributes' => [
+          'srcset' => implode(', ', $srcset_parts),
+        ],
+      ];
+      if (!empty($media_query)) {
+        $source['#attributes']['media'] = $media_query;
+      }
+      $sources[] = $source;
+    }
+
+    // Fallback <img> using the mobile 1x dimensions.
+    $fallback_breakpoint = isset($image_dimensions['mobile']) ? 'mobile' : array_key_first($image_dimensions);
+    $fallback_dimensions = $image_dimensions[$fallback_breakpoint]['1x'];
+    [$fallback_width, $fallback_height] = $fallback_dimensions;
+
+    $sources[] = [
+      '#type' => 'html_tag',
+      '#tag' => 'img',
+      '#attributes' => [
+        'src' => $this->getPlaceholderImage($fallback_width, $fallback_height, $id, $id_type),
+        'alt' => $alt,
+        'width' => $fallback_width,
+        'height' => $fallback_height,
+      ],
+    ];
+
+    return [
+      '#type' => 'html_tag',
+      '#tag' => 'picture',
+      'sources' => $sources,
     ];
   }
 
