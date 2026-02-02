@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
+use Drupal\paragraphs\Entity\Paragraph;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -114,6 +115,97 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
       $this->fail("The facet {$facet->id()} has 'only_visible_when_facet_source_is_visible' set to true. It is not compatible with Paragraphs-based embedding and rendering.");
     }
     $this->expectNotToPerformAssertions();
+  }
+
+  /**
+   * Checks if search page (LP with Search PT) isn't indexed.
+   *
+   * See "ExcludeNodeByPathAliasProcessor.php".
+   */
+  public function testSearchPageNotIndexed(): void {
+    $paragraph = Paragraph::create([
+      'type' => 'search',
+      'field_title' => [
+        'value' => 'Search Test',
+      ],
+    ]);
+    $paragraph->save();
+    $this->markEntityForCleanup($paragraph);
+
+    $path_alias = '/search_6KmX9x99aG5o13xvqjkO868iR';
+    $title = 'Search_6KmX9x99aG5o13xvqjkO868iR';
+
+    // Create a search LP with a specific title and path.
+    $node = $this->createNode([
+      'title' => $title,
+      'langcode' => 'en',
+      'type' => 'news',
+      'status' => 1,
+      'field_paragraphs' => [
+        $paragraph,
+      ],
+      'path' => [
+        'pathauto' => FALSE,
+        'alias' => $path_alias,
+      ],
+    ]);
+    $node->setPublished()->save();
+
+    // Trigger indexing.
+    $this->triggerPostRequestIndexing();
+
+    $this->waitForSearchIndex(function () use ($node): void {
+      $this->drupalGet('/search', [
+        'query' => [
+          'key' => $node->label(),
+        ],
+      ]);
+      $session = $this->assertSession();
+      // Without search index processor this page should be in the results.
+      $session->elementTextContains('css', '.view-search', $node->label());
+    });
+
+    // Get the configuration factory service.
+    $config_factory = \Drupal::configFactory();
+
+    // Load the configuration of our "exclude_nodes_by_path_alias"
+    // search processor.
+    $config = $config_factory->getEditable('search_api.index.server_dev');
+
+    // Get the existing "excluded nodes" config array.
+    $excluded_nodes_original = $excluded_nodes_temporary = $config->get('processor_settings.exclude_nodes_by_path_alias.excluded_nodes');
+
+    if (!in_array($path_alias, $excluded_nodes_original)) {
+      // Add a new entry to the excluded nodes array.
+      $excluded_nodes_temporary[] = $path_alias;
+      // Set the updated excluded nodes array back to the configuration.
+      $config->set('processor_settings.exclude_nodes_by_path_alias.excluded_nodes', $excluded_nodes_temporary);
+
+      // Save the configuration.
+      $config->save();
+    }
+
+    // Save LP again so that cache gets cleared.
+    $node->save();
+
+    // Trigger indexing.
+    $this->triggerPostRequestIndexing();
+
+    // Wait for indexing to complete.
+    $this->waitForSearchIndex(function () use ($node): void {
+      // First search using the exact long phrase.
+      $this->drupalGet('/search', [
+        'query' => [
+          'key' => $node->label(),
+        ],
+      ]);
+      $session = $this->assertSession();
+      $session->elementTextContains('css', '.view-empty', 'No results found');
+    });
+
+    // Restore original settings.
+    $config->set('processor_settings.exclude_nodes_by_path_alias.excluded_nodes', $excluded_nodes_original);
+    $config->save();
   }
 
   /**
