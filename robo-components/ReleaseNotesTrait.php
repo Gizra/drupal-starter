@@ -137,14 +137,12 @@ trait ReleaseNotesTrait {
             $issue_number = $this->githubApiGetLinkedIssuesFromPrBody((int) $pr_number, $github_project, $github_org);
           }
         }
-        else {
-          if (!isset($issue_titles[$issue_number])) {
-            /** @var \stdClass $issue_details */
-            $issue_details = $this->githubApiGet("repos/$github_org/$github_project/issues/$issue_number");
-            if (!empty($issue_details->title)) {
-              $issue_titles[$issue_number] = $issue_details->title;
-              $contributors[] = '@' . $issue_details->user->login;
-            }
+        if (!empty($issue_number) && !isset($issue_titles[$issue_number])) {
+          /** @var \stdClass $issue_details */
+          $issue_details = $this->githubApiGet("repos/$github_org/$github_project/issues/$issue_number");
+          if (!empty($issue_details->title)) {
+            $issue_titles[$issue_number] = $issue_details->title;
+            $contributors[] = '@' . $issue_details->user->login;
           }
         }
       }
