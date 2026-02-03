@@ -64,11 +64,12 @@ trait ReleaseNotesTrait {
     // This is the heart of the release notes, the git history, we get all the
     // commits since the specified last version and later on we parse
     // the output. Optionally we enrich it with metadata from GitHub REST API.
-    $git_command = "git log --pretty=format:'%s¬¬|¬¬%b'";
+    $git_command = "git log --pretty=format:'%s'";
     if (!empty($tag)) {
       $git_command .= " $tag..";
     }
     $log = $this->taskExec($git_command)->printOutput(FALSE)->run()->getMessage();
+    // Each line contains the first line of the commit message.
     $lines = explode("\n", $log);
 
     $this->say('Copy release notes below');
@@ -84,7 +85,7 @@ trait ReleaseNotesTrait {
     $changed_files = 0;
 
     foreach ($lines as $line) {
-      $log_messages = explode("¬¬|¬¬", $line);
+      $issue_number = NULL;
       $pr_matches = [];
 
       // Here we need to handle two cases.
@@ -94,23 +95,30 @@ trait ReleaseNotesTrait {
       // Explanation (#1234)
       preg_match_all('/Merge pull request #([0-9]+)/', $line, $pr_matches);
 
-      if (count($log_messages) < 2) {
-        // No log message at all, not meaningful for changelog.
-        continue;
-      }
       if (!isset($pr_matches[1][0])) {
         // Could not detect PR number or it"s a Squash and Merge.
         $pr_matches = [];
         preg_match_all('!\(#([0-9]+)\)!', $line, $pr_matches);
-        if (!isset($pr_matches[0][0])) {
+        // If we have no pr number, continue.
+        if (!isset($pr_matches[1][0])) {
           continue;
         }
       }
+      else {
+        // In case of simple merges, we get the issue number from the log,
+        // as the issue number is a required part of the branch name.
+        // If we cannot detect it, we still print a less verbose changelog line.
+        $issue_matches = [];
+        preg_match_all('!from [a-zA-Z-_0-9]+/([0-9]+)!', $line, $issue_matches);
 
-      $log_messages[1] = trim(str_replace('* ', '', $log_messages[1]));
+        if (isset($issue_matches[1][0])) {
+          $issue_number = $issue_matches[1][0];
+        }
+      }
 
       $pr_number = $pr_matches[1][0];
-      if (!empty($github_org) && !empty($github_project)) {
+
+      if (isset($github_org) && isset($github_project)) {
         /** @var \stdClass $pr_details */
         $pr_details = $this->githubApiGet("repos/$github_org/$github_project/pulls/$pr_number");
         if (!empty($pr_details->user)) {
@@ -118,29 +126,8 @@ trait ReleaseNotesTrait {
           $additions += $pr_details->additions;
           $deletions += $pr_details->deletions;
           $changed_files += $pr_details->changed_files;
-
-          if (empty($log_messages[1])) {
-            $log_messages[1] = $pr_details->title;
-          }
         }
-      }
-
-      if (empty($log_messages[1])) {
-        // Whitespace-only log message, not meaningful for changelog.
-        continue;
-      }
-
-      // The issue number is a required part of the branch name,
-      // So usually we can grab it from the log too, but that's optional
-      // If we cannot detect it, we still print a less verbose changelog line.
-      $issue_matches = [];
-      preg_match_all('!from [a-zA-Z-_0-9]+/([0-9]+)!', $line, $issue_matches);
-
-      if (isset($issue_matches[1][0])) {
-        $issue_number = $issue_matches[1][0];
-      }
-      else {
-        if (!empty($github_project) && !empty($github_org)) {
+        if (empty($issue_number)) {
           // Try GraphQL first (linked issues in Development section).
           $linked_issues = $this->githubGraphQlGetLinkedIssuesFromPr((int) $pr_number, $github_project, $github_org);
           $issue_number = !empty($linked_issues) ? array_key_first($linked_issues) : NULL;
@@ -150,37 +137,34 @@ trait ReleaseNotesTrait {
             $issue_number = $this->githubApiGetLinkedIssuesFromPrBody((int) $pr_number, $github_project, $github_org);
           }
         }
-
-        if (empty($issue_number)) {
-          $no_issue_lines[] = "- $log_messages[1] (#$pr_number)";
-          continue;
-        }
-      }
-
-      if (!empty($issue_number)) {
-        if (!isset($issue_titles[$issue_number]) && !empty($github_org) && !empty($github_project)) {
-          /** @var \stdClass $issue_details */
-          $issue_details = $this->githubApiGet("repos/$github_org/$github_project/issues/$issue_number");
-          if (!empty($issue_details->title)) {
-            $issue_titles[$issue_number] = $issue_details->title;
-            $contributors[] = '@' . $issue_details->user->login;
+        else {
+          if (!isset($issue_titles[$issue_number])) {
+            /** @var \stdClass $issue_details */
+            $issue_details = $this->githubApiGet("repos/$github_org/$github_project/issues/$issue_number");
+            if (!empty($issue_details->title)) {
+              $issue_titles[$issue_number] = $issue_details->title;
+              $contributors[] = '@' . $issue_details->user->login;
+            }
           }
         }
+      }
 
-        if (isset($issue_titles[$issue_number])) {
-          $issue_line = "- $issue_titles[$issue_number] (#$issue_number)";
-        }
-        else {
-          $issue_line = "- Issue #$issue_number";
-        }
-        if (!isset($pull_requests_per_issue[$issue_line])) {
-          $pull_requests_per_issue[$issue_line] = [];
-        }
-        $pull_requests_per_issue[$issue_line][] = "  - $log_messages[1] (#{$pr_matches[1][0]})";
+      if (empty($issue_number)) {
+        $no_issue_lines[] = $line;
+        continue;
+      }
+
+      if (isset($issue_titles[$issue_number])) {
+        $issue_line = "- $issue_titles[$issue_number] (#$issue_number)";
       }
       else {
-        $no_issue_lines[] = "- $log_messages[1] (#$pr_number)";
+        $issue_line = "- Issue #$issue_number";
       }
+      if (!isset($pull_requests_per_issue[$issue_line])) {
+        $pull_requests_per_issue[$issue_line] = [];
+      }
+      $pull_requests_per_issue[$issue_line][] = "  - $line";
+
     }
 
     foreach ($pull_requests_per_issue as $issue_line => $pr_lines) {
