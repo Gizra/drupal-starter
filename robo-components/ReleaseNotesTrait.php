@@ -149,7 +149,7 @@ trait ReleaseNotesTrait {
 
       if (empty($issue_number)) {
         if (!empty($pr_number)) {
-            $no_issue_lines[] = "- PR #$pr_number";
+          $no_issue_lines[] = "- PR #$pr_number";
         }
         continue;
       }
