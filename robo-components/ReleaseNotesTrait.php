@@ -118,7 +118,7 @@ trait ReleaseNotesTrait {
 
       $pr_number = $pr_matches[1][0];
 
-      if (isset($github_org) && isset($github_project)) {
+      if (!empty($github_org) && !empty($github_project)) {
         /** @var \stdClass $pr_details */
         $pr_details = $this->githubApiGet("repos/$github_org/$github_project/pulls/$pr_number");
         if (!empty($pr_details->user)) {
@@ -148,7 +148,9 @@ trait ReleaseNotesTrait {
       }
 
       if (empty($issue_number)) {
-        $no_issue_lines[] = $line;
+        if (!empty($pr_number)) {
+            $no_issue_lines[] = "- PR #$pr_number";
+        }
         continue;
       }
 
