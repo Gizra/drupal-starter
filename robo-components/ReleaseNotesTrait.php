@@ -382,22 +382,22 @@ GRAPHQL;
       return NULL;
     }
 
-    $preg_pattern = '!#([0-9]+)!';
-    if (isset($pr->user->type) && $pr->user->type === 'Bot') {
-      // There's no other connecting information to the issue than the
-      // "Fixes Gizra/reponame#X" message in body when Copilot creates
-      // a PR.
-      $preg_pattern = '!Fixes .+#([0-9]+)!';
-    }
-
     $issue_matches = [];
-    preg_match_all($preg_pattern, $pr->body, $issue_matches);
 
-    if (!isset($issue_matches[1][0])) {
-      return NULL;
+    // First try the specific "Fixes" pattern which explicitly indicates issue
+    // linkage.
+    preg_match_all('!Fixes .+#([0-9]+)!', $pr->body, $issue_matches);
+    if (isset($issue_matches[1][0])) {
+      return $issue_matches[1][0];
     }
 
-    return $issue_matches[1][0];
+    // Fall back to simple issue reference pattern.
+    preg_match_all('!#([0-9]+)!', $pr->body, $issue_matches);
+    if (isset($issue_matches[1][0])) {
+      return $issue_matches[1][0];
+    }
+
+    return NULL;
   }
 
 }
