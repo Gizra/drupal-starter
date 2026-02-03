@@ -255,7 +255,7 @@ To run PHPUnit tests for the `migrate_tools` contributed module, you would use:
 ddev phpunit-contrib migrate_tools
 ```
 
-## Debugging
+## Debugging and IDE config
 
 ## Visual Studio Code instructions
 
@@ -266,6 +266,13 @@ ddev phpunit-contrib migrate_tools
 
 Check the [DDEV documentation](https://ddev.readthedocs.io/en/latest/users/debugging-profiling/step-debugging/)
 if you are using other IDE or want to know more about this feature.
+
+## Phpactor integration
+
+Copy .phpactor.json.example to .phpactor.json to integrate
+with [phpactor](https://phpactor.readthedocs.io/) in your IDE.
+
+Then run `phpactor config:init` to set your repository as trusted.
 
 ## Deploy to Pantheon
 
@@ -393,17 +400,17 @@ In order to deploy upon every merge automatically using GitHub Actions, you shal
 1. `git commit -m "Deployment secrets and configuration"`
 1. Add the public key in `pantheon-key.pub` to the newly created dummy [Pantheon user](https://pantheon.io/docs/ssh-keys)
 1. Set up the following in your GitHub repository settings:
-   
+
    **GitHub Secrets** (Settings → Secrets and variables → Actions → Secrets):
    - `TERMINUS_TOKEN`: Your Pantheon machine token
    - `PANTHEON_DEPLOY_KEY`: The SSH private key for deployment
    - `GH_TOKEN`: GitHub personal access token for posting deployment comments
-   
+
    **GitHub Variables** (Settings → Secrets and variables → Actions → Variables):
    - `PANTHEON_GIT_URL`: The Pantheon Git URL for your project
    - `ROLLBAR_SERVER_TOKEN`: Your Rollbar server token (optional)
    - `DEPLOY_EXCLUDE_WARNING`: Warnings to exclude from deployment notifications (optional)
-   
+
 1. Actualize `public static string $githubProject = 'Gizra/the-client';` in the `RoboFile.php`.
 
 Optionally you can specify which target branch you'd like to push on Pantheon, by default it's `master`, so the target is the DEV environment, but alternatively you can issue:
