@@ -1,0 +1,18 @@
+uuid: 4de3a751-ccaf-43bb-acdb-16a5d4535b1c
+langcode: en
+status: true
+dependencies:
+  theme:
+    - server_admin_theme
+id: server_admin_theme_local_actions
+theme: server_admin_theme
+region: content
+weight: -3
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  label_display: '0'
+  provider: core
+visibility: {  }
