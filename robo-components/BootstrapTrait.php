@@ -230,7 +230,7 @@ trait BootstrapTrait {
 
     // This upstream is the Drupal 10 base project what more or less
     // matches Drupal Starter.
-    $upstream_id = "bde48795-b16d-443f-af01-8b1790caa1af";
+    $upstream_id = "8a129104-9d37-4082-aaf8-e6f31154644e";
 
     $result = $this->taskExec("terminus site:create $project_name \"$project_name\" \"$upstream_id\" --org=\"$selected_organization_id\"")
       ->run()
