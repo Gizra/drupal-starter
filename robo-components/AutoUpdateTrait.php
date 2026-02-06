@@ -20,7 +20,6 @@ trait AutoUpdateTrait {
     }
     $this->say("Update module is installed, checking status of projects.");
     $this->say("In case of some errors manually loading /admin/reports/updates can help.");
-    $this->yell("Don't forget to run ddev drush updb manually at the end!");
 
     if (!($available = update_get_available(TRUE))) {
       $this->say("Cannot fetch info about the releases.");
@@ -125,6 +124,12 @@ trait AutoUpdateTrait {
       $git_command = "git commit -m 'Update " . $package . ' to ' . $version . "'";
       $this->taskExec($git_command)->printOutput(TRUE)->run();
     }
+    // composer audit can show vulnerabilities.
+    $exit_code = $this->taskExec('bash -lc "exec composer audit"')
+      ->printOutput(TRUE)
+      ->run();
+    $this->yell("Now run ddev drush updb manually!");
+
   }
 
 }
