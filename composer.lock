@@ -3410,17 +3410,17 @@
         },
         {
             "name": "drupal/fast_404",
-            "version": "3.6.0",
+            "version": "3.7.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/fast_404.git",
-                "reference": "8.x-3.6"
+                "reference": "8.x-3.7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/fast_404-8.x-3.6.zip",
-                "reference": "8.x-3.6",
-                "shasum": "0b92b4241fe4db645491877e1c74b29c1413bf32"
+                "url": "https://ftp.drupal.org/files/projects/fast_404-8.x-3.7.zip",
+                "reference": "8.x-3.7",
+                "shasum": "21917b8747514f38486643e82b5f98b25994fb05"
             },
             "require": {
                 "drupal/core": "^10 || ^11"
@@ -3431,8 +3431,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-3.6",
-                    "datestamp": "1761158307",
+                    "version": "8.x-3.7",
+                    "datestamp": "1768426066",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
