@@ -124,7 +124,7 @@ trait AutoUpdateTrait {
       $git_command = "git commit -m 'Update " . $package . ' to ' . $version . "'";
       $this->taskExec($git_command)->printOutput(TRUE)->run();
     }
-    // composer audit can show vulnerabilities.
+    // Composer audit can show vulnerabilities.
     $exit_code = $this->taskExec('bash -lc "exec composer audit"')
       ->printOutput(TRUE)
       ->run();
