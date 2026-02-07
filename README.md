@@ -360,35 +360,37 @@ assembles it from the Git log.
 
 ## Automatic Deployment to Pantheon
 
-In order to deploy upon every merge automatically using GitHub Actions, you shall:
+### Prerequisites
 
-1. Initiate QA (`qa` branch) multidev environment for the given project.
+The GitHub Actions workflows for automatic deployment are already configured in the repository. You just need to set up the necessary credentials.
+
+### Setup Steps
+
+In order to deploy upon every merge automatically using GitHub Actions:
+
+1. Ensure QA (`qa` branch) multidev environment exists for the given project. This is automatically created during bootstrap, or can be created manually.
 1. Double-check if `./.ddev/providers/pantheon.yaml` contains the proper Pantheon project name.
 1. Get a [Pantheon machine token](https://pantheon.io/docs/machine-tokens) (using a dummy new Pantheon user ideally, one user per project for the sake of security)
 1. Get a GitHub Personal access token. It will be used to post a comment to GitHub to the relevant issue when a merged PR is deployed, so set the expiry date far in the future enough for this.
-1. `ddev robo deploy:config-autodeploy [your terminus token] [your github token]`
-1. `git commit -m "Deployment secrets and configuration"`
-1. Add the public key in `pantheon-key.pub` to the newly created dummy [Pantheon user](https://pantheon.io/docs/ssh-keys)
-1. Set up the following in your GitHub repository settings:
+1. Run the autodeploy configuration command:
+   ```bash
+   ddev robo deploy:config-autodeploy [your terminus token] [your github token]
+   ```
    
-   **GitHub Secrets** (Settings → Secrets and variables → Actions → Secrets):
-   - `TERMINUS_TOKEN`: Your Pantheon machine token
-   - `PANTHEON_DEPLOY_KEY`: The SSH private key for deployment
-   - `GH_TOKEN`: GitHub personal access token for posting deployment comments
-   
-   **GitHub Variables** (Settings → Secrets and variables → Actions → Variables):
-   - `PANTHEON_GIT_URL`: The Pantheon Git URL for your project
-   - `ROLLBAR_SERVER_TOKEN`: Your Rollbar server token (optional)
-   - `DEPLOY_EXCLUDE_WARNING`: Warnings to exclude from deployment notifications (optional)
-   
-1. Actualize `public static string $githubProject = 'Gizra/the-client';` in the `RoboFile.php`.
+   This will generate an SSH key pair. The command will automatically install the [GitHub CLI](https://cli.github.com/) (`gh`) if it's not already available in your DDEV environment, then offer to automatically set up GitHub Secrets and Variables. If installation fails, it will provide manual instructions.
 
-Optionally you can specify which target branch you'd like to push on Pantheon, by default it's `master`, so the target is the DEV environment, but alternatively you can issue:
-`ddev robo deploy:config-autodeploy [your terminus token] [your github token] [pantheon project name] [gh_branch] [pantheon_branch]`
+1. Follow the instructions provided by the command to:
+   - Add the SSH public key (`pantheon-key.pub`) to your [Pantheon account](https://pantheon.io/docs/ssh-keys)
+   - If using automated setup: Confirm when prompted to automatically configure GitHub Secrets and Variables
+   - If setting up manually: Configure GitHub Secrets (TERMINUS_TOKEN, PANTHEON_DEPLOY_KEY, GH_TOKEN) and Variables (PANTHEON_GIT_URL, ROLLBAR_SERVER_TOKEN, DEPLOY_EXCLUDE_WARNING) as instructed
+
+**Note**: If you used the `bootstrap:project` command to create your project, the `$githubProject` variable in `DeploymentTrait.php` is automatically updated with your organization and project name. Otherwise, you'll need to manually update `public static string $githubProject = 'YourOrg/your-project';` in `robo-components/DeploymentTrait.php`.
+
+### Tag-based Deployments
 
 After you have automatic deployment for a project, you are able to deploy to Pantheon `test` and `live` using Git tags.
-`git tag 0.1.2` will imply a deployment to the `test` environment (and `dev` - as enforced by Pantheon).
-`git tag 0.1.2_live` will imply a deployment to `live`. In order to make it fast, you need to first create the tag that deploy to `test`, then you need to tag the same commit with a tag suffixed with `_live`.
+- `git tag 0.1.2` will imply a deployment to the `test` environment (and `dev` - as enforced by Pantheon).
+- `git tag 0.1.2_live` will imply a deployment to `live`. In order to make it fast, you need to first create the tag that deploy to `test`, then you need to tag the same commit with a tag suffixed with `_live`.
 
 ### Excluding Warnings in Deployment
 
