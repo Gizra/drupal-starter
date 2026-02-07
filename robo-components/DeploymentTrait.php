@@ -735,7 +735,7 @@ trait DeploymentTrait {
     // If gh CLI is not available, try to install it.
     if (!$gh_available) {
       $this->say("GitHub CLI (gh) is not installed. Installing it now...");
-      
+
       // Install gh CLI on Ubuntu/Debian.
       $install_commands = [
         'sudo apt-get update -qq',
@@ -746,7 +746,7 @@ trait DeploymentTrait {
         'sudo apt-get update -qq',
         'sudo apt-get install -y -qq gh',
       ];
-      
+
       $install_failed = FALSE;
       foreach ($install_commands as $cmd) {
         $result = $this->taskExec($cmd)->run();
@@ -756,7 +756,7 @@ trait DeploymentTrait {
           break;
         }
       }
-      
+
       if (!$install_failed) {
         $this->say("✓ GitHub CLI installed successfully!");
         $this->say("");
