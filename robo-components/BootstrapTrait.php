@@ -331,6 +331,14 @@ trait BootstrapTrait {
     if ($result !== 0) {
       throw new \Exception('Failed to set the Pantheon QA environment connection mode to Git.');
     }
+
+    $result = $this->taskExec("terminus solr:enable $project_name")
+      ->run()
+      ->getExitCode();
+
+    if ($result !== 0) {
+      throw new \Exception('Failed to enable Solr.');
+    }
   }
 
   /**
