@@ -47,6 +47,9 @@ trait BootstrapTrait {
       ->printOutput(FALSE)
       ->run()
       ->getMessage();
+    // DDEV base image may ship an older terminus with vulnerable deps
+    // that block plugin installation (fixed in 4.1.4+).
+    $this->taskExec('terminus self:update')->run();
     $this->taskExec('terminus self:plugin:install pantheon-systems/terminus-secrets-plugin')->run();
     $this->taskExec("terminus secrets:set $project_name.qa tfa $tfa_secret")->run();
     $this->taskExec("terminus secrets:set $project_name.dev tfa $tfa_secret")->run();
