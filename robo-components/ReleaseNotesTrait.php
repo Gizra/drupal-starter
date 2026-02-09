@@ -64,11 +64,12 @@ trait ReleaseNotesTrait {
     // This is the heart of the release notes, the git history, we get all the
     // commits since the specified last version and later on we parse
     // the output. Optionally we enrich it with metadata from GitHub REST API.
-    $git_command = "git log --pretty=format:'%s¬¬|¬¬%b'";
+    $git_command = "git log --pretty=format:'%s'";
     if (!empty($tag)) {
       $git_command .= " $tag..";
     }
     $log = $this->taskExec($git_command)->printOutput(FALSE)->run()->getMessage();
+    // Each line contains the first line of the commit message.
     $lines = explode("\n", $log);
 
     $this->say('Copy release notes below');
@@ -84,7 +85,7 @@ trait ReleaseNotesTrait {
     $changed_files = 0;
 
     foreach ($lines as $line) {
-      $log_messages = explode("¬¬|¬¬", $line);
+      $issue_number = NULL;
       $pr_matches = [];
 
       // Here we need to handle two cases.
@@ -94,75 +95,49 @@ trait ReleaseNotesTrait {
       // Explanation (#1234)
       preg_match_all('/Merge pull request #([0-9]+)/', $line, $pr_matches);
 
-      if (count($log_messages) < 2) {
-        // No log message at all, not meaningful for changelog.
-        continue;
-      }
       if (!isset($pr_matches[1][0])) {
         // Could not detect PR number or it"s a Squash and Merge.
         $pr_matches = [];
         preg_match_all('!\(#([0-9]+)\)!', $line, $pr_matches);
-        if (!isset($pr_matches[0][0])) {
+        // If we have no pr number, continue.
+        if (!isset($pr_matches[1][0])) {
           continue;
         }
       }
+      else {
+        // In case of simple merges, we get the issue number from the log,
+        // as the issue number is a required part of the branch name.
+        // If we cannot detect it, we still print a less verbose changelog line.
+        $issue_matches = [];
+        preg_match_all('!from [a-zA-Z-_0-9]+/([0-9]+)!', $line, $issue_matches);
 
-      $log_messages[1] = trim(str_replace('* ', '', $log_messages[1]));
+        if (isset($issue_matches[1][0])) {
+          $issue_number = $issue_matches[1][0];
+        }
+      }
 
       $pr_number = $pr_matches[1][0];
+
       if (!empty($github_org) && !empty($github_project)) {
         /** @var \stdClass $pr_details */
         $pr_details = $this->githubApiGet("repos/$github_org/$github_project/pulls/$pr_number");
         if (!empty($pr_details->user)) {
-          if (isset($pr_details->user->type) && $pr_details->user->type === 'Bot') {
-            // Exclude Dependabot merges from release notes.
-            continue;
-          }
           $contributors[] = '@' . $pr_details->user->login;
           $additions += $pr_details->additions;
           $deletions += $pr_details->deletions;
           $changed_files += $pr_details->changed_files;
+        }
+        if (empty($issue_number)) {
+          // Try GraphQL first (linked issues in Development section).
+          $linked_issues = $this->githubGraphQlGetLinkedIssuesFromPr((int) $pr_number, $github_project, $github_org);
+          $issue_number = !empty($linked_issues) ? array_key_first($linked_issues) : NULL;
 
-          if (empty($log_messages[1])) {
-            $log_messages[1] = $pr_details->title;
+          // Fall back to parsing PR body if GraphQL didn't find anything.
+          if (empty($issue_number)) {
+            $issue_number = $this->githubApiGetLinkedIssuesFromPrBody((int) $pr_number, $github_project, $github_org);
           }
         }
-      }
-
-      if (empty($log_messages[1])) {
-        // Whitespace-only log message, not meaningful for changelog.
-        continue;
-      }
-
-      // The issue number is a required part of the branch name,
-      // So usually we can grab it from the log too, but that's optional
-      // If we cannot detect it, we still print a less verbose changelog line.
-      $issue_matches = [];
-      preg_match_all('!from [a-zA-Z-_0-9]+/([0-9]+)!', $line, $issue_matches);
-
-      if (isset($issue_matches[1][0])) {
-        $issue_number = $issue_matches[1][0];
-      }
-      else {
-        // Retrieve the issue number from the PR description via GitHub API.
-        $pr = NULL;
-        if (!empty($github_project) && !empty($github_org)) {
-          $pr = $this->githubApiGet("repos/$github_org/$github_project/pulls/$pr_number");
-        }
-        if (!isset($pr->body)) {
-          $no_issue_lines[] = "- $log_messages[1] (#$pr_number)";
-          continue;
-        }
-        preg_match_all('!#([0-9]+)!', $pr->body, $issue_matches);
-        if (!isset($issue_matches[1][0])) {
-          $no_issue_lines[] = "- $log_messages[1] (#$pr_number)";
-          continue;
-        }
-        $issue_number = $issue_matches[1][0];
-      }
-
-      if (!empty($issue_number)) {
-        if (!isset($issue_titles[$issue_number]) && !empty($github_org) && !empty($github_project)) {
+        if (!empty($issue_number) && !isset($issue_titles[$issue_number])) {
           /** @var \stdClass $issue_details */
           $issue_details = $this->githubApiGet("repos/$github_org/$github_project/issues/$issue_number");
           if (!empty($issue_details->title)) {
@@ -170,21 +145,26 @@ trait ReleaseNotesTrait {
             $contributors[] = '@' . $issue_details->user->login;
           }
         }
+      }
 
-        if (isset($issue_titles[$issue_number])) {
-          $issue_line = "- $issue_titles[$issue_number] (#$issue_number)";
+      if (empty($issue_number)) {
+        if (!empty($pr_number)) {
+          $no_issue_lines[] = "- PR #$pr_number";
         }
-        else {
-          $issue_line = "- Issue #$issue_number";
-        }
-        if (!isset($pull_requests_per_issue[$issue_line])) {
-          $pull_requests_per_issue[$issue_line] = [];
-        }
-        $pull_requests_per_issue[$issue_line][] = "  - $log_messages[1] (#{$pr_matches[1][0]})";
+        continue;
+      }
+
+      if (isset($issue_titles[$issue_number])) {
+        $issue_line = "- $issue_titles[$issue_number] (#$issue_number)";
       }
       else {
-        $no_issue_lines[] = "- $log_messages[1] (#$pr_number)";
+        $issue_line = "- Issue #$issue_number";
       }
+      if (!isset($pull_requests_per_issue[$issue_line])) {
+        $pull_requests_per_issue[$issue_line] = [];
+      }
+      $pull_requests_per_issue[$issue_line][] = "  - $line";
+
     }
 
     foreach ($pull_requests_per_issue as $issue_line => $pr_lines) {
@@ -276,7 +256,6 @@ trait ReleaseNotesTrait {
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
     $result = curl_exec($ch);
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
     $result = empty($result) ? NULL : json_decode($result);
     if ($http_code == 404) {
       throw new \Exception("404 Not Found error encountered while requesting the API path $path. The path either does not exist, or your token does not have sufficient permissions as Github API returns 404 instead of 403. Details: \n" . print_r($result, TRUE));
@@ -285,6 +264,140 @@ trait ReleaseNotesTrait {
       throw new \Exception("Error: $http_code - Failed to request the API path $path:\n" . print_r($result, TRUE));
     }
     return $result;
+  }
+
+  /**
+   * Get linked issues from a Pull Request using GitHub's Development links.
+   *
+   * This function uses GitHub's GraphQL API to fetch issues that are
+   * formally linked to the PR via the "Development" section
+   * (closingIssuesReferences).
+   *
+   * @param int $pr_number
+   *   The pull request number.
+   * @param string $repo
+   *   Github repo name.
+   * @param string $owner
+   *   Github user/organization name.
+   *
+   * @return array
+   *   An array of linked issues with 'number' and 'title' keys.
+   */
+  protected function githubGraphQlGetLinkedIssuesFromPr(int $pr_number, string $repo, string $owner): array {
+    $token = getenv('GITHUB_ACCESS_TOKEN');
+    if (empty($token)) {
+      return [];
+    }
+
+    $query = <<<'GRAPHQL'
+query($owner: String!, $repo: String!, $pr: Int!) {
+  repository(owner: $owner, name: $repo) {
+    pullRequest(number: $pr) {
+      closingIssuesReferences(first: 50) {
+        nodes {
+          number
+          title
+          repository {
+            name
+            owner {
+              login
+            }
+          }
+        }
+      }
+    }
+  }
+}
+GRAPHQL;
+
+    $payload = json_encode([
+      'query' => $query,
+      'variables' => [
+        'owner' => $owner,
+        'repo' => $repo,
+        'pr' => $pr_number,
+      ],
+    ]);
+
+    $ch = curl_init('https://api.github.com/graphql');
+    curl_setopt($ch, CURLOPT_USERAGENT, 'Drupal Starter Release Notes Generator');
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+      'Authorization: bearer ' . $token,
+      'Content-Type: application/json',
+    ]);
+    curl_setopt($ch, CURLOPT_POST, TRUE);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+
+    $result = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    if ($http_code !== 200 || empty($result)) {
+      return [];
+    }
+
+    $data = json_decode($result, TRUE);
+    $linked_issues = $data['data']['repository']['pullRequest']['closingIssuesReferences']['nodes'] ?? [];
+
+    $issues = [];
+    foreach ($linked_issues as $linked_issue) {
+      // Only include issues from the same repository.
+      $issue_repo = $linked_issue['repository']['name'] ?? '';
+      $issue_owner = $linked_issue['repository']['owner']['login'] ?? '';
+      if ($issue_repo !== $repo || $issue_owner !== $owner) {
+        continue;
+      }
+
+      $issue_number = $linked_issue['number'];
+      $issues[$issue_number] = [
+        'number' => $issue_number,
+        'title' => $linked_issue['title'] ?? '',
+      ];
+    }
+
+    return $issues;
+  }
+
+  /**
+   * Get linked issue from a Pull Request by parsing the PR body.
+   *
+   * This function uses GitHub's REST API to fetch the PR details and then
+   * parses the body to find issue references (e.g., #123 or "Fixes repo#123").
+   *
+   * @param int $pr_number
+   *   The pull request number.
+   * @param string $repo
+   *   Github repo name.
+   * @param string $owner
+   *   Github user/organization name.
+   *
+   * @return string|null
+   *   The issue number as a string, or NULL if not found.
+   */
+  protected function githubApiGetLinkedIssuesFromPrBody(int $pr_number, string $repo, string $owner): ?string {
+    $pr = $this->githubApiGet("repos/$owner/$repo/pulls/$pr_number");
+
+    if (!isset($pr->body)) {
+      return NULL;
+    }
+
+    $issue_matches = [];
+
+    // First try the specific "Fixes" pattern which explicitly indicates issue
+    // linkage.
+    preg_match_all('!Fixes .+#([0-9]+)!', $pr->body, $issue_matches);
+    if (isset($issue_matches[1][0])) {
+      return $issue_matches[1][0];
+    }
+
+    // Fall back to simple issue reference pattern.
+    preg_match_all('!#([0-9]+)!', $pr->body, $issue_matches);
+    if (isset($issue_matches[1][0])) {
+      return $issue_matches[1][0];
+    }
+
+    return NULL;
   }
 
 }
