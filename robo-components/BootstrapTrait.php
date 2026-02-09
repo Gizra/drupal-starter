@@ -111,9 +111,10 @@ trait BootstrapTrait {
       ->to("$github_organization/$github_repo_name")
       ->run();
 
+    $ddev_project_name = $this->sanitizeForHostname($github_repo_name);
     $this->taskReplaceInFile('.bootstrap/.ddev/config.yaml')
       ->from('drupal-starter')
-      ->to($github_repo_name)
+      ->to($ddev_project_name)
       ->run();
 
     $this->taskReplaceInFile('.bootstrap/.ddev/config.yaml')
@@ -451,6 +452,33 @@ trait BootstrapTrait {
     if (!preg_match('/^[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]$|^[a-zA-Z0-9]$/', $site_name)) {
       throw new \Exception("The site name '$site_name' can only contain a-z, A-Z, 0-9, and dashes, and cannot begin or end with a dash.");
     }
+  }
+
+  /**
+   * Sanitizes a string into a valid hostname for use as a DDEV project name.
+   *
+   * @param string $name
+   *   The raw name (e.g. a GitHub repo name).
+   *
+   * @return string
+   *   A hostname-safe string.
+   *
+   * @throws \Exception
+   *   If the name is empty after sanitization.
+   */
+  protected function sanitizeForHostname(string $name): string {
+    $name = strtolower($name);
+    // Replace any character that isn't alphanumeric or a hyphen.
+    $name = preg_replace('/[^a-z0-9-]/', '-', $name);
+    // Collapse consecutive hyphens.
+    $name = preg_replace('/-+/', '-', $name);
+    $name = trim($name, '-');
+
+    if ($name === '') {
+      throw new \Exception("The repository name results in an empty DDEV project name after sanitization.");
+    }
+
+    return $name;
   }
 
 }
