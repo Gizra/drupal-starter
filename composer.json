@@ -15,7 +15,26 @@
         },
         {
             "type": "composer",
-            "url": "https://asset-packagist.org"
+            "url": "https://asset-packagist.org",
+            "exclude": ["npm-asset/slick-carousel"]
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "npm-asset/slick-carousel",
+                "version": "dev-master",
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/kenwheeler/slick.git",
+                    "reference": "ecb6ea2345650a5769e81aee46bec10504ac2a36"
+                },
+                "dist": {
+                    "type": "zip",
+                    "url": "https://api.github.com/repos/kenwheeler/slick/zipball/ecb6ea2345650a5769e81aee46bec10504ac2a36"
+                },
+                "type": "npm-asset",
+                "license": ["MIT"]
+            }
         }
     ],
     "require": {
@@ -90,7 +109,7 @@
         "mglaman/phpstan-drupal": "^2.0",
         "npm-asset/anchor-js": "^5.0",
         "npm-asset/select2": "^4.0",
-        "npm-asset/slick-carousel": "^1.8",
+        "npm-asset/slick-carousel": "dev-master#ecb6ea2345650a5769e81aee46bec10504ac2a36",
         "oomphinc/composer-installers-extender": "^2.0",
         "pantheon-systems/drupal-integrations": "^11",
         "phpstan/phpstan-deprecation-rules": "^2.0",
