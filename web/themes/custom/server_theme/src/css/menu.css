@@ -6,9 +6,6 @@
 .main-menu-wrapper {
   @apply flex transform opacity-0 -translate-y-full transition-all duration-500;
 
-  top: var(--drupal-displace-offset-top);
-  height: calc(100dvh - var(--drupal-displace-offset-top));
-
   .js-menu-open & {
     @apply translate-y-0 opacity-100;
   }
