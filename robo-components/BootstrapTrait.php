@@ -339,6 +339,15 @@ trait BootstrapTrait {
     if ($result !== 0) {
       throw new \Exception('Failed to enable Solr.');
     }
+
+    $result = $this->taskExec("terminus redis:enable $project_name")
+      ->run()
+      ->getExitCode();
+
+    if ($result !== 0) {
+      throw new \Exception('Failed to enable Redis.');
+    }
+
   }
 
   /**
