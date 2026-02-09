@@ -342,13 +342,7 @@ GRAPHQL;
 
     $issues = [];
     foreach ($linked_issues as $linked_issue) {
-      // Only include issues from the same repository.
-      $issue_repo = $linked_issue['repository']['name'] ?? '';
-      $issue_owner = $linked_issue['repository']['owner']['login'] ?? '';
-      if ($issue_repo !== $repo || $issue_owner !== $owner) {
-        continue;
-      }
-
+      // Linked issues can be only from same repository.
       $issue_number = $linked_issue['number'];
       $issues[$issue_number] = [
         'number' => $issue_number,
