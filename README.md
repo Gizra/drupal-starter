@@ -90,7 +90,7 @@ This is used only for watching Tailwind styles, it's not compiling js, images, e
 On the local development environment, which is using TailWind's [JIT](https://tailwindcss.com/docs/just-in-time-mode) (Just-In-Time), execute:
 
 ```bash
-ddev theme-watch
+ddev theme:watch
 ```
 
 This will compile Tailwind and keep watching for any changes.
