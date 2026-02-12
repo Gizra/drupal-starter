@@ -375,12 +375,24 @@ function server_general_page_attachments(array &$attachments) {
     $attachments['#attached']['html_head'][] = [$noindex_tag, 'noindex_error_pages'];
   }
 
-  // Attach file size validation library and settings for client-side
-  // validation of file uploads.
-  $attachments['#attached']['library'][] = 'server_theme/file-size-validation';
+  // Attach file size validation settings for client-side validation of file
+  // uploads. The library itself is loaded via hook_library_info_alter() as a
+  // dependency of core's drupal.file, ensuring our change handler fires before
+  // core's auto-upload handler.
   $attachments['#attached']['drupalSettings']['fileSizeValidation'] = [
     'maxFileSize' => server_general_get_max_upload_size(),
   ];
+}
+
+/**
+ * Implements hook_library_info_alter().
+ */
+function server_general_library_info_alter(&$libraries, $extension) {
+  // Make our file size validation library load before core's file JS, so our
+  // change event handler is registered first and can prevent the upload.
+  if ($extension === 'file' && isset($libraries['drupal.file'])) {
+    $libraries['drupal.file']['dependencies'][] = 'server_theme/file-size-validation';
+  }
 }
 
 /**
