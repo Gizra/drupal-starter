@@ -403,8 +403,12 @@ function server_general_element_info_alter(array &$info): void {
  * PHP limit and the configured field limit).
  */
 function server_general_managed_file_process(array &$element, FormStateInterface &$form_state, array &$form): array {
+  // D10.2+ uses 'FileSizeLimit', earlier versions use 'file_validate_size'.
   if (isset($element['#upload_validators']['FileSizeLimit']['fileLimit'])) {
     $element['upload']['#attributes']['data-max-filesize'] = (int) $element['#upload_validators']['FileSizeLimit']['fileLimit'];
+  }
+  elseif (isset($element['#upload_validators']['file_validate_size'][0])) {
+    $element['upload']['#attributes']['data-max-filesize'] = (int) $element['#upload_validators']['file_validate_size'][0];
   }
   return $element;
 }
