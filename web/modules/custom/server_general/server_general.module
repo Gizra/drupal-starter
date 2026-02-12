@@ -385,6 +385,31 @@ function server_general_page_attachments(array &$attachments) {
 }
 
 /**
+ * Implements hook_element_info_alter().
+ */
+function server_general_element_info_alter(array &$info): void {
+  // Add a process callback to managed_file elements to pass the per-field
+  // file size limit to the client as a data attribute.
+  if (isset($info['managed_file'])) {
+    $info['managed_file']['#process'][] = 'server_general_managed_file_process';
+  }
+}
+
+/**
+ * Process callback for managed_file elements.
+ *
+ * Adds a data-max-filesize attribute to the upload input so client-side
+ * validation can use the per-field limit (which is already the min of the
+ * PHP limit and the configured field limit).
+ */
+function server_general_managed_file_process(array &$element, FormStateInterface &$form_state, array &$form): array {
+  if (isset($element['#upload_validators']['FileSizeLimit']['fileLimit'])) {
+    $element['upload']['#attributes']['data-max-filesize'] = (int) $element['#upload_validators']['FileSizeLimit']['fileLimit'];
+  }
+  return $element;
+}
+
+/**
  * Implements hook_library_info_alter().
  */
 function server_general_library_info_alter(array &$libraries, string $extension): void {

@@ -35,6 +35,11 @@
           return;
         }
 
+        // Use per-field limit if available (min of PHP and field config),
+        // otherwise fall back to the global PHP limit.
+        const fieldLimit = parseInt(input.getAttribute('data-max-filesize'), 10);
+        const effectiveMax = fieldLimit > 0 ? fieldLimit : maxFileSize;
+
         // Remove any previous file size errors.
         $(input)
           .closest('div.js-form-managed-file, .form-item')
@@ -44,9 +49,9 @@
         // Check each file's size.
         for (let i = 0; i < files.length; i++) {
           const file = files[i];
-          if (file.size > maxFileSize) {
+          if (file.size > effectiveMax) {
             const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
-            const maxSizeMB = (maxFileSize / (1024 * 1024)).toFixed(0);
+            const maxSizeMB = (effectiveMax / (1024 * 1024)).toFixed(0);
 
             const error = Drupal.t(
               'The file "@filename" (@filesize MB) exceeds the maximum upload size of @maxsize MB. Please choose a smaller file.',
