@@ -138,8 +138,16 @@ trait ReleaseNotesTrait {
           }
         }
         if (!empty($issue_number) && !isset($issue_titles[$issue_number])) {
-          /** @var \stdClass $issue_details */
-          $issue_details = $this->githubApiGet("repos/$github_org/$github_project/issues/$issue_number");
+          try {
+            /** @var \stdClass $issue_details */
+            $issue_details = $this->githubApiGet("repos/$github_org/$github_project/issues/$issue_number");
+          }
+          catch (\Exception $exception) {
+            // Wrong issue number, most likely due to dependabot links to
+            // different repos in the PR body.
+            $issue_details = NULL;
+            $issue_number = NULL;
+          }
           if (!empty($issue_details->title)) {
             $issue_titles[$issue_number] = $issue_details->title;
             $contributors[] = '@' . $issue_details->user->login;
