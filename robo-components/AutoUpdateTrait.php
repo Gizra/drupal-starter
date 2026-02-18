@@ -125,7 +125,7 @@ trait AutoUpdateTrait {
       $this->taskExec($git_command)->printOutput(TRUE)->run();
     }
     // Composer audit can show vulnerabilities.
-    $exit_code = $this->taskExec('bash -lc "exec composer audit"')
+    $exit_code = $this->taskExec('composer audit')
       ->printOutput(TRUE)
       ->run();
     $this->yell("Now run ddev drush updb manually!");
