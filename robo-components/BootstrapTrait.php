@@ -49,7 +49,10 @@ trait BootstrapTrait {
       ->getMessage();
     // DDEV base image may ship an older terminus with vulnerable deps
     // that block plugin installation (fixed in 4.1.4+).
-    $this->taskExec('terminus self:update')->run();
+    $update_result = $this->taskExec('terminus self:update')->run();
+    if ($update_result->getExitCode() !== 0) {
+      $this->say("Warning: terminus self:update failed; plugin install may fail if terminus is outdated.");
+    }
     $this->taskExec('terminus self:plugin:install pantheon-systems/terminus-secrets-plugin')->run();
     $this->taskExec("terminus secrets:set $project_name.qa tfa $tfa_secret")->run();
     $this->taskExec("terminus secrets:set $project_name.dev tfa $tfa_secret")->run();
@@ -449,8 +452,8 @@ trait BootstrapTrait {
     if (strlen($site_name) >= 52) {
       throw new \Exception("The site name '$site_name' must be fewer than 52 characters.");
     }
-    if (!preg_match('/^[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]$|^[a-zA-Z0-9]$/', $site_name)) {
-      throw new \Exception("The site name '$site_name' can only contain a-z, A-Z, 0-9, and dashes, and cannot begin or end with a dash.");
+    if (!preg_match('/^[a-z0-9][a-z0-9-]*[a-z0-9]$|^[a-z0-9]$/', $site_name)) {
+      throw new \Exception("The site name '$site_name' can only contain a-z, 0-9, and dashes, and cannot begin or end with a dash.");
     }
   }
 

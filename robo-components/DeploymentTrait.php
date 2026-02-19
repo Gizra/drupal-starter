@@ -726,43 +726,7 @@ trait DeploymentTrait {
     $this->say("The project was prepared for automatic deployment to Pantheon using GitHub Actions");
     $this->say("");
 
-    // Check if gh CLI is available.
-    $gh_available = $this->taskExec('which gh')
-      ->printOutput(FALSE)
-      ->run()
-      ->wasSuccessful();
-
-    // If gh CLI is not available, try to install it.
-    if (!$gh_available) {
-      $this->say("GitHub CLI (gh) is not installed. Installing it now...");
-
-      // Install gh CLI on Ubuntu/Debian.
-      $install_commands = [
-        'sudo apt-get update -qq',
-        'sudo apt-get install -y -qq curl',
-        'curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg 2>/dev/null',
-        'sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg',
-        'echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null',
-        'sudo apt-get update -qq',
-        'sudo apt-get install -y -qq gh',
-      ];
-
-      $install_failed = FALSE;
-      foreach ($install_commands as $cmd) {
-        $result = $this->taskExec($cmd)->run();
-        if (!$result->wasSuccessful()) {
-          $this->say("Warning: Failed to install gh CLI automatically.");
-          $install_failed = TRUE;
-          break;
-        }
-      }
-
-      if (!$install_failed) {
-        $this->say("✓ GitHub CLI installed successfully!");
-        $this->say("");
-        $gh_available = TRUE;
-      }
-    }
+    $gh_available = $this->deployInstallGhCli();
 
     if ($gh_available) {
       $this->say("GitHub Secrets and Variables can be set automatically using gh CLI.");
@@ -823,6 +787,50 @@ trait DeploymentTrait {
     $this->say("3. Ensure nested docroot is configured: https://pantheon.io/docs/nested-docroot");
     $this->say("");
     $this->say("For more details, see the 'Automatic Deployment to Pantheon' section in README.md");
+  }
+
+  /**
+   * Ensures GitHub CLI (gh) is available, installing it if necessary.
+   *
+   * Can be run standalone to verify or install gh CLI:
+   *   ddev robo deploy:install-gh-cli.
+   *
+   * @return bool
+   *   TRUE if gh CLI is available after this call, FALSE otherwise.
+   */
+  public function deployInstallGhCli(): bool {
+    $gh_available = $this->taskExec('which gh')
+      ->printOutput(FALSE)
+      ->run()
+      ->wasSuccessful();
+
+    if ($gh_available) {
+      return TRUE;
+    }
+
+    $this->say("GitHub CLI (gh) is not installed. Installing it now...");
+
+    // Install gh CLI on Ubuntu/Debian (the DDEV web container OS).
+    $install_commands = [
+      'sudo apt-get update -qq',
+      'sudo apt-get install -y -qq curl',
+      'curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg 2>/dev/null',
+      'sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg',
+      'echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null',
+      'sudo apt-get update -qq',
+      'sudo apt-get install -y -qq gh',
+    ];
+
+    foreach ($install_commands as $cmd) {
+      $result = $this->taskExec($cmd)->run();
+      if (!$result->wasSuccessful()) {
+        $this->say("Warning: Failed to install gh CLI automatically.");
+        return FALSE;
+      }
+    }
+
+    $this->say("GitHub CLI installed successfully!");
+    return TRUE;
   }
 
   /**
