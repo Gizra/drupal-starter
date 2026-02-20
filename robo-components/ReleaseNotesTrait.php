@@ -157,7 +157,11 @@ trait ReleaseNotesTrait {
 
       if (empty($issue_number)) {
         if (!empty($pr_number)) {
-          $no_issue_lines[] = "- PR #$pr_number - $pr_details->title";
+          $no_issue_line = "- PR #$pr_number";
+          if (!empty($pr_details->title)) {
+            $no_issue_line .= " - $pr_details->title";
+          }
+          $no_issue_lines[] = $no_issue_line;
         }
         continue;
       }
