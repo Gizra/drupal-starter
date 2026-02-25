@@ -19,13 +19,19 @@ trait AutoUpdateTrait {
       throw new \Exception("The update module should be installed in order to run this command.");
     }
     $this->say("Update module is installed, checking status of projects.");
-    $this->say("In case of some errors manually loading /admin/reports/updates can help.");
+
+    // Change to web directory since Drupal extension paths are relative to it.
+    $original_dir = getcwd();
+    chdir($original_dir . '/web');
 
     if (!($available = update_get_available(TRUE))) {
       $this->say("Cannot fetch info about the releases.");
     }
     \Drupal::moduleHandler()->loadInclude('update', 'compare.inc');
     $data = update_calculate_project_data($available);
+
+    // Change back to original directory for composer commands.
+    chdir($original_dir);
     foreach ($data as $project) {
       if (!isset($project['recommended'])) {
         $this->yell('No recommended version is set for ' . $project['name']);
