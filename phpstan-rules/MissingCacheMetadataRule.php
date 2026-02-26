@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\PHPStan\Custom;
 
+use Node\Expr\Assign;
+use Node\Expr\Variable;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
@@ -232,10 +234,10 @@ class MissingCacheMetadataRule implements Rule {
    * These are the entry points where entities come into the method from the
    * database and may need cache dependency tracking.
    *
-   * @param MethodCall[] $allMethodCalls
+   * @param \PhpParser\Node\Expr\MethodCall[] $allMethodCalls
    *   All method calls in the method body.
    *
-   * @return MethodCall[]
+   * @return \PhpParser\Node\Expr\MethodCall[]
    *   Entity loading method calls found.
    */
   private function findEntityLoadCalls(array $allMethodCalls): array {
@@ -267,9 +269,9 @@ class MissingCacheMetadataRule implements Rule {
    *   $items = $field->referencedEntities();           // line 30
    *   $build['titles'] = array_map(fn($i) => $i->label(), $items); // line 31
    *
-   * @param MethodCall[] $allMethodCalls
+   * @param \PhpParser\Node\Expr\MethodCall[] $allMethodCalls
    *   All method calls in the method body.
-   * @param MethodCall[] $entityLoadCalls
+   * @param \PhpParser\Node\Expr\MethodCall[] $entityLoadCalls
    *   The entity load calls found.
    *
    * @return bool
@@ -335,7 +337,7 @@ class MissingCacheMetadataRule implements Rule {
    *
    * @param \PhpParser\Node\Stmt\ClassMethod $method
    *   The method node.
-   * @param MethodCall[] $entityLoadCalls
+   * @param \PhpParser\Node\Expr\MethodCall[] $entityLoadCalls
    *   The entity load calls.
    * @param \PhpParser\NodeFinder $nodeFinder
    *   The node finder.
@@ -362,11 +364,11 @@ class MissingCacheMetadataRule implements Rule {
       $trackedVars = [$assignedVar];
       $foreachNodes = $nodeFinder->findInstanceOf($method->stmts, Foreach_::class);
       foreach ($foreachNodes as $foreach) {
-        if ($foreach->expr instanceof Node\Expr\Variable
-            && is_string($foreach->expr->name)
+        if ($foreach->expr instanceof
+        Variable            && is_string($foreach->expr->name)
             && $foreach->expr->name === $assignedVar
-            && $foreach->valueVar instanceof Node\Expr\Variable
-            && is_string($foreach->valueVar->name)
+            && $foreach->valueVar instanceof
+        Variable            && is_string($foreach->valueVar->name)
         ) {
           // This foreach iterates over our loaded collection, so its value
           // variable holds individual loaded entities.
@@ -425,13 +427,13 @@ class MissingCacheMetadataRule implements Rule {
    *   variable (e.g. it's used inline or in a complex expression).
    */
   private function findAssignedVariable(MethodCall $loadCall, NodeFinder $nodeFinder, ClassMethod $method): ?string {
-    $assigns = $nodeFinder->findInstanceOf($method->stmts, Node\Expr\Assign::class);
+    $assigns = $nodeFinder->findInstanceOf($method->stmts, Assign::class);
     foreach ($assigns as $assign) {
-      if (!$assign instanceof Node\Expr\Assign) {
+      if (!$assign instanceof Assign) {
         continue;
       }
       // Match: the right side of the assignment is our exact load call node.
-      if ($assign->expr === $loadCall && $assign->var instanceof Node\Expr\Variable) {
+      if ($assign->expr === $loadCall && $assign->var instanceof Variable) {
         $name = $assign->var->name;
         return is_string($name) ? $name : NULL;
       }
@@ -444,7 +446,7 @@ class MissingCacheMetadataRule implements Rule {
    *
    * This matches patterns like:
    *   $tags->method()       — direct call on the collection variable
-   *   $tag->method()        — call on a foreach loop variable
+   *   $tag->method()        — call on a foreach loop variable.
    *
    * This is a name-based heuristic. It doesn't do full data-flow analysis,
    * so a local variable with the same name but different origin would match.
@@ -459,7 +461,7 @@ class MissingCacheMetadataRule implements Rule {
    *   TRUE if the method call is on one of the tracked variables.
    */
   private function isCallOnVariables(MethodCall $call, array $varNames): bool {
-    if ($call->var instanceof Node\Expr\Variable) {
+    if ($call->var instanceof Variable) {
       $callVarName = $call->var->name;
       if (is_string($callVarName) && in_array($callVarName, $varNames, TRUE)) {
         return TRUE;
@@ -479,7 +481,7 @@ class MissingCacheMetadataRule implements Rule {
    * entity load but miss another. This is a deliberate trade-off to avoid
    * false positives. The skill-based audit catches these nuanced cases.
    *
-   * @param MethodCall[] $allMethodCalls
+   * @param \PhpParser\Node\Expr\MethodCall[] $allMethodCalls
    *   All method calls in the method body.
    *
    * @return bool
