@@ -365,16 +365,18 @@ class MissingCacheMetadataRule implements Rule {
       $trackedVars = [$assignedVar];
       $foreachNodes = $nodeFinder->findInstanceOf($method->stmts, Foreach_::class);
       foreach ($foreachNodes as $foreach) {
-        if ($foreach->expr instanceof
-        Variable            && is_string($foreach->expr->name)
-            && $foreach->expr->name === $assignedVar
-            && $foreach->valueVar instanceof
-        Variable            && is_string($foreach->valueVar->name)
-        ) {
-          // This foreach iterates over our loaded collection, so its value
-          // variable holds individual loaded entities.
-          $trackedVars[] = $foreach->valueVar->name;
+        if (!($foreach->expr instanceof Variable) || !is_string($foreach->expr->name)) {
+          continue;
         }
+        if (!($foreach->valueVar instanceof Variable) || !is_string($foreach->valueVar->name)) {
+          continue;
+        }
+        if ($foreach->expr->name !== $assignedVar) {
+          continue;
+        }
+        // This foreach iterates over our loaded collection, so its value
+        // variable holds individual loaded entities.
+        $trackedVars[] = $foreach->valueVar->name;
       }
 
       // Step 3: Scan all method calls in the body. For any call on a tracked
