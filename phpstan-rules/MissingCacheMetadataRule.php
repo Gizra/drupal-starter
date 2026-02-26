@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\PHPStan\Custom;
 
-use Node\Expr\Assign;
-use Node\Expr\Variable;
+use PhpParser\Node\Expr\Assign;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
