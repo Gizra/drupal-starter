@@ -132,7 +132,7 @@ class MissingCacheMetadataRule implements Rule {
    * 1. Is this a build*() method in an EntityViewBuilder? (skip if not)
    * 2. Does it call any entity loading method? (skip if not)
    * 3. Are all loads passed to safe delegating methods? (skip if yes)
-   * 4. Are loaded entities only accessed for immutable properties? (skip if yes)
+   * 4. Are loaded entities only accessed for immutable props? (skip if yes)
    * 5. Is CacheableMetadata already used? (skip if yes)
    * 6. If none of the above → report error.
    */
@@ -172,7 +172,7 @@ class MissingCacheMetadataRule implements Rule {
 
     // Gate 3: Are all entity loads followed by a safe delegating method?
     // e.g. $entities = $field->referencedEntities();
-    //      $this->buildEntities($entities, ...);
+    // $this->buildEntities($entities, ...);
     // buildEntities() handles cache metadata internally, so this is safe.
     if ($this->allLoadsAreSafeDelegated($allMethodCalls, $entityLoadCalls)) {
       return [];
@@ -180,8 +180,9 @@ class MissingCacheMetadataRule implements Rule {
 
     // Gate 4: Are loaded entities only used for immutable property reads?
     // e.g. $tags = $field->referencedEntities();
-    //      foreach ($tags as $tag) { $ids[] = $tag->id(); }
-    // Reading id()/bundle() never produces stale output, so no cache dep needed.
+    // foreach ($tags as $tag) { $ids[] = $tag->id(); }
+    // Reading id()/bundle() never produces stale output,
+    // so no cache dep needed.
     if ($this->onlyImmutableAccess($node, $entityLoadCalls, $nodeFinder)) {
       return [];
     }
