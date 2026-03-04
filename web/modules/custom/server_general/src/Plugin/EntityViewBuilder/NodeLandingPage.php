@@ -2,6 +2,7 @@
 
 namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\node\NodeInterface;
 use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
 use Drupal\server_general\ThemeTrait\TitleAndLabelsThemeTrait;
@@ -42,13 +43,15 @@ class NodeLandingPage extends NodeViewBuilderAbstract {
     /** @var \Drupal\Core\Field\EntityReferenceFieldItemListInterface $paragraphs */
     $paragraphs = $entity->get('field_paragraphs');
     // Paragraphs.
-    $element = $this->buildReferencedEntities($paragraphs);
+    $cache_metadata = CacheableMetadata::createFromRenderArray($build);
+    $element = $this->buildReferencedEntities($cache_metadata, $paragraphs);
     $elements[] = $this->wrapContainerVerticalSpacingBig($element);
 
     $elements = $this->wrapContainerVerticalSpacingBig($elements);
     // Add bottom padding, so there's some padding between all the paragraphs
     // and the footer.
     $build[] = $this->wrapConditionalContainerBottomPadding($elements, $paragraphs);
+    $cache_metadata->applyTo($build);
 
     return $build;
   }

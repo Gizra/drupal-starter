@@ -2,6 +2,7 @@
 
 namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
 use Drupal\server_general\ButtonTrait;
@@ -44,15 +45,17 @@ class ParagraphRelatedContent extends EntityViewBuilderPluginAbstract {
     $is_featured = $this->getBooleanFieldValue($entity, 'field_is_featured');
     $view_mode = $is_featured ? 'featured' : 'teaser';
 
+    $cache_metadata = CacheableMetadata::createFromRenderArray($build);
     $element = $this->buildElementCarousel(
       $this->getTextFieldValue($entity, 'field_title'),
       $this->buildProcessedText($entity, 'field_body'),
-      $this->buildReferencedEntities($related_content, $view_mode),
+      $this->buildReferencedEntities($cache_metadata, $related_content, $view_mode),
       $is_featured,
       $this->buildLinkButton($entity),
       TRUE,
     );
     $build[] = $element;
+    $cache_metadata->applyTo($build);
 
     return $build;
   }

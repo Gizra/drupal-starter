@@ -2,6 +2,7 @@
 
 namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
 use Drupal\server_general\ProcessedTextBuilderTrait;
@@ -36,7 +37,8 @@ class ParagraphDocuments extends EntityViewBuilderPluginAbstract {
     // Documents.
     /** @var \Drupal\Core\Field\EntityReferenceFieldItemListInterface $items */
     $items = $entity->get('field_documents');
-    $items = $this->buildReferencedEntities($items, 'card', $entity->language()->getId());
+    $cache_metadata = CacheableMetadata::createFromRenderArray($build);
+    $items = $this->buildReferencedEntities($cache_metadata, $items, 'card', $entity->language()->getId());
 
     $element = $this->buildElementDocuments(
       $this->getTextFieldValue($entity, 'field_title'),
@@ -45,6 +47,7 @@ class ParagraphDocuments extends EntityViewBuilderPluginAbstract {
     );
 
     $build[] = $element;
+    $cache_metadata->applyTo($build);
 
     return $build;
   }

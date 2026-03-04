@@ -2,6 +2,7 @@
 
 namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\media\MediaInterface;
 use Drupal\node\NodeInterface;
 use Drupal\server_general\EntityViewBuilder\NodeViewBuilderAbstract;
@@ -60,13 +61,14 @@ class NodeNews extends NodeViewBuilderAbstract {
    *   Render array.
    */
   public function buildFull(array $build, NodeInterface $entity) {
+    $cacheable_metadata = CacheableMetadata::createFromRenderArray($build);
     // The node's label.
     $node_type = $this->entityTypeManager->getStorage('node_type')->load($entity->bundle());
     $label = $node_type->label();
 
     // The hero responsive image.
     $medias = $entity->get('field_featured_image')->referencedEntities();
-    $image = $this->buildEntities($medias, 'hero');
+    $image = $this->buildEntities($cacheable_metadata, $medias, 'hero', NULL);
 
     $element = $this->buildElementNodeNews(
       $entity->label(),
@@ -79,6 +81,7 @@ class NodeNews extends NodeViewBuilderAbstract {
     );
 
     $build[] = $element;
+    $cacheable_metadata->applyTo($build);
 
     return $build;
   }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
 use Drupal\server_general\ProcessedTextBuilderTrait;
@@ -39,7 +40,8 @@ class ParagraphInfoCards extends EntityViewBuilderPluginAbstract {
   public function buildFull(array $build, ParagraphInterface $entity): array {
     /** @var \Drupal\Core\Field\EntityReferenceFieldItemListInterface $paragraphs */
     $paragraphs = $entity->get('field_info_cards');
-    $items = $this->buildReferencedEntities($paragraphs, 'full', $entity->language()->getId());
+    $cache_metadata = CacheableMetadata::createFromRenderArray($build);
+    $items = $this->buildReferencedEntities($cache_metadata, $paragraphs, 'full', $entity->language()->getId());
 
     $element = $this->buildElementInfoCards(
       $this->getTextFieldValue($entity, 'field_title'),
@@ -48,6 +50,7 @@ class ParagraphInfoCards extends EntityViewBuilderPluginAbstract {
     );
 
     $build[] = $element;
+    $cache_metadata->applyTo($build);
 
     return $build;
   }
