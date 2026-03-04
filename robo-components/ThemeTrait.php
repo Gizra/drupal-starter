@@ -31,7 +31,7 @@ trait ThemeTrait {
    * @param bool $optimize
    *   Indicate whether to optimize during compilation.
    */
-  private function doThemeCompile(bool $optimize = FALSE): void {
+  private function doThemeCompile(bool $optimize = FALSE): ResultData {
     $directories = [
       'js',
       'images',
@@ -60,7 +60,7 @@ trait ThemeTrait {
 
     if ($result->getExitCode() !== 0) {
       $this->taskCleanDir(['dist/css']);
-      return;
+      return new ResultData($result->getExitCode(), 'Theme compilation failed.');
     }
 
     // Javascript.
@@ -100,14 +100,15 @@ trait ThemeTrait {
     }
 
     $this->_exec('drush cache:rebuild');
+    return new ResultData(ResultData::EXITCODE_OK);
   }
 
   /**
    * Compile the theme (optimized).
    */
-  public function themeCompile(): void {
+  public function themeCompile(): ResultData {
     $this->say('Compiling (optimized).');
-    $this->doThemeCompile(TRUE);
+    return $this->doThemeCompile(TRUE);
   }
 
   /**
@@ -115,9 +116,9 @@ trait ThemeTrait {
    *
    * Non-optimized.
    */
-  public function themeCompileDebug(): void {
+  public function themeCompileDebug(): ResultData {
     $this->say('Compiling (non-optimized).');
-    $this->doThemeCompile();
+    return $this->doThemeCompile();
   }
 
   /**
