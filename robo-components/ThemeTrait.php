@@ -74,9 +74,10 @@ trait ThemeTrait {
         $from = str_replace('web/themes/custom/server_theme/', '', $js_file);
         $to = str_replace('src/', 'dist/', $from);
         // Minify the js.
-        $result = $this->_exec("cd $theme_dir && npx minify $from > $to");
-        if ($result->getExitCode() !== 0) {
-          return new ResultData($result->getExitCode(), 'JS minification failed.');
+        $result = $this->_exec("cd $theme_dir && npx minify --fail-on-error $from > $to");
+        $to_abs = self::$themeBase . '/' . $to;
+        if ($result->getExitCode() !== 0 || !file_exists($to_abs) || filesize($to_abs) === 0) {
+          return new ResultData(1, "JS minification failed for $from.");
         }
       }
     }
