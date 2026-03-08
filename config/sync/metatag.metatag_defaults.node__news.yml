@@ -1,10 +1,23 @@
 uuid: 8a8266af-8c57-4e64-8652-d1ff9fc98a6f
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  config:
+    - node.type.news
 id: node__news
 label: 'Content: News'
 tags:
   og_description: '[node:field_body]'
   og_image: '[node:field_featured_image:entity:field_media_image:entity:url] '
   og_title: '[node:title]'
+  schema_article_author: 'a:3:{s:5:"@type";s:12:"Organization";s:4:"name";s:11:"[site:name]";s:3:"url";s:10:"[site:url]";}'
+  schema_article_date_modified: '[node:changed:custom:c]'
+  schema_article_date_published: '[node:created:custom:c]'
+  schema_article_description: '[node:field_body]'
+  schema_article_headline: '[node:title]'
+  schema_article_image: '[node:field_featured_image:entity:field_media_image:entity:url]'
+  schema_article_main_entity_of_page: '[node:url]'
+  schema_article_publisher: 'a:3:{s:5:"@type";s:12:"Organization";s:4:"name";s:11:"[site:name]";s:3:"url";s:10:"[site:url]";}'
+  schema_article_type: NewsArticle
+  schema_web_page_breadcrumb: 'Yes'
+  schema_web_page_type: WebPage
