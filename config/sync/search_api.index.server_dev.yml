@@ -9,7 +9,6 @@ dependencies:
   module:
     - node
     - search_api_solr
-    - server_search
 third_party_settings:
   search_api_solr:
     finalize: false
