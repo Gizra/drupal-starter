@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
-use Drupal\paragraphs\Entity\Paragraph;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -146,32 +145,21 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
    * See "ExcludeNodeByPathAliasProcessor.php".
    */
   public function testSearchPageNotIndexed(): void {
-    $paragraph = Paragraph::create([
-      'type' => 'search',
-      'field_title' => [
-        'value' => 'Search Test',
-      ],
-    ]);
-    $paragraph->save();
-    $this->markEntityForCleanup($paragraph);
-
     $path_alias = '/search_6KmX9x99aG5o13xvqjkO868iR';
     $title = 'Search_6KmX9x99aG5o13xvqjkO868iR';
 
-    // Create a search LP with a specific title and path.
+    // Create a landing page with a specific title and path alias.
     $node = $this->createNode([
       'title' => $title,
       'langcode' => 'en',
       'type' => 'landing_page',
       'moderation_state' => 'published',
-      'field_paragraphs' => [
-        $paragraph,
-      ],
       'path' => [
         'pathauto' => FALSE,
         'alias' => $path_alias,
       ],
     ]);
+    $node->setPublished()->save();
 
     // Trigger indexing.
     $this->triggerPostRequestIndexing();
