@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\Tests\server_general\ExistingSite;
 
 use Drupal\paragraphs\Entity\Paragraph;
@@ -9,10 +11,6 @@ use Symfony\Component\HttpFoundation\Response;
  * A test case to test search integration.
  */
 class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
-
-  const ES_WAIT_MICRO_SECONDS = 200;
-
-  const ES_RETRY_LIMIT = 20;
 
   /**
    * Test freetext search.
@@ -164,8 +162,8 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
     $node = $this->createNode([
       'title' => $title,
       'langcode' => 'en',
-      'type' => 'news',
-      'status' => 1,
+      'type' => 'landing_page',
+      'moderation_state' => 'published',
       'field_paragraphs' => [
         $paragraph,
       ],
@@ -174,12 +172,11 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
         'alias' => $path_alias,
       ],
     ]);
-    $node->setPublished()->save();
 
     // Trigger indexing.
     $this->triggerPostRequestIndexing();
 
-    $this->waitForElasticSearchIndex(function () use ($node): void {
+    $this->waitForSearchIndex(function () use ($node): void {
       $this->drupalGet('/search', [
         'query' => [
           'key' => $node->label(),
@@ -217,7 +214,7 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
     $this->triggerPostRequestIndexing();
 
     // Wait for indexing to complete.
-    $this->waitForElasticSearchIndex(function () use ($node): void {
+    $this->waitForSearchIndex(function () use ($node): void {
       // First search using the exact long phrase.
       $this->drupalGet('/search', [
         'query' => [
