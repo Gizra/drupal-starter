@@ -1,5 +1,4 @@
 {
-    "name": "Drupal Starter with Claude Code",
     "image": "mcr.microsoft.com/devcontainers/php:8.3-bookworm",
     "features": {
         "ghcr.io/devcontainers/features/docker-in-docker:2": {
