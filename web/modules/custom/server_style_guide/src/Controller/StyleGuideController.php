@@ -24,6 +24,7 @@ use Drupal\server_general\ThemeTrait\QuickLinksThemeTrait;
 use Drupal\server_general\ThemeTrait\QuoteThemeTrait;
 use Drupal\server_general\ThemeTrait\SearchThemeTrait;
 use Drupal\server_general\WebformTrait;
+use Drupal\server_style_guide\ThemeTrait\Enum\IdTypeEnum;
 use Drupal\server_style_guide\ThemeTrait\StyleGuideElementWrapThemeTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -633,7 +634,7 @@ class StyleGuideController extends ControllerBase {
         '2x' => [2880, 1600],
       ],
     ];
-    $image = $this->buildResponsiveImage($image_dimensions, 'image_item', 'seed');
+    $image = $this->buildResponsiveImage($image_dimensions, 'image_item', IdTypeEnum::Seed);
 
     return $this->buildElementHeroImage(
       $image,
@@ -807,7 +808,7 @@ class StyleGuideController extends ControllerBase {
    *   @endcode
    * @param string $id
    *   The placeholder image ID or seed.
-   * @param string $id_type
+   * @param \Drupal\server_style_guide\ThemeTrait\Enum\IdTypeEnum $id_type
    *   The type of the ID, either 'id' or 'seed'.
    * @param string $alt
    *   Alt text.
@@ -815,7 +816,7 @@ class StyleGuideController extends ControllerBase {
    * @return array
    *   A render array for a <picture> element.
    */
-  private function buildResponsiveImage(array $image_dimensions, string $id = '', string $id_type = 'id', string $alt = ''): array {
+  private function buildResponsiveImage(array $image_dimensions, string $id = '', IdTypeEnum $id_type = IdTypeEnum::Id, string $alt = ''): array {
     $breakpoint_media_queries = [
       '2xl' => 'all and (min-width: 1536px)',
       'xl' => 'all and (min-width: 1280px)',
@@ -917,15 +918,15 @@ class StyleGuideController extends ControllerBase {
    *   The height of the image.
    * @param string $id
    *   The ID of the image. Or a seed.
-   * @param string $id_type
+   * @param \Drupal\server_style_guide\ThemeTrait\Enum\IdTypeEnum $id_type
    *   The type of the ID, either 'id' or 'seed'.
    *
    * @return string
    *   URL with placeholder.
    */
-  protected function getPlaceholderImage(int $width, int $height, string $id = '', string $id_type = 'id') {
+  protected function getPlaceholderImage(int $width, int $height, string $id = '', IdTypeEnum $id_type = IdTypeEnum::Id) {
     if (!empty($id)) {
-      return "https://picsum.photos/{$id_type}/{$id}/{$width}/{$height}.jpg";
+      return "https://picsum.photos/{$id_type->value}/{$id}/{$width}/{$height}.jpg";
     }
     return "https://picsum.photos/{$width}/{$height}.jpg";
   }
@@ -984,7 +985,7 @@ class StyleGuideController extends ControllerBase {
     for ($i = 0; $i < $num; $i++) {
       $elements[] = call_user_func(
         [$this, $func],
-        $this->buildImage($this->getPlaceholderImage(300, 200, "card_image_$i", 'seed')),
+        $this->buildImage($this->getPlaceholderImage(300, 200, "card_image_$i", IdTypeEnum::Seed)),
         $this->getRandomTitle(),
         Url::fromRoute('<front>'),
         $this->buildProcessedText('Decorate one package of cauliflower in six teaspoons of plain vinegar. Try flavoring the crême fraîche gingers with clammy rum and fish sauce, simmered.'),
