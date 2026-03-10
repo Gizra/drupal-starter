@@ -44,14 +44,14 @@ log in to the site as admin user using your default browser.
 
 ## Git Worktree support
 
-For AI agent-based development flow, you might need several instances of the
+For AI agent-based development flows, you might need several instances of the
 project at the same time.
-See how [DDEV handles it](https://www.fldrupal.camp/session/use-git-worktree-ddev-run-multiple-versions-same-site), also there's an [add-on for this](https://github.com/elabx/ddev-worktrees?tab=readme-ov-file#ddev-worktree):
+See how [DDEV handles it](https://www.fldrupal.camp/session/use-git-worktree-ddev-run-multiple-versions-same-site). There's also an [add-on for this](https://github.com/elabx/ddev-worktrees?tab=readme-ov-file#ddev-worktree):
 ```
 ddev add-on install esanmiguel/ddev-worktree
 ```
 
-The project name is omitted from [config.yml](https://github.com/Gizra/drupal-starter/blob/main/.ddev/config.yaml), so it can use the directory name, which is needed in this scenario.
+The project name is omitted from [config.yaml](https://github.com/Gizra/drupal-starter/blob/main/.ddev/config.yaml), so DDEV can use the directory name, which is needed in this scenario.
 
 ## Default content management
 
