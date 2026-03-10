@@ -8,4 +8,8 @@ id: front
 label: 'Front page'
 tags:
   canonical_url: '[site:url]'
+  schema_web_site_name: '[site:name]'
+  schema_web_site_potential_action: 'a:3:{s:5:"@type";s:12:"SearchAction";s:6:"target";a:2:{s:5:"@type";s:10:"EntryPoint";s:11:"urlTemplate";s:44:"[site:url]search?key={search_term_string}";}s:11:"query-input";s:32:"required name=search_term_string";}'
+  schema_web_site_type: WebSite
+  schema_web_site_url: '[site:url]'
   shortlink: '[site:url]'

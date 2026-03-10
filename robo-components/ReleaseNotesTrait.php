@@ -138,8 +138,16 @@ trait ReleaseNotesTrait {
           }
         }
         if (!empty($issue_number) && !isset($issue_titles[$issue_number])) {
-          /** @var \stdClass $issue_details */
-          $issue_details = $this->githubApiGet("repos/$github_org/$github_project/issues/$issue_number");
+          try {
+            /** @var \stdClass $issue_details */
+            $issue_details = $this->githubApiGet("repos/$github_org/$github_project/issues/$issue_number");
+          }
+          catch (\Exception $exception) {
+            // Wrong issue number, most likely due to dependabot links to
+            // different repos in the PR body.
+            $issue_details = NULL;
+            $issue_number = NULL;
+          }
           if (!empty($issue_details->title)) {
             $issue_titles[$issue_number] = $issue_details->title;
             $contributors[] = '@' . $issue_details->user->login;
@@ -149,7 +157,11 @@ trait ReleaseNotesTrait {
 
       if (empty($issue_number)) {
         if (!empty($pr_number)) {
-          $no_issue_lines[] = "- PR #$pr_number";
+          $no_issue_line = "- PR #$pr_number";
+          if (!empty($pr_details->title)) {
+            $no_issue_line .= " - $pr_details->title";
+          }
+          $no_issue_lines[] = $no_issue_line;
         }
         continue;
       }
@@ -385,8 +397,8 @@ GRAPHQL;
       return $issue_matches[1][0];
     }
 
-    // Fall back to simple issue reference pattern.
-    preg_match_all('!#([0-9]+)!', $pr->body, $issue_matches);
+    // Fall back to closing keyword pattern (e.g. "Closes #123", "Fixes #123").
+    preg_match_all('!(?:close[sd]?|fix(?:e[sd])?|resolve[sd]?)\s+#([0-9]+)!i', $pr->body, $issue_matches);
     if (isset($issue_matches[1][0])) {
       return $issue_matches[1][0];
     }
