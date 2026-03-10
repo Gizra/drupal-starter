@@ -42,6 +42,17 @@ The only requirement is having [DDEV](https://ddev.readthedocs.io/en/stable/) in
 Once the Drupal installation is complete you can use `ddev login` to
 log in to the site as admin user using your default browser.
 
+## Git Worktree support
+
+For AI agent-based development flow, you might need several instances of the
+project at the same time.
+See how [DDEV handles it](https://www.fldrupal.camp/session/use-git-worktree-ddev-run-multiple-versions-same-site), also there's an [add-on for this](https://github.com/elabx/ddev-worktrees?tab=readme-ov-file#ddev-worktree):
+```
+ddev add-on install esanmiguel/ddev-worktree
+```
+
+The project name is omitted from [config.yml](https://github.com/Gizra/drupal-starter/blob/main/.ddev/config.yaml), so it can use the directory name, which is needed in this scenario.
+
 ## Default content management
 
 This project uses `drupal/default_content` module to manage the installation
