@@ -1,6 +1,10 @@
 #!/bin/bash
 set -x
 
+# Install Claude Code CLI for agentic coding.
+curl -fsSL https://claude.ai/install.sh | bash
+export PATH="$HOME/.claude/local/bin:$PATH"
+
 wait_for_docker() {
   # Loop until Docker responds, indicating it's ready
   while true; do
