@@ -1,4 +1,5 @@
 {
+    "name": "Drupal Starter with Claude Code",
     "image": "mcr.microsoft.com/devcontainers/php:8.3-bookworm",
     "features": {
         "ghcr.io/devcontainers/features/docker-in-docker:2": {
@@ -8,7 +9,8 @@
         "ghcr.io/ddev/ddev/install-ddev:latest": {},
         "ghcr.io/devcontainers/features/node:1": {
             "version": "lts"
-        }
+        },
+        "ghcr.io/anthropics/devcontainer-features/claude-code:latest": {}
     },
     "postCreateCommand": "./codespaces_setup.sh"
 }
