@@ -1,4 +1,11 @@
 services:
+  server_general.translation_check_subscriber:
+    class: Drupal\server_general\EventSubscriber\TranslationCheckSubscriber
+    arguments:
+      - '@current_route_match'
+      - '@messenger'
+    tags:
+      - { name: event_subscriber }
   server_general.locked_pages:
     class: Drupal\server_general\LockedPages
     arguments: ['@entity_type.manager', '@entity_field.manager']
