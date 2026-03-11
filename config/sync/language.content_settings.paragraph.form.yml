@@ -1,18 +1,16 @@
-uuid: 72f59c7e-32e7-44a3-b18a-be7db6f443e4
+uuid: dba2eb36-901d-45b6-b5c0-86458d8673c8
 langcode: en
 status: true
 dependencies:
   config:
-    - paragraphs.paragraphs_type.search
+    - paragraphs.paragraphs_type.form
   module:
     - content_translation
 third_party_settings:
   content_translation:
     enabled: true
-    bundle_settings:
-      untranslatable_fields_hide: '0'
-id: paragraph.search
+id: paragraph.form
 target_entity_type_id: paragraph
-target_bundle: search
+target_bundle: form
 default_langcode: site_default
-language_alterable: true
+language_alterable: false
