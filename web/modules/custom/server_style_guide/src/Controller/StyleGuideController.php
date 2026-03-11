@@ -619,22 +619,7 @@ class StyleGuideController extends ControllerBase {
    */
   protected function getHeroImage(): array {
     $url = Url::fromRoute('<front>');
-
-    $image_dimensions = [
-      'mobile' => [
-        '1x' => [768, 576],
-        '2x' => [1536, 1152],
-      ],
-      'md' => [
-        '1x' => [1024, 580],
-        '2x' => [1536, 1160],
-      ],
-      'lg' => [
-        '1x' => [1440, 800],
-        '2x' => [2880, 1600],
-      ],
-    ];
-    $image = $this->buildResponsiveImage($image_dimensions, 'image_item', IdTypeEnum::Seed);
+    $image = $this->buildResponsiveImage('hero', 'server-style-guide://sand-1980x1060.jpg');
 
     return $this->buildElementHeroImage(
       $image,
@@ -790,89 +775,30 @@ class StyleGuideController extends ControllerBase {
   }
 
   /**
-   * Build a responsive image using a <picture> element with breakpoint sources.
+   * Build a responsive image render array using Drupal's responsive_image theme.
    *
-   * Uses server_theme breakpoints to produce <source> elements per breakpoint.
-   * Each breakpoint key maps to srcset multipliers (1x, 2x) with
-   * [width, height].
+   * Uses the server_style_guide:// stream wrapper which maps to the module's
+   * images/ directory, allowing Drupal image styles to process module-bundled
+   * images without copying them to public://.
    *
-   * @param array $image_dimensions
-   *   Dimensions keyed by breakpoint, subkeyed by multiplier. Example:
-   *   @code
-   *   [
-   *     'mobile' => ['1x' => [400, 300], '2x' => [800, 600]],
-   *     'sm'     => ['1x' => [640, 480], '2x' => [1280, 960]],
-   *     'md'     => ['1x' => [768, 576], '2x' => [1536, 1152]],
-   *     'lg'     => ['1x' => [1024, 768], '2x' => [2048, 1536]],
-   *   ]
-   *   @endcode
-   * @param string $id
-   *   The placeholder image ID or seed.
-   * @param \Drupal\server_style_guide\ThemeTrait\Enum\IdTypeEnum $id_type
-   *   The type of the ID, either 'id' or 'seed'.
+   * @param string $responsive_image_style_id
+   *   The responsive image style ID (e.g. 'hero').
+   * @param string $uri
+   *   The image uri.
    * @param string $alt
-   *   Alt text.
+   *   Alt text for the image.
    *
    * @return array
-   *   A render array for a <picture> element.
+   *   A render array using the responsive_image theme.
    */
-  private function buildResponsiveImage(array $image_dimensions, string $id = '', IdTypeEnum $id_type = IdTypeEnum::Id, string $alt = ''): array {
-    $breakpoint_media_queries = [
-      '2xl' => 'all and (min-width: 1536px)',
-      'xl' => 'all and (min-width: 1280px)',
-      'lg' => 'all and (min-width: 1024px)',
-      'md' => 'all and (min-width: 768px)',
-      'sm' => 'all and (min-width: 640px)',
-      'mobile' => '',
-    ];
-
-    $sources = [];
-    // Iterate from largest to smallest so the browser picks the first match.
-    foreach ($breakpoint_media_queries as $breakpoint => $media_query) {
-      if (!isset($image_dimensions[$breakpoint])) {
-        continue;
-      }
-
-      $srcset_parts = [];
-      foreach ($image_dimensions[$breakpoint] as $multiplier => $dimensions) {
-        [$width, $height] = $dimensions;
-        $url = $this->getPlaceholderImage($width, $height, $id, $id_type);
-        $srcset_parts[] = "$url {$multiplier}";
-      }
-
-      $source = [
-        '#type' => 'html_tag',
-        '#tag' => 'source',
-        '#attributes' => [
-          'srcset' => implode(', ', $srcset_parts),
-        ],
-      ];
-      if (!empty($media_query)) {
-        $source['#attributes']['media'] = $media_query;
-      }
-      $sources[] = $source;
-    }
-
-    // Fallback <img> using the mobile 1x dimensions.
-    $fallback_breakpoint = isset($image_dimensions['mobile']) ? 'mobile' : array_key_first($image_dimensions);
-    $fallback_dimensions = $image_dimensions[$fallback_breakpoint]['1x'];
-    [$fallback_width, $fallback_height] = $fallback_dimensions;
-
-    $sources[] = [
-      '#type' => 'html_tag',
-      '#tag' => 'img',
-      '#attributes' => [
-        'src' => $this->getPlaceholderImage($fallback_width, $fallback_height, $id, $id_type),
-        'alt' => $alt,
-        'width' => $fallback_width,
-        'height' => $fallback_height,
-      ],
-    ];
-
+  private function buildResponsiveImage(string $responsive_image_style_id, string $uri, string $alt = ''): array {
     return [
-      '#type' => 'html_tag',
-      '#tag' => 'picture',
-      'sources' => $sources,
+      '#theme' => 'responsive_image',
+      '#uri' => $uri,
+      '#responsive_image_style_id' => $responsive_image_style_id,
+      '#attributes' => [
+        'alt' => $alt,
+      ],
     ];
   }
 
