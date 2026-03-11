@@ -11,7 +11,7 @@ dependencies:
     - paragraphs.paragraphs_type.related_content
   module:
     - link
-    - select2
+    - tagify
     - text
 id: paragraph.related_content.default
 targetEntityType: paragraph
@@ -42,14 +42,17 @@ content:
       placeholder_title: ''
     third_party_settings: {  }
   field_related_content:
-    type: select2_entity_reference
+    type: tagify_entity_reference_autocomplete_widget
     weight: 2
     region: content
     settings:
-      width: 100%
-      autocomplete: true
       match_operator: CONTAINS
       match_limit: 10
+      placeholder: ''
+      suggestions_dropdown: 1
+      show_entity_id: 0
+      show_info_label: 0
+      info_label: ''
     third_party_settings: {  }
   field_title:
     type: string_textfield

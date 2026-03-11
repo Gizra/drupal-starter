@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace Drupal\server_general\ThemeTrait;
 
 use Drupal\Core\Link;
+use Drupal\server_general\ThemeTrait\Enum\AlignmentEnum;
+use Drupal\server_general\ThemeTrait\Enum\BackgroundColorEnum;
+use Drupal\server_general\ThemeTrait\Enum\FontSizeEnum;
+use Drupal\server_general\ThemeTrait\Enum\FontWeightEnum;
 
 /**
  * Helper methods for rendering Call to Action elements.
@@ -41,7 +45,7 @@ trait CtaThemeTrait {
     $elements[] = $this->wrapProseText($body);
 
     // Button.
-    $elements[] = $this->buildButton($link->getText(), $link->getUrl(), 'primary', NULL, $link->getUrl()->isExternal());
+    $elements[] = $this->buildButtonPrimary($link);
 
     $elements = $this->wrapContainerVerticalSpacingBig($elements, AlignmentEnum::Center);
 

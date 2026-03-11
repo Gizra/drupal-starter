@@ -6,6 +6,8 @@ namespace Drupal\server_general\ThemeTrait;
 
 use Drupal\intl_date\IntlDate;
 use Drupal\server_general\EntityDateTrait;
+use Drupal\server_general\ThemeTrait\Enum\FontSizeEnum;
+use Drupal\server_general\ThemeTrait\Enum\WidthEnum;
 
 /**
  * Helper method for building the Node news element.
@@ -96,7 +98,7 @@ trait ElementNodeNewsThemeTrait {
     $element = IntlDate::formatPattern($timestamp, 'long');
 
     // Make text bigger.
-    $elements[] = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::LG);
+    $elements[] = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::Lg);
 
     $elements = $this->wrapContainerVerticalSpacing($elements);
 

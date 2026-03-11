@@ -2,7 +2,7 @@ name: Drupal 10 Starter Theme
 type: theme
 description: 'A foundation for building a theme for Drupal Starter.'
 package: Server
-core_version_requirement: ^9 || ^10
+core_version_requirement: ^10 || ^11
 libraries:
   - core/drupal.message
   - server_theme/global-styling
@@ -37,10 +37,12 @@ libraries-override:
     css:
       component:
         css/components/messages.css: false
+  core/normalize: false
   system/base:
     css:
-      components:
+      component:
         /themes/contrib/stable/css/system/components/ajax-progress.module.css: false
+        /themes/contrib/stable/css/system/components/hidden.module.css: false
 
 libraries-extend:
   core/drupal.message:

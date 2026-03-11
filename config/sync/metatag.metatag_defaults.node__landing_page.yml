@@ -1,0 +1,15 @@
+uuid: 8193ee84-1cc4-4c22-8731-ac504d4ed738
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.landing_page
+id: node__landing_page
+label: 'Content: Landing Page'
+tags:
+  schema_web_page_breadcrumb: 'Yes'
+  schema_web_page_description: 'A brief description of what this page covers.'
+  schema_web_page_id: '[node:url]'
+  schema_web_page_name: '[node:title]'
+  schema_web_page_publisher: 'a:3:{s:5:"@type";s:12:"Organization";s:4:"name";s:11:"[site:name]";s:3:"url";s:10:"[site:url]";}'
+  schema_web_page_type: WebPage

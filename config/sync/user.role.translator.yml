@@ -25,6 +25,7 @@ permissions:
   - 'access media_entity_browser entity browser pages'
   - 'access media_entity_browser_modal entity browser pages'
   - 'access navigation'
+  - 'access style guide'
   - 'create content translations'
   - 'delete content translations'
   - 'translate any entity'

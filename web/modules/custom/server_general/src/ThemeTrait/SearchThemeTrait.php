@@ -6,6 +6,11 @@ namespace Drupal\server_general\ThemeTrait;
 
 use Drupal\Core\Url;
 use Drupal\intl_date\IntlDate;
+use Drupal\server_general\ThemeTrait\Enum\ColorEnum;
+use Drupal\server_general\ThemeTrait\Enum\FontSizeEnum;
+use Drupal\server_general\ThemeTrait\Enum\FontWeightEnum;
+use Drupal\server_general\ThemeTrait\Enum\LineClampEnum;
+use Drupal\server_general\ThemeTrait\Enum\TextColorEnum;
 
 /**
  * Helper methods for rendering Search/Search results related elements.
@@ -118,7 +123,7 @@ trait SearchThemeTrait {
     $elements[] = $this->buildLabelsFromText([$label]);
 
     // Title as link, wrapped in h3 tag.
-    $element = $this->buildLink($title, $url, 'dark-gray');
+    $element = $this->buildLink($title, $url, ColorEnum::DarkGray);
     $element = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::ThreeXl);
     $element = $this->wrapTextFontWeight($element, FontWeightEnum::Bold);
     $elements[] = [
@@ -128,7 +133,7 @@ trait SearchThemeTrait {
     ];
 
     // Summary.
-    $elements[] = $this->wrapTextLineClamp($summary, 4);
+    $elements[] = $this->wrapTextLineClamp($summary, LineClampEnum::Four);
 
     // Date.
     $element = IntlDate::formatPattern($timestamp, 'short');

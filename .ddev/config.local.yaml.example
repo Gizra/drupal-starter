@@ -3,6 +3,7 @@ web_environment:
   # Un comment when working on a migration and the source is different DDEV
   # installation. And Change the `SomeName` to match the remote source.
   # This is used in setting.ddev.php
+  # see https://github.com/Gizra/drupal-starter/blob/d9a29f739e7a24a3598207bb51cf7fc01b1c495c/web/sites/default/settings.ddev.php#L31-L33
   # - DDEV_MIGRATE_REMOTE_SOURCE=ddev-SomeName-db
 hooks:
   post-start:
@@ -59,5 +60,23 @@ hooks:
     - exec: drush sapi-i
     # Compile theme.
     - exec-host: ddev robo theme:compile
+     # Get rid of sensitive user data.
+    - exec: drush sql:sanitize --yes
+    # Login as admin.
+    - exec-host: ddev login
+  post-pull:
+    # Run DB updates.
+    - exec: drush updb
+    # Clear cache before config import.
+    - exec: drush cr
+    # Import config.
+    - exec: drush cim -y
+    # Reindex.
+    - exec: drush sapi-c
+    - exec: drush sapi-i
+    # Compile theme.
+    - exec-host: ddev robo theme:compile
+     # Get rid of sensitive user data.
+    - exec: drush sql:sanitize --yes
     # Login as admin.
     - exec-host: ddev login

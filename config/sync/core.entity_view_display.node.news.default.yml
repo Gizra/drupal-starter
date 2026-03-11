@@ -5,11 +5,13 @@ dependencies:
   config:
     - field.field.node.news.field_body
     - field.field.node.news.field_featured_image
+    - field.field.node.news.field_metatag
     - field.field.node.news.field_publish_date
     - field.field.node.news.field_tags
     - node.type.news
   module:
     - datetime
+    - metatag
     - text
     - user
 id: node.news.default
@@ -36,6 +38,13 @@ content:
       link: true
     third_party_settings: {  }
     weight: 103
+    region: content
+  field_metatag:
+    type: metatag_empty_formatter
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 107
     region: content
   field_publish_date:
     type: datetime_default

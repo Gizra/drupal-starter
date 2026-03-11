@@ -4,7 +4,7 @@
       "d.o. #3315245": "patches/2938.patch",
       "d.o. #2351685": "https://www.drupal.org/files/issues/2023-02-03/2351685-22.patch",
       "d.o. #3400204": "https://www.drupal.org/files/issues/2024-06-27/3400204-claro-layout-overflow-fix-2.patch",
-      "d.o. #3456176: Fix Messages rendering with bigpipe": "https://www.drupal.org/files/issues/2024-06-28/3456176-45-missing-status-messages-theme-suggestions.patch"
+      "d.o. #3474018": "patches/3474018-11.2.5.patch"
     },
     "drupal/elasticsearch_connector": {
       "Preserve ES index settings": "https://www.drupal.org/files/issues/2020-01-28/3109361-elasticsearch_connector-preserve-index-settings-1.patch",
@@ -23,7 +23,7 @@
       "d.o. #3351276": "https://www.drupal.org/files/issues/2023-04-03/3351276-4.patch"
     },
     "drupal/webp": {
-      "d.o. #3281606": "https://git.drupalcode.org/project/webp/-/merge_requests/33.diff"
+      "d.o. #3281606": "patches/webp-3281606.patch"
     },
     "npm-asset/anchor-js": {
       "remove font-face": "patches/remove-anchorjs-fontface.patch"
@@ -33,6 +33,9 @@
     },
     "drupal/rollbar": {
       "d.o. #3432364": "patches/3432364-rollbar-vars.patch"
+    },
+    "drupal/schema_metatag": {
+      "d.o. #3415013": "patches/3415013-schema-webpage-extra-fields.patch"
     }
   }
 }

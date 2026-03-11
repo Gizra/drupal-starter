@@ -1,7 +1,7 @@
 name: "Server Rollbar Test"
 type: module
 description: "Helper module for Rollbar integration testing. Do not enable on production."
-core_version_requirement: ^9 || ^10
+core_version_requirement: ^10 || ^11
 package: "server"
 dependencies:
   - drupal:rollbar

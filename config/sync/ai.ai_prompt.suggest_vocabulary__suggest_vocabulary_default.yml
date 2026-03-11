@@ -1,0 +1,11 @@
+uuid: 2dc13a58-73df-47e5-a61d-cb65e46197d0
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - ai_content_suggestions
+id: suggest_vocabulary__suggest_vocabulary_default
+label: 'Default prompt for suggest vocabulary'
+type: suggest_vocabulary
+prompt: 'Choose no more than five words to classify the following text using the same language as the input text:'

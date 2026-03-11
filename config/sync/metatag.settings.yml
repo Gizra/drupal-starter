@@ -2,8 +2,14 @@ _core:
   default_config_hash: tKLBW2GXZVLFXqS9QgLyfTuxCLc1u_quKPQLtCia-Bw
 entity_type_groups:
   node:
-    news:
+    landing_page:
+      basic: basic
       open_graph: open_graph
+      schema_web_page: schema_web_page
+    news:
+      basic: basic
+      open_graph: open_graph
+      schema_article: schema_article
 separator: ','
 tag_trim_method: beforeValue
 use_maxlength: true

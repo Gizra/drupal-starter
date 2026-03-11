@@ -1,0 +1,164 @@
+name: Deploy
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
+    branches:
+      - main
+  push:
+    tags:
+      - '**'
+
+env:
+  DDEV_NO_INSTRUMENTATION: true
+
+jobs:
+  deploy-qa:
+    name: "Deploy to Pantheon QA"
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main'
+    concurrency:
+      group: deploy-pantheon-qa
+      cancel-in-progress: false
+    env:
+      TERMINUS_TOKEN: ${{ secrets.TERMINUS_TOKEN }}
+      COMMIT_MESSAGE: ${{ github.event.workflow_run.head_commit.message }}
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      ROLLBAR_SERVER_TOKEN: ${{ vars.ROLLBAR_SERVER_TOKEN }}
+      PANTHEON_GIT_URL: ${{ vars.PANTHEON_GIT_URL }}
+      DEPLOY_EXCLUDE_WARNING: ${{ vars.DEPLOY_EXCLUDE_WARNING }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.PANTHEON_DEPLOY_KEY }}" > ~/.ssh/pantheon-key
+          chmod 600 ~/.ssh/pantheon-key
+
+      - name: Install DDEV
+        run: ./ci-scripts/install_ddev.sh
+
+      - name: Set up SSH keys for DDEV
+        run: |
+          mkdir -p .ddev/homeadditions/.ssh
+          cp ~/.ssh/pantheon-key .ddev/homeadditions/.ssh/pantheon-key
+          cp ~/.ssh/pantheon-key .ddev/homeadditions/.ssh/id_rsa
+          chmod 700 .ddev/homeadditions/.ssh
+          chmod 600 .ddev/homeadditions/.ssh/*
+
+      - name: Prepare deploy
+        run: ./ci-scripts/prepare_deploy.sh
+
+      - name: Deploy to Pantheon QA
+        run: ddev robo deploy:pantheon --no-interaction qa
+
+      - name: Deploy notification
+        run: ddev robo deploy:notify
+
+  deploy-test:
+    name: "Deploy to Pantheon TEST"
+    runs-on: ubuntu-latest
+    if: github.ref_type == 'tag' && github.event_name == 'push' && !endsWith(github.ref, 'live')
+    concurrency:
+      group: deploy-pantheon-test
+      cancel-in-progress: false
+    env:
+      TERMINUS_TOKEN: ${{ secrets.TERMINUS_TOKEN }}
+      COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      ROLLBAR_SERVER_TOKEN: ${{ vars.ROLLBAR_SERVER_TOKEN }}
+      PANTHEON_GIT_URL: ${{ vars.PANTHEON_GIT_URL }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.PANTHEON_DEPLOY_KEY }}" > ~/.ssh/pantheon-key
+          chmod 600 ~/.ssh/pantheon-key
+
+      - name: Install DDEV
+        run: ./ci-scripts/install_ddev.sh
+
+      - name: Set up SSH keys for DDEV
+        run: |
+          mkdir -p .ddev/homeadditions/.ssh
+          cp ~/.ssh/pantheon-key .ddev/homeadditions/.ssh/pantheon-key
+          cp ~/.ssh/pantheon-key .ddev/homeadditions/.ssh/id_rsa
+          chmod 700 .ddev/homeadditions/.ssh
+          chmod 600 .ddev/homeadditions/.ssh/*
+
+      - name: Prepare deploy
+        run: ./ci-scripts/prepare_deploy.sh
+
+      - name: Deploy tag to Pantheon
+        run: ddev robo deploy:tag-pantheon --no-interaction ${{ github.ref_name }} master
+
+      - name: Sync Pantheon
+        run: ddev robo deploy:pantheon-sync
+
+  deploy-live:
+    name: "Deploy to Pantheon LIVE"
+    runs-on: ubuntu-latest
+    if: github.ref_type == 'tag' && github.event_name == 'push' && endsWith(github.ref, 'live')
+    concurrency:
+      group: deploy-pantheon-live
+      cancel-in-progress: false
+    env:
+      TERMINUS_TOKEN: ${{ secrets.TERMINUS_TOKEN }}
+      COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      ROLLBAR_SERVER_TOKEN: ${{ vars.ROLLBAR_SERVER_TOKEN }}
+      PANTHEON_GIT_URL: ${{ vars.PANTHEON_GIT_URL }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.PANTHEON_DEPLOY_KEY }}" > ~/.ssh/pantheon-key
+          chmod 600 ~/.ssh/pantheon-key
+
+      - name: Check live deploy
+        run: ./ci-scripts/check_live_deploy.sh
+
+      - name: Install DDEV
+        run: ./ci-scripts/install_ddev.sh
+
+      - name: Set up SSH keys for DDEV
+        run: |
+          mkdir -p .ddev/homeadditions/.ssh
+          cp ~/.ssh/pantheon-key .ddev/homeadditions/.ssh/pantheon-key
+          cp ~/.ssh/pantheon-key .ddev/homeadditions/.ssh/id_rsa
+          chmod 700 .ddev/homeadditions/.ssh
+          chmod 600 .ddev/homeadditions/.ssh/*
+
+      - name: Prepare deploy
+        run: ./ci-scripts/prepare_deploy.sh
+
+      - name: Deploy tag to Pantheon
+        run: ddev robo deploy:tag-pantheon --no-interaction ${{ github.ref_name }} master
+
+      - name: Sync Pantheon TEST
+        run: ddev robo deploy:pantheon-sync
+
+      - name: Sync Pantheon LIVE
+        run: ddev robo deploy:pantheon-sync live

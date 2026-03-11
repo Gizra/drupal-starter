@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\Tests\server_general\ExistingSite;
 
 use Drupal\Core\File\FileExists;
 use Drupal\media\MediaInterface;
+use Drupal\Tests\server_general\Traits\ParagraphCreationTrait;
 use weitzman\DrupalTestTraits\Entity\MediaCreationTrait;
 
 /**
@@ -12,6 +15,7 @@ use weitzman\DrupalTestTraits\Entity\MediaCreationTrait;
 abstract class ServerGeneralParagraphTestBase extends ServerGeneralFieldableEntityTestBase {
 
   use MediaCreationTrait;
+  use ParagraphCreationTrait;
 
   const IMAGES_PATH = 'modules/custom/server_general/tests/images/';
 

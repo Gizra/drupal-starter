@@ -19,6 +19,7 @@ is_admin: null
 permissions:
   - 'access content overview'
   - 'access navigation'
+  - 'access style guide'
   - 'administer google_tag_container'
   - 'administer nodes'
   - 'create landing_page content'

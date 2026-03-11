@@ -1,0 +1,11 @@
+uuid: 70eb79d1-9972-4c86-910d-5c24e3939baa
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - ai_content_suggestions
+id: suggest_vocabulary
+label: 'Suggest vocabulary'
+variables: {  }
+tokens: {  }

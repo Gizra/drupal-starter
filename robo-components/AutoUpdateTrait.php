@@ -1,0 +1,130 @@
+<?php
+
+namespace RoboComponents;
+
+use Drupal\update\UpdateManagerInterface;
+
+/**
+ * Automatically update core and modules.
+ */
+trait AutoUpdateTrait {
+
+  /**
+   * Update drupal core and modules.
+   *
+   * @throws \Exception
+   */
+  public function updateModules() {
+    if (!\Drupal::moduleHandler()->moduleExists('update')) {
+      throw new \Exception("The update module should be installed in order to run this command.");
+    }
+    $this->say("Update module is installed, checking status of projects.");
+    $this->say("In case of some errors manually loading /admin/reports/updates can help.");
+    $this->yell("Don't forget to run ddev drush updb manually at the end!");
+
+    if (!($available = update_get_available(TRUE))) {
+      $this->say("Cannot fetch info about the releases.");
+    }
+    \Drupal::moduleHandler()->loadInclude('update', 'compare.inc');
+    $data = update_calculate_project_data($available);
+    foreach ($data as $project) {
+      if (!isset($project['recommended'])) {
+        $this->yell('No recommended version is set for ' . $project['name']);
+        continue;
+      }
+      // Drupal core is simply called drupal.
+      $package = $project['name'] == 'drupal' ? 'core-*' : $project['name'];
+      if ($project['status'] == UpdateManagerInterface::CURRENT && $project['existing_version'] === $project['recommended']) {
+        $this->say($project['name'] . ' is up-to-date.');
+        // No need to update.
+        continue;
+      }
+      // If recommended module is not compatible with current drupal
+      // core, we skip the update.
+      if (isset($project['releases'][$project['recommended']]['core_compatible']) && $project['releases'][$project['recommended']]['core_compatible'] === FALSE) {
+        $this->say($project['name'] . ' (version ' . $project['recommended'] . ') is not compatible with current drupal core, skipping it.');
+        continue;
+      }
+      $version = $project['recommended'];
+      $major = NULL;
+      // Version numbers in drupal can take several patterns. We need to derive
+      // the composer update command from any of them:
+      // 4.0.0 => ^4.0
+      // 4.0.0-alpha6 => ^4.0@alpha
+      // 8.x-4.0 => ^4.0
+      // 8.x-4.0-alpha6 => ^4.0@alpha.
+      if (preg_match('/^(?:\d+\.x-)?(\d+)\.(\d+)(?:\.(\d+))?(?:-([A-Za-z0-9.-]+))?$/', trim($project['recommended']), $matches)) {
+        // e.g., '8' or '2'.
+        $major = $matches[1];
+        // e.g., '7' or '0'.
+        $minor = $matches[2];
+        // e.g., 'alpha6' or 'rc8'.
+        $suffix = $matches[4] ?? '';
+        $version = "{$major}.{$minor}";
+        if ($suffix) {
+          $cleaned_suffix = preg_replace('/\d+$/', '', $suffix);
+          $version .= "@{$cleaned_suffix}";
+        }
+      }
+
+      // Check composer.json for locked versions.
+      $composer_json = json_decode(file_get_contents('composer.json'), TRUE);
+      $package_name = 'drupal/' . $package;
+
+      if (isset($composer_json['require'][$package_name])) {
+        $current_constraint = $composer_json['require'][$package_name];
+
+        // Check if it's an exact version lock (e.g., "1.12.0").
+        if (preg_match('/^[\d\.]+$/', $current_constraint)) {
+          $this->yell($project['name'] . ' is locked to exact version ' . $current_constraint . ' in composer.json (recommended: ' . $project['recommended'] . '). Skipping - update composer.json manually if needed.');
+          continue;
+        }
+
+        // Check if the target version would be compatible with the constraint.
+        // For example, if composer.json has "^2.0" but recommended is "3.0.0".
+        if ($major && preg_match('/^\^([\d\.]+)/', $current_constraint, $constraint_matches)) {
+          $constraint_major = (int) explode('.', $constraint_matches[1])[0];
+          $target_major = (int) $major;
+
+          if ($constraint_major !== $target_major) {
+            $this->yell($project['name'] . ' has constraint ' . $current_constraint . ' in composer.json but recommended version is ' . $project['recommended'] . ' (different major version). Skipping - update composer.json manually if needed.');
+            continue;
+          }
+        }
+      }
+
+      $this->say('Updating ' . $package . ' to version ^' . $version);
+      // Update core in a separate subprocess, as otherwise composer
+      // might get updated too, resulting in deleted files inside
+      // the /vendor directory causing an error.
+      $escaped_package = escapeshellarg('drupal/' . $package . ':^' . $version);
+      $exit_code = $this->taskExec('bash -lc "exec composer update ' . $escaped_package . ' -W"')
+        ->printOutput(TRUE)
+        ->run()
+        ->getExitCode();
+      if ($exit_code !== 0) {
+        throw new \Exception("There was an error updating " . $package . " to version ^" . $version);
+      }
+
+      $current_branch = trim(`git symbolic-ref --short HEAD`);
+
+      // Don't commit to master/main branch.
+      if (in_array($current_branch, ['master', 'main'], TRUE)) {
+        throw new \Exception("This command cannot be run on the {$current_branch} branch.");
+      }
+      // Check if composer.lock has changes. Using the -W flag can
+      // result in modules already being updated.
+      $lock_changed = trim(`git status --porcelain composer.lock`);
+      if (!$lock_changed) {
+        $this->say($package . ' is already at version ' . $version);
+        continue;
+      }
+      // Update successful, add composer.lock to staging area,
+      // then commit it.
+      $this->taskExec("git add composer.lock")->printOutput(TRUE)->run();
+      $git_command = "git commit -m 'Update " . $package . ' to ' . $version . "'";
+      $this->taskExec($git_command)->printOutput(TRUE)->run();
+    }
+  }
+
+}

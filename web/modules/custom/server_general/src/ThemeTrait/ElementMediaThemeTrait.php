@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\server_general\ThemeTrait;
 
 use Drupal\Core\Url;
+use Drupal\server_general\ThemeTrait\Enum\FontSizeEnum;
 
 /**
  * Helper method for building caption for a Media of type Video.

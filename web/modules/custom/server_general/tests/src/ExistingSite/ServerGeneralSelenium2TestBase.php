@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
+use Behat\Mink\Driver\DriverInterface;
+use Drupal\Tests\server_general\TestConfiguration;
+use Drupal\Tests\server_general\Traits\MemoryManagementTrait;
+use Mink\WebdriverClassicDriver\WebdriverClassicDriver;
 use weitzman\DrupalTestTraits\ExistingSiteSelenium2DriverTestBase;
 
 /**
@@ -14,6 +18,39 @@ use weitzman\DrupalTestTraits\ExistingSiteSelenium2DriverTestBase;
  */
 class ServerGeneralSelenium2TestBase extends ExistingSiteSelenium2DriverTestBase {
 
+  use MemoryManagementTrait;
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getDriverInstance(): DriverInterface {
+    if (!isset($this->driver)) {
+      $hostname = getenv('DRUPAL_TEST_WEBDRIVER_HOSTNAME') ?: 'selenium-chrome';
+      $port = getenv('DRUPAL_TEST_WEBDRIVER_PORT') ?: '4444';
+
+      $capabilities = [
+        'browserName' => 'chrome',
+        // Accept self-signed certificates in the local Selenium container.
+        // So calling https://drupal-starter.ddev.site:4443/
+        // wouldn't result in certificate errors.
+        'acceptInsecureCerts' => TRUE,
+        'goog:chromeOptions' => [
+          'args' => [
+            '--disable-dev-shm-usage',
+            '--disable-gpu',
+            '--headless',
+            '--dns-prefetch-disable',
+            '--no-sandbox',
+          ],
+        ],
+      ];
+
+      $url = "http://{$hostname}:{$port}";
+      $this->driver = new WebdriverClassicDriver('chrome', $capabilities, $url);
+    }
+    return $this->driver;
+  }
+
   /**
    * {@inheritDoc}
    */
@@ -23,28 +60,15 @@ class ServerGeneralSelenium2TestBase extends ExistingSiteSelenium2DriverTestBase
     $session = $this->getSession();
     // Make takeScreenshot() more developer friendly, capture
     // as many details as possible.
-    $session->resizeWindow(1900, 1900);
+    $session->resizeWindow(TestConfiguration::BROWSER_WIDTH, TestConfiguration::BROWSER_HEIGHT);
   }
 
   /**
-   * Tear down and unset variables.
-   *
-   * This is needed in order to reduce the memory usage by PHPUnit.
-   *
-   * @see https://stackoverflow.com/questions/13537545/clear-memory-being-used-by-php
+   * {@inheritdoc}
    */
   public function tearDown(): void {
     parent::tearDown();
-    $refl = new \ReflectionObject($this);
-    foreach ($refl->getProperties() as $prop) {
-      if (!$prop->isStatic()
-        && 0 !== strpos($prop->getDeclaringClass()->getName(), 'PHPUnit_')
-        && $prop->getType()?->allowsNull() !== FALSE
-      ) {
-        $prop->setAccessible(TRUE);
-        $prop->setValue($this, NULL);
-      }
-    }
+    $this->performMemoryCleanup();
   }
 
   /**
@@ -81,7 +105,7 @@ class ServerGeneralSelenium2TestBase extends ExistingSiteSelenium2DriverTestBase
     // Take the screenshot and save it in /sites/simpletest/screenshots.
     $filename = $screenshot_file_base_name . time() . '.png';
     $screenshot = $this->getDriverInstance()->getScreenshot();
-    file_put_contents($dir . $filename, $screenshot);
+    file_put_contents($dirs[1] . $filename, $screenshot);
   }
 
 }

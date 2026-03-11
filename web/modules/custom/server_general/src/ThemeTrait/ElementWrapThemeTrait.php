@@ -8,6 +8,14 @@ use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\paragraphs\ParagraphInterface;
+use Drupal\server_general\ThemeTrait\Enum\AlignmentEnum;
+use Drupal\server_general\ThemeTrait\Enum\BackgroundColorEnum;
+use Drupal\server_general\ThemeTrait\Enum\FontSizeEnum;
+use Drupal\server_general\ThemeTrait\Enum\FontWeightEnum;
+use Drupal\server_general\ThemeTrait\Enum\HtmlTagEnum;
+use Drupal\server_general\ThemeTrait\Enum\LineClampEnum;
+use Drupal\server_general\ThemeTrait\Enum\TextColorEnum;
+use Drupal\server_general\ThemeTrait\Enum\WidthEnum;
 
 /**
  * Helper method for wrapping an element.
@@ -19,7 +27,7 @@ trait ElementWrapThemeTrait {
    *
    * @param array $element
    *   The render array.
-   * @param \Drupal\server_general\ThemeTrait\BackgroundColorEnum $bg_color
+   * @param \Drupal\server_general\ThemeTrait\Enum\BackgroundColorEnum $bg_color
    *   The background color.
    *
    * @return array
@@ -44,7 +52,7 @@ trait ElementWrapThemeTrait {
    *
    * @param array $element
    *   The render array.
-   * @param \Drupal\server_general\ThemeTrait\BackgroundColorEnum $bg_color
+   * @param \Drupal\server_general\ThemeTrait\Enum\BackgroundColorEnum $bg_color
    *   Optional; The background color.
    *   If NULL, a transparent background will be added.
    *
@@ -70,7 +78,7 @@ trait ElementWrapThemeTrait {
    *
    * @param array $element
    *   Render array.
-   * @param \Drupal\server_general\ThemeTrait\AlignmentEnum $align
+   * @param \Drupal\server_general\ThemeTrait\Enum\AlignmentEnum $align
    *   Determine the alignment of flex.
    *
    * @return array
@@ -95,7 +103,7 @@ trait ElementWrapThemeTrait {
    *
    * @param array $element
    *   Render array.
-   * @param \Drupal\server_general\ThemeTrait\AlignmentEnum $align
+   * @param \Drupal\server_general\ThemeTrait\Enum\AlignmentEnum $align
    *   Determine the alignment of flex.
    *
    * @return array
@@ -120,7 +128,7 @@ trait ElementWrapThemeTrait {
    *
    * @param array $element
    *   Render array.
-   * @param \Drupal\server_general\ThemeTrait\AlignmentEnum $align
+   * @param \Drupal\server_general\ThemeTrait\Enum\AlignmentEnum $align
    *   Determine the alignment of flex.
    *
    * @return array
@@ -145,7 +153,7 @@ trait ElementWrapThemeTrait {
    *
    * @param array $element
    *   Render array.
-   * @param \Drupal\server_general\ThemeTrait\AlignmentEnum $align
+   * @param \Drupal\server_general\ThemeTrait\Enum\AlignmentEnum $align
    *   Determine the alignment of flex.
    *
    * @return array
@@ -231,7 +239,7 @@ trait ElementWrapThemeTrait {
    *
    * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
    *   The render array, string or a TranslatableMarkup object.
-   * @param \Drupal\server_general\ThemeTrait\WidthEnum $width
+   * @param \Drupal\server_general\ThemeTrait\Enum\WidthEnum $width
    *   Max width.
    * @param bool $is_center
    *   Defines if content is centered.
@@ -327,14 +335,13 @@ trait ElementWrapThemeTrait {
    *
    * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
    *   The render array, string or a TranslatableMarkup object.
-   * @param string $tag
-   *   The name of the tag. For example `h1` would result with a
-   *   `<h1></h1>` tag.
+   * @param \Drupal\server_general\ThemeTrait\Enum\HtmlTagEnum $tag
+   *   The HTML tag to wrap the element with.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapHtmlTag(array|string|TranslatableMarkup $element, string $tag): array {
+  protected function wrapHtmlTag(array|string|TranslatableMarkup $element, HtmlTagEnum $tag): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       return [];
@@ -342,13 +349,11 @@ trait ElementWrapThemeTrait {
 
     $element = [
       '#theme' => 'server_theme_wrap_html_tag',
-      '#tag' => $tag,
+      '#tag' => $tag->value,
       '#element' => $element,
     ];
 
-    if (in_array($tag, ['h1', 'h2', 'h3', 'h4', 'h5'])) {
-      $element = $this->wrapProseText($element);
-    }
+    $element = $this->wrapProseText($element);
 
     return $element;
   }
@@ -400,7 +405,7 @@ trait ElementWrapThemeTrait {
    *
    * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
    *   The render array, string or a TranslatableMarkup object.
-   * @param \Drupal\server_general\ThemeTrait\FontWeightEnum $weight
+   * @param \Drupal\server_general\ThemeTrait\Enum\FontWeightEnum $weight
    *   Font weight of the text.
    *
    * @return array
@@ -424,7 +429,7 @@ trait ElementWrapThemeTrait {
    *
    * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
    *   The render array, string or a TranslatableMarkup object.
-   * @param \Drupal\server_general\ThemeTrait\FontSizeEnum $size
+   * @param \Drupal\server_general\ThemeTrait\Enum\FontSizeEnum $size
    *   Font size of the text.
    *
    * @return array
@@ -490,13 +495,13 @@ trait ElementWrapThemeTrait {
    *
    * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
    *   The render array, string or a TranslatableMarkup object.
-   * @param int $lines
-   *   The lines to clamp. Values are 1 to 4.
+   * @param \Drupal\server_general\ThemeTrait\Enum\LineClampEnum $lines
+   *   The lines to clamp.
    *
    * @return array
    *   Render array.
    */
-  protected function wrapTextLineClamp(array|string|TranslatableMarkup $element, int $lines): array {
+  protected function wrapTextLineClamp(array|string|TranslatableMarkup $element, LineClampEnum $lines): array {
     $element = $this->filterEmptyElements($element);
     if (empty($element)) {
       return [];
@@ -504,7 +509,7 @@ trait ElementWrapThemeTrait {
 
     return [
       '#theme' => 'server_theme_text_decoration__line_clamp',
-      '#lines' => $lines,
+      '#lines' => $lines->value,
       '#element' => $element,
     ];
   }
@@ -535,7 +540,7 @@ trait ElementWrapThemeTrait {
    *
    * @param array|string|\Drupal\Core\StringTranslation\TranslatableMarkup $element
    *   The render array, string or a TranslatableMarkup object.
-   * @param \Drupal\server_general\ThemeTrait\TextColorEnum $color
+   * @param \Drupal\server_general\ThemeTrait\Enum\TextColorEnum $color
    *   The font color.
    *
    * @return array

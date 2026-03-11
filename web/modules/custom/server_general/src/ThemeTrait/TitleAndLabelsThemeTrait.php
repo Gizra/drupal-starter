@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\server_general\ThemeTrait;
 
+use Drupal\server_general\ThemeTrait\Enum\HtmlTagEnum;
+
 /**
  * Helper method for building Title and labels of a content.
  */
@@ -63,7 +65,7 @@ trait TitleAndLabelsThemeTrait {
    *   Render array.
    */
   protected function buildParagraphTitle(string $title): array {
-    return $this->wrapHtmlTag($title, 'h2');
+    return $this->wrapHtmlTag($title, HtmlTagEnum::H2);
   }
 
 }

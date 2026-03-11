@@ -1,0 +1,194 @@
+diff --git a/core/lib/Drupal/Core/Ajax/OpenDialogCommand.php b/core/lib/Drupal/Core/Ajax/OpenDialogCommand.php
+index 45fe3c67c70f2acdff20b47736b14d34d1f81e27..d6933e4520415cfe5ee6e475d7e180e6079aeafe 100644
+--- a/core/lib/Drupal/Core/Ajax/OpenDialogCommand.php
++++ b/core/lib/Drupal/Core/Ajax/OpenDialogCommand.php
+@@ -74,13 +74,20 @@ class OpenDialogCommand implements CommandInterface, CommandWithAttachedAssetsIn
+    */
+   public function __construct($selector, string|\Stringable|null $title, $content, array $dialog_options = [], $settings = NULL) {
+     $title = PlainTextOutput::renderFromHtml($title);
+-
+     $dialog_options += ['title' => $title];
++
++    $classes = [];
++    if (isset($dialog_options['classes']['ui-dialog'])) {
++      $classes[] = $dialog_options['classes']['ui-dialog'];
++    }
+     if (isset($dialog_options['dialogClass'])) {
+       @trigger_error('Passing $dialog_options[\'dialogClass\'] to OpenDialogCommand::__construct() is deprecated in drupal:10.3.0 and will be removed in drupal:12.0.0. Use $dialog_options[\'classes\'] instead. See https://www.drupal.org/node/3440844', E_USER_DEPRECATED);
+-      $dialog_options['classes']['ui-dialog'] = $dialog_options['dialogClass'];
++      $classes[] = $dialog_options['dialogClass'];
+       unset($dialog_options['dialogClass']);
+     }
++    if ($classes) {
++      $dialog_options['classes']['ui-dialog'] = implode(' ', $classes);
++    }
+
+     $this->selector = $selector;
+     $this->content = $content;
+diff --git a/core/lib/Drupal/Core/Ajax/OpenOffCanvasDialogCommand.php b/core/lib/Drupal/Core/Ajax/OpenOffCanvasDialogCommand.php
+index a7aefb00664bb1fe9c90be13d7dc6d253cfd07f7..18d1cd6674f0e6d323bc81d6077e1a02fcb9f44d 100644
+--- a/core/lib/Drupal/Core/Ajax/OpenOffCanvasDialogCommand.php
++++ b/core/lib/Drupal/Core/Ajax/OpenOffCanvasDialogCommand.php
+@@ -38,21 +38,19 @@ class OpenOffCanvasDialogCommand extends OpenDialogCommand {
+    *   (optional) The position to render the off-canvas dialog.
+    */
+   public function __construct(string|\Stringable|null $title, $content, array $dialog_options = [], $settings = NULL, $position = 'side') {
+-    $dialog_class = FALSE;
++    $classes = [];
+     if (isset($dialog_options['classes']['ui-dialog'])) {
+-      $dialog_class = $dialog_options['classes']['ui-dialog'];
++      $classes[] = $dialog_options['classes']['ui-dialog'];
+     }
+-    elseif (isset($dialog_options['dialogClass'])) {
++    if (isset($dialog_options['dialogClass'])) {
+       @trigger_error('Passing $dialog_options[\'dialogClass\'] to OpenOffCanvasDialogCommand::__construct() is deprecated in drupal:10.3.0 and will be removed in drupal:12.0.0. Use $dialog_options[\'classes\'] instead. See https://www.drupal.org/node/3440844', E_USER_DEPRECATED);
+-      $dialog_class = $dialog_options['dialogClass'];
++      $classes[] = $dialog_options['dialogClass'];
+       unset($dialog_options['dialogClass']);
+     }
+-    if ($dialog_class) {
+-      $dialog_options['classes']['ui-dialog'] = $dialog_class . ' ' . "ui-dialog-off-canvas ui-dialog-position-$position";
+-    }
+-    else {
+-      $dialog_options['classes']['ui-dialog'] = "ui-dialog-off-canvas ui-dialog-position-$position";
+-    }
++    $classes[] = 'ui-dialog-off-canvas';
++    $classes[] = "ui-dialog-position-$position";
++    $dialog_options['classes']['ui-dialog'] = implode(' ', $classes);
++
+     parent::__construct('#drupal-off-canvas', $title, $content, $dialog_options, $settings);
+     $this->dialogOptions['modal'] = FALSE;
+     $this->dialogOptions['autoResize'] = FALSE;
+diff --git a/core/modules/ckeditor5/js/ckeditor5.js b/core/modules/ckeditor5/js/ckeditor5.js
+index f5af26de83853c3a4448ef37308d11cf703d5ba1..547d9a46ed760eb9f2c8e9b5c31d608133c57d22 100644
+--- a/core/modules/ckeditor5/js/ckeditor5.js
++++ b/core/modules/ckeditor5/js/ckeditor5.js
+@@ -599,11 +599,12 @@
+      */
+     openDialog(url, saveCallback, dialogSettings) {
+       // Add a consistent dialog class.
+-      const classes = dialogSettings.dialogClass
+-        ? dialogSettings.dialogClass.split(' ')
++      dialogSettings.classes = dialogSettings.classes || {};
++      const classes = dialogSettings.classes['ui-dialog']
++        ? dialogSettings.classes['ui-dialog'].split(' ')
+         : [];
+       classes.push('ui-dialog--narrow');
+-      dialogSettings.dialogClass = classes.join(' ');
++      dialogSettings.classes['ui-dialog'] = classes.join(' ');
+       dialogSettings.autoResize =
+         window.matchMedia('(min-width: 600px)').matches;
+       dialogSettings.width = 'auto';
+diff --git a/core/modules/ckeditor5/tests/src/FunctionalJavascript/MediaLibraryTest.php b/core/modules/ckeditor5/tests/src/FunctionalJavascript/MediaLibraryTest.php
+index c95baf47e0c48ef3173975c86d20f8e80b1884f3..c3e035ed0cadc73e282df5829bb7a320052c1557 100644
+--- a/core/modules/ckeditor5/tests/src/FunctionalJavascript/MediaLibraryTest.php
++++ b/core/modules/ckeditor5/tests/src/FunctionalJavascript/MediaLibraryTest.php
+@@ -323,4 +323,17 @@ public function testAlt(): void {
+     $this->assertEquals('""', $drupal_media->getAttribute('alt'));
+   }
+
++  /**
++   * Tests the media-library-widget-modal class is present with ckeditor modal.
++   *
++   * This is a regression test for https://www.drupal.org/node/3474018.
++   */
++  public function testMediaLibraryDialogClass(): void {
++    $this->drupalGet('/node/add/blog');
++    $this->waitForEditor();
++    $this->pressEditorButton('Insert Media');
++    $this->assertSession()->waitForElementVisible('css', '#drupal-modal #media-library-content');
++    $this->assertSession()->elementAttributeContains('css', '.ui-dialog', 'class', 'media-library-widget-modal');
++  }
++
+ }
+diff --git a/core/tests/Drupal/Tests/Core/Ajax/AjaxCommandsTest.php b/core/tests/Drupal/Tests/Core/Ajax/AjaxCommandsTest.php
+index 58c37667be4d1ba3a436a15112cf29d56e067de0..a69a197c9ec0d4c3eb48df0c623eda0eab36a8f4 100644
+--- a/core/tests/Drupal/Tests/Core/Ajax/AjaxCommandsTest.php
++++ b/core/tests/Drupal/Tests/Core/Ajax/AjaxCommandsTest.php
+@@ -30,6 +30,7 @@
+ use Drupal\Core\Ajax\RedirectCommand;
+ use Drupal\Core\Ajax\UpdateBuildIdCommand;
+ use Drupal\Core\Ajax\OpenDialogCommand;
++use Drupal\Core\Ajax\OpenOffCanvasDialogCommand;
+
+ /**
+  * Test coverage for various classes in the \Drupal\Core\Ajax namespace.
+@@ -451,6 +452,78 @@ public function testOpenDialogCommand(): void {
+     $this->assertEquals($expected, $command->render());
+   }
+
++  /**
++   * Tests dialogClass for OpenDialogCommand and OpenOffCanvasDialogCommand.
++   *
++   * This is a regression test for https://www.drupal.org/node/3474018.
++   *
++   * @covers \Drupal\Core\Ajax\OpenDialogCommand
++   * @covers \Drupal\Core\Ajax\OpenOffCanvasDialogCommand
++   * @dataProvider dialogCommandProvider
++   * @group legacy
++   */
++  public function testOpenDialogCommandClass(string $class, array $args, array $expected): void {
++    $short = (new \ReflectionClass($class))->getShortName();
++    $this->expectDeprecation("Passing \$dialog_options['dialogClass'] to {$short}::__construct() is deprecated in drupal:10.3.0 and will be removed in drupal:12.0.0. Use \$dialog_options['classes'] instead. See https://www.drupal.org/node/3440844");
++    $reflection = new \ReflectionClass($class);
++    $command = $reflection->newInstanceArgs($args);
++    $this->assertEquals($expected, $command->getDialogOptions());
++  }
++
++  /**
++   * Data provider for testOpenDialogCommandClass.
++   */
++  public static function dialogCommandProvider(): array {
++    return [
++      'OpenDialogCommand with only dialogClass' => [
++        OpenDialogCommand::class,
++        ['#some-dialog', 'Title', '', ['dialogClass' => 'foo bar']],
++        ['title' => 'Title', 'classes' => ['ui-dialog' => 'foo bar']],
++      ],
++      'OpenDialogCommand with dialogClass and classes' => [
++        OpenDialogCommand::class,
++        ['#some-dialog', 'Title', '', ['dialogClass' => 'foo bar', 'classes' => ['ui-dialog' => 'baz qux']]],
++        ['title' => 'Title', 'classes' => ['ui-dialog' => 'baz qux foo bar']],
++      ],
++      'OpenOffCanvasDialogCommand with only dialogClass' => [
++        OpenOffCanvasDialogCommand::class,
++        ['Title', '', ['dialogClass' => 'foo bar']],
++        [
++          'title' => 'Title',
++          'classes' => [
++            'ui-dialog' => 'foo bar ui-dialog-off-canvas ui-dialog-position-side',
++            'ui-dialog-content' => 'drupal-off-canvas-reset',
++          ],
++          'modal' => FALSE,
++          'autoResize' => FALSE,
++          'resizable' => 'w',
++          'draggable' => FALSE,
++          'drupalAutoButtons' => FALSE,
++          'drupalOffCanvasPosition' => 'side',
++          'width' => 300,
++        ],
++      ],
++      'OpenOffCanvasDialogCommand with dialogClass and classes' => [
++        OpenOffCanvasDialogCommand::class,
++        ['Title', '', ['dialogClass' => 'foo bar', 'classes' => ['ui-dialog' => 'baz qux']]],
++        [
++          'title' => 'Title',
++          'classes' => [
++            'ui-dialog' => 'baz qux foo bar ui-dialog-off-canvas ui-dialog-position-side',
++            'ui-dialog-content' => 'drupal-off-canvas-reset',
++          ],
++          'modal' => FALSE,
++          'autoResize' => FALSE,
++          'resizable' => 'w',
++          'draggable' => FALSE,
++          'drupalAutoButtons' => FALSE,
++          'drupalOffCanvasPosition' => 'side',
++          'width' => 300,
++        ],
++      ],
++    ];
++  }
++
+   /**
+    * @covers \Drupal\Core\Ajax\OpenModalDialogCommand
+    */

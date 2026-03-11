@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace Drupal\server_general\ThemeTrait;
 
+use Drupal\server_general\ThemeTrait\Enum\AlignmentEnum;
+use Drupal\server_general\ThemeTrait\Enum\BackgroundColorEnum;
+use Drupal\server_general\ThemeTrait\Enum\FontSizeEnum;
+use Drupal\server_general\ThemeTrait\Enum\FontWeightEnum;
+use Drupal\server_general\ThemeTrait\Enum\TextColorEnum;
+
 /**
  * Helper methods for rendering Info Card elements.
  */
@@ -63,7 +69,7 @@ trait InfoCardThemeTrait {
     $bottom_elements[] = $element;
 
     if ($subtitle) {
-      $element = $this->wrapTextResponsiveFontSize($subtitle, FontSizeEnum::LG);
+      $element = $this->wrapTextResponsiveFontSize($subtitle, FontSizeEnum::Lg);
       $element = $this->wrapTextCenter($element);
       $bottom_elements[] = $this->wrapTextColor($element, TextColorEnum::Gray);
     }
