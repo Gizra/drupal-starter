@@ -775,7 +775,7 @@ class StyleGuideController extends ControllerBase {
   }
 
   /**
-   * Build a responsive image render array using Drupal's responsive_image theme.
+   * Build a responsive image render array using responsive_image theme.
    *
    * Uses the server_style_guide:// stream wrapper which maps to the module's
    * images/ directory, allowing Drupal image styles to process module-bundled

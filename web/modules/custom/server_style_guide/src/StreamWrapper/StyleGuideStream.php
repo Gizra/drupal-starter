@@ -48,8 +48,9 @@ class StyleGuideStream extends LocalReadOnlyStream {
     global $base_url;
     $path = str_replace('\\', '/', $this->getTarget());
     $path = UrlHelper::encodePath($path);
-    $module_path = \Drupal::service('extension.list.module')->getPath('server_style_guide');
-    return "{$base_url}/{$module_path}/images/$path";
+    $module_dir = dirname(__DIR__, 2);
+    $relative_path = substr($module_dir, strlen(DRUPAL_ROOT) + 1);
+    return "{$base_url}/{$relative_path}/images/{$path}";
   }
 
 }
