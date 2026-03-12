@@ -103,7 +103,7 @@ class ServerGeneralLockedPagesTest extends ServerGeneralTestBase {
     $this->assertSession()->statusCodeEquals(Response::HTTP_FORBIDDEN);
 
     // Test translations.
-    $node_es = $node->addTranslation('es', $node->toArray());
+    $node_es = $node->addTranslation('es');
     $node_es->setTitle('Not locked page ES');
     $node_es->save();
 

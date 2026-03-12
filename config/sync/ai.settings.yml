@@ -33,3 +33,5 @@ default_providers:
   text_to_speech:
     provider_id: openai
     model_id: tts-1-hd
+allowed_hosts: {  }
+allowed_hosts_rewrite_links: false
