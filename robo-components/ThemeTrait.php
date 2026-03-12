@@ -26,7 +26,7 @@ trait ThemeTrait {
   /**
    * Compile the theme.
    */
-  private function themeCompile(): void {
+  public function themeCompile(): void {
     $theme_dir = self::$themeBase;
     $directories = [
       'css',
