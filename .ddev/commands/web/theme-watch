@@ -5,4 +5,4 @@
 ## Aliases: theme-watch
 ## Example: "ddev theme:watch"
 
-cd ./web/themes/custom/server_theme && npx tailwindcss -i ./src/css/style.css -o ./dist/css/style.css --watch
+cd ./web/themes/custom/server_theme && npm run watch
