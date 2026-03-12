@@ -85,7 +85,7 @@ Please refer to the [Default content documentation](https://www.drupal.org/docs/
 
 ## Theme Development
 
-By default, `ddev restart` compiles the theme using Robo (`ddev robo theme:compile-debug`)
+By default, `ddev restart` compiles the theme using Robo (`ddev theme:compile`)
 
 This is used only for watching Tailwind styles, it's not compiling js, images, etc.
 
@@ -97,7 +97,7 @@ ddev theme:watch
 
 This will compile Tailwind and keep watching for any changes.
 
-When running `ddev robo theme:compile` it will purge any TailWind's CSS class
+When running `ddev theme:compile` it will purge any TailWind's CSS class
 which is not found in the code, twig, or under `tailwind.config.js` `whitelist` property.
 
 The directory structure:
@@ -372,17 +372,17 @@ In order to deploy upon every merge automatically using GitHub Actions, you shal
 1. `git commit -m "Deployment secrets and configuration"`
 1. Add the public key in `pantheon-key.pub` to the newly created dummy [Pantheon user](https://pantheon.io/docs/ssh-keys)
 1. Set up the following in your GitHub repository settings:
-   
+
    **GitHub Secrets** (Settings → Secrets and variables → Actions → Secrets):
    - `TERMINUS_TOKEN`: Your Pantheon machine token
    - `PANTHEON_DEPLOY_KEY`: The SSH private key for deployment
    - `GH_TOKEN`: GitHub personal access token for posting deployment comments
-   
+
    **GitHub Variables** (Settings → Secrets and variables → Actions → Variables):
    - `PANTHEON_GIT_URL`: The Pantheon Git URL for your project
    - `ROLLBAR_SERVER_TOKEN`: Your Rollbar server token (optional)
    - `DEPLOY_EXCLUDE_WARNING`: Warnings to exclude from deployment notifications (optional)
-   
+
 1. Actualize `public static string $githubProject = 'Gizra/the-client';` in the `RoboFile.php`.
 
 Optionally you can specify which target branch you'd like to push on Pantheon, by default it's `master`, so the target is the DEV environment, but alternatively you can issue:
