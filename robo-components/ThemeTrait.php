@@ -31,7 +31,7 @@ trait ThemeTrait {
    * @param bool $optimize
    *   Indicate whether to optimize during compilation.
    */
-  private function doThemeCompile(bool $optimize = FALSE): void {
+  private function doThemeCompile(bool $optimize = FALSE): ResultData {
     $directories = [
       'js',
       'images',
@@ -47,7 +47,10 @@ trait ThemeTrait {
     $theme_dir = self::$themeBase;
 
     // Make sure we have all the node packages.
-    $this->_exec("cd $theme_dir && npm install");
+    $result = $this->_exec("cd $theme_dir && npm install");
+    if ($result->getExitCode() !== 0) {
+      return new ResultData($result->getExitCode(), 'npm install failed.');
+    }
 
     // Use Tailwind CLI to compile CSS and always minify for consistent output.
     $tailwind_command = "cd $theme_dir && npx tailwindcss -i ./src/css/style.css -o ./dist/css/style.css --minify";
@@ -60,7 +63,7 @@ trait ThemeTrait {
 
     if ($result->getExitCode() !== 0) {
       $this->taskCleanDir(['dist/css']);
-      return;
+      return new ResultData($result->getExitCode(), 'Theme compilation failed.');
     }
 
     // Javascript.
@@ -71,7 +74,11 @@ trait ThemeTrait {
         $from = str_replace('web/themes/custom/server_theme/', '', $js_file);
         $to = str_replace('src/', 'dist/', $from);
         // Minify the js.
-        $this->_exec("cd $theme_dir && npx minify $from > $to");
+        $result = $this->_exec("cd $theme_dir && npx minify --fail-on-error $from > $to");
+        $to_abs = self::$themeBase . '/' . $to;
+        if ($result->getExitCode() !== 0 || !file_exists($to_abs) || filesize($to_abs) === 0) {
+          return new ResultData(1, "JS minification failed for $from.");
+        }
       }
     }
     else {
@@ -91,23 +98,30 @@ trait ThemeTrait {
         self::$themeBase . '/src/images/*.png',
       ];
 
-      $this->taskImageMinify($input)
+      $result = $this->taskImageMinify($input)
         ->to(self::$themeBase . '/dist/images/')
         ->run();
+      if (!$result->wasSuccessful()) {
+        return new ResultData($result->getExitCode(), 'Image minification failed.');
+      }
 
       // Compress all SVGs.
-      $this->themeSvgCompress();
+      $svgResult = $this->themeSvgCompress();
+      if ($svgResult !== NULL) {
+        return $svgResult;
+      }
     }
 
     $this->_exec('drush cache:rebuild');
+    return new ResultData(ResultData::EXITCODE_OK);
   }
 
   /**
    * Compile the theme (optimized).
    */
-  public function themeCompile(): void {
+  public function themeCompile(): ResultData {
     $this->say('Compiling (optimized).');
-    $this->doThemeCompile(TRUE);
+    return $this->doThemeCompile(TRUE);
   }
 
   /**
@@ -115,9 +129,9 @@ trait ThemeTrait {
    *
    * Non-optimized.
    */
-  public function themeCompileDebug(): void {
+  public function themeCompileDebug(): ResultData {
     $this->say('Compiling (non-optimized).');
-    $this->doThemeCompile();
+    return $this->doThemeCompile();
   }
 
   /**
