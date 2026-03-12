@@ -122,4 +122,5 @@ theme:
   classy: 0
   server_theme: 0
   claro: 0
+  server_admin_theme: 0
 profile: server
