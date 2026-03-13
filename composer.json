@@ -15,7 +15,26 @@
         },
         {
             "type": "composer",
-            "url": "https://asset-packagist.org"
+            "url": "https://asset-packagist.org",
+            "exclude": ["npm-asset/slick-carousel"]
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "npm-asset/slick-carousel",
+                "version": "dev-master",
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/kenwheeler/slick.git",
+                    "reference": "ecb6ea2345650a5769e81aee46bec10504ac2a36"
+                },
+                "dist": {
+                    "type": "zip",
+                    "url": "https://api.github.com/repos/kenwheeler/slick/zipball/ecb6ea2345650a5769e81aee46bec10504ac2a36"
+                },
+                "type": "npm-asset",
+                "license": ["MIT"]
+            }
         }
     ],
     "require": {
