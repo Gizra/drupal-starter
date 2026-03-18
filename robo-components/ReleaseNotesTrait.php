@@ -403,6 +403,15 @@ GRAPHQL;
       return $issue_matches[1][0];
     }
 
+    // Fall back to a bare #xxx reference at the very start of the PR body.
+    // This handles cases where a PR description begins with the issue number
+    // (e.g. "#1234 Fix the thing"). We only match at the start to avoid
+    // picking up arbitrary references from dependabot or copilot mid-body.
+    preg_match('!^\s*#([0-9]+)!', $pr->body, $issue_matches);
+    if (isset($issue_matches[1])) {
+      return $issue_matches[1];
+    }
+
     return NULL;
   }
 
