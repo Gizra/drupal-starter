@@ -194,12 +194,12 @@ if (defined(
 if (function_exists('pantheon_get_secret')) {
   $tfa_key = pantheon_get_secret('tfa_key');
   if (!empty($tfa_key)) {
-    putenv('TFA_KEY="' . $tfa_key . "\"");
+    putenv('TFA_KEY=' . $tfa_key);
   }
 
   $openai_api_key = pantheon_get_secret('openai_api_key');
   if (!empty($openai_api_key)) {
-    putenv('OPENAI_API_KEY"' . $openai_api_key . "\"");
+    putenv('OPENAI_API_KEY=' . $openai_api_key);
   }
 }
 
