@@ -105,7 +105,9 @@ jobs:
         run: ./ci-scripts/prepare_deploy.sh
 
       - name: Deploy tag to Pantheon
-        run: ddev robo deploy:tag-pantheon --no-interaction ${{ github.ref_name }} master
+        env:
+          REF_NAME: ${{ github.ref_name }}
+        run: ddev robo deploy:tag-pantheon --no-interaction "$REF_NAME" master
 
       - name: Sync Pantheon
         run: ddev robo deploy:pantheon-sync
@@ -155,7 +157,9 @@ jobs:
         run: ./ci-scripts/prepare_deploy.sh
 
       - name: Deploy tag to Pantheon
-        run: ddev robo deploy:tag-pantheon --no-interaction ${{ github.ref_name }} master
+        env:
+          REF_NAME: ${{ github.ref_name }}
+        run: ddev robo deploy:tag-pantheon --no-interaction "$REF_NAME" master
 
       - name: Sync Pantheon TEST
         run: ddev robo deploy:pantheon-sync
