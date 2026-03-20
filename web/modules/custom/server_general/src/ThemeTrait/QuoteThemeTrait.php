@@ -47,7 +47,7 @@ trait QuoteThemeTrait {
     // The photo credit on top of the image.
     $credit = [];
     if (!empty($image_credit)) {
-      $credit[] = ['#markup' => '© ' . $image_credit];
+      $credit[] = ['#plain_text' => '© ' . $image_credit];
     }
 
     return [
