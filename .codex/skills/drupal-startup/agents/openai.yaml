@@ -1,0 +1,4 @@
+interface:
+  display_name: "Drupal Startup"
+  short_description: "Prepare Drupal locally and log in"
+  default_prompt: "Use $drupal-startup to bring this Drupal repo to a ready, logged-in local state."
