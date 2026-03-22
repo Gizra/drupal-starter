@@ -1,7 +1,7 @@
 interface:
   display_name: "Drupal Startup"
   short_description: "Prepare Drupal locally and log in"
-  icon_small: "./assets/drupal-startup-small.svg"
-  icon_large: "./assets/drupal-startup-large.svg"
+  icon_small: "./assets/drupal-startup-small.png"
+  icon_large: "./assets/drupal-startup-large.png"
   brand_color: "#0678BE"
   default_prompt: "Use $drupal-startup to bring this Drupal repo to a ready, logged-in local state."
