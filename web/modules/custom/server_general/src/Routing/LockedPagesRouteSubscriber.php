@@ -19,6 +19,20 @@ use Symfony\Component\Routing\RouteCollection;
 final class LockedPagesRouteSubscriber extends RouteSubscriberBase {
 
   /**
+   * Utility user routes that should use the administration theme.
+   */
+  private const ADMIN_THEME_ROUTES = [
+    'entity.user.cancel_form',
+    'entity.user.canonical',
+    'entity.user.edit_form',
+    'user.cancel_confirm',
+    'user.edit',
+    'user.logout.confirm',
+    'user.page',
+    'user.well-known.change_password',
+  ];
+
+  /**
    * The route match service.
    *
    * @var \Drupal\Core\Routing\RouteMatchInterface
@@ -59,6 +73,12 @@ final class LockedPagesRouteSubscriber extends RouteSubscriberBase {
    * {@inheritdoc}
    */
   protected function alterRoutes(RouteCollection $collection) {
+    foreach (self::ADMIN_THEME_ROUTES as $route_name) {
+      if ($route = $collection->get($route_name)) {
+        $route->setOption('_admin_route', TRUE);
+      }
+    }
+
     // Check if the route exists and is for deleting a node.
     if ($route = $collection->get('entity.node.delete_form')) {
       $route->setRequirement('_custom_access', 'server_general.route_subscriber::access');
