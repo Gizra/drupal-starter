@@ -391,7 +391,8 @@ GRAPHQL;
     }
 
     // Fall back to closing keyword pattern (e.g. "Closes #123", "Fixes #123").
-    // Anchored to start of line (^, m flag) to avoid matching example text mid-sentence.
+    // Anchored to start of line (^, m flag) to avoid matching
+    // example text mid-sentence.
     preg_match_all('!^(?:close[sd]?|fix(?:e[sd])?|resolve[sd]?)\s+#([0-9]+)!im', $body, $issue_matches);
     if (isset($issue_matches[1][0])) {
       return $issue_matches[1][0];
