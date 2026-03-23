@@ -31,6 +31,8 @@ You can open this project in GitHub Codespaces by clicking the badge at the top 
 
 Once the installation is complete (takes about 10 minutes), you can use `ddev login` to log in to the site as admin user using your default browser.
 
+The Codespace comes with [Claude Code](https://docs.anthropic.com/en/docs/claude-code) pre-installed for agentic coding. Run `claude` in the terminal to get started. For the best authentication experience, open your Codespace in VS Code rather than in the browser.
+
 ## Local Installation
 
 The only requirement is having [DDEV](https://ddev.readthedocs.io/en/stable/) installed.

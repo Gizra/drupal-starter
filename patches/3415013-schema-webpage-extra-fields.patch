@@ -1,0 +1,438 @@
+diff --git a/schema_web_page/config/schema/schema_web_page.metatag_tag.schema.yml b/schema_web_page/config/schema/schema_web_page.metatag_tag.schema.yml
+index 8e1c3cf4d795cefcb48d4554a93b5e8fea949864..eeaadf544cf742b8fecd42552c919691d8a9e6f5 100644
+--- a/schema_web_page/config/schema/schema_web_page.metatag_tag.schema.yml
++++ b/schema_web_page/config/schema/schema_web_page.metatag_tag.schema.yml
+@@ -37,3 +37,24 @@ metatag.metatag_tag.schema_web_page_translation_of_work:
+ metatag.metatag_tag.schema_web_page_work_translation:
+   type: text
+   label: 'workTranslation'
++metatag.metatag_tag.schema_web_page_audience:
++  type: text
++  label: 'audience'
++metatag.metatag_tag.schema_web_page_main_content_of_page:
++  type: text
++  label: 'mainContentOfPage'
++metatag.metatag_tag.schema_web_page_main_entity:
++  type: text
++  label: 'mainEntity'
++metatag.metatag_tag.schema_web_page_url:
++  type: text
++  label: 'url'
++metatag.metatag_tag.schema_web_page_name:
++  type: text
++  label: 'name'
++metatag.metatag_tag.schema_web_page_date_published:
++  type: text
++  label: 'datePublished'
++metatag.metatag_tag.schema_web_page_date_modified:
++  type: text
++  label: 'dateModified'
+diff --git a/schema_web_page/src/Plugin/metatag/Tag/SchemaWebPageAudience.php b/schema_web_page/src/Plugin/metatag/Tag/SchemaWebPageAudience.php
+new file mode 100644
+index 0000000000000000000000000000000000000000..5d7054ca13f2bf1f5787db39555b9d1014646399
+--- /dev/null
++++ b/schema_web_page/src/Plugin/metatag/Tag/SchemaWebPageAudience.php
+@@ -0,0 +1,33 @@
++<?php
++
++namespace Drupal\schema_web_page\Plugin\metatag\Tag;
++
++use Drupal\schema_metatag\Plugin\metatag\Tag\SchemaNameBase;
++
++/**
++ * Provides a plugin for the 'schema_web_page_audience' meta tag.
++ *
++ * - 'id' should be a globally unique id.
++ * - 'name' should match the Schema.org element name.
++ * - 'group' should match the id of the group that defines the Schema.org type.
++ *
++ * @MetatagTag(
++ *   id = "schema_web_page_audience",
++ *   label = @Translation("audience"),
++ *   description = @Translation("An intended audience, i.e. a group for whom something was created."),
++ *   name = "audience",
++ *   group = "schema_web_page",
++ *   weight = 3,
++ *   type = "string",
++ *   secure = FALSE,
++ *   multiple = TRUE,
++ *   property_type = "audience",
++ *   tree_parent = {
++ *     "Audience",
++ *   },
++ *   tree_depth = -1,
++ * )
++ */
++class SchemaWebPageAudience extends SchemaNameBase {
++
++}
+diff --git a/schema_web_page/src/Plugin/metatag/Tag/SchemaWebPageDateModified.php b/schema_web_page/src/Plugin/metatag/Tag/SchemaWebPageDateModified.php
+new file mode 100644
+index 0000000000000000000000000000000000000000..d9b8a69c0c806ce3a3b3ee87eb5846aa0e566152
+--- /dev/null
++++ b/schema_web_page/src/Plugin/metatag/Tag/SchemaWebPageDateModified.php
+@@ -0,0 +1,31 @@
++<?php
++
++namespace Drupal\schema_web_page\Plugin\metatag\Tag;
++
++use Drupal\schema_metatag\Plugin\metatag\Tag\SchemaNameBase;
++
++/**
++ * Provides a plugin for the 'schema_web_page_date_modified' meta tag.
++ *
++ * - 'id' should be a globally unique id.
++ * - 'name' should match the Schema.org element name.
++ * - 'group' should match the id of the group that defines the Schema.org type.
++ *
++ * @MetatagTag(
++ *   id = "schema_web_page_date_modified",
++ *   label = @Translation("dateModified"),
++ *   description = @Translation("Date the web page was modified."),
++ *   name = "dateModified",
++ *   group = "schema_web_page",
++ *   weight = 1,
++ *   type = "string",
++ *   secure = FALSE,
++ *   multiple = FALSE,
++ *   property_type = "date",
++ *   tree_parent = {},
++ *   tree_depth = -1,
++ * )
++ */
++class SchemaWebPageDateModified extends SchemaNameBase {
++
++}
+diff --git a/schema_web_page/src/Plugin/metatag/Tag/SchemaWebPageDatePublished.php b/schema_web_page/src/Plugin/metatag/Tag/SchemaWebPageDatePublished.php
+new file mode 100644
+index 0000000000000000000000000000000000000000..fbe403db2f2e8a4b3e2c45650ed437ed20a0d4a0
+--- /dev/null
++++ b/schema_web_page/src/Plugin/metatag/Tag/SchemaWebPageDatePublished.php
+@@ -0,0 +1,31 @@
++<?php
++
++namespace Drupal\schema_web_page\Plugin\metatag\Tag;
++
++use Drupal\schema_metatag\Plugin\metatag\Tag\SchemaNameBase;
++
++/**
++ * Provides a plugin for the 'schema_web_page_date_published' meta tag.
++ *
++ * - 'id' should be a globally unique id.
++ * - 'name' should match the Schema.org element name.
++ * - 'group' should match the id of the group that defines the Schema.org type.
++ *
++ * @MetatagTag(
++ *   id = "schema_web_page_date_published",
++ *   label = @Translation("datePublished"),
++ *   description = @Translation("Date the web page was published."),
++ *   name = "datePublished",
++ *   group = "schema_web_page",
++ *   weight = 1,
++ *   type = "string",
++ *   secure = FALSE,
++ *   multiple = FALSE,
++ *   property_type = "date",
++ *   tree_parent = {},
++ *   tree_depth = -1,
++ * )
++ */
++class SchemaWebPageDatePublished extends SchemaNameBase {
++
++}
+diff --git a/schema_web_page/src/Plugin/metatag/Tag/SchemaWebPageMainContentOfPage.php b/schema_web_page/src/Plugin/metatag/Tag/SchemaWebPageMainContentOfPage.php
+new file mode 100644
+index 0000000000000000000000000000000000000000..b10beef4bdba5235f466f95ea3f6601c670df2c0
+--- /dev/null
++++ b/schema_web_page/src/Plugin/metatag/Tag/SchemaWebPageMainContentOfPage.php
+@@ -0,0 +1,33 @@
++<?php
++
++namespace Drupal\schema_web_page\Plugin\metatag\Tag;
++
++use Drupal\schema_metatag\Plugin\metatag\Tag\SchemaNameBase;
++
++/**
++ * Provides a plugin for the 'schema_web_page_main_content_of_page' meta tag.
++ *
++ * - 'id' should be a globally unique id.
++ * - 'name' should match the Schema.org element name.
++ * - 'group' should match the id of the group that defines the Schema.org type.
++ *
++ * @MetatagTag(
++ *   id = "schema_web_page_main_content_of_page",
++ *   label = @Translation("mainContentOfPage"),
++ *   description = @Translation("Indicates if this web page element is the main subject of the page."),
++ *   name = "mainContentOfPage",
++ *   group = "schema_web_page",
++ *   weight = 6,
++ *   type = "string",
++ *   secure = FALSE,
++ *   multiple = FALSE,
++ *   property_type = "web_page_element",
++ *   tree_parent = {
++ *     "WebPageElement",
++ *   },
++ *   tree_depth = -1,
++ * )
++ */
++class SchemaWebPageMainContentOfPage extends SchemaNameBase {
++
++}
+diff --git a/schema_web_page/src/Plugin/metatag/Tag/SchemaWebPageMainEntity.php b/schema_web_page/src/Plugin/metatag/Tag/SchemaWebPageMainEntity.php
+new file mode 100644
+index 0000000000000000000000000000000000000000..e1165e8c6b337236552729335ec3df60466e2a27
+--- /dev/null
++++ b/schema_web_page/src/Plugin/metatag/Tag/SchemaWebPageMainEntity.php
+@@ -0,0 +1,33 @@
++<?php
++
++namespace Drupal\schema_web_page\Plugin\metatag\Tag;
++
++use Drupal\schema_metatag\Plugin\metatag\Tag\SchemaNameBase;
++
++/**
++ * Provides a plugin for the 'schema_web_page_main_entity' meta tag.
++ *
++ * - 'id' should be a globally unique id.
++ * - 'name' should match the Schema.org element name.
++ * - 'group' should match the id of the group that defines the Schema.org type.
++ *
++ * @MetatagTag(
++ *   id = "schema_web_page_main_entity",
++ *   label = @Translation("mainEntity"),
++ *   description = @Translation("MainEntity of the web page."),
++ *   name = "mainEntity",
++ *   group = "schema_web_page",
++ *   weight = 6,
++ *   type = "string",
++ *   secure = FALSE,
++ *   multiple = TRUE,
++ *   property_type = "thing",
++ *   tree_parent = {
++ *     "Thing",
++ *   },
++ *   tree_depth = 0,
++ * )
++ */
++class SchemaWebPageMainEntity extends SchemaNameBase {
++
++}
+\ No newline at end of file
+diff --git a/schema_web_page/src/Plugin/metatag/Tag/SchemaWebPageName.php b/schema_web_page/src/Plugin/metatag/Tag/SchemaWebPageName.php
+new file mode 100644
+index 0000000000000000000000000000000000000000..c421227e8bd084952ccb51f82ede555551474227
+--- /dev/null
++++ b/schema_web_page/src/Plugin/metatag/Tag/SchemaWebPageName.php
+@@ -0,0 +1,31 @@
++<?php
++
++namespace Drupal\schema_web_page\Plugin\metatag\Tag;
++
++use Drupal\schema_metatag\Plugin\metatag\Tag\SchemaNameBase;
++
++/**
++ * Provides a plugin for the 'schema_web_page_name' meta tag.
++ *
++ * - 'id' should be a globally unique id.
++ * - 'name' should match the Schema.org element name.
++ * - 'group' should match the id of the group that defines the Schema.org type.
++ *
++ * @MetatagTag(
++ *   id = "schema_web_page_name",
++ *   label = @Translation("name"),
++ *   description = @Translation("The name of the web page."),
++ *   name = "name",
++ *   group = "schema_web_page",
++ *   weight = 0,
++ *   type = "string",
++ *   secure = FALSE,
++ *   multiple = FALSE,
++ *   property_type = "text",
++ *   tree_parent = {},
++ *   tree_depth = -1,
++ * )
++ */
++class SchemaWebPageName extends SchemaNameBase {
++
++}
+diff --git a/schema_web_page/src/Plugin/metatag/Tag/SchemaWebPageSpeakable.php b/schema_web_page/src/Plugin/metatag/Tag/SchemaWebPageSpeakable.php
+index f74c029b5988deb513ddc2f454f50071df48b992..13139e50a0e0a916f1c5d1986ed1c65bb55eda53 100644
+--- a/schema_web_page/src/Plugin/metatag/Tag/SchemaWebPageSpeakable.php
++++ b/schema_web_page/src/Plugin/metatag/Tag/SchemaWebPageSpeakable.php
+@@ -13,7 +13,7 @@
+  *
+  * @MetatagTag(
+  *   id = "schema_web_page_speakable",
+- *   label = @Translation("Speakable"),
++ *   label = @Translation("speakable"),
+  *   description = @Translation("Speakable property."),
+  *   name = "speakable",
+  *   group = "schema_web_page",
+diff --git a/schema_web_page/src/Plugin/metatag/Tag/SchemaWebPageUrl.php b/schema_web_page/src/Plugin/metatag/Tag/SchemaWebPageUrl.php
+new file mode 100644
+index 0000000000000000000000000000000000000000..f96ea29fa5399d0403a30618145f453df98b521f
+--- /dev/null
++++ b/schema_web_page/src/Plugin/metatag/Tag/SchemaWebPageUrl.php
+@@ -0,0 +1,31 @@
++<?php
++
++namespace Drupal\schema_web_page\Plugin\metatag\Tag;
++
++use Drupal\schema_metatag\Plugin\metatag\Tag\SchemaNameBase;
++
++/**
++ * Provides a plugin for the 'schema_web_page_url' meta tag.
++ *
++ * - 'id' should be a globally unique id.
++ * - 'name' should match the Schema.org element name.
++ * - 'group' should match the id of the group that defines the Schema.org type.
++ *
++ * @MetatagTag(
++ *   id = "schema_web_page_url",
++ *   label = @Translation("url"),
++ *   description = @Translation("URL for the web page."),
++ *   name = "url",
++ *   group = "schema_web_page",
++ *   weight = 0,
++ *   type = "string",
++ *   secure = FALSE,
++ *   multiple = TRUE,
++ *   property_type = "url",
++ *   tree_parent = {},
++ *   tree_depth = -1,
++ * )
++ */
++class SchemaWebPageUrl extends SchemaNameBase {
++
++}
+diff --git a/src/Plugin/schema_metatag/PropertyType/Audience.php b/src/Plugin/schema_metatag/PropertyType/Audience.php
+new file mode 100644
+index 0000000000000000000000000000000000000000..1c0a2b0aabc94d58fa3b19896e624d44f5a59571
+--- /dev/null
++++ b/src/Plugin/schema_metatag/PropertyType/Audience.php
+@@ -0,0 +1,63 @@
++<?php
++
++namespace Drupal\schema_metatag\Plugin\schema_metatag\PropertyType;
++
++use Drupal\schema_metatag\Plugin\schema_metatag\PropertyTypeBase;
++
++/**
++ * Provides a plugin for the 'Audience' Schema.org property type.
++ *
++ * @SchemaPropertyType(
++ *   id = "audience",
++ *   label = @Translation("Audience"),
++ *   tree_parent = {
++ *     "Audience",
++ *   },
++ *   tree_depth = 0,
++ *   property_type = "Audience",
++ *   sub_properties = {
++ *     "@type" = {
++ *       "id" = "type",
++ *       "label" = @Translation("@type"),
++ *       "description" = "",
++ *     },
++ *     "audienceType" = {
++ *       "id" = "text",
++ *       "label" = @Translation("audienceType"),
++ *       "description" = @Translation("The target group associated with a given audience (e.g. veterans, car owners, musicians, etc.)"),
++ *     },
++ *     "name" = {
++ *       "id" = "text",
++ *       "label" = @Translation("name"),
++ *       "description" = @Translation("Name of the audience."),
++ *     },
++ *     "alternateName" = {
++ *       "id" = "text",
++ *       "label" = @Translation("alternateName"),
++ *       "description" = @Translation("An alias for the audience."),
++ *     },
++ *     "description" = {
++ *       "id" = "text",
++ *       "label" = @Translation("description"),
++ *       "description" = @Translation("Description of the audience."),
++ *     },
++ *     "url" = {
++ *       "id" = "url",
++ *       "label" = @Translation("url"),
++ *       "description" = @Translation("Absolute URL of the canonical Web page, e.g. the URL of the audience's node or term page or audience website."),
++ *     },
++ *     "geographicArea" = {
++ *       "id" = "place",
++ *       "label" = @Translation("geographicArea"),
++ *       "description" = @Translation("The geographic area associated with the audience."),
++ *       "tree_parent" = {
++ *         "AdministrativeArea",
++ *       },
++ *       "tree_depth" = -1,
++ *     },
++ *   },
++ * )
++ */
++class Audience extends PropertyTypeBase {
++
++}
+diff --git a/tests/modules/schema_metatag_test/config/schema/schema_metatag_test.metatag_tag.schema.yml b/tests/modules/schema_metatag_test/config/schema/schema_metatag_test.metatag_tag.schema.yml
+index 085d65077362d8b9cba333a5b601aa4212453ea4..1d1585dbdd529fb1e491720d675af03fcd8af2fa 100644
+--- a/tests/modules/schema_metatag_test/config/schema/schema_metatag_test.metatag_tag.schema.yml
++++ b/tests/modules/schema_metatag_test/config/schema/schema_metatag_test.metatag_tag.schema.yml
+@@ -10,6 +10,9 @@ metatag.metatag_tag.schema_metatag_test_aggregate_rating:
+ metatag.metatag_tag.schema_metatag_test_answer:
+   type: text
+   label: 'answer'
++metatag.metatag_tag.schema_metatag_test_audience:
++  type: text
++  label: 'audience'
+ metatag.metatag_tag.schema_metatag_test_book:
+   type: text
+   label: 'book'
+diff --git a/tests/modules/schema_metatag_test/src/Plugin/metatag/Tag/SchemaMetatagTestAudience.php b/tests/modules/schema_metatag_test/src/Plugin/metatag/Tag/SchemaMetatagTestAudience.php
+new file mode 100644
+index 0000000000000000000000000000000000000000..28126fb3110e16ada4b89dc7f87e8a482e041aef
+--- /dev/null
++++ b/tests/modules/schema_metatag_test/src/Plugin/metatag/Tag/SchemaMetatagTestAudience.php
+@@ -0,0 +1,29 @@
++<?php
++
++namespace Drupal\schema_metatag_test\Plugin\metatag\Tag;
++
++use Drupal\schema_metatag\Plugin\metatag\Tag\SchemaNameBase;
++
++/**
++ * A metatag tag for testing.
++ *
++ * @MetatagTag(
++ *   id = "schema_metatag_test_audience",
++ *   label = @Translation("Schema Metatag Test Audience"),
++ *   name = "audience",
++ *   description = @Translation("Test element"),
++ *   group = "schema_metatag_test_group",
++ *   weight = 0,
++ *   type = "label",
++ *   secure = FALSE,
++ *   multiple = FALSE,
++ *   property_type = "audience",
++ *   tree_parent = {
++ *     "Audience",
++ *   },
++ *   tree_depth = -1,
++ * )
++ */
++class SchemaMetatagTestAudience extends SchemaNameBase {
++
++}
+diff --git a/tests/modules/schema_metatag_test/src/SchemaMetatagClient.php b/tests/modules/schema_metatag_test/src/SchemaMetatagClient.php
+index 7608d1e856d861bb6bf36960553315923cce6eb9..abca56026fe3c4d31f6f0084e1171712d2200d36 100644
+--- a/tests/modules/schema_metatag_test/src/SchemaMetatagClient.php
++++ b/tests/modules/schema_metatag_test/src/SchemaMetatagClient.php
+@@ -42,6 +42,7 @@ public function getObjectTree($clear = FALSE, $clear_objects = FALSE) {
+     // their actual hierarchy.
+     return [
+       'Thing' => [
++        'Audience' => [],
+         'Action' => [
+           'ConsumeAction' => [
+             'ReadAction' => [],
