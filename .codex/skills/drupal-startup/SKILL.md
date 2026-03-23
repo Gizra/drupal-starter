@@ -1,20 +1,20 @@
 ---
 name: drupal-startup
-description: Start and prepare a local Drupal project that runs in DDEV, then open the site already logged in. Use when Codex needs to bring a Drupal repo into a ready local state by confirming it is a Drupal/DDEV repo, checking Docker, running `ddev start`, optionally updating from `origin/main` when it is safe and clearly approved, installing Composer dependencies, importing config, running database updates, clearing cache, and launching a browser session with a fresh Drush login link.
+description: Start and prepare a local Drupal project that runs in DDEV, then open the site already logged in. Use when Codex needs to bring a Drupal repo into a ready local state by confirming it is a Drupal/DDEV repo, checking Docker, running `ddev start`, deciding whether to skip or run `git pull origin main` without unnecessary user interruption, installing Composer dependencies, importing config, running database updates, clearing cache, and launching a browser session with a fresh Drush login link.
 ---
 
 # Drupal Startup
 
 ## Overview
 
-Run the repo's local startup workflow in a safe, repeatable order. Prefer short progress updates, stop before risky Git operations, and end with a browser window opened on a fresh one-time login URL.
+Run the repo's local startup workflow in a safe, repeatable order. Prefer short progress updates, avoid unnecessary questions, and end with a browser window opened on a fresh one-time login URL.
 
 ## Workflow
 
 1. Confirm the current repository is the intended Drupal/DDEV project.
 2. Check whether Docker is available before running DDEV commands.
 3. Start DDEV.
-4. Inspect Git status before updating from `origin/main`.
+4. Inspect Git status and choose the Git path without interrupting the user unless a decision is truly required.
 5. Run the required project update commands in order.
 6. Generate a one-time login URL and launch it in the browser.
 
@@ -49,26 +49,29 @@ If `ddev start` fails, stop and surface the error instead of guessing at repair 
 
 ## Git Safety Guardrails
 
-Run `git status --short` and `git branch --show-current` before `git pull origin main`.
+Run `git status --short` and `git branch --show-current` before deciding whether to run `git pull origin main`.
 
-Pause and ask the user before pulling if either condition is true:
-- The worktree is dirty.
-- The checked-out branch is not the branch the user intends to update.
+Default to continuing the Drupal startup flow without asking the user about Git.
 
-Reason: `git pull origin main` merges `origin/main` into the current branch, which is safe only when that is intentional.
+Use this decision rule:
+- If the user explicitly asked to update from `origin/main`, run `git pull origin main` only when the worktree is clean.
+- If the current branch is `main` and the worktree is clean, run `git pull origin main`.
+- If the current branch is not `main`, skip the pull and continue startup without asking.
+- If the worktree is dirty, skip the pull and continue startup without asking.
 
-When you pause, make the next step explicit:
-- Offer a safe fallback: skip `git pull` and continue the Drupal startup sequence.
-- Offer the risky path: intentionally run `git pull origin main` into the current branch.
-- If the user's reply is vague or ambiguous, default to the safe fallback and continue without pulling.
+Only interrupt the user for Git if both are true:
+- The user explicitly asked for a pull or update.
+- The worktree is dirty, or the requested pull would merge `origin/main` into a non-`main` branch.
 
-If the repo is clean and the branch choice is intentional, run:
+When you skip the pull, say so in one short sentence and continue.
+
+When conditions allow a pull, run:
 
 ```bash
 git pull origin main
 ```
 
-Do not use force operations. Do not discard user changes.
+Do not use force operations. Do not discard user changes. Never make Git progress a blocker for the rest of the startup workflow unless the user explicitly requested the pull and wants that resolved first.
 
 ## Drupal Update Sequence
 
@@ -110,12 +113,20 @@ If browser launching is blocked by sandbox or desktop permissions, request escal
 
 The login flow may land on Drupal's password-reset or user-edit screen for the admin account. That is still a successful outcome for this skill as long as the user is authenticated and can continue working.
 
+If `ddev drush uli --no-browser` fails because the `admin` user is blocked, run:
+
+```bash
+ddev drush user:unblock admin
+```
+
+Then retry the login URL flow.
+
 ## Response Style
 
 Keep the user updated as the workflow progresses:
 - Say when Docker is being checked.
 - Say when DDEV has started.
-- Say before the Git decision happens, especially if the repo is dirty.
+- Briefly note whether Git pull was run or skipped, without turning it into a question unless a real decision is required.
 - Say before the Drupal command sequence begins.
 - Confirm that the login URL was launched at the end.
 
