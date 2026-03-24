@@ -19,8 +19,7 @@ hooks:
     # Import translations.
     - exec: robo locale:import
 
-    # Compile theme in debug, so we can develop with all Tailwinds' classes.
-    # On deploy, we purge un-needed CSS.
+    # Compile the theme (CSS, JS, fonts, and images).
     - exec-host: ddev theme:compile
 
     # Install the default content.

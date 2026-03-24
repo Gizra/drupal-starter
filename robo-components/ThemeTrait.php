@@ -48,14 +48,8 @@ trait ThemeTrait {
     // Compile all assets (CSS, JS, fonts, images) in parallel via npm scripts.
     $result = $this->_exec("cd $theme_dir && npm run build");
 
-    // Safety check to verify CSS was properly compiled before deployment.
-    if (!file_exists(sprintf('%s/dist/css/style.css', self::$themeBase))) {
-      throw new \Exception('Theme compilation failed.');
-    }
-
     if ($result->getExitCode() !== 0) {
-      $this->taskCleanDir(['dist/css']);
-      return;
+      throw new \Exception('Theme compilation failed.');
     }
 
     $this->_exec('drush cache:rebuild');
