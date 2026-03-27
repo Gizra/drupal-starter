@@ -14,7 +14,7 @@
     "concurrently": "^9.0.0",
     "cssnano": "^7.0.6",
     "imagemin-cli": "^6.0.0",
-    "svgo": "^2.8.0",
+    "svgo": "^2.8.2",
     "tailwindcss": "^4.1.0",
     "terser": "^5.0.0"
   }
