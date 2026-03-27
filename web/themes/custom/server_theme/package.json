@@ -1,25 +1,21 @@
 {
   "scripts": {
-    "build:css": "mkdir -p dist/css && tailwindcss -i ./src/css/style.css -o ./dist/css/style.css --minify",
-    "build:js": "mkdir -p dist/js && for f in src/js/*.js; do terser \"$f\" --compress --mangle -o \"dist/js/$(basename $f)\" || exit 1; done",
-    "build:fonts": "mkdir -p dist/fonts && cp -r src/fonts/. dist/fonts",
-    "build:images": "mkdir -p dist/images && cp -r src/images/. dist/images && npx imagemin 'src/images/*.jpg' 'src/images/*.png' --out-dir=dist/images && find dist/images -name '*.svg' | xargs -r npx svgo",
-    "build": "npm run build:css && npm run build:js && npm run build:fonts && npm run build:images",
+    "build:css": "tailwindcss -i ./src/css/style.css -o ./dist/css/style.css --minify",
+    "build:assets": "node scripts/build.js",
+    "build": "concurrently \"npm run build:css\" \"npm run build:assets\"",
     "watch:css": "tailwindcss -i ./src/css/style.css -o ./dist/css/style.css --watch",
-    "watch:js": "SHELL=/bin/bash chokidar 'src/js/**/*.js' -c 'terser {path} --compress --mangle -o dist/js/$(basename {path})'",
-    "watch:fonts": "SHELL=/bin/bash chokidar 'src/fonts/**/*' -c 'cp {path} dist/fonts/$(basename {path})'",
-    "watch:images": "SHELL=/bin/bash chokidar 'src/images/**/*' -c 'cp {path} dist/images/$(basename {path}); case {path} in *.jpg|*.png) npx imagemin {path} --out-dir=dist/images ;; *.svg) npx svgo dist/images/$(basename {path}) ;; esac'",
-    "watch": "concurrently \"npm run watch:css\" \"npm run watch:js\" \"npm run watch:fonts\" \"npm run watch:images\""
+    "watch:assets": "node scripts/watch.js",
+    "watch": "concurrently \"npm run watch:css\" \"npm run watch:assets\""
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.1.0",
     "@tailwindcss/forms": "^0.5.3",
-    "chokidar-cli": "^3.0.0",
+    "chokidar": "^3.0.0",
     "concurrently": "^9.0.0",
     "cssnano": "^7.0.6",
     "imagemin-cli": "^6.0.0",
-    "terser": "^5.0.0",
     "svgo": "^2.8.0",
-    "tailwindcss": "^4.1.0"
+    "tailwindcss": "^4.1.0",
+    "terser": "^5.0.0"
   }
 }
