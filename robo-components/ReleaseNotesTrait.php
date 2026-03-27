@@ -385,7 +385,7 @@ GRAPHQL;
 
     // First try the specific "Fixes" pattern which explicitly indicates issue
     // linkage.
-    preg_match_all('!^Fixes .+#([0-9]+)!m', $body, $issue_matches);
+    preg_match_all('!^\s*[-*]?\s*fixes\s+.+#([0-9]+)!im', $body, $issue_matches);
     if (isset($issue_matches[1][0])) {
       return $issue_matches[1][0];
     }
