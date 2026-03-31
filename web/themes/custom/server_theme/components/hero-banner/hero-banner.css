@@ -1,0 +1,18 @@
+.hero-banner {
+  padding: 4rem 2rem;
+  text-align: center;
+  background-color: #1a73e8;
+  color: #fff;
+}
+
+.hero-banner__heading {
+  margin: 0 0 1rem;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.hero-banner__subtext {
+  margin: 0;
+  font-size: 1.25rem;
+  opacity: 0.9;
+}

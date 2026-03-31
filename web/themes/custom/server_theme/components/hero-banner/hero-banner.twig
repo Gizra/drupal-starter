@@ -1,0 +1,12 @@
+{%
+  set styles = [
+    bg_color ? 'background-color: ' ~ bg_color,
+    text_color ? 'color: ' ~ text_color,
+  ] | filter(v => v) | join('; ')
+%}
+<div class="hero-banner" {{ styles ? 'style="' ~ styles ~ '"' }}>
+  <h1 class="hero-banner__heading">{{ heading }}</h1>
+  {% if subtext %}
+    <p class="hero-banner__subtext">{{ subtext }}</p>
+  {% endif %}
+</div>

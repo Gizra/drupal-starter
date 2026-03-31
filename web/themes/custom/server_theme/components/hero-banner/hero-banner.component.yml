@@ -1,0 +1,33 @@
+name: Hero Banner
+description: A simple hero banner with a heading, subtext, and background color.
+props:
+  type: object
+  properties:
+    heading:
+      type: string
+      title: Heading
+      description: The main heading text.
+      examples:
+        - Welcome to our site
+    subtext:
+      type: string
+      title: Subtext
+      description: A short description below the heading.
+      examples:
+        - Discover amazing content
+    bg_color:
+      type: string
+      title: Background color
+      description: CSS background color value.
+      examples:
+        - '#1a73e8'
+        - '#f5f5f5'
+    text_color:
+      type: string
+      title: Text color
+      description: CSS text color value.
+      examples:
+        - '#ffffff'
+        - '#333333'
+  required:
+    - heading

@@ -1,0 +1,34 @@
+name: Call to Action
+description: A CTA card with a title, optional body text, and a primary button.
+props:
+  type: object
+  properties:
+    title:
+      type: string
+      title: Title
+      examples:
+        - Ready to get started?
+    body:
+      type: string
+      title: Body text
+      description: Optional description text.
+      examples:
+        - Discover everything our platform has to offer.
+    link_url:
+      type: string
+      title: Button URL
+      format: uri-reference
+      examples:
+        - /contact
+    link_text:
+      type: string
+      title: Button label
+      examples:
+        - Get in touch
+    open_new_tab:
+      type: boolean
+      title: Open in new tab
+  required:
+    - title
+    - link_url
+    - link_text
