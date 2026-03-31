@@ -1,0 +1,11 @@
+paragraphs_simple_edit.paragraph_preview:
+  path: '/paragraphs/preview/{paragraph}'
+  defaults:
+    _controller: '\Drupal\paragraphs_simple_edit\Controller\ParagraphPreviewController::preview'
+    _title: 'Paragraph Preview'
+  requirements:
+    _entity_access: 'paragraph.update'
+  options:
+    parameters:
+      paragraph:
+        type: entity:paragraph

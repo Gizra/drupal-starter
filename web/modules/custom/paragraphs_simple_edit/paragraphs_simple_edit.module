@@ -1,0 +1,106 @@
+<?php
+
+/**
+ * @file
+ * Hook implementations for the Paragraphs Simple Edit module.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Entity\ContentEntityFormInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
+use Drupal\paragraphs_simple_edit\Ajax\ActivatePreviewPanelCommand;
+
+/**
+ * Implements hook_form_alter().
+ *
+ * Adds Write/Preview tabs to the paragraph entity edit form.
+ */
+function paragraphs_simple_edit_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
+  $form_object = $form_state->getFormObject();
+  if (!($form_object instanceof ContentEntityFormInterface)) {
+    return;
+  }
+  $entity = $form_object->getEntity();
+  if ($entity->getEntityTypeId() !== 'paragraph' || $form_object->getOperation() !== 'entity_edit') {
+    return;
+  }
+
+  $form['#attributes']['class'][] = 'pse-edit-form';
+  $form['#attached']['library'][] = 'paragraphs_simple_edit/write_preview';
+
+  // Tab navigation (Write | Preview).
+  $form['pse_tabs'] = [
+    '#type' => 'container',
+    '#attributes' => ['class' => ['pse-tabs']],
+    '#weight' => -100,
+    'write' => [
+      '#type' => 'html_tag',
+      '#tag' => 'button',
+      '#value' => (string) t('Write'),
+      '#attributes' => [
+        'type' => 'button',
+        'class' => ['pse-tab', 'pse-tab--active'],
+        'data-pse-target' => 'write',
+      ],
+    ],
+    'preview' => [
+      '#type' => 'submit',
+      '#value' => t('Preview'),
+      '#name' => 'pse_preview_btn',
+      '#attributes' => [
+        'class' => ['pse-tab'],
+        'data-pse-target' => 'preview',
+      ],
+      '#ajax' => [
+        'callback' => '_paragraphs_simple_edit_preview_ajax',
+        'progress' => ['type' => 'throbber', 'message' => NULL],
+      ],
+      '#limit_validation_errors' => [],
+      '#submit' => [],
+    ],
+  ];
+
+  // Preview panel — content is fetched from the preview route and injected
+  // here by JS. The theme negotiator makes that route render with server_theme,
+  // so no iframe is needed; fetch() + DOMParser handles it inline.
+  $form['pse_preview_panel'] = [
+    '#type' => 'container',
+    '#attributes' => [
+      'class' => ['pse-panel', 'pse-panel--preview'],
+      'data-pse-panel' => 'preview',
+    ],
+    // Weight 90 places this after all field elements (weight 0) but before
+    // form actions (weight 100), so the JS write-panel wrapper captures fields.
+    '#weight' => 90,
+  ];
+}
+
+/**
+ * AJAX callback: stores current form values and triggers preview load.
+ */
+function _paragraphs_simple_edit_preview_ajax(array &$form, FormStateInterface $form_state): AjaxResponse {
+  /** @var \Drupal\Core\Entity\ContentEntityFormInterface $form_object */
+  $form_object = $form_state->getFormObject();
+  $paragraph_id = $form_object->getEntity()->id();
+
+  // getUserInput() is the raw $_POST — always contains what the user currently
+  // typed, unlike getValues() which may not be fully populated in AJAX
+  // callbacks that skip validation (#limit_validation_errors => []).
+  /** @var \Drupal\Core\TempStore\PrivateTempStoreFactory $temp_store_factory */
+  $temp_store_factory = \Drupal::service('tempstore.private');
+  $store = $temp_store_factory->get('paragraphs_simple_edit');
+  $store->set('preview:' . $paragraph_id, $form_state->getUserInput());
+
+  $preview_url = Url::fromRoute('paragraphs_simple_edit.paragraph_preview', [
+    'paragraph' => $paragraph_id,
+  ], [
+    'query' => ['_ts' => (string) time()],
+  ])->toString();
+
+  $response = new AjaxResponse();
+  $response->addCommand(new ActivatePreviewPanelCommand($preview_url));
+  return $response;
+}

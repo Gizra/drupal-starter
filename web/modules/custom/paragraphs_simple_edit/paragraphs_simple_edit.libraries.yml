@@ -3,3 +3,15 @@ widget.claro:
   css:
     theme:
       css/paragraphs_simple_edit.claro.css: {}
+
+write_preview:
+  version: 1.x
+  js:
+    js/paragraphs-simple-edit-write-preview.js: {}
+  css:
+    component:
+      css/paragraphs-simple-edit-write-preview.css: {}
+  dependencies:
+    - core/drupal
+    - core/once
+    - core/drupal.ajax

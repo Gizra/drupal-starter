@@ -1,0 +1,61 @@
+/* Write/Preview tab navigation — styled after GitHub's comment tabs. */
+
+.pse-tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 2px solid #d0d7de;
+  margin-bottom: 1rem;
+}
+
+/*
+ * Reset Drupal admin theme (claro) button styles for tab elements.
+ * Both the <button type="button"> (Write) and <input type="submit"> (Preview)
+ * receive .pse-tab, but the submit also gets .button and .form-submit from
+ * Drupal's form API which would otherwise override our styles.
+ */
+.pse-tabs .pse-tab,
+.pse-tabs .pse-tab.button,
+.pse-tabs .pse-tab.form-submit {
+  appearance: none;
+  -webkit-appearance: none;
+  background: none;
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+  box-shadow: none;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: normal;
+  color: #656d76;
+  /* Overlap the 2px border-bottom of .pse-tabs to create the active illusion. */
+  margin-bottom: -2px;
+  padding: 8px 16px;
+  line-height: 1.5;
+  text-align: center;
+  text-shadow: none;
+  vertical-align: top;
+}
+
+.pse-tabs .pse-tab:hover,
+.pse-tabs .pse-tab.button:hover,
+.pse-tabs .pse-tab.form-submit:hover {
+  background-color: #f6f8fa;
+  border-color: #d0d7de;
+  color: #24292f;
+  text-decoration: none;
+}
+
+.pse-tabs .pse-tab--active,
+.pse-tabs .pse-tab.pse-tab--active {
+  background-color: #fff;
+  border-color: #d0d7de;
+  border-bottom-color: #fff;
+  color: #24292f;
+  font-weight: 500;
+}
+
+/* Preview panel: content is injected inline by JS after fetch(). */
+.pse-panel--preview {
+  min-height: 200px;
+}
