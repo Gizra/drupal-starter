@@ -1,0 +1,22 @@
+uuid: d97b6307-02d5-4c13-8022-fc4e8dd2eda1
+langcode: en
+status: true
+dependencies:
+  module:
+    - tfa
+active_version: ec967d0c0a2c8223
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: tfa_user_login_block
+        label: 'Tfa User login'
+        label_display: '0'
+        provider: tfa
+    fallback_metadata:
+      slot_definitions: null
+label: 'Tfa User login'
+id: block.tfa_user_login_block
+provider: tfa
+source: block
+source_local_id: tfa_user_login_block

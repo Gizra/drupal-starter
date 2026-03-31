@@ -1,0 +1,58 @@
+uuid: 3e2f44e3-6364-436f-9800-94cc839805fc
+langcode: en
+status: true
+dependencies:
+  theme:
+    - server_theme
+active_version: 5f461adba6d3375a
+versioned_properties:
+  active:
+    settings:
+      prop_field_definitions:
+        heading:
+          required: true
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value:
+            -
+              value: 'Welcome to our site'
+          expression: ℹ︎string␟value
+        subtext:
+          required: false
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value:
+            -
+              value: 'Discover amazing content'
+          expression: ℹ︎string␟value
+        bg_color:
+          required: false
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value:
+            -
+              value: '#1a73e8'
+          expression: ℹ︎string␟value
+        text_color:
+          required: false
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value:
+            -
+              value: '#ffffff'
+          expression: ℹ︎string␟value
+    fallback_metadata:
+      slot_definitions: {  }
+label: 'Hero Banner'
+id: sdc.server_theme.hero-banner
+provider: server_theme
+source: sdc
+source_local_id: 'server_theme:hero-banner'

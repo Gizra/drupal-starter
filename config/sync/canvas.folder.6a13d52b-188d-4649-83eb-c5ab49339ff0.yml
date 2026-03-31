@@ -1,0 +1,9 @@
+uuid: 6a13d52b-188d-4649-83eb-c5ab49339ff0
+langcode: en
+status: true
+dependencies: {  }
+name: 'Config Pages'
+configEntityTypeId: component
+weight: 0
+items:
+  - block.config_pages_block

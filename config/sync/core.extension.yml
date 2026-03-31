@@ -15,6 +15,7 @@ module:
   block_content: 0
   block_plugin_view_builder: 0
   breakpoint: 0
+  canvas: 0
   ckeditor5: 0
   config: 0
   config_filter: 0
@@ -124,4 +125,5 @@ theme:
   classy: 0
   server_theme: 0
   claro: 0
+  canvas_stark: 0
 profile: server

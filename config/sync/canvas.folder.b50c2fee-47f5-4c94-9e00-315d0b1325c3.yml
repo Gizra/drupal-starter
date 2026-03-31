@@ -1,0 +1,10 @@
+uuid: b50c2fee-47f5-4c94-9e00-315d0b1325c3
+langcode: en
+status: true
+dependencies: {  }
+name: Forms
+configEntityTypeId: component
+weight: 0
+items:
+  - block.tfa_user_login_block
+  - block.user_login_block

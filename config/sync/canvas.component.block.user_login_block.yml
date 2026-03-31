@@ -1,0 +1,22 @@
+uuid: a7ed06c2-d763-4b1a-a86f-63af296108c6
+langcode: en
+status: false
+dependencies:
+  module:
+    - user
+active_version: b97f14973683123f
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: user_login_block
+        label: 'User login'
+        label_display: '0'
+        provider: user
+    fallback_metadata:
+      slot_definitions: null
+label: 'User login'
+id: block.user_login_block
+provider: user
+source: block
+source_local_id: user_login_block

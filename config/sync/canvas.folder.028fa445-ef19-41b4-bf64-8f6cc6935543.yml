@@ -1,0 +1,10 @@
+uuid: 028fa445-ef19-41b4-bf64-8f6cc6935543
+langcode: en
+status: true
+dependencies: {  }
+name: Other
+configEntityTypeId: component
+weight: 0
+items:
+  - sdc.server_theme.cta
+  - sdc.server_theme.hero-banner

@@ -1,0 +1,26 @@
+uuid: 02b3fc1d-d15d-498b-9909-e96938ac9df9
+langcode: en
+status: false
+dependencies:
+  config:
+    - views.view.content_recent
+  module:
+    - views
+active_version: 3bcb7fce9add5c7f
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: 'views_block:content_recent-block_1'
+        label: 'Recent content'
+        label_display: '0'
+        provider: views
+        views_label: ''
+        items_per_page: null
+    fallback_metadata:
+      slot_definitions: null
+label: 'Recent content'
+id: block.views_block.content_recent-block_1
+provider: views
+source: block
+source_local_id: 'views_block:content_recent-block_1'
