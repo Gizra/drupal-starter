@@ -1,22 +1,46 @@
-<div class="bg-transparent">
-  <div class="container-narrow w-full">
-    <div class="relative rounded-lg border border-gray-300 w-full h-full overflow-hidden bg-gray-100 p-6 md:px-8">
-      <div class="flex flex-col gap-y-8 md:gap-y-10 items-center">
+{# Title — mirrors wrapTextResponsiveFontSize(3xl) + wrapTextCenter() + wrapTextFontWeight(bold). #}
+{% set title_el %}{{ title }}{% endset %}
+{% set title_el %}
+  {% include '@server_theme/templates/server-theme-text-decoration--responsive-font-size.html.twig' with { element: title_el, size: '3xl' } only %}
+{% endset %}
+{% set title_el %}
+  {% include '@server_theme/templates/server-theme-text-decoration--center.html.twig' with { element: title_el } only %}
+{% endset %}
+{% set title_el %}
+  {% include '@server_theme/templates/server-theme-text-decoration--font-weight.html.twig' with { element: title_el, font_weight: 'bold' } only %}
+{% endset %}
 
-        <div class="text-xl md:text-2xl lg:text-3xl font-bold text-center">{{ title }}</div>
+{# Body — mirrors wrapProseText(). #}
+{% if body %}
+  {% set body_el %}
+    {% include '@server_theme/templates/server-theme-prose-text.html.twig' with { text: body } only %}
+  {% endset %}
+{% endif %}
 
-        {% if body %}
-          <div class="prose max-w-3xl">{{ body }}</div>
-        {% endif %}
+{# Button — reuses existing button template. #}
+{% set button %}
+  {% include '@server_theme/server-theme-button.html.twig' with {
+    button_type: 'primary',
+    url: link_url,
+    title: link_text,
+    open_new_tab: open_new_tab ?? false,
+  } only %}
+{% endset %}
 
-        {% include '@server_theme/server-theme-button.html.twig' with {
-          button_type: 'primary',
-          url: link_url,
-          title: link_text,
-          open_new_tab: open_new_tab ?? false,
-        } only %}
+{# Stack elements — mirrors wrapContainerVerticalSpacingBig(center). #}
+{% set stacked %}
+  {{ title_el }}
+  {{ body_el ?? '' }}
+  {{ button }}
+{% endset %}
+{% set stacked %}
+  {% include '@server_theme/templates/server-theme-container-vertical-spacing-big.html.twig' with { items: stacked, align: 'center' } only %}
+{% endset %}
 
-      </div>
-    </div>
-  </div>
-</div>
+{# Card — mirrors buildInnerElementLayout(LightGray). #}
+{% set card %}
+  {% include '@server_theme/templates/server-theme-inner-element-layout.html.twig' with { items: stacked, bg_color: 'light-gray' } only %}
+{% endset %}
+
+{# Outer narrow container — mirrors wrapContainerNarrow(). #}
+{% include '@server_theme/templates/server-theme-container-narrow.html.twig' with { element: card } only %}
