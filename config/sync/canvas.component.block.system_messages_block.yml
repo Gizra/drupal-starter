@@ -1,0 +1,22 @@
+uuid: bca7cd86-2b4e-4147-a21a-40abfb17da75
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+active_version: f40a0b8ffe833dc7
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: system_messages_block
+        label: Messages
+        label_display: '0'
+        provider: system
+    fallback_metadata:
+      slot_definitions: null
+label: Messages
+id: block.system_messages_block
+provider: system
+source: block
+source_local_id: system_messages_block

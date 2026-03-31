@@ -1,0 +1,22 @@
+uuid: 42fb351e-f3e8-4130-9e4c-dcb4a202bad8
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - canvas
+_core:
+  default_config_hash: JjgU17HHzN9lx-GIQMBKirKqN4_5NzKOxbkzgQXjaZg
+name: 'Drupal Canvas — Inline HTML (locked)'
+format: canvas_html_inline
+weight: 1000
+filters:
+  filter_html:
+    id: filter_html
+    provider: filter
+    status: true
+    weight: 0
+    settings:
+      allowed_html: '<strong> <em> <u> <a href>'
+      filter_html_help: false
+      filter_html_nofollow: false

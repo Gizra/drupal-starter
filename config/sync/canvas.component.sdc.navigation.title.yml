@@ -1,0 +1,58 @@
+uuid: f8195876-dd5b-4b16-b977-2faed889ff1f
+langcode: en
+status: true
+dependencies:
+  module:
+    - navigation
+    - options
+active_version: f7072e7d10fc2cb1
+versioned_properties:
+  active:
+    settings:
+      prop_field_definitions:
+        modifiers:
+          required: false
+          field_type: list_string
+          cardinality: -1
+          field_storage_settings:
+            allowed_values_function: canvas_load_allowed_values_for_component_prop
+          field_instance_settings: {  }
+          field_widget: options_select
+          default_value: null
+          expression: ℹ︎list_string␟value
+        extra_classes:
+          required: false
+          field_type: string
+          cardinality: -1
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+        html_tag:
+          required: false
+          field_type: list_string
+          field_storage_settings:
+            allowed_values_function: canvas_load_allowed_values_for_component_prop
+          field_instance_settings: {  }
+          field_widget: options_select
+          default_value: null
+          expression: ℹ︎list_string␟value
+        icon:
+          required: false
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+    fallback_metadata:
+      slot_definitions:
+        content:
+          title: Content
+          description: 'Content of title.'
+label: Title
+id: sdc.navigation.title
+provider: navigation
+source: sdc
+source_local_id: 'navigation:title'

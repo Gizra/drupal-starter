@@ -1,0 +1,18 @@
+uuid: d2a34d43-8fc0-4d28-b227-4c456f066db5
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - canvas
+_core:
+  default_config_hash: FUq1qmFpJoRCAHS5Tq-ynwV99-2hKOBbpODG3h8pzJY
+name: canvas_parametrized_width
+label: 'Drupal Canvas parametrized width'
+effects:
+  249b8926-f421-4d60-8453-fb5d9265c731:
+    uuid: 249b8926-f421-4d60-8453-fb5d9265c731
+    id: image_convert_avif
+    weight: 1000
+    data:
+      extension: webp

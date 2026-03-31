@@ -1,0 +1,24 @@
+uuid: bed0121f-c023-483d-a2e3-7a8cb76a2cad
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.content_type
+  module:
+    - facets
+active_version: ffa40764dc252342
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: 'facet_block:content_type'
+        label: 'Content type'
+        label_display: '0'
+        provider: facets
+    fallback_metadata:
+      slot_definitions: null
+label: 'Content type'
+id: block.facet_block.content_type
+provider: facets
+source: block
+source_local_id: 'facet_block:content_type'

@@ -1,0 +1,27 @@
+uuid: e3e077f4-2d0a-4066-b83c-bd5e3211b1cb
+langcode: en
+status: false
+dependencies:
+  config:
+    - system.menu.content
+  module:
+    - system
+active_version: 1c82b308d9a73301
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: 'system_menu_block:content'
+        label: Content
+        label_display: '0'
+        provider: system
+        level: 1
+        depth: null
+        expand_all_items: false
+    fallback_metadata:
+      slot_definitions: null
+label: Content
+id: block.system_menu_block.content
+provider: system
+source: block
+source_local_id: 'system_menu_block:content'

@@ -1,0 +1,26 @@
+uuid: 306a8acf-1bf7-4500-93fb-cb8703b59668
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - canvas
+_core:
+  default_config_hash: mFeGRL7Ycaui6tmCM9P9_tO4iW0zbk1UL9T-grjyqm8
+name: canvas_avatar
+label: 'Drupal Canvas Avatar'
+effects:
+  b16daff9-4834-461d-a42b-7e03cf8b6c31:
+    uuid: b16daff9-4834-461d-a42b-7e03cf8b6c31
+    id: image_scale_and_crop
+    weight: 0
+    data:
+      width: 32
+      height: 32
+      anchor: center-center
+  249b8926-f421-4d60-8453-fb5d9265c731:
+    uuid: 249b8926-f421-4d60-8453-fb5d9265c731
+    id: image_convert
+    weight: 2
+    data:
+      extension: webp

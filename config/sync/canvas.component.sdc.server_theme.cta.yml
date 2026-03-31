@@ -1,0 +1,71 @@
+uuid: 60da816a-0f2d-4bd8-b0b5-a243af4d92eb
+langcode: en
+status: true
+dependencies:
+  module:
+    - link
+  theme:
+    - server_theme
+active_version: d6c89d4b60633319
+versioned_properties:
+  active:
+    settings:
+      prop_field_definitions:
+        title:
+          required: true
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value:
+            -
+              value: 'Ready to get started?'
+          expression: ℹ︎string␟value
+        body:
+          required: false
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value:
+            -
+              value: 'Discover everything our platform has to offer.'
+          expression: ℹ︎string␟value
+        link_url:
+          required: true
+          field_type: link
+          field_storage_settings: {  }
+          field_instance_settings:
+            title: 0
+            link_type: 17
+          field_widget: link_default
+          default_value:
+            -
+              uri: /contact
+              options: {  }
+          expression: ℹ︎link␟url
+        link_text:
+          required: true
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value:
+            -
+              value: 'Get in touch'
+          expression: ℹ︎string␟value
+        open_new_tab:
+          required: false
+          field_type: boolean
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: boolean_checkbox
+          default_value: null
+          expression: ℹ︎boolean␟value
+    fallback_metadata:
+      slot_definitions: {  }
+label: 'Call to Action'
+id: sdc.server_theme.cta
+provider: server_theme
+source: sdc
+source_local_id: 'server_theme:cta'

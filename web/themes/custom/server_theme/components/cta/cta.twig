@@ -1,0 +1,46 @@
+{# Title — mirrors wrapTextResponsiveFontSize(3xl) + wrapTextCenter() + wrapTextFontWeight(bold). #}
+{% set title_el %}{{ title }}{% endset %}
+{% set title_el %}
+  {% include '@server_theme/templates/server-theme-text-decoration--responsive-font-size.html.twig' with { element: title_el, size: '3xl' } only %}
+{% endset %}
+{% set title_el %}
+  {% include '@server_theme/templates/server-theme-text-decoration--center.html.twig' with { element: title_el } only %}
+{% endset %}
+{% set title_el %}
+  {% include '@server_theme/templates/server-theme-text-decoration--font-weight.html.twig' with { element: title_el, font_weight: 'bold' } only %}
+{% endset %}
+
+{# Body — mirrors wrapProseText(). #}
+{% if body %}
+  {% set body_el %}
+    {% include '@server_theme/templates/server-theme-prose-text.html.twig' with { text: body } only %}
+  {% endset %}
+{% endif %}
+
+{# Button — reuses existing button template. #}
+{% set button %}
+  {% include '@server_theme/server-theme-button.html.twig' with {
+    button_type: 'primary',
+    url: link_url,
+    title: link_text,
+    open_new_tab: open_new_tab ?? false,
+  } only %}
+{% endset %}
+
+{# Stack elements — mirrors wrapContainerVerticalSpacingBig(center). #}
+{% set stacked %}
+  {{ title_el }}
+  {{ body_el ?? '' }}
+  {{ button }}
+{% endset %}
+{% set stacked %}
+  {% include '@server_theme/templates/server-theme-container-vertical-spacing-big.html.twig' with { items: stacked, align: 'center' } only %}
+{% endset %}
+
+{# Card — mirrors buildInnerElementLayout(LightGray). #}
+{% set card %}
+  {% include '@server_theme/templates/server-theme-inner-element-layout.html.twig' with { items: stacked, bg_color: 'light-gray' } only %}
+{% endset %}
+
+{# Outer narrow container — mirrors wrapContainerNarrow(). #}
+{% include '@server_theme/templates/server-theme-container-narrow.html.twig' with { element: card } only %}

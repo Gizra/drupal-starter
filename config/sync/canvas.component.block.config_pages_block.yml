@@ -1,0 +1,22 @@
+uuid: f719147f-a134-43ab-9a14-5705580f190d
+langcode: en
+status: true
+dependencies:
+  module:
+    - config_pages
+active_version: 523e9506849ee807
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: config_pages_block
+        label: 'ConfigPages Block'
+        label_display: '0'
+        provider: config_pages
+    fallback_metadata:
+      slot_definitions: null
+label: 'ConfigPages Block'
+id: block.config_pages_block
+provider: config_pages
+source: block
+source_local_id: config_pages_block

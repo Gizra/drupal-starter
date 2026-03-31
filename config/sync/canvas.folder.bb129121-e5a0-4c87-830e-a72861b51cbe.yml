@@ -1,0 +1,9 @@
+uuid: bb129121-e5a0-4c87-830e-a72861b51cbe
+langcode: en
+status: true
+dependencies: {  }
+name: Facets
+configEntityTypeId: component
+weight: 0
+items:
+  - block.facet_block.content_type

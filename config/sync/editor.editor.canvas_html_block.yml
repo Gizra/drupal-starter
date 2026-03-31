@@ -1,0 +1,33 @@
+uuid: 2972f9f1-6396-4c74-9ca1-2a3b34f8d8f9
+langcode: en
+status: false
+dependencies:
+  config:
+    - filter.format.canvas_html_block
+  module:
+    - ckeditor5
+  enforced:
+    module:
+      - canvas
+_core:
+  default_config_hash: 19_c5TyRhDiqf36PYtB4vYtnKYIJJpckCZZanFLL5kI
+format: canvas_html_block
+editor: ckeditor5
+settings:
+  toolbar:
+    items:
+      - bold
+      - italic
+      - underline
+      - link
+      - '|'
+      - bulletedList
+      - numberedList
+  plugins:
+    ckeditor5_list:
+      properties:
+        reversed: false
+        startIndex: false
+      multiBlock: false
+image_upload:
+  status: false
