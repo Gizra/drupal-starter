@@ -5,10 +5,6 @@
 
   // We don't need to deal with Ajax, so we do it onLoad.
   $(function () {
-    // All the elements in the page that need a Slick carousel. It may be
-    // a carousel that is always attached, or one that is attached only on
-    // mobile.
-    const $elements = $('.carousel-wrapper');
 
     /**
      * Determine if Slick is already attached.
@@ -27,6 +23,8 @@
      * Slick.
      */
     function attachedOrDestroySlick() {
+      // Query live so newly injected .carousel-wrapper elements are included.
+      const $elements = $('.carousel-wrapper');
       if (!$elements.length) {
         // No carousels needed on page.
         return;
@@ -81,7 +79,7 @@
         const config = {
           infinite: infiniteLoop,
           // Set the direction based on the current language.
-          rtl: drupalSettings.language.direction === 'rtl',
+          rtl: drupalSettings.language && drupalSettings.language.direction === 'rtl',
           focusOnSelect: false,
           arrows: showArrows,
           mobileFirst: true,
@@ -156,6 +154,9 @@
     $(window).resize(function () {
       attachedOrDestroySlick();
     });
+
+    // Expose for external callers (e.g. paragraph preview injection).
+    Drupal.slickAttachedOrDestroy = attachedOrDestroySlick;
   });
 
 })(jQuery, Drupal);

@@ -16,6 +16,8 @@
    *
    * Fetches the preview route (rendered with server_theme), extracts the
    * main content and its stylesheets, and injects them into the preview panel.
+   * Scripts from the preview page are loaded in order so JS components such
+   * as the Slick carousel initialise correctly.
    */
   Drupal.AjaxCommands.prototype.pseActivatePreviewPanel = function (ajax, response) {
     const form = document.querySelector('.pse-edit-form');
@@ -29,8 +31,8 @@
       .then((html) => {
         const doc = new DOMParser().parseFromString(html, 'text/html');
 
-        // Inject any stylesheets from the server_theme page that aren't already
-        // present on the admin page, so Tailwind classes render correctly.
+        // Inject any stylesheets from the server_theme page that aren't
+        // already present on the admin page.
         doc.querySelectorAll('link[rel="stylesheet"]').forEach((link) => {
           if (!document.querySelector(`link[href="${link.getAttribute('href')}"]`)) {
             document.head.appendChild(link.cloneNode(true));
@@ -41,9 +43,43 @@
         const main = doc.querySelector('main') || doc.body;
         previewPanel.innerHTML = main.innerHTML;
 
-        pseSetActivePanel(form, 'preview');
+        // Load scripts from the preview page in dependency order, skipping
+        // any already present. Once done, re-init JS components (e.g. Slick)
+        // that may have run before this content was injected.
+        const scriptSrcs = [...doc.querySelectorAll('script[src]')]
+          .map((s) => s.getAttribute('src'))
+          .filter(Boolean);
+
+        pseLoadScripts(scriptSrcs, () => {
+          if (Drupal.slickAttachedOrDestroy) {
+            Drupal.slickAttachedOrDestroy();
+          }
+          pseSetActivePanel(form, 'preview');
+        });
       });
   };
+
+  /**
+   * Loads an array of script URLs sequentially, skipping already-loaded ones.
+   *
+   * @param {string[]} srcs - Ordered list of script URLs.
+   * @param {Function} callback - Called after all scripts have been processed.
+   */
+  function pseLoadScripts(srcs, callback) {
+    const pending = srcs.filter((src) => !document.querySelector(`script[src="${src}"]`));
+    function loadNext(index) {
+      if (index >= pending.length) {
+        callback();
+        return;
+      }
+      const script = document.createElement('script');
+      script.src = pending[index];
+      script.onload = () => loadNext(index + 1);
+      script.onerror = () => loadNext(index + 1);
+      document.head.appendChild(script);
+    }
+    loadNext(0);
+  }
 
   /**
    * Toggles the visible panel and updates tab active state.
