@@ -108,8 +108,6 @@ function _paragraphs_simple_edit_preview_ajax(array &$form, FormStateInterface $
 
   $preview_url = Url::fromRoute('paragraphs_simple_edit.paragraph_preview', [
     'uuid' => $uuid,
-  ], [
-    'query' => ['_ts' => (string) time()],
   ])->toString();
 
   $response = new AjaxResponse();
