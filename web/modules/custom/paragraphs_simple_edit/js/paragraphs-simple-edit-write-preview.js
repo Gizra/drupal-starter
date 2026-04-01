@@ -31,30 +31,53 @@
       .then((html) => {
         const doc = new DOMParser().parseFromString(html, 'text/html');
 
-        // Inject any stylesheets from the server_theme page that aren't
-        // already present on the admin page.
+        // Use a shadow root so admin theme (Claro) CSS cannot reach the
+        // preview content. Attach once; reuse on subsequent Preview clicks.
+        const shadowRoot = previewPanel.shadowRoot
+          || previewPanel.attachShadow({ mode: 'open' });
+        shadowRoot.innerHTML = '';
+
+        // Inject frontend stylesheets (theme + shared libraries) into both:
+        // 1. The shadow root — so Tailwind utilities apply to preview content.
+        // 2. document.head — so @property registrations (which give Tailwind
+        //    CSS custom properties their initial-value) become document-scoped.
+        //    @property rules inside shadow root <link> elements are not
+        //    registered globally, so var(--tw-border-style) etc. would be
+        //    undefined without this second injection.
+        // Drupal core/module CSS is excluded to avoid conflicts with Tailwind.
         doc.querySelectorAll('link[rel="stylesheet"]').forEach((link) => {
-          if (!document.querySelector(`link[href="${link.getAttribute('href')}"]`)) {
+          const href = link.getAttribute('href') || '';
+          if (!href.includes('/themes/') && !href.includes('/libraries/')) {
+            return;
+          }
+          shadowRoot.appendChild(link.cloneNode(true));
+          if (!document.querySelector(`link[href="${href}"]`)) {
             document.head.appendChild(link.cloneNode(true));
           }
         });
 
-        // Extract and inject the main content area.
-        const main = doc.querySelector('main') || doc.body;
-        previewPanel.innerHTML = main.innerHTML;
+        // Inject the main content into a wrapper inside the shadow root.
+        const container = document.createElement('div');
+        container.innerHTML = (doc.querySelector('main') || doc.body).innerHTML;
+        shadowRoot.appendChild(container);
 
         // Load scripts from the preview page in dependency order, skipping
-        // any already present. Once done, re-init JS components (e.g. Slick)
-        // that may have run before this content was injected.
+        // any already present. Pass the shadow container as context so Slick
+        // (and other jQuery queries) scope to the injected content.
         const scriptSrcs = [...doc.querySelectorAll('script[src]')]
           .map((s) => s.getAttribute('src'))
           .filter(Boolean);
 
         pseLoadScripts(scriptSrcs, () => {
-          if (Drupal.slickAttachedOrDestroy) {
-            Drupal.slickAttachedOrDestroy();
-          }
+          // Show the panel before initialising JS components so the browser
+          // lays out the shadow DOM and they can measure dimensions correctly.
           pseSetActivePanel(form, 'preview');
+          requestAnimationFrame(() => {
+            // Trigger all Drupal.behaviors on the injected content. Behaviors
+            // register synchronously at script parse time so this is safe even
+            // for dynamically loaded scripts.
+            Drupal.attachBehaviors(container);
+          });
         });
       });
   };
