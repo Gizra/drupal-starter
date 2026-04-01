@@ -16,7 +16,7 @@ use Drupal\paragraphs_simple_edit\Ajax\ActivatePreviewPanelCommand;
 /**
  * Implements hook_form_alter().
  *
- * Adds Write/Preview tabs to the paragraph entity edit form.
+ * Adds Write/Preview tabs to paragraph entity edit and add forms.
  */
 function paragraphs_simple_edit_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
   $form_object = $form_state->getFormObject();
@@ -24,7 +24,10 @@ function paragraphs_simple_edit_form_alter(array &$form, FormStateInterface $for
     return;
   }
   $entity = $form_object->getEntity();
-  if ($entity->getEntityTypeId() !== 'paragraph' || $form_object->getOperation() !== 'entity_edit') {
+  if ($entity->getEntityTypeId() !== 'paragraph') {
+    return;
+  }
+  if (!in_array($form_object->getOperation(), ['entity_edit', 'entity_add'])) {
     return;
   }
 
@@ -84,18 +87,27 @@ function paragraphs_simple_edit_form_alter(array &$form, FormStateInterface $for
 function _paragraphs_simple_edit_preview_ajax(array &$form, FormStateInterface $form_state): AjaxResponse {
   /** @var \Drupal\Core\Entity\ContentEntityFormInterface $form_object */
   $form_object = $form_state->getFormObject();
-  $paragraph_id = $form_object->getEntity()->id();
+  $entity = $form_object->getEntity();
 
-  // getUserInput() is the raw $_POST — always contains what the user currently
-  // typed, unlike getValues() which may not be fully populated in AJAX
-  // callbacks that skip validation (#limit_validation_errors => []).
+  // Use UUID as the TempStore key — it exists for both new (unsaved) and
+  // existing entities, unlike the numeric ID which is NULL for new ones.
+  $uuid = $entity->uuid();
+
   /** @var \Drupal\Core\TempStore\PrivateTempStoreFactory $temp_store_factory */
   $temp_store_factory = \Drupal::service('tempstore.private');
   $store = $temp_store_factory->get('paragraphs_simple_edit');
-  $store->set('preview:' . $paragraph_id, $form_state->getUserInput());
+  $store->set('preview:' . $uuid, [
+    'bundle' => $entity->bundle(),
+    // NULL for new paragraphs; used by the controller to load existing ones.
+    'id' => $entity->id(),
+    // getUserInput() is the raw $_POST — always contains what the user typed,
+    // unlike getValues() which may not be populated in AJAX callbacks that
+    // skip validation (#limit_validation_errors => []).
+    'input' => $form_state->getUserInput(),
+  ]);
 
   $preview_url = Url::fromRoute('paragraphs_simple_edit.paragraph_preview', [
-    'paragraph' => $paragraph_id,
+    'uuid' => $uuid,
   ], [
     'query' => ['_ts' => (string) time()],
   ])->toString();
