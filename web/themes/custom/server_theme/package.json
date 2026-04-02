@@ -1,11 +1,21 @@
 {
-  "scripts": {},
+  "scripts": {
+    "build:css": "tailwindcss -i ./src/css/style.css -o ./dist/css/style.css --minify",
+    "build:assets": "node scripts/build.js",
+    "build": "concurrently \"npm run build:css\" \"npm run build:assets\"",
+    "watch:css": "tailwindcss -i ./src/css/style.css -o ./dist/css/style.css --watch",
+    "watch:assets": "node scripts/watch.js",
+    "watch": "concurrently \"npm run watch:css\" \"npm run watch:assets\""
+  },
   "devDependencies": {
     "@tailwindcss/cli": "^4.1.0",
     "@tailwindcss/forms": "^0.5.3",
+    "chokidar": "^3.0.0",
+    "concurrently": "^9.0.0",
     "cssnano": "^7.0.6",
-    "minify": "^9.1.0",
-    "svgo": "^2.8.0",
-    "tailwindcss": "^4.1.0"
+    "imagemin-cli": "^6.0.0",
+    "svgo": "^2.8.2",
+    "tailwindcss": "^4.1.0",
+    "terser": "^5.0.0"
   }
 }

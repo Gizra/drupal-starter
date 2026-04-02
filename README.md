@@ -31,6 +31,8 @@ You can open this project in GitHub Codespaces by clicking the badge at the top 
 
 Once the installation is complete (takes about 10 minutes), you can use `ddev login` to log in to the site as admin user using your default browser.
 
+The Codespace comes with [Claude Code](https://docs.anthropic.com/en/docs/claude-code) pre-installed for agentic coding. Run `claude` in the terminal to get started. For the best authentication experience, open your Codespace in VS Code rather than in the browser.
+
 ## Local Installation
 
 The only requirement is having [DDEV](https://ddev.readthedocs.io/en/stable/) installed.
@@ -94,20 +96,20 @@ Please refer to the [Default content documentation](https://www.drupal.org/docs/
 
 ## Theme Development
 
-By default, `ddev restart` compiles the theme using Robo (`ddev robo theme:compile-debug`)
+By default, `ddev restart` compiles the theme using npm scripts (`ddev theme:compile`).
 
-This is used only for watching Tailwind styles, it's not compiling js, images, etc.
+This compiles CSS (Tailwind), JS, fonts, and images into the `dist/` directory.
 
-On the local development environment, which is using TailWind's [JIT](https://tailwindcss.com/docs/just-in-time-mode) (Just-In-Time), execute:
+On the local development environment, execute:
 
 ```bash
 ddev theme:watch
 ```
 
-This will compile Tailwind and keep watching for any changes.
+This will run an initial build and then watch for any changes to CSS, JS, fonts, and images.
 
-When running `ddev robo theme:compile` it will purge any TailWind's CSS class
-which is not found in the code, twig, or under `tailwind.config.js` `whitelist` property.
+When running `ddev theme:compile`, Tailwind uses JIT (Just-In-Time) mode and only includes CSS classes
+found in the source paths declared via `@source` directives in `src/css/style.css`.
 
 The directory structure:
  - `src/` - put all source stylesheets images, fonts, etc here.
@@ -120,7 +122,7 @@ For theme development, it's advisable to entirely turn off caching: https://www.
 It is advised to use Drupal's Responsive image module.
 
 If there are new breakpoints added, or existing breakpoints updated in
-`server_theme/tailwind.config.js`, you must ensure to also update the Drupal
+`src/css/style.css` (via `@theme` custom properties), you must ensure to also update the Drupal
 breakpoints configuration file for the theme `server_theme.breakpoints.yml` so
 that the media queries for the responsive images are in sync with tailwind's.
 It is advisable to finalize this configuration before any responsive image
@@ -381,17 +383,17 @@ In order to deploy upon every merge automatically using GitHub Actions, you shal
 1. `git commit -m "Deployment secrets and configuration"`
 1. Add the public key in `pantheon-key.pub` to the newly created dummy [Pantheon user](https://pantheon.io/docs/ssh-keys)
 1. Set up the following in your GitHub repository settings:
-   
+
    **GitHub Secrets** (Settings → Secrets and variables → Actions → Secrets):
    - `TERMINUS_TOKEN`: Your Pantheon machine token
    - `PANTHEON_DEPLOY_KEY`: The SSH private key for deployment
    - `GH_TOKEN`: GitHub personal access token for posting deployment comments
-   
+
    **GitHub Variables** (Settings → Secrets and variables → Actions → Variables):
    - `PANTHEON_GIT_URL`: The Pantheon Git URL for your project
    - `ROLLBAR_SERVER_TOKEN`: Your Rollbar server token (optional)
    - `DEPLOY_EXCLUDE_WARNING`: Warnings to exclude from deployment notifications (optional)
-   
+
 1. Actualize `public static string $githubProject = 'Gizra/the-client';` in the `RoboFile.php`.
 
 Optionally you can specify which target branch you'd like to push on Pantheon, by default it's `master`, so the target is the DEV environment, but alternatively you can issue:

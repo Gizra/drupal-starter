@@ -134,12 +134,20 @@ trait ReleaseNotesTrait {
 
           // Fall back to parsing PR body if GraphQL didn't find anything.
           if (empty($issue_number)) {
-            $issue_number = $this->githubApiGetLinkedIssuesFromPrBody((int) $pr_number, $github_project, $github_org);
+            $issue_number = $this->githubApiGetLinkedIssuesFromPrBody($pr_details->body ?? NULL);
           }
         }
         if (!empty($issue_number) && !isset($issue_titles[$issue_number])) {
-          /** @var \stdClass $issue_details */
-          $issue_details = $this->githubApiGet("repos/$github_org/$github_project/issues/$issue_number");
+          try {
+            /** @var \stdClass $issue_details */
+            $issue_details = $this->githubApiGet("repos/$github_org/$github_project/issues/$issue_number");
+          }
+          catch (\Exception $exception) {
+            // Wrong issue number, most likely due to dependabot links to
+            // different repos in the PR body.
+            $issue_details = NULL;
+            $issue_number = NULL;
+          }
           if (!empty($issue_details->title)) {
             $issue_titles[$issue_number] = $issue_details->title;
             $contributors[] = '@' . $issue_details->user->login;
@@ -149,7 +157,11 @@ trait ReleaseNotesTrait {
 
       if (empty($issue_number)) {
         if (!empty($pr_number)) {
-          $no_issue_lines[] = "- PR #$pr_number";
+          $no_issue_line = "- PR #$pr_number";
+          if (!empty($pr_details->title)) {
+            $no_issue_line .= " - $pr_details->title";
+          }
+          $no_issue_lines[] = $no_issue_line;
         }
         continue;
       }
@@ -356,23 +368,16 @@ GRAPHQL;
   /**
    * Get linked issue from a Pull Request by parsing the PR body.
    *
-   * This function uses GitHub's REST API to fetch the PR details and then
-   * parses the body to find issue references (e.g., #123 or "Fixes repo#123").
+   * Parses the body to find issue references (e.g., #123 or "Fixes repo#123").
    *
-   * @param int $pr_number
-   *   The pull request number.
-   * @param string $repo
-   *   Github repo name.
-   * @param string $owner
-   *   Github user/organization name.
+   * @param string|null $body
+   *   The pull request body text.
    *
    * @return string|null
    *   The issue number as a string, or NULL if not found.
    */
-  protected function githubApiGetLinkedIssuesFromPrBody(int $pr_number, string $repo, string $owner): ?string {
-    $pr = $this->githubApiGet("repos/$owner/$repo/pulls/$pr_number");
-
-    if (!isset($pr->body)) {
+  protected function githubApiGetLinkedIssuesFromPrBody(?string $body): ?string {
+    if (!isset($body)) {
       return NULL;
     }
 
@@ -380,15 +385,26 @@ GRAPHQL;
 
     // First try the specific "Fixes" pattern which explicitly indicates issue
     // linkage.
-    preg_match_all('!Fixes .+#([0-9]+)!', $pr->body, $issue_matches);
+    preg_match_all('!^\s*[-*]?\s*fixes\s+.+#([0-9]+)!im', $body, $issue_matches);
     if (isset($issue_matches[1][0])) {
       return $issue_matches[1][0];
     }
 
-    // Fall back to simple issue reference pattern.
-    preg_match_all('!#([0-9]+)!', $pr->body, $issue_matches);
+    // Fall back to closing keyword pattern (e.g. "Closes #123", "Fixes #123").
+    // Anchored to start of line (^, m flag) to avoid matching
+    // example text mid-sentence.
+    preg_match_all('!^(?:close[sd]?|fix(?:e[sd])?|resolve[sd]?)\s+#([0-9]+)!im', $body, $issue_matches);
     if (isset($issue_matches[1][0])) {
       return $issue_matches[1][0];
+    }
+
+    // Fall back to a bare #xxx reference at the very start of the PR body.
+    // This handles cases where a PR description begins with the issue number
+    // (e.g. "#1234 Fix the thing"). We only match at the start to avoid
+    // picking up arbitrary references from dependabot or copilot mid-body.
+    preg_match('!^\s*#([0-9]+)!', $body, $issue_matches);
+    if (isset($issue_matches[1])) {
+      return $issue_matches[1];
     }
 
     return NULL;
