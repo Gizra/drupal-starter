@@ -30,6 +30,9 @@ function paragraphs_simple_edit_form_alter(array &$form, FormStateInterface $for
   if (!in_array($form_object->getOperation(), ['entity_edit', 'entity_add'])) {
     return;
   }
+  if (!\Drupal::currentUser()->hasPermission('preview paragraphs')) {
+    return;
+  }
 
   $form['#attributes']['class'][] = 'pse-edit-form';
   $form['#attached']['library'][] = 'paragraphs_simple_edit/write_preview';

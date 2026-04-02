@@ -11,7 +11,7 @@ dependencies:
   module:
     - content_moderation
     - metatag
-    - paragraphs
+    - paragraphs_simple_edit
     - path
 id: node.landing_page.default
 targetEntityType: node
@@ -40,7 +40,7 @@ content:
       use_details: true
     third_party_settings: {  }
   field_paragraphs:
-    type: paragraphs
+    type: paragraphs_simple_edit_default
     weight: 10
     region: content
     settings:

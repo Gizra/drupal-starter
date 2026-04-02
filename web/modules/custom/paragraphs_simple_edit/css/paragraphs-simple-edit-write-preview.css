@@ -30,6 +30,7 @@
   color: #656d76;
   /* Overlap the 2px border-bottom of .pse-tabs to create the active illusion. */
   margin-bottom: -2px;
+  margin: 0;
   padding: 8px 16px;
   line-height: 1.5;
   text-align: center;

@@ -135,7 +135,10 @@ final class ParagraphPreviewController extends ControllerBase {
             $paragraph->set($field_name, $input[$field_name]);
           }
           catch (\Exception $e) {
-            // Field type doesn't accept raw POST format — keep saved value.
+            $this->getLogger('paragraphs_simple_edit')->debug('Could not set field %field from raw input: @msg', [
+              '%field' => $field_name,
+              '@msg' => $e->getMessage(),
+            ]);
           }
       }
     }
@@ -165,7 +168,10 @@ final class ParagraphPreviewController extends ControllerBase {
       $paragraph->set($field_name, $items);
     }
     catch (\Exception $e) {
-      // Keep saved value.
+      $this->getLogger('paragraphs_simple_edit')->debug('Could not set field %field from raw input: @msg', [
+        '%field' => $field_name,
+        '@msg' => $e->getMessage(),
+      ]);
     }
   }
 
@@ -203,7 +209,10 @@ final class ParagraphPreviewController extends ControllerBase {
       $paragraph->set($field_name, $link_items);
     }
     catch (\Exception $e) {
-      // Keep saved value.
+      $this->getLogger('paragraphs_simple_edit')->debug('Could not set field %field from raw input: @msg', [
+        '%field' => $field_name,
+        '@msg' => $e->getMessage(),
+      ]);
     }
   }
 
@@ -331,8 +340,7 @@ final class ParagraphPreviewController extends ControllerBase {
         $items[] = ['target_id' => (int) $item['target_id']];
       }
     }
-    // Return NULL for unknown formats so the saved value is preserved.
-    return empty($items) ? NULL : $items;
+    return $items;
   }
 
 }

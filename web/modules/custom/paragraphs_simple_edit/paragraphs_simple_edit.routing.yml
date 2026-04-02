@@ -4,4 +4,4 @@ paragraphs_simple_edit.paragraph_preview:
     _controller: '\Drupal\paragraphs_simple_edit\Controller\ParagraphPreviewController::preview'
     _title: 'Paragraph Preview'
   requirements:
-    _permission: 'administer nodes'
+    _permission: 'preview paragraphs'

@@ -26,15 +26,20 @@
       return;
     }
 
+    // Show the preview panel with a loading message while the fetch runs.
+    // The AJAX throbber disappears once the server stores the preview, but
+    // the actual content has not loaded yet.
+    const shadowRoot = previewPanel.shadowRoot
+      || previewPanel.attachShadow({ mode: 'open' });
+    shadowRoot.textContent = Drupal.t('Loading preview\u2026');
+    pseSetActivePanel(form, 'preview');
+
     fetch(response.previewUrl)
       .then((res) => res.text())
       .then((html) => {
         const doc = new DOMParser().parseFromString(html, 'text/html');
 
-        // Use a shadow root so admin theme (Claro) CSS cannot reach the
-        // preview content. Attach once; reuse on subsequent Preview clicks.
-        const shadowRoot = previewPanel.shadowRoot
-          || previewPanel.attachShadow({ mode: 'open' });
+        // Clear the shadow root (already attached above with loading text).
         shadowRoot.innerHTML = '';
 
         // Inject frontend stylesheets (theme + shared libraries) into both:
@@ -51,7 +56,7 @@
             return;
           }
           shadowRoot.appendChild(link.cloneNode(true));
-          if (!document.querySelector(`link[href="${href}"]`)) {
+          if (!document.querySelector(`link[href="${CSS.escape(href)}"]`)) {
             document.head.appendChild(link.cloneNode(true));
           }
         });
@@ -69,9 +74,6 @@
           .filter(Boolean);
 
         pseLoadScripts(scriptSrcs, () => {
-          // Show the panel before initialising JS components so the browser
-          // lays out the shadow DOM and they can measure dimensions correctly.
-          pseSetActivePanel(form, 'preview');
           requestAnimationFrame(() => {
             // Trigger all Drupal.behaviors on the injected content. Behaviors
             // register synchronously at script parse time so this is safe even
@@ -79,6 +81,10 @@
             Drupal.attachBehaviors(container);
           });
         });
+      })
+      .catch(() => {
+        shadowRoot.textContent = Drupal.t('Preview failed to load.');
+        pseSetActivePanel(form, 'write');
       });
   };
 
@@ -89,7 +95,7 @@
    * @param {Function} callback - Called after all scripts have been processed.
    */
   function pseLoadScripts(srcs, callback) {
-    const pending = srcs.filter((src) => !document.querySelector(`script[src="${src}"]`));
+    const pending = srcs.filter((src) => !document.querySelector(`script[src="${CSS.escape(src)}"]`));
     function loadNext(index) {
       if (index >= pending.length) {
         callback();
