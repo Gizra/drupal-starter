@@ -46,8 +46,8 @@ log in to the site as admin user using your default browser.
 
 ## Git Worktree support
 
-For AI agent-based development flows, you might need several instances of the
-project at the same time.
+You might need several instances of the project running simultaneously (e.g.,
+parallel feature branches, AI agent workflows, or PR reviews).
 See how [DDEV handles it](https://www.fldrupal.camp/session/use-git-worktree-ddev-run-multiple-versions-same-site). There's also an [add-on for this](https://github.com/elabx/ddev-worktrees?tab=readme-ov-file#ddev-worktree):
 ```
 ddev add-on install esanmiguel/ddev-worktree
