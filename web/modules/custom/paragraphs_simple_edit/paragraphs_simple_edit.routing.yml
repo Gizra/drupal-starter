@@ -1,0 +1,7 @@
+paragraphs_simple_edit.paragraph_preview:
+  path: '/paragraphs/preview/{uuid}'
+  defaults:
+    _controller: '\Drupal\paragraphs_simple_edit\Controller\ParagraphPreviewController::preview'
+    _title: 'Paragraph Preview'
+  requirements:
+    _permission: 'preview paragraphs'

@@ -32,6 +32,7 @@ permissions:
   - 'edit any news content'
   - 'edit own landing_page content'
   - 'edit own news content'
+  - 'preview paragraphs'
   - 'use default transition create_new_draft'
   - 'use default transition publish'
   - 'use default transition submit_for_review'

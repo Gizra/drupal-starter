@@ -1,0 +1,6 @@
+services:
+  theme.negotiator.paragraph_preview:
+    class: Drupal\paragraphs_simple_edit\ThemeNegotiator\ParagraphPreviewThemeNegotiator
+    arguments: ['@config.factory']
+    tags:
+      - { name: theme_negotiator, priority: 100 }
