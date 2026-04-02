@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bffda8a43cc62c158ba0f494c27c0b3f",
+    "content-hash": "59c64f18cc1bc65c95924751fef98308",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2053,87 +2053,6 @@
             "homepage": "https://www.drupal.org/project/ai",
             "support": {
                 "source": "https://git.drupalcode.org/project/ai"
-            }
-        },
-        {
-            "name": "drupal/ai_agents",
-            "version": "1.2.3",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/ai_agents.git",
-                "reference": "1.2.3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/ai_agents-1.2.3.zip",
-                "reference": "1.2.3",
-                "shasum": "a31a58f3a37048e2706c5bd9bed251d670755989"
-            },
-            "require": {
-                "drupal/ai": "^1.2.0",
-                "drupal/core": "^10.2 || ^11",
-                "drupal/modeler_api": "^1.0.3"
-            },
-            "require-dev": {
-                "drupal/webform": "^6.0"
-            },
-            "suggest": {
-                "drupal/bpmn_io": "Allows editing of AI agents with BPMN diagrams.",
-                "drupal/simple_crawler": "Allows the AI Form integrations to crawl websites.",
-                "drupal/unstructured": "Makes the AI Form integrations work better by allowing many file contexts."
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "1.2.3",
-                    "datestamp": "1772092822",
-                    "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "akhil babu",
-                    "homepage": "https://www.drupal.org/user/3632866"
-                },
-                {
-                    "name": "andrewbelcher",
-                    "homepage": "https://www.drupal.org/user/655282"
-                },
-                {
-                    "name": "harivansh",
-                    "homepage": "https://www.drupal.org/user/3678656"
-                },
-                {
-                    "name": "jurgenhaas",
-                    "homepage": "https://www.drupal.org/user/168924"
-                },
-                {
-                    "name": "marcus_johansson",
-                    "homepage": "https://www.drupal.org/user/385947"
-                },
-                {
-                    "name": "michaellander",
-                    "homepage": "https://www.drupal.org/user/636494"
-                },
-                {
-                    "name": "yautja_cetanu",
-                    "homepage": "https://www.drupal.org/user/626050"
-                }
-            ],
-            "description": "Allows AI agents to be used on Drupal websites to do changes and lookup things.",
-            "homepage": "https://www.drupal.org/project/ai_agents",
-            "keywords": [
-                "Drupal"
-            ],
-            "support": {
-                "source": "https://git.drupalcode.org/project/ai_agents"
             }
         },
         {
@@ -4571,59 +4490,6 @@
             }
         },
         {
-            "name": "drupal/modeler_api",
-            "version": "1.0.7",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/modeler_api.git",
-                "reference": "1.0.7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/modeler_api-1.0.7.zip",
-                "reference": "1.0.7",
-                "shasum": "5ea28a231cd66c9737eb7fd9d02e94a152f97213"
-            },
-            "require": {
-                "drupal/core": "^10.4 || ^11"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "1.0.7",
-                    "datestamp": "1773132747",
-                    "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "benjifisher",
-                    "homepage": "https://www.drupal.org/user/683300"
-                },
-                {
-                    "name": "cosmicdreams",
-                    "homepage": "https://www.drupal.org/user/42579"
-                },
-                {
-                    "name": "jurgenhaas",
-                    "homepage": "https://www.drupal.org/user/168924"
-                }
-            ],
-            "description": "Provides an API for modules to use modelers like BPMN.iO",
-            "homepage": "https://www.drupal.org/project/modeler_api",
-            "support": {
-                "source": "https://drupal.org/project/modeler_api",
-                "issues": "https://drupal.org/project/issues/modeler_api"
-            }
-        },
-        {
             "name": "drupal/pantheon_advanced_page_cache",
             "version": "2.3.3",
             "source": {
@@ -4815,49 +4681,6 @@
             "homepage": "https://www.drupal.org/project/paragraphs",
             "support": {
                 "source": "https://git.drupalcode.org/project/paragraphs"
-            }
-        },
-        {
-            "name": "drupal/paragraphs_ai",
-            "version": "dev-1.0.x",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/paragraphs_ai.git",
-                "reference": "d0d72940e2d67456e091f5b6f9ca3fb9843a584e"
-            },
-            "require": {
-                "drupal/ai_agents": "*",
-                "drupal/core": "^10 || ^11",
-                "drupal/paragraphs": "*"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "branch-alias": {
-                    "dev-1.0.x": "1.0.x-dev"
-                },
-                "drupal": {
-                    "version": "1.0.x-dev",
-                    "datestamp": "1739727798",
-                    "security-coverage": {
-                        "status": "not-covered",
-                        "message": "Dev releases are not covered by Drupal security advisories."
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "leo pitt",
-                    "homepage": "https://www.drupal.org/user/507600"
-                }
-            ],
-            "description": "AI integration for Paragraphs.",
-            "homepage": "https://www.drupal.org/project/paragraphs_ai",
-            "support": {
-                "source": "https://git.drupalcode.org/project/paragraphs_ai"
             }
         },
         {
@@ -18525,7 +18348,6 @@
         "drupal/cache_review": 20,
         "drupal/default_content": 15,
         "drupal/inline_entity_form": 5,
-        "drupal/paragraphs_ai": 20,
         "drupal/potx": 15,
         "drupal/ultimate_cron": 15,
         "drupal/webform": 10,
