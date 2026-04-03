@@ -1,0 +1,14 @@
+/* Claro theme automatically adds the .button--small class, which introduces
+   extra margin and padding. These overrides remove the unwanted spacing
+   applied to the link wrapper. */
+.paragraph-simple-edit--add-button.dropbutton.button--small {
+  margin: 0;
+  padding: 0;
+}
+
+/* Claro theme applies certain admin styles (e.g., accordion, tabs) based on
+   class names. These overrides ensure paragraph widgets display correctly
+   regardless of their type. */
+.paragraph-simple-edit--add-button li {
+  box-shadow: none;
+}
