@@ -12,6 +12,8 @@ use weitzman\DrupalTestTraits\ExistingSiteBase;
 
 /**
  * Tests the ContentGenerator service entity creation.
+ *
+ * @group sequential
  */
 class ContentGeneratorTest extends ExistingSiteBase {
 
