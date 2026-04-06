@@ -1,0 +1,47 @@
+<?php
+
+/**
+ * @file
+ * Hook implementations for the Server AI Content module.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter() for node_form.
+ */
+function server_ai_content_form_node_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
+  /** @var \Drupal\node\Form\NodeForm $form_object */
+  $form_object = $form_state->getFormObject();
+  $node = $form_object->getEntity();
+
+  if (!$node->isNew()) {
+    return;
+  }
+
+  $current_user = \Drupal::currentUser();
+  if (!$current_user->hasPermission('generate ai content')) {
+    return;
+  }
+
+  $node_type = $node->bundle();
+  $url = Url::fromRoute('server_ai_content.generate', [
+    'node_type' => $node_type,
+  ]);
+
+  $form['ai_generate_link'] = [
+    '#type' => 'container',
+    '#weight' => -100,
+    'link' => [
+      '#type' => 'link',
+      '#title' => t('Generate with AI'),
+      '#url' => $url,
+      '#attributes' => [
+        'class' => ['button', 'button--primary'],
+      ],
+    ],
+  ];
+}
