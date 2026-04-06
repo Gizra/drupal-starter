@@ -102,12 +102,14 @@ class ParagraphSchemaDiscovery {
           if (!$this->isBundleUsable($sub_fields)) {
             continue;
           }
+          // Each reference field targets one sub-paragraph type in practice.
           $schema[$bundle]['sub_paragraph'] = [
             'type' => $sub_bundle,
             'label' => $bundle_info[$sub_bundle]['label'] ?? $sub_bundle,
             'field_name' => $field['field_id'],
             'fields' => $sub_fields,
           ];
+          break;
         }
       }
     }

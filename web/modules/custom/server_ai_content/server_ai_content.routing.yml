@@ -1,5 +1,5 @@
 server_ai_content.generate:
-  path: '/admin/content/ai-generate'
+  path: '/node/add/{node_type}/ai-generate'
   defaults:
     _form: '\Drupal\server_ai_content\Form\AiContentGenerateForm'
     _title: 'AI Content Generator'
@@ -7,3 +7,6 @@ server_ai_content.generate:
     _permission: 'generate ai content'
   options:
     _admin_route: TRUE
+    parameters:
+      node_type:
+        type: entity:node_type

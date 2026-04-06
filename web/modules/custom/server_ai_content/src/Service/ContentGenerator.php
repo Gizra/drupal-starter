@@ -73,10 +73,16 @@ class ContentGenerator {
    *   The created unpublished node.
    */
   public function createFromParsedData(array $data, string $content_type): NodeInterface {
+    $schema = $this->schemaDiscovery->getSchema($content_type);
     $compound_mapping = $this->schemaDiscovery->getCompoundTypeMapping($content_type);
     $paragraph_entities = [];
 
     foreach ($data['paragraphs'] ?? [] as $paragraph_data) {
+      $type = $paragraph_data['type'] ?? '';
+      // Skip paragraph types not in the schema.
+      if (!isset($schema[$type])) {
+        continue;
+      }
       $paragraph = $this->createParagraph($paragraph_data, $compound_mapping);
       if ($paragraph) {
         $paragraph_entities[] = [
@@ -253,7 +259,7 @@ class ContentGenerator {
       }
 
       $image_file = $images[0];
-      $filename = 'ai-generated-' . time() . '.png';
+      $filename = 'ai-generated-' . uniqid('', TRUE) . '.png';
       $file_path = 'public://ai-generated/' . date('Y-m');
       $media = $image_file->getAsMediaEntity('image', $file_path, $filename);
 

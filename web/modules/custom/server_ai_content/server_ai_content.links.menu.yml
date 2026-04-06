@@ -1,5 +1,0 @@
-server_ai_content.generate:
-  title: 'AI Content Generator'
-  parent: system.admin_content
-  route_name: server_ai_content.generate
-  weight: 10
