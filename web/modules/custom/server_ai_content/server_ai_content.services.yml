@@ -1,7 +1,7 @@
 services:
   server_ai_content.paragraph_schema_discovery:
     class: Drupal\server_ai_content\Service\ParagraphSchemaDiscovery
-    arguments: ['@entity_field.manager', '@entity_type.bundle.info']
+    arguments: ['@entity_field.manager', '@entity_type.bundle.info', '@entity_type.manager']
 
   server_ai_content.content_generator:
     class: Drupal\server_ai_content\Service\ContentGenerator

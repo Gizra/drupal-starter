@@ -43,7 +43,7 @@ class ContentGenerator {
    *
    * @param string $prompt
    *   The user's text prompt.
-   * @param string $contentType
+   * @param string $content_type
    *   The node bundle to create.
    *
    * @return \Drupal\node\NodeInterface
@@ -52,13 +52,13 @@ class ContentGenerator {
    * @throws \RuntimeException
    *   If the AI response cannot be parsed.
    */
-  public function generate(string $prompt, string $contentType = 'landing_page'): NodeInterface {
-    $schemaDescription = $this->schemaDiscovery->buildPromptDescription($contentType);
-    $systemPrompt = $this->buildSystemPrompt($schemaDescription);
+  public function generate(string $prompt, string $content_type = 'landing_page'): NodeInterface {
+    $schema_description = $this->schemaDiscovery->buildPromptDescription($content_type);
+    $system_prompt = $this->buildSystemPrompt($schema_description);
 
-    $data = $this->callAi($systemPrompt, $prompt);
+    $data = $this->callAi($system_prompt, $prompt);
 
-    return $this->createFromParsedData($data, $contentType);
+    return $this->createFromParsedData($data, $content_type);
   }
 
   /**
@@ -66,20 +66,20 @@ class ContentGenerator {
    *
    * @param array $data
    *   Parsed JSON data with 'title' and 'paragraphs' keys.
-   * @param string $contentType
+   * @param string $content_type
    *   The node bundle.
    *
    * @return \Drupal\node\NodeInterface
    *   The created unpublished node.
    */
-  public function createFromParsedData(array $data, string $contentType): NodeInterface {
-    $compoundMapping = $this->schemaDiscovery->getCompoundTypeMapping($contentType);
-    $paragraphEntities = [];
+  public function createFromParsedData(array $data, string $content_type): NodeInterface {
+    $compound_mapping = $this->schemaDiscovery->getCompoundTypeMapping($content_type);
+    $paragraph_entities = [];
 
-    foreach ($data['paragraphs'] ?? [] as $paragraphData) {
-      $paragraph = $this->createParagraph($paragraphData, $compoundMapping);
+    foreach ($data['paragraphs'] ?? [] as $paragraph_data) {
+      $paragraph = $this->createParagraph($paragraph_data, $compound_mapping);
       if ($paragraph) {
-        $paragraphEntities[] = [
+        $paragraph_entities[] = [
           'target_id' => $paragraph->id(),
           'target_revision_id' => $paragraph->getRevisionId(),
         ];
@@ -88,10 +88,10 @@ class ContentGenerator {
 
     /** @var \Drupal\node\NodeInterface $node */
     $node = $this->entityTypeManager->getStorage('node')->create([
-      'type' => $contentType,
-      'title' => $data['title'] ?? 'AI Generated Page',
+      'type' => $content_type,
+      'title' => $data['title'],
       'status' => 0,
-      'field_paragraphs' => $paragraphEntities,
+      'field_paragraphs' => $paragraph_entities,
     ]);
     $node->save();
 
@@ -101,46 +101,46 @@ class ContentGenerator {
   /**
    * Create a single paragraph entity from data.
    *
-   * @param array $paragraphData
+   * @param array $paragraph_data
    *   Paragraph data with 'type' and 'fields' keys.
-   * @param array $compoundMapping
+   * @param array $compound_mapping
    *   Mapping of compound types from ParagraphSchemaDiscovery.
    *
    * @return \Drupal\paragraphs\ParagraphInterface|null
    *   The created paragraph, or NULL on failure.
    */
-  protected function createParagraph(array $paragraphData, array $compoundMapping): ?ParagraphInterface {
-    $type = $paragraphData['type'] ?? '';
-    $fields = $paragraphData['fields'] ?? [];
+  protected function createParagraph(array $paragraph_data, array $compound_mapping): ?ParagraphInterface {
+    $type = $paragraph_data['type'] ?? '';
+    $fields = $paragraph_data['fields'] ?? [];
 
     if (empty($type)) {
       return NULL;
     }
 
     $values = ['type' => $type];
-    $compound = $compoundMapping[$type] ?? NULL;
+    $compound = $compound_mapping[$type] ?? NULL;
 
-    foreach ($fields as $fieldName => $fieldValue) {
+    foreach ($fields as $field_name => $field_value) {
       // Handle sub-paragraphs for compound types.
-      if ($compound && $fieldName === $compound['field_name']) {
-        $subParagraphs = [];
-        foreach ($fieldValue as $subData) {
-          $subParagraph = $this->createParagraph([
+      if ($compound && $field_name === $compound['field_name']) {
+        $sub_paragraphs = [];
+        foreach ($field_value as $sub_data) {
+          $sub_paragraph = $this->createParagraph([
             'type' => $compound['sub_type'],
-            'fields' => $subData,
+            'fields' => $sub_data,
           ], []);
-          if ($subParagraph) {
-            $subParagraphs[] = [
-              'target_id' => $subParagraph->id(),
-              'target_revision_id' => $subParagraph->getRevisionId(),
+          if ($sub_paragraph) {
+            $sub_paragraphs[] = [
+              'target_id' => $sub_paragraph->id(),
+              'target_revision_id' => $sub_paragraph->getRevisionId(),
             ];
           }
         }
-        $values[$fieldName] = $subParagraphs;
+        $values[$field_name] = $sub_paragraphs;
         continue;
       }
 
-      $values[$fieldName] = $this->mapFieldValue($fieldName, $fieldValue);
+      $values[$field_name] = $this->mapFieldValue($type, $field_name, $field_value);
     }
 
     /** @var \Drupal\paragraphs\ParagraphInterface $paragraph */
@@ -153,48 +153,83 @@ class ContentGenerator {
   /**
    * Map a single field value to a Drupal-compatible format.
    *
-   * @param string $fieldName
+   * @param string $paragraph_type
+   *   The paragraph type machine name.
+   * @param string $field_name
    *   The field machine name.
-   * @param mixed $fieldValue
+   * @param mixed $field_value
    *   The raw field value from the AI response.
    *
    * @return mixed
    *   The mapped value ready for entity creation.
    */
-  protected function mapFieldValue(string $fieldName, mixed $fieldValue): mixed {
+  protected function mapFieldValue(string $paragraph_type, string $field_name, mixed $field_value): mixed {
     // Handle image fields — check for image_prompt key.
-    if (is_array($fieldValue) && isset($fieldValue['image_prompt'])) {
-      $media = $this->generateImage($fieldValue['image_prompt']);
+    if (is_array($field_value) && isset($field_value['image_prompt'])) {
+      $media = $this->generateImage($field_value['image_prompt']);
       return $media ? ['target_id' => $media->id()] : NULL;
     }
 
-    // Handle link fields.
-    if (is_array($fieldValue) && isset($fieldValue['uri'])) {
-      return $fieldValue;
+    // Handle entity reference fields — AI provides {"target_id": 123}.
+    if (is_array($field_value) && isset($field_value['target_id'])) {
+      return ['target_id' => (int) $field_value['target_id']];
     }
 
-    // Handle text_long fields (body/description) — set value and format.
-    if (is_string($fieldValue) && in_array($fieldName, ['field_body', 'field_description'], TRUE)) {
+    // Handle link fields.
+    if (is_array($field_value) && isset($field_value['uri'])) {
+      return $field_value;
+    }
+
+    // Handle text_long/text_with_summary fields — set value and format.
+    if (is_string($field_value) && $this->isFormattedTextField($paragraph_type, $field_name)) {
       return [
-        'value' => $fieldValue,
+        'value' => $field_value,
         'format' => 'full_html',
       ];
     }
 
     // Simple text value.
-    return $fieldValue;
+    return $field_value;
+  }
+
+  /**
+   * Check if a field is a formatted text field (text_long, text_with_summary).
+   *
+   * @param string $paragraph_type
+   *   The paragraph type machine name.
+   * @param string $field_name
+   *   The field machine name.
+   *
+   * @return bool
+   *   TRUE if the field requires a text format.
+   */
+  protected function isFormattedTextField(string $paragraph_type, string $field_name): bool {
+    $definitions = $this->entityTypeManager
+      ->getStorage('field_config')
+      ->loadByProperties([
+        'entity_type' => 'paragraph',
+        'bundle' => $paragraph_type,
+        'field_name' => $field_name,
+      ]);
+
+    if (empty($definitions)) {
+      return FALSE;
+    }
+
+    $definition = reset($definitions);
+    return in_array($definition->getType(), ['text_long', 'text_with_summary', 'text'], TRUE);
   }
 
   /**
    * Generate an image via DALL-E and create a Media entity.
    *
-   * @param string $imagePrompt
+   * @param string $image_prompt
    *   Description of the image to generate.
    *
    * @return \Drupal\media\MediaInterface|null
    *   The created media entity, or NULL on failure.
    */
-  protected function generateImage(string $imagePrompt): ?MediaInterface {
+  protected function generateImage(string $image_prompt): ?MediaInterface {
     // @phpstan-ignore booleanNot.alwaysTrue
     if (!self::IMAGE_GENERATION_ENABLED) {
       return NULL;
@@ -209,7 +244,7 @@ class ContentGenerator {
 
       /** @var \Drupal\ai_provider_openai\Plugin\AiProvider\OpenAiProvider $provider */
       $provider = $this->aiProvider->createInstance($default['provider_id']);
-      $input = new TextToImageInput($imagePrompt);
+      $input = new TextToImageInput($image_prompt);
       $response = $provider->textToImage($input, $default['model_id'], ['server_ai_content']);
 
       $images = $response->getNormalized();
@@ -217,13 +252,13 @@ class ContentGenerator {
         return NULL;
       }
 
-      $imageFile = $images[0];
+      $image_file = $images[0];
       $filename = 'ai-generated-' . time() . '.png';
-      $filePath = 'public://ai-generated/' . date('Y-m');
-      $media = $imageFile->getAsMediaEntity('image', $filePath, $filename);
+      $file_path = 'public://ai-generated/' . date('Y-m');
+      $media = $image_file->getAsMediaEntity('image', $file_path, $filename);
 
       // Set a meaningful alt text.
-      $media->get('field_media_image')->alt = mb_substr($imagePrompt, 0, 512);
+      $media->get('field_media_image')->alt = mb_substr($image_prompt, 0, 512);
       $media->save();
 
       return $media;
@@ -239,9 +274,9 @@ class ContentGenerator {
   /**
    * Call the AI provider for content generation.
    *
-   * @param string $systemPrompt
+   * @param string $system_prompt
    *   The system prompt with schema description.
-   * @param string $userPrompt
+   * @param string $user_prompt
    *   The user's content request.
    *
    * @return array
@@ -250,7 +285,7 @@ class ContentGenerator {
    * @throws \RuntimeException
    *   If the response cannot be parsed or is invalid.
    */
-  protected function callAi(string $systemPrompt, string $userPrompt): array {
+  protected function callAi(string $system_prompt, string $user_prompt): array {
     $default = $this->aiProvider->getDefaultProviderForOperationType('chat');
     if (!$default) {
       throw new \RuntimeException('No default chat provider configured.');
@@ -259,9 +294,9 @@ class ContentGenerator {
     $provider = $this->aiProvider->createInstance($default['provider_id']);
 
     $input = new ChatInput([
-      new ChatMessage('user', $userPrompt),
+      new ChatMessage('user', $user_prompt),
     ]);
-    $input->setSystemPrompt($systemPrompt);
+    $input->setSystemPrompt($system_prompt);
 
     // @phpstan-ignore method.notFound
     $response = $provider->chat($input, $default['model_id'], ['server_ai_content']);
@@ -287,28 +322,30 @@ class ContentGenerator {
   /**
    * Build the system prompt for the AI.
    *
-   * @param string $schemaDescription
+   * @param string $schema_description
    *   Human-readable paragraph schema description.
    *
    * @return string
    *   The complete system prompt.
    */
-  protected function buildSystemPrompt(string $schemaDescription): string {
+  protected function buildSystemPrompt(string $schema_description): string {
     return <<<PROMPT
 You are a Drupal content generator. Given a user's request, generate a landing page with appropriate paragraphs.
 
 Available paragraph types and their fields:
 
-{$schemaDescription}
+{$schema_description}
 
 Rules:
 - Return valid JSON only, no markdown code fences
 - Only use paragraph types that genuinely fit the user's request. Do NOT use all available types — pick the ones that make sense for the topic. A page about a single topic may only need 2-3 paragraph types.
 - Generate rich, detailed content — body fields should contain multiple paragraphs with substantial information (at least 3-5 sentences per body field). Accordion items should have thorough answers, not single sentences.
 - For image fields, provide an object with an "image_prompt" key containing a detailed description for DALL-E image generation
+- For entity reference fields with available entities listed, provide {"target_id": ID} using an ID from the available list. Choose the most relevant entity for the page topic.
 - For link fields, use "uri": "route:<nolink>" with a descriptive title as a placeholder. Do not invent URLs to pages that do not exist.
 - For text_long (body) fields, use basic HTML tags (p, ul, li, strong, em)
 - For sub-paragraph arrays (like field_accordion_items), provide an array of objects with the sub-paragraph field values
+- For webform fields, provide the webform machine name as a string value
 
 Response format:
 {
