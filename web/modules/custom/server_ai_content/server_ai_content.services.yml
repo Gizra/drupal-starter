@@ -10,4 +10,9 @@ services:
       - '@entity_type.manager'
       - '@server_ai_content.paragraph_schema_discovery'
       - '@logger.factory'
-      - '@file_system'
+
+  server_ai_content.access_checker:
+    class: Drupal\server_ai_content\Access\AiContentGenerateAccess
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: access_check, applies_to: _ai_content_generate_access }

@@ -4,7 +4,7 @@ server_ai_content.generate:
     _form: '\Drupal\server_ai_content\Form\AiContentGenerateForm'
     _title: 'AI Content Generator'
   requirements:
-    _permission: 'generate ai content'
+    _ai_content_generate_access: 'TRUE'
   options:
     _admin_route: TRUE
     parameters:

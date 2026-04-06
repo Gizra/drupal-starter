@@ -128,7 +128,7 @@ class ContentGeneratorTest extends ExistingSiteBase {
     $this->assertEquals('test_ai_text', $paragraphs[0]->bundle());
     $this->assertEquals('Test Section', $paragraphs[0]->get('field_test_title')->value);
     $this->assertEquals('<p>Test body content.</p>', $paragraphs[0]->get('field_test_body')->value);
-    $this->assertEquals('full_html', $paragraphs[0]->get('field_test_body')->format);
+    $this->assertEquals('basic_html', $paragraphs[0]->get('field_test_body')->format);
   }
 
   /**
@@ -209,7 +209,7 @@ class ContentGeneratorTest extends ExistingSiteBase {
     $this->assertEquals('test_ai_faq_item', $faq_items[0]->bundle());
     $this->assertEquals('Question 1', $faq_items[0]->get('field_test_question')->value);
     $this->assertEquals('<p>Answer 1 content.</p>', $faq_items[0]->get('field_test_body')->value);
-    $this->assertEquals('full_html', $faq_items[0]->get('field_test_body')->format);
+    $this->assertEquals('basic_html', $faq_items[0]->get('field_test_body')->format);
 
     $this->assertEquals('Question 2', $faq_items[1]->get('field_test_question')->value);
     $this->assertEquals('Question 3', $faq_items[2]->get('field_test_question')->value);
@@ -308,6 +308,157 @@ class ContentGeneratorTest extends ExistingSiteBase {
     $this->assertCount(1, $paragraphs);
     $this->assertEquals('test_ai_related', $paragraphs[0]->bundle());
     $this->assertEquals($referenced_node->id(), $paragraphs[0]->get('field_test_reference')->target_id);
+  }
+
+  /**
+   * Test that non-existent entity reference IDs are skipped.
+   */
+  public function testInvalidEntityReferenceSkipped(): void {
+    $generator = \Drupal::service('server_ai_content.content_generator');
+
+    $data = [
+      'title' => 'Test Invalid Ref Page',
+      'paragraphs' => [
+        [
+          'type' => 'test_ai_related',
+          'fields' => [
+            'field_test_title' => 'Related Content',
+            'field_test_reference' => [
+              'target_id' => 999999,
+            ],
+          ],
+        ],
+      ],
+    ];
+
+    $node = $generator->createFromParsedData($data, self::TEST_CONTENT_TYPE);
+    $this->markEntityForCleanup($node);
+    $paragraphs = $node->get('field_paragraphs')->referencedEntities();
+
+    $this->assertCount(1, $paragraphs);
+    // The invalid reference should be skipped, field should be empty.
+    $this->assertTrue($paragraphs[0]->get('field_test_reference')->isEmpty());
+  }
+
+  /**
+   * Test that multiple entity references are handled.
+   */
+  public function testMultipleEntityReferences(): void {
+    $generator = \Drupal::service('server_ai_content.content_generator');
+
+    $ref_node_1 = \Drupal::entityTypeManager()->getStorage('node')->create([
+      'type' => self::TEST_CONTENT_TYPE,
+      'title' => 'Ref Node 1',
+      'status' => 1,
+    ]);
+    $ref_node_1->save();
+    $this->markEntityForCleanup($ref_node_1);
+
+    $ref_node_2 = \Drupal::entityTypeManager()->getStorage('node')->create([
+      'type' => self::TEST_CONTENT_TYPE,
+      'title' => 'Ref Node 2',
+      'status' => 1,
+    ]);
+    $ref_node_2->save();
+    $this->markEntityForCleanup($ref_node_2);
+
+    $data = [
+      'title' => 'Test Multi Ref Page',
+      'paragraphs' => [
+        [
+          'type' => 'test_ai_related',
+          'fields' => [
+            'field_test_title' => 'Related Content',
+            'field_test_reference' => [
+              ['target_id' => (int) $ref_node_1->id()],
+              ['target_id' => (int) $ref_node_2->id()],
+            ],
+          ],
+        ],
+      ],
+    ];
+
+    $node = $generator->createFromParsedData($data, self::TEST_CONTENT_TYPE);
+    $this->markEntityForCleanup($node);
+    $paragraphs = $node->get('field_paragraphs')->referencedEntities();
+
+    $this->assertCount(1, $paragraphs);
+    $refs = $paragraphs[0]->get('field_test_reference')->referencedEntities();
+    $this->assertCount(2, $refs);
+    $this->assertEquals($ref_node_1->id(), $refs[0]->id());
+    $this->assertEquals($ref_node_2->id(), $refs[1]->id());
+  }
+
+  /**
+   * Test that link fields with valid URI schemes are accepted.
+   */
+  public function testValidLinkUriSchemes(): void {
+    $generator = \Drupal::service('server_ai_content.content_generator');
+
+    $data = [
+      'title' => 'Test Link Schemes Page',
+      'paragraphs' => [
+        [
+          'type' => 'test_ai_cta',
+          'fields' => [
+            'field_test_title' => 'Route nolink',
+            'field_test_link' => [
+              'uri' => 'route:<nolink>',
+              'title' => 'Placeholder',
+            ],
+          ],
+        ],
+        [
+          'type' => 'test_ai_cta',
+          'fields' => [
+            'field_test_title' => 'Bare nolink',
+            'field_test_link' => [
+              'uri' => '<nolink>',
+              'title' => 'Placeholder',
+            ],
+          ],
+        ],
+      ],
+    ];
+
+    $node = $generator->createFromParsedData($data, self::TEST_CONTENT_TYPE);
+    $this->markEntityForCleanup($node);
+    $paragraphs = $node->get('field_paragraphs')->referencedEntities();
+
+    $this->assertCount(2, $paragraphs);
+    $this->assertEquals('route:<nolink>', $paragraphs[0]->get('field_test_link')->uri);
+    $this->assertEquals('<nolink>', $paragraphs[1]->get('field_test_link')->uri);
+  }
+
+  /**
+   * Test that link fields with disallowed URI schemes are rejected.
+   */
+  public function testInvalidLinkUriSchemeSkipped(): void {
+    $generator = \Drupal::service('server_ai_content.content_generator');
+
+    $data = [
+      'title' => 'Test Bad Link Page',
+      'paragraphs' => [
+        [
+          'type' => 'test_ai_cta',
+          'fields' => [
+            'field_test_title' => 'Bad Link',
+            'field_test_link' => [
+              'uri' => 'javascript:alert(1)',
+              'title' => 'XSS',
+            ],
+          ],
+        ],
+      ],
+    ];
+
+    $node = $generator->createFromParsedData($data, self::TEST_CONTENT_TYPE);
+    $this->markEntityForCleanup($node);
+    $paragraphs = $node->get('field_paragraphs')->referencedEntities();
+
+    $this->assertCount(1, $paragraphs);
+    // The javascript: URI should be rejected, field should be empty.
+    $this->assertTrue($paragraphs[0]->get('field_test_link')->isEmpty());
   }
 
   /**
@@ -469,7 +620,7 @@ class ContentGeneratorTest extends ExistingSiteBase {
         'field_name' => $field_name,
         'entity_type' => $entity_type,
         'type' => 'entity_reference',
-        'cardinality' => 1,
+        'cardinality' => -1,
         'settings' => [
           'target_type' => $target_type,
         ],

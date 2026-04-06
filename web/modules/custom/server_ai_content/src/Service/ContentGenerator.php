@@ -9,7 +9,6 @@ use Drupal\ai\OperationType\Chat\ChatInput;
 use Drupal\ai\OperationType\Chat\ChatMessage;
 use Drupal\ai\OperationType\TextToImage\TextToImageInput;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\media\MediaInterface;
 use Drupal\node\NodeInterface;
@@ -21,6 +20,18 @@ use Drupal\paragraphs\ParagraphInterface;
 class ContentGenerator {
 
   /**
+   * Allowed URI schemes for link fields.
+   */
+  private const ALLOWED_URI_SCHEMES = [
+    'route:',
+    'internal:',
+    'https://',
+    'http://',
+    'entity:',
+    '<nolink>',
+  ];
+
+  /**
    * Constructs a ContentGenerator service.
    */
   public function __construct(
@@ -28,7 +39,6 @@ class ContentGenerator {
     protected EntityTypeManagerInterface $entityTypeManager,
     protected ParagraphSchemaDiscovery $schemaDiscovery,
     protected LoggerChannelFactoryInterface $loggerFactory,
-    protected FileSystemInterface $fileSystem,
   ) {}
 
   /**
@@ -67,7 +77,8 @@ class ContentGenerator {
    */
   public function createFromParsedData(array $data, string $content_type): NodeInterface {
     $schema = $this->schemaDiscovery->getSchema($content_type);
-    $compound_mapping = $this->schemaDiscovery->getCompoundTypeMapping($content_type);
+    $compound_mapping = $this->extractCompoundMapping($schema);
+    $paragraph_field = $this->schemaDiscovery->getParagraphFieldName($content_type);
     $paragraph_entities = [];
 
     foreach ($data['paragraphs'] ?? [] as $paragraph_data) {
@@ -85,16 +96,42 @@ class ContentGenerator {
       }
     }
 
-    /** @var \Drupal\node\NodeInterface $node */
-    $node = $this->entityTypeManager->getStorage('node')->create([
+    $node_values = [
       'type' => $content_type,
       'title' => $data['title'],
       'status' => 0,
-      'field_paragraphs' => $paragraph_entities,
-    ]);
+    ];
+    if ($paragraph_field && !empty($paragraph_entities)) {
+      $node_values[$paragraph_field] = $paragraph_entities;
+    }
+
+    /** @var \Drupal\node\NodeInterface $node */
+    $node = $this->entityTypeManager->getStorage('node')->create($node_values);
     $node->save();
 
     return $node;
+  }
+
+  /**
+   * Extract compound type mapping from a schema array.
+   *
+   * @param array $schema
+   *   Schema from ParagraphSchemaDiscovery::getSchema().
+   *
+   * @return array
+   *   Keyed by parent type, value is array with 'field_name' and 'sub_type'.
+   */
+  protected function extractCompoundMapping(array $schema): array {
+    $mapping = [];
+    foreach ($schema as $type => $info) {
+      if (!empty($info['sub_paragraph'])) {
+        $mapping[$type] = [
+          'field_name' => $info['sub_paragraph']['field_name'],
+          'sub_type' => $info['sub_paragraph']['type'],
+        ];
+      }
+    }
+    return $mapping;
   }
 
   /**
@@ -103,7 +140,7 @@ class ContentGenerator {
    * @param array $paragraph_data
    *   Paragraph data with 'type' and 'fields' keys.
    * @param array $compound_mapping
-   *   Mapping of compound types from ParagraphSchemaDiscovery.
+   *   Mapping of compound types.
    *
    * @return \Drupal\paragraphs\ParagraphInterface|null
    *   The created paragraph, or NULL on failure.
@@ -139,7 +176,10 @@ class ContentGenerator {
         continue;
       }
 
-      $values[$field_name] = $this->mapFieldValue($type, $field_name, $field_value);
+      $mapped = $this->mapFieldValue($type, $field_name, $field_value);
+      if ($mapped !== NULL) {
+        $values[$field_name] = $mapped;
+      }
     }
 
     /** @var \Drupal\paragraphs\ParagraphInterface $paragraph */
@@ -160,7 +200,7 @@ class ContentGenerator {
    *   The raw field value from the AI response.
    *
    * @return mixed
-   *   The mapped value ready for entity creation.
+   *   The mapped value ready for entity creation, or NULL to skip.
    */
   protected function mapFieldValue(string $paragraph_type, string $field_name, mixed $field_value): mixed {
     // Handle image fields — check for image_prompt key.
@@ -171,28 +211,111 @@ class ContentGenerator {
 
     // Handle entity reference fields — single {"target_id": 123}
     // or multiple [{"target_id": 1}, {"target_id": 2}].
-    if (is_array($field_value) && isset($field_value['target_id'])) {
-      return ['target_id' => (int) $field_value['target_id']];
+    $target_entity_type = $this->getTargetEntityType($paragraph_type, $field_name);
+    if ($target_entity_type && is_array($field_value) && isset($field_value['target_id'])) {
+      return $this->validateEntityReference($target_entity_type, (int) $field_value['target_id']);
     }
-    if (is_array($field_value) && isset($field_value[0]['target_id'])) {
-      return array_map(fn($item) => ['target_id' => (int) $item['target_id']], $field_value);
+    if ($target_entity_type && is_array($field_value) && isset($field_value[0]['target_id'])) {
+      $refs = array_filter(array_map(
+        fn($item) => $this->validateEntityReference($target_entity_type, (int) $item['target_id']),
+        $field_value,
+      ));
+      return !empty($refs) ? array_values($refs) : NULL;
     }
 
-    // Handle link fields.
+    // Handle link fields with URI scheme validation.
     if (is_array($field_value) && isset($field_value['uri'])) {
-      return $field_value;
+      return $this->validateLinkValue($field_value);
     }
 
     // Handle text_long/text_with_summary fields — set value and format.
     if (is_string($field_value) && $this->isFormattedTextField($paragraph_type, $field_name)) {
       return [
         'value' => $field_value,
-        'format' => 'full_html',
+        'format' => 'basic_html',
       ];
     }
 
     // Simple text value.
     return $field_value;
+  }
+
+  /**
+   * Get the target entity type for a reference field.
+   *
+   * @param string $paragraph_type
+   *   The paragraph type machine name.
+   * @param string $field_name
+   *   The field machine name.
+   *
+   * @return string|null
+   *   The target entity type ID, or NULL if not a reference field.
+   */
+  protected function getTargetEntityType(string $paragraph_type, string $field_name): ?string {
+    $definitions = $this->entityTypeManager
+      ->getStorage('field_config')
+      ->loadByProperties([
+        'entity_type' => 'paragraph',
+        'bundle' => $paragraph_type,
+        'field_name' => $field_name,
+      ]);
+
+    if (empty($definitions)) {
+      return NULL;
+    }
+
+    $definition = reset($definitions);
+    $type = $definition->getType();
+    if (!in_array($type, ['entity_reference', 'entity_reference_revisions'], TRUE)) {
+      return NULL;
+    }
+
+    return $definition->getSetting('target_type');
+  }
+
+  /**
+   * Validate an entity reference target ID.
+   *
+   * @param string $entity_type
+   *   The target entity type ID.
+   * @param int $target_id
+   *   The entity ID to validate.
+   *
+   * @return array|null
+   *   ['target_id' => ID] if valid, NULL otherwise.
+   */
+  protected function validateEntityReference(string $entity_type, int $target_id): ?array {
+    $entity = $this->entityTypeManager->getStorage($entity_type)->load($target_id);
+    if ($entity) {
+      return ['target_id' => $target_id];
+    }
+    $this->loggerFactory->get('server_ai_content')->warning('Entity @type with ID @id not found, skipping.', [
+      '@type' => $entity_type,
+      '@id' => $target_id,
+    ]);
+    return NULL;
+  }
+
+  /**
+   * Validate a link field value's URI scheme.
+   *
+   * @param array $link_value
+   *   Link value with 'uri' and optionally 'title'.
+   *
+   * @return array|null
+   *   The link value if valid, NULL if the URI scheme is not allowed.
+   */
+  protected function validateLinkValue(array $link_value): ?array {
+    $uri = $link_value['uri'] ?? '';
+    foreach (self::ALLOWED_URI_SCHEMES as $scheme) {
+      if (str_starts_with($uri, $scheme)) {
+        return $link_value;
+      }
+    }
+    $this->loggerFactory->get('server_ai_content')->warning('Link URI with disallowed scheme skipped: @uri', [
+      '@uri' => $uri,
+    ]);
+    return NULL;
   }
 
   /**
@@ -224,7 +347,7 @@ class ContentGenerator {
   }
 
   /**
-   * Generate an image via DALL-E and create a Media entity.
+   * Generate an image and create a Media entity.
    *
    * @param string $image_prompt
    *   Description of the image to generate.
@@ -233,19 +356,6 @@ class ContentGenerator {
    *   The created media entity, or NULL on failure.
    */
   protected function generateImage(string $image_prompt): ?MediaInterface {
-    return $this->callDallE($image_prompt);
-  }
-
-  /**
-   * Call DALL-E to generate an image and create a Media entity.
-   *
-   * @param string $image_prompt
-   *   Description of the image to generate.
-   *
-   * @return \Drupal\media\MediaInterface|null
-   *   The created media entity, or NULL on failure.
-   */
-  protected function callDallE(string $image_prompt): ?MediaInterface {
     try {
       $default = $this->aiProvider->getDefaultProviderForOperationType('text_to_image');
       if (!$default) {

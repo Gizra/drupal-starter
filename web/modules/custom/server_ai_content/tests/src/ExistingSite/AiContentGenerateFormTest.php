@@ -24,7 +24,10 @@ class AiContentGenerateFormTest extends ExistingSiteBase {
    * Test that users with permission can access the form.
    */
   public function testUserWithPermissionCanAccessForm(): void {
-    $user = $this->createUser(['generate ai content']);
+    $user = $this->createUser([
+      'generate ai content',
+      'create landing_page content',
+    ]);
     $this->drupalLogin($user);
 
     $this->drupalGet('/node/add/landing_page/ai-generate');
@@ -38,6 +41,17 @@ class AiContentGenerateFormTest extends ExistingSiteBase {
    */
   public function testUserWithoutPermissionDenied(): void {
     $user = $this->createUser();
+    $this->drupalLogin($user);
+
+    $this->drupalGet('/node/add/landing_page/ai-generate');
+    $this->assertSession()->statusCodeEquals(Response::HTTP_FORBIDDEN);
+  }
+
+  /**
+   * Test that users with AI permission but no node create access are denied.
+   */
+  public function testUserWithAiPermissionButNoCreateAccessDenied(): void {
+    $user = $this->createUser(['generate ai content']);
     $this->drupalLogin($user);
 
     $this->drupalGet('/node/add/landing_page/ai-generate');

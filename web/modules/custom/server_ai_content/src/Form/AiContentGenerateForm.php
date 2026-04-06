@@ -90,9 +90,7 @@ final class AiContentGenerateForm extends FormBase {
       $form_state->setRedirectUrl($node->toUrl());
     }
     catch (\Throwable $e) {
-      $this->messenger()->addError($this->t('Content generation failed: @message', [
-        '@message' => $e->getMessage(),
-      ]));
+      $this->messenger()->addError($this->t('Content generation failed. Please try again or contact an administrator.'));
       $this->getLogger('server_ai_content')->error('AI content generation failed: @message', [
         '@message' => $e->getMessage(),
       ]);

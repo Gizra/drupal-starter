@@ -118,31 +118,6 @@ class ParagraphSchemaDiscovery {
   }
 
   /**
-   * Get the compound type mapping from the schema.
-   *
-   * @param string $content_type
-   *   The node bundle.
-   *
-   * @return array
-   *   Keyed by parent type, value is array with 'field_name' and 'sub_type'.
-   */
-  public function getCompoundTypeMapping(string $content_type): array {
-    $schema = $this->getSchema($content_type);
-    $mapping = [];
-
-    foreach ($schema as $type => $info) {
-      if (!empty($info['sub_paragraph'])) {
-        $mapping[$type] = [
-          'field_name' => $info['sub_paragraph']['field_name'],
-          'sub_type' => $info['sub_paragraph']['type'],
-        ];
-      }
-    }
-
-    return $mapping;
-  }
-
-  /**
    * Build a human-readable description of the schema for the AI system prompt.
    *
    * @param string $content_type
@@ -203,6 +178,32 @@ class ParagraphSchemaDiscovery {
   }
 
   /**
+   * Get the paragraph reference field name on a content type.
+   *
+   * Discovers the first entity_reference_revisions field targeting paragraphs.
+   *
+   * @param string $content_type
+   *   The node bundle.
+   *
+   * @return string|null
+   *   The field name, or NULL if no paragraph field exists.
+   */
+  public function getParagraphFieldName(string $content_type): ?string {
+    $field_definitions = $this->entityFieldManager->getFieldDefinitions('node', $content_type);
+
+    foreach ($field_definitions as $field_name => $definition) {
+      if ($definition->getType() !== 'entity_reference_revisions') {
+        continue;
+      }
+      if ($definition->getSetting('target_type') === 'paragraph') {
+        return $field_name;
+      }
+    }
+
+    return NULL;
+  }
+
+  /**
    * Get all paragraph bundles configured on a content type's paragraph field.
    *
    * @param string $content_type
@@ -212,13 +213,13 @@ class ParagraphSchemaDiscovery {
    *   List of paragraph bundle machine names.
    */
   protected function getParagraphBundles(string $content_type): array {
-    $field_definitions = $this->entityFieldManager->getFieldDefinitions('node', $content_type);
-
-    if (!isset($field_definitions['field_paragraphs'])) {
+    $paragraph_field = $this->getParagraphFieldName($content_type);
+    if (!$paragraph_field) {
       return [];
     }
 
-    $handler_settings = $field_definitions['field_paragraphs']->getSetting('handler_settings');
+    $field_definitions = $this->entityFieldManager->getFieldDefinitions('node', $content_type);
+    $handler_settings = $field_definitions[$paragraph_field]->getSetting('handler_settings');
     $target_bundles = $handler_settings['target_bundles'] ?? [];
 
     return array_keys($target_bundles);
@@ -307,7 +308,7 @@ class ParagraphSchemaDiscovery {
         'cardinality' => $definition->getFieldStorageDefinition()->getCardinality(),
       ];
 
-      if (in_array($field_type, ['entity_reference', 'entity_reference_revisions'])) {
+      if (in_array($field_type, ['entity_reference', 'entity_reference_revisions'], TRUE)) {
         $target_type = $definition->getSetting('target_type');
         $target_bundles = $definition->getSetting('handler_settings')['target_bundles'] ?? [];
         $info['target_entity_type'] = $target_type;
