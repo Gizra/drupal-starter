@@ -114,6 +114,7 @@ class ContentGeneratorTest extends ExistingSiteBase {
     ];
 
     $node = $generator->createFromParsedData($data, self::TEST_CONTENT_TYPE);
+    $this->markEntityForCleanup($node);
 
     $this->assertNotNull($node->id());
     $this->assertEquals('Test Simple Page', $node->getTitle());
@@ -151,6 +152,7 @@ class ContentGeneratorTest extends ExistingSiteBase {
     ];
 
     $node = $generator->createFromParsedData($data, self::TEST_CONTENT_TYPE);
+    $this->markEntityForCleanup($node);
     $paragraphs = $node->get('field_paragraphs')->referencedEntities();
 
     $this->assertCount(1, $paragraphs);
@@ -192,6 +194,7 @@ class ContentGeneratorTest extends ExistingSiteBase {
     ];
 
     $node = $generator->createFromParsedData($data, self::TEST_CONTENT_TYPE);
+    $this->markEntityForCleanup($node);
     $paragraphs = $node->get('field_paragraphs')->referencedEntities();
 
     $this->assertCount(1, $paragraphs);
@@ -252,6 +255,7 @@ class ContentGeneratorTest extends ExistingSiteBase {
     ];
 
     $node = $generator->createFromParsedData($data, self::TEST_CONTENT_TYPE);
+    $this->markEntityForCleanup($node);
     $paragraphs = $node->get('field_paragraphs')->referencedEntities();
 
     $this->assertCount(3, $paragraphs);
@@ -278,6 +282,7 @@ class ContentGeneratorTest extends ExistingSiteBase {
       'status' => 1,
     ]);
     $referenced_node->save();
+    $this->markEntityForCleanup($referenced_node);
 
     $data = [
       'title' => 'Test Reference Page',
@@ -295,6 +300,7 @@ class ContentGeneratorTest extends ExistingSiteBase {
     ];
 
     $node = $generator->createFromParsedData($data, self::TEST_CONTENT_TYPE);
+    $this->markEntityForCleanup($node);
     $paragraphs = $node->get('field_paragraphs')->referencedEntities();
 
     $this->assertCount(1, $paragraphs);

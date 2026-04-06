@@ -160,9 +160,11 @@ class ParagraphSchemaDiscovery {
       $lines[] = "Fields:";
       foreach ($info['fields'] as $field) {
         $required = $field['required'] ? ' (REQUIRED)' : '';
-        $description = "- {$field['field_id']}: {$field['field_type']}{$required}";
+        $cardinality = $field['cardinality'] == -1 ? ', multiple values allowed' : '';
+        $description = "- {$field['field_id']}: {$field['field_type']}{$required}{$cardinality}";
         if (!empty($field['available_entities'])) {
-          $description .= " — choose from existing entities by ID:";
+          $multi_hint = $field['cardinality'] == -1 ? ' (provide an array of {"target_id": ID} for multiple)' : '';
+          $description .= " — choose from existing entities by ID{$multi_hint}:";
           $lines[] = $description;
           foreach ($field['available_entities'] as $entity) {
             $lines[] = "    - id: {$entity['id']}, label: \"{$entity['label']}\"";

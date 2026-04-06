@@ -21,13 +21,6 @@ use Drupal\paragraphs\ParagraphInterface;
 class ContentGenerator {
 
   /**
-   * Whether DALL-E image generation is enabled.
-   *
-   * @todo Set to TRUE to enable DALL-E image generation.
-   */
-  private const IMAGE_GENERATION_ENABLED = FALSE;
-
-  /**
    * Constructs a ContentGenerator service.
    */
   public function __construct(
@@ -176,9 +169,13 @@ class ContentGenerator {
       return $media ? ['target_id' => $media->id()] : NULL;
     }
 
-    // Handle entity reference fields — AI provides {"target_id": 123}.
+    // Handle entity reference fields — single {"target_id": 123}
+    // or multiple [{"target_id": 1}, {"target_id": 2}].
     if (is_array($field_value) && isset($field_value['target_id'])) {
       return ['target_id' => (int) $field_value['target_id']];
+    }
+    if (is_array($field_value) && isset($field_value[0]['target_id'])) {
+      return array_map(fn($item) => ['target_id' => (int) $item['target_id']], $field_value);
     }
 
     // Handle link fields.
@@ -236,11 +233,19 @@ class ContentGenerator {
    *   The created media entity, or NULL on failure.
    */
   protected function generateImage(string $image_prompt): ?MediaInterface {
-    // @phpstan-ignore booleanNot.alwaysTrue
-    if (!self::IMAGE_GENERATION_ENABLED) {
-      return NULL;
-    }
-    // @phpstan-ignore deadCode.unreachable
+    return $this->callDallE($image_prompt);
+  }
+
+  /**
+   * Call DALL-E to generate an image and create a Media entity.
+   *
+   * @param string $image_prompt
+   *   Description of the image to generate.
+   *
+   * @return \Drupal\media\MediaInterface|null
+   *   The created media entity, or NULL on failure.
+   */
+  protected function callDallE(string $image_prompt): ?MediaInterface {
     try {
       $default = $this->aiProvider->getDefaultProviderForOperationType('text_to_image');
       if (!$default) {
@@ -248,9 +253,9 @@ class ContentGenerator {
         return NULL;
       }
 
-      /** @var \Drupal\ai_provider_openai\Plugin\AiProvider\OpenAiProvider $provider */
       $provider = $this->aiProvider->createInstance($default['provider_id']);
       $input = new TextToImageInput($image_prompt);
+      // @phpstan-ignore method.notFound
       $response = $provider->textToImage($input, $default['model_id'], ['server_ai_content']);
 
       $images = $response->getNormalized();
@@ -345,6 +350,7 @@ Available paragraph types and their fields:
 Rules:
 - Return valid JSON only, no markdown code fences
 - Only use paragraph types that genuinely fit the user's request. Do NOT use all available types — pick the ones that make sense for the topic. A page about a single topic may only need 2-3 paragraph types.
+- If a paragraph type has entity reference fields with available entities that are relevant to the page topic, prefer including that paragraph type with the most relevant references selected.
 - Generate rich, detailed content — body fields should contain multiple paragraphs with substantial information (at least 3-5 sentences per body field). Accordion items should have thorough answers, not single sentences.
 - For image fields, provide an object with an "image_prompt" key containing a detailed description for DALL-E image generation
 - For entity reference fields with available entities listed, provide {"target_id": ID} using an ID from the available list. Choose the most relevant entity for the page topic.
