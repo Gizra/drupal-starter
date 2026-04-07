@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "59c64f18cc1bc65c95924751fef98308",
+    "content-hash": "d4da2f9bb79cc056b5429e51b34d2737",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2053,6 +2053,53 @@
             "homepage": "https://www.drupal.org/project/ai",
             "support": {
                 "source": "https://git.drupalcode.org/project/ai"
+            }
+        },
+        {
+            "name": "drupal/ai_content_assistant",
+            "version": "dev-1.0.x",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/ai_content_assistant.git",
+                "reference": "f9d8caae30de10aae8a03355a1b3183e948bef12"
+            },
+            "require": {
+                "drupal/ai": "*",
+                "drupal/core": "^10 || ^11",
+                "drupal/paragraphs": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.0.x": "1.0.x-dev"
+                },
+                "drupal": {
+                    "version": "1.0.x-dev",
+                    "datestamp": "1775541132",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Project has not opted into security advisory coverage!"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "amitaibu",
+                    "homepage": "https://www.drupal.org/user/57511"
+                },
+                {
+                    "name": "andrey.troeglazov",
+                    "homepage": "https://www.drupal.org/user/3145389"
+                }
+            ],
+            "description": "AI-powered content generation using paragraphs",
+            "homepage": "https://www.drupal.org/project/ai_content_assistant",
+            "support": {
+                "source": "https://git.drupalcode.org/project/ai_content_assistant"
             }
         },
         {
@@ -18345,6 +18392,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "drupal/ai_content_assistant": 20,
         "drupal/cache_review": 20,
         "drupal/default_content": 15,
         "drupal/inline_entity_form": 5,

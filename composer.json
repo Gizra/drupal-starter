@@ -30,6 +30,7 @@
         "cweagans/composer-patches": "^1.7",
         "drupal/admin_toolbar": "^3.4",
         "drupal/ai": "^1.0",
+        "drupal/ai_content_assistant": "dev-1.0.x#f9d8caae30de10aae8a03355a1b3183e948bef12",
         "drupal/ai_image_alt_text": "^1.0",
         "drupal/ai_provider_openai": "^1.0",
         "drupal/block_plugin_view_builder": "^1.0",

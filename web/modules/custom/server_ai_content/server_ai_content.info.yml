@@ -1,9 +1,0 @@
-name: "Server AI Content"
-type: module
-description: "AI-powered content generation for landing pages"
-core_version_requirement: ^10 || ^11
-package: "server"
-dependencies:
-  - drupal:node
-  - paragraphs:paragraphs
-  - ai:ai
