@@ -25,4 +25,16 @@ class ServerGeneralFailureCaptureTest extends ExistingSiteBase {
     $this->assertSession()->statusCodeEquals(200);
   }
 
+  /**
+   * Intentionally fails to validate HTML capture + CI artifact upload.
+   *
+   * Remove this method after confirming the artifact appears in GitHub Actions.
+   */
+  public function testIntentionalFailureForArtifactValidation(): void {
+    $this->drupalGet('<front>');
+    // This assertion is intentionally wrong — triggers FailureHtmlCaptureTrait
+    // to save the page HTML and upload it as a CI artifact.
+    $this->assertSession()->pageTextContains('THIS TEXT DOES NOT EXIST ON THE PAGE');
+  }
+
 }
