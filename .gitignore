@@ -64,3 +64,8 @@ phpunit_debug
 # AI
 .claude
 CLAUDE.md
+
+# Test output
+test-html-output/
+test-results/
+screenshots/

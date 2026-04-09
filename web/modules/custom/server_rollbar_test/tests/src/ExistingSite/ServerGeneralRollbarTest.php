@@ -8,7 +8,7 @@ use weitzman\DrupalTestTraits\ExistingSiteBase;
 /**
  * Test Rollbar robustness.
  *
- * @group Rollbar
+ * @group rollbar
  */
 class ServerGeneralRollbarTest extends ExistingSiteBase {
 

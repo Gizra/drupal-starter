@@ -12,6 +12,9 @@ class ServerGeneralHomepageTest extends ServerGeneralSelenium2TestBase {
    */
   public function testHomeFeaturedContent() {
     $this->drupalGet('<front>');
+    sleep(3); // pause 3 seconds so you can see the page
+
+
     /** @var \Drupal\FunctionalJavascriptTests\JSWebAssert $web_assert */
     $web_assert = $this->assertSession();
 
@@ -26,6 +29,10 @@ class ServerGeneralHomepageTest extends ServerGeneralSelenium2TestBase {
     $web_assert->elementTextContains('css', '.paragraph--type--related-content .carousel-slide.slick-current', 'Current Digital Marketing Is Sports-Watching, Rather Than Marketing');
     // Click on the 2nd dot navigation.
     $dots_2 = $carousel->find('css', '.slick-dots li:nth-child(2)');
+    $this->getSession()->executeScript(
+      "document.querySelector('.slick-dots li:nth-child(2)').style.border = '3px solid red';"
+    );
+    sleep(2);
     $this->assertNotNull($dots_2);
     $dots_2->click();
     // Wait half sec for the JS and animation.

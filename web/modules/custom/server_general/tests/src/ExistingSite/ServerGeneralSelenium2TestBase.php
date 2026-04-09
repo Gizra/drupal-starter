@@ -38,7 +38,6 @@ class ServerGeneralSelenium2TestBase extends ExistingSiteSelenium2DriverTestBase
           'args' => [
             '--disable-dev-shm-usage',
             '--disable-gpu',
-            '--headless',
             '--dns-prefetch-disable',
             '--no-sandbox',
           ],

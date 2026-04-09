@@ -18,7 +18,7 @@
     <!-- Specify the default directory screenshots should be placed. -->
     <env name="DTT_SCREENSHOT_REPORT_DIRECTORY" value="screenshots"/>
     <!-- Directory for HTML page dumps on test failure (used by FailureHtmlCaptureTrait). -->
-    <env name="DTT_HTML_OUTPUT_DIRECTORY" value="test-html-output"/>
+    <env name="DTT_HTML_OUTPUT_DIRECTORY" value="test-html-output" force="true"/>
   </php>
 
   <testsuites>

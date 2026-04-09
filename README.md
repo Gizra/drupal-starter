@@ -3,9 +3,9 @@
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=250256146)
 
 
-# Drupal 10 Starter
+# Drupal 10/11 Starter <!-- updated 2026-03-26 -->
 
-Starter repo for Drupal 10 development. This starter is an opinionated approach,
+Starter repo for Drupal 10/11 development. <!-- test hook --> This starter is an opinionated approach,
 with the following concepts and tools:
 
 1. [ddev](https://ddev.readthedocs.io/) should be the only requirement, and
