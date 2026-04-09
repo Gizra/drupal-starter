@@ -101,3 +101,19 @@ jobs:
 
       - name: Run PHPUnit Rollbar tests
         run: ./ci-scripts/test_phpunit_rollbar.sh
+
+      - name: Upload test failure HTML dumps
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-failure-html-${{ github.run_id }}
+          path: test-html-output/
+          if-no-files-found: ignore
+
+      - name: Upload JUnit test results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-results-${{ github.run_id }}
+          path: test-results/junit.xml
+          if-no-files-found: ignore

@@ -8,7 +8,7 @@
 <!-- ProcessIsolation: Runs each test in a new PHP thread when set to true.
      This ensures that PHP memory limit is not reached during tests as the
      number of tests build up over time in the project. -->
-<phpunit bootstrap=".bootstrap-fast.php" processIsolation="true" testdox="true">
+<phpunit bootstrap=".bootstrap-fast.php" processIsolation="false" testdox="true">
   <php>
     <env name="DTT_BASE_URL" value="http://web"/>
     <env name="DTT_API_URL" value="http://localhost:9222"/>
@@ -17,6 +17,8 @@
     <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
     <!-- Specify the default directory screenshots should be placed. -->
     <env name="DTT_SCREENSHOT_REPORT_DIRECTORY" value="screenshots"/>
+    <!-- Directory for HTML page dumps on test failure (used by FailureHtmlCaptureTrait). -->
+    <env name="DTT_HTML_OUTPUT_DIRECTORY" value="test-html-output"/>
   </php>
 
   <testsuites>
@@ -39,4 +41,12 @@
       <!--<directory>./web/profiles/custom/*/tests/src/ExistingSiteJavascript</directory>-->
     </testsuite>
   </testsuites>
+
+  <!-- Groups excluded by default. Override with \-\-group=NAME to run them explicitly. -->
+  <groups>
+    <exclude>
+      <!-- Requires Rollbar credentials and hits external API. Run with: ddev phpunit \-\-group=rollbar -->
+      <group>rollbar</group>
+    </exclude>
+  </groups>
 </phpunit>
