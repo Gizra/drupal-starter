@@ -257,7 +257,7 @@ To run PHPUnit tests for the `migrate_tools` contributed module, you would use:
 ddev phpunit-contrib migrate_tools
 ```
 
-## Debugging
+## Debugging and IDE config
 
 ## Visual Studio Code instructions
 
@@ -268,6 +268,13 @@ ddev phpunit-contrib migrate_tools
 
 Check the [DDEV documentation](https://ddev.readthedocs.io/en/latest/users/debugging-profiling/step-debugging/)
 if you are using other IDE or want to know more about this feature.
+
+## Phpactor integration
+
+Copy .phpactor.json.example to .phpactor.json to integrate
+with [phpactor](https://phpactor.readthedocs.io/) in your IDE.
+
+Then run `phpactor config:init` to set your repository as trusted.
 
 ## Deploy to Pantheon
 

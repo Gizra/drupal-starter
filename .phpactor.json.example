@@ -1,0 +1,16 @@
+{
+    "$schema": "~/bin/phpactor/phpactor.schema.json",
+    "indexer.supported_extensions": [
+        "php",
+        "inc",
+        "module"
+    ],
+    "indexer.include_patterns": [
+        "/**/*.php",
+        "/**/*.inc",
+        "/**/*.module"
+    ],
+    "language_server_phpstan.enabled": false,
+    "php_code_sniffer.enabled": false,
+    "prophecy.enabled": true
+}
