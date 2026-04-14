@@ -31,6 +31,8 @@ You can open this project in GitHub Codespaces by clicking the badge at the top 
 
 Once the installation is complete (takes about 10 minutes), you can use `ddev login` to log in to the site as admin user using your default browser.
 
+The Codespace comes with [Claude Code](https://docs.anthropic.com/en/docs/claude-code) pre-installed for agentic coding. Run `claude` in the terminal to get started. For the best authentication experience, open your Codespace in VS Code rather than in the browser.
+
 ## Local Installation
 
 The only requirement is having [DDEV](https://ddev.readthedocs.io/en/stable/) installed.
@@ -83,20 +85,20 @@ Please refer to the [Default content documentation](https://www.drupal.org/docs/
 
 ## Theme Development
 
-By default, `ddev restart` compiles the theme using Robo (`ddev robo theme:compile-debug`)
+By default, `ddev restart` compiles the theme using npm scripts (`ddev theme:compile`).
 
-This is used only for watching Tailwind styles, it's not compiling js, images, etc.
+This compiles CSS (Tailwind), JS, fonts, and images into the `dist/` directory.
 
-On the local development environment, which is using TailWind's [JIT](https://tailwindcss.com/docs/just-in-time-mode) (Just-In-Time), execute:
+On the local development environment, execute:
 
 ```bash
 ddev theme:watch
 ```
 
-This will compile Tailwind and keep watching for any changes.
+This will run an initial build and then watch for any changes to CSS, JS, fonts, and images.
 
-When running `ddev robo theme:compile` it will purge any TailWind's CSS class
-which is not found in the code, twig, or under `tailwind.config.js` `whitelist` property.
+When running `ddev theme:compile`, Tailwind uses JIT (Just-In-Time) mode and only includes CSS classes
+found in the source paths declared via `@source` directives in `src/css/style.css`.
 
 The directory structure:
  - `src/` - put all source stylesheets images, fonts, etc here.
@@ -109,7 +111,7 @@ For theme development, it's advisable to entirely turn off caching: https://www.
 It is advised to use Drupal's Responsive image module.
 
 If there are new breakpoints added, or existing breakpoints updated in
-`server_theme/tailwind.config.js`, you must ensure to also update the Drupal
+`src/css/style.css` (via `@theme` custom properties), you must ensure to also update the Drupal
 breakpoints configuration file for the theme `server_theme.breakpoints.yml` so
 that the media queries for the responsive images are in sync with tailwind's.
 It is advisable to finalize this configuration before any responsive image
@@ -286,29 +288,6 @@ There's a Robo command to do the entire process of creating a new project:
 ddev robo bootstrap:project <project_name> <github_repository_url> <terminus_token> <github_token> [<http_basic_auth_user> [<http_basic_auth_password>]]
 ```
 See the details [here](https://github.com/Gizra/drupal-starter/blob/main/robo-components/BootstrapTrait.php).
-
-As this repository gets copied several times, for different projects, it gets tedious to port small fixes.
-For larger-scale changes, due to conflicts and per-project considerations, we need to apply
-changes manually., However for tiny, trivial changes, such as CI fixes, we have the following tool:
-```
-# Go to the root of all the projects
-cd /home/user/your-projects
-# If no export is provided, command will ask entering manually the names.
-export REPOSITORIES=[client1 client2 client3]
-/path/to/starter/scripts/mass_patch.sh [gh_token_that_can_create_prs] /tmp/our-little-patch "PR title"
-```
-
-This must be executed natively (i.e. no inside `ddev ssh`).
-It will try to refresh the working copies there and apply the patch. If it succeeds, it opens
-a pull request in the destination repository.
-That provides a fast track to spread changes for those parts of the Starter Kit that typically
-remain unchanged after cloning (CI scripts, testing scripts, DDEV configuration and commands, and so on).
-
-You can also specify the repositories using a configuration file:
-```
-cp scripts/mass_patch.example.config.sh scripts/mass_patch.config.sh
-```
-Then edit `scripts/mass_patch.config.sh` and add the proper project names.
 
 #### Create your site
 

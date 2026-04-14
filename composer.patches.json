@@ -33,6 +33,9 @@
     },
     "drupal/rollbar": {
       "d.o. #3432364": "patches/3432364-rollbar-vars.patch"
+    },
+    "drupal/schema_metatag": {
+      "d.o. #3415013": "patches/3415013-schema-webpage-extra-fields.patch"
     }
   }
 }

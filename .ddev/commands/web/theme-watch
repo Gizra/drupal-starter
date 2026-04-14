@@ -1,0 +1,21 @@
+#!/bin/bash
+
+## Description: Run theme compile, watch for changes.
+## Usage: theme:watch
+## Aliases: theme-watch
+## Example: "ddev theme:watch"
+
+cd ./web/themes/custom/server_theme || exit 1
+
+# Ensure dependencies are installed
+if [ ! -d node_modules ]; then
+  npm install || exit 1
+fi
+
+# Ensure an initial build exists
+if [ ! -d dist/css ] || [ ! -d dist/fonts ] || [ ! -d dist/images ] || [ ! -d dist/js ]; then
+  npm run build || exit 1
+fi
+
+# Start the watcher
+npm run watch

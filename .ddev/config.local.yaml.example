@@ -19,9 +19,8 @@ hooks:
     # Import translations.
     - exec: robo locale:import
 
-    # Compile theme in debug, so we can develop with all Tailwinds' classes.
-    # On deploy, we purge un-needed CSS.
-    - exec-host: ddev robo theme:compile-debug
+    # Compile the theme (CSS, JS, fonts, and images).
+    - exec-host: ddev theme:compile
 
     # Install the default content.
     - exec: drush pm-enable default_content --no-interaction
@@ -59,7 +58,7 @@ hooks:
     - exec: drush sapi-c
     - exec: drush sapi-i
     # Compile theme.
-    - exec-host: ddev robo theme:compile
+    - exec-host: ddev theme:compile
      # Get rid of sensitive user data.
     - exec: drush sql:sanitize --yes
     # Login as admin.
@@ -75,7 +74,7 @@ hooks:
     - exec: drush sapi-c
     - exec: drush sapi-i
     # Compile theme.
-    - exec-host: ddev robo theme:compile
+    - exec-host: ddev theme:compile
      # Get rid of sensitive user data.
     - exec: drush sql:sanitize --yes
     # Login as admin.

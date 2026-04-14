@@ -6,9 +6,6 @@
 .main-menu-wrapper {
   @apply flex transform opacity-0 -translate-y-full transition-all duration-500;
 
-  top: var(--drupal-displace-offset-top);
-  height: calc(100dvh - var(--drupal-displace-offset-top));
-
   .js-menu-open & {
     @apply translate-y-0 opacity-100;
   }
@@ -17,7 +14,7 @@
     @apply max-h-0 lg:max-h-fit hidden -translate-x-4 transition-all duration-300 pointer-events-none;
 
     &.active {
-      // Active items can be max 5 viewports in height = 500dvh.
+      /* Active items can be max 5 viewports in height = 500dvh. */
       @apply max-h-[500dvh] lg:max-h-fit flex lg:flex opacity-100 translate-x-0 pointer-events-auto;
     }
 
