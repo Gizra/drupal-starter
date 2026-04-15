@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d4da2f9bb79cc056b5429e51b34d2737",
+    "content-hash": "67241c96b8a3eec1d93a038887e19174",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2057,25 +2057,31 @@
         },
         {
             "name": "drupal/ai_content_assistant",
-            "version": "dev-1.0.x",
+            "version": "1.0.0-alpha1",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/ai_content_assistant.git",
-                "reference": "f9d8caae30de10aae8a03355a1b3183e948bef12"
+                "reference": "1.0.0-alpha1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/ai_content_assistant-1.0.0-alpha1.zip",
+                "reference": "1.0.0-alpha1",
+                "shasum": "e67be5f2e0e2f0d765c5bad0b865493c4611ff18"
             },
             "require": {
-                "drupal/ai": "*",
-                "drupal/core": "^10 || ^11",
-                "drupal/paragraphs": "*"
+                "drupal/ai": "^1.0",
+                "drupal/core": "^10 || ^11"
+            },
+            "require-dev": {
+                "drupal/paragraphs": "^1.18",
+                "drush/drush": "^12.5 || ^13.6"
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-1.0.x": "1.0.x-dev"
-                },
                 "drupal": {
-                    "version": "1.0.x-dev",
-                    "datestamp": "1775541132",
+                    "version": "1.0.0-alpha1",
+                    "datestamp": "1776252849",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Project has not opted into security advisory coverage!"
@@ -18392,7 +18398,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "drupal/ai_content_assistant": 20,
+        "drupal/ai_content_assistant": 15,
         "drupal/cache_review": 20,
         "drupal/default_content": 15,
         "drupal/inline_entity_form": 5,
