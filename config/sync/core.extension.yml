@@ -5,6 +5,7 @@ module:
   ai_api_explorer: 0
   ai_automators: 0
   ai_ckeditor: 0
+  ai_content_assistant: 0
   ai_content_suggestions: 0
   ai_image_alt_text: 0
   ai_logging: 0
