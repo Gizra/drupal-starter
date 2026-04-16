@@ -119,8 +119,13 @@ trait ReleaseNotesTrait {
       $pr_number = $pr_matches[1][0];
 
       if (!empty($github_org) && !empty($github_project)) {
-        /** @var \stdClass $pr_details */
-        $pr_details = $this->githubApiGet("repos/$github_org/$github_project/pulls/$pr_number");
+        try {
+          /** @var \stdClass $pr_details */
+          $pr_details = $this->githubApiGet("repos/$github_org/$github_project/pulls/$pr_number");
+        }
+        catch (\Exception $exception) {
+          $pr_details = NULL;
+        }
         if (!empty($pr_details->user)) {
           $contributors[] = '@' . $pr_details->user->login;
           $additions += $pr_details->additions;
