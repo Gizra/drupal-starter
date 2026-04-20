@@ -114,7 +114,7 @@
         "gettext/gettext": "^5.7",
         "mikey179/vfsstream": "^1.6",
         "mink/webdriver-classic-driver": "^1.1",
-        "mpyw/phpunit-patch-serializable-comparison": "^0.0.2",
+        "mpyw/phpunit-patch-serializable-comparison": "^0.0.4",
         "natxet/cssmin": "^3.0",
         "phpspec/prophecy-phpunit": "^2",
         "scssphp/scssphp": "^1.0.0",
