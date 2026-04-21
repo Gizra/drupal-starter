@@ -29,4 +29,25 @@ class ServerGeneralParagraphTranslatabilityTest extends ServerGeneralTestBase {
     }
   }
 
+  /**
+   * Checks that every Paragraph type has content translation enabled.
+   */
+  public function testAllParagraphTypesAreTranslatable() {
+    /** @var \Drupal\content_translation\ContentTranslationManagerInterface $translation_manager */
+    $translation_manager = \Drupal::service('content_translation.manager');
+
+    $paragraph_types = \Drupal::entityTypeManager()
+      ->getStorage('paragraphs_type')
+      ->loadMultiple();
+
+    $this->assertNotEmpty($paragraph_types);
+
+    foreach ($paragraph_types as $id => $paragraph_type) {
+      $this->assertTrue(
+        $translation_manager->isEnabled('paragraph', $id),
+        sprintf("Paragraph type '%s' must have content translation enabled.", $id)
+      );
+    }
+  }
+
 }
