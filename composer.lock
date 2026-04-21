@@ -10055,16 +10055,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.12.15",
+            "version": "v0.12.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "38953bc71491c838fcb6ebcbdc41ab7483cd549c"
+                "reference": "4821fab5b7cd8c49a673a9fd5754dc9162bb9e97"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/38953bc71491c838fcb6ebcbdc41ab7483cd549c",
-                "reference": "38953bc71491c838fcb6ebcbdc41ab7483cd549c",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/4821fab5b7cd8c49a673a9fd5754dc9162bb9e97",
+                "reference": "4821fab5b7cd8c49a673a9fd5754dc9162bb9e97",
                 "shasum": ""
             },
             "require": {
@@ -10072,8 +10072,8 @@
                 "ext-tokenizer": "*",
                 "nikic/php-parser": "^5.0 || ^4.0",
                 "php": "^8.0 || ^7.4",
-                "symfony/console": "^7.0 || ^6.0 || ^5.0 || ^4.0 || ^3.4",
-                "symfony/var-dumper": "^7.0 || ^6.0 || ^5.0 || ^4.0 || ^3.4"
+                "symfony/console": "^8.0 || ^7.0 || ^6.0 || ^5.0 || ^4.0 || ^3.4",
+                "symfony/var-dumper": "^8.0 || ^7.0 || ^6.0 || ^5.0 || ^4.0 || ^3.4"
             },
             "conflict": {
                 "symfony/console": "4.4.37 || 5.3.14 || 5.3.15 || 5.4.3 || 5.4.4 || 6.0.3 || 6.0.4"
@@ -10128,9 +10128,9 @@
             ],
             "support": {
                 "issues": "https://github.com/bobthecow/psysh/issues",
-                "source": "https://github.com/bobthecow/psysh/tree/v0.12.15"
+                "source": "https://github.com/bobthecow/psysh/tree/v0.12.21"
             },
-            "time": "2025-11-28T00:00:14+00:00"
+            "time": "2026-03-06T21:21:28+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -10711,16 +10711,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v7.3.8",
+            "version": "v7.3.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "6d0d25cc1138bb7bab0685fbe4184e6289914406"
+                "reference": "a28c3e5b4df406e8fae8e9b18c40557b5dfc430c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/6d0d25cc1138bb7bab0685fbe4184e6289914406",
-                "reference": "6d0d25cc1138bb7bab0685fbe4184e6289914406",
+                "url": "https://api.github.com/repos/symfony/console/zipball/a28c3e5b4df406e8fae8e9b18c40557b5dfc430c",
+                "reference": "a28c3e5b4df406e8fae8e9b18c40557b5dfc430c",
                 "shasum": ""
             },
             "require": {
@@ -10785,7 +10785,7 @@
                 "terminal"
             ],
             "support": {
-                "source": "https://github.com/symfony/console/tree/v7.3.8"
+                "source": "https://github.com/symfony/console/tree/v7.3.10"
             },
             "funding": [
                 {
@@ -10805,7 +10805,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-12-05T13:52:21+00:00"
+            "time": "2026-01-13T10:52:14+00:00"
         },
         {
             "name": "symfony/dependency-injection",
@@ -13360,16 +13360,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v7.3.5",
+            "version": "v7.3.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "476c4ae17f43a9a36650c69879dcf5b1e6ae724d"
+                "reference": "3649e629f954658188eb1a83b616fb5a2e5688fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/476c4ae17f43a9a36650c69879dcf5b1e6ae724d",
-                "reference": "476c4ae17f43a9a36650c69879dcf5b1e6ae724d",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/3649e629f954658188eb1a83b616fb5a2e5688fe",
+                "reference": "3649e629f954658188eb1a83b616fb5a2e5688fe",
                 "shasum": ""
             },
             "require": {
@@ -13423,7 +13423,7 @@
                 "dump"
             ],
             "support": {
-                "source": "https://github.com/symfony/var-dumper/tree/v7.3.5"
+                "source": "https://github.com/symfony/var-dumper/tree/v7.3.10"
             },
             "funding": [
                 {
@@ -13443,7 +13443,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-09-27T09:00:46+00:00"
+            "time": "2026-01-01T22:03:12+00:00"
         },
         {
             "name": "symfony/var-exporter",
