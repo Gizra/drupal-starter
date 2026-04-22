@@ -117,7 +117,7 @@
         "mpyw/phpunit-patch-serializable-comparison": "^0.0.4",
         "natxet/cssmin": "^3.0",
         "phpspec/prophecy-phpunit": "^2",
-        "scssphp/scssphp": "^1.0.0",
+        "scssphp/scssphp": "^2.1.0",
         "symfony/browser-kit": "^6.3",
         "symfony/phpunit-bridge": "^5.0",
         "totten/lurkerlite": "^1",
