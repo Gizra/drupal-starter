@@ -43,7 +43,7 @@ trait ThemeTrait {
     }
 
     // Make sure we have all the node packages.
-    $this->_exec("cd $theme_dir && npm install");
+    $this->_exec("cd $theme_dir && npm ci");
 
     // Compile all assets (CSS, JS, fonts, images) in parallel via npm scripts.
     $result = $this->_exec("cd $theme_dir && npm run build");
