@@ -1,0 +1,18 @@
+uuid: ac47828a-d4c2-491c-b4d0-537c06530211
+langcode: en
+status: true
+dependencies:
+  theme:
+    - server_admin_theme
+id: server_admin_theme_pagetitle
+theme: server_admin_theme
+region: header
+weight: 0
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  label_display: '0'
+  provider: core
+visibility: {  }
