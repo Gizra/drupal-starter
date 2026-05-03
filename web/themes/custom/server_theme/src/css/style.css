@@ -12,6 +12,7 @@
 @source "../../server_theme.theme";
 @source "../../../../../modules/custom/**/*.php";
 @source "../../../../../modules/custom/**/*.html.twig";
+@source "../../../../../modules/custom/**/*.twig";
 @source "../../../../../modules/custom/*/js/**/*.js";
 
 @import "./container.css";

@@ -17,7 +17,8 @@ trait LineSeparatorThemeTrait {
    */
   protected function buildLineSeparator(): array {
     return [
-      '#theme' => 'server_theme_line_separator',
+      '#type' => 'component',
+      '#component' => 'server_general:line-separator',
     ];
   }
 
