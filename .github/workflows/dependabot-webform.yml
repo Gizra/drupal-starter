@@ -1,0 +1,34 @@
+name: Update Webform libraries after Dependabot
+
+on:
+  pull_request:
+    paths:
+      - 'composer.json'
+      - 'composer.lock'
+
+jobs:
+  update-webform-libraries:
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Update Webform libraries in composer.lock
+        run: composer update drupal/webform "drupal/webform-*" --with-dependencies --no-interaction
+
+      - name: Commit updated composer.lock
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add composer.lock
+          git diff --staged --quiet || git commit -m "Update Webform libraries in composer.lock" && git push
