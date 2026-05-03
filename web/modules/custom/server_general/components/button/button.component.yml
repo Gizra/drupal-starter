@@ -1,0 +1,17 @@
+$schema: 'https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json'
+name: Button
+props:
+  type: object
+  properties:
+    title:
+      type: string
+      title: Title
+    url:
+      type: string
+      title: URL
+    button_type:
+      type: string
+      title: Button type (primary, secondary, tertiary, download)
+    open_new_tab:
+      type: boolean
+      title: Open in new tab

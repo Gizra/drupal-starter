@@ -79,12 +79,25 @@ trait ButtonThemeTrait {
    *   The rendered button array.
    */
   private function buildButtonHelper(Link $link, ButtonTypeEnum $button_type = ButtonTypeEnum::Primary): array {
+    $url = $link->getUrl();
+    // toString(TRUE) collects cache metadata (contexts/tags) that must be
+    // bubbled since we are passing a string prop rather than a URL object.
+    $generated_url = $url->toString(TRUE);
+
     return [
-      '#theme' => 'server_theme_button',
-      '#button_type' => $button_type->value,
-      '#url' => $link->getUrl(),
-      '#title'  => $link->getText(),
-      '#open_new_tab' => $link->getUrl()->isExternal(),
+      '#type' => 'component',
+      '#component' => 'server_general:button',
+      '#props' => [
+        'button_type' => $button_type->value,
+        'url' => $generated_url->getGeneratedUrl(),
+        'title' => $link->getText(),
+        'open_new_tab' => $url->isExternal(),
+      ],
+      '#cache' => [
+        'contexts' => $generated_url->getCacheContexts(),
+        'tags' => $generated_url->getCacheTags(),
+        'max-age' => $generated_url->getCacheMaxAge(),
+      ],
     ];
   }
 
