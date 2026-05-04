@@ -31,6 +31,8 @@ jobs:
       DEPLOY_EXCLUDE_WARNING: ${{ vars.DEPLOY_EXCLUDE_WARNING }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
