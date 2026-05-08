@@ -47,7 +47,7 @@ server_theme.xl:
     - 2x
 # 2xl breakpoint - 1536px and up.
 server_theme.2xl:
-  label: xl
+  label: 2xl
   mediaQuery: 'all and (min-width: 1536px)'
   weight: 5
   multipliers:
