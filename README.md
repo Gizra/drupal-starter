@@ -392,6 +392,24 @@ After you have automatic deployment for a project, you are able to deploy to Pan
 `git tag 0.1.2` will imply a deployment to the `test` environment (and `dev` - as enforced by Pantheon).
 `git tag 0.1.2_live` will imply a deployment to `live`. In order to make it fast, you need to first create the tag that deploy to `test`, then you need to tag the same commit with a tag suffixed with `_live`.
 
+### Manual Steps
+
+For certain releases, you may need to execute manual scripts after deployment. Place release-specific scripts in the `manual_steps/` directory with the version as the filename (e.g., `manual_steps/2.10.0.sh`).
+
+The script receives the environment as a parameter (`test` or `live`):
+
+```bash
+#!/bin/bash
+set -e
+
+ENV="${1:-TEST}"
+
+# Example: Clear cache after deployment
+ddev . terminus remote:drush "drupal-starter-site.$ENV" -- cr
+```
+
+When deploying a tag (e.g., `2.10.0` or `2.10.0_live`), the script `manual_steps/2.10.0.sh` will be called automatically after the sync. If no script exists for the version, deployment continues normally.
+
 ### Excluding Warnings in Deployment
 
 During deployment, Drupal status page warnings are [posted](https://github.com/Gizra/drupal-starter/blob/958cacc357e55b9bdf99d287cba69043236c673f/robo-components/DeploymentTrait.php#L449C19-L449C47) to GitHub as a comment. However, there might be some warnings
