@@ -87,3 +87,12 @@ expanding-text:
     - core/drupal
     - core/jquery
     - core/once
+
+file-size-validation:
+  js:
+    dist/js/file-size-validation.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery
+    - core/once
