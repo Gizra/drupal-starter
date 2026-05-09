@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Get the current branch name
+branch_name=$(git symbolic-ref --short HEAD 2>/dev/null)
+
+# Define protected branches
+protected_branches=("main" "master")
+
+# Check if the current branch is protected
+if [[ " ${protected_branches[@]} " =~ " ${branch_name} " ]]; then
+  echo "Committing to '${branch_name}' is not allowed."
+  exit 1
+fi
+
+exit 0

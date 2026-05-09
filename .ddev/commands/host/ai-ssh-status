@@ -1,0 +1,28 @@
+#!/bin/bash
+#ddev-generated
+## Description: Check AI SSH status (sshd running, keys present)
+## Usage: ai-ssh-status
+## Example: ddev ai-ssh-status
+
+echo "AI SSH Status"
+echo "============="
+echo ""
+
+# Check keys
+if [ -f .ddev/.agent-ssh-keys/id_ed25519 ]; then
+    echo "SSH keys: OK (.ddev/.agent-ssh-keys/)"
+else
+    echo "SSH keys: MISSING (run: ddev add-on get trebormc/ddev-ai-ssh)"
+fi
+
+# Check sshd in web container
+SSHD_PID=$(ddev exec pgrep sshd 2>/dev/null)
+if [ -n "$SSHD_PID" ]; then
+    echo "sshd in web: RUNNING (pid $SSHD_PID)"
+else
+    echo "sshd in web: NOT RUNNING"
+fi
+
+# Check authorized_keys
+AUTH_CHECK=$(ddev exec test -f /home/ddev/.ssh/authorized_keys 2>/dev/null && echo "OK" || echo "MISSING")
+echo "authorized_keys: $AUTH_CHECK"

@@ -1,0 +1,9 @@
+#ddev-generated
+# AI SSH — Enables SSH access to the web container for AI agents.
+# Adds the project's SSH public key to the ddev user's authorized_keys on every start.
+# Install: ddev add-on get trebormc/ddev-ai-ssh
+
+services:
+  web:
+    environment:
+      - AI_SSH_ENABLED=true

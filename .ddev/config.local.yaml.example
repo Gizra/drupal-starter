@@ -1,3 +1,16 @@
+# Agent Zero requires GROQ_API_KEY to be set as a shell environment variable
+# on your host machine (not here — this file only configures the DDEV web container).
+#
+# Get a free key at: https://console.groq.com
+#
+# Add to your ~/.bashrc or ~/.zshrc:
+#   export GROQ_API_KEY=gsk_...
+#
+# Then restart your shell or run: source ~/.bashrc
+#
+# Verify it's set before running ddev start:
+#   echo $GROQ_API_KEY
+
 web_environment:
   - COMPOSER_EXIT_ON_PATCH_FAILURE=1
   # Un comment when working on a migration and the source is different DDEV

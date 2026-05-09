@@ -1,0 +1,15 @@
+name: ddev-ai-ssh
+repository: trebormc/ddev-ai-ssh
+version: v1.0.45
+install_date: "2026-05-08T15:51:06+02:00"
+project_files:
+    - docker-compose.ai-ssh.yaml
+    - web-build/Dockerfile.ai-ssh
+    - web-build/sshd-supervisor.conf
+    - commands/host/ai-ssh-status
+global_files: []
+removal_actions:
+    - |
+      #ddev-description:Cleaning up AI SSH
+      echo "AI SSH add-on removed."
+      echo "SSH keys in .ddev/.agent-ssh-keys/ were NOT deleted (remove manually if needed)."

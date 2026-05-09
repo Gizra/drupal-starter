@@ -64,3 +64,4 @@ phpunit_debug
 # AI
 .claude
 CLAUDE.md
+.ddev/.agent-ssh-keys/

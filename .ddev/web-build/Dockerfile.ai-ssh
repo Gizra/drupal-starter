@@ -1,0 +1,32 @@
+#ddev-generated
+# Install sshd in the web container for AI agent SSH access.
+# AI containers connect via SSH, with per-project key isolation.
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends openssh-server && \
+    mkdir -p /var/run/sshd && \
+    rm -rf /var/lib/apt/lists/*
+
+# Hardened sshd configuration: key-only auth, no root, no forwarding
+# Note: no AllowUsers — DDEV maps the host user into the container (not always "ddev")
+RUN mkdir -p /etc/ssh/sshd_config.d && \
+    printf '%s\n' \
+      'PermitRootLogin no' \
+      'PasswordAuthentication no' \
+      'PubkeyAuthentication yes' \
+      'UsePAM no' \
+      'AllowTcpForwarding no' \
+      'X11Forwarding no' \
+      'ForceCommand /usr/local/bin/ai-ssh-command.sh' \
+    > /etc/ssh/sshd_config.d/ai-agent.conf
+
+# Command wrapper: ensures SSH commands run in /var/www/html with DDEV env vars
+RUN printf '#!/bin/bash\n. /etc/ddev-env 2>/dev/null\ncd /var/www/html\nif [ -n "$SSH_ORIGINAL_COMMAND" ]; then\n    eval "$SSH_ORIGINAL_COMMAND"\nelse\n    exec bash -l\nfi\n' \
+    > /usr/local/bin/ai-ssh-command.sh && chmod +x /usr/local/bin/ai-ssh-command.sh
+
+# Setup script: generates keys if missing, configures authorized_keys, starts sshd
+# Uses sudo because supervisord in DDEV runs as the project user, not root
+RUN printf '#!/bin/bash\nKEY_DIR="/var/www/html/.ddev/.agent-ssh-keys"\nKEY="$KEY_DIR/id_ed25519.pub"\n# Generate keys if missing (fresh clone without reinstalling add-ons)\nif [ ! -f "$KEY_DIR/id_ed25519" ]; then\n    mkdir -p "$KEY_DIR"\n    ssh-keygen -t ed25519 -f "$KEY_DIR/id_ed25519" -N "" -C "ddev-agent" 2>/dev/null\n    chmod 600 "$KEY_DIR/id_ed25519"\n    chmod 644 "$KEY_DIR/id_ed25519.pub"\nfi\n# Set up authorized_keys for the current user\nmkdir -p ~/.ssh\nif [ -f "$KEY" ]; then\n    cp "$KEY" ~/.ssh/authorized_keys\n    chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys\nfi\n# Write username so AI containers know which user to SSH as\necho "$(whoami)" > "$KEY_DIR/web-user"\n# Unlock user account (sshd rejects locked accounts even with key auth)\nsudo passwd -d "$(whoami)" 2>/dev/null\n# Fix /run/sshd ownership (sshd requires root ownership)\nsudo chown root:root /run/sshd 2>/dev/null\nsudo chmod 755 /run/sshd 2>/dev/null\n# Save env vars for SSH sessions\nprintenv | grep -E "^(DDEV_|IS_DDEV_PROJECT|PATH=)" | sed "s/^/export /" | sudo tee /etc/ddev-env > /dev/null\nsudo chmod 644 /etc/ddev-env\n# Start sshd (needs root)\nexec sudo /usr/sbin/sshd -D -e\n' \
+    > /usr/local/bin/ai-ssh-setup.sh && chmod +x /usr/local/bin/ai-ssh-setup.sh
+
+COPY sshd-supervisor.conf /etc/supervisor/conf.d/sshd.conf

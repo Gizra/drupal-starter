@@ -1,0 +1,57 @@
+# Agent Zero autonomous AI development container.
+# Web UI: http://drupal-starter.ddev.site:3030 or https://drupal-starter.ddev.site:3031
+# SSH into web container via: ssh web <command>
+# GROQ_API_KEY must be set in your shell environment before ddev start.
+
+services:
+  agent-zero:
+    container_name: ddev-${DDEV_SITENAME}-agent-zero
+    hostname: agent-zero
+    image: agent0ai/agent-zero:v1.13
+    restart: "no"
+    profiles: ["agent-zero"]
+
+    labels:
+      com.ddev.site-name: ${DDEV_SITENAME}
+      com.ddev.approot: ${DDEV_APPROOT}
+
+    entrypoint: ["/bin/bash", "/a0-init/entrypoint.sh"]
+
+    environment:
+      - VIRTUAL_HOST=$DDEV_HOSTNAME
+      - HTTP_EXPOSE=3030:80
+      - HTTPS_EXPOSE=3031:80
+      - GROQ_API_KEY=${GROQ_API_KEY:-}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY:-}
+      - DDEV_SITENAME
+      - IS_DDEV_PROJECT=true
+      - WEB_CONTAINER=ddev-${DDEV_SITENAME}-web
+      # Block commits to main/master inside this container
+      - GIT_CONFIG_COUNT=1
+      - GIT_CONFIG_KEY_0=core.hookspath
+      - GIT_CONFIG_VALUE_0=.githooks
+
+    volumes:
+      # Project root — read-write so A0 can edit code
+      - "../:/var/www/html"
+      # A0 persistent data (memory, chats, settings, tools)
+      - "./agent-zero/data:/a0"
+      # Entrypoint wrapper script
+      - "./agent-zero/entrypoint.sh:/a0-init/entrypoint.sh:ro"
+      # SSH keys from ddev-ai-ssh
+      - "./.agent-ssh-keys:/run/ssh-keys:ro"
+
+    external_links:
+      - "ddev-router:${DDEV_SITENAME}.${DDEV_TLD}"
+
+    x-ddev:
+      describe-url-port: 'Launch: ddev a0'
+
+    networks:
+      - default
+      - ddev_default
+
+networks:
+  ddev_default:
+    name: ddev_default
+    external: true

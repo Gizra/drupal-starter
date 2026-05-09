@@ -1,0 +1,7 @@
+#!/bin/bash
+## Description: Start the Agent Zero AI container
+## Usage: a0
+## Example: ddev a0
+
+docker compose -f .ddev/.ddev-docker-compose-full.yaml --profile agent-zero up -d agent-zero
+echo "Agent Zero started: http://${DDEV_SITENAME}.${DDEV_TLD}:3030"
