@@ -1,3 +1,16 @@
+# OpenClaw (Telegram AI agent) setup — run once after first `ddev openclaw`:
+#
+#   1. Create a Telegram bot: message @BotFather → /newbot → copy the token
+#   2. Get your Telegram user ID: message @userinfobot
+#   3. Add the channel:
+#        ddev openclaw channels add --channel telegram --token "<bot-token>"
+#   4. Edit .ddev/openclaw/data/openclaw.json and set:
+#        channels.telegram.allowFrom: ["<your-numeric-user-id>"]
+#        channels.telegram.dmPolicy: "allowlist"
+#   5. Restart: ddev openclaw
+#
+# No environment variables required — config is stored in .ddev/openclaw/data/
+
 # Agent Zero requires GROQ_API_KEY to be set as a shell environment variable
 # on your host machine (not here — this file only configures the DDEV web container).
 #

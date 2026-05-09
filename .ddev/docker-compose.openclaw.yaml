@@ -1,0 +1,57 @@
+# OpenClaw personal AI assistant with Telegram integration.
+# Telegram setup after first start:
+#   ddev openclaw channels add --channel telegram --token "<bot-token>"
+# Requires ddev-ai-ssh addon (already installed for agent-zero).
+
+services:
+  openclaw:
+    container_name: ddev-${DDEV_SITENAME}-openclaw
+    hostname: openclaw
+    image: ghcr.io/openclaw/openclaw:latest
+    restart: "no"
+    profiles: ["openclaw"]
+
+    labels:
+      com.ddev.site-name: ${DDEV_SITENAME}
+      com.ddev.approot: ${DDEV_APPROOT}
+
+    entrypoint: ["/bin/bash", "/oc-init/entrypoint.sh"]
+
+    environment:
+      - OPENCLAW_SKIP_ONBOARDING=true
+      - OPENCLAW_CONFIG_DIR=/home/node/.openclaw
+      - OPENCLAW_WORKSPACE_DIR=/var/www/html
+      - DDEV_SITENAME
+      - IS_DDEV_PROJECT=true
+      - WEB_CONTAINER=ddev-${DDEV_SITENAME}-web
+      # Block commits to main/master inside this container
+      - GIT_CONFIG_COUNT=1
+      - GIT_CONFIG_KEY_0=core.hookspath
+      - GIT_CONFIG_VALUE_0=.githooks
+
+    volumes:
+      # Project root — read-write so coding agents can edit code
+      - "../:/var/www/html"
+      # OpenClaw persistent data (config, channels, token, memory)
+      - "./openclaw/data:/home/node/.openclaw"
+      # Entrypoint wrapper script
+      - "./openclaw/entrypoint.sh:/oc-init/entrypoint.sh:ro"
+      # SSH keys from ddev-ai-ssh
+      - "./.agent-ssh-keys:/run/ssh-keys:ro"
+      # Claude Pro credentials — writable so token refresh works
+      - "${HOME}/.claude/.credentials.json:/home/node/.claude/.credentials.json"
+
+    external_links:
+      - "ddev-router:${DDEV_SITENAME}.${DDEV_TLD}"
+
+    x-ddev:
+      describe-url-port: 'Launch: ddev openclaw'
+
+    networks:
+      - default
+      - ddev_default
+
+networks:
+  ddev_default:
+    name: ddev_default
+    external: true

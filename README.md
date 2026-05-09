@@ -191,6 +191,62 @@ This project supports AI-based features using OpenAI.
 ddev terminus secret:site:set gizra-drupal-starter openai_api_key your-key-here --type=runtime --scope=web,user
 ```
 
+## OpenClaw — AI Assistant via Telegram
+
+[OpenClaw](https://openclaw.ai) runs as a DDEV service and gives you an AI
+assistant (backed by your Claude Pro subscription) accessible from Telegram.
+
+### Prerequisites
+
+1. A Claude Pro subscription with [Claude Code](https://claude.ai/code) installed
+   and authenticated on your machine — the CLI must have a valid session at
+   `~/.claude/.credentials.json`.
+2. A Telegram bot token — create one via [@BotFather](https://t.me/BotFather).
+
+### Start OpenClaw
+
+```bash
+ddev openclaw
+```
+
+On first run the entrypoint installs the Claude Code CLI into
+`.ddev/openclaw/data/claude-cli/` (a one-time ~3 s download). Subsequent starts
+are instant and reuse the cached binary.
+
+### Connect Telegram
+
+```bash
+ddev openclaw channels add --channel telegram --token "<your-bot-token>"
+```
+
+Open the bot in Telegram and start chatting. By default only the account
+configured in `openclaw.json` under `commands.ownerAllowFrom` can issue commands.
+
+### Claude Max API Proxy (optional)
+
+If you need an **OpenAI-compatible API endpoint** backed by your Claude Pro
+subscription — for tools that speak only the OpenAI protocol — run
+`claude-max-api-proxy` on the host alongside a `socat` forwarder so Docker
+containers can reach it.
+
+**Install once:**
+```bash
+npm install -g claude-max-api-proxy
+```
+
+**Start (two terminals, or use a process manager):**
+```bash
+# Proxy on port 3457
+claude-max-api 3457
+
+# Forward port 3456 so Docker containers can reach it via host.docker.internal
+socat TCP-LISTEN:3456,bind=0.0.0.0,fork,reuseaddr TCP:127.0.0.1:3457
+```
+
+Inside any DDEV container the proxy is then available at
+`http://host.docker.internal:3456/v1` with models `claude-sonnet-4`,
+`claude-opus-4`, and `claude-haiku-4`.
+
 ## PHPCS (Code Sniffer)
 
     ddev phpcs

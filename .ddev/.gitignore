@@ -32,3 +32,5 @@
 /**/README.*
 /agent-zero/data/*
 !/agent-zero/data/.gitkeep
+/openclaw/data/*
+!/openclaw/data/.gitkeep

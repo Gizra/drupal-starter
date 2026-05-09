@@ -1,0 +1,21 @@
+#!/bin/bash
+## Description: Run an OpenClaw CLI command (or start the container)
+## Usage: openclaw [command]
+## Example: ddev openclaw channels add --channel telegram --token "<token>"
+## Example: ddev openclaw health
+
+GATEWAY_CONTAINER="ddev-${DDEV_SITENAME}-openclaw"
+
+if [ $# -eq 0 ]; then
+  docker compose -f .ddev/.ddev-docker-compose-full.yaml --profile openclaw up -d openclaw
+  echo "OpenClaw started. Gateway: http://$(hostname):18789"
+  echo "Add Telegram: ddev openclaw channels add --channel telegram --token \"<bot-token>\""
+elif docker ps -q --filter "name=^${GATEWAY_CONTAINER}$" --filter status=running | grep -q .; then
+  # Gateway is running — exec into it so loopback resolves correctly.
+  docker exec "$GATEWAY_CONTAINER" node openclaw.mjs "$@"
+else
+  # Gateway not running — use a disposable container (config-only commands).
+  docker compose -f .ddev/.ddev-docker-compose-full.yaml --profile openclaw run --rm \
+    -e OPENCLAW_CONFIG_DIR=/home/node/.openclaw \
+    openclaw node openclaw.mjs "$@"
+fi
