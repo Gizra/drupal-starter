@@ -38,8 +38,8 @@ services:
       - "./openclaw/entrypoint.sh:/oc-init/entrypoint.sh:ro"
       # SSH keys from ddev-ai-ssh
       - "./.agent-ssh-keys:/run/ssh-keys:ro"
-      # Claude Pro credentials — writable so token refresh works
-      - "${HOME}/.claude/.credentials.json:/home/node/.claude/.credentials.json"
+      # Mount the whole dir so credential rotation (delete+recreate) stays visible
+      - "${HOME}/.claude:/home/node/.claude"
 
     external_links:
       - "ddev-router:${DDEV_SITENAME}.${DDEV_TLD}"
