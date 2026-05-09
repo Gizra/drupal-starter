@@ -193,6 +193,9 @@ ddev terminus secret:site:set gizra-drupal-starter openai_api_key your-key-here 
 
 ## OpenClaw — AI Assistant via Telegram
 
+> **Experimental** — The AI assistant has full read/write access to the project
+> root and can execute arbitrary commands. Use at your own risk.
+
 [OpenClaw](https://openclaw.ai) runs as a DDEV service and gives you an AI
 assistant (backed by your Claude Pro subscription) accessible from Telegram.
 
