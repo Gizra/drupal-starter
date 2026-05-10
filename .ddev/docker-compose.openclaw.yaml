@@ -7,7 +7,9 @@ services:
   openclaw:
     container_name: ddev-${DDEV_SITENAME}-openclaw
     hostname: openclaw
-    image: ghcr.io/openclaw/openclaw:latest
+    build:
+      context: ./openclaw
+      dockerfile: Dockerfile
     restart: "no"
     profiles: ["openclaw"]
 

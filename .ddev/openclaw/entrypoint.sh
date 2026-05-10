@@ -64,6 +64,21 @@ if ! grep -q "^OPENCLAW_GATEWAY_TOKEN=" "$OPENCLAW_ENV" 2>/dev/null; then
   echo "============================================================"
 fi
 
+# Install faster-whisper into a persistent venv on first run
+FW_VENV="/home/node/.openclaw/faster-whisper-venv"
+FW_BIN="$FW_VENV/bin/pip"
+if [ ! -x "$FW_BIN" ]; then
+  echo "Installing faster-whisper (first run — cached in openclaw data dir)..."
+  rm -rf "$FW_VENV"
+  python3 -m venv "$FW_VENV" \
+    && "$FW_VENV/bin/pip" install --quiet faster-whisper \
+    && echo "faster-whisper installed." \
+    || echo "Warning: faster-whisper install failed"
+fi
+if [ -x "$FW_VENV/bin/python3" ]; then
+  export PATH="$FW_VENV/bin:$PATH"
+fi
+
 # If arguments were passed (docker compose run <cmd>), run them directly.
 # Otherwise start the gateway (docker compose up).
 if [ $# -gt 0 ]; then
