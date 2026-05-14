@@ -55,6 +55,7 @@
         "drupal/inline_entity_form": "^3.0@RC",
         "drupal/intl_date": "^1.1",
         "drupal/lang_dropdown": "^2.1",
+        "drupal/m4032404": "^2.0",
         "drupal/maxlength": "^3.1",
         "drupal/media_entity_browser": "^3.0",
         "drupal/metatag": "^2.0",
