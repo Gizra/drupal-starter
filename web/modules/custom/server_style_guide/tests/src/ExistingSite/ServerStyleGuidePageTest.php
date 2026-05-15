@@ -15,7 +15,7 @@ class ServerStyleGuidePageTest extends ServerGeneralTestBase {
    */
   public function testAnonymousAccess() {
     $this->drupalGet(Url::fromRoute('server_style_guide.style_guide'));
-    $this->assertSession()->statusCodeEquals(Response::HTTP_FORBIDDEN);
+    $this->assertSession()->statusCodeEquals(Response::HTTP_NOT_FOUND);
   }
 
   /**

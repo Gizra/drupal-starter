@@ -88,7 +88,7 @@
  *
  * Default value for this setting is FALSE.
  */
-# $settings['fast404_not_found_exception'] = TRUE;
+$settings['fast404_not_found_exception'] = TRUE;
 
 /**
  * Path checking. USE AT YOUR OWN RISK.
