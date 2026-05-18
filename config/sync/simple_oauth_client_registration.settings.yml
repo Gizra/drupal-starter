@@ -1,0 +1,5 @@
+_core:
+  default_config_hash: kbpR6b7sLsbjjK4FEjDXDILgGWQ-K333tS-nG_djA-o
+default_grant_types:
+  - authorization_code
+  - refresh_token

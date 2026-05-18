@@ -6,6 +6,7 @@ module:
   ai_automators: 0
   ai_ckeditor: 0
   ai_content_assistant: 0
+  ai_content_assistant_mcp: 0
   ai_content_suggestions: 0
   ai_image_alt_text: 0
   ai_logging: 0
@@ -22,6 +23,7 @@ module:
   config_ignore: 0
   config_pages: 0
   config_translation: 0
+  consumers: 0
   content_moderation: 0
   contextual: 0
   crop: 0
@@ -56,6 +58,8 @@ module:
   link: 0
   locale: 0
   maxlength: 0
+  mcp_server: 0
+  mcp_server_oauth: 0
   media: 0
   media_entity_browser: 0
   media_library: 0
@@ -90,8 +94,14 @@ module:
   search_api_pantheon: 0
   search_api_solr: 0
   seckit: 0
+  serialization: 0
   server_style_guide: 0
   shortcut: 0
+  simple_oauth: 0
+  simple_oauth_21: 0
+  simple_oauth_client_registration: 0
+  simple_oauth_pkce: 0
+  simple_oauth_server_metadata: 0
   simple_sitemap: 0
   smart_trim: 0
   system: 0

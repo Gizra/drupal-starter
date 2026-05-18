@@ -33,3 +33,6 @@ default_providers:
   text_to_speech:
     provider_id: openai
     model_id: tts-1-hd
+request_timeout: 60
+allowed_hosts: {  }
+allowed_hosts_rewrite_links: false
