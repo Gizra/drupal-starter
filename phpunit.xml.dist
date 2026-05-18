@@ -10,6 +10,13 @@
      number of tests build up over time in the project. -->
 <phpunit bootstrap=".bootstrap-fast.php" processIsolation="true" testdox="true">
   <php>
+    <!-- PHPUnit's process isolation snapshots ini values via GlobalState,
+         which stringifies NULL defaults to '' and emits @ini_set(...) in
+         the child. For fiber.stack_size that resets it to literal 0,
+         breaking any in-process new \Fiber() (e.g. Drupal 11.3 Renderer
+         called from $entity->toArray()). Pin to a safe value so the
+         round-trip propagates a usable size. -->
+    <ini name="fiber.stack_size" value="524288"/>
     <env name="DTT_BASE_URL" value="http://web"/>
     <env name="DTT_API_URL" value="http://localhost:9222"/>
     <env name="BROWSERTEST_OUTPUT_DIRECTORY" value=""/>

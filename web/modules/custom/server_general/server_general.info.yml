@@ -3,3 +3,9 @@ type: module
 description: "General and common functionality"
 core_version_requirement: ^10 || ^11
 package: "server"
+dependencies:
+  - pluggable_entity_view_builder:pluggable_entity_view_builder
+  - paragraphs:paragraphs
+  - config_pages:config_pages
+  - intl_date:intl_date
+
