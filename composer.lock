@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b075d9431c022260642ca50324b4cd4f",
+    "content-hash": "9fdf76b7f91f968d4176b5f3e78ef3a9",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -4076,6 +4076,58 @@
             "homepage": "https://www.drupal.org/project/lang_dropdown",
             "support": {
                 "source": "https://git.drupalcode.org/project/lang_dropdown"
+            }
+        },
+        {
+            "name": "drupal/m4032404",
+            "version": "2.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/m4032404.git",
+                "reference": "2.0.3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/m4032404-2.0.3.zip",
+                "reference": "2.0.3",
+                "shasum": "41cdbdd74b7e2768eb6602c6ab6c8a9911c8e984"
+            },
+            "require": {
+                "drupal/core": "^10.3 || ^11"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "2.0.3",
+                    "datestamp": "1757552819",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "elc",
+                    "homepage": "https://www.drupal.org/user/784944"
+                },
+                {
+                    "name": "skwashd",
+                    "homepage": "https://www.drupal.org/user/116305"
+                },
+                {
+                    "name": "suzymasri",
+                    "homepage": "https://www.drupal.org/user/2428842"
+                }
+            ],
+            "description": "Emit a 404 response for access denied pages",
+            "homepage": "https://www.drupal.org/project/m4032404",
+            "support": {
+                "source": "https://git.drupalcode.org/project/m4032404"
             }
         },
         {
