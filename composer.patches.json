@@ -35,6 +35,9 @@
     },
     "drupal/schema_metatag": {
       "d.o. #3415013": "patches/3415013-schema-webpage-extra-fields.patch"
+    },
+    "mcp/sdk": {
+      "Add runtime-resolved element handlers (modelcontextprotocol/php-sdk PR #294)": "https://git.drupalcode.org/project/mcp_server/-/raw/2.x/.gitlab-ci/patches/mcp-sdk-runtime-handlers.patch"
     }
   }
 }
