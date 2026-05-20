@@ -4938,36 +4938,47 @@
         },
         {
             "name": "drupal/pluggable_entity_view_builder",
-            "version": "1.1.20",
+            "version": "1.2.7",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/pluggable_entity_view_builder.git",
-                "reference": "1.1.20"
+                "reference": "1.2.7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/pluggable_entity_view_builder-1.1.20.zip",
-                "reference": "1.1.20",
-                "shasum": "ec02bae2353e1bd91bacdea1383ebe37e52f6b4d"
+                "url": "https://ftp.drupal.org/files/projects/pluggable_entity_view_builder-1.2.7.zip",
+                "reference": "1.2.7",
+                "shasum": "b61d837db9136fbecaf3d6d61989707c710a1054"
             },
             "require": {
-                "drupal/core": "^8 || ^9 || ^10 || ^11 || ^12"
+                "drupal/core": "^10.4 || ^11 || ^12"
             },
             "require-dev": {
                 "drupal/paragraphs": "*",
                 "drupal/paragraphs_edit": "^3.0",
                 "drupal/pluggable_entity_view_builder_example-pluggable_entity_view_builder_example": "*",
-                "drush/drush": "^12.5 || ^13.6"
+                "drush/drush": "^12.5 || ^13.6",
+                "phpstan/phpstan": "^1.10"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "1.1.20",
-                    "datestamp": "1765886255",
+                    "version": "1.2.7",
+                    "datestamp": "1775827129",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
                     }
+                },
+                "phpstan": {
+                    "includes": [
+                        "phpstan-extension.neon"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Drupal\\pluggable_entity_view_builder\\PHPStan\\": "phpstan-rules/"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
