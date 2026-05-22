@@ -19,14 +19,30 @@ trait AutoUpdateTrait {
       throw new \Exception("The update module should be installed in order to run this command.");
     }
     $this->say("Update module is installed, checking status of projects.");
-    $this->say("In case of some errors manually loading /admin/reports/updates can help.");
-    $this->yell("Don't forget to run ddev drush updb manually at the end!");
 
-    if (!($available = update_get_available(TRUE))) {
-      $this->say("Cannot fetch info about the releases.");
+    // Change to web directory since Drupal extension paths are relative to it.
+    $original_dir = getcwd();
+    if ($original_dir === FALSE) {
+      throw new \RuntimeException('Unable to determine current working directory.');
     }
-    \Drupal::moduleHandler()->loadInclude('update', 'compare.inc');
-    $data = update_calculate_project_data($available);
+    $web_dir = $original_dir . DIRECTORY_SEPARATOR . 'web';
+    if (!@chdir($web_dir)) {
+      throw new \RuntimeException('Unable to change directory to ' . $web_dir);
+    }
+
+    try {
+      if (!($available = update_get_available(TRUE))) {
+        $this->say("Cannot fetch info about the releases.");
+      }
+      \Drupal::moduleHandler()->loadInclude('update', 'compare.inc');
+      $data = update_calculate_project_data($available);
+    }
+    finally {
+      // Change back to original directory for composer commands, even on error.
+      if (getcwd() !== $original_dir && !@chdir($original_dir)) {
+        throw new \RuntimeException('Unable to restore original working directory: ' . $original_dir);
+      }
+    }
     foreach ($data as $project) {
       if (!isset($project['recommended'])) {
         $this->yell('No recommended version is set for ' . $project['name']);
@@ -125,6 +141,12 @@ trait AutoUpdateTrait {
       $git_command = "git commit -m 'Update " . $package . ' to ' . $version . "'";
       $this->taskExec($git_command)->printOutput(TRUE)->run();
     }
+    // Composer audit can show vulnerabilities; this is informational only.
+    $this->taskExec('composer audit')
+      ->printOutput(TRUE)
+      ->run();
+    $this->yell("Now run ddev drush updb manually!");
+
   }
 
 }

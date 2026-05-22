@@ -5,6 +5,7 @@ module:
   ai_api_explorer: 0
   ai_automators: 0
   ai_ckeditor: 0
+  ai_content_assistant: 0
   ai_content_suggestions: 0
   ai_image_alt_text: 0
   ai_logging: 0
@@ -54,6 +55,7 @@ module:
   layout_discovery: 0
   link: 0
   locale: 0
+  m4032404: 0
   maxlength: 0
   media: 0
   media_entity_browser: 0

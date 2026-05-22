@@ -194,7 +194,7 @@ abstract class MediaEmbedProcessPluginBase extends ProcessPluginBase {
    * @throws \Exception
    */
   protected function getFileNameFromPath(string $path) {
-    $file_name = $this->fileSystem->basename($path);
+    $file_name = basename($path);
     if (empty($file_name)) {
       throw new \Exception(sprintf('File name cannot be found for path: %s', $path));
     }
