@@ -737,25 +737,16 @@ trait DeploymentTrait {
         $this->say("");
         $this->say("Setting up GitHub Secrets and Variables...");
 
-        // Set secrets.
-        $result = $this->taskExec("gh secret set TERMINUS_TOKEN --body '$token' --repo " . self::$githubProject)->run();
-        if ($result->wasSuccessful()) {
+        if ($this->setGithubSecretFromValue('TERMINUS_TOKEN', $token)) {
           $this->say("✓ Set TERMINUS_TOKEN secret");
         }
-
-        $result = $this->taskExec("gh secret set PANTHEON_DEPLOY_KEY < pantheon-key --repo " . self::$githubProject)->run();
-        if ($result->wasSuccessful()) {
+        if ($this->setGithubSecretFromFile('PANTHEON_DEPLOY_KEY', 'pantheon-key')) {
           $this->say("✓ Set PANTHEON_DEPLOY_KEY secret");
         }
-
-        $result = $this->taskExec("gh secret set GH_TOKEN --body '$github_token' --repo " . self::$githubProject)->run();
-        if ($result->wasSuccessful()) {
+        if ($this->setGithubSecretFromValue('GH_TOKEN', $github_token)) {
           $this->say("✓ Set GH_TOKEN secret");
         }
-
-        // Set variables.
-        $result = $this->taskExec("gh variable set PANTHEON_GIT_URL --body '$pantheon_git_url' --repo " . self::$githubProject)->run();
-        if ($result->wasSuccessful()) {
+        if ($this->setGithubVariable('PANTHEON_GIT_URL', $pantheon_git_url)) {
           $this->say("✓ Set PANTHEON_GIT_URL variable");
         }
 
@@ -767,12 +758,12 @@ trait DeploymentTrait {
         $this->say("  gh variable set DEPLOY_EXCLUDE_WARNING --body 'warning1|warning2' --repo " . self::$githubProject);
       }
       else {
-        $this->printManualInstructions($token, $github_token, $pantheon_git_url);
+        $this->printManualInstructions($pantheon_git_url);
       }
     }
     else {
       $this->say("");
-      $this->printManualInstructions($token, $github_token, $pantheon_git_url);
+      $this->printManualInstructions($pantheon_git_url);
     }
 
     $this->say("");
@@ -836,27 +827,100 @@ trait DeploymentTrait {
   /**
    * Prints manual instructions for setting up GitHub Secrets and Variables.
    *
-   * @param string $token
-   *   The Terminus token.
-   * @param string $github_token
-   *   The GitHub token.
    * @param string $pantheon_git_url
    *   The Pantheon Git URL.
    */
-  protected function printManualInstructions(string $token, string $github_token, string $pantheon_git_url): void {
+  protected function printManualInstructions(string $pantheon_git_url): void {
     $this->say("Please complete the following steps manually:");
     $this->say("");
     $this->say("1. Set up the following GitHub Secrets:");
     $this->say("   - Go to: Settings → Secrets and variables → Actions → Secrets → New repository secret");
-    $this->say("   - TERMINUS_TOKEN: " . $token);
+    $this->say("   - TERMINUS_TOKEN: (the Pantheon machine token you passed to this command)");
     $this->say("   - PANTHEON_DEPLOY_KEY: (paste the contents of pantheon-key file)");
-    $this->say("   - GH_TOKEN: " . $github_token);
+    $this->say("   - GH_TOKEN: (the GitHub personal access token you passed to this command)");
     $this->say("");
     $this->say("2. Set up the following GitHub Variables:");
     $this->say("   - Go to: Settings → Secrets and variables → Actions → Variables → New repository variable");
     $this->say("   - PANTHEON_GIT_URL: " . $pantheon_git_url);
     $this->say("   - ROLLBAR_SERVER_TOKEN: (your Rollbar token, optional)");
     $this->say("   - DEPLOY_EXCLUDE_WARNING: (warnings to exclude, optional)");
+  }
+
+  /**
+   * Sets a GitHub repository secret from a string value via stdin.
+   *
+   * The value is written to a 0600 temp file and piped to `gh secret set`
+   * to keep the secret out of the process arg list (where it would be
+   * visible in `ps` / shell history).
+   *
+   * @param string $name
+   *   Secret name.
+   * @param string $value
+   *   Secret value.
+   *
+   * @return bool
+   *   TRUE on success, FALSE otherwise.
+   */
+  protected function setGithubSecretFromValue(string $name, string $value): bool {
+    $tmp = tempnam(sys_get_temp_dir(), 'gh-secret-');
+    if ($tmp === FALSE) {
+      $this->say("Failed to create temp file for $name.");
+      return FALSE;
+    }
+    chmod($tmp, 0600);
+    if (file_put_contents($tmp, $value) === FALSE) {
+      @unlink($tmp);
+      $this->say("Failed to write temp file for $name.");
+      return FALSE;
+    }
+    try {
+      return $this->setGithubSecretFromFile($name, $tmp);
+    }
+    finally {
+      @unlink($tmp);
+    }
+  }
+
+  /**
+   * Sets a GitHub repository secret from a file via stdin.
+   *
+   * @param string $name
+   *   Secret name.
+   * @param string $path
+   *   Path to a file whose contents become the secret value.
+   *
+   * @return bool
+   *   TRUE on success, FALSE otherwise.
+   */
+  protected function setGithubSecretFromFile(string $name, string $path): bool {
+    $cmd = sprintf(
+      'gh secret set %s --repo %s < %s',
+      escapeshellarg($name),
+      escapeshellarg(self::$githubProject),
+      escapeshellarg($path)
+    );
+    return $this->taskExec($cmd)->run()->wasSuccessful();
+  }
+
+  /**
+   * Sets a GitHub repository (non-secret) variable.
+   *
+   * @param string $name
+   *   Variable name.
+   * @param string $value
+   *   Variable value.
+   *
+   * @return bool
+   *   TRUE on success, FALSE otherwise.
+   */
+  protected function setGithubVariable(string $name, string $value): bool {
+    $cmd = sprintf(
+      'gh variable set %s --body %s --repo %s',
+      escapeshellarg($name),
+      escapeshellarg($value),
+      escapeshellarg(self::$githubProject)
+    );
+    return $this->taskExec($cmd)->run()->wasSuccessful();
   }
 
   /**
