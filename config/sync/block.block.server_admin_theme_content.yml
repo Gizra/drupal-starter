@@ -1,0 +1,22 @@
+uuid: f42dfe45-69bd-4117-8d78-452db939e1a8
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - server_admin_theme
+_core:
+  default_config_hash: 9EoWV2Lot6FVSr50t4hoKgiz1LIXYWNG-IIPYsWxBqo
+id: server_admin_theme_content
+theme: server_admin_theme
+region: content
+weight: -2
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  label_display: '0'
+  provider: system
+visibility: {  }
