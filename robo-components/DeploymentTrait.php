@@ -507,6 +507,7 @@ trait DeploymentTrait {
       ->exec("terminus remote:drush $pantheon_terminus_environment -- cim --no-interaction")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- cim --no-interaction")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- cr")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- twig:compile")
       ->exec("terminus remote:drush $pantheon_terminus_environment -- deploy:hook --no-interaction")
       ->run()
       ->getExitCode();
