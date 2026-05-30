@@ -64,3 +64,6 @@ phpunit_debug
 # AI
 .claude
 CLAUDE.md
+
+# Ignore SuperPowers brainstorming/plan docs.
+/docs/superpowers/
