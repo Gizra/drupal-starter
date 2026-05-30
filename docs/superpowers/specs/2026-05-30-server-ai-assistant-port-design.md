@@ -29,6 +29,14 @@ the `client_credentials` grant. Conversations are persisted as
 is screened against a configurable sensitivity policy; violations are flagged
 for admin review in a View.
 
+**Security change vs. the source POC.** The source shipped the OpenAI token *and*
+the MCP Bearer token to the browser. That is unacceptable. In this port the
+browser talks to a **serverless proxy** (Cloudflare Worker) that holds all
+secrets, injects the OpenAI `Authorization` header and the MCP tool token, and
+streams the response back. **No secret ever reaches the browser.** The proxy is
+also the natural home for future **per-user / per-month token-budget quota
+enforcement**.
+
 ## Key decisions (agreed)
 
 | Decision | Choice |
@@ -39,7 +47,11 @@ for admin review in a View.
 | RAG backend | **Port as-is**: `ai_search` + `ai_vdb_provider_pinecone` (Pinecone) |
 | Content-model config | lives in the starter's **`config/sync`** (managed via `drush cex/cim`) |
 | Collection feature | **Dropped** — no `collection` content type, no `create_*_collection` tool, no collection cards |
-| Secrets | **Environment variables** via Key module's *env* provider (set in `.ddev/config.local.yaml`), not committed key files |
+| Secrets to browser | **None.** A **Cloudflare Worker serverless proxy** holds the OpenAI token + MCP token and injects both server-side |
+| Secrets storage | **Environment variables** (no committed key files): proxy secrets in Worker env; Drupal's server-side OpenAI token via Key *env* provider, set in `.ddev/config.local.yaml` |
+| Proxy scope this round | Wire Drupal/Elm to a configurable proxy URL + ship a reference Cloudflare Worker + setup docs |
+| Quota management | Out of scope now; proxy designed so per-user/per-month budget enforcement can be added later |
+| Elm app | **Recompiled** via DDEV (Elm toolchain in the container; not expected on host) |
 | Supporting work | composer deps + ExistingSite/Unit tests + config all included |
 | JEP / Judaism references | **Removed**, replaced with neutral, generic copy |
 
@@ -48,17 +60,28 @@ for admin review in a View.
 ```
 Browser (Elm app, served by server_ai)
   │  GET  /ai-content-assistant            → host page + drupalSettings
-  │  GET  /ai-content-assistant/config     → JSON: prompt, OpenAI token+model,
-  │                                           MCP URL, freshly-minted MCP token
-  │  POST /ai-content-assistant/session    → persist one chat turn
+  │  GET  /ai-content-assistant/config     → JSON: systemPrompt, model, mcpUrl,
+  │                                           proxyUrl, chrome   (NO secrets)
+  │  POST /ai-content-assistant/session    → Drupal persists one chat turn
+  │
+  │  POST <proxyUrl>  (conversation, model, instructions, mcpUrl) — no secrets
   ▼
-OpenAI Responses API  ──(remote MCP tool)──►  this site  /_mcp
-                                                 │  (mcp_server + simple_oauth)
-                                                 ▼
+Cloudflare Worker proxy   ── holds OPENAI_API_KEY, mints + caches MCP token ──┐
+  │  injects Authorization: Bearer <openai>                                   │
+  │  injects MCP tool { server_url: mcpUrl, authorization: <minted MCP> }     │
+  │  (future: per-user/month quota enforcement)                              │
+  ▼                                                                          │
+OpenAI Responses API  ──(remote MCP tool)──►  this site  /_mcp  ◄────────────┘
+   │  (SSE streamed back through proxy → browser)   (mcp_server + simple_oauth)
+   ▼                                                       │
+(browser renders deltas/tools)                            ▼
                                       server_ai MCP Tool plugins
                                       (get/list/search/tag News, set skill)
                                                  │
-                              search_api index (Pinecone via ai_search)  +  entity storage
+                              search_api index (Pinecone via ai_search) + entity storage
+
+Server-side only (never in browser): Drupal OpenAiClient → OpenAI Responses API
+   for chat-title generation + question sensitivity classification.
 ```
 
 ### Module: `web/modules/custom/server_ai`
@@ -83,8 +106,18 @@ Code (ported + genericized from both source modules):
 - `src/SessionWriter.php`, `src/SensitivityVerdict.php`.
 - `src/CardBuilder.php` (was `ResourceCardBuilder`) — builds News cards.
 - `src/Plugin/Tool/*` — MCP tools (see below).
-- `elm/` sources + `js/boot.js` + `js/elm-main.js` (compiled) + `css/chat.css`.
+- `elm/` sources + `js/boot.js` + `js/elm-main.js` (**recompiled** via DDEV) +
+  `css/chat.css`.
+- `serverless/cloudflare-worker/` — reference proxy (worker script,
+  `wrangler.toml`, README). Lives in the module so it ships with the feature.
 - `tests/` — ported ExistingSite + Unit tests.
+
+`AiChatControllerBase::appConfig()` no longer returns the OpenAI token and no
+longer mints the MCP token. It returns only non-secret values:
+`systemPrompt`, `openaiModel`, `mcpUrl`, `proxyUrl`, and page chrome. The
+`mintMcpToken()` / `readUserPassword()` logic is **removed from Drupal** — minting
+moves into the proxy. (Drupal still reads a server-side OpenAI token from the Key
+env provider for `OpenAiClient`'s title + sensitivity calls only.)
 
 ### MCP tools (genericized, `collection` tool dropped)
 
@@ -126,33 +159,70 @@ Code (ported + genericized from both source modules):
   `field_ai_openai_model`, `field_ai_mcp_url`.
 - View `flagged_ai_sessions` at `/admin/content/flagged-ai-sessions`.
 
-## Secrets via environment variables (changed from source)
+## Serverless proxy (Cloudflare Worker)
 
-The source committed `config/keys/*.key` files. Instead, the port uses the **Key
-module's environment-variable provider** so nothing secret is committed and each
-environment supplies its own values through `.ddev/config.local.yaml`
-(`web_environment`) or the hosting platform's env settings.
+The proxy is the trust boundary: it holds every secret and the browser holds
+none. Shipped in the repo as a reference implementation under
+`web/modules/custom/server_ai/serverless/cloudflare-worker/`.
+
+**Request contract (browser → proxy).** `POST <proxyUrl>` with a JSON body the
+Elm app already assembles for OpenAI, minus any auth: `{ model, instructions,
+input, previous_response_id?, mcpUrl, stream: true }`. The proxy:
+
+1. Injects `Authorization: Bearer <OPENAI_API_KEY>`.
+2. Mints (and caches until expiry) an MCP Bearer token from Drupal's
+   `/oauth/token` using the `client_credentials` grant, then injects the MCP
+   tool block `{ type: 'mcp', server_label: 'server-ai', server_url: mcpUrl,
+   authorization: <minted token>, require_approval: 'never' }`.
+3. Forwards to the OpenAI Responses API and **streams the SSE response back**
+   to the browser unchanged.
+
+**Worker env (secrets, set via `wrangler secret put`):**
+
+- `OPENAI_API_KEY`
+- `MCP_CLIENT_ID`, `MCP_CLIENT_SECRET` — the OAuth consumer credentials.
+- `MCP_TOKEN_URL` — the site's `https://<host>/oauth/token`.
+- (optional) `MCP_SERVER_URL` to pin the MCP URL instead of trusting the body.
+
+**Future quota management (designed-for, not built now).** The browser will
+send a short-lived signed identity token (minted by Drupal) identifying the user
+and their monthly budget; the Worker tracks spend (KV/Durable Object) and
+refuses once the budget is exceeded. The contract above leaves room for this
+without further browser changes.
+
+**`boot.js` change.** Instead of `fetch('https://api.openai.com/v1/responses',
+{Authorization: token})`, it `fetch(proxyUrl, …)` with no auth header. SSE
+parsing is unchanged. The hardcoded `server_label: 'jep-portal'` and the MCP
+authorization injection move out of `boot.js` into the Worker.
+
+## Secrets via environment variables (no committed key files)
+
+The source committed `config/keys/*.key` files. This port commits **no
+secrets**. Two independent secret homes:
+
+**1. Cloudflare Worker** — `OPENAI_API_KEY`, `MCP_CLIENT_ID`,
+`MCP_CLIENT_SECRET`, `MCP_TOKEN_URL` (via `wrangler secret put`). These are the
+secrets that used to reach the browser.
+
+**2. Drupal server-side** — only for `OpenAiClient` (title + sensitivity
+classification, which run in PHP, never in the browser). Uses the **Key module's
+environment-variable provider**:
 
 - `key.key.server_ai_openai_token` — provider `env`, variable
   `SERVER_AI_OPENAI_TOKEN`.
-- MCP consumer credentials (`client_credentials` grant) — provider `env`,
-  variables `SERVER_AI_MCP_CLIENT_ID` and `SERVER_AI_MCP_CLIENT_SECRET`
-  (the controller reads both; a User/password key over env, or two single-value
-  env keys — finalized in the plan).
 
-Example `.ddev/config.local.yaml` (documented in the module README, file itself
-git-ignored):
+Set in `.ddev/config.local.yaml` (git-ignored; documented in the README):
 
 ```yaml
 web_environment:
   - SERVER_AI_OPENAI_TOKEN=sk-...
-  - SERVER_AI_MCP_CLIENT_ID=...
-  - SERVER_AI_MCP_CLIENT_SECRET=...
 ```
 
-The non-secret OpenAI model and MCP server URL stay on the `ai_assistant` config
-page; the OAuth consumer entity (hashed secret) is still created once via the UI
-(documented), but its credentials are read from env, not a committed file.
+The non-secret OpenAI model, MCP server URL, and **proxy URL** live on the
+`ai_assistant` config page (`field_ai_openai_model`, `field_ai_mcp_url`,
+`field_ai_proxy_url`). The OAuth consumer entity (hashed secret) is still created
+once via the UI (documented); its client id/secret are configured into the
+Worker, not committed.
 
 ## Dependencies
 
@@ -161,12 +231,17 @@ Already in the starter: `ai`, `ai_provider_openai`, `search_api`,
 
 To add via composer + enable:
 
-- `drupal/key` — secret storage (env provider).
-- `drupal/consumers` — OAuth client for MCP.
-- `drupal/simple_oauth` — `client_credentials` token minting.
+- `drupal/key` — secret storage (env provider) for Drupal's server-side token.
+- `drupal/consumers` — OAuth consumer entity for MCP (the proxy mints against it).
+- `drupal/simple_oauth` — exposes `/oauth/token` (`client_credentials` grant)
+  that the **proxy** calls to mint the MCP token.
 - `drupal/mcp` (provides `mcp_server`) — MCP server + Tool plugin base.
 - `drupal/ai_vdb_provider_pinecone` — Pinecone vector DB provider.
 - enable `ai_search` (submodule of `ai`).
+
+Note: `simple_oauth` + `consumers` stay required even though Drupal no longer
+mints the token in PHP — the proxy still mints against Drupal's token endpoint
+and consumer entity.
 
 ## Genericization checklist
 
@@ -186,15 +261,21 @@ To add via composer + enable:
 
 ## Risks / open items
 
-- **Elm recompile.** Renaming the `data-*` attribute, the drupalSettings key,
-  and `server_label` is done in `boot.js` (hand-edited) — the compiled
-  `elm-main.js` reads those via flags from `boot.js`, so it likely needs **no**
-  recompile. User-facing copy comes from server flags, not the Elm blob. If any
-  JEP string is found baked into `elm-main.js`, we recompile via `elm/build.sh`
-  (needs the Elm toolchain in DDEV; otherwise we patch the blob). Verified
-  during implementation.
+- **Elm recompile (required).** We recompile `elm-main.js` from the `elm/`
+  sources via DDEV — the Elm toolchain runs in the container (a `ddev` custom
+  command or `ddev exec`), not on the host. The plan adds a build step + DDEV
+  command for it. Any JEP strings baked into Elm source are removed and the blob
+  regenerated; we never hand-patch the compiled output.
 - **`#theme` host markup.** Source renders a `<div data-…-app>` via `#markup`
   (no theme hook needed) — confirmed; no template required.
+- **Proxy reachability + CORS.** The Worker must reach OpenAI, Drupal's
+  `/oauth/token`, and OpenAI must reach `/_mcp` (public URL / `ddev share`
+  during dev). The Worker must return permissive-but-scoped CORS headers so the
+  browser can stream from it. Documented in the Worker README.
+- **Two OpenAI token copies.** The Worker's `OPENAI_API_KEY` and Drupal's
+  `SERVER_AI_OPENAI_TOKEN` are the same value supplied in two places (browser
+  traffic via the Worker; server-side title/sensitivity via Drupal). Acceptable
+  and intentional — neither is committed.
 - **Pinecone is non-functional until configured** (account + index + API key
   in env). The chat, sessions, sensitivity, and non-search MCP tools work
   without it; `search_news` returns empty until Pinecone is wired. This is the
@@ -207,5 +288,7 @@ To add via composer + enable:
 ## Out of scope
 
 - Collection creation / UGC.
-- Hardening the POC's "ship token to browser" model (documented as POC-only).
+- Quota / token-budget enforcement in the proxy (designed-for; not built now).
+- Production hardening of the Worker beyond holding secrets + streaming
+  (rate limiting, WAF, CORS lockdown beyond the basics).
 - Migrating/seeding demo News content for the index.
