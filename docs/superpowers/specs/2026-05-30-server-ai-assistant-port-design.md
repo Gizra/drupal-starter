@@ -119,8 +119,7 @@ Code (ported + genericized from both source modules):
 - `src/Plugin/Tool/*` — MCP tools (see below).
 - `elm/` sources + `js/boot.js` + `js/elm-main.js` (**recompiled** via DDEV) +
   `css/chat.css`.
-- `proxy/` — the standalone generic Node proxy service (server.js, package.json,
-  `.ddev`/run docs, README). Ships in the module so the feature is self-contained.
+- (proxy lives outside the module — see below.)
 - `tests/` — ported ExistingSite + Unit tests.
 
 **Controller endpoints:**
@@ -176,8 +175,9 @@ Code (ported + genericized from both source modules):
 
 ## The proxy service (generic Node)
 
-A small standalone HTTP service shipped in `web/modules/custom/server_ai/proxy/`.
-It is the trust boundary: it holds every secret the browser must not see and
+A small standalone HTTP service shipped at the **project root** in `/serverless/`
+(it is a separate deployable, not Drupal module code, so it lives outside
+`web/`). It is the trust boundary: it holds every secret the browser must not see and
 relays the OpenAI Responses SSE stream. The browser connects to it **directly**
 (not through Pantheon), so streaming is immune to the CDN's 59s timeout +
 buffering. It writes no data as a user, so it needs no Drupal session/identity.
@@ -199,7 +199,7 @@ previous_response_id?, mcpUrl, stream: true }`. The proxy:
 `MCP_TOKEN_URL` (the site's `/oauth/token`), optional `MCP_SERVER_URL` to pin the
 MCP URL instead of trusting the request body, and `ALLOWED_ORIGIN` for CORS.
 
-**Local dev:** run the proxy as a DDEV add-on/extra container (or `node proxy/`
+**Local dev:** run the proxy as a DDEV add-on/extra container (or `node serverless/`
 in a side terminal); `proxyUrl` points at it. **Deploy:** any Node host —
 Cloud Run, Lambda (Function URL), Fly, Render. README documents both.
 
