@@ -1,0 +1,20 @@
+name: 'Server AI'
+type: module
+description: 'AI content assistant + visitor search (Elm chat UI) over News, via the OpenAI Responses API + MCP. Secrets live in a standalone proxy.'
+package: Server
+core_version_requirement: ^10 || ^11
+dependencies:
+  - ai:ai
+  - ai:ai_search
+  - ai_provider_openai:ai_provider_openai
+  - ai_vdb_provider_pinecone:ai_vdb_provider_pinecone
+  - search_api:search_api
+  - config_pages:config_pages
+  - consumers:consumers
+  - simple_oauth:simple_oauth
+  - key:key
+  - mcp_server:mcp_server
+  - node:node
+  - taxonomy:taxonomy
+  - paragraphs:paragraphs
+  - entity_reference_revisions:entity_reference_revisions
