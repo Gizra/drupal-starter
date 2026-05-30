@@ -31,11 +31,12 @@ for admin review in a View.
 
 **Security change vs. the source POC.** The source shipped the OpenAI token *and*
 the MCP Bearer token to the browser. That is unacceptable. In this port the
-browser talks to a **serverless proxy** (Cloudflare Worker) that holds all
-secrets, injects the OpenAI `Authorization` header and the MCP tool token, and
-streams the response back. **No secret ever reaches the browser.** The proxy is
-also the natural home for future **per-user / per-month token-budget quota
-enforcement**.
+browser never receives a secret: it streams the chat through a **Drupal SSE
+route** that holds the OpenAI token (Key env provider), mints + injects the MCP
+token server-side, and proxies the OpenAI Responses stream back to the browser.
+No separate service is built this round; the streaming route is designed behind a
+clean HTTP contract so it can later be extracted into a standalone generic Node
+service (documented upgrade path) if streaming concurrency demands it.
 
 ## Key decisions (agreed)
 
@@ -47,10 +48,12 @@ enforcement**.
 | RAG backend | **Port as-is**: `ai_search` + `ai_vdb_provider_pinecone` (Pinecone) |
 | Content-model config | lives in the starter's **`config/sync`** (managed via `drush cex/cim`) |
 | Collection feature | **Dropped** — no `collection` content type, no `create_*_collection` tool, no collection cards |
-| Secrets to browser | **None.** A **Cloudflare Worker serverless proxy** holds the OpenAI token + MCP token and injects both server-side |
-| Secrets storage | **Environment variables** (no committed key files): proxy secrets in Worker env; Drupal's server-side OpenAI token via Key *env* provider, set in `.ddev/config.local.yaml` |
-| Proxy scope this round | Wire Drupal/Elm to a configurable proxy URL + ship a reference Cloudflare Worker + setup docs |
-| Quota management | Out of scope now; proxy designed so per-user/per-month budget enforcement can be added later |
+| Secrets to browser | **None.** A **Drupal SSE streaming route** holds the OpenAI token + mints/injects the MCP token server-side |
+| Streaming proxy runtime | **Drupal route now** (no separate service built). **Generic Node service is the documented upgrade target** |
+| Combined call | **No.** Keep separate calls: streamed chat answer (via the Drupal route) + Drupal-side `OpenAiClient` for title + sensitivity |
+| Session persistence | **Unchanged** — Elm POSTs `/session`; attributed to the logged-in user via cookie (precise attribution not required) |
+| Secrets storage | **Environment variables** (no committed key files) via Key *env* provider, set in `.ddev/config.local.yaml` |
+| Quota management | Out of scope now; the future Node service is the home for per-user/per-month budget enforcement |
 | Elm app | **Recompiled** via DDEV (Elm toolchain in the container; not expected on host) |
 | Supporting work | composer deps + ExistingSite/Unit tests + config all included |
 | JEP / Judaism references | **Removed**, replaced with neutral, generic copy |
@@ -58,21 +61,19 @@ enforcement**.
 ## Architecture
 
 ```
-Browser (Elm app, served by server_ai)
+Browser (Elm app, served by server_ai)  — never holds any secret
   │  GET  /ai-content-assistant            → host page + drupalSettings
-  │  GET  /ai-content-assistant/config     → JSON: systemPrompt, model, mcpUrl,
-  │                                           proxyUrl, chrome   (NO secrets)
-  │  POST /ai-content-assistant/session    → Drupal persists one chat turn
-  │
-  │  POST <proxyUrl>  (conversation, model, instructions, mcpUrl) — no secrets
+  │  GET  /ai-content-assistant/config     → JSON: systemPrompt, model, chrome (NO secrets)
+  │  POST /ai-content-assistant/stream     → SSE proxy (this is the new "proxy")
+  │  POST /ai-content-assistant/session    → Drupal persists one chat turn (cookie auth)
   ▼
-Cloudflare Worker proxy   ── holds OPENAI_API_KEY, mints + caches MCP token ──┐
-  │  injects Authorization: Bearer <openai>                                   │
-  │  injects MCP tool { server_url: mcpUrl, authorization: <minted MCP> }     │
-  │  (future: per-user/month quota enforcement)                              │
-  ▼                                                                          │
-OpenAI Responses API  ──(remote MCP tool)──►  this site  /_mcp  ◄────────────┘
-   │  (SSE streamed back through proxy → browser)   (mcp_server + simple_oauth)
+Drupal SSE streaming route (server_ai)  ── reads OpenAI token (Key env) ──┐
+  │  mints + injects MCP token (simple_oauth client_credentials)          │
+  │  injects Authorization: Bearer <openai>                               │
+  │  injects MCP tool { server_url: mcpUrl, authorization: <minted MCP> } │
+  ▼                                                                       │
+OpenAI Responses API  ──(remote MCP tool)──►  this site  /_mcp  ◄─────────┘
+   │  (SSE streamed back through the Drupal route → browser)  (mcp_server + simple_oauth)
    ▼                                                       │
 (browser renders deltas/tools)                            ▼
                                       server_ai MCP Tool plugins
@@ -80,8 +81,11 @@ OpenAI Responses API  ──(remote MCP tool)──►  this site  /_mcp  ◄─
                                                  │
                               search_api index (Pinecone via ai_search) + entity storage
 
-Server-side only (never in browser): Drupal OpenAiClient → OpenAI Responses API
-   for chat-title generation + question sensitivity classification.
+Server-side (PHP, never in browser): OpenAiClient → OpenAI Responses API for
+   chat-title generation + question sensitivity classification (separate calls).
+
+Future upgrade (documented, not built): lift the /stream route into a standalone
+   generic Node service behind the same request contract; Elm points at its URL.
 ```
 
 ### Module: `web/modules/custom/server_ai`
@@ -89,10 +93,12 @@ Server-side only (never in browser): Drupal OpenAiClient → OpenAI Responses AP
 Code (ported + genericized from both source modules):
 
 - `server_ai.info.yml` — deps (see Dependencies).
-- `server_ai.routing.yml` — 6 routes, paths `/ai-content-assistant*` and
-  `/ai-search*` (generic enough to keep).
+- `server_ai.routing.yml` — 8 routes: `/ai-content-assistant`,
+  `/ai-content-assistant/config`, `/ai-content-assistant/stream`,
+  `/ai-content-assistant/session`, and the four `/ai-search*` equivalents.
 - `server_ai.services.yml` — `server_ai.openai_client`,
-  `server_ai.session_writer`, `server_ai.card_builder`.
+  `server_ai.session_writer`, `server_ai.card_builder`, plus the streaming
+  proxy service.
 - `server_ai.libraries.yml` — `js/boot.js`, `js/elm-main.js` (compiled),
   `css/chat.css`; depends on `server_theme/global-styling`.
 - `server_ai.links.menu.yml` — admin menu link.
@@ -100,24 +106,32 @@ Code (ported + genericized from both source modules):
 - `server_ai.install` — seeds the `ai_assistant` config page with **generic**
   default prompts + sensitivity policy (idempotent; never overwrites edits).
 - `src/Controller/AiChatControllerBase.php`, `AiAssistantController.php`,
-  `AiSearchController.php`.
+  `AiSearchController.php` — adds the `stream()` SSE action.
+- `src/StreamingProxy.php` (or a controller method) — server-side OpenAI stream
+  proxy: reads token, mints + injects MCP token, relays SSE.
 - `src/OpenAiClient.php` + `OpenAiClientInterface.php` — title generation +
-  sensitivity classification (Responses API).
+  sensitivity classification (Responses API), server-side only.
 - `src/SessionWriter.php`, `src/SensitivityVerdict.php`.
 - `src/CardBuilder.php` (was `ResourceCardBuilder`) — builds News cards.
 - `src/Plugin/Tool/*` — MCP tools (see below).
 - `elm/` sources + `js/boot.js` + `js/elm-main.js` (**recompiled** via DDEV) +
   `css/chat.css`.
-- `serverless/cloudflare-worker/` — reference proxy (worker script,
-  `wrangler.toml`, README). Lives in the module so it ships with the feature.
 - `tests/` — ported ExistingSite + Unit tests.
 
-`AiChatControllerBase::appConfig()` no longer returns the OpenAI token and no
-longer mints the MCP token. It returns only non-secret values:
-`systemPrompt`, `openaiModel`, `mcpUrl`, `proxyUrl`, and page chrome. The
-`mintMcpToken()` / `readUserPassword()` logic is **removed from Drupal** — minting
-moves into the proxy. (Drupal still reads a server-side OpenAI token from the Key
-env provider for `OpenAiClient`'s title + sensitivity calls only.)
+**Controller endpoints:**
+
+- `appConfig()` returns **only non-secret** values: `systemPrompt`,
+  `openaiModel`, page chrome, and the `/stream` + `/session` URLs. It does **not**
+  return the OpenAI token or an MCP token (both are injected server-side by the
+  stream route).
+- `stream()` is the new SSE proxy. It reads the conversation from the request,
+  reads the OpenAI token (Key env), mints the MCP token (simple_oauth
+  `client_credentials`), calls the OpenAI Responses API with `stream: true`, and
+  relays the SSE events straight back to the browser. The MCP-minting logic
+  (`mintMcpToken` from the source) lives here, server-side.
+- `session()` is **unchanged** from source: Elm POSTs each completed turn; it is
+  persisted as the current (cookie-authenticated) user via `SessionWriter`, which
+  also runs `OpenAiClient` title + sensitivity.
 
 ### MCP tools (genericized, `collection` tool dropped)
 
@@ -159,70 +173,32 @@ env provider for `OpenAiClient`'s title + sensitivity calls only.)
   `field_ai_openai_model`, `field_ai_mcp_url`.
 - View `flagged_ai_sessions` at `/admin/content/flagged-ai-sessions`.
 
-## Serverless proxy (Cloudflare Worker)
-
-The proxy is the trust boundary: it holds every secret and the browser holds
-none. Shipped in the repo as a reference implementation under
-`web/modules/custom/server_ai/serverless/cloudflare-worker/`.
-
-**Request contract (browser → proxy).** `POST <proxyUrl>` with a JSON body the
-Elm app already assembles for OpenAI, minus any auth: `{ model, instructions,
-input, previous_response_id?, mcpUrl, stream: true }`. The proxy:
-
-1. Injects `Authorization: Bearer <OPENAI_API_KEY>`.
-2. Mints (and caches until expiry) an MCP Bearer token from Drupal's
-   `/oauth/token` using the `client_credentials` grant, then injects the MCP
-   tool block `{ type: 'mcp', server_label: 'server-ai', server_url: mcpUrl,
-   authorization: <minted token>, require_approval: 'never' }`.
-3. Forwards to the OpenAI Responses API and **streams the SSE response back**
-   to the browser unchanged.
-
-**Worker env (secrets, set via `wrangler secret put`):**
-
-- `OPENAI_API_KEY`
-- `MCP_CLIENT_ID`, `MCP_CLIENT_SECRET` — the OAuth consumer credentials.
-- `MCP_TOKEN_URL` — the site's `https://<host>/oauth/token`.
-- (optional) `MCP_SERVER_URL` to pin the MCP URL instead of trusting the body.
-
-**Future quota management (designed-for, not built now).** The browser will
-send a short-lived signed identity token (minted by Drupal) identifying the user
-and their monthly budget; the Worker tracks spend (KV/Durable Object) and
-refuses once the budget is exceeded. The contract above leaves room for this
-without further browser changes.
-
-**`boot.js` change.** Instead of `fetch('https://api.openai.com/v1/responses',
-{Authorization: token})`, it `fetch(proxyUrl, …)` with no auth header. SSE
-parsing is unchanged. The hardcoded `server_label: 'jep-portal'` and the MCP
-authorization injection move out of `boot.js` into the Worker.
-
 ## Secrets via environment variables (no committed key files)
 
 The source committed `config/keys/*.key` files. This port commits **no
-secrets**. Two independent secret homes:
-
-**1. Cloudflare Worker** — `OPENAI_API_KEY`, `MCP_CLIENT_ID`,
-`MCP_CLIENT_SECRET`, `MCP_TOKEN_URL` (via `wrangler secret put`). These are the
-secrets that used to reach the browser.
-
-**2. Drupal server-side** — only for `OpenAiClient` (title + sensitivity
-classification, which run in PHP, never in the browser). Uses the **Key module's
-environment-variable provider**:
+secrets**. Everything is server-side in Drupal, read from environment variables
+via the **Key module's env provider**:
 
 - `key.key.server_ai_openai_token` — provider `env`, variable
-  `SERVER_AI_OPENAI_TOKEN`.
+  `SERVER_AI_OPENAI_TOKEN`. Used by both the stream route (browser traffic) and
+  `OpenAiClient` (title + sensitivity).
+- MCP consumer credentials for `client_credentials` minting — provider `env`,
+  variables `SERVER_AI_MCP_CLIENT_ID` / `SERVER_AI_MCP_CLIENT_SECRET` (read by
+  the stream route; exact key shape finalized in the plan).
 
 Set in `.ddev/config.local.yaml` (git-ignored; documented in the README):
 
 ```yaml
 web_environment:
   - SERVER_AI_OPENAI_TOKEN=sk-...
+  - SERVER_AI_MCP_CLIENT_ID=...
+  - SERVER_AI_MCP_CLIENT_SECRET=...
 ```
 
-The non-secret OpenAI model, MCP server URL, and **proxy URL** live on the
-`ai_assistant` config page (`field_ai_openai_model`, `field_ai_mcp_url`,
-`field_ai_proxy_url`). The OAuth consumer entity (hashed secret) is still created
-once via the UI (documented); its client id/secret are configured into the
-Worker, not committed.
+The non-secret OpenAI model and MCP server URL live on the `ai_assistant` config
+page (`field_ai_openai_model`, `field_ai_mcp_url`). The OAuth consumer entity
+(hashed secret) is still created once via the UI (documented); its client
+id/secret are supplied through env, not committed.
 
 ## Dependencies
 
@@ -231,17 +207,13 @@ Already in the starter: `ai`, `ai_provider_openai`, `search_api`,
 
 To add via composer + enable:
 
-- `drupal/key` — secret storage (env provider) for Drupal's server-side token.
-- `drupal/consumers` — OAuth consumer entity for MCP (the proxy mints against it).
-- `drupal/simple_oauth` — exposes `/oauth/token` (`client_credentials` grant)
-  that the **proxy** calls to mint the MCP token.
+- `drupal/key` — secret storage (env provider).
+- `drupal/consumers` — OAuth consumer entity for MCP.
+- `drupal/simple_oauth` — `/oauth/token`, `client_credentials` grant (the stream
+  route mints the MCP token against it, server-side).
 - `drupal/mcp` (provides `mcp_server`) — MCP server + Tool plugin base.
 - `drupal/ai_vdb_provider_pinecone` — Pinecone vector DB provider.
 - enable `ai_search` (submodule of `ai`).
-
-Note: `simple_oauth` + `consumers` stay required even though Drupal no longer
-mints the token in PHP — the proxy still mints against Drupal's token endpoint
-and consumer entity.
 
 ## Genericization checklist
 
@@ -250,14 +222,17 @@ and consumer entity.
   policy becomes generic hate-speech/harassment/violence wording).
 - Controller page chrome strings → generic ("Suggest tags for the next
   untagged News item", "What News do we have on …?").
-- `boot.js`: hardcoded `server_label: 'jep-portal'` → `'server-ai'`;
+- `boot.js`: streams to the Drupal `/stream` URL with no auth header (was a
+  direct `api.openai.com` call with the token); hardcoded
+  `server_label: 'jep-portal'` and MCP-token injection move server-side;
   `data-jep-ai-app` attribute and `drupalSettings.jepAiAssistant` key →
   `data-server-ai-app` / `drupalSettings.serverAi`.
+- Tool ids, labels, descriptions → News/tags wording (table above).
 - Namespaces `Drupal\jep_ai_assistant\*` and `Drupal\jep_resource_ai_mcp\*` →
   `Drupal\server_ai\*`; service ids `jep_ai_assistant.*` → `server_ai.*`;
   permission/route/menu ids re-prefixed.
-- Tool ids, labels, descriptions → News/tags wording (table above).
-- README rewritten generic, documenting env-var secrets + `.ddev` setup.
+- README rewritten generic, documenting env-var secrets + `.ddev` setup + the
+  Node-service upgrade path.
 
 ## Risks / open items
 
@@ -265,21 +240,18 @@ and consumer entity.
   sources via DDEV — the Elm toolchain runs in the container (a `ddev` custom
   command or `ddev exec`), not on the host. The plan adds a build step + DDEV
   command for it. Any JEP strings baked into Elm source are removed and the blob
-  regenerated; we never hand-patch the compiled output.
-- **`#theme` host markup.** Source renders a `<div data-…-app>` via `#markup`
-  (no theme hook needed) — confirmed; no template required.
-- **Proxy reachability + CORS.** The Worker must reach OpenAI, Drupal's
-  `/oauth/token`, and OpenAI must reach `/_mcp` (public URL / `ddev share`
-  during dev). The Worker must return permissive-but-scoped CORS headers so the
-  browser can stream from it. Documented in the Worker README.
-- **Two OpenAI token copies.** The Worker's `OPENAI_API_KEY` and Drupal's
-  `SERVER_AI_OPENAI_TOKEN` are the same value supplied in two places (browser
-  traffic via the Worker; server-side title/sensitivity via Drupal). Acceptable
-  and intentional — neither is committed.
-- **Pinecone is non-functional until configured** (account + index + API key
-  in env). The chat, sessions, sensitivity, and non-search MCP tools work
-  without it; `search_news` returns empty until Pinecone is wired. This is the
-  accepted "port as-is" tradeoff.
+  regenerated; we never hand-patch the compiled output. Also: `boot.js` now
+  points OpenAI streaming at the Drupal `/stream` URL — verify the compiled Elm
+  only depends on `boot.js` flags (no baked endpoint).
+- **PHP worker per stream.** The Drupal SSE route holds one PHP-FPM worker for
+  the duration of each active chat stream. Fine for a staff tagging tool + modest
+  search traffic. The documented upgrade path (extract to a generic Node service
+  behind the same contract) is the answer if concurrency grows.
+- **MCP reachability.** OpenAI must reach `/_mcp` (public URL / `ddev share`
+  during dev); the MCP URL stays configurable. Unchanged requirement from source.
+- **Pinecone is non-functional until configured** (account + index + API key in
+  env). Chat, sessions, sensitivity, and non-search MCP tools work without it;
+  `search_news` returns empty until Pinecone is wired.
 - **`gpt-5.5` default model** in source is a placeholder; the port keeps the
   model configurable on the config page with a sane default constant.
 - **Linting/tests must pass**: `ddev phpcs`, `ddev phpstan`, and the ported
@@ -288,7 +260,9 @@ and consumer entity.
 ## Out of scope
 
 - Collection creation / UGC.
-- Quota / token-budget enforcement in the proxy (designed-for; not built now).
-- Production hardening of the Worker beyond holding secrets + streaming
-  (rate limiting, WAF, CORS lockdown beyond the basics).
+- The standalone generic Node streaming service (documented upgrade path only;
+  not built this round).
+- Quota / token-budget enforcement (lands in the future Node service).
+- The single combined OpenAI call (summary + sensitivity + title in one) — kept
+  as separate calls for now.
 - Migrating/seeding demo News content for the index.
