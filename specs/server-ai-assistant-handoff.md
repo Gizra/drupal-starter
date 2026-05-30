@@ -1,6 +1,6 @@
 # Handoff: Port JEP AI Assistant → generic `server_ai` module
 
-**Status:** In progress. Dependencies resolved & committed; module scaffolding started. ~2 of 21 implementation tasks done.
+**Status:** In progress. **Only the dependency resolution is done & committed** (the hard part). The module directory does NOT exist yet — start at plan Task 2. ~1 of 21 implementation tasks done.
 **Branch:** `feature/server-ai-assistant` (off `main`/`cc39154d`).
 **Date written:** 2026-05-30.
 **Audience:** The developer taking this over end-to-end.
@@ -177,10 +177,20 @@ config page (`field_ai_openai_model`, `field_ai_mcp_url`, `field_ai_proxy_url`).
 
 ## 8. WHAT HAS BEEN DONE (committed on `feature/server-ai-assistant`)
 
-Two logical things, currently squashed into ONE commit (`0e5k9m3a`):
+ONE substantive commit: **`f47bbb6e`** ("Add deps: mcp_server 2.x, simple_oauth,
+key, pinecone; PSR-7 v2 (laminas ^3); core 11.3.11 security update") containing
+ONLY `composer.json` + `composer.lock`. Plus `badc51fa` adding this handoff doc.
+
+> ⚠️ **Module dir is empty.** Earlier exploratory subagents created
+> `web/modules/custom/server_ai/server_ai.info.yml` (+ a couple of PHP stubs),
+> but a `git checkout`/reset during the dependency-resolution troubleshooting
+> wiped those uncommitted files. `web/modules/custom/server_ai/` does NOT exist
+> right now. **Begin implementation at plan Task 2 (create `server_ai.info.yml`)**
+> — its exact contents are in §10/the plan; a known-good version is reproduced at
+> the end of this section.
 
 ### 8a. Composer dependencies (the hard part — done & verified)
-Commit `0e5k9m3a` contains `composer.json` + `composer.lock` + `server_ai.info.yml`.
+Commit `f47bbb6e` contains `composer.json` + `composer.lock` only.
 
 The dependency resolution was NON-TRIVIAL. Final state (verified: `composer audit`
 == "No security vulnerability advisories found", `drush status` bootstrap ==
@@ -224,16 +234,33 @@ ddev composer update drupal/mcp_server drupal/simple_oauth drupal/key drupal/ai_
 product owner explicitly did not want one; the advisories were resolved by
 version bumps, not suppressed).
 
-### 8b. Module skeleton
-- `web/modules/custom/server_ai/server_ai.info.yml` — created & committed (in
-  `0e5k9m3a`). Dependencies declared:
-  `ai:ai`, `ai:ai_search`, `ai_provider_openai:ai_provider_openai`,
-  `ai_vdb_provider_pinecone:ai_vdb_provider_pinecone`, `search_api:search_api`,
-  `config_pages:config_pages`, `consumers:consumers`, `simple_oauth:simple_oauth`,
-  `key:key`, `mcp_server:mcp_server`, `node:node`, `taxonomy:taxonomy`,
-  `paragraphs:paragraphs`, `entity_reference_revisions:entity_reference_revisions`.
-  (Note: `entity_reference_revisions` is its OWN project in this codebase, hence
-  `entity_reference_revisions:entity_reference_revisions`, not `paragraphs:...`.)
+### 8b. Module skeleton — NOT committed (must be recreated, plan Task 2)
+Create `web/modules/custom/server_ai/server_ai.info.yml` with EXACTLY this
+(verified-correct dependency list; `entity_reference_revisions` is its OWN
+project here, hence `entity_reference_revisions:entity_reference_revisions`, not
+`paragraphs:...`):
+```yaml
+name: 'Server AI'
+type: module
+description: 'AI content assistant + visitor search (Elm chat UI) over News, via the OpenAI Responses API + MCP. Secrets live in a standalone proxy.'
+package: Server
+core_version_requirement: ^10 || ^11
+dependencies:
+  - ai:ai
+  - ai:ai_search
+  - ai_provider_openai:ai_provider_openai
+  - ai_vdb_provider_pinecone:ai_vdb_provider_pinecone
+  - search_api:search_api
+  - config_pages:config_pages
+  - consumers:consumers
+  - simple_oauth:simple_oauth
+  - key:key
+  - mcp_server:mcp_server
+  - node:node
+  - taxonomy:taxonomy
+  - paragraphs:paragraphs
+  - entity_reference_revisions:entity_reference_revisions
+```
 
 ### PENDING right now (do this first when you resume)
 - **Run DB updates** from the dependency bump (NOT yet run):
@@ -252,10 +279,11 @@ Execution method chosen: **subagent-driven development** (fresh subagent per tas
 then spec-compliance review, then code-quality review, then commit). Summary of
 remaining tasks:
 
-- **Task 1 (deps)** — ✅ DONE (see §8a). NOTE: the plan still names `drupal/mcp` —
-  that was WRONG; it's `drupal/mcp_server` 2.x (see §5). The plan's info.yml also
-  said `mcp:mcp_server` — the committed file correctly uses `mcp_server:mcp_server`.
-- **Task 2 (info.yml)** — ✅ DONE (see §8b).
+- **Task 1 (deps)** — ✅ DONE & committed (see §8a). NOTE: the plan still names
+  `drupal/mcp` — that was WRONG; it's `drupal/mcp_server` 2.x (see §5). The plan's
+  info.yml also said `mcp:mcp_server` for the dep line — that project:module pair
+  is correct, but double-check `entity_reference_revisions:entity_reference_revisions`.
+- **Task 2 (info.yml)** — ⏳ TODO (was created then lost in a reset; recreate per §8b).
 - **Task 3** — Port `SensitivityVerdict` + `OpenAiClientInterface` (namespace only).
 - **Task 4** — Port `OpenAiClient` (TDD; Unit test with Guzzle MockHandler).
   Renames: `KEY_OPENAI_TOKEN='server_ai_openai_token'`, `DEFAULT_MODEL='gpt-4o'`
