@@ -263,11 +263,15 @@ dependencies:
 ```
 
 ### PENDING right now (do this first when you resume)
-- **Run DB updates** from the dependency bump (NOT yet run):
-  `ddev drush updb -y` (there are pending `ai` 14001 global_guardrails key +
-  `ai_content_suggestions` 14001 update hooks from the `drupal/ai` 1.3.5→1.4.0
-  bump). Then `ddev drush cr`.
-- Consider splitting `0e5k9m3a` is unnecessary; it's fine as one commit.
+- ✅ **DB updates DONE** (commit `2dd33843`): ran `ddev drush updb -y` →
+  `ai_post_update_14001` (global_guardrails) + `ai_content_suggestions_update_14001`
+  (entity bundles). Config exported & committed. `drush config:status` ==
+  "No differences", bootstrap Successful, `composer audit` clean.
+- ✅ **Ghost-module cleanup DONE** (same commit): the early wrong-package install
+  (`drupal/mcp`) had left `mcp` + `jsonrpc` enabled in the DB with orphaned dirs
+  under `web/modules/contrib/`. Uninstalled both + deleted the orphan dirs.
+  `core.extension.yml` is unchanged from HEAD (the correct module, `mcp_server`,
+  is enabled deliberately later in plan Task 14).
 - The module is NOT yet enabled (`server_ai` will fail to enable until its config
   exists — that's expected; see plan stages 4 & 14).
 
