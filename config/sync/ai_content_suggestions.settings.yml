@@ -1,10 +1,3 @@
-plugins:
-  moderate: openai__omni-moderation-latest
-  readability: openai__gpt-4o
-  summarise: openai__gpt-4o
-  taxonomy_suggest: openai__gpt-4o
-  title_suggest: openai__gpt-4o
-  tone: openai__gpt-4o
 field_widget_prompt: |-
   You will be asked to help with content suggestions based on the input in markdown format. Answer with
     suggestions only, do not repeat the task description, do not use any other text except for the suggestions.
@@ -16,3 +9,20 @@ field_widget_prompt: |-
     ]
     ```
     If you are enable to generate a response, respond with "Insufficient information provided, please add more data before generating suggestions."
+plugins:
+  moderate: openai__omni-moderation-latest
+  readability: openai__gpt-4o
+  summarise: openai__gpt-4o
+  taxonomy_suggest: openai__gpt-4o
+  title_suggest: openai__gpt-4o
+  tone: openai__gpt-4o
+entity_types:
+  block_content:
+    bundles: {  }
+    mode: disable
+  node:
+    bundles: {  }
+    mode: disable
+  taxonomy_term:
+    bundles: {  }
+    mode: disable
