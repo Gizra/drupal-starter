@@ -1,0 +1,31 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - ai_vdb_provider_pinecone.settings
+  module:
+    - ai_search
+    - ai_vdb_provider_pinecone
+id: rag_pinecone
+name: 'RAG Pinecone'
+description: 'RAG POC — Pinecone serverless dense index, OpenAI embeddings.'
+backend: search_api_ai_search
+backend_config:
+  chat_model: openai__gpt-5.5
+  database: pinecone
+  database_settings:
+    database_name: dense-index
+    collection: portal
+    metric: cosine_similarity
+  embeddings_engine: openai__text-embedding-3-small
+  embeddings_engine_configuration:
+    set_dimensions: false
+    dimensions: 1536
+  embedding_strategy: contextual_chunks
+  embedding_strategy_configuration:
+    chunk_size: '500'
+    chunk_min_overlap: '50'
+    contextual_content_max_percentage: '20'
+    skip_moderation: true
+  embedding_strategy_details: ''
+  include_raw_embedding_vector: false

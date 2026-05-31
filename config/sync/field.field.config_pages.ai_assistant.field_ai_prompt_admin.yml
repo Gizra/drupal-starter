@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - config_pages.type.ai_assistant
+    - field.storage.config_pages.field_ai_prompt_admin
+id: config_pages.ai_assistant.field_ai_prompt_admin
+field_name: field_ai_prompt_admin
+entity_type: config_pages
+bundle: ai_assistant
+label: 'System prompt — Admin (content assistant)'
+description: 'System prompt sent on every call from the admin content assistant page (/ai-content-assistant).'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

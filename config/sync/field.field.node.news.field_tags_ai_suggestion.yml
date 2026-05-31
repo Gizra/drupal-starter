@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tags_ai_suggestion
+    - node.type.news
+    - taxonomy.vocabulary.tags
+id: node.news.field_tags_ai_suggestion
+field_name: field_tags_ai_suggestion
+entity_type: node
+bundle: news
+label: 'Tags AI Suggestion'
+description: 'AI-suggested topics. Not the human-curated field.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      tags: tags
+field_type: entity_reference

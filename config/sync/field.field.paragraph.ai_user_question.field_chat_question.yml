@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_chat_question
+    - paragraphs.paragraphs_type.ai_user_question
+id: paragraph.ai_user_question.field_chat_question
+field_name: field_chat_question
+entity_type: paragraph
+bundle: ai_user_question
+label: 'Question'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

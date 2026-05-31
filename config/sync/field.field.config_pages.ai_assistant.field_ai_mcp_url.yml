@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - config_pages.type.ai_assistant
+    - field.storage.config_pages.field_ai_mcp_url
+id: config_pages.ai_assistant.field_ai_mcp_url
+field_name: field_ai_mcp_url
+entity_type: config_pages
+bundle: ai_assistant
+label: 'MCP server URL'
+description: 'Public URL of the MCP endpoint that OpenAI will call, e.g. https://<ddev-share>.ngrok-free.app/_mcp'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

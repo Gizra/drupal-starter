@@ -1,0 +1,9 @@
+langcode: en
+status: true
+dependencies: {  }
+id: ai_user_question
+label: 'AI user question'
+icon_uuid: null
+icon_default: null
+description: 'One user message in an AI assistant chat session.'
+behavior_plugins: {  }

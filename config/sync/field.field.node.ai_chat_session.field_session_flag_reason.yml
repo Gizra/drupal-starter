@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_session_flag_reason
+    - node.type.ai_chat_session
+id: node.ai_chat_session.field_session_flag_reason
+field_name: field_session_flag_reason
+entity_type: node
+bundle: ai_chat_session
+label: 'Flag reason'
+description: 'AI explanation of why the session was flagged.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

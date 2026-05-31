@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies: {  }
+name: 'AI chat session'
+type: ai_chat_session
+description: 'A persisted AI content-assistant chat session (transcript + sensitivity flag).'
+help: null
+new_revision: true
+preview_mode: 0
+display_submitted: false

@@ -1,0 +1,30 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_session_flagged_row
+    - node.type.ai_chat_session
+    - paragraphs.paragraphs_type.ai_user_question
+  module:
+    - entity_reference_revisions
+id: node.ai_chat_session.field_session_flagged_row
+field_name: field_session_flagged_row
+entity_type: node
+bundle: ai_chat_session
+label: 'Flagged question'
+description: 'The user question paragraph that triggered the sensitivity flag.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      ai_user_question: ai_user_question
+    negate: 0
+    target_bundles_drag_drop:
+      ai_user_question:
+        weight: 0
+        enabled: true
+field_type: entity_reference_revisions

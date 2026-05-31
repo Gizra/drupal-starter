@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - config_pages.type.ai_assistant
+    - field.storage.config_pages.field_ai_sensitivity_policy
+id: config_pages.ai_assistant.field_ai_sensitivity_policy
+field_name: field_ai_sensitivity_policy
+entity_type: config_pages
+bundle: ai_assistant
+label: 'Sensitivity policy'
+description: 'Markdown describing what user questions should be flagged (e.g. hate speech, harassment, offensive content). Compared against each user question server-side.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

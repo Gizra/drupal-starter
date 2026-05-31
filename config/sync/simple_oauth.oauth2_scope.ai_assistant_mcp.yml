@@ -1,0 +1,15 @@
+langcode: en
+status: true
+dependencies: {  }
+id: ai_assistant_mcp
+name: ai_assistant_mcp
+description: 'MCP access for the AI content assistant (client_credentials grant). Separate from claude_mcp, which Claude Code uses.'
+grant_types:
+  client_credentials:
+    status: true
+    description: ''
+umbrella: false
+parent: null
+granularity_id: role
+granularity_configuration:
+  role: administrator

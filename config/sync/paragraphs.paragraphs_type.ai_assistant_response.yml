@@ -1,0 +1,9 @@
+langcode: en
+status: true
+dependencies: {  }
+id: ai_assistant_response
+label: 'AI assistant response'
+icon_uuid: null
+icon_default: null
+description: 'One assistant reply in an AI assistant chat session.'
+behavior_plugins: {  }

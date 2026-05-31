@@ -1,0 +1,16 @@
+langcode: en
+status: true
+dependencies: {  }
+id: ai_assistant
+label: 'AI Content Assistant'
+token: false
+context:
+  show_warning: true
+  group:
+    language: false
+  fallback:
+    language: ''
+menu:
+  path: /admin/config/system/ai-content-assistant
+  weight: 0
+  description: 'AI content assistant skill + OpenAI/MCP settings (POC).'

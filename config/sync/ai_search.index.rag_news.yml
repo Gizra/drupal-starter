@@ -1,0 +1,22 @@
+index_id: rag_news
+control_field_max_length: false
+exclude_chunk_from_metadata: false
+indexing_options:
+  field_body:
+    indexing_option: main_content
+    max: -1
+  title:
+    indexing_option: contextual_content
+    max: -1
+  field_tags:
+    indexing_option: contextual_content
+    max: -1
+  nid:
+    indexing_option: attributes
+    max: -1
+  uuid:
+    indexing_option: attributes
+    max: -1
+  status:
+    indexing_option: attributes
+    max: -1

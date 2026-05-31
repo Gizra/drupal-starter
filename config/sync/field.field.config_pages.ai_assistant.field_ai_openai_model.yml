@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - config_pages.type.ai_assistant
+    - field.storage.config_pages.field_ai_openai_model
+id: config_pages.ai_assistant.field_ai_openai_model
+field_name: field_ai_openai_model
+entity_type: config_pages
+bundle: ai_assistant
+label: 'OpenAI model'
+description: 'Model id for the Responses API, e.g. gpt-5.5. Defaults to gpt-5.5 if left empty.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

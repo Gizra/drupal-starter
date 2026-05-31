@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_session_response_id
+    - node.type.ai_chat_session
+id: node.ai_chat_session.field_session_response_id
+field_name: field_session_response_id
+entity_type: node
+bundle: ai_chat_session
+label: 'OpenAI response id'
+description: 'Latest previous_response_id, used to resume the conversation.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

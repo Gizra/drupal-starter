@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - config_pages.type.ai_assistant
+    - field.storage.config_pages.field_ai_proxy_url
+id: config_pages.ai_assistant.field_ai_proxy_url
+field_name: field_ai_proxy_url
+entity_type: config_pages
+bundle: ai_assistant
+label: 'Proxy URL'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

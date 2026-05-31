@@ -1,0 +1,30 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.ai_user_question.field_chat_question
+    - field.field.paragraph.ai_user_question.field_question_flagged
+    - paragraphs.paragraphs_type.ai_user_question
+id: paragraph.ai_user_question.default
+targetEntityType: paragraph
+bundle: ai_user_question
+mode: default
+content:
+  field_chat_question:
+    type: string_textarea
+    weight: 0
+    region: content
+    settings:
+      rows: 4
+      placeholder: ''
+    third_party_settings: {  }
+  field_question_flagged:
+    type: boolean_checkbox
+    weight: 5
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

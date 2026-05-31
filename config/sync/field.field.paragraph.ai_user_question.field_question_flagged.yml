@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_question_flagged
+    - paragraphs.paragraphs_type.ai_user_question
+id: paragraph.ai_user_question.field_question_flagged
+field_name: field_question_flagged
+entity_type: paragraph
+bundle: ai_user_question
+label: Flagged
+description: 'Set when this question tripped the sensitivity policy.'
+required: false
+translatable: false
+default_value:
+  - value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

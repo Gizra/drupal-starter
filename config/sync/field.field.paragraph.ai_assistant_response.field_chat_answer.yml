@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_chat_answer
+    - paragraphs.paragraphs_type.ai_assistant_response
+id: paragraph.ai_assistant_response.field_chat_answer
+field_name: field_chat_answer
+entity_type: paragraph
+bundle: ai_assistant_response
+label: 'Answer'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

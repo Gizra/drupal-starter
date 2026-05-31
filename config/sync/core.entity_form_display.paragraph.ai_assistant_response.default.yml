@@ -1,0 +1,33 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.ai_assistant_response.field_chat_answer
+    - field.field.paragraph.ai_assistant_response.field_chat_resources
+    - paragraphs.paragraphs_type.ai_assistant_response
+id: paragraph.ai_assistant_response.default
+targetEntityType: paragraph
+bundle: ai_assistant_response
+mode: default
+content:
+  field_chat_answer:
+    type: string_textarea
+    weight: 0
+    region: content
+    settings:
+      rows: 8
+      placeholder: ''
+    third_party_settings: {  }
+  field_chat_resources:
+    type: entity_reference_autocomplete
+    weight: 5
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

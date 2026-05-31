@@ -1,0 +1,28 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_chat_resources
+    - node.type.news
+    - paragraphs.paragraphs_type.ai_assistant_response
+id: paragraph.ai_assistant_response.field_chat_resources
+field_name: field_chat_resources
+entity_type: paragraph
+bundle: ai_assistant_response
+label: 'Resources'
+description: 'News items the assistant surfaced for this answer.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      news: news
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_session_flagged
+    - node.type.ai_chat_session
+id: node.ai_chat_session.field_session_flagged
+field_name: field_session_flagged
+entity_type: node
+bundle: ai_chat_session
+label: Flagged
+description: 'Set when a user question violated the sensitivity policy.'
+required: false
+translatable: false
+default_value:
+  - value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean
