@@ -1,0 +1,9 @@
+use ai content assistant:
+  title: 'Use the AI content assistant'
+  description: 'Access the AI content assistant chat UI and its config endpoint (which exposes the OpenAI token and a minted MCP access token to the browser). POC — grant only to trusted staff.'
+  restrict access: true
+
+use ai search:
+  title: 'Use the AI search chat'
+  description: 'Access the /ai-search chat UI and its config endpoint (which exposes the OpenAI token and a minted MCP access token to the browser). POC — grant only to trusted staff.'
+  restrict access: true

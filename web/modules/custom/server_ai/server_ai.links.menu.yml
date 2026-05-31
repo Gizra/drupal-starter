@@ -1,0 +1,6 @@
+server_ai.app:
+  title: 'AI content assistant'
+  description: 'Chat UI for AI-assisted Resource Topic tagging (POC).'
+  route_name: server_ai.app
+  parent: system.admin
+  weight: 10

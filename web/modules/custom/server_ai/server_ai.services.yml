@@ -1,0 +1,12 @@
+services:
+  server_ai.openai_client:
+    class: Drupal\server_ai\OpenAiClient
+    arguments: ['@http_client', '@key.repository', '@config_pages.loader']
+  Drupal\server_ai\OpenAiClientInterface: '@server_ai.openai_client'
+
+  server_ai.session_writer:
+    class: Drupal\server_ai\SessionWriter
+    arguments: ['@entity_type.manager', '@config_pages.loader', '@server_ai.openai_client']
+
+  server_ai.card_builder:
+    class: Drupal\server_ai\CardBuilder

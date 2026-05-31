@@ -1,0 +1,19 @@
+core:
+  version: VERSION
+  js:
+    js/boot.js: {}
+  css:
+    theme:
+      css/chat.css: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+    - core/once
+    - server_theme/global-styling
+
+app:
+  version: VERSION
+  js:
+    js/elm-main.js: { preprocess: false, minified: true }
+  dependencies:
+    - server_ai/core

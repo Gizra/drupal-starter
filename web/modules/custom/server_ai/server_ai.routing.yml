@@ -1,0 +1,53 @@
+server_ai.app:
+  path: '/ai-content-assistant'
+  defaults:
+    _controller: '\Drupal\server_ai\Controller\AiAssistantController::app'
+    _title: 'AI content assistant'
+  requirements:
+    _permission: 'use ai content assistant'
+
+server_ai.config:
+  path: '/ai-content-assistant/config'
+  defaults:
+    _controller: '\Drupal\server_ai\Controller\AiAssistantController::appConfig'
+  requirements:
+    _permission: 'use ai content assistant'
+  options:
+    no_cache: TRUE
+
+server_ai.session:
+  path: '/ai-content-assistant/session'
+  defaults:
+    _controller: '\Drupal\server_ai\Controller\AiAssistantController::session'
+  methods: [POST]
+  requirements:
+    _permission: 'use ai content assistant'
+  options:
+    no_cache: TRUE
+
+server_ai.search_app:
+  path: '/ai-search'
+  defaults:
+    _controller: '\Drupal\server_ai\Controller\AiSearchController::app'
+    _title: 'AI search'
+  requirements:
+    _permission: 'use ai search'
+
+server_ai.search_config:
+  path: '/ai-search/config'
+  defaults:
+    _controller: '\Drupal\server_ai\Controller\AiSearchController::appConfig'
+  requirements:
+    _permission: 'use ai search'
+  options:
+    no_cache: TRUE
+
+server_ai.search_session:
+  path: '/ai-search/session'
+  defaults:
+    _controller: '\Drupal\server_ai\Controller\AiSearchController::session'
+  methods: [POST]
+  requirements:
+    _permission: 'use ai search'
+  options:
+    no_cache: TRUE
