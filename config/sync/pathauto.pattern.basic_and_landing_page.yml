@@ -2,6 +2,8 @@ uuid: 8e5bf474-bcae-4007-b5f3-d044e3583bed
 langcode: en
 status: true
 dependencies:
+  config:
+    - node.type.landing_page
   module:
     - node
 id: basic_and_landing_page
@@ -12,7 +14,6 @@ selection_criteria:
   44e331a4-8bbc-40a7-8144-edf45a74b674:
     id: 'entity_bundle:node'
     negate: false
-    uuid: 44e331a4-8bbc-40a7-8144-edf45a74b674
     context_mapping:
       node: node
     bundles:
@@ -21,7 +22,6 @@ selection_criteria:
   2ebca173-3f1b-4c06-a7b4-1a2bd401455d:
     id: 'entity_bundle:node'
     negate: false
-    uuid: 2ebca173-3f1b-4c06-a7b4-1a2bd401455d
     context_mapping:
       node: node
     bundles:
