@@ -29,10 +29,11 @@ default_providers:
     model_id: whisper-1
   text_to_image:
     provider_id: openai
-    model_id: dall-e-3
+    model_id: gpt-image-1-mini
   text_to_speech:
     provider_id: openai
     model_id: tts-1-hd
+default_vdb_provider: ''
 request_timeout: 60
 allowed_hosts: {  }
 allowed_hosts_rewrite_links: false
