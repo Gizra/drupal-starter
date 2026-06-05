@@ -14,8 +14,8 @@ use Drupal\paragraphs\Plugin\Field\FieldWidget\ParagraphsWidget;
 /**
  * Plugin implementation of the 'paragraphs_edit' paragraphs widget.
  *
- * Extends the core ParagraphsWidget to add an "Edit standalone" button
- * that opens the paragraph edit form in a separate page.
+ * Extends the core ParagraphsWidget to swap the main Edit button with
+ * a link to the standalone edit page, and moves inline editing to dropdown.
  *
  * @FieldWidget(
  *   id = "paragraphs_edit",
@@ -57,14 +57,14 @@ class ParagraphsEditWidget extends ParagraphsWidget {
     $host = $items->getEntity();
     $item_mode = $widget_state['paragraphs'][$delta]['mode'] ?? 'edit';
 
-    if ($item_mode === 'closed' || $item_mode === 'convert') {
-      $edit_new_tab_url = Url::fromRoute('paragraphs_edit.edit_form', [
+    if ($item_mode === 'closed') {
+      $edit_standalone_url = Url::fromRoute('paragraphs_edit.edit_form', [
         'root_parent_type' => $host->getEntityTypeId(),
         'root_parent' => $host->id(),
         'paragraph' => $paragraphs_entity->id(),
       ]);
 
-      $edit_new_tab_url->setOption('query', [
+      $edit_standalone_url->setOption('query', [
         'destination' => \Drupal::request()->getRequestUri(),
       ]);
 
@@ -72,15 +72,22 @@ class ParagraphsEditWidget extends ParagraphsWidget {
         $element['top']['actions']['dropdown_actions'] = [];
       }
 
-      $element['top']['actions']['dropdown_actions']['edit_new_tab_button'] = [
+      if (isset($element['top']['actions']['actions']['edit_button'])) {
+        $edit_button = $element['top']['actions']['actions']['edit_button'];
+        unset($element['top']['actions']['actions']['edit_button']);
+
+        $edit_button['#value'] = $this->t('Edit inline');
+        $element['top']['actions']['dropdown_actions']['edit_inline_button'] = $edit_button;
+      }
+
+      $element['top']['actions']['actions']['edit_button'] = [
         '#type' => 'link',
-        '#title' => $this->t('Edit standalone'),
-        '#url' => $edit_new_tab_url,
+        '#title' => $this->t('Edit'),
+        '#url' => $edit_standalone_url,
         '#attributes' => [
-          'class' => ['button', 'button--small', 'paragraphs-dropdown-action'],
+          'class' => ['button', 'button--small'],
         ],
         '#access' => $paragraphs_entity->access('update'),
-        '#weight' => 0,
       ];
     }
 
