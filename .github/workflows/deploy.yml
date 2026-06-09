@@ -114,6 +114,9 @@ jobs:
       - name: Sync Pantheon
         run: ddev robo deploy:pantheon-sync
 
+      - name: Run manual steps
+        run: ./ci-scripts/manual_step.sh test
+
   deploy-live:
     name: "Deploy to Pantheon LIVE"
     runs-on: ubuntu-latest
@@ -168,3 +171,6 @@ jobs:
 
       - name: Sync Pantheon LIVE
         run: ddev robo deploy:pantheon-sync live
+
+      - name: Run manual steps
+        run: ./ci-scripts/manual_step.sh live
