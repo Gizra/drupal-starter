@@ -48,7 +48,7 @@ jobs:
         run: composer install
 
       - name: Restore PHPStan result cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: .phpstan-cache
           key: phpstan-result-cache-${{ github.sha }}
@@ -59,7 +59,7 @@ jobs:
 
       - name: Save PHPStan result cache
         if: ${{ !cancelled() }}
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           path: .phpstan-cache
           key: phpstan-result-cache-${{ github.sha }}
