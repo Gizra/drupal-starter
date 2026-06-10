@@ -11,8 +11,8 @@ dependencies:
   module:
     - content_moderation
     - metatag
-    - paragraphs
     - path
+    - server_general
 id: node.landing_page.default
 targetEntityType: node
 bundle: landing_page
@@ -40,7 +40,7 @@ content:
       use_details: true
     third_party_settings: {  }
   field_paragraphs:
-    type: paragraphs
+    type: paragraphs_edit
     weight: 10
     region: content
     settings:
