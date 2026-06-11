@@ -27,7 +27,7 @@
         "ext-mbstring": "*",
         "bower-asset/font-awesome": "^6",
         "composer/installers": "^1.9",
-        "cweagans/composer-patches": "^1.7",
+        "cweagans/composer-patches": "~2.0",
         "drupal/admin_toolbar": "^3.4",
         "drupal/ai": "^1.0",
         "drupal/ai_content_assistant": "^1.0",
@@ -155,7 +155,44 @@
         "patchLevel": {
             "drupal/core": "-p2"
         },
-        "patches-file": "composer.patches.json",
+        "patches": {
+            "drupal/core": {
+                "d.o. #3315245": "patches/2938.patch",
+                "d.o. #2351685": "https://www.drupal.org/files/issues/2023-02-03/2351685-22.patch",
+                "d.o. #3400204": "https://www.drupal.org/files/issues/2024-06-27/3400204-claro-layout-overflow-fix-2.patch"
+            },
+            "drupal/elasticsearch_connector": {
+                "Preserve ES index settings": "https://www.drupal.org/files/issues/2020-01-28/3109361-elasticsearch_connector-preserve-index-settings-1.patch",
+                "d.o. #3106003 - Content access fixes": "https://www.drupal.org/files/issues/2021-01-12/missing-special-fields-3106003-8.patch",
+                "d.o. #3194318 - More robust language filtering": "https://www.drupal.org/files/issues/2021-01-25/3194318-hypen-lang-5.patch",
+                "d.o. #3014805 - Views filtering with facets": "https://www.drupal.org/files/issues/2019-12-20/elasticsearch_connector-facet_OR_global_aggregation_does_not_take_views_filter_into_account-3014805-15.patch",
+                "d.o. #2952301": "https://www.drupal.org/files/issues/2021-03-11/elasticsearch_connector_luceneFlattenKeys--2952301-14.patch"
+            },
+            "drupal/entity_reference_revisions": {
+                "d.o. #2799479": "patches/entity_reference_revisions-2799479.LLM-rerolled.patch"
+            },
+            "nodespark/des-connector": {
+                "php 8.1 compatibility": "patches/des-connector-php-compat.patch"
+            },
+            "drupal/ultimate_cron": {
+                "d.o. #3351276": "patches/ultimate_cron-3351276.LLM-rerolled.patch"
+            },
+            "drupal/webp": {
+                "d.o. #3281606": "patches/webp-3281606.patch"
+            },
+            "npm-asset/anchor-js": {
+                "remove font-face": "patches/remove-anchorjs-fontface.patch"
+            },
+            "drupal/seckit": {
+                "d.o. #3206728": "https://www.drupal.org/files/issues/2024-09-06/seckit-2_x-src-field-length-3206728-8.patch"
+            },
+            "drupal/rollbar": {
+                "d.o. #3432364": "patches/3432364-rollbar-vars.patch"
+            },
+            "drupal/schema_metatag": {
+                "d.o. #3415013": "patches/3415013-schema-webpage-extra-fields.patch"
+            }
+        },
         "drupal-scaffold": {
             "locations": {
                 "web-root": "web/"
