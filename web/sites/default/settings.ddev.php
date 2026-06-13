@@ -98,6 +98,9 @@ $settings['cache']['default'] = 'cache.backend.redis';
 $settings['container_yamls'][] = 'modules/contrib/redis/redis.services.yml';
 $settings['container_yamls'][] = 'modules/contrib/redis/example.services.yml';
 
+// We use nginx but this error can confuse users.
+$settings['auto_create_htaccess'] = FALSE;
+
 /**
  * State caching.
  *

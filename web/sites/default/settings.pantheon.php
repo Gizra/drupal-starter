@@ -213,6 +213,9 @@ $config['search_api.index.server_dev']['server'] = 'pantheon_solr8';
 // As we push to Solr config of DDEV to Pantheon as well, we disable it here.
 $config['search_api.server.solr']['status'] = FALSE;
 
+// We use nginx but this error can confuse users.
+$settings['auto_create_htaccess'] = FALSE;
+
 /**
  * State caching.
  *
