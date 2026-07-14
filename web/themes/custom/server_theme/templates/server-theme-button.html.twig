@@ -7,7 +7,7 @@
   actual_button_type == 'primary' ? 'bg-blue-500 text-white hover:bg-white hover:text-blue-500 focus-visible:bg-white focus-visible:text-blue-500',
   actual_button_type == 'secondary' ? 'text-blue-900 bg-white border-blue-900 hover:text-white hover:bg-blue-900 focus-visible:text-white focus-visible:bg-blue-900',
   actual_button_type == 'tertiary' ? 'text-white bg-emerald-900 border-emerald-900 hover:text-emerald-900 hover:bg-white focus-visible:text-emerald-900 focus-visible:bg-white',
-] | join(' ') | trim %}
+] | filter(v => v) | join(' ') %}
 
 {% set target = open_new_tab ? '_blank' : '_self' %}
 

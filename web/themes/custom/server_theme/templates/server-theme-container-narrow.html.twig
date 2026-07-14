@@ -1,15 +1,14 @@
 {% import '@server_theme/templates/server-theme-bg-color-base.html.twig' as bgColorBase %}
 
-{% set color_class = bgColorBase.getBgColor(bg_color) %}
+{% set color_class = bgColorBase.getBgColor(bg_color)|trim %}
+{% set py_class = color_class != 'bg-transparent' ? 'py-8 md:py-10' : '' %}
+{% set classes = [color_class, py_class]|filter(v => v)|join(' ') %}
 
-{% if color_class|trim != 'bg-transparent' %}
-  {% set py_class = 'py-8 md:py-10' %}
-{% endif %}
-
-<div class="{{ color_class }} {{ py_class }}">
+<div class="{{ classes }}">
   <div class="container-narrow w-full">
     {{ element }}
   </div>
 </div>
+
 
 
