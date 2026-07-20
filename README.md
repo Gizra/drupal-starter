@@ -229,8 +229,10 @@ When it is hard to understand a test failure, a peek into the browser might help
 For Selenium-based ones, you can take screenshots using the `takeScreenshot()` method. This captures and saves
 the screenshot in `/web/sites/simpletest/screenshots`.
 You can also watch what the tests are doing in the browser using noVNC. To do so, simply open a browser and open
-https://drupal-starter.ddev.site:7900 and click Connect. The password is `secret`. Now simply run the tests
+https://drupal-starter.ddev.site:7900 and click Connect. No password is needed. Now simply run the tests
 and you can see the test running in the browser.
+
+Chrome only runs headless on CI, so locally there is always something to watch.
 
 For faster, virtual browser-based tests, you can use `createHtmlSnapshot` and it will dump the HTML content
 of the virtual browser into the `phpunit_debug` directory. For the exact filename, refer to the output of

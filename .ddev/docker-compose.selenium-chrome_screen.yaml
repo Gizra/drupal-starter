@@ -1,0 +1,9 @@
+services:
+  selenium-chrome:
+    environment:
+      # The virtual display has to be at least as large as the window the
+      # Selenium tests resize to, otherwise the browser is cut off over noVNC
+      # and in screenshots.
+      # @see \Drupal\Tests\server_general\TestConfiguration::BROWSER_WIDTH
+      - SCREEN_WIDTH=1920
+      - SCREEN_HEIGHT=1920

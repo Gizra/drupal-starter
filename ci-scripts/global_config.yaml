@@ -1,6 +1,11 @@
 omit_containers: ["dba"]
 instrumentation_opt_in: false
 
+# The runner sets CI, but ddev does not pass it into the containers. The tests
+# read it to run Chrome headless and to skip screenshots.
+web_environment:
+  - CI=true
+
 # You can turn off usage of the dba (phpmyadmin) container and/or
 # ddev-ssh-agent containers with
 # omit_containers["dba", "ddev-ssh-agent"]
