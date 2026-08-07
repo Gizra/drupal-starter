@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "56bf7996976e8dcf2f65774fc8f3c078",
+    "content-hash": "538c5c83bf234887fce6b15a82604949",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -16633,6 +16633,76 @@
                 }
             ],
             "time": "2025-03-19T11:14:02+00:00"
+        },
+        {
+            "name": "gizra/drupal-robo",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Gizra/drupal-robo.git",
+                "reference": "f7a679d0710ed8797dd8b20ad6f2913d73a7e4c3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Gizra/drupal-robo/zipball/f7a679d0710ed8797dd8b20ad6f2913d73a7e4c3",
+                "reference": "f7a679d0710ed8797dd8b20ad6f2913d73a7e4c3",
+                "shasum": ""
+            },
+            "require": {
+                "consolidation/robo": "^5",
+                "gettext/gettext": "^5.7",
+                "php": "^8.3",
+                "symfony/yaml": "^6 || ^7"
+            },
+            "require-dev": {
+                "drupal/coder": "^8.3",
+                "phpstan/phpstan": "^2",
+                "phpunit/phpunit": "^10 || ^11",
+                "squizlabs/php_codesniffer": "^3.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "RoboComponents\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "RoboComponents\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "phpcs": [
+                    "phpcs"
+                ],
+                "phpstan": [
+                    "phpstan analyse --memory-limit=1G"
+                ],
+                "test": [
+                    "phpunit"
+                ],
+                "check": [
+                    "@phpcs",
+                    "@phpstan",
+                    "@test"
+                ]
+            },
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "description": "Shared Robo commands for Gizra Drupal projects (deployment, theming, release notes, translations).",
+            "keywords": [
+                "deployment",
+                "drupal",
+                "gizra",
+                "pantheon",
+                "robo"
+            ],
+            "support": {
+                "source": "https://github.com/Gizra/drupal-robo/tree/v1.0.0",
+                "issues": "https://github.com/Gizra/drupal-robo/issues"
+            },
+            "time": "2026-08-07T18:39:03+00:00"
         },
         {
             "name": "instaclick/php-webdriver",
