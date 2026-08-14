@@ -640,3 +640,6 @@ you need to make sure Drupal is aware of the real IP of the visitors.
 - [ ] Redirects
 - [ ] Ensure email sending (SMTP) works
 - [ ] Remove http auth for LIVE environment
+- [ ] Confirm dev/staging "don't index" setting has been removed (sitemap + robots meta)
+- [ ] Confirm robots.txt / CDN isn't blocking search and AI retrieval bots (GPTBot family, ClaudeBot family, PerplexityBot family)
+- [ ] Confirm preview-control meta tags (nosnippet, max-image-preview) aren't overly restrictive
