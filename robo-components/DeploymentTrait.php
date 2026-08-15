@@ -312,8 +312,11 @@ trait DeploymentTrait {
 
     $rsync_exclude_string = '--exclude=' . implode(' --exclude=', self::$deploySyncExcludes);
 
-    // Copy all files and folders.
-    $result = $this->_exec("rsync -az -q --delete $rsync_exclude_string . $pantheon_directory")->getExitCode();
+    // Copy all files and folders. Use --checksum so files whose content
+    // changed but whose size did not (e.g. autoload_real.php when the
+    // Composer autoloader suffix changes) are not skipped by rsync's default
+    // size+mtime quick check, which would commit a mismatched autoloader.
+    $result = $this->_exec("rsync -az -c -q --delete $rsync_exclude_string . $pantheon_directory")->getExitCode();
     if ($result !== 0) {
       throw new \Exception('File sync failed');
     }
