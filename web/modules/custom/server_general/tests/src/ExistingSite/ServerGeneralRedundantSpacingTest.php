@@ -16,9 +16,33 @@ use Symfony\Component\HttpFoundation\Response;
  * over raw markup, so that quoting style, comments, and non-attribute text
  * don't produce false positives/negatives.
  *
+ * The check is scoped to an allow-list of root selectors that correspond to
+ * markup owned by this project (custom theme + custom modules), so that it
+ * doesn't flag markup provided by Drupal Core or contrib modules (e.g. the
+ * admin toolbar, contextual links, or the messages region) that we can't fix
+ * ourselves.
+ *
  * @group server_general
  */
 class ServerGeneralRedundantSpacingTest extends ServerGeneralTestBase {
+
+  /**
+   * Root selectors that scope the test to markup owned by this project.
+   *
+   * Each selector is checked both for its own class attribute and for the
+   * class attribute of every descendant element.
+   *
+   * @var string[]
+   */
+  private const SCANNED_ROOT_SELECTORS = [
+    // Style-guide component sandbox (everything rendered by
+    // StyleGuideController).
+    'dl.accordion',
+    // Main navigation menu (menu--main.html.twig), covers both the
+    // mobile <ul class="main-menu"> and desktop <div class="main-menu">
+    // variants.
+    '.main-menu',
+  ];
 
   /**
    * Tests that no class attribute contains redundant whitespace.
@@ -33,13 +57,25 @@ class ServerGeneralRedundantSpacingTest extends ServerGeneralTestBase {
     $this->assertSession()->statusCodeEquals(Response::HTTP_OK);
 
     $html = (string) $this->getSession()->getPage()->getContent();
-
     $crawler = new Crawler($html);
-    $classValues = $crawler->filter('[class]')->extract(['class']);
+
+    $classValues = [];
+    foreach (self::SCANNED_ROOT_SELECTORS as $selector) {
+      // The root element's own class attribute.
+      $classValues = array_merge(
+        $classValues,
+        $crawler->filter($selector)->extract(['class'])
+      );
+      // The class attribute of every descendant element.
+      $classValues = array_merge(
+        $classValues,
+        $crawler->filter($selector . ' [class]')->extract(['class'])
+      );
+    }
 
     $this->assertNotEmpty(
       $classValues,
-      'No elements with a class attribute were found on /style-guide — check that the page rendered correctly.'
+      'No elements with a class attribute were found in the scanned regions (' . implode(', ', self::SCANNED_ROOT_SELECTORS) . ') on /style-guide — check that the page rendered correctly or that the selectors still match the markup.'
     );
 
     $offenders = [];
