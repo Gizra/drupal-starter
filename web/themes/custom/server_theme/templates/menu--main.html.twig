@@ -66,9 +66,9 @@
       <li{{ item.attributes.addClass(item_classes) }}>
         {% set item_tag = item.below ? "button" : "a" %}
         {% if menu_level == 0 %}
-          <{{ item_tag }} href="{{ item.url }}" class="menu-root-item pb-2 flex items-center text-xl md:text-2xl w-full text-left{{ item.in_active_trail ? ' active' }}">{{ item.title }}{% if item.below %} <span class="expand-indicator flex justify-center items-center w-6 h-6 border-1 rounded-full border-white ml-4 {{ item.in_active_trail ? 'expand-indicator--expanded' }}"></span>{% endif %}</{{ item_tag }}>
+          <{{ item_tag }} href="{{ item.url }}" class="menu-root-item pb-2 flex items-center text-xl md:text-2xl w-full text-left{{ item.in_active_trail ? ' active' }}">{{ item.title }}{% if item.below %} <span class="expand-indicator flex justify-center items-center w-6 h-6 border-1 rounded-full border-white ml-4{{ item.in_active_trail ? ' expand-indicator--expanded' }}"></span>{% endif %}</{{ item_tag }}>
         {% elseif menu_level == 1 %}
-          <{{ item_tag }} href="{{ item.url }}" class="menu-sub-item pb-2 flex items-center text-lg md:text-xl text-left{{ item.in_active_trail ? ' active' }}">{{ item.title }} {% if item.below %} <span class="expand-indicator flex justify-center items-center w-6 h-6 border-1 rounded-full border-white ml-4 {{ item.in_active_trail ? 'expand-indicator--expanded' }}"></span>{% endif %}</{{ item_tag }}>
+          <{{ item_tag }} href="{{ item.url }}" class="menu-sub-item pb-2 flex items-center text-lg md:text-xl text-left{{ item.in_active_trail ? ' active' }}">{{ item.title }} {% if item.below %} <span class="expand-indicator flex justify-center items-center w-6 h-6 border-1 rounded-full border-white ml-4{{ item.in_active_trail ? ' expand-indicator--expanded' }}"></span>{% endif %}</{{ item_tag }}>
         {% else %}
           <{{ item_tag }} href="{{ item.url }}" class="menu-sub-item pb-2 block{{ item.in_active_trail ? ' active' }}">{{ item.title }}</{{ item_tag }}>
         {% endif %}
@@ -158,9 +158,9 @@ We call a macro which calls itself to render the full tree.
             <li{{ item.attributes.setAttributes('class', item_classes) }}>
               {% set item_tag = item.below ? "button" : "a" %}
               {% if menu_starting_level == 0 %}
-                <{{ item_tag }} data-menu-child="{{ item.below ? key|split(':')|last : '' }}" href="{{ item.url }}" class="menu-root-item flex items-center base leading-11 lg:text-xl font-header pb-2 w-full text-left{{ item.in_active_trail ? ' active' }}">{{ item.title }} {% if item.below %}<span class="expand-indicator flex justify-center items-center w-6 h-6 border-1 rounded-full border-white ml-4 {{ item.in_active_trail ? 'expand-indicator--expanded' }}"></span>{% endif %}</{{ item_tag }}>
+                <{{ item_tag }} data-menu-child="{{ item.below ? key|split(':')|last : '' }}" href="{{ item.url }}" class="menu-root-item flex items-center base leading-11 lg:text-xl font-header pb-2 w-full text-left{{ item.in_active_trail ? ' active' }}">{{ item.title }} {% if item.below %}<span class="expand-indicator flex justify-center items-center w-6 h-6 border-1 rounded-full border-white ml-4{{ item.in_active_trail ? ' expand-indicator--expanded' }}"></span>{% endif %}</{{ item_tag }}>
               {% elseif menu_starting_level == 1 %}
-                <{{ item_tag }} data-menu-child="{{ item.below ? key|split(':')|last : '' }}" href="{{ item.url }}" class="menu-sub-item flex items-center pb-2 text-left{{ item.in_active_trail ? ' active' }}">{{ item.title }} {% if item.below %}<span class="expand-indicator flex justify-center items-center w-6 h-6 border-1 rounded-full border-white ml-4 {{ item.in_active_trail ? 'expand-indicator--expanded' }}"></span>{% endif %}</{{ item_tag }}>
+                <{{ item_tag }} data-menu-child="{{ item.below ? key|split(':')|last : '' }}" href="{{ item.url }}" class="menu-sub-item flex items-center pb-2 text-left{{ item.in_active_trail ? ' active' }}">{{ item.title }} {% if item.below %}<span class="expand-indicator flex justify-center items-center w-6 h-6 border-1 rounded-full border-white ml-4{{ item.in_active_trail ? ' expand-indicator--expanded' }}"></span>{% endif %}</{{ item_tag }}>
               {% else %}
                 <{{ item_tag }} data-menu-child="{{ item.below ? key|split(':')|last : '' }}" href="{{ item.url }}" class="menu-sub-item pb-2 block{{ item.in_active_trail ? ' active' }}">{{ item.title }}</{{ item_tag }}>
               {% endif %}
