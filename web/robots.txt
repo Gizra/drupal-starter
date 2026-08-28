@@ -75,3 +75,61 @@ Disallow: /index.php/*/media/oembed
 # @see https://acquia.my.site.com/s/article/How-do-I-manage-an-application-that-receives-lots-of-requests-for-faceted-searches
 Disallow: *?f%5B*
 Disallow: *&f%5B*
+
+# ---------------------------------------------------------------------------
+# AI crawlers
+#
+# Each vendor runs several independently-controlled bots: some train models,
+# some build a search index, and some fetch a single page in response to a
+# live user prompt. They are listed per vendor and per bot below so the
+# policy can be tuned for each one, per project.
+#
+# Baseline policy: ALLOW every named AI bot full access to our original
+# content (retrieval, indexing, and training). "Disallow:" with an empty
+# value means "allow everything" for that group. The only opt-out is
+# Google-Extended (see the end of this section).
+#
+# NOTE: robots.txt groups do NOT merge. A bot obeys only the single most
+# specific "User-agent" group that matches its name, so each group below is
+# self-contained and does not inherit the "User-agent: *" rules above.
+#
+# To keep a *training* bot out of a rights-restricted collection while still
+# allowing it everywhere else, replace the empty "Disallow:" with one or more
+# path-scoped rules, e.g.:
+#
+#   User-agent: GPTBot
+#   Disallow: /licensed-collection/
+#   Disallow: /archive/rights-restricted/
+#
+# See the README ("AI crawlers") for the full pattern.
+
+# OpenAI — https://platform.openai.com/docs/bots
+# GPTBot: model training. OAI-SearchBot: search index. ChatGPT-User: live user fetch.
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+Disallow:
+
+# Anthropic — https://support.anthropic.com/en/articles/8896518
+# ClaudeBot: model training. Claude-SearchBot: search index. Claude-User: live user fetch.
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+Disallow:
+
+# Perplexity — https://docs.perplexity.ai/guides/bots
+# PerplexityBot: search index. Perplexity-User: live user fetch.
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+Disallow:
+
+# Meta — https://developers.facebook.com/docs/sharing/webmasters/web-crawlers
+# Meta-ExternalAgent: model training and AI product indexing.
+User-agent: Meta-ExternalAgent
+Disallow:
+
+# Google-Extended — opt OUT of Gemini/Vertex model training. This is free and
+# has NO effect on Google Search indexing or on AI Overviews.
+# https://developers.google.com/search/docs/crawling-indexing/google-common-crawlers
+User-agent: Google-Extended
+Disallow: /
