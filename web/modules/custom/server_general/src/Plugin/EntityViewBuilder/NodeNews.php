@@ -60,9 +60,7 @@ class NodeNews extends NodeViewBuilderAbstract {
    *   Render array.
    */
   public function buildFull(array $build, NodeInterface $entity) {
-    // The node's label.
-    $node_type = $this->entityTypeManager->getStorage('node_type')->load($entity->bundle());
-    $label = $node_type->label();
+    $label = $this->getNodeTypeLabel($entity);
 
     // The hero responsive image.
     $medias = $entity->get('field_featured_image')->referencedEntities();
@@ -103,6 +101,7 @@ class NodeNews extends NodeViewBuilderAbstract {
     $timestamp = $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date');
 
     $element = $this->buildElementNewsTeaser(
+      $this->getNodeTypeLabel($entity),
       $image,
       $title,
       $url,
@@ -135,6 +134,7 @@ class NodeNews extends NodeViewBuilderAbstract {
     $timestamp = $this->getFieldOrCreatedTimestamp($entity, 'field_publish_date');
 
     $element = $this->buildElementNewsTeaserFeatured(
+      $this->getNodeTypeLabel($entity),
       $image,
       $title,
       $url,
@@ -160,7 +160,7 @@ class NodeNews extends NodeViewBuilderAbstract {
    */
   public function buildSearchIndex(array $build, NodeInterface $entity) {
     $element = $this->buildElementSearchResult(
-      $this->t('News'),
+      $this->getNodeTypeLabel($entity),
       $entity->label(),
       $entity->toUrl(),
       $this->buildProcessedText($entity, 'field_body'),
@@ -170,6 +170,24 @@ class NodeNews extends NodeViewBuilderAbstract {
     $build[] = $element;
 
     return $build;
+  }
+
+  /**
+   * Get the node type label, shown as the tag above the title.
+   *
+   * Taken from the content type rather than a hardcoded string, so the full
+   * node, the teasers and the search results always show the same wording.
+   *
+   * @param \Drupal\node\NodeInterface $entity
+   *   The entity.
+   *
+   * @return string
+   *   The node type label.
+   */
+  protected function getNodeTypeLabel(NodeInterface $entity): string {
+    $node_type = $this->entityTypeManager->getStorage('node_type')->load($entity->bundle());
+
+    return (string) $node_type->label();
   }
 
 }
