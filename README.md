@@ -641,6 +641,6 @@ you need to make sure Drupal is aware of the real IP of the visitors.
 - [ ] Ensure email sending (SMTP) works
 - [ ] Remove http auth for LIVE environment
 - [ ] Confirm dev/staging "don't index" setting has been removed (sitemap + robots meta)
-- [ ] Decide whether robots.txt / CDN should allow or block search and AI retrieval bots (GPTBot family, ClaudeBot family, PerplexityBot family, Meta-ExternalAgent)
+- [ ] Decide whether robots.txt / CDN should allow or block search and AI retrieval bots (GPTBot family, ClaudeBot family, PerplexityBot family, Meta-ExternalAgent) — recommendation: allow
 - [ ] Confirm preview-control meta tags (nosnippet, max-image-preview) aren't overly restrictive
 - [ ] Confirm Google-Extended is disallowed in robots.txt (free Gemini/Vertex training opt-out, no effect on Search/AI Overviews)
