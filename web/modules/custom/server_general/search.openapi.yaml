@@ -1,0 +1,91 @@
+# OpenAPI description of the site's public search (GET /api/search, served by
+# server_general's AgentSearchController). It is published for AI agents via the
+# two discovery catalogs at /.well-known/api-catalog and /.well-known/ai-catalog.json.
+#
+# Per project: edit `info.description` to describe *this* site's content, and
+# keep the request/response schema in sync if you extend the endpoint. The
+# `servers[0].url` placeholder below is filled in with the live origin at request
+# time by AgentSearchController::openApiSpec(), so it does not need editing.
+openapi: 3.1.0
+info:
+  title: Site Search
+  description: >-
+    Fulltext search over the site's published content. Replace this description
+    with one specific to the project — what kinds of content live here and what
+    an agent can expect to find.
+  version: 1.0.0
+servers:
+  - url: __SITE_ORIGIN__
+    description: This Drupal site.
+paths:
+  /api/search:
+    get:
+      operationId: searchContent
+      summary: Search the site
+      # Read-only lookup. `x-openai-isConsequential` is an OpenAI-specific hint
+      # (other hosts ignore it): false lets ChatGPT offer an "Always Allow"
+      # button instead of prompting on every call.
+      x-openai-isConsequential: false
+      description: >-
+        Fulltext search over the site's published content, ranked by relevance.
+        Each result carries a title, absolute URL, plain-text snippet, and
+        content type.
+      parameters:
+        - name: key
+          in: query
+          required: true
+          schema:
+            type: string
+          description: The natural-language search term.
+        - name: type
+          in: query
+          required: false
+          schema:
+            type: string
+          description: >-
+            Optional content-type machine name to restrict results to (e.g.
+            `news`). Omit to search all content types.
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 20
+            default: 10
+          description: Maximum number of results to return.
+      responses:
+        '200':
+          description: >-
+            Ranked matches. A blank or unmatched query returns an empty result
+            set, not an error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+components:
+  schemas:
+    SearchResponse:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: Number of results returned.
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchResult'
+    SearchResult:
+      type: object
+      properties:
+        title:
+          type: string
+        url:
+          type: string
+          description: Absolute URL of the matching page.
+        snippet:
+          type: string
+          description: Short plain-text excerpt from the content.
+        type:
+          type: string
+          description: The content type's machine name.

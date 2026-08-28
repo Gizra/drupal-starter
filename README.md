@@ -191,6 +191,31 @@ This project supports AI-based features using OpenAI.
 ddev terminus secret:site:set gizra-drupal-starter openai_api_key your-key-here --type=runtime --scope=web,user
 ```
 
+## Agent-queryable search
+
+The starter publishes its search so an AI agent can query it directly instead of
+scraping the HTML `/search` page:
+
+- `GET /api/search?key=<term>&type=<bundle>&limit=<n>` — anonymous, read-only
+  fulltext search over the Solr index, returning `{count, results:[{title, url,
+  snippet, type}]}`. Results respect node access, so only published, public
+  content is exposed.
+- `GET /api/search/openapi.yaml` — the OpenAPI 3.1 description of that endpoint
+  (`web/modules/custom/server_general/search.openapi.yaml`), with the live
+  origin filled in automatically.
+- `GET /.well-known/api-catalog` — an [RFC 9727](https://www.rfc-editor.org/rfc/rfc9727)
+  linkset pointing at the OpenAPI description.
+- `GET /.well-known/ai-catalog.json` — Google's Agentic Resource Discovery
+  catalog, exposing a `description` and `representativeQueries`.
+
+**Per project**, tailor two things to the site:
+
+1. The `description` and `representativeQueries` in the
+   `server_general.agent_discovery` config (edit
+   `config/sync/server_general.agent_discovery.yml`, then `ddev drush cim`).
+2. The `info.description` in `search.openapi.yaml`, describing what content the
+   site holds.
+
 ## PHPCS (Code Sniffer)
 
     ddev phpcs
