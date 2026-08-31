@@ -1,4 +1,3 @@
-name: drupal-starter
 type: drupal10
 docroot: web
 php_version: "8.3"
@@ -20,8 +19,8 @@ corepack_enable: false
 
 # Key features of DDEV's config.yaml:
 
-# name: <projectname> # Name of the project, automatically provides
-#   http://projectname.ddev.site and https://projectname.ddev.site
+# name is intentionally omitted so DDEV derives it from the directory name,
+# enabling git worktree support. See README.md.
 
 # type: <projecttype>  # backdrop, craftcms, django4, drupal, drupal6, drupal7, laravel, magento, magento2, php, python, shopware6, silverstripe, typo3, wordpress
 # See https://ddev.readthedocs.io/en/stable/users/quickstart/ for more
