@@ -13,7 +13,7 @@ bundle: documents
 label: Documents
 description: 'An uploaded file or document, such as a PDF.'
 required: true
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
