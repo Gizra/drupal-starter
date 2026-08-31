@@ -591,6 +591,18 @@ trait DeploymentTrait {
   public function deployCheckRequirementErrors(string $environment): void {
     $pantheon_info = $this->getPantheonNameAndEnv();
     $pantheon_terminus_environment = $pantheon_info['name'] . '.' . $environment;
+
+    // Drush CLI calls have no Drupal route match, so
+    // UpdateManager::projectStorage() always returns its stale cached
+    // project data instead of recomputing it, which can produce false
+    // "Not secure!" warnings for the version we just deployed. Clear it
+    // before checking requirements, in its own stack so its output does
+    // not get mixed into the rq JSON response below.
+    $this->taskExecStack()
+      ->stopOnFail()
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- php:eval \"\\Drupal::keyValueExpirable('update')->delete('update_project_projects');\"")
+      ->run();
+
     $task = $this->taskExecStack()
       ->stopOnFail();
     $output = $task
