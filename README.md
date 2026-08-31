@@ -259,6 +259,33 @@ To run PHPUnit tests for the `migrate_tools` contributed module, you would use:
 ddev phpunit-contrib migrate_tools
 ```
 
+### Accessibility Testing (WCAG 2.2 AA)
+
+Automated accessibility checks run via [Playwright](https://playwright.dev/) and
+[`@axe-core/playwright`](https://www.npmjs.com/package/@axe-core/playwright) against
+key page templates (front page, a landing page, a news article, the login page,
+and the 404 page). The suite lives in `accessibility-testing/` and requires a
+running DDEV site (`ddev start`, with the site installed per the
+["Local Installation"](#local-installation) steps above).
+
+```bash
+cd accessibility-testing
+npm ci
+npx playwright install --with-deps
+
+# Run the suite (targets http://drupal-starter.ddev.site:8880 by default,
+# override with BASE_URL).
+npx playwright test
+
+# Open the HTML report; each test's Attachments section links to the
+# full WCAG violation report for that page.
+npx playwright show-report
+```
+
+This suite also runs automatically in CI via `.github/workflows/playwright.yml`,
+which builds a fresh DDEV site inside the runner (the same way `ci.yml` does for
+PHPUnit) so no hosted environment is needed.
+
 ## Debugging
 
 ## Visual Studio Code instructions
