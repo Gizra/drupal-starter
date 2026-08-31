@@ -1,9 +1,9 @@
 name: Playwright Tests
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ main ]
 env:
   DDEV_NO_INSTRUMENTATION: true
 jobs:
@@ -25,7 +25,7 @@ jobs:
       - name: Install Drupal
         run: ./ci-scripts/install_drupal.sh
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: lts/*
 
