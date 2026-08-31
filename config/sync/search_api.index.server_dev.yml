@@ -163,6 +163,9 @@ processor_settings:
       preprocess_query: -30
   entity_status: {  }
   entity_type: {  }
+  exclude_nodes_by_path_alias:
+    excluded_nodes:
+      - /search
   language_with_fallback: {  }
   rendered_item: {  }
   solr_date_range: {  }
