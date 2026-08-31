@@ -418,8 +418,19 @@ Optionally you can specify which target branch you'd like to push on Pantheon, b
 `ddev robo deploy:config-autodeploy [your terminus token] [your github token] [pantheon project name] [gh_branch] [pantheon_branch]`
 
 After you have automatic deployment for a project, you are able to deploy to Pantheon `test` and `live` using Git tags.
-`git tag 0.1.2` will imply a deployment to the `test` environment (and `dev` - as enforced by Pantheon).
-`git tag 0.1.2_live` will imply a deployment to `live`. In order to make it fast, you need to first create the tag that deploy to `test`, then you need to tag the same commit with a tag suffixed with `_live`.
+
+    # Deploy to TEST (and DEV - as enforced by Pantheon).
+    git tag 0.1.2
+    git push origin 0.1.2
+
+    # Deploy to LIVE.
+    git tag 0.1.2_live
+    git push origin 0.1.2_live
+
+In order to make it fast, you need to first create the tag that deploys to `test`, then you need to tag the same commit with a tag suffixed with `_live`.
+
+> **Important:** Always push the tag with `git push origin <tag>` **before** publishing the GitHub release.
+> Creating a tag exclusively through the GitHub release UI may not fire the `push` event that triggers the deployment workflow, so the deployment gets skipped silently.
 
 ### Manual Steps
 
