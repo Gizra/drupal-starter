@@ -196,16 +196,84 @@ trait SecurityTrait {
    */
   protected function getLogFile(string $env) {
     $pantheon_info = $this->getPantheonNameAndEnv();
-    $this->_exec('$(terminus connection:info --field=sftp_command ' . $pantheon_info['name'] . ".$env) <<EOF
+    $site_env = $pantheon_info['name'] . ".$env";
+
+    // A Pantheon environment can run on several application containers, each
+    // keeping its own nginx logs. The SFTP command from Terminus only targets a
+    // single container, so we resolve every container IP and aggregate their
+    // logs - otherwise the analysis only sees a fraction of the traffic.
+    // @see https://docs.pantheon.io/guides/logs-pantheon/automate-log-downloads
+    $sftp_username = trim($this->getTerminusConnectionField($site_env, 'sftp_username'));
+    $sftp_host = trim($this->getTerminusConnectionField($site_env, 'sftp_host'));
+    $sftp_port = trim($this->getTerminusConnectionField($site_env, 'sftp_port')) ?: '2222';
+
+    if (empty($sftp_username) || empty($sftp_host)) {
+      throw new \Exception("Could not get SFTP connection information for $site_env");
+    }
+
+    // Resolve every application container behind the appserver hostname.
+    $app_server_ips = gethostbynamel($sftp_host);
+    if (empty($app_server_ips)) {
+      // Fall back to the hostname so single-container sites still work even if
+      // DNS resolution is unavailable.
+      $app_server_ips = [$sftp_host];
+    }
+
+    $this->say(sprintf('Found %d application container(s) for %s.', count($app_server_ips), $site_env));
+
+    // Remove a stale aggregate from a previous run before appending.
+    if (file_exists(self::$accessLogPath)) {
+      unlink(self::$accessLogPath);
+    }
+
+    $container_logs = [];
+    foreach ($app_server_ips as $index => $app_server_ip) {
+      $container_log = "/tmp/nginx-access-$index.log";
+      $this->_exec("sftp -o Port=$sftp_port -o StrictHostKeyChecking=no $sftp_username@$app_server_ip <<EOF
 cd logs/nginx
-get nginx-access.log " . self::$accessLogPath . "
+get nginx-access.log $container_log
 EOF
 ");
-    if (!file_exists(self::$accessLogPath)) {
+      if (file_exists($container_log)) {
+        $container_logs[] = $container_log;
+      }
+    }
+
+    if (empty($container_logs)) {
       $this->say('Try to use "ddev auth ssh" first to fix this issue. It will let DDEV download the logs via SFTP with the keys of the host system.');
       $this->say('https://ddev.readthedocs.io/en/stable/users/usage/cli/#ssh-into-containers');
       throw new \Exception('Failed to download the logfiles');
     }
+
+    // Merge every container log into a single file for analysis.
+    foreach ($container_logs as $container_log) {
+      $this->taskExec('cat ' . escapeshellarg($container_log) . ' >> ' . escapeshellarg(self::$accessLogPath))
+        ->run();
+      unlink($container_log);
+    }
+  }
+
+  /**
+   * Reads a single field from `terminus connection:info`.
+   *
+   * @param string $site_env
+   *   The Pantheon site and environment, e.g. `myproject.live`.
+   * @param string $field
+   *   The connection field to read, e.g. `sftp_host`.
+   *
+   * @return string
+   *   The field value, or an empty string when it could not be retrieved.
+   */
+  protected function getTerminusConnectionField(string $site_env, string $field): string {
+    $result = $this->taskExec("terminus connection:info $site_env --field=$field")
+      ->printOutput(FALSE)
+      ->run();
+
+    if ($result->getExitCode() !== 0) {
+      return '';
+    }
+
+    return $result->getMessage();
   }
 
   /**
