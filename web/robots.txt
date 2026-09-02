@@ -84,18 +84,21 @@ Disallow: *&f%5B*
 # live user prompt. They are listed per vendor and per bot below so the
 # policy can be tuned for each one, per project.
 #
-# Baseline policy: ALLOW every named AI bot full access to our original
-# content (retrieval, indexing, and training). "Disallow:" with an empty
-# value means "allow everything" for that group. The only opt-out is
+# Baseline policy: ALLOW every named AI bot access to our original content
+# (retrieval, indexing, and training), EXCEPT the faceted-search URLs. Crawling
+# facet permutations is pure waste — no bot gains value from indexing them, and
+# they burn crawl budget and server resources — so we keep the same facet
+# protection here that "User-agent: *" gets above. The only full opt-out is
 # Google-Extended (see the end of this section).
 #
 # NOTE: robots.txt groups do NOT merge. A bot obeys only the single most
 # specific "User-agent" group that matches its name, so each group below is
-# self-contained and does not inherit the "User-agent: *" rules above.
+# self-contained and does not inherit the "User-agent: *" rules above. That is
+# why the facet "Disallow:" lines are repeated in every group.
 #
 # To keep a *training* bot out of a rights-restricted collection while still
-# allowing it everywhere else, replace the empty "Disallow:" with one or more
-# path-scoped rules, e.g.:
+# allowing it everywhere else, add path-scoped rules alongside the facet ones,
+# e.g.:
 #
 #   User-agent: GPTBot
 #   Disallow: /licensed-collection/
@@ -108,25 +111,29 @@ Disallow: *&f%5B*
 User-agent: GPTBot
 User-agent: OAI-SearchBot
 User-agent: ChatGPT-User
-Disallow:
+Disallow: *?f%5B*
+Disallow: *&f%5B*
 
 # Anthropic — https://support.anthropic.com/en/articles/8896518
 # ClaudeBot: model training. Claude-SearchBot: search index. Claude-User: live user fetch.
 User-agent: ClaudeBot
 User-agent: Claude-SearchBot
 User-agent: Claude-User
-Disallow:
+Disallow: *?f%5B*
+Disallow: *&f%5B*
 
 # Perplexity — https://docs.perplexity.ai/guides/bots
 # PerplexityBot: search index. Perplexity-User: live user fetch.
 User-agent: PerplexityBot
 User-agent: Perplexity-User
-Disallow:
+Disallow: *?f%5B*
+Disallow: *&f%5B*
 
 # Meta — https://developers.facebook.com/docs/sharing/webmasters/web-crawlers
 # Meta-ExternalAgent: model training and AI product indexing.
 User-agent: Meta-ExternalAgent
-Disallow:
+Disallow: *?f%5B*
+Disallow: *&f%5B*
 
 # Google-Extended — opt OUT of Gemini/Vertex model training. This is free and
 # has NO effect on Google Search indexing or on AI Overviews.

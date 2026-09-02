@@ -45,6 +45,15 @@ class ServerGeneralRobotsTxtTest extends ExistingSiteBase {
     // site to opt out of Gemini/Vertex training.
     $google_extended = strstr($content, 'User-agent: Google-Extended');
     $this->assertStringContainsString('Disallow: /', $google_extended, 'Google-Extended is disallowed from the entire site.');
+
+    // Faceted-search URLs have no crawl value for any bot. Because robots.txt
+    // groups do not merge, each AI bot group must repeat the facet protection
+    // instead of inheriting it from "User-agent: *".
+    $this->assertGreaterThanOrEqual(
+      2,
+      substr_count($content, 'Disallow: *?f%5B*'),
+      'The facet protection is repeated inside the AI-bot groups, not only in "User-agent: *".'
+    );
   }
 
 }

@@ -549,8 +549,11 @@ vendor runs separate bots for model training, search-indexing, and
 live user-triggered retrieval (e.g. OpenAI's `GPTBot` / `OAI-SearchBot` /
 `ChatGPT-User`), so they are listed individually and can be tuned per bot.
 
-The baseline **allows** every named AI bot full access to your original
-content, with one exception: `Google-Extended` is disallowed, which is a free
+The baseline **allows** every named AI bot access to your original content,
+with two exceptions. First, faceted-search URLs are disallowed for the AI bots
+too — the same protection `User-agent: *` gets — since crawling facet
+permutations has no value for any bot and only wastes crawl budget and server
+resources. Second, `Google-Extended` is disallowed entirely, which is a free
 opt-out from Gemini/Vertex model training and has no effect on Google Search
 or AI Overviews. Revisit this policy per project on the Go Live Checklist.
 
@@ -558,11 +561,13 @@ or AI Overviews. Revisit this policy per project on the Go Live Checklist.
 
 `robots.txt` groups do **not** merge: a bot obeys only the single most
 specific `User-agent` group matching its name. To keep a training bot out of a
-rights-restricted collection while allowing it everywhere else, replace that
-bot's blanket `Disallow:` (empty = allow all) with path-scoped rules:
+rights-restricted collection while allowing it everywhere else, add path-scoped
+rules to that bot's group alongside the facet ones:
 
 ```
 User-agent: GPTBot
+Disallow: *?f%5B*
+Disallow: *&f%5B*
 Disallow: /licensed-collection/
 Disallow: /archive/rights-restricted/
 ```
