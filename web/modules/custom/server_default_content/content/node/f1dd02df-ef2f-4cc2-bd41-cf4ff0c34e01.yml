@@ -71,3 +71,6 @@ default:
       entity: 36e37c28-d3d4-45df-88ba-0ef7f9e82fe4
     -
       entity: e021e646-55ed-455b-add6-3e635008173b
+  field_wikidata_id:
+    -
+      value: Q39809
