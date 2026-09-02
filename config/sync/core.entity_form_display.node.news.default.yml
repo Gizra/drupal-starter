@@ -8,6 +8,7 @@ dependencies:
     - field.field.node.news.field_metatag
     - field.field.node.news.field_publish_date
     - field.field.node.news.field_tags
+    - field.field.node.news.field_wikidata_id
     - node.type.news
     - workflows.workflow.default
   module:
@@ -46,7 +47,7 @@ content:
     third_party_settings: {  }
   field_metatag:
     type: metatag_firehose
-    weight: 101
+    weight: 16
     region: content
     settings:
       sidebar: true
@@ -54,7 +55,7 @@ content:
     third_party_settings: {  }
   field_publish_date:
     type: datetime_default
-    weight: 13
+    weight: 14
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -70,6 +71,15 @@ content:
       show_entity_id: 0
       show_info_label: 0
       info_label: ''
+      parent_selection: 1
+    third_party_settings: {  }
+  field_wikidata_id:
+    type: string_textfield
+    weight: 17
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   langcode:
     type: language_select
@@ -80,7 +90,7 @@ content:
     third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
-    weight: 100
+    weight: 15
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -104,7 +114,7 @@ content:
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 12
+    weight: 13
     region: content
     settings:
       display_label: true
@@ -125,7 +135,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
   translation:
-    weight: 10
+    weight: 11
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -140,7 +150,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
   url_redirects:
-    weight: 11
+    weight: 12
     region: content
     settings: {  }
     third_party_settings: {  }
