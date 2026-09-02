@@ -7,3 +7,12 @@ services:
     arguments: ['@current_route_match', '@entity_type.manager', '@server_general.locked_pages']
     tags:
       - { name: event_subscriber }
+  logger.channel.server_general:
+    parent: logger.channel_base
+    arguments: ['server_general']
+  server_general.ai_bot_range_updater:
+    class: Drupal\server_general\Service\AiBotRangeUpdater
+    arguments: ['@http_client', '@file_system', '@logger.channel.server_general']
+  Drupal\server_general\Hook\AiBotRangeCronHook:
+    class: Drupal\server_general\Hook\AiBotRangeCronHook
+    arguments: ['@server_general.ai_bot_range_updater']
