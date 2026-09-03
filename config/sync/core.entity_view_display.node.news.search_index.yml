@@ -9,6 +9,7 @@ dependencies:
     - field.field.node.news.field_metatag
     - field.field.node.news.field_publish_date
     - field.field.node.news.field_tags
+    - field.field.node.news.field_wikidata_id
     - node.type.news
   module:
     - datetime
@@ -63,5 +64,6 @@ content:
     region: content
 hidden:
   field_metatag: true
+  field_wikidata_id: true
   langcode: true
   search_api_excerpt: true
