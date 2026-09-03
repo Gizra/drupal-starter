@@ -66,15 +66,16 @@ class ServerGeneralAgentDiscoveryTest extends ServerGeneralSearchTestBase {
    */
   public function testSearchReturnsEnvelope(): void {
     $title = 'Zorptastic agent discovery fixture';
+    $bodyText = 'A body mentioning quixotically rare snippet content.';
     $this->createNode([
       'title' => $title,
       'type' => 'news',
-      'body' => 'A body mentioning zorptastic content for indexing.',
+      'field_body' => $bodyText,
       'moderation_state' => 'published',
     ]);
     $this->triggerPostRequestIndexing();
 
-    $this->waitForSearchIndex(function () use ($title) {
+    $this->waitForSearchIndex(function () use ($title, $bodyText) {
       $this->drupalGet('/api/search', ['query' => ['key' => 'zorptastic']]);
       $this->assertSession()->statusCodeEquals(Response::HTTP_OK);
       $data = $this->decodeJson();
@@ -86,6 +87,18 @@ class ServerGeneralAgentDiscoveryTest extends ServerGeneralSearchTestBase {
 
       $titles = array_column($data['results'], 'title');
       $this->assertContains($title, $titles);
+
+      // The seeded node's snippet must carry the body text, exercising the
+      // snippet() path over field_body.
+      $match = NULL;
+      foreach ($data['results'] as $result) {
+        if (($result['title'] ?? '') === $title) {
+          $match = $result;
+          break;
+        }
+      }
+      $this->assertNotNull($match, 'The seeded node is present in the results.');
+      $this->assertStringContainsString($bodyText, $match['snippet']);
 
       foreach ($data['results'] as $result) {
         $this->assertArrayHasKey('title', $result);

@@ -12,6 +12,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleExtensionList;
+use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\node\NodeInterface;
 use Drupal\search_api\IndexInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -56,6 +57,7 @@ final class AgentSearchController implements ContainerInjectionInterface {
     protected EntityTypeManagerInterface $entityTypeManager,
     protected ConfigFactoryInterface $configFactory,
     protected ModuleExtensionList $moduleExtensionList,
+    protected LanguageManagerInterface $languageManager,
   ) {}
 
   /**
@@ -66,6 +68,7 @@ final class AgentSearchController implements ContainerInjectionInterface {
       $container->get('entity_type.manager'),
       $container->get('config.factory'),
       $container->get('extension.list.module'),
+      $container->get('language_manager'),
     );
   }
 
@@ -85,9 +88,9 @@ final class AgentSearchController implements ContainerInjectionInterface {
     $limit = max(1, min(self::MAX_LIMIT, $limit));
 
     $cacheability = (new CacheableMetadata())
-      // Results vary by the query args and by content changes.
-      ->addCacheContexts(['url.query_args:key', 'url.query_args:type', 'url.query_args:limit'])
-      ->addCacheTags(['node_list']);
+      // Results vary by the query args; content-change invalidation is added
+      // from the executed query in runSearch().
+      ->addCacheContexts(['url.query_args:key', 'url.query_args:type', 'url.query_args:limit']);
 
     $results = $key === '' ? [] : $this->runSearch($key, $type, $limit, $cacheability);
 
@@ -187,10 +190,24 @@ final class AgentSearchController implements ContainerInjectionInterface {
     if ($type !== '') {
       $query->addCondition('type', $type);
     }
+    // Mirror the HTML /search view: restrict to the interface language (with
+    // fallback) so a translated node returns once, not once per translation.
+    $langcode = $this->languageManager->getCurrentLanguage()->getId();
+    $query->addCondition('language_with_fallback', $langcode);
+    $cacheability->addCacheContexts(['languages:language_interface']);
     $query->range(0, $limit);
 
+    $resultSet = $query->execute();
+    // The index invalidates search_api_list:<index> on every indexing batch and
+    // clear, catching cron catch-up and delayed Solr commits that node_list
+    // misses; the query's own contexts carry the per-user node-grants context
+    // that content_access filtering depends on.
+    $cacheability
+      ->addCacheableDependency($query)
+      ->addCacheTags(['search_api_list:' . self::INDEX_ID]);
+
     $results = [];
-    foreach ($query->execute()->getResultItems() as $item) {
+    foreach ($resultSet->getResultItems() as $item) {
       try {
         $node = $item->getOriginalObject()->getValue();
       }
