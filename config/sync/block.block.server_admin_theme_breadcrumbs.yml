@@ -1,0 +1,22 @@
+uuid: be40246f-dec5-4a17-8155-f8f182c36448
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - server_admin_theme
+_core:
+  default_config_hash: oXUb3JZR2WW5VOdw4HrhRicCsq51mCgLfRyvheG68ck
+id: server_admin_theme_breadcrumbs
+theme: server_admin_theme
+region: breadcrumb
+weight: -2
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  label_display: '0'
+  provider: system
+visibility: {  }
