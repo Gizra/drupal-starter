@@ -783,6 +783,51 @@ trait DeploymentTrait {
   }
 
   /**
+   * Finds the latest open release issue to notify about live deployments.
+   *
+   * @param string $github_token
+   *   The GitHub API token.
+   *
+   * @return int|null
+   *   The number of the latest matching open issue, or NULL if no open
+   *   issue titled starting with "Create release" or "Cut release" was
+   *   found. The rest of the title varies (e.g. "and deploy", "& deploy",
+   *   a trailing timebox like "[2h]"), so only the leading words are
+   *   matched.
+   */
+  protected function deployFindLatestReleaseIssue(string $github_token): ?int {
+    $release_issue_title_prefixes = [
+      'create release',
+      'cut release',
+    ];
+
+    $result = $this->taskExec("curl -H \"Authorization: token $github_token\" \"https://api.github.com/repos/" . self::$githubProject . "/issues?state=open&sort=created&direction=desc&per_page=100\"")
+      ->printOutput(FALSE)
+      ->run()
+      ->getMessage();
+
+    $issues = json_decode($result);
+    if (!is_array($issues)) {
+      return NULL;
+    }
+
+    foreach ($issues as $issue) {
+      // The issues endpoint also returns pull requests, skip those.
+      if (isset($issue->pull_request)) {
+        continue;
+      }
+      $title = strtolower(trim($issue->title));
+      foreach ($release_issue_title_prefixes as $prefix) {
+        if (str_starts_with($title, $prefix)) {
+          return (int) $issue->number;
+        }
+      }
+    }
+
+    return NULL;
+  }
+
+  /**
    * Posts a comment on the GitHub issue that the code got deployed to Pantheon.
    *
    * @param string $pantheon_environment
@@ -796,51 +841,64 @@ trait DeploymentTrait {
       $issue_comment = json_encode($data);
     }
     $github_token = getenv('GITHUB_TOKEN');
-    $git_commit_message = getenv('GITHUB_COMMIT_MESSAGE');
-    if (strstr($git_commit_message, 'Merge pull request') === FALSE && strstr($git_commit_message, ' (#') === FALSE) {
-      $this->say($git_commit_message);
-      return;
-    }
 
-    $issue_matches = [];
     $issue_numbers = [];
-    // If the PR was simply merged, then we have this:
-    preg_match_all('!from [a-zA-Z-_0-9]+/([0-9]+)!', $git_commit_message, $issue_matches);
-    if (!isset($issue_matches[1][0])) {
-      $this->say("Could not determine the issue number from the commit message name: $git_commit_message");
-
-      // If the PR was merged with a squash, then we have this:
-      // blah blah (#1234)
-      // Where 1234 is the PR number.
-      $pr_matches = [];
-      preg_match_all('!\(#([0-9]+)\)!', $git_commit_message, $pr_matches);
-      if (!isset($pr_matches[0][0])) {
-        $this->say("Could not determine the PR number from the commit message: $git_commit_message");
-        return;
-      }
-      // Retrieve the issue number from the PR description via GitHub API.
-      $pr_number = $pr_matches[1][0];
-      $pr = $this->taskExec("curl -H \"Authorization: token $github_token\" https://api.github.com/repos/" . self::$githubProject . "/pulls/$pr_number")
-        ->printOutput(FALSE)
-        ->run()
-        ->getMessage();
-      $pr = json_decode($pr);
-      if (!isset($pr->body)) {
-        $this->say("Could not determine the issue number from the PR: $git_commit_message");
-        return;
-      }
-      // The issue number should be the "#1234"-like reference in the PR body.
-      preg_match_all('!#([0-9]+)\s+!', $pr->body, $issue_matches);
-      if (!isset($issue_matches[1][0])) {
-        $this->say("Could not determine the issue number from the PR description: $pr->body");
-        return;
-      }
-      foreach ($issue_matches[1] as $issue_match) {
-        $issue_numbers[] = $issue_match;
+    if ($pantheon_environment === 'live') {
+      // Live deploys are triggered from a release tag, so the commit
+      // message does not point back to the originating issue. Post to
+      // the release issue instead.
+      $release_issue_number = $this->deployFindLatestReleaseIssue($github_token);
+      if ($release_issue_number !== NULL) {
+        $issue_numbers[] = $release_issue_number;
       }
     }
-    else {
-      $issue_numbers[] = $issue_matches[1][0];
+
+    if (empty($issue_numbers)) {
+      $git_commit_message = getenv('GITHUB_COMMIT_MESSAGE');
+      if (strstr($git_commit_message, 'Merge pull request') === FALSE && strstr($git_commit_message, ' (#') === FALSE) {
+        $this->say($git_commit_message);
+        return;
+      }
+
+      $issue_matches = [];
+      // If the PR was simply merged, then we have this:
+      preg_match_all('!from [a-zA-Z-_0-9]+/([0-9]+)!', $git_commit_message, $issue_matches);
+      if (!isset($issue_matches[1][0])) {
+        $this->say("Could not determine the issue number from the commit message name: $git_commit_message");
+
+        // If the PR was merged with a squash, then we have this:
+        // blah blah (#1234)
+        // Where 1234 is the PR number.
+        $pr_matches = [];
+        preg_match_all('!\(#([0-9]+)\)!', $git_commit_message, $pr_matches);
+        if (!isset($pr_matches[0][0])) {
+          $this->say("Could not determine the PR number from the commit message: $git_commit_message");
+          return;
+        }
+        // Retrieve the issue number from the PR description via GitHub API.
+        $pr_number = $pr_matches[1][0];
+        $pr = $this->taskExec("curl -H \"Authorization: token $github_token\" https://api.github.com/repos/" . self::$githubProject . "/pulls/$pr_number")
+          ->printOutput(FALSE)
+          ->run()
+          ->getMessage();
+        $pr = json_decode($pr);
+        if (!isset($pr->body)) {
+          $this->say("Could not determine the issue number from the PR: $git_commit_message");
+          return;
+        }
+        // The issue number should be the "#1234"-like reference in the PR body.
+        preg_match_all('!#([0-9]+)\s+!', $pr->body, $issue_matches);
+        if (!isset($issue_matches[1][0])) {
+          $this->say("Could not determine the issue number from the PR description: $pr->body");
+          return;
+        }
+        foreach ($issue_matches[1] as $issue_match) {
+          $issue_numbers[] = $issue_match;
+        }
+      }
+      else {
+        $issue_numbers[] = $issue_matches[1][0];
+      }
     }
 
     $pantheon_info = $this->getPantheonNameAndEnv();
