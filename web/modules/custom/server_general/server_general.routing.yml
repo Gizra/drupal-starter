@@ -1,0 +1,37 @@
+server_general.agent_search:
+  path: '/api/search'
+  defaults:
+    _controller: '\Drupal\server_general\Controller\AgentSearchController::search'
+    _title: 'Search'
+  methods: [GET]
+  requirements:
+    # Public, read-only search. The Search API `content_access` processor limits
+    # results to what the current (anonymous) user may view, so no extra gate is
+    # needed here.
+    _access: 'TRUE'
+
+server_general.agent_openapi_spec:
+  path: '/api/search/openapi.yaml'
+  defaults:
+    _controller: '\Drupal\server_general\Controller\AgentSearchController::openApiSpec'
+  methods: [GET]
+  requirements:
+    _access: 'TRUE'
+
+server_general.agent_api_catalog:
+  # RFC 9727: a linkset document advertising the site's API descriptions.
+  path: '/.well-known/api-catalog'
+  defaults:
+    _controller: '\Drupal\server_general\Controller\AgentSearchController::apiCatalog'
+  methods: [GET]
+  requirements:
+    _access: 'TRUE'
+
+server_general.agent_ai_catalog:
+  # Google Agentic Resource Discovery: a description plus representative queries.
+  path: '/.well-known/ai-catalog.json'
+  defaults:
+    _controller: '\Drupal\server_general\Controller\AgentSearchController::aiCatalog'
+  methods: [GET]
+  requirements:
+    _access: 'TRUE'
