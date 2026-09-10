@@ -34,12 +34,9 @@ use Symfony\Component\HttpFoundation\Response;
  *     /.well-known/ai-catalog.json (Google's Agentic Resource Discovery), which
  *     point an agent at the spec.
  *
- * The catalogs' human-facing text (description, representative queries) lives
+ * The catalogs' human-facing text lives
  * in the `server_general.agent_discovery` config so each project can tailor it
- * without touching code. The search itself is deliberately thin: it owns no
- * ranking or access logic of its own, delegating both to the Search API index
- * (the `content_access` processor restricts results to what the caller may
- * view, so an anonymous request only ever sees published, public nodes).
+ * without touching code.
  */
 final class AgentSearchController implements ContainerInjectionInterface {
 
