@@ -222,12 +222,7 @@ scraping the HTML `/search` page:
 
 ## Short comments
 
-A comment is at most 30 words; a paragraph in a `.md` file at most 60. A
-docblock counts up to its first tag. CI measures only the comments a pull
-request writes. To check yours before pushing (needs Python 3 and git, not
-DDEV):
-
-    python3 ci-scripts/check_comments.py --base origin/main
+A comment is at most 30 words; a paragraph in a `.md` file at most 60.
 
 ## Tests
 
