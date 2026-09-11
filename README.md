@@ -220,6 +220,10 @@ scraping the HTML `/search` page:
 
     ddev phpcs
 
+## Short comments
+
+A comment is at most 30 words; a paragraph in a `.md` file at most 60.
+
 ## Tests
 
 For testing we use [Drupal Test Traits](https://medium.com/massgovdigital/introducing-drupal-test-traits-9fe09e84384c) (DTT), as it allows a very fast and convinent way of testing existing installation profiles.

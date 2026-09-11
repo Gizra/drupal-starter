@@ -56,6 +56,7 @@ This is a Drupal 10/11 starter project using DDEV, Robo, Pantheon, and Drupal be
 ```bash
 ddev phpcs      # Code style check
 ddev phpstan    # Static analysis
+python3 ci-scripts/check_comments.py --base origin/main  # Comment length
 ```
 
 ### Code Comments Philosophy
@@ -64,7 +65,8 @@ Only add comments that provide value beyond the code:
 - Provide **context** not obvious from code (issue references, external requirements)
 - Describe **trade-offs** and non-obvious implications
 
-Avoid comments that restate the code.
+Avoid comments that restate the code. A comment is at most 30 words, and a
+Markdown paragraph at most 60; CI rejects longer ones a PR adds.
 
 ### Code Style Guidelines
 
