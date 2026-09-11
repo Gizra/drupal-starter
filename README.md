@@ -594,6 +594,49 @@ ddev auth ssh # One-time prerequisite
 ddev robo security:access-log-overview
 ```
 
+## AI crawlers
+
+`web/robots.txt` ships an explicit, per-vendor baseline for AI bots. Each
+vendor runs separate bots for model training, search-indexing, and
+live user-triggered retrieval (e.g. OpenAI's `GPTBot` / `OAI-SearchBot` /
+`ChatGPT-User`), so they are listed individually and can be tuned per bot.
+
+The baseline **allows** every named AI bot access to your original content,
+with two exceptions. First, faceted-search URLs are disallowed for the AI bots
+too — the same protection `User-agent: *` gets — since crawling facet
+permutations has no value for any bot and only wastes crawl budget and server
+resources. Second, `Google-Extended` is disallowed entirely, which is a free
+opt-out from Gemini/Vertex model training and has no effect on Google Search
+or AI Overviews. Revisit this policy per project on the Go Live Checklist.
+
+### Restricting a training bot to part of the site
+
+`robots.txt` groups do **not** merge: a bot obeys only the single most
+specific `User-agent` group matching its name. To keep a training bot out of a
+rights-restricted collection while allowing it everywhere else, add path-scoped
+rules to that bot's group alongside the facet ones:
+
+```
+User-agent: GPTBot
+Disallow: *?f%5B*
+Disallow: *&f%5B*
+Disallow: /licensed-collection/
+Disallow: /archive/rights-restricted/
+```
+
+Scope by the URL path of the content type or collection you need to protect.
+
+### Verifying bot identity
+
+A `robots.txt` rule is only honored by well-behaved bots, and any client can
+send a `User-agent: GPTBot` header. To *enforce* a policy — or to trust a bot's
+identity before serving it — verify the request against the vendor's published
+IP ranges or via forward-confirmed reverse DNS (rDNS: the source IP must
+reverse-resolve to the vendor's domain, and that hostname must forward-resolve
+back to the same IP). This is best done at the CDN/WAF layer (e.g. Cloudflare
+verified-bot rules). Vendors publish the required IP ranges and rDNS domains in
+the bot docs linked from `robots.txt`.
+
 ## Importing/Exporting translations
 
 There are 2 types of translations that we manage in this site by code. These are:
