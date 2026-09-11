@@ -220,6 +220,15 @@ scraping the HTML `/search` page:
 
     ddev phpcs
 
+## Short comments
+
+A comment is at most 30 words; a paragraph in a `.md` file at most 60. A
+docblock counts up to its first tag. CI measures only the comments a pull
+request writes. To check yours before pushing (needs Python 3 and git, not
+DDEV):
+
+    python3 ci-scripts/check_comments.py --base origin/main
+
 ## Tests
 
 For testing we use [Drupal Test Traits](https://medium.com/massgovdigital/introducing-drupal-test-traits-9fe09e84384c) (DTT), as it allows a very fast and convinent way of testing existing installation profiles.

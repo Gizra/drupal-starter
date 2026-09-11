@@ -1,0 +1,32 @@
+name: Comment length
+
+# Only the comments a pull request writes are measured.
+on:
+  pull_request:
+
+concurrency:
+  group: comments-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  comments:
+    name: "Comment length: new comments within budget"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          # The merge commit and both its parents, which is all `HEAD^1` needs.
+          fetch-depth: 2
+
+      # The checker's own tests first: one that passes everything is worse
+      # than none. Stdlib only, so nothing is installed here.
+      - name: Test the checker
+        run: PYTHONPATH=ci-scripts python3 -m unittest discover -s ci-scripts/tests
+
+      # The checkout is this PR merged into its base branch's tip, and `HEAD^1`
+      # is that tip. `pull_request.base.sha` can lag behind it.
+      - name: Check new comments
+        run: python3 ci-scripts/check_comments.py --base HEAD^1
