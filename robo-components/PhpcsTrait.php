@@ -33,8 +33,8 @@ trait PhpcsTrait {
     ];
 
     // Ignore patterns are regular expressions, so a bare `.parcel-cache`
-    // matches any character followed by "parcel-cache". It is escaped and
-    // anchored between slashes so it only matches a directory of that name.
+    // matches any character followed by "parcel-cache". Escaping and
+    // anchoring it between slashes matches only that directory.
     $arguments = "--standard=$standards -p --ignore=" . self::$themeName . "/dist,node_modules,/\\.parcel-cache/ --colors --extensions=php,module,inc,install,test,profile,theme,css,yaml,txt,md";
 
     // Step 1: Auto-fix what can be fixed (only if not in CI).
