@@ -134,10 +134,9 @@ class DocParagraphs(unittest.TestCase):
         source = "- one two\n\n    three four five\n"
         self.assertEqual(words_at("a.md", source, 3), 3)
 
-    def test_a_doc_gets_the_larger_budget(self):
+    def test_a_doc_gets_the_doc_budget(self):
         blocks = list(checker.blocks_of("a.md", "one two\n"))
         self.assertEqual(blocks[0].budget, checker.DOC_BUDGET)
-        self.assertGreater(checker.DOC_BUDGET, checker.CODE_BUDGET)
 
 
 class ChangedLines(unittest.TestCase):

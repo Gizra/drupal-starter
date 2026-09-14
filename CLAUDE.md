@@ -65,8 +65,8 @@ Only add comments that provide value beyond the code:
 - Provide **context** not obvious from code (issue references, external requirements)
 - Describe **trade-offs** and non-obvious implications
 
-Avoid comments that restate the code. A comment is at most 30 words, and a
-Markdown paragraph at most 60; CI rejects longer ones a PR adds.
+Avoid comments that restate the code. A comment or Markdown paragraph is at
+most 30 words; CI rejects longer ones a PR adds.
 
 ### Code Style Guidelines
 

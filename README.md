@@ -222,7 +222,7 @@ scraping the HTML `/search` page:
 
 ## Short comments
 
-A comment is at most 30 words; a paragraph in a `.md` file at most 60.
+A comment, or a paragraph in a `.md` file, is at most 30 words.
 
 ## Tests
 
