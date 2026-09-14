@@ -302,9 +302,11 @@ def added_lines(diff):
 
 
 def git(*args):
+    # Drupal's .gitattributes marks images `diff`, so git prints their bytes
+    # as added lines. Only the headers are read, and those are UTF-8.
     return subprocess.run(
         ("git", "-c", "core.quotepath=false") + args,
-        capture_output=True, text=True, check=True,
+        capture_output=True, text=True, errors="replace", check=True,
     ).stdout
 
 

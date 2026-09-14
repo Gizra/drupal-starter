@@ -227,6 +227,13 @@ class AgainstGit(unittest.TestCase):
             with self.subTest(key), mock.patch.dict(os.environ, config):
                 self.assertEqual(self.check(), 1)
 
+    def test_an_image_git_diffs_as_text_does_not_stop_the_check(self):
+        self.commit({".gitattributes": "*.png -text diff\n"})
+        (self.repo / "sub/a.png").write_bytes(b"\x89PNG\r\n\x1a\n\x00\xff")
+        self.git("add", "sub/a.png")
+        (self.repo / "sub/a.sh").write_text("run\n" + self.LONG)
+        self.assertEqual(self.check(), 1)
+
     def test_a_short_comment_under_an_old_long_one_passes(self):
         self.commit({"sub/a.sh": self.LONG + "run\n"})
         (self.repo / "sub/a.sh").write_text(self.LONG + "\n# new\nrun\n")
