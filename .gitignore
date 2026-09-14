@@ -57,6 +57,9 @@ web/sites/all/drush
 .phpunit.result.cache
 phpunit_debug
 
+# Python
+__pycache__/
+
 # Patching leftover.
 *.orig
 *.rej
