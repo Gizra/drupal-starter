@@ -68,3 +68,6 @@ default:
   field_tags:
     -
       entity: 36e37c28-d3d4-45df-88ba-0ef7f9e82fe4
+  field_wikidata_id:
+    -
+      value: Q8

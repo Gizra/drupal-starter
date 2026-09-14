@@ -191,9 +191,38 @@ This project supports AI-based features using OpenAI.
 ddev terminus secret:site:set gizra-drupal-starter openai_api_key your-key-here --type=runtime --scope=web,user
 ```
 
+## Agent-queryable search
+
+The starter publishes its search so an AI agent can query it directly instead of
+scraping the HTML `/search` page:
+
+- `GET /api/search?key=<term>&type=<bundle>&limit=<n>` — anonymous, read-only
+  fulltext search over the Solr index, returning `{count, results:[{title, url,
+  snippet, type}]}`. Results respect node access, so only published, public
+  content is exposed.
+- `GET /api/search/openapi.yaml` — the OpenAPI 3.1 description of that endpoint
+  (`web/modules/custom/server_general/search.openapi.yaml`), with the live
+  origin filled in automatically.
+- `GET /.well-known/api-catalog` — an [RFC 9727](https://www.rfc-editor.org/rfc/rfc9727)
+  linkset pointing at the OpenAPI description.
+- `GET /.well-known/ai-catalog.json` — Google's Agentic Resource Discovery
+  catalog, exposing a `description` and `representativeQueries`.
+
+**Per project**, tailor two things to the site:
+
+1. The `description` and `representativeQueries` in the
+   `server_general.agent_discovery` config (edit
+   `config/sync/server_general.agent_discovery.yml`, then `ddev drush cim`).
+2. The `info.description` in `search.openapi.yaml`, describing what content the
+   site holds.
+
 ## PHPCS (Code Sniffer)
 
     ddev phpcs
+
+## Short comments
+
+A comment, or a paragraph in a `.md` file, is at most 30 words.
 
 ## Tests
 
@@ -229,8 +258,10 @@ When it is hard to understand a test failure, a peek into the browser might help
 For Selenium-based ones, you can take screenshots using the `takeScreenshot()` method. This captures and saves
 the screenshot in `/web/sites/simpletest/screenshots`.
 You can also watch what the tests are doing in the browser using noVNC. To do so, simply open a browser and open
-https://drupal-starter.ddev.site:7900 and click Connect. The password is `secret`. Now simply run the tests
+https://drupal-starter.ddev.site:7900 and click Connect. No password is needed. Now simply run the tests
 and you can see the test running in the browser.
+
+Chrome only runs headless on CI, so locally there is always something to watch.
 
 For faster, virtual browser-based tests, you can use `createHtmlSnapshot` and it will dump the HTML content
 of the virtual browser into the `phpunit_debug` directory. For the exact filename, refer to the output of
@@ -256,6 +287,33 @@ To run PHPUnit tests for the `migrate_tools` contributed module, you would use:
 ```bash
 ddev phpunit-contrib migrate_tools
 ```
+
+### Accessibility Testing (WCAG 2.2 AA)
+
+Automated accessibility checks run via [Playwright](https://playwright.dev/) and
+[`@axe-core/playwright`](https://www.npmjs.com/package/@axe-core/playwright) against
+key page templates (front page, a landing page, a news article, the login page,
+and the 404 page). The suite lives in `accessibility-testing/` and requires a
+running DDEV site (`ddev start`, with the site installed per the
+["Local Installation"](#local-installation) steps above).
+
+```bash
+cd accessibility-testing
+npm ci
+npx playwright install --with-deps
+
+# Run the suite (targets http://drupal-starter.ddev.site:8880 by default,
+# override with BASE_URL).
+npx playwright test
+
+# Open the HTML report; each test's Attachments section links to the
+# full WCAG violation report for that page.
+npx playwright show-report
+```
+
+This suite also runs automatically in CI via `.github/workflows/playwright.yml`,
+which builds a fresh DDEV site inside the runner (the same way `ci.yml` does for
+PHPUnit) so no hosted environment is needed.
 
 ## Debugging
 
@@ -540,6 +598,49 @@ ddev auth ssh # One-time prerequisite
 ddev robo security:access-log-overview
 ```
 
+## AI crawlers
+
+`web/robots.txt` ships an explicit, per-vendor baseline for AI bots. Each
+vendor runs separate bots for model training, search-indexing, and
+live user-triggered retrieval (e.g. OpenAI's `GPTBot` / `OAI-SearchBot` /
+`ChatGPT-User`), so they are listed individually and can be tuned per bot.
+
+The baseline **allows** every named AI bot access to your original content,
+with two exceptions. First, faceted-search URLs are disallowed for the AI bots
+too — the same protection `User-agent: *` gets — since crawling facet
+permutations has no value for any bot and only wastes crawl budget and server
+resources. Second, `Google-Extended` is disallowed entirely, which is a free
+opt-out from Gemini/Vertex model training and has no effect on Google Search
+or AI Overviews. Revisit this policy per project on the Go Live Checklist.
+
+### Restricting a training bot to part of the site
+
+`robots.txt` groups do **not** merge: a bot obeys only the single most
+specific `User-agent` group matching its name. To keep a training bot out of a
+rights-restricted collection while allowing it everywhere else, add path-scoped
+rules to that bot's group alongside the facet ones:
+
+```
+User-agent: GPTBot
+Disallow: *?f%5B*
+Disallow: *&f%5B*
+Disallow: /licensed-collection/
+Disallow: /archive/rights-restricted/
+```
+
+Scope by the URL path of the content type or collection you need to protect.
+
+### Verifying bot identity
+
+A `robots.txt` rule is only honored by well-behaved bots, and any client can
+send a `User-agent: GPTBot` header. To *enforce* a policy — or to trust a bot's
+identity before serving it — verify the request against the vendor's published
+IP ranges or via forward-confirmed reverse DNS (rDNS: the source IP must
+reverse-resolve to the vendor's domain, and that hostname must forward-resolve
+back to the same IP). This is best done at the CDN/WAF layer (e.g. Cloudflare
+verified-bot rules). Vendors publish the required IP ranges and rDNS domains in
+the bot docs linked from `robots.txt`.
+
 ## Importing/Exporting translations
 
 There are 2 types of translations that we manage in this site by code. These are:
@@ -640,3 +741,7 @@ you need to make sure Drupal is aware of the real IP of the visitors.
 - [ ] Redirects
 - [ ] Ensure email sending (SMTP) works
 - [ ] Remove http auth for LIVE environment
+- [ ] Confirm dev/staging "don't index" setting has been removed (sitemap + robots meta)
+- [ ] Decide whether robots.txt / CDN should allow or block search and AI retrieval bots (GPTBot family, ClaudeBot family, PerplexityBot family, Meta-ExternalAgent) — recommendation: allow
+- [ ] Confirm preview-control meta tags (nosnippet, max-image-preview) aren't overly restrictive
+- [ ] Confirm Google-Extended is disallowed in robots.txt (free Gemini/Vertex training opt-out, no effect on Search/AI Overviews)

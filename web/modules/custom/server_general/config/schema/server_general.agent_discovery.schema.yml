@@ -1,0 +1,13 @@
+server_general.agent_discovery:
+  type: config_object
+  label: 'Agent discovery catalog'
+  mapping:
+    description:
+      type: label
+      label: 'Description published at /.well-known/ai-catalog.json'
+    representative_queries:
+      type: sequence
+      label: 'Representative queries'
+      sequence:
+        type: string
+        label: 'Query'

@@ -144,6 +144,7 @@
     },
     "config": {
         "sort-packages": true,
+        "autoloader-suffix": "DrupalStarter",
         "allow-plugins": {
             "composer/installers": true,
             "cweagans/composer-patches": true,
