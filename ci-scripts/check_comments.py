@@ -18,7 +18,7 @@ from pathlib import Path
 # Words, not lines: a wrapped paragraph and a one-liner saying the same thing
 # should score the same, and a short column of names is not slop.
 CODE_BUDGET = 30
-DOC_BUDGET = 60
+DOC_BUDGET = 30
 
 # Drupal core's scaffold files and DDEV's config.yaml, which their updates
 # rewrite. The comments in them are not ours to shorten.
