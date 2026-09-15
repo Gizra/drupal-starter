@@ -86,6 +86,17 @@ class CodeComments(unittest.TestCase):
     def test_a_python_docstring_counts(self):
         self.assertEqual(sizes("a.py", '"""one two three"""\n'), [3])
 
+    def test_an_elm_line_comment_counts(self):
+        self.assertEqual(sizes("A.elm", "-- one two\nx =\n    1\n"), [2])
+
+    def test_the_bar_of_an_elm_doc_comment_is_not_a_word(self):
+        source = "{-| one two\nthree\n-}\nx =\n    1\n"
+        self.assertEqual(sizes("A.elm", source), [3])
+
+    def test_a_typescript_comment_counts(self):
+        source = "// one two\nconst a = 1;\n/**\n * three\n * @param four\n */\n"
+        self.assertEqual(sizes("a.ts", source), [2, 1])
+
     def test_an_unknown_file_type_has_no_comments(self):
         self.assertEqual(sizes("a.docx", "# one two\n"), [])
 

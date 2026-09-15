@@ -40,6 +40,7 @@ DDEV_GENERATED = re.compile(r"^#ddev-generated", re.MULTILINE)
 # attribute.
 LINE_COMMENT = {
     ".css": (),
+    ".elm": ("--",),
     ".inc": ("//",),
     ".install": ("//",),
     ".js": ("//",),
@@ -50,6 +51,7 @@ LINE_COMMENT = {
     ".py": ("#",),
     ".sh": ("#",),
     ".theme": ("//",),
+    ".ts": ("//",),
     ".twig": (),
     ".yaml": ("#",),
     ".yml": ("#",),
@@ -57,6 +59,7 @@ LINE_COMMENT = {
 
 BLOCK_COMMENT = {
     ".css": ("/*", "*/"),
+    ".elm": ("{-", "-}"),
     ".inc": ("/*", "*/"),
     ".install": ("/*", "*/"),
     ".js": ("/*", "*/"),
@@ -64,6 +67,7 @@ BLOCK_COMMENT = {
     ".php": ("/*", "*/"),
     ".profile": ("/*", "*/"),
     ".theme": ("/*", "*/"),
+    ".ts": ("/*", "*/"),
     ".twig": ("{#", "#}"),
 }
 
@@ -142,6 +146,9 @@ def prose(path, lines):
     kept = []
     for line in lines:
         line = GUTTER.sub("", line.strip())
+        # Elm opens a doc comment with `{-|`.
+        if path.endswith(".elm"):
+            line = line.removeprefix("|").lstrip()
         # A template's `@file` docblock is core's, copied along with the
         # template it overrides, so there `@file` stops reading too.
         if line.startswith("@file") and not path.endswith(".twig"):
