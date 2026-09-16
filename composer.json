@@ -119,7 +119,7 @@
         "drupal/drupal_test_assertions": "^1.0",
         "drupal/potx": "^1.0@alpha",
         "gettext/gettext": "^5.7",
-        "gizra/drupal-robo": "^1.0",
+        "gizra/drupal-robo": "^0.1.0",
         "mikey179/vfsstream": "^1.6",
         "mink/webdriver-classic-driver": "^1.1",
         "mpyw/phpunit-patch-serializable-comparison": "^0.0.4",
