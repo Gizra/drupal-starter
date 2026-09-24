@@ -1,0 +1,30 @@
+--- a/src/Application.php
++++ b/src/Application.php
+@@ -34,6 +34,27 @@
+     }
+ 
+     /**
++     * Delegate to Symfony's addCommand() to silence the add() deprecation.
++     *
++     * Symfony Console 7.4 deprecates Application::add() and 8.0 removes it.
++     * Every Robo registration funnels through this override, so one method
++     * keeps the runtime quiet while still supporting Symfony 6.
++     *
++     * @param \Symfony\Component\Console\Command\Command $command
++     *   The command to register.
++     *
++     * @return \Symfony\Component\Console\Command\Command|null
++     *   The registered command.
++     */
++    public function add(Command $command): ?Command
++    {
++        if (method_exists(parent::class, 'addCommand')) {
++            return $this->addCommand($command);
++        }
++        return parent::add($command);
++    }
++
++    /**
+      * @param string $roboFile
+      * @param string $roboClass
+      */
