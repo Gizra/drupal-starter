@@ -1,0 +1,22 @@
+uuid: 936333b7-2e70-4569-a6c7-b0958490558f
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - server_admin_theme
+_core:
+  default_config_hash: KHQIJ7Vfl25lTjzIc7qIvnuistt-Mw2O0kG4jCofmkI
+id: server_admin_theme_messages
+theme: server_admin_theme
+region: highlighted
+weight: -2
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: 'Status messages'
+  label_display: '0'
+  provider: system
+visibility: {  }

@@ -1,0 +1,20 @@
+uuid: b1d0de77-cfda-4398-a81b-4bcecfd06321
+langcode: en
+status: true
+dependencies:
+  theme:
+    - server_admin_theme
+id: server_admin_theme_primary_local_tasks
+theme: server_admin_theme
+region: header
+weight: 0
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: 'Primary tabs'
+  label_display: '0'
+  provider: core
+  primary: true
+  secondary: false
+visibility: {  }
