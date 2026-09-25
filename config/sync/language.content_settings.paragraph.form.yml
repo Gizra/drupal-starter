@@ -1,0 +1,16 @@
+uuid: dba2eb36-901d-45b6-b5c0-86458d8673c8
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.form
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: paragraph.form
+target_entity_type_id: paragraph
+target_bundle: form
+default_langcode: site_default
+language_alterable: false
