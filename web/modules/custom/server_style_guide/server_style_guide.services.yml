@@ -1,0 +1,5 @@
+services:
+  stream_wrapper.server_style_guide:
+    class: Drupal\server_style_guide\StreamWrapper\StyleGuideStream
+    tags:
+      - { name: stream_wrapper, scheme: server-style-guide }
