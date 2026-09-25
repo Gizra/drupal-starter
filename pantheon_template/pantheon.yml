@@ -12,3 +12,9 @@ protected_web_paths:
   - /private/
   - /sites/default/files/private/
   - /sites/default/files/config/
+workflows:
+  clone_database:
+    after:
+      - type: webphp
+        description: Reload Solr after DB clone
+        script: private/scripts/reload_solr.php
