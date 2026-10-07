@@ -464,6 +464,7 @@ class StyleGuideController extends ControllerBase {
     $timestamp = time();
 
     $card = $this->buildElementNewsTeaser(
+      'News',
       $image,
       $title,
       $url,
@@ -476,6 +477,7 @@ class StyleGuideController extends ControllerBase {
     $summary = $this->buildProcessedText('A much <strong>shorter</strong> intro');
 
     $card2 = $this->buildElementNewsTeaser(
+      'News',
       $image,
       $title,
       $url,
@@ -881,6 +883,7 @@ class StyleGuideController extends ControllerBase {
     for ($i = 0; $i < $num; $i++) {
       $elements[] = call_user_func(
         [$this, $func],
+        'News',
         $this->buildImage($this->getPlaceholderImage(300, 200, "card_image_$i", 'seed')),
         $this->getRandomTitle(),
         Url::fromRoute('<front>'),

@@ -49,6 +49,8 @@ trait NewsTeasersThemeTrait {
   /**
    * Build "News Teaser" element.
    *
+   * @param string $label
+   *   The label shown above the title, usually the content type label.
    * @param array $image
    *   The image render array.
    * @param string $title
@@ -63,11 +65,11 @@ trait NewsTeasersThemeTrait {
    * @return array
    *   Render array.
    */
-  protected function buildElementNewsTeaser(array $image, string $title, Url $url, array $summary, int $timestamp): array {
+  protected function buildElementNewsTeaser(string $label, array $image, string $title, Url $url, array $summary, int $timestamp): array {
     $elements = [];
 
     // Labels.
-    $element = $this->buildLabelsFromText([$this->t('News')]);
+    $element = $this->buildLabelsFromText([$label]);
     $elements[] = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::Sm);
 
     // Date.
@@ -89,6 +91,8 @@ trait NewsTeasersThemeTrait {
   /**
    * Build "Featured News Teaser" element with image on the side.
    *
+   * @param string $label
+   *   The label shown above the title, usually the content type label.
    * @param array $image
    *   The image render array.
    * @param string $title
@@ -103,11 +107,11 @@ trait NewsTeasersThemeTrait {
    * @return array
    *   Render array.
    */
-  protected function buildElementNewsTeaserFeatured(array $image, string $title, Url $url, array $summary, int $timestamp): array {
+  protected function buildElementNewsTeaserFeatured(string $label, array $image, string $title, Url $url, array $summary, int $timestamp): array {
     $elements = [];
 
     // Labels.
-    $element = $this->buildLabelsFromText([$this->t('News')]);
+    $element = $this->buildLabelsFromText([$label]);
     $elements[] = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::Sm);
 
     // Date.

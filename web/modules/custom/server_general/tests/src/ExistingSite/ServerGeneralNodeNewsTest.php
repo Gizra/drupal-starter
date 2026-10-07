@@ -2,12 +2,19 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
+use Drupal\node\Entity\NodeType;
+use Drupal\node\NodeInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Test 'news' content type.
  */
 class ServerGeneralNodeNewsTest extends ServerGeneralNodeTestBase {
+
+  /**
+   * The News content type label to restore after the test renamed it.
+   */
+  protected ?string $originalNodeTypeLabel = NULL;
 
   /**
    * {@inheritdoc}
@@ -66,6 +73,62 @@ class ServerGeneralNodeNewsTest extends ServerGeneralNodeTestBase {
       'The og:description meta tag contains the exact expected string.'
     );
 
+  }
+
+  /**
+   * Test the label above the title is taken from the content type.
+   */
+  public function testContentTypeLabel() {
+    $node = $this->createNode([
+      'title' => 'A node to check the label of',
+      'type' => 'news',
+      'field_body' => 'This is the text of the body field.',
+      'moderation_state' => 'published',
+    ]);
+
+    $node_type = NodeType::load('news');
+    $this->originalNodeTypeLabel = $node_type->label();
+    $label = 'Bulletin ' . $this->randomMachineName();
+
+    $node_type->set('name', $label)->save();
+
+    foreach (['full', 'teaser', 'featured', 'search_index'] as $view_mode) {
+      $this->assertStringContainsString(
+        $label,
+        $this->renderNode($node, $view_mode),
+        "The $view_mode view mode shows the content type label."
+      );
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function tearDown(): void {
+    // Runs even when an assertion fails, so the existing site keeps its label.
+    if ($this->originalNodeTypeLabel !== NULL) {
+      NodeType::load('news')->set('name', $this->originalNodeTypeLabel)->save();
+    }
+    parent::tearDown();
+  }
+
+  /**
+   * Render a node in a given view mode.
+   *
+   * @param \Drupal\node\NodeInterface $node
+   *   The node to render.
+   * @param string $view_mode
+   *   The view mode.
+   *
+   * @return string
+   *   The rendered markup.
+   */
+  protected function renderNode(NodeInterface $node, string $view_mode): string {
+    $build = \Drupal::entityTypeManager()
+      ->getViewBuilder('node')
+      ->view($node, $view_mode);
+
+    return (string) \Drupal::service('renderer')->renderInIsolation($build);
   }
 
 }
