@@ -12,6 +12,11 @@ use Symfony\Component\HttpFoundation\Response;
 class ServerGeneralNodeNewsTest extends ServerGeneralNodeTestBase {
 
   /**
+   * The News content type label to restore after the test renamed it.
+   */
+  protected ?string $originalNodeTypeLabel = NULL;
+
+  /**
    * {@inheritdoc}
    */
   public function getEntityBundle(): string {
@@ -82,23 +87,29 @@ class ServerGeneralNodeNewsTest extends ServerGeneralNodeTestBase {
     ]);
 
     $node_type = NodeType::load('news');
-    $original_label = $node_type->label();
+    $this->originalNodeTypeLabel = $node_type->label();
     $label = 'Bulletin ' . $this->randomMachineName();
 
     $node_type->set('name', $label)->save();
 
-    try {
-      foreach (['full', 'teaser', 'featured', 'search_index'] as $view_mode) {
-        $this->assertStringContainsString(
-          $label,
-          $this->renderNode($node, $view_mode),
-          "The $view_mode view mode shows the content type label."
-        );
-      }
+    foreach (['full', 'teaser', 'featured', 'search_index'] as $view_mode) {
+      $this->assertStringContainsString(
+        $label,
+        $this->renderNode($node, $view_mode),
+        "The $view_mode view mode shows the content type label."
+      );
     }
-    finally {
-      $node_type->set('name', $original_label)->save();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function tearDown(): void {
+    // Runs even when an assertion fails, so the existing site keeps its label.
+    if ($this->originalNodeTypeLabel !== NULL) {
+      NodeType::load('news')->set('name', $this->originalNodeTypeLabel)->save();
     }
+    parent::tearDown();
   }
 
   /**
