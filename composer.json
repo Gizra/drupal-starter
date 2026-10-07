@@ -37,6 +37,7 @@
         "drupal/ai_content_assistant": "^1.0",
         "drupal/ai_image_alt_text": "^1.0",
         "drupal/ai_provider_openai": "^1.0",
+        "drupal/better_exposed_filters": "^7.0",
         "drupal/block_plugin_view_builder": "^1.0",
         "drupal/classy": "^2.0",
         "drupal/config_filter": "^2.4",

@@ -4,11 +4,8 @@
  * @file
  * Bot trap mitigation for facets.
  *
- * Some bots exploit query strings used in facets, such as "f[]", which are
- * commonly used in Drupal's Views and facet systems to manipulate filters.
- * These bots can lead to excessive
- * system load. This snippet detects such patterns
- * and blocks them by sending a 403 Forbidden response.
+ * Bots crawling facet URLs, such as "type[]" of the search view, overload the
+ * site. Such requests from bots get a 403 Forbidden response.
  *
  * @see https://acquia.my.site.com/s/article/How-do-I-manage-an-application-that-receives-lots-of-requests-for-faceted-searches
  */
@@ -18,11 +15,11 @@ $request_user_agent = strtolower($_SERVER['HTTP_USER_AGENT'] ?? '');
 
 // Define the patterns to search for.
 $query_patterns = [
-  // URL encoded form of 'f['.
-  'f%5B',
-  // Double URL encoded form of 'f['. Bots seem to use it.
-  'f%255b',
-  'f[',
+  // URL encoded form of 'type['.
+  'type%5B',
+  // Double URL encoded form of 'type['. Bots seem to use it.
+  'type%255b',
+  'type[',
 ];
 $user_agent_patterns = ['spider', 'bot', 'crawler', 'netestate'];
 

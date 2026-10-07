@@ -5,7 +5,9 @@ dependencies:
   config:
     - search_api.index.server_dev
   module:
+    - better_exposed_filters
     - entity_browser
+    - facets_exposed_filters
     - search_api
 id: search
 label: Search
@@ -97,7 +99,7 @@ display:
             offset_label: Offset
           quantity: 9
       exposed_form:
-        type: basic
+        type: bef
         options:
           submit_button: Apply
           reset_button: false
@@ -106,6 +108,43 @@ display:
           expose_sort_order: false
           sort_asc_label: Asc
           sort_desc_label: Desc
+          bef:
+            general:
+              autosubmit: false
+              autosubmit_exclude_textfield: false
+              autosubmit_textfield_delay: 500
+              autosubmit_textfield_minimum_length: 3
+              autosubmit_hide: false
+              input_required: false
+              allow_secondary: false
+              secondary_label: 'Advanced options'
+              secondary_open: false
+              reset_button_always_show: false
+            filter:
+              search_api_fulltext:
+                plugin_id: default
+                advanced:
+                  placeholder_text: ''
+                  collapsible: false
+                  collapsible_disable_automatic_open: false
+                  is_secondary: false
+              facets_type:
+                plugin_id: bef_links
+                advanced:
+                  sort_options: false
+                  rewrite:
+                    filter_rewrite_values: ''
+                    filter_rewrite_values_key: false
+                  collapsible: false
+                  collapsible_disable_automatic_open: false
+                  is_secondary: false
+                select_all_none: false
+                soft_limit: 0
+                soft_limit_label_less: 'Show less'
+                soft_limit_label_more: 'Show more'
+                soft_limit_include_children: false
+                scrollable: false
+                scrollable_height: 300
       access:
         type: none
         options: {  }
@@ -267,6 +306,79 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+        facets_type:
+          id: facets_type
+          table: search_api_index_server_dev
+          field: facets_type
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: facets_filter
+          operator: '='
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: ''
+            label: 'Content type'
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: type
+            required: false
+            remember: false
+            multiple: true
+            remember_roles:
+              authenticated: authenticated
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          hierarchy: false
+          label_display: visible
+          facet:
+            query_operator: or
+            hard_limit: 0
+            min_count: 1
+            missing: false
+            missing_label: others
+            show_numbers: false
+            show_only_one_result: false
+            depends_on_exposed_filter: ''
+            processor_configs:
+              list_item:
+                processor_id: list_item
+                weights:
+                  build: 5
+                settings: {  }
+              active_widget_order:
+                processor_id: active_widget_order
+                weights:
+                  sort: 20
+                settings:
+                  sort: DESC
+              count_widget_order:
+                processor_id: count_widget_order
+                weights:
+                  sort: 30
+                settings:
+                  sort: DESC
+              display_value_widget_order:
+                processor_id: display_value_widget_order
+                weights:
+                  sort: 40
+                settings:
+                  sort: ASC
       style:
         type: default
         options:
@@ -286,7 +398,7 @@ display:
         options:
           bypass_access: false
           skip_access: false
-          preserve_facet_query_args: true
+          preserve_facet_query_args: false
           query_tags: {  }
       relationships: {  }
       header: {  }
@@ -317,6 +429,5 @@ display:
         - url.query_args
         - 'user.node_grants:view'
       tags:
-        - 'config:facets.facet.content_type'
         - 'config:search_api.index.server_dev'
         - 'search_api_list:server_dev'
