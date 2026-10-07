@@ -175,8 +175,7 @@ class NodeNews extends NodeViewBuilderAbstract {
   /**
    * Get the node type label, shown as the tag above the title.
    *
-   * Taken from the content type rather than a hardcoded string, so the full
-   * node, the teasers and the search results always show the same wording.
+   * Shared by all view modes so they show the same wording.
    *
    * @param \Drupal\node\NodeInterface $entity
    *   The entity.
