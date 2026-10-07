@@ -1,0 +1,25 @@
+{
+  "name": "drupal-starter",
+  "version": "1.0.0",
+  "description": "[![Build Status](https://github.com/Gizra/drupal-starter/actions/workflows/ci.yml/badge.svg)](https://github.com/Gizra/drupal-starter/actions)",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gizra/drupal-starter.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Gizra/drupal-starter/issues"
+  },
+  "homepage": "https://github.com/Gizra/drupal-starter#readme",
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^26.4.0",
+    "axe-html-reporter": "^2.2.11"
+  }
+}
