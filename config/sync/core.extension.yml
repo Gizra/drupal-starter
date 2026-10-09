@@ -13,6 +13,7 @@ module:
   ai_provider_openai: 0
   ai_translate: 0
   ban: 0
+  better_exposed_filters: 0
   block: 0
   block_content: 0
   block_plugin_view_builder: 0
@@ -39,6 +40,7 @@ module:
   entity_reference_revisions: 0
   environment_indicator: 0
   facets: 0
+  facets_exposed_filters: 0
   field: 0
   field_ui: 0
   file: 0

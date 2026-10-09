@@ -179,6 +179,29 @@ ddev terminus remote:drush gizra-drupal-starter.qa search-api-pantheon:force-cle
 
 Then you can re-index the data and check the sanity of the search.
 
+### Search facets
+
+Facets are exposed filters of the `search` view (Facets Exposed Filters
+submodule), shown as links by Better Exposed Filters. The content type facet
+uses the `type` query parameter, e.g. `/search?type[news]=news`.
+
+To add a facet:
+
+1. Index the field in the Search API index.
+2. In the `search` view, add a filter from the "Facets" category.
+3. Under "Exposed form" > "Better Exposed Filters", pick the widget (e.g.
+   "Links").
+4. Add the new query parameter to `web/sites/bot_trap_protection.php` and to
+   the facet rules in `web/robots.txt`.
+
+Markup lives in `server_theme/templates/views/`:
+
+- `form-element--search--embed-1.html.twig`: the "Filter by" title.
+- `bef-links--search--embed-1.html.twig`: the list of links.
+
+Add the filter identifier to a template name to style a single facet, e.g.
+`bef-links--search--embed-1--type.html.twig`.
+
 ## AI Integration
 
 This project supports AI-based features using OpenAI.
