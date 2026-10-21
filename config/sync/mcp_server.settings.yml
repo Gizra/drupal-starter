@@ -1,0 +1,9 @@
+_core:
+  default_config_hash: IlYr8F6BTZbpkHFBP8Tz-efezsmk_XGOSdJQBB4fXbs
+server_name: 'Drupal MCP Server'
+server_version: 1.0.0
+pagination_limit: 50
+pending:
+  poll_interval_ms: 300
+  sampling_timeout: 25
+  elicitation_timeout: 600
