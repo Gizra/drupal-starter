@@ -1,0 +1,6 @@
+# Human-facing copy published at /.well-known/ai-catalog.json. Each project
+# should replace these generic defaults with content specific to the site.
+description: 'Fulltext search over this site''s published content.'
+representative_queries:
+  - 'latest news'
+  - 'about the organization'
