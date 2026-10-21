@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Drupal\PHPStan\Custom;
 
-use PhpParser\Node\Expr\Assign;
-use PhpParser\Node\Expr\Variable;
 use PhpParser\Node;
+use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Foreach_;
@@ -53,6 +53,15 @@ use PHPStan\Rules\RuleErrorBuilder;
  */
 class MissingCacheMetadataRule implements Rule {
 
+  /**
+   * Reusable node finder for AST traversal.
+   */
+  private NodeFinder $nodeFinder;
+
+  public function __construct() {
+    $this->nodeFinder = new NodeFinder();
+  }
+
   private const ERROR_MESSAGE = 'Method %s() calls %s() but does not add cache metadata via CacheableMetadata. Referenced entities whose field data is rendered must be tracked with addCacheableDependency() so the render cache is invalidated when they change.';
 
   /**
@@ -67,8 +76,6 @@ class MissingCacheMetadataRule implements Rule {
     'buildEntities',
     'buildEntitiesWithViewModes',
     'buildReferencedEntitiesWithViewModes',
-    'buildReferencedEntityLabelsPlainTextTags',
-    'buildReferencedEntityLabelsButtonTags',
   ];
 
   /**
@@ -80,6 +87,7 @@ class MissingCacheMetadataRule implements Rule {
    */
   private const ENTITY_LOAD_METHODS = [
     'referencedEntities',
+    'load',
     'loadMultiple',
     'loadByProperties',
   ];
@@ -157,10 +165,8 @@ class MissingCacheMetadataRule implements Rule {
       return [];
     }
 
-    $nodeFinder = new NodeFinder();
-
     // Collect all method calls in this method's body (used by multiple checks).
-    $allMethodCalls = $nodeFinder->findInstanceOf($node->stmts, MethodCall::class);
+    $allMethodCalls = $this->nodeFinder->findInstanceOf($node->stmts, MethodCall::class);
 
     // Gate 2: Does this method call any entity loading method?
     // If not, there's nothing to check — no entities loaded means no cache
@@ -183,7 +189,7 @@ class MissingCacheMetadataRule implements Rule {
     // foreach ($tags as $tag) { $ids[] = $tag->id(); }
     // Reading id()/bundle() never produces stale output,
     // so no cache dep needed.
-    if ($this->onlyImmutableAccess($node, $entityLoadCalls, $nodeFinder)) {
+    if ($this->onlyImmutableAccess($node, $entityLoadCalls)) {
       return [];
     }
 
@@ -275,6 +281,10 @@ class MissingCacheMetadataRule implements Rule {
    * @param \PhpParser\Node\Expr\MethodCall[] $entityLoadCalls
    *   The entity load calls found.
    *
+   *   Known limitation: with multiple entity loads in one method,
+   *   a safe call after the second load may incorrectly clear the
+   *   first load too, since matching is by line number only.
+   *
    * @return bool
    *   TRUE if every entity load has a safe delegating call after it.
    */
@@ -340,17 +350,15 @@ class MissingCacheMetadataRule implements Rule {
    *   The method node.
    * @param \PhpParser\Node\Expr\MethodCall[] $entityLoadCalls
    *   The entity load calls.
-   * @param \PhpParser\NodeFinder $nodeFinder
-   *   The node finder.
    *
    * @return bool
    *   TRUE if only immutable properties are accessed on all loaded entities.
    */
-  private function onlyImmutableAccess(ClassMethod $method, array $entityLoadCalls, NodeFinder $nodeFinder): bool {
+  private function onlyImmutableAccess(ClassMethod $method, array $entityLoadCalls): bool {
     foreach ($entityLoadCalls as $loadCall) {
       // Step 1: Find what variable the load result is assigned to.
       // e.g. "$tags = $field->referencedEntities();" → $assignedVar = "tags".
-      $assignedVar = $this->findAssignedVariable($loadCall, $nodeFinder, $method);
+      $assignedVar = $this->findAssignedVariable($loadCall, $method);
       if ($assignedVar === NULL) {
         // If the result isn't assigned to a variable we can track (e.g. it's
         // used inline or in a complex expression), we can't determine safety
@@ -363,7 +371,7 @@ class MissingCacheMetadataRule implements Rule {
       // Without this, "$tag->label()" would not be recognized as accessing the
       // loaded entities, causing a false negative.
       $trackedVars = [$assignedVar];
-      $foreachNodes = $nodeFinder->findInstanceOf($method->stmts, Foreach_::class);
+      $foreachNodes = $this->nodeFinder->findInstanceOf($method->stmts, Foreach_::class);
       foreach ($foreachNodes as $foreach) {
         if (!($foreach->expr instanceof Variable) || !is_string($foreach->expr->name)) {
           continue;
@@ -381,7 +389,7 @@ class MissingCacheMetadataRule implements Rule {
 
       // Step 3: Scan all method calls in the body. For any call on a tracked
       // variable, check if it's a non-immutable method.
-      $allCalls = $nodeFinder->findInstanceOf($method->stmts, MethodCall::class);
+      $allCalls = $this->nodeFinder->findInstanceOf($method->stmts, MethodCall::class);
       foreach ($allCalls as $call) {
         if (!$call->name instanceof Identifier) {
           continue;
@@ -429,8 +437,8 @@ class MissingCacheMetadataRule implements Rule {
    *   The variable name, or NULL if the result isn't assigned to a simple
    *   variable (e.g. it's used inline or in a complex expression).
    */
-  private function findAssignedVariable(MethodCall $loadCall, NodeFinder $nodeFinder, ClassMethod $method): ?string {
-    $assigns = $nodeFinder->findInstanceOf($method->stmts, Assign::class);
+  private function findAssignedVariable(MethodCall $loadCall, ClassMethod $method): ?string {
+    $assigns = $this->nodeFinder->findInstanceOf($method->stmts, Assign::class);
     foreach ($assigns as $assign) {
       if (!$assign instanceof Assign) {
         continue;
