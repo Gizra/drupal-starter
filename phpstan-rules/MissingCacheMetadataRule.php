@@ -17,37 +17,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 
 /**
- * Flags build* methods that load entities without adding cache metadata.
- *
- * WHY THIS RULE EXISTS:
- * In Drupal's render cache system, every render array must declare its cache
- * dependencies. When an EntityViewBuilder plugin loads referenced entities
- * (e.g. via referencedEntities()) and renders their field data (title, image,
- * body, etc.), the render array must track those entities as cache
- * dependencies. Without this, Drupal's render cache won't know to invalidate
- * when those referenced entities change — leading to stale output.
- *
- * WHAT IT CHECKS:
- * This rule scans build*() methods in classes implementing
- * EntityViewBuilderPluginInterface. It looks for calls to entity-loading
- * methods (referencedEntities, loadMultiple, loadByProperties) and reports
- * an error if CacheableMetadata is not used in the same method.
- *
- * WHAT IT SKIPS (to avoid false positives):
- * 1. Safe delegating methods — methods like buildReferencedEntities() and
- *    buildEntities() that go through Drupal's entity view builder, which
- *    automatically handles cache metadata internally.
- * 2. Immutable-only access — when loaded entities are only used to read
- *    properties that never change after creation (bundle, id, uuid), no
- *    cache dependency is needed because the data can't become stale.
- * 3. Methods already using CacheableMetadata — if addCacheableDependency,
- *    addCacheTags, or createFromRenderArray is called, the developer is
- *    already handling caching.
- *
- * DESIGN PRINCIPLE:
- * This rule is intentionally conservative — it only flags cases where we are
- * confident caching is missing. It may miss some edge cases (false negatives)
- * but should never produce false positives. This makes it safe to run in CI.
+ * Flags build*() methods loading entities without cache metadata.
  *
  * @implements \PHPStan\Rules\Rule<\PhpParser\Node\Stmt\ClassMethod>
  */
@@ -65,11 +35,7 @@ class MissingCacheMetadataRule implements Rule {
   private const ERROR_MESSAGE = 'Method %s() calls %s() but does not add cache metadata via CacheableMetadata. Referenced entities whose field data is rendered must be tracked with addCacheableDependency() so the render cache is invalidated when they change.';
 
   /**
-   * Methods that internally handle cache metadata for their entity loads.
-   *
-   * These are PEVB helper methods that go through Drupal's entity view builder
-   * or already use CacheableMetadata internally. When a build*() method calls
-   * one of these, the cache metadata is handled — no manual tracking needed.
+   * PEVB methods that handle cache metadata internally.
    */
   private const SAFE_DELEGATING_METHODS = [
     'buildReferencedEntities',
@@ -79,11 +45,7 @@ class MissingCacheMetadataRule implements Rule {
   ];
 
   /**
-   * Entity loading methods we check for.
-   *
-   * These are the methods that retrieve entities from the database. If a
-   * build*() method calls one of these, the loaded entities may need to be
-   * tracked as cache dependencies.
+   * Entity loading methods that may need cache tracking.
    */
   private const ENTITY_LOAD_METHODS = [
     'referencedEntities',
@@ -93,17 +55,7 @@ class MissingCacheMetadataRule implements Rule {
   ];
 
   /**
-   * Methods on entities that return immutable data (no cache dep needed).
-   *
-   * These properties are set at entity creation and never change. Reading
-   * only these values from a loaded entity is safe without cache tracking,
-   * because the rendered output can never become stale.
-   *
-   * Example of safe code (no CacheableMetadata needed):
-   *   $tags = $field->referencedEntities();
-   *   foreach ($tags as $tag) {
-   *     $ids[] = $tag->id();  // id() never changes — safe.
-   *   }
+   * Entity methods returning immutable data (no cache dep needed).
    */
   private const IMMUTABLE_ENTITY_METHODS = [
     'bundle',
@@ -132,17 +84,7 @@ class MissingCacheMetadataRule implements Rule {
   }
 
   /**
-   * Main analysis: checks a single build*() method for missing cache metadata.
-   *
-   * The logic flows through a series of checks, each of which can "clear" the
-   * method (return no errors). Only if all checks fail do we report an error:
-   *
-   * 1. Is this a build*() method in an EntityViewBuilder? (skip if not)
-   * 2. Does it call any entity loading method? (skip if not)
-   * 3. Are all loads passed to safe delegating methods? (skip if yes)
-   * 4. Are loaded entities only accessed for immutable props? (skip if yes)
-   * 5. Is CacheableMetadata already used? (skip if yes)
-   * 6. If none of the above → report error.
+   * {@inheritdoc}
    */
   public function processNode(Node $node, Scope $scope): array {
     if (!$node instanceof ClassMethod) {
@@ -184,11 +126,7 @@ class MissingCacheMetadataRule implements Rule {
       return [];
     }
 
-    // Gate 4: Are loaded entities only used for immutable property reads?
-    // e.g. $tags = $field->referencedEntities();
-    // foreach ($tags as $tag) { $ids[] = $tag->id(); }
-    // Reading id()/bundle() never produces stale output,
-    // so no cache dep needed.
+    // Gate 4: Only immutable access (id/bundle)? Skip.
     if ($this->onlyImmutableAccess($node, $entityLoadCalls)) {
       return [];
     }
@@ -218,11 +156,7 @@ class MissingCacheMetadataRule implements Rule {
   }
 
   /**
-   * Checks if the current scope is within an EntityViewBuilder plugin class.
-   *
-   * We only care about classes implementing EntityViewBuilderPluginInterface,
-   * which is the PEVB interface for entity view builder plugins. These are the
-   * classes responsible for building render arrays from entities.
+   * Checks if the scope is a PEVB plugin class.
    */
   private function isInEntityViewBuilder(Scope $scope): bool {
     $class = $scope->getClassReflection();
@@ -235,11 +169,7 @@ class MissingCacheMetadataRule implements Rule {
   }
 
   /**
-   * Finds entity loading method calls from the list of all method calls.
-   *
-   * Scans for referencedEntities(), loadMultiple(), and loadByProperties().
-   * These are the entry points where entities come into the method from the
-   * database and may need cache dependency tracking.
+   * Finds entity loading calls among all method calls.
    *
    * @param \PhpParser\Node\Expr\MethodCall[] $allMethodCalls
    *   All method calls in the method body.
@@ -261,32 +191,15 @@ class MissingCacheMetadataRule implements Rule {
   }
 
   /**
-   * Checks if all entity loads are followed by safe delegating method calls.
-   *
-   * This is a heuristic based on line numbers, not data flow. For each entity
-   * load call, we check whether a safe delegating method (e.g. buildEntities)
-   * appears on the same line or later. The reasoning: in the PEVB pattern,
-   * entities are loaded and then immediately passed to a builder method.
-   *
-   * Example that passes (safe — buildEntities handles caching):
-   *   $items = $field->referencedEntities();          // line 30
-   *   $build['items'] = $this->buildEntities($items); // line 31
-   *
-   * Example that fails (no safe delegation after the load):
-   *   $items = $field->referencedEntities();           // line 30
-   *   $build['titles'] = array_map(fn($i) => $i->label(), $items); // line 31
+   * Checks if all loads are passed to safe delegating methods.
    *
    * @param \PhpParser\Node\Expr\MethodCall[] $allMethodCalls
    *   All method calls in the method body.
    * @param \PhpParser\Node\Expr\MethodCall[] $entityLoadCalls
    *   The entity load calls found.
    *
-   *   Known limitation: with multiple entity loads in one method,
-   *   a safe call after the second load may incorrectly clear the
-   *   first load too, since matching is by line number only.
-   *
    * @return bool
-   *   TRUE if every entity load has a safe delegating call after it.
+   *   TRUE if every load has a safe delegating call after it.
    */
   private function allLoadsAreSafeDelegated(array $allMethodCalls, array $entityLoadCalls): bool {
     // Collect all safe delegating method calls in the method.
@@ -325,26 +238,7 @@ class MissingCacheMetadataRule implements Rule {
   }
 
   /**
-   * Checks if loaded entities are only accessed for immutable properties.
-   *
-   * When entities are loaded but only id(), bundle(), uuid(), or
-   * getEntityTypeId() is called on them, the rendered output cannot become
-   * stale (these values never change), so no cache dependency is needed.
-   *
-   * This method tracks variables through two patterns:
-   *
-   * 1. Direct variable access:
-   *      $entity = $storage->loadMultiple($ids);
-   *      $entity->bundle();  // ← checked
-   *
-   * 2. Foreach loop iteration:
-   *      $tags = $field->referencedEntities();
-   *      foreach ($tags as $tag) {
-   *        $tag->label();  // ← also checked (derived from $tags)
-   *      }
-   *
-   * If ANY non-immutable method is called on the loaded variable or its
-   * foreach derivatives, this returns FALSE (not safe to skip).
+   * Checks if loaded entities only use immutable accessors.
    *
    * @param \PhpParser\Node\Stmt\ClassMethod $method
    *   The method node.
@@ -352,7 +246,7 @@ class MissingCacheMetadataRule implements Rule {
    *   The entity load calls.
    *
    * @return bool
-   *   TRUE if only immutable properties are accessed on all loaded entities.
+   *   TRUE if only immutable properties are accessed.
    */
   private function onlyImmutableAccess(ClassMethod $method, array $entityLoadCalls): bool {
     foreach ($entityLoadCalls as $loadCall) {
@@ -366,10 +260,7 @@ class MissingCacheMetadataRule implements Rule {
         return FALSE;
       }
 
-      // Step 2: Also track foreach loop variables derived from the collection.
-      // e.g. "foreach ($tags as $tag)" → we also need to check calls on $tag.
-      // Without this, "$tag->label()" would not be recognized as accessing the
-      // loaded entities, causing a false negative.
+      // Also track foreach loop variables derived from the collection.
       $trackedVars = [$assignedVar];
       $foreachNodes = $this->nodeFinder->findInstanceOf($method->stmts, Foreach_::class);
       foreach ($foreachNodes as $foreach) {
@@ -426,16 +317,10 @@ class MissingCacheMetadataRule implements Rule {
   }
 
   /**
-   * Finds the variable name that a method call result is assigned to.
-   *
-   * Scans the method body for assignment expressions where the right-hand side
-   * is the given method call, and returns the variable name from the left side.
-   *
-   * Example: "$paragraphs = $field->referencedEntities();" → "paragraphs".
+   * Finds the variable a load call result is assigned to.
    *
    * @return string|null
-   *   The variable name, or NULL if the result isn't assigned to a simple
-   *   variable (e.g. it's used inline or in a complex expression).
+   *   The variable name, or NULL if not a simple assignment.
    */
   private function findAssignedVariable(MethodCall $loadCall, ClassMethod $method): ?string {
     $assigns = $this->nodeFinder->findInstanceOf($method->stmts, Assign::class);
@@ -453,23 +338,15 @@ class MissingCacheMetadataRule implements Rule {
   }
 
   /**
-   * Checks if a method call is made on any of the tracked variable names.
-   *
-   * This matches patterns like:
-   *   $tags->method()       — direct call on the collection variable
-   *   $tag->method()        — call on a foreach loop variable.
-   *
-   * This is a name-based heuristic. It doesn't do full data-flow analysis,
-   * so a local variable with the same name but different origin would match.
-   * In practice, PEVB build methods are short and this is reliable.
+   * Checks if a call targets any of the tracked variables.
    *
    * @param \PhpParser\Node\Expr\MethodCall $call
    *   The method call to check.
    * @param string[] $varNames
-   *   Variable names to match against (collection var + foreach loop vars).
+   *   Variable names to match against.
    *
    * @return bool
-   *   TRUE if the method call is on one of the tracked variables.
+   *   TRUE if the call is on a tracked variable.
    */
   private function isCallOnVariables(MethodCall $call, array $varNames): bool {
     if ($call->var instanceof Variable) {
@@ -482,15 +359,7 @@ class MissingCacheMetadataRule implements Rule {
   }
 
   /**
-   * Checks if any CacheableMetadata methods are called in the method body.
-   *
-   * If the developer is already using addCacheableDependency, addCacheTags,
-   * or createFromRenderArray anywhere in the method, we assume they are
-   * handling cache metadata and don't flag the method.
-   *
-   * Note: this is permissive — a method could use CacheableMetadata for one
-   * entity load but miss another. This is a deliberate trade-off to avoid
-   * false positives. The skill-based audit catches these nuanced cases.
+   * Checks if any CacheableMetadata methods are present.
    *
    * @param \PhpParser\Node\Expr\MethodCall[] $allMethodCalls
    *   All method calls in the method body.
