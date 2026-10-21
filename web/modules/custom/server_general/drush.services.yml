@@ -1,6 +1,6 @@
 services:
   server_general.commands:
     class: Drupal\server_general\Commands\ServerGeneralCommands
-    arguments: ['@entity_type.manager', '@config.factory']
+    arguments: ['@entity_type.manager', '@config.factory', '@server_general.ai_bot_range_updater']
     tags:
       - { name: drush.command }

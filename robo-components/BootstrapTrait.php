@@ -253,7 +253,7 @@ trait BootstrapTrait {
     // Remove the dev dependencies before pushing up to Pantheon.
     $this->taskExec("composer install --no-dev")->run();
 
-    $rsync_exclude_string = '--exclude=' . implode(' --exclude=', self::$deploySyncExcludes);
+    $rsync_exclude_string = '--exclude=' . implode(' --exclude=', $this->getDeploySyncExcludes());
 
     $result = $this->_exec("rsync -az -q $rsync_exclude_string .bootstrap/ .pantheon")->getExitCode();
     if ($result !== 0) {
@@ -263,7 +263,7 @@ trait BootstrapTrait {
     // We need a working DDEV instance to compile the theme, that's why
     // it is a bit awkward to assemble the Pantheon artifact repository
     // from two GitHub repositories.
-    $result = $this->_exec("rsync -az -q $rsync_exclude_string " . self::$themeBase . "/ .pantheon/" . self::$themeBase)->getExitCode();
+    $result = $this->_exec("rsync -az -q $rsync_exclude_string " . $this->getThemeBasePath() . "/ .pantheon/" . $this->getThemeBasePath())->getExitCode();
     if ($result !== 0) {
       throw new \Exception('Failed to rsync theme to .pantheon');
     }

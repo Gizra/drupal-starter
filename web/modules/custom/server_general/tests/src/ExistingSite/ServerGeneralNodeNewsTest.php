@@ -32,6 +32,7 @@ class ServerGeneralNodeNewsTest extends ServerGeneralNodeTestBase {
     return [
       'field_featured_image',
       'field_tags',
+      'field_wikidata_id',
     ];
   }
 
