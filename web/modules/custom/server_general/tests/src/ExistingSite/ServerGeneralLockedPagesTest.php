@@ -35,7 +35,7 @@ class ServerGeneralLockedPagesTest extends ServerGeneralTestBase {
     }
 
     $this->drupalGet($homepage->toUrl('delete-form'));
-    $this->assertSession()->statusCodeEquals(Response::HTTP_FORBIDDEN);
+    $this->assertSession()->statusCodeEquals(Response::HTTP_NOT_FOUND);
 
     $homepage->setUnpublished();
     $homepage->save();
@@ -55,7 +55,7 @@ class ServerGeneralLockedPagesTest extends ServerGeneralTestBase {
     $this->assertSession()->elementNotExists('css', 'input#edit-status-value');
 
     $this->drupalGet("/node/{$homepage->id()}/delete");
-    $this->assertSession()->statusCodeEquals(Response::HTTP_FORBIDDEN);
+    $this->assertSession()->statusCodeEquals(Response::HTTP_NOT_FOUND);
 
     $this->drupalGet($homepage->toUrl());
     $this->assertSession()
@@ -100,7 +100,7 @@ class ServerGeneralLockedPagesTest extends ServerGeneralTestBase {
     $this->assertSession()->linkByHrefNotExists("/node/{$node->id()}/delete");
 
     $this->drupalGet("/node/{$node->id()}/delete");
-    $this->assertSession()->statusCodeEquals(Response::HTTP_FORBIDDEN);
+    $this->assertSession()->statusCodeEquals(Response::HTTP_NOT_FOUND);
 
     // Test translations.
     $node_es = $node->addTranslation('es', $node->toArray());
@@ -122,7 +122,7 @@ class ServerGeneralLockedPagesTest extends ServerGeneralTestBase {
     // Check locked node for anonymous.
     $this->drupalLogout();
     $this->drupalGet("/node/{$node->id()}/delete");
-    $this->assertSession()->statusCodeEquals(Response::HTTP_FORBIDDEN);
+    $this->assertSession()->statusCodeEquals(Response::HTTP_NOT_FOUND);
 
     // Restore old locked pages value so the created node can be deleted.
     $main_settings->set('field_locked_pages', $old_value);

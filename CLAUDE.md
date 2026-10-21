@@ -56,6 +56,7 @@ This is a Drupal 10/11 starter project using DDEV, Robo, Pantheon, and Drupal be
 ```bash
 ddev phpcs      # Code style check
 ddev phpstan    # Static analysis
+python3 ci-scripts/check_comments.py --base origin/main  # Comment length
 ```
 
 ### Code Comments Philosophy
@@ -64,7 +65,8 @@ Only add comments that provide value beyond the code:
 - Provide **context** not obvious from code (issue references, external requirements)
 - Describe **trade-offs** and non-obvious implications
 
-Avoid comments that restate the code.
+Avoid comments that restate the code. A comment or Markdown paragraph is at
+most 30 words; CI rejects longer ones a PR adds.
 
 ### Code Style Guidelines
 
@@ -209,6 +211,32 @@ ddev phpunit-contrib <module_name>   # Run contrib module tests
 Entity rendering via PEVB plugins. Example: `web/modules/custom/server_general/src/Plugin/EntityViewBuilder/NodeLandingPage.php`
 
 View modes and display configurations must be defined in code via PEVB plugins, not through Drupal's UI manage display.
+
+### Structured Data: sameAs Authority Links
+
+The `server_general.same_as_link_builder` service
+(`Drupal\server_general\JsonLd\SameAsLinkBuilder`) maps an entity's external
+authority identifiers (Wikidata, VIAF, ORCID, WorldCat) to schema.org `sameAs`
+URLs and a stable `@id`, for use in JSON-LD structured data. This links a page
+to the real-world entity it describes so search engines and knowledge graphs
+can merge references across sites.
+
+**`@id`-stability convention** (follow by default): the `@id` must be a
+globally stable authority URI, never a site-local node URL — node paths change
+across environments and edits, authority URIs never do. The builder derives
+`@id` from the highest-priority identifier present, in order: Wikidata → VIAF →
+ORCID → WorldCat. Give linkable entities a Wikidata ID where one exists and let
+the builder emit both `sameAs` and `@id`; do not hand-write `@id`. See the
+interface docblock for the full rationale.
+
+**Reference example:** the `news` content type carries a `field_wikidata_id`
+field (a plain Q-ID such as `Q42`), and several default-content news nodes set
+it. Feed it to the builder via the field map:
+```php
+$builder = \Drupal::service('server_general.same_as_link_builder');
+$data = $builder->buildForEntity($node, ['wikidata' => 'field_wikidata_id']);
+// $data == ['@id' => 'https://www.wikidata.org/wiki/Q8', 'sameAs' => [...]]
+```
 
 ### Responsive Images
 1. Define component rules (how images transform at breakpoints)

@@ -60,7 +60,7 @@ class ServerGeneralTranslatorTest extends ServerGeneralTestBase {
     $this->assertSession()->statusCodeEquals(Response::HTTP_OK);
 
     $this->drupalGet('/admin/structure/taxonomy/manage/tags/add');
-    $this->assertSession()->statusCodeEquals(Response::HTTP_FORBIDDEN);
+    $this->assertSession()->statusCodeEquals(Response::HTTP_NOT_FOUND);
   }
 
   /**
@@ -78,7 +78,7 @@ class ServerGeneralTranslatorTest extends ServerGeneralTestBase {
     $this->assertSession()->statusCodeEquals(Response::HTTP_OK);
 
     $this->drupalGet('media/add/image');
-    $this->assertSession()->statusCodeEquals(Response::HTTP_FORBIDDEN);
+    $this->assertSession()->statusCodeEquals(Response::HTTP_NOT_FOUND);
   }
 
 }

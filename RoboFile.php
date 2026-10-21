@@ -9,6 +9,7 @@ use RoboComponents\BootstrapTrait;
 use RoboComponents\DeploymentTrait;
 use RoboComponents\PantheonRemoteTrait;
 use RoboComponents\PhpcsTrait;
+use RoboComponents\ProjectConfigTrait;
 use RoboComponents\ReleaseNotesTrait;
 use RoboComponents\SecurityTrait;
 use RoboComponents\ThemeTrait;
@@ -32,25 +33,126 @@ class RoboFile extends Tasks {
   use ImportToUi;
   use PhpcsTrait;
   use PantheonRemoteTrait;
+  use ProjectConfigTrait;
   use ReleaseNotesTrait;
   use SecurityTrait;
   use ThemeTrait;
 
   /**
+   * {@inheritdoc}
+   */
+  protected function getThemeName(): string {
+    return 'server_theme';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getGithubProject(): string {
+    return 'Gizra/drupal-starter';
+  }
+
+  /**
    * Defines a list of languages installed on the site.
    *
    * Edit as languages are installed/removed. This is used for translation
-   * management.
-   *
-   * Do not include 'en', 'und' or 'zxx'.
-   *
-   * @see \TranslationManagement\ExportFromConfig
-   * @see \TranslationManagement\ImportToConfig
+   * management. Do not include 'en', 'und' or 'zxx'.
    */
-  const INSTALLED_LANGUAGES = [
-    'ar',
-    'es',
-  ];
+  protected function getInstalledLanguages(): array {
+    return [
+      'ar',
+      'es',
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function deployPantheonSync(string $env = 'test', bool $do_deploy = TRUE): void {
+    $pantheon_info = $this->getPantheonNameAndEnv();
+    $pantheon_terminus_environment = $pantheon_info['name'] . '.' . $env;
+
+    $task = $this->taskExecStack()
+      ->stopOnFail();
+
+    if ($do_deploy) {
+      $task->exec("terminus env:deploy $pantheon_terminus_environment");
+    }
+
+    $result = $task
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- updb --no-interaction")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- cr")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- cim --no-interaction")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- cim --no-interaction")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- cr")
+      // Pre-warm the Twig template cache so the first anonymous
+      // request after deploy gets a cached hit.
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- twig:compile")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- deploy:hook --no-interaction")
+      ->run()
+      ->getExitCode();
+    if ($result !== 0) {
+      $message = "The site could not be fully updated at Pantheon at $env. Try fixing manually.";
+      $this->deployNotify($env, $message);
+      throw new \Exception($message);
+    }
+
+    $result = $this->localeImport(FALSE, $env);
+    if ($result->getExitCode() !== 0) {
+      $message = "The deployment went well to $env, but the locale import failed. Try to perform manually later.";
+      $this->deployNotify($env, $message);
+      throw new \Exception($message);
+    }
+
+    $result = $this->taskExecStack()
+      ->stopOnFail()
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- user-block --uid=1")
+      ->run()
+      ->getExitCode();
+
+    if ($result !== 0) {
+      $message = "The code deploy went well to $env, but blocking #1 user failed.";
+      $this->deployNotify($env, $message);
+    }
+
+    $result = $this->taskExecStack()
+      ->stopOnFail()
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- sapi-r")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- sapi-i")
+      ->run()
+      ->getExitCode();
+
+    if ($result !== 0) {
+      $message = "The deployment went well to $env, but the re-indexing to ElasticSearch failed. Try to perform manually later.";
+      $this->deployNotify($env, $message);
+      throw new \Exception($message);
+    }
+
+    $result = $this->taskExecStack()
+      ->stopOnFail()
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- uli --name=" . $this->getAdminUser())
+      ->run()
+      ->getExitCode();
+
+    if ($result !== 0) {
+      $message = "Could not generate a login link at $env. Try again manually or check earlier errors.";
+      $this->deployNotify($env, $message);
+      throw new \Exception($message);
+    }
+
+    try {
+      $this->deployCheckRequirementErrors($env);
+    }
+    catch (\Exception $e) {
+      $message = "The deployment went well to $env, but there are requirement errors. Address these:" . PHP_EOL . $e->getMessage();
+      try {
+        $this->deployNotify($env, $message);
+      }
+      catch (\Exception $e) {
+        $this->yell($e->getMessage());
+      }
+    }
+  }
 
   /**
    * Bootstraps Drupal 8 in addition to Robo.
