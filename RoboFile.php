@@ -68,21 +68,32 @@ class RoboFile extends Tasks {
   /**
    * {@inheritdoc}
    */
-  protected function getLogFile(string $env) {
+  public function getLogFile(string $env) {
     $pantheon_info = $this->getPantheonNameAndEnv();
     $site_env = $pantheon_info['name'] . ".$env";
 
-    // A Pantheon environment can run on several application
-    // containers, each keeping its own nginx logs. Resolve every
-    // container IP and aggregate their logs.
-    $sftp_username = trim($this->getTerminusConnectionField($site_env, 'sftp_username'));
-    $sftp_host = trim($this->getTerminusConnectionField($site_env, 'sftp_host'));
-    $sftp_port = trim($this->getTerminusConnectionField($site_env, 'sftp_port')) ?: '2222';
+    // Fetch all SFTP connection fields in a single terminus call.
+    $result = $this->taskExec("terminus connection:info $site_env --format=json --fields=sftp_username,sftp_host,sftp_port")
+      ->printOutput(FALSE)
+      ->run();
+
+    if ($result->getExitCode() !== 0) {
+      throw new \Exception("Could not get SFTP connection information for $site_env");
+    }
+
+    $conn = json_decode(trim($result->getMessage()), TRUE);
+    $sftp_username = trim($conn['sftp_username'] ?? '');
+    $sftp_host = trim($conn['sftp_host'] ?? '');
+    $sftp_port = trim($conn['sftp_port'] ?? '') ?: '2222';
 
     if (empty($sftp_username) || empty($sftp_host)) {
       throw new \Exception("Could not get SFTP connection information for $site_env");
     }
 
+    // A Pantheon environment can run on several application
+    // containers, each keeping its own nginx logs. Resolve every
+    // container IP and aggregate their logs.
+    // @see https://docs.pantheon.io/guides/logs-pantheon/automate-log-downloads
     $app_server_ips = gethostbynamel($sftp_host);
     if (empty($app_server_ips)) {
       $app_server_ips = [$sftp_host];
@@ -118,29 +129,6 @@ EOF
         ->run();
       unlink($container_log);
     }
-  }
-
-  /**
-   * Reads a single field from `terminus connection:info`.
-   *
-   * @param string $site_env
-   *   The Pantheon site and environment, e.g. `myproject.live`.
-   * @param string $field
-   *   The connection field to read, e.g. `sftp_host`.
-   *
-   * @return string
-   *   The field value, or empty string on failure.
-   */
-  protected function getTerminusConnectionField(string $site_env, string $field): string {
-    $result = $this->taskExec("terminus connection:info $site_env --field=$field")
-      ->printOutput(FALSE)
-      ->run();
-
-    if ($result->getExitCode() !== 0) {
-      return '';
-    }
-
-    return $result->getMessage();
   }
 
   /**
