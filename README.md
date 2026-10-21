@@ -645,8 +645,8 @@ rules to that bot's group alongside the facet ones:
 
 ```
 User-agent: GPTBot
-Disallow: *?f%5B*
-Disallow: *&f%5B*
+Disallow: *?type%5B*
+Disallow: *&type%5B*
 Disallow: /licensed-collection/
 Disallow: /archive/rights-restricted/
 ```
