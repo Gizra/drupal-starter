@@ -68,46 +68,27 @@ class RoboFile extends Tasks {
   /**
    * Finds the latest open release issue to notify about live deployments.
    *
+   * Uses the "release" label to identify release issues, so the match
+   * is robust regardless of title wording.
+   *
    * @param string $github_token
    *   The GitHub API token.
    *
    * @return int|null
-   *   The number of the latest matching open issue, or NULL if no open
-   *   issue titled starting with "Create release" or "Cut release" was
-   *   found. The rest of the title varies (e.g. "and deploy", "& deploy",
-   *   a trailing timebox like "[2h]"), so only the leading words are
-   *   matched.
+   *   The issue number, or NULL if none found.
    */
   protected function deployFindLatestReleaseIssue(string $github_token): ?int {
-    $release_issue_title_prefixes = [
-      'create release',
-      'cut release',
-    ];
-
-    $result = $this->taskExec("curl -H \"Authorization: token $github_token\" \"https://api.github.com/repos/" . $this->getGithubProject() . "/issues?state=open&sort=created&direction=desc&per_page=100\"")
+    $result = $this->taskExec("curl -H \"Authorization: token $github_token\" \"https://api.github.com/repos/" . $this->getGithubProject() . "/issues?state=open&labels=release&sort=created&direction=desc&per_page=1\"")
       ->printOutput(FALSE)
       ->run()
       ->getMessage();
 
     $issues = json_decode($result);
-    if (!is_array($issues)) {
+    if (!is_array($issues) || empty($issues)) {
       return NULL;
     }
 
-    foreach ($issues as $issue) {
-      // The issues endpoint also returns pull requests, skip those.
-      if (isset($issue->pull_request)) {
-        continue;
-      }
-      $title = strtolower(trim($issue->title));
-      foreach ($release_issue_title_prefixes as $prefix) {
-        if (str_starts_with($title, $prefix)) {
-          return (int) $issue->number;
-        }
-      }
-    }
-
-    return NULL;
+    return (int) $issues[0]->number;
   }
 
   /**
