@@ -4,6 +4,7 @@ namespace Drupal\PHPStan\Custom;
 
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use PHPStan\Type\ObjectType;
 use PHPStan\Rules\RuleErrorBuilder;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
@@ -40,9 +41,12 @@ class CacheableDependency implements Rule {
 
     $object = $scope->getType($node->args[0]->value);
 
-    // We need to check if isInstanceOf method exists as phpstan returns
-    // MixedType for unknown objects.
-    if (method_exists($object, 'isInstanceOf') && $object->isInstanceOf('Drupal\Core\Cache\CacheableDependencyInterface')) {
+    $cacheableInterface = new ObjectType('Drupal\Core\Cache\CacheableDependencyInterface');
+    // Only flag when PHPStan is certain the type does NOT implement the
+    // interface. Using no() avoids false positives for interface types
+    // (e.g. AccountInterface) whose concrete implementations do implement
+    // CacheableDependencyInterface.
+    if (!$cacheableInterface->isSuperTypeOf($object)->no()) {
       return [];
     }
     return [

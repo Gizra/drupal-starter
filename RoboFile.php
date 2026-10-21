@@ -9,6 +9,7 @@ use RoboComponents\BootstrapTrait;
 use RoboComponents\DeploymentTrait;
 use RoboComponents\PantheonRemoteTrait;
 use RoboComponents\PhpcsTrait;
+use RoboComponents\ProjectConfigTrait;
 use RoboComponents\ReleaseNotesTrait;
 use RoboComponents\SecurityTrait;
 use RoboComponents\ThemeTrait;
@@ -32,25 +33,37 @@ class RoboFile extends Tasks {
   use ImportToUi;
   use PhpcsTrait;
   use PantheonRemoteTrait;
+  use ProjectConfigTrait;
   use ReleaseNotesTrait;
   use SecurityTrait;
   use ThemeTrait;
 
   /**
+   * {@inheritdoc}
+   */
+  protected function getThemeName(): string {
+    return 'server_theme';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getGithubProject(): string {
+    return 'Gizra/drupal-starter';
+  }
+
+  /**
    * Defines a list of languages installed on the site.
    *
    * Edit as languages are installed/removed. This is used for translation
-   * management.
-   *
-   * Do not include 'en', 'und' or 'zxx'.
-   *
-   * @see \TranslationManagement\ExportFromConfig
-   * @see \TranslationManagement\ImportToConfig
+   * management. Do not include 'en', 'und' or 'zxx'.
    */
-  const INSTALLED_LANGUAGES = [
-    'ar',
-    'es',
-  ];
+  protected function getInstalledLanguages(): array {
+    return [
+      'ar',
+      'es',
+    ];
+  }
 
   /**
    * Bootstraps Drupal 8 in addition to Robo.

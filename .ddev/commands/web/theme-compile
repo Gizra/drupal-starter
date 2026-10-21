@@ -5,4 +5,4 @@
 ## Aliases: theme-compile
 ## Example: "ddev theme:compile"
 
-./vendor/bin/robo theme:compile
+cd ./web/themes/custom/server_theme && npm install && npm run build

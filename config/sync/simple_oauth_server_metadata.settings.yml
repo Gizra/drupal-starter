@@ -1,0 +1,25 @@
+_core:
+  default_config_hash: MpKQaM-JKKQ_j6iGlpGEWoZzBPV0b8Durrriwvhcntg
+registration_endpoint: 'https://drupal-starter.ddev.site:4443/oauth/register'
+revocation_endpoint: ''
+introspection_endpoint: ''
+device_authorization_endpoint: ''
+service_documentation: 'https://www.drupal.org/project/simple_oauth'
+op_policy_uri: ''
+op_tos_uri: ''
+ui_locales_supported:
+  - en-US
+  - ar-SA
+  - es-ES
+additional_claims_supported: {  }
+additional_signing_algorithms: {  }
+resource_documentation: ''
+resource_policy_uri: ''
+resource_tos_uri: ''
+response_types_supported:
+  - code
+  - id_token
+  - 'code id_token'
+response_modes_supported:
+  - query
+  - fragment
