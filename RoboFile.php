@@ -66,6 +66,60 @@ class RoboFile extends Tasks {
   }
 
   /**
+   * {@inheritdoc}
+   */
+  public function deployCheckRequirementErrors(string $environment): void {
+    $pantheon_info = $this->getPantheonNameAndEnv();
+    $pantheon_terminus_environment = $pantheon_info['name'] . '.' . $environment;
+
+    // Drush CLI calls have no Drupal route match, so
+    // UpdateManager::projectStorage() always returns stale cached
+    // project data, which can produce false "Not secure!" warnings.
+    // Clear it before checking requirements.
+    $this->taskExecStack()
+      ->stopOnFail()
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- php:eval \"\\Drupal::keyValueExpirable('update')->delete('update_project_projects');\"")
+      ->run();
+
+    $task = $this->taskExecStack()
+      ->stopOnFail();
+    $output = $task
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- rq --format=json")
+      ->printOutput(FALSE)
+      ->run()
+      ->getMessage();
+
+    if (empty($output)) {
+      throw new \Exception("Cannot get requirement errors via terminus, try to authenticate first: ddev auth ssh && ddev . terminus login --machine-token=[TOKEN]");
+    }
+
+    $errors = [];
+    $parsed_output = json_decode($output, TRUE);
+
+    if (!is_array($parsed_output)) {
+      throw new \Exception("Cannot parse the response of terminus: " . serialize($parsed_output));
+    }
+
+    $exclude = (string) getenv('DEPLOY_EXCLUDE_WARNING');
+    $exclude_list = explode('|', $exclude);
+
+    foreach ($parsed_output as $requirement) {
+      if ($requirement['severity'] !== 'Error') {
+        continue;
+      }
+      if (in_array($requirement['title'], $exclude_list) || in_array($requirement['value'], $exclude_list)) {
+        // A warning we decided to exclude.
+        continue;
+      }
+      $errors[] = '## ' . trim($requirement['title']) . "\n" . trim($requirement['value']);
+    }
+    if (empty($errors)) {
+      return;
+    }
+    throw new \Exception(implode("\n\n", $errors));
+  }
+
+  /**
    * Finds the latest open release issue to notify about live deployments.
    *
    * Uses the "release" label to identify release issues, so the match
