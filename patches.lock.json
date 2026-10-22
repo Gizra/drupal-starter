@@ -1,0 +1,185 @@
+{
+    "_hash": "6f437dba1ac2ad9612fccf46d82535e8db58cdd12ee7e874f203d836d0b98a70",
+    "patches": {
+        "drupal/core": [
+            {
+                "package": "drupal/core",
+                "description": "d.o. #3315245",
+                "url": "patches/2938.patch",
+                "sha256": "990fdd75aa4b4bc3d81c9802f689d2832de05f9d33a1428766a605ca8d687631",
+                "depth": 2,
+                "extra": {
+                    "provenance": "root"
+                }
+            },
+            {
+                "package": "drupal/core",
+                "description": "d.o. #2351685",
+                "url": "https://www.drupal.org/files/issues/2023-02-03/2351685-22.patch",
+                "sha256": "84b0b907f4ec9499ea0b6e62f912d6ebd41a262ba36b25b45c176915f941914e",
+                "depth": 2,
+                "extra": {
+                    "provenance": "root"
+                }
+            },
+            {
+                "package": "drupal/core",
+                "description": "d.o. #3400204",
+                "url": "https://www.drupal.org/files/issues/2024-06-27/3400204-claro-layout-overflow-fix-2.patch",
+                "sha256": "7b4aab6117876062d0deae7cbcdf950398d1aef3a542b2680389128514e5c29d",
+                "depth": 2,
+                "extra": {
+                    "provenance": "root"
+                }
+            }
+        ],
+        "drupal/elasticsearch_connector": [
+            {
+                "package": "drupal/elasticsearch_connector",
+                "description": "Preserve ES index settings",
+                "url": "https://www.drupal.org/files/issues/2020-01-28/3109361-elasticsearch_connector-preserve-index-settings-1.patch",
+                "sha256": "f2e195e7d420a8c524f7fb4a3659b34592a0f2b8d9819fbacef30dd6eed84ea5",
+                "depth": 1,
+                "extra": {
+                    "provenance": "root"
+                }
+            },
+            {
+                "package": "drupal/elasticsearch_connector",
+                "description": "d.o. #3106003 - Content access fixes",
+                "url": "https://www.drupal.org/files/issues/2021-01-12/missing-special-fields-3106003-8.patch",
+                "sha256": "6fab2b3ac2e43fc47da82076b5e06779e7bb1ceba83dddb58fa416187249be84",
+                "depth": 1,
+                "extra": {
+                    "provenance": "root"
+                }
+            },
+            {
+                "package": "drupal/elasticsearch_connector",
+                "description": "d.o. #3194318 - More robust language filtering",
+                "url": "https://www.drupal.org/files/issues/2021-01-25/3194318-hypen-lang-5.patch",
+                "sha256": "9b52106220196a18291f955b6732a13d3239ab750fff4d20620d6e1fb79eb96f",
+                "depth": 1,
+                "extra": {
+                    "provenance": "root"
+                }
+            },
+            {
+                "package": "drupal/elasticsearch_connector",
+                "description": "d.o. #3014805 - Views filtering with facets",
+                "url": "https://www.drupal.org/files/issues/2019-12-20/elasticsearch_connector-facet_OR_global_aggregation_does_not_take_views_filter_into_account-3014805-15.patch",
+                "sha256": "ed55fd5ae3a94c9f0900370d51613b1fa7a09c3aba671731143d63154315d7fa",
+                "depth": 1,
+                "extra": {
+                    "provenance": "root"
+                }
+            },
+            {
+                "package": "drupal/elasticsearch_connector",
+                "description": "d.o. #2952301",
+                "url": "https://www.drupal.org/files/issues/2021-03-11/elasticsearch_connector_luceneFlattenKeys--2952301-14.patch",
+                "sha256": "dcb671a84387a134c8ac1e270a8cdf1c251fe8ecfc6a658266639b08a39bdfde",
+                "depth": 1,
+                "extra": {
+                    "provenance": "root"
+                }
+            }
+        ],
+        "drupal/entity_reference_revisions": [
+            {
+                "package": "drupal/entity_reference_revisions",
+                "description": "d.o. #2799479",
+                "url": "patches/entity_reference_revisions-2799479.LLM-rerolled.patch",
+                "sha256": "1d41186b45f839db2728ec93cd48a61ec7473cae119d00f71a31a9d463cba44a",
+                "depth": 1,
+                "extra": {
+                    "provenance": "root"
+                }
+            }
+        ],
+        "nodespark/des-connector": [
+            {
+                "package": "nodespark/des-connector",
+                "description": "php 8.1 compatibility",
+                "url": "patches/des-connector-php-compat.patch",
+                "sha256": "462146311f7fb5615b7bc6248a5a633aa386bec450d8d6f81be68be4c18bd3ec",
+                "depth": 1,
+                "extra": {
+                    "provenance": "root"
+                }
+            }
+        ],
+        "drupal/ultimate_cron": [
+            {
+                "package": "drupal/ultimate_cron",
+                "description": "d.o. #3351276",
+                "url": "patches/ultimate_cron-3351276.LLM-rerolled.patch",
+                "sha256": "079c954e2910a85033c3ae56a9722a660a018afb6c091fc600e916a39c869e2b",
+                "depth": 1,
+                "extra": {
+                    "provenance": "root"
+                }
+            }
+        ],
+        "drupal/webp": [
+            {
+                "package": "drupal/webp",
+                "description": "d.o. #3281606",
+                "url": "patches/webp-3281606.patch",
+                "sha256": "9269688075c4110cf9d1268d1e6ceb892fa19f2df6e6b0fe502cc7a2027a8e14",
+                "depth": 1,
+                "extra": {
+                    "provenance": "root"
+                }
+            }
+        ],
+        "npm-asset/anchor-js": [
+            {
+                "package": "npm-asset/anchor-js",
+                "description": "remove font-face",
+                "url": "patches/remove-anchorjs-fontface.patch",
+                "sha256": "60b3aea362b5263b7bb7ef30f5081617a760878c6f282e4e7ef491c2e4224ab8",
+                "depth": 1,
+                "extra": {
+                    "provenance": "root"
+                }
+            }
+        ],
+        "drupal/seckit": [
+            {
+                "package": "drupal/seckit",
+                "description": "d.o. #3206728",
+                "url": "https://www.drupal.org/files/issues/2024-09-06/seckit-2_x-src-field-length-3206728-8.patch",
+                "sha256": "7387b8479680c5c93dd1fff95eb6a65eb05ecad0cbc961a5c40c85766dbfabdb",
+                "depth": 1,
+                "extra": {
+                    "provenance": "root"
+                }
+            }
+        ],
+        "drupal/rollbar": [
+            {
+                "package": "drupal/rollbar",
+                "description": "d.o. #3432364",
+                "url": "patches/3432364-rollbar-vars.patch",
+                "sha256": "e68092cdd69b257c5e45d10fadb61c3f1d40017c68f0c35fc84f86a6d7859b3d",
+                "depth": 1,
+                "extra": {
+                    "provenance": "root"
+                }
+            }
+        ],
+        "drupal/schema_metatag": [
+            {
+                "package": "drupal/schema_metatag",
+                "description": "d.o. #3415013",
+                "url": "patches/3415013-schema-webpage-extra-fields.patch",
+                "sha256": "5c15eaf6e1d9cd769f63c18316dd2f07f9dc1504d49ee5c0f6a5f779f9b76424",
+                "depth": 1,
+                "extra": {
+                    "provenance": "root"
+                }
+            }
+        ]
+    }
+}
