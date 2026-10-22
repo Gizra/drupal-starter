@@ -154,6 +154,7 @@
             "mglaman/composer-drupal-lenient": true,
             "oomphinc/composer-installers-extender": true,
             "php-http/discovery": true,
+            "symfony/runtime": true,
             "wikimedia/composer-merge-plugin": true
         }
     },
