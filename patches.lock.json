@@ -1,6 +1,18 @@
 {
-    "_hash": "6f437dba1ac2ad9612fccf46d82535e8db58cdd12ee7e874f203d836d0b98a70",
+    "_hash": "b2496d918d0b16cc4a641e5de54f8a48260ba133e2514e6c7a3ffa7192b5f13f",
     "patches": {
+        "consolidation/robo": [
+            {
+                "package": "consolidation/robo",
+                "description": "Symfony Console 7.4+ addCommand() compat (robo#1185)",
+                "url": "patches/robo-console-addcommand.patch",
+                "sha256": "80f7f76254737f50c6cf7165f1aa232eadf1af37e8efad4d608471858df385dc",
+                "depth": 1,
+                "extra": {
+                    "provenance": "root"
+                }
+            }
+        ],
         "drupal/core": [
             {
                 "package": "drupal/core",
@@ -31,55 +43,13 @@
                 "extra": {
                     "provenance": "root"
                 }
-            }
-        ],
-        "drupal/elasticsearch_connector": [
-            {
-                "package": "drupal/elasticsearch_connector",
-                "description": "Preserve ES index settings",
-                "url": "https://www.drupal.org/files/issues/2020-01-28/3109361-elasticsearch_connector-preserve-index-settings-1.patch",
-                "sha256": "f2e195e7d420a8c524f7fb4a3659b34592a0f2b8d9819fbacef30dd6eed84ea5",
-                "depth": 1,
-                "extra": {
-                    "provenance": "root"
-                }
             },
             {
-                "package": "drupal/elasticsearch_connector",
-                "description": "d.o. #3106003 - Content access fixes",
-                "url": "https://www.drupal.org/files/issues/2021-01-12/missing-special-fields-3106003-8.patch",
-                "sha256": "6fab2b3ac2e43fc47da82076b5e06779e7bb1ceba83dddb58fa416187249be84",
-                "depth": 1,
-                "extra": {
-                    "provenance": "root"
-                }
-            },
-            {
-                "package": "drupal/elasticsearch_connector",
-                "description": "d.o. #3194318 - More robust language filtering",
-                "url": "https://www.drupal.org/files/issues/2021-01-25/3194318-hypen-lang-5.patch",
-                "sha256": "9b52106220196a18291f955b6732a13d3239ab750fff4d20620d6e1fb79eb96f",
-                "depth": 1,
-                "extra": {
-                    "provenance": "root"
-                }
-            },
-            {
-                "package": "drupal/elasticsearch_connector",
-                "description": "d.o. #3014805 - Views filtering with facets",
-                "url": "https://www.drupal.org/files/issues/2019-12-20/elasticsearch_connector-facet_OR_global_aggregation_does_not_take_views_filter_into_account-3014805-15.patch",
-                "sha256": "ed55fd5ae3a94c9f0900370d51613b1fa7a09c3aba671731143d63154315d7fa",
-                "depth": 1,
-                "extra": {
-                    "provenance": "root"
-                }
-            },
-            {
-                "package": "drupal/elasticsearch_connector",
-                "description": "d.o. #2952301",
-                "url": "https://www.drupal.org/files/issues/2021-03-11/elasticsearch_connector_luceneFlattenKeys--2952301-14.patch",
-                "sha256": "dcb671a84387a134c8ac1e270a8cdf1c251fe8ecfc6a658266639b08a39bdfde",
-                "depth": 1,
+                "package": "drupal/core",
+                "description": "d.o. #2137815",
+                "url": "https://www.drupal.org/files/issues/2025-11-11/2137815-225.patch",
+                "sha256": "e29e7b96af24807693b38214ff8c2c72af47500122db9dbae6d92e363302ba66",
+                "depth": 2,
                 "extra": {
                     "provenance": "root"
                 }
@@ -91,18 +61,6 @@
                 "description": "d.o. #2799479",
                 "url": "patches/entity_reference_revisions-2799479.LLM-rerolled.patch",
                 "sha256": "1d41186b45f839db2728ec93cd48a61ec7473cae119d00f71a31a9d463cba44a",
-                "depth": 1,
-                "extra": {
-                    "provenance": "root"
-                }
-            }
-        ],
-        "nodespark/des-connector": [
-            {
-                "package": "nodespark/des-connector",
-                "description": "php 8.1 compatibility",
-                "url": "patches/des-connector-php-compat.patch",
-                "sha256": "462146311f7fb5615b7bc6248a5a633aa386bec450d8d6f81be68be4c18bd3ec",
                 "depth": 1,
                 "extra": {
                     "provenance": "root"
