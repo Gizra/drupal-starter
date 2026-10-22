@@ -68,6 +68,72 @@ class RoboFile extends Tasks {
   /**
    * {@inheritdoc}
    */
+  public function getLogFile(string $env) {
+    $pantheon_info = $this->getPantheonNameAndEnv();
+    $site_env = $pantheon_info['name'] . ".$env";
+
+    // Fetch all SFTP connection fields in a single terminus call.
+    $result = $this->taskExec("terminus connection:info $site_env --format=json --fields=sftp_username,sftp_host,sftp_port")
+      ->printOutput(FALSE)
+      ->run();
+
+    if ($result->getExitCode() !== 0) {
+      throw new \Exception("Could not get SFTP connection information for $site_env");
+    }
+
+    $conn = json_decode(trim($result->getMessage()), TRUE);
+    $sftp_username = trim($conn['sftp_username'] ?? '');
+    $sftp_host = trim($conn['sftp_host'] ?? '');
+    $sftp_port = trim($conn['sftp_port'] ?? '') ?: '2222';
+
+    if (empty($sftp_username) || empty($sftp_host)) {
+      throw new \Exception("Could not get SFTP connection information for $site_env");
+    }
+
+    // A Pantheon environment can run on several application
+    // containers, each keeping its own nginx logs. Resolve every
+    // container IP and aggregate their logs.
+    // @see https://docs.pantheon.io/guides/logs-pantheon/automate-log-downloads
+    $app_server_ips = gethostbynamel($sftp_host);
+    if (empty($app_server_ips)) {
+      $app_server_ips = [$sftp_host];
+    }
+
+    $this->say(sprintf('Found %d application container(s) for %s.', count($app_server_ips), $site_env));
+
+    if (file_exists(self::$accessLogPath)) {
+      unlink(self::$accessLogPath);
+    }
+
+    $container_logs = [];
+    foreach ($app_server_ips as $index => $app_server_ip) {
+      $container_log = "/tmp/nginx-access-$index.log";
+      $this->_exec("sftp -o Port=$sftp_port -o StrictHostKeyChecking=no $sftp_username@$app_server_ip <<EOF
+cd logs/nginx
+get nginx-access.log $container_log
+EOF
+");
+      if (file_exists($container_log)) {
+        $container_logs[] = $container_log;
+      }
+    }
+
+    if (empty($container_logs)) {
+      $this->say('Try to use "ddev auth ssh" first to fix this issue. It will let DDEV download the logs via SFTP with the keys of the host system.');
+      $this->say('https://ddev.readthedocs.io/en/stable/users/usage/cli/#ssh-into-containers');
+      throw new \Exception('Failed to download the logfiles');
+    }
+
+    foreach ($container_logs as $container_log) {
+      $this->taskExec('cat ' . escapeshellarg($container_log) . ' >> ' . escapeshellarg(self::$accessLogPath))
+        ->run();
+      unlink($container_log);
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function deployCheckRequirementErrors(string $environment): void {
     $pantheon_info = $this->getPantheonNameAndEnv();
     $pantheon_terminus_environment = $pantheon_info['name'] . '.' . $environment;
