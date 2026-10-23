@@ -1,0 +1,18 @@
+uuid: 5f76c585-2fc5-4ef5-a63e-55a8d316a6a3
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.people_teasers
+id: paragraph.people_teasers.created
+field_name: created
+entity_type: paragraph
+bundle: people_teasers
+label: 'Authored on'
+description: 'The time that the Paragraph was created.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created
