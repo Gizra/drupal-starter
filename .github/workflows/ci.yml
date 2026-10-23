@@ -14,7 +14,7 @@ jobs:
     name: Drupal coding standard
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -34,7 +34,7 @@ jobs:
     name: PhpStan
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -48,7 +48,7 @@ jobs:
         run: composer install
 
       - name: Restore PHPStan result cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v6
         with:
           path: .phpstan-cache
           key: phpstan-result-cache-${{ github.sha }}
@@ -59,7 +59,7 @@ jobs:
 
       - name: Save PHPStan result cache
         if: ${{ !cancelled() }}
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v6
         with:
           path: .phpstan-cache
           key: phpstan-result-cache-${{ github.sha }}
@@ -68,7 +68,7 @@ jobs:
     name: "Shell coding standard: shellcheck"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Install shellcheck
         run: ./ci-scripts/install_shell.sh
@@ -83,7 +83,7 @@ jobs:
     env:
       ROLLBAR_SERVER_TOKEN: ${{ secrets.ROLLBAR_SERVER_TOKEN }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2

@@ -24,7 +24,7 @@ use Drupal\server_general\ThemeTrait\QuickLinksThemeTrait;
 use Drupal\server_general\ThemeTrait\QuoteThemeTrait;
 use Drupal\server_general\ThemeTrait\SearchThemeTrait;
 use Drupal\server_general\WebformTrait;
-use Drupal\filter\FilterFormatRepositoryInterface;
+use Drupal\server_style_guide\ThemeTrait\Enum\IdTypeEnum;
 use Drupal\server_style_guide\ThemeTrait\StyleGuideElementWrapThemeTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -80,13 +80,6 @@ class StyleGuideController extends ControllerBase {
   protected $entityTypeManager;
 
   /**
-   * The filter format repository.
-   *
-   * @var \Drupal\filter\FilterFormatRepositoryInterface
-   */
-  protected FilterFormatRepositoryInterface $filterFormatRepository;
-
-  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
@@ -95,7 +88,6 @@ class StyleGuideController extends ControllerBase {
     $instance->iFrameUrlHelper = $container->get('media.oembed.iframe_url_helper');
     $instance->renderer = $container->get('renderer');
     $instance->entityTypeManager = $container->get('entity_type.manager');
-    $instance->filterFormatRepository = $container->get(FilterFormatRepositoryInterface::class);
     return $instance;
   }
 
@@ -627,9 +619,10 @@ class StyleGuideController extends ControllerBase {
    */
   protected function getHeroImage(): array {
     $url = Url::fromRoute('<front>');
+    $image = $this->buildResponsiveImage('hero', 'server-style-guide://sand-1980x1060.jpg');
 
     return $this->buildElementHeroImage(
-      $this->buildImage($this->getPlaceholderImage(1600, 400)),
+      $image,
       $this->getRandomTitle(),
       $this->getRandomTitle(),
       Link::fromTextAndUrl('Learn more', $url),
@@ -782,6 +775,34 @@ class StyleGuideController extends ControllerBase {
   }
 
   /**
+   * Build a responsive image render array using responsive_image theme.
+   *
+   * Uses the server_style_guide:// stream wrapper which maps to the module's
+   * images/ directory, allowing Drupal image styles to process module-bundled
+   * images without copying them to public://.
+   *
+   * @param string $responsive_image_style_id
+   *   The responsive image style ID (e.g. 'hero').
+   * @param string $uri
+   *   The image uri.
+   * @param string $alt
+   *   Alt text for the image.
+   *
+   * @return array
+   *   A render array using the responsive_image theme.
+   */
+  private function buildResponsiveImage(string $responsive_image_style_id, string $uri, string $alt = ''): array {
+    return [
+      '#theme' => 'responsive_image',
+      '#uri' => $uri,
+      '#responsive_image_style_id' => $responsive_image_style_id,
+      '#attributes' => [
+        'alt' => $alt,
+      ],
+    ];
+  }
+
+  /**
    * Build text with HTML.
    *
    * @param string $text
@@ -804,7 +825,7 @@ class StyleGuideController extends ControllerBase {
     $element[] = [
       '#type' => 'processed_text',
       '#text' => $text,
-      '#format' => $this->filterFormatRepository->getDefaultFormat()->id(),
+      '#format' => filter_default_format(),
     ];
 
     return $element;
@@ -823,15 +844,15 @@ class StyleGuideController extends ControllerBase {
    *   The height of the image.
    * @param string $id
    *   The ID of the image. Or a seed.
-   * @param string $id_type
+   * @param \Drupal\server_style_guide\ThemeTrait\Enum\IdTypeEnum $id_type
    *   The type of the ID, either 'id' or 'seed'.
    *
    * @return string
    *   URL with placeholder.
    */
-  protected function getPlaceholderImage(int $width, int $height, string $id = '', string $id_type = 'id') {
+  protected function getPlaceholderImage(int $width, int $height, string $id = '', IdTypeEnum $id_type = IdTypeEnum::Id) {
     if (!empty($id)) {
-      return "https://picsum.photos/{$id_type}/{$id}/{$width}/{$height}.jpg";
+      return "https://picsum.photos/{$id_type->value}/{$id}/{$width}/{$height}.jpg";
     }
     return "https://picsum.photos/{$width}/{$height}.jpg";
   }
@@ -890,7 +911,7 @@ class StyleGuideController extends ControllerBase {
     for ($i = 0; $i < $num; $i++) {
       $elements[] = call_user_func(
         [$this, $func],
-        $this->buildImage($this->getPlaceholderImage(300, 200, "card_image_$i", 'seed')),
+        $this->buildImage($this->getPlaceholderImage(300, 200, "card_image_$i", IdTypeEnum::Seed)),
         $this->getRandomTitle(),
         Url::fromRoute('<front>'),
         $this->buildProcessedText('Decorate one package of cauliflower in six teaspoons of plain vinegar. Try flavoring the crême fraîche gingers with clammy rum and fish sauce, simmered.'),
