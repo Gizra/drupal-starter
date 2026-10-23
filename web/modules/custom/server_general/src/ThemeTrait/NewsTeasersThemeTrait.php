@@ -77,7 +77,7 @@ trait NewsTeasersThemeTrait {
 
     // Title as link.
     $element = $this->buildLink($title, $url, ColorEnum::DarkGray);
-    $element = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::LG);
+    $element = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::Lg);
     $elements[] = $this->wrapTextFontWeight($element, FontWeightEnum::Bold);
 
     // Body teaser.
@@ -117,7 +117,7 @@ trait NewsTeasersThemeTrait {
 
     // Title as link.
     $element = $this->buildLink($title, $url, ColorEnum::DarkGray);
-    $element = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::LG);
+    $element = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::Lg);
     $elements[] = $this->wrapTextFontWeight($element, FontWeightEnum::Bold);
 
     // Body teaser.

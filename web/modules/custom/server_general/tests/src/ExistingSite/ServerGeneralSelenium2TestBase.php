@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
+use Behat\Mink\Driver\DriverInterface;
 use Drupal\Tests\server_general\TestConfiguration;
 use Drupal\Tests\server_general\Traits\MemoryManagementTrait;
+use Mink\WebdriverClassicDriver\WebdriverClassicDriver;
 use weitzman\DrupalTestTraits\ExistingSiteSelenium2DriverTestBase;
 
 /**
@@ -17,6 +19,43 @@ use weitzman\DrupalTestTraits\ExistingSiteSelenium2DriverTestBase;
 class ServerGeneralSelenium2TestBase extends ExistingSiteSelenium2DriverTestBase {
 
   use MemoryManagementTrait;
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getDriverInstance(): DriverInterface {
+    if (!isset($this->driver)) {
+      $hostname = getenv('DRUPAL_TEST_WEBDRIVER_HOSTNAME') ?: 'selenium-chrome';
+      $port = getenv('DRUPAL_TEST_WEBDRIVER_PORT') ?: '4444';
+
+      $args = [
+        '--disable-dev-shm-usage',
+        '--disable-gpu',
+        '--dns-prefetch-disable',
+        '--no-sandbox',
+      ];
+
+      if (getenv('CI') === 'true') {
+        // Locally Chrome draws on the Selenium container's virtual display, so
+        // the test run can be watched over noVNC. On CI nobody is watching, and
+        // headless is faster.
+        $args[] = '--headless';
+      }
+
+      $capabilities = [
+        'browserName' => 'chrome',
+        // Accept self-signed certificates in the local Selenium container.
+        // So calling https://drupal-starter.ddev.site:4443/
+        // wouldn't result in certificate errors.
+        'acceptInsecureCerts' => TRUE,
+        'goog:chromeOptions' => ['args' => $args],
+      ];
+
+      $url = "http://{$hostname}:{$port}";
+      $this->driver = new WebdriverClassicDriver('chrome', $capabilities, $url);
+    }
+    return $this->driver;
+  }
 
   /**
    * {@inheritDoc}

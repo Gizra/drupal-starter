@@ -6,8 +6,10 @@ dependencies:
     - core.entity_view_mode.node.teaser
     - field.field.node.news.field_body
     - field.field.node.news.field_featured_image
+    - field.field.node.news.field_metatag
     - field.field.node.news.field_publish_date
     - field.field.node.news.field_tags
+    - field.field.node.news.field_wikidata_id
     - node.type.news
   module:
     - user
@@ -29,7 +31,9 @@ content:
 hidden:
   field_body: true
   field_featured_image: true
+  field_metatag: true
   field_publish_date: true
   field_tags: true
+  field_wikidata_id: true
   langcode: true
   search_api_excerpt: true
