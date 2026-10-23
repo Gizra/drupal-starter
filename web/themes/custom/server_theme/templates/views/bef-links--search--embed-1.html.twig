@@ -1,0 +1,38 @@
+{#
+/**
+ * @file
+ * Theme override for the facet links of the search view.
+ *
+ * Better Exposed Filters (BEF) renders a facet with the "Links" widget through
+ * this template. Each link toggles its value, so clicking a selected link
+ * removes the filter.
+ *
+ * Available variables:
+ * - element: The facet element. Each child is a link render array, keyed by
+ *   the facet value.
+ * - children: The keys of the links.
+ * - selected: The selected facet values.
+ * - hiddens: Hidden inputs that keep the selected values when the exposed
+ *   form is submitted.
+ *
+ * To style a single facet, copy this file and add the filter identifier, e.g.
+ * bef-links--search--embed-1--type.html.twig. This template prints a flat
+ * list; for a hierarchical facet, start from the BEF bef-links.html.twig.
+ *
+ * @see template_preprocess_bef_links()
+ */
+#}
+{% for name, value in hiddens %}
+  <input type="hidden" name="{{ name }}" value="{{ value }}" />
+{% endfor %}
+<ul{{ attributes.removeClass('form-select').addClass('bef-links', 'flex', 'flex-col', 'gap-y-2') }}>
+  {% for child in children %}
+    <li>
+      {% if child in selected %}
+        <span aria-hidden="true">(-)</span>
+        <span class="sr-only">{{ 'Remove filter:'|t }}</span>
+      {% endif %}
+      {{ attribute(element, child) }}
+    </li>
+  {% endfor %}
+</ul>

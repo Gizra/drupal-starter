@@ -25,15 +25,11 @@ trait SearchThemeTrait {
   use TitleAndLabelsThemeTrait;
 
   /**
-   * Build a Search term, facets and results element.
+   * Build a Search term and results element.
    *
-   * This is used by the Search paragraph type.
+   * This is used by the Search paragraph type. The facets are part of the
+   * results, as exposed filters of the search view.
    *
-   * @param array $facets_items
-   *   The facets render array.
-   * @param bool $has_filters
-   *   Indicate if there are facet filters. That is, if a user has selected some
-   *   values in one or more of the facets.
    * @param array $result_items
    *   The render array of the results.
    * @param string|null $search_term
@@ -42,22 +38,13 @@ trait SearchThemeTrait {
    * @return array
    *   Render array.
    */
-  protected function buildElementSearchTermFacetsAndResults(array $facets_items, bool $has_filters, array $result_items, ?string $search_term = NULL): array {
+  protected function buildElementSearchTermAndResults(array $result_items, ?string $search_term = NULL): array {
     $elements = [];
 
-    // Show the search term and facets if they exist.
-    $element = [];
     if ($search_term) {
-      $element[] = $this->buildElementSearchTermSummary($search_term);
+      $elements[] = $this->buildElementSearchTermSummary($search_term);
     }
 
-    if ($facets_items) {
-      $element[] = $this->buildElementSearchFacets($facets_items, $has_filters);
-    }
-
-    $elements[] = $this->wrapContainerVerticalSpacing($element);
-
-    // Add the results.
     $elements[] = $result_items;
 
     $elements = $this->wrapContainerVerticalSpacingBig($elements);
@@ -77,26 +64,6 @@ trait SearchThemeTrait {
     return [
       '#theme' => 'server_theme_search_term',
       '#search_term' => $search_term,
-    ];
-  }
-
-  /**
-   * Build the Search Facets element.
-   *
-   * @param array $facets_items
-   *   The facets render array.
-   * @param bool $has_filters
-   *   Indicate if there are facet filters. That is, if a user has selected some
-   *   values in one or more of the facets.
-   *
-   * @return array
-   *   The render array for the element.
-   */
-  protected function buildElementSearchFacets($facets_items, $has_filters): array {
-    return [
-      '#theme' => 'server_theme_facets__search',
-      '#items' => $facets_items,
-      '#has_filters' => $has_filters,
     ];
   }
 

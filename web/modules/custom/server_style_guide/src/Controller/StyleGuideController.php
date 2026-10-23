@@ -186,8 +186,8 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getRelatedContentCarousel(TRUE);
     $build[] = $this->wrapElementNoContainer($element, 'Element: Related content (Carousel, featured)');
 
-    $element = $this->getSearchTermFacetsAndResults();
-    $build[] = $this->wrapElementNoContainer($element, 'Element: Search term, facets and results');
+    $element = $this->getSearchTermAndResults();
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Search term and results');
 
     $element = $this->getNodeNews();
     $build[] = $this->wrapElementNoContainer($element, 'Node view: News');
@@ -327,12 +327,12 @@ class StyleGuideController extends ControllerBase {
   }
 
   /**
-   * Get Search term, facets and results.
+   * Get Search term and results.
    *
    * @return array
    *   Render array.
    */
-  protected function getSearchTermFacetsAndResults(): array {
+  protected function getSearchTermAndResults(): array {
     $result_items = [];
     $result_items[] = $this->buildElementSearchResult(
       'News',
@@ -350,11 +350,7 @@ class StyleGuideController extends ControllerBase {
       time()
     );
 
-    return $this->buildElementSearchTermFacetsAndResults(
-      // We can't easily theme the facets, so we skip that part on the style
-      // guide.
-      [],
-      FALSE,
+    return $this->buildElementSearchTermAndResults(
       $result_items,
       'The search query',
     );

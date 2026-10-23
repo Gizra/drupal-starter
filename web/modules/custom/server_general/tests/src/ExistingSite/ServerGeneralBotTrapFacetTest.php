@@ -40,7 +40,7 @@ class ServerGeneralBotTrapFacetTest extends ServerGeneralSearchTestBase {
       // Test normal facet usage works.
       $this->drupalGet('/search', [
         'query' => [
-          'f' => ['content_type:news'],
+          'type' => ['news' => 'news'],
         ],
       ]);
       $this->assertSession()->statusCodeEquals(Response::HTTP_OK);
@@ -48,7 +48,7 @@ class ServerGeneralBotTrapFacetTest extends ServerGeneralSearchTestBase {
       // Test PHP array notation facet works for normal user.
       $this->drupalGet('/search', [
         'query' => [
-          'f' => ['content_type:news'],
+          'type' => ['news' => 'news'],
         ],
       ]);
       $this->assertSession()->statusCodeEquals(Response::HTTP_OK);
@@ -81,7 +81,7 @@ class ServerGeneralBotTrapFacetTest extends ServerGeneralSearchTestBase {
     try {
       $this->drupalGet('/search', [
         'query' => [
-          'f' => ['content_type:news'],
+          'type' => ['news' => 'news'],
         ],
       ]);
 
@@ -96,7 +96,7 @@ class ServerGeneralBotTrapFacetTest extends ServerGeneralSearchTestBase {
     try {
       $this->drupalGet('/search', [
         'query' => [
-          'f' => ['a', 'b', 'c'],
+          'type' => ['a', 'b', 'c'],
         ],
       ]);
 
@@ -134,7 +134,7 @@ class ServerGeneralBotTrapFacetTest extends ServerGeneralSearchTestBase {
     // Use PHP array notation in query.
     $this->drupalGet('/search', [
       'query' => [
-        'f' => ['content_type:news'],
+        'type' => ['news' => 'news'],
       ],
     ]);
 

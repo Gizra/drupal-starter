@@ -587,6 +587,30 @@ function server_theme_preprocess_page_title(array &$variables) {
 }
 
 /**
+ * Implements hook_preprocess_views_view__search__embed_1().
+ *
+ * Show the facets (exposed filters) of the search view in the facets wrapper.
+ */
+function server_theme_preprocess_views_view__search__embed_1(array &$variables) {
+  if (empty($variables['exposed'])) {
+    return;
+  }
+
+  // The search term comes from the header search form, and the facet links
+  // apply on click, so only the facets are shown.
+  $variables['exposed']['key']['#access'] = FALSE;
+  $variables['exposed']['actions']['#access'] = FALSE;
+
+  /** @var \Drupal\views\ViewExecutable $view */
+  $view = $variables['view'];
+  $variables['exposed'] = [
+    '#theme' => 'server_theme_facets__search',
+    '#items' => $variables['exposed'],
+    '#has_filters' => !empty(array_filter($view->getExposedInput())),
+  ];
+}
+
+/**
  * Implements hook_theme_suggestions_page_title_alter().
  *
  * Use our own page title theme.
