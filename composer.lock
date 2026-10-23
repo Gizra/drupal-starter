@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "54a7531428f294b183b1690503a5221f",
+    "content-hash": "dfb823a81b7a3f17225595f8360ac01d",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -64,16 +64,16 @@
         },
         {
             "name": "bower-asset/font-awesome",
-            "version": "6.3.0",
+            "version": "7.3.1",
             "source": {
                 "type": "git",
-                "url": "git@github.com:FortAwesome/Font-Awesome.git",
-                "reference": "d02961b018153506364077343b0edcde0a39d27e"
+                "url": "https://github.com/FortAwesome/Font-Awesome.git",
+                "reference": "14c65a3747d0f3b751f15831fc719236aea8729d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/d02961b018153506364077343b0edcde0a39d27e",
-                "reference": "d02961b018153506364077343b0edcde0a39d27e"
+                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/14c65a3747d0f3b751f15831fc719236aea8729d",
+                "reference": "14c65a3747d0f3b751f15831fc719236aea8729d"
             },
             "type": "bower-asset"
         },
