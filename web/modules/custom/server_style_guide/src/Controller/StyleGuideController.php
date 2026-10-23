@@ -95,7 +95,7 @@ class StyleGuideController extends ControllerBase {
     $instance->iFrameUrlHelper = $container->get('media.oembed.iframe_url_helper');
     $instance->renderer = $container->get('renderer');
     $instance->entityTypeManager = $container->get('entity_type.manager');
-    $instance->filterFormatRepository = $container->get('filter.format_repository');
+    $instance->filterFormatRepository = $container->get(FilterFormatRepositoryInterface::class);
     return $instance;
   }
 
@@ -804,7 +804,7 @@ class StyleGuideController extends ControllerBase {
     $element[] = [
       '#type' => 'processed_text',
       '#text' => $text,
-      '#format' => $this->filterFormatRepository->getDefaultFormat(),
+      '#format' => $this->filterFormatRepository->getDefaultFormat()->id(),
     ];
 
     return $element;
