@@ -265,14 +265,11 @@ example implementation.
 
 ### Debugging
 
-When it is hard to understand a test failure, a peek into the browser might help.
-For Selenium-based ones, you can take screenshots using the `takeScreenshot()` method. This captures and saves
-the screenshot in `/web/sites/simpletest/screenshots`.
-You can also watch what the tests are doing in the browser using noVNC. To do so, simply open a browser and open
-https://drupal-starter.ddev.site:7900 and click Connect. No password is needed. Now simply run the tests
-and you can see the test running in the browser.
+For Selenium tests, use `takeScreenshot()` to save screenshots to `/web/sites/simpletest/screenshots`.
 
-Chrome only runs headless on CI, so locally there is always something to watch.
+Watch tests live via noVNC at https://drupal-starter.ddev.site:7900 (click Connect, no password needed).
+
+Chrome runs headless on CI only; locally you can always watch.
 
 For faster, virtual browser-based tests, you can use `createHtmlSnapshot` and it will dump the HTML content
 of the virtual browser into the `phpunit_debug` directory. For the exact filename, refer to the output of
@@ -301,12 +298,9 @@ ddev phpunit-contrib migrate_tools
 
 ### Accessibility Testing (WCAG 2.2 AA)
 
-Automated accessibility checks run via [Playwright](https://playwright.dev/) and
-[`@axe-core/playwright`](https://www.npmjs.com/package/@axe-core/playwright) against
-key page templates (front page, a landing page, a news article, the login page,
-and the 404 page). The suite lives in `accessibility-testing/` and requires a
-running DDEV site (`ddev start`, with the site installed per the
-["Local Installation"](#local-installation) steps above).
+WCAG 2.2 AA checks via [Playwright](https://playwright.dev/) and
+[`@axe-core/playwright`](https://www.npmjs.com/package/@axe-core/playwright).
+The suite lives in `accessibility-testing/` and needs a running DDEV site.
 
 ```bash
 cd accessibility-testing
@@ -322,9 +316,7 @@ npx playwright test
 npx playwright show-report
 ```
 
-This suite also runs automatically in CI via `.github/workflows/playwright.yml`,
-which builds a fresh DDEV site inside the runner (the same way `ci.yml` does for
-PHPUnit) so no hosted environment is needed.
+Also runs in CI via `.github/workflows/playwright.yml` — no hosted environment needed.
 
 ## Debugging
 
@@ -431,31 +423,33 @@ assembles it from the Git log.
 
 ## Automatic Deployment to Pantheon
 
-In order to deploy upon every merge automatically using GitHub Actions, you shall:
+### Prerequisites
 
-1. Initiate QA (`qa` branch) multidev environment for the given project.
+The GitHub Actions workflows for automatic deployment are already configured in the repository. You just need to set up the necessary credentials.
+
+### Setup Steps
+
+In order to deploy upon every merge automatically using GitHub Actions:
+
+1. Ensure QA (`qa` branch) multidev environment exists for the given project. This is automatically created during bootstrap, or can be created manually.
 1. Double-check if `./.ddev/providers/pantheon.yaml` contains the proper Pantheon project name.
 1. Get a [Pantheon machine token](https://pantheon.io/docs/machine-tokens) (using a dummy new Pantheon user ideally, one user per project for the sake of security)
 1. Get a GitHub Personal access token. It will be used to post a comment to GitHub to the relevant issue when a merged PR is deployed, so set the expiry date far in the future enough for this.
-1. `ddev robo deploy:config-autodeploy [your terminus token] [your github token]`
-1. `git commit -m "Deployment secrets and configuration"`
-1. Add the public key in `pantheon-key.pub` to the newly created dummy [Pantheon user](https://pantheon.io/docs/ssh-keys)
-1. Set up the following in your GitHub repository settings:
+1. Run the autodeploy configuration command:
+   ```bash
+   ddev robo deploy:config-autodeploy [your terminus token] [your github token]
+   ```
+   
+   This generates an SSH key pair, installs [GitHub CLI](https://cli.github.com/) if needed, and offers to configure GitHub Secrets and Variables automatically.
 
-   **GitHub Secrets** (Settings → Secrets and variables → Actions → Secrets):
-   - `TERMINUS_TOKEN`: Your Pantheon machine token
-   - `PANTHEON_DEPLOY_KEY`: The SSH private key for deployment
-   - `GH_TOKEN`: GitHub personal access token for posting deployment comments
+1. Follow the instructions provided by the command to:
+   - Add the SSH public key (`pantheon-key.pub`) to your [Pantheon account](https://pantheon.io/docs/ssh-keys)
+   - If using automated setup: Confirm when prompted to automatically configure GitHub Secrets and Variables
+   - If setting up manually: Configure GitHub Secrets (TERMINUS_TOKEN, PANTHEON_DEPLOY_KEY, GH_TOKEN) and Variables (PANTHEON_GIT_URL, ROLLBAR_SERVER_TOKEN, DEPLOY_EXCLUDE_WARNING) as instructed
 
-   **GitHub Variables** (Settings → Secrets and variables → Actions → Variables):
-   - `PANTHEON_GIT_URL`: The Pantheon Git URL for your project
-   - `ROLLBAR_SERVER_TOKEN`: Your Rollbar server token (optional)
-   - `DEPLOY_EXCLUDE_WARNING`: Warnings to exclude from deployment notifications (optional)
+**Note**: The `bootstrap:project` command sets `getGithubProject()` in `RoboFile.php` automatically. Otherwise, update it manually.
 
-1. Actualize `public static string $githubProject = 'Gizra/the-client';` in the `RoboFile.php`.
-
-Optionally you can specify which target branch you'd like to push on Pantheon, by default it's `master`, so the target is the DEV environment, but alternatively you can issue:
-`ddev robo deploy:config-autodeploy [your terminus token] [your github token] [pantheon project name] [gh_branch] [pantheon_branch]`
+### Tag-based Deployments
 
 After you have automatic deployment for a project, you are able to deploy to Pantheon `test` and `live` using Git tags.
 
@@ -467,10 +461,10 @@ After you have automatic deployment for a project, you are able to deploy to Pan
     git tag 0.1.2_live
     git push origin 0.1.2_live
 
-In order to make it fast, you need to first create the tag that deploys to `test`, then you need to tag the same commit with a tag suffixed with `_live`.
+For speed, first tag for `test`, then tag the same commit with `_live`.
 
-> **Important:** Always push the tag with `git push origin <tag>` **before** publishing the GitHub release.
-> Creating a tag exclusively through the GitHub release UI may not fire the `push` event that triggers the deployment workflow, so the deployment gets skipped silently.
+> **Important:** Always `git push origin <tag>` **before** publishing the GitHub release.
+> The release UI alone may not fire the `push` event, silently skipping deployment.
 
 ### Manual Steps
 
@@ -622,25 +616,17 @@ ddev robo security:access-log-overview
 
 ## AI crawlers
 
-`web/robots.txt` ships an explicit, per-vendor baseline for AI bots. Each
-vendor runs separate bots for model training, search-indexing, and
-live user-triggered retrieval (e.g. OpenAI's `GPTBot` / `OAI-SearchBot` /
-`ChatGPT-User`), so they are listed individually and can be tuned per bot.
+`web/robots.txt` ships per-vendor AI bot rules. Bots are listed individually so
+you can tune training, search, and retrieval bots separately.
 
-The baseline **allows** every named AI bot access to your original content,
-with two exceptions. First, faceted-search URLs are disallowed for the AI bots
-too — the same protection `User-agent: *` gets — since crawling facet
-permutations has no value for any bot and only wastes crawl budget and server
-resources. Second, `Google-Extended` is disallowed entirely, which is a free
-opt-out from Gemini/Vertex model training and has no effect on Google Search
-or AI Overviews. Revisit this policy per project on the Go Live Checklist.
+The baseline **allows** all named AI bots except faceted-search URLs (wasted
+crawl budget) and `Google-Extended` (free Gemini training opt-out, no Search
+impact). Revisit per project on the Go Live Checklist.
 
 ### Restricting a training bot to part of the site
 
-`robots.txt` groups do **not** merge: a bot obeys only the single most
-specific `User-agent` group matching its name. To keep a training bot out of a
-rights-restricted collection while allowing it everywhere else, add path-scoped
-rules to that bot's group alongside the facet ones:
+`robots.txt` groups do **not** merge — a bot obeys only its most specific
+group. Add path-scoped `Disallow` rules to that group:
 
 ```
 User-agent: GPTBot
@@ -654,14 +640,9 @@ Scope by the URL path of the content type or collection you need to protect.
 
 ### Verifying bot identity
 
-A `robots.txt` rule is only honored by well-behaved bots, and any client can
-send a `User-agent: GPTBot` header. To *enforce* a policy — or to trust a bot's
-identity before serving it — verify the request against the vendor's published
-IP ranges or via forward-confirmed reverse DNS (rDNS: the source IP must
-reverse-resolve to the vendor's domain, and that hostname must forward-resolve
-back to the same IP). This is best done at the CDN/WAF layer (e.g. Cloudflare
-verified-bot rules). Vendors publish the required IP ranges and rDNS domains in
-the bot docs linked from `robots.txt`.
+Any client can fake a `User-agent` header. To *enforce* policy, verify requests
+via the vendor's IP ranges or forward-confirmed reverse DNS at the CDN/WAF layer
+(e.g. Cloudflare verified-bot rules).
 
 ## Importing/Exporting translations
 
