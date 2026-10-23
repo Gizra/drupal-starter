@@ -424,11 +424,13 @@ EOF
       $request = Request::createFromGlobals();
       $kernel = DrupalKernel::createFromRequest($request, $GLOBALS['drupal_autoloader'], 'prod');
       $kernel->handle($request);
-      chdir(__DIR__);
     }
     catch (\Exception $e) {
       // Do not fail, there are several commands that do not need Drupal.
       $this->yell($e->getMessage());
+    }
+    finally {
+      chdir(__DIR__);
     }
   }
 
