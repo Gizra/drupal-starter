@@ -128,7 +128,7 @@ class NodeNews extends NodeViewBuilderAbstract {
    */
   public function buildFeatured(array $build, NodeInterface $entity) {
     $media = $this->getReferencedEntityFromField($entity, 'field_featured_image');
-    $image = $media instanceof MediaInterface ? $this->buildImageStyle($media, 'card', 'field_media_image') : NULL;
+    $image = $media instanceof MediaInterface ? $this->buildImageStyle($media, 'card', 'field_media_image') : [];
     $title = $entity->label();
     $url = $entity->toUrl();
     $summary = $this->buildProcessedText($entity, 'field_body');
