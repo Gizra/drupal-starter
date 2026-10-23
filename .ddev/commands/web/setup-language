@@ -1,0 +1,46 @@
+#!/bin/bash
+
+## Description: Configures drupal to install language
+## Usage: setup-language LANGCODE
+## Example: "ddev setup-language es Spanish"
+
+if [ $# -ne 2 ]; then
+  echo "Usage: $0 <langcode> <language name>"
+  exit 1
+fi
+
+langcode=$1
+langname=$2
+
+# The site is configured in english. Nothing to do here.
+if [ "$langcode" == "en" ]; then
+  exit 0
+fi
+
+directories=(
+  "config/sync"
+  "web/modules/custom/server_default_content"
+)
+
+# Find and replace "langcode: en" with "langcode: $langcode"
+for dir in "${directories[@]}"; do
+  if [ -d "$dir" ]; then
+    grep -rl "langcode: en" "$dir" | while read -r file; do
+      sed -i "s/langcode: en/langcode: $langcode/g" "$file"
+    done
+  fi
+done
+
+TARGET_FILE="config/sync/language.entity.${langcode}.yml"
+
+# Make sure the language selected exists. If not, reuse Spanish as source.
+if [ ! -f "$TARGET_FILE" ]; then
+  mv config/sync/language.entity.es.yml "$TARGET_FILE"
+
+  sed -i "s/id: es/id: ${langcode}/" "$TARGET_FILE"
+  sed -i "s/label: Spanish/label: ${langname}/" "$TARGET_FILE"
+  sed -i "s/weight: 2/weight: -1/" "$TARGET_FILE"
+
+  sed -i "s/en: ''/en: en/" config/sync/language.negotiation.yml
+  sed -i "s/es: es/${langcode}: ${langcode}/" config/sync/language.negotiation.yml
+fi
