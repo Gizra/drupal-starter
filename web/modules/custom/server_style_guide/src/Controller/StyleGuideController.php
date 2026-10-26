@@ -24,6 +24,7 @@ use Drupal\server_general\ThemeTrait\QuickLinksThemeTrait;
 use Drupal\server_general\ThemeTrait\QuoteThemeTrait;
 use Drupal\server_general\ThemeTrait\SearchThemeTrait;
 use Drupal\server_general\WebformTrait;
+use Drupal\filter\FilterFormatRepositoryInterface;
 use Drupal\server_style_guide\ThemeTrait\Enum\IdTypeEnum;
 use Drupal\server_style_guide\ThemeTrait\StyleGuideElementWrapThemeTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -80,6 +81,13 @@ class StyleGuideController extends ControllerBase {
   protected $entityTypeManager;
 
   /**
+   * The filter format repository.
+   *
+   * @var \Drupal\filter\FilterFormatRepositoryInterface
+   */
+  protected FilterFormatRepositoryInterface $filterFormatRepository;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
@@ -88,6 +96,7 @@ class StyleGuideController extends ControllerBase {
     $instance->iFrameUrlHelper = $container->get('media.oembed.iframe_url_helper');
     $instance->renderer = $container->get('renderer');
     $instance->entityTypeManager = $container->get('entity_type.manager');
+    $instance->filterFormatRepository = $container->get(FilterFormatRepositoryInterface::class);
     return $instance;
   }
 
@@ -825,7 +834,7 @@ class StyleGuideController extends ControllerBase {
     $element[] = [
       '#type' => 'processed_text',
       '#text' => $text,
-      '#format' => filter_default_format(),
+      '#format' => $this->filterFormatRepository->getDefaultFormat()->id(),
     ];
 
     return $element;
