@@ -29,7 +29,7 @@
         "ext-intl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "bower-asset/font-awesome": "^6",
+        "bower-asset/font-awesome": "^7",
         "composer/installers": "^1.9",
         "cweagans/composer-patches": "~2.0",
         "drupal/admin_toolbar": "^3.4",
@@ -155,6 +155,7 @@
             "mglaman/composer-drupal-lenient": true,
             "oomphinc/composer-installers-extender": true,
             "php-http/discovery": true,
+            "symfony/runtime": true,
             "wikimedia/composer-merge-plugin": true
         }
     },

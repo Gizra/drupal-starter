@@ -37,3 +37,4 @@ default_vdb_provider: ''
 request_timeout: 60
 allowed_hosts: {  }
 allowed_hosts_rewrite_links: false
+global_guardrails: {  }
