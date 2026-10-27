@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace Drupal\server_general\ThemeTrait;
 
+use Drupal\Core\Link;
 use Drupal\Core\Url;
+use Drupal\server_general\ThemeTrait\Enum\BackgroundColorEnum;
+use Drupal\server_general\ThemeTrait\Enum\TextColorEnum;
+use Drupal\server_general\ThemeTrait\Enum\WidthEnum;
 
 /**
  * Helper methods to build Page layouts.
@@ -73,7 +77,7 @@ trait ElementLayoutThemeTrait {
    *   The body render array. Maybe empty.
    * @param array $items
    *   The items render array.
-   * @param BackgroundColorEnum $bg_color
+   * @param \Drupal\server_general\ThemeTrait\Enum\BackgroundColorEnum $bg_color
    *   The background color. See
    *   ElementWrapThemeTrait::wrapContainerWide for the allowed values.
    *
@@ -127,7 +131,9 @@ trait ElementLayoutThemeTrait {
 
     $elements = [];
     $elements[] = $wrapped_items;
-    $elements[] = $this->buildButton($this->t('View more'), Url::fromUserInput('#'));
+
+    $link = Link::fromTextAndUrl($this->t('View more'), Url::fromUserInput('#'));
+    $elements[] = $this->buildButtonSecondary($link);
     $elements = $this->wrapContainerVerticalSpacing($elements);
 
     return [

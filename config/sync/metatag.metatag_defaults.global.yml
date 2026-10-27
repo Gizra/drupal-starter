@@ -10,4 +10,8 @@ tags:
   canonical_url: '[current-page:url]'
   description: 'This is the Drupal Starter project.'
   og_title: '[node:title]'
+  schema_organization_description: 'A brief description of the organisation and its purpose.'
+  schema_organization_name: '[site:name]'
+  schema_organization_type: Organization
+  schema_organization_url: '[site:url]'
   title: '[current-page:title] | [site:name]'

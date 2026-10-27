@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\server_general\ThemeTrait;
 
 use Drupal\Core\Url;
+use Drupal\server_general\ThemeTrait\Enum\FontSizeEnum;
 
 /**
  * Helper methods for rendering Quick Links elements.

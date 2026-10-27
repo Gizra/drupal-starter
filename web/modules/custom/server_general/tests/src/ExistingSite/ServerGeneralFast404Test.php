@@ -7,6 +7,8 @@ use weitzman\DrupalTestTraits\ExistingSiteBase;
 
 /**
  * Fast 404 test.
+ *
+ * @group sequential
  */
 class ServerGeneralFast404Test extends ExistingSiteBase {
 

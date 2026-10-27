@@ -6,6 +6,8 @@ use Drupal\Tests\server_general\Traits\ParagraphCreationTrait;
 
 /**
  * Test Paragraph "Form".
+ *
+ * @group sequential
  */
 class ServerGeneralParagraphFormTest extends ServerGeneralFieldableEntityTestBase {
 

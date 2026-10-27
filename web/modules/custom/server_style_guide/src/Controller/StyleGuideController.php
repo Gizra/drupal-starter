@@ -5,32 +5,27 @@ namespace Drupal\server_style_guide\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
-use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
 use Drupal\server_general\ThemeTrait\AccordionThemeTrait;
-use Drupal\server_general\ThemeTrait\ButtonThemeTrait;
-use Drupal\server_general\ThemeTrait\CardThemeTrait;
+use Drupal\server_general\ThemeTrait\Enum\ColorEnum;
 use Drupal\server_general\ThemeTrait\CarouselThemeTrait;
 use Drupal\server_general\ThemeTrait\CtaThemeTrait;
 use Drupal\server_general\ThemeTrait\DocumentsThemeTrait;
-use Drupal\server_general\ThemeTrait\ElementLayoutThemeTrait;
 use Drupal\server_general\ThemeTrait\ElementMediaThemeTrait;
 use Drupal\server_general\ThemeTrait\ElementNodeNewsThemeTrait;
-use Drupal\server_general\ThemeTrait\ElementWrapThemeTrait;
 use Drupal\server_general\ThemeTrait\ExpandingTextThemeTrait;
-use Drupal\server_general\ThemeTrait\FontSizeEnum;
-use Drupal\server_general\ThemeTrait\FontWeightEnum;
+use Drupal\server_general\ThemeTrait\Enum\FontSizeEnum;
+use Drupal\server_general\ThemeTrait\Enum\FontWeightEnum;
 use Drupal\server_general\ThemeTrait\HeroThemeTrait;
+use Drupal\server_general\ThemeTrait\Enum\HtmlTagEnum;
 use Drupal\server_general\ThemeTrait\InfoCardThemeTrait;
-use Drupal\server_general\ThemeTrait\LinkThemeTrait;
 use Drupal\server_general\ThemeTrait\NewsTeasersThemeTrait;
 use Drupal\server_general\ThemeTrait\PeopleTeasersThemeTrait;
 use Drupal\server_general\ThemeTrait\QuickLinksThemeTrait;
 use Drupal\server_general\ThemeTrait\QuoteThemeTrait;
 use Drupal\server_general\ThemeTrait\SearchThemeTrait;
-use Drupal\server_general\ThemeTrait\SocialShareThemeTrait;
-use Drupal\server_general\ThemeTrait\TagThemeTrait;
-use Drupal\server_general\ThemeTrait\TitleAndLabelsThemeTrait;
 use Drupal\server_general\WebformTrait;
+use Drupal\filter\FilterFormatRepositoryInterface;
+use Drupal\server_style_guide\ThemeTrait\Enum\IdTypeEnum;
 use Drupal\server_style_guide\ThemeTrait\StyleGuideElementWrapThemeTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -40,29 +35,20 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class StyleGuideController extends ControllerBase {
 
   use AccordionThemeTrait;
-  use BuildFieldTrait;
-  use ButtonThemeTrait;
-  use CardThemeTrait;
   use CarouselThemeTrait;
   use CtaThemeTrait;
   use DocumentsThemeTrait;
   use ElementMediaThemeTrait;
   use ElementNodeNewsThemeTrait;
-  use ElementLayoutThemeTrait;
-  use ElementWrapThemeTrait;
   use ExpandingTextThemeTrait;
   use HeroThemeTrait;
   use InfoCardThemeTrait;
-  use LinkThemeTrait;
   use NewsTeasersThemeTrait;
   use PeopleTeasersThemeTrait;
   use QuickLinksThemeTrait;
   use QuoteThemeTrait;
   use SearchThemeTrait;
-  use SocialShareThemeTrait;
   use StyleGuideElementWrapThemeTrait;
-  use TagThemeTrait;
-  use TitleAndLabelsThemeTrait;
   use WebformTrait;
 
 
@@ -95,6 +81,13 @@ class StyleGuideController extends ControllerBase {
   protected $entityTypeManager;
 
   /**
+   * The filter format repository.
+   *
+   * @var \Drupal\filter\FilterFormatRepositoryInterface
+   */
+  protected FilterFormatRepositoryInterface $filterFormatRepository;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
@@ -103,6 +96,7 @@ class StyleGuideController extends ControllerBase {
     $instance->iFrameUrlHelper = $container->get('media.oembed.iframe_url_helper');
     $instance->renderer = $container->get('renderer');
     $instance->entityTypeManager = $container->get('entity_type.manager');
+    $instance->filterFormatRepository = $container->get(FilterFormatRepositoryInterface::class);
     return $instance;
   }
 
@@ -527,16 +521,24 @@ class StyleGuideController extends ControllerBase {
     $url = Url::fromRoute('<front>');
 
     // Primary button with icon.
-    $element = $this->buildButton($this->t('Download file'), $url, 'primary', 'download');
+    $link = Link::fromTextAndUrl($this->t('Home'), $url);
+    $element = $this->buildButtonPrimary($link);
     $build[] = $this->wrapElementWideContainer($element, 'Primary button');
 
     // Secondary button.
-    $element = $this->buildButton($this->t('Register'), $url, 'secondary');
+    $link = Link::fromTextAndUrl($this->t('Register'), $url);
+    $element = $this->buildButtonSecondary($link);
     $build[] = $this->wrapElementWideContainer($element, 'Secondary button');
 
     // Tertiary button.
-    $element = $this->buildButton($this->t('Login'), $url, 'tertiary');
+    $link = Link::fromTextAndUrl($this->t('Login'), $url);
+    $element = $this->buildButtonTertiary($link);
     $build[] = $this->wrapElementWideContainer($element, 'Tertiary button');
+
+    // Download button.
+    $link = Link::fromTextAndUrl($this->t('Download'), $url);
+    $element = $this->buildButtonDownload($link);
+    $build[] = $this->wrapElementWideContainer($element, 'Download button');
 
     return $build;
   }
@@ -552,11 +554,11 @@ class StyleGuideController extends ControllerBase {
 
     $url = Url::fromRoute('<front>');
 
-    $element = $this->buildLink('Internal link', $url, 'gray');
+    $element = $this->buildLink('Internal link', $url, ColorEnum::Gray);
     $build[] = $this->wrapElementWideContainer($element, 'Link');
 
     $url = Url::fromUri('https://example.com');
-    $element = $this->buildLink('External link', $url, 'dark-gray', NULL, 'hover');
+    $element = $this->buildLink('External link', $url);
     $build[] = $this->wrapElementWideContainer($element, 'External link');
 
     return $build;
@@ -579,7 +581,7 @@ class StyleGuideController extends ControllerBase {
     $element = [
       '#markup' => $this->getRandomTitle(),
     ];
-    $element = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::LG);
+    $element = $this->wrapTextResponsiveFontSize($element, FontSizeEnum::Lg);
     $build[] = $this->wrapElementWideContainer($element, 'Text decoration - Font size');
 
     // Italic format for `TranslatableMarkup`.
@@ -606,9 +608,8 @@ class StyleGuideController extends ControllerBase {
     $elements = [];
 
     // Wrap Html tag from h1 to h5.
-    foreach (range(1, 5) as $index) {
-      $tag = 'h' . $index;
-      $elements[] = $this->wrapHtmlTag('This is an example for ' . $tag, $tag);
+    foreach (HtmlTagEnum::cases() as $tag) {
+      $elements[] = $this->wrapHtmlTag('This is an example for ' . $tag->value, $tag);
     }
     $build[] = $this->wrapElementWideContainer($elements, 'Headings (h1 - h5)');
 
@@ -627,9 +628,10 @@ class StyleGuideController extends ControllerBase {
    */
   protected function getHeroImage(): array {
     $url = Url::fromRoute('<front>');
+    $image = $this->buildResponsiveImage('hero', 'server-style-guide://sand-1980x1060.jpg');
 
     return $this->buildElementHeroImage(
-      $this->buildImage($this->getPlaceholderImage(1600, 400)),
+      $image,
       $this->getRandomTitle(),
       $this->getRandomTitle(),
       Link::fromTextAndUrl('Learn more', $url),
@@ -714,7 +716,8 @@ class StyleGuideController extends ControllerBase {
     $url = Url::fromRoute('<front>');
 
     // Show button only if it's not featured content.
-    $button = !$is_featured ? $this->buildButton('View more', $url) : NULL;
+    $link = Link::fromTextAndUrl('View more', $url);
+    $button = !$is_featured ? $this->buildButtonSecondary($link) : NULL;
     $items = $this->getRelatedContent(6, $is_featured);
 
     return $this->buildElementCarousel(
@@ -781,6 +784,34 @@ class StyleGuideController extends ControllerBase {
   }
 
   /**
+   * Build a responsive image render array using responsive_image theme.
+   *
+   * Uses the server_style_guide:// stream wrapper which maps to the module's
+   * images/ directory, allowing Drupal image styles to process module-bundled
+   * images without copying them to public://.
+   *
+   * @param string $responsive_image_style_id
+   *   The responsive image style ID (e.g. 'hero').
+   * @param string $uri
+   *   The image uri.
+   * @param string $alt
+   *   Alt text for the image.
+   *
+   * @return array
+   *   A render array using the responsive_image theme.
+   */
+  private function buildResponsiveImage(string $responsive_image_style_id, string $uri, string $alt = ''): array {
+    return [
+      '#theme' => 'responsive_image',
+      '#uri' => $uri,
+      '#responsive_image_style_id' => $responsive_image_style_id,
+      '#attributes' => [
+        'alt' => $alt,
+      ],
+    ];
+  }
+
+  /**
    * Build text with HTML.
    *
    * @param string $text
@@ -803,7 +834,7 @@ class StyleGuideController extends ControllerBase {
     $element[] = [
       '#type' => 'processed_text',
       '#text' => $text,
-      '#format' => filter_default_format(),
+      '#format' => $this->filterFormatRepository->getDefaultFormat()->id(),
     ];
 
     return $element;
@@ -822,15 +853,15 @@ class StyleGuideController extends ControllerBase {
    *   The height of the image.
    * @param string $id
    *   The ID of the image. Or a seed.
-   * @param string $id_type
+   * @param \Drupal\server_style_guide\ThemeTrait\Enum\IdTypeEnum $id_type
    *   The type of the ID, either 'id' or 'seed'.
    *
    * @return string
    *   URL with placeholder.
    */
-  protected function getPlaceholderImage(int $width, int $height, string $id = '', string $id_type = 'id') {
+  protected function getPlaceholderImage(int $width, int $height, string $id = '', IdTypeEnum $id_type = IdTypeEnum::Id) {
     if (!empty($id)) {
-      return "https://picsum.photos/{$id_type}/{$id}/{$width}/{$height}.jpg";
+      return "https://picsum.photos/{$id_type->value}/{$id}/{$width}/{$height}.jpg";
     }
     return "https://picsum.photos/{$width}/{$height}.jpg";
   }
@@ -889,7 +920,7 @@ class StyleGuideController extends ControllerBase {
     for ($i = 0; $i < $num; $i++) {
       $elements[] = call_user_func(
         [$this, $func],
-        $this->buildImage($this->getPlaceholderImage(300, 200, "card_image_$i", 'seed')),
+        $this->buildImage($this->getPlaceholderImage(300, 200, "card_image_$i", IdTypeEnum::Seed)),
         $this->getRandomTitle(),
         Url::fromRoute('<front>'),
         $this->buildProcessedText('Decorate one package of cauliflower in six teaspoons of plain vinegar. Try flavoring the crême fraîche gingers with clammy rum and fish sauce, simmered.'),

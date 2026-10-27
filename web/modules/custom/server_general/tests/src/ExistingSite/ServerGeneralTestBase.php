@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\Tests\server_general\ExistingSite;
 
+use Drupal\Tests\server_general\TestConfiguration;
+use Drupal\Tests\server_general\Traits\MemoryManagementTrait;
 use weitzman\DrupalTestTraits\ExistingSiteBase;
 
 /**
@@ -11,33 +15,22 @@ use weitzman\DrupalTestTraits\ExistingSiteBase;
  */
 abstract class ServerGeneralTestBase extends ExistingSiteBase {
 
+  use MemoryManagementTrait;
+
   /**
-   * Tear down and unset variables.
-   *
-   * This is needed in order to reduce the memory usage by PHPUnit.
-   *
-   * @see https://stackoverflow.com/questions/13537545/clear-memory-being-used-by-php
+   * {@inheritdoc}
    */
   public function tearDown(): void {
     parent::tearDown();
-    $refl = new \ReflectionObject($this);
-    foreach ($refl->getProperties() as $prop) {
-      if (!$prop->isStatic()
-        && 0 !== strpos($prop->getDeclaringClass()->getName(), 'PHPUnit_')
-        && $prop->getType()?->allowsNull() !== FALSE
-      ) {
-        $prop->setAccessible(TRUE);
-        $prop->setValue($this, NULL);
-      }
-    }
+    $this->performMemoryCleanup();
   }
 
   /**
    * Creates a snapshot of the virtual browser for debugging purposes.
    */
   public function createHtmlSnapshot(): void {
-    if (!file_exists('../phpunit_debug')) {
-      mkdir('../phpunit_debug');
+    if (!file_exists(TestConfiguration::DEBUG_DIRECTORY)) {
+      mkdir(TestConfiguration::DEBUG_DIRECTORY);
     }
 
     $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
@@ -57,7 +50,7 @@ abstract class ServerGeneralTestBase extends ExistingSiteBase {
     }
 
     $timestamp = microtime(TRUE);
-    $filename = '../phpunit_debug/' . $caller . '_' . $timestamp . '.html';
+    $filename = TestConfiguration::DEBUG_DIRECTORY . '/' . $caller . '_' . $timestamp . '.html';
     file_put_contents($filename, $this->getCurrentPage()->getOuterHtml());
     \Drupal::logger('server_general')->notice('HTML snapshot created: ' . str_replace('../', '', $filename));
   }
