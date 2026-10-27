@@ -78,4 +78,5 @@ class ServerGeneralRelatedContentFeaturedTest extends ServerGeneralSelenium2Test
     // Assert that the active slide is now different.
     $web_assert->elementTextContains('css', '.paragraph--type--related-content .carousel-slide.slick-current', $second_news_title);
   }
+
 }
