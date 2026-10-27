@@ -11,7 +11,7 @@
   hover_color_class,
   underline == 'always' ? 'underline',
   underline == 'hover' ? 'hover:underline',
-] | join(' ') | trim %}
+] | filter(v => v) | join(' ') %}
 
 <div class="{{ classes }}">
   {{ element }}

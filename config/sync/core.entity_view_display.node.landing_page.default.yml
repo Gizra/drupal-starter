@@ -4,16 +4,23 @@ status: true
 dependencies:
   config:
     - field.field.node.landing_page.field_is_title_hidden
+    - field.field.node.landing_page.field_metatag
     - field.field.node.landing_page.field_paragraphs
     - node.type.landing_page
   module:
     - entity_reference_revisions
+    - metatag
     - user
 id: node.landing_page.default
 targetEntityType: node
 bundle: landing_page
 mode: default
 content:
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: -20
+    region: content
   field_is_title_hidden:
     type: boolean
     label: above
@@ -23,6 +30,13 @@ content:
       format_custom_true: ''
     third_party_settings: {  }
     weight: 102
+    region: content
+  field_metatag:
+    type: metatag_empty_formatter
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 107
     region: content
   field_paragraphs:
     type: entity_reference_revisions_entity_view

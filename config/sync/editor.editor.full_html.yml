@@ -82,7 +82,6 @@ settings:
           language: xml
     ckeditor5_heading:
       enabled_headings:
-        - heading1
         - heading2
         - heading3
         - heading4
@@ -90,18 +89,16 @@ settings:
         - heading6
     ckeditor5_imageResize:
       allow_resize: true
-    ckeditor5_language:
-      language_list: un
     ckeditor5_list:
       properties:
         reversed: true
         startIndex: true
+        styles: true
       multiBlock: true
     ckeditor5_sourceEditing:
       allowed_tags:
         - '<cite>'
         - '<blockquote cite>'
-        - '<ul type>'
         - '<dl>'
         - '<dt>'
         - '<dd>'
@@ -110,7 +107,6 @@ settings:
         - '<h4 id>'
         - '<h5 id>'
         - '<h6 id>'
-        - '<ol type>'
         - '<div class>'
         - '<span class>'
     media_media:

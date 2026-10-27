@@ -16,3 +16,11 @@ services:
         class: Drupal\PHPStan\Custom\CacheableDependency
         tags:
             - phpstan.rules.rule
+    -
+        class: Drupal\PHPStan\Custom\NoRedundantTraitUseRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: Drupal\PHPStan\Custom\MissingCacheMetadataRule
+        tags:
+            - phpstan.rules.rule

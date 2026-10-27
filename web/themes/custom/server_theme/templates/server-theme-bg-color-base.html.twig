@@ -1,9 +1,4 @@
 {# Get the TW background color. #}
 {% macro getBgColor(color) %}
-  {% if color == 'light-gray' %}
-    bg-gray-100
-  {% else %}
-    bg-transparent
-  {% endif %}
+  {{- color == 'light-gray' ? 'bg-gray-100' : 'bg-transparent' -}}
 {% endmacro %}
-

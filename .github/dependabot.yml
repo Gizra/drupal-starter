@@ -1,0 +1,51 @@
+version: 2
+
+updates:
+  # PHP dependencies ship to production; keep these current.
+  - package-ecosystem: "composer"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+    groups:
+      drupal-core:
+        patterns:
+          - "drupal/core*"
+      drupal-contrib:
+        patterns:
+          - "drupal/*"
+        exclude-patterns:
+          - "drupal/core*"
+        update-types:
+          - "minor"
+          - "patch"
+      php-dev:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
+
+  # Theme npm packages are build-time tooling (PostCSS, Tailwind, SVGO) used
+  # only to compile CSS; devDependency vulnerabilities do not reach production.
+  # Limit Dependabot to direct production deps to avoid noise from transitive
+  # ReDoS/DoS advisories in the build toolchain.
+  - package-ecosystem: "npm"
+    directory: "/web/themes/custom/server_theme"
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+    allow:
+      - dependency-type: "production"
+
+  # Keep CI action versions current.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"

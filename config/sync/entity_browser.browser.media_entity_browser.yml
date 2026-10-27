@@ -17,6 +17,7 @@ display_configuration:
   height: '500'
   link_text: 'Select media'
   auto_open: true
+  use_admin_theme: true
 selection_display: no_display
 selection_display_configuration: {  }
 widget_selector: tabs
