@@ -27,13 +27,7 @@
     </div>
     <div>
       {{ form.actions }}
-      {#
-        /**
-         * We add a clear filters link like this as the exposed filter's own
-         * reset button does not care about facets, at least not in the way we
-         * add facets to the page.
-        */
-      #}
+      {# Custom clear link because the exposed filter reset button ignores facets. #}
       <a class="font-semibold text-sm md:text-base lg:text-lg hover:underline" href="{{ clear_filters_url }}">{{ 'Clear filters'|t }}</a>
     </div>
   </div>
