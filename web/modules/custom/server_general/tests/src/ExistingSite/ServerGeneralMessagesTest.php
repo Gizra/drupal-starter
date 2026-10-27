@@ -25,11 +25,11 @@ class ServerGeneralMessagesTest extends ServerGeneralTestBase {
     // Login as admin.
     $user = $this->createUser();
     $user->addRole('administrator');
+    $user->save();
     $this->drupalLogin($user);
 
     // Visit the node edit form.
     $this->drupalGet($node->toUrl('edit-form'));
-    $this->createHtmlSnapshot();
     $assert = $this->assertSession();
     $assert->statusCodeEquals(Response::HTTP_OK);
 

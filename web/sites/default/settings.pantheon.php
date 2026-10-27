@@ -5,6 +5,7 @@
  * Pantheon-specific settings.
  */
 
+use Pantheon\Integrations\Assets;
 use Drupal\Core\Installer\InstallerKernel;
 
 // Naive mitigation of bad traffic.
@@ -34,7 +35,9 @@ $settings['container_yamls'][] = __DIR__ . '/services.pantheon.yml';
  *      a local development environment, to insure that
  *      the site settings remain consistent.
  */
-include_once __DIR__ . "/settings.pantheon.php";
+if (isset($_ENV['PANTHEON_ENVIRONMENT']) && file_exists(Assets::dir() . "/settings.pantheon.php")) {
+  include Assets::dir() . "/settings.pantheon.php";
+}
 
 $settings['config_sync_directory'] = '../config/sync';
 
@@ -47,31 +50,6 @@ if (file_exists($local_settings)) {
 }
 $pantheon_env = getenv('PANTHEON_ENVIRONMENT');
 $pantheon_site_name = getenv('PANTHEON_SITE_NAME');
-$base_private_dir = '../config/elasticsearch';
-$settings['site_id'] = 'drupal_starter';
-if (file_exists($base_private_dir . '/' . $settings['site_id'] . '.es.secrets.json')) {
-  $es_credentials = json_decode(file_get_contents($base_private_dir . '/' . $settings['site_id'] . '.es.secrets.json'), TRUE);
-  if (is_array($es_credentials)) {
-    $fallback = 'dev';
-    $env = str_replace('-', '_', !empty($pantheon_env) ? $pantheon_env : $fallback);
-
-    if (!isset($es_credentials[$env])) {
-      $env = $fallback;
-    }
-    $_ENV['es_env'] = $env;
-
-    // The port number is MANDATORY, even if it's the default one.
-    // Elastic.co these days put instances on default port, include :443
-    // nevertheless at the end of the URL.
-    $config['elasticsearch_connector.cluster.server']['url'] = 'https://REPLACE-WITH-REAL-URL.us-central1.gcp.cloud.es.io:443';
-    $config['elasticsearch_connector.cluster.server']['options']['use_authentication'] = TRUE;
-
-    if (isset($es_credentials[$env])) {
-      $config['elasticsearch_connector.cluster.server']['options']['username'] = $settings['site_id'] . '_' . $env;
-      $config['elasticsearch_connector.cluster.server']['options']['password'] = $es_credentials[$env];
-    }
-  }
-}
 if (!empty($pantheon_env)) {
   // Rollbar settings for LIVE and TEST.
   if ($pantheon_env == 'live' || $pantheon_env == 'test') {
@@ -191,12 +169,12 @@ if (defined(
 if (function_exists('pantheon_get_secret')) {
   $tfa_key = pantheon_get_secret('tfa_key');
   if (!empty($tfa_key)) {
-    putenv('TFA_KEY="' . $tfa_key . "\"");
+    putenv('TFA_KEY=' . $tfa_key);
   }
 
   $openai_api_key = pantheon_get_secret('openai_api_key');
   if (!empty($openai_api_key)) {
-    putenv('OPENAI_API_KEY"' . $openai_api_key . "\"");
+    putenv('OPENAI_API_KEY=' . $openai_api_key);
   }
 }
 
@@ -206,6 +184,19 @@ if (file_exists(__DIR__ . '/settings.fast404.php')) {
 
 require __DIR__ . '/../bot_trap_protection.php';
 
-$config['search_api.index.server_dev']['server'] = 'pantheon_solr8';
+$config['search_api.index.server_dev']['server'] = 'pantheon_search';
 // As we push to Solr config of DDEV to Pantheon as well, we disable it here.
 $config['search_api.server.solr']['status'] = FALSE;
+
+// We use nginx but this error can confuse users.
+$settings['auto_create_htaccess'] = FALSE;
+
+/**
+ * State caching.
+ *
+ * State caching uses the cache collector pattern to cache all requested keys
+ * from the state API in a single cache entry, which can greatly reduce the
+ * amount of database queries. However, some sites may use state with a
+ * lot of dynamic keys which could result in a very large cache.
+ */
+$settings['state_cache'] = TRUE;

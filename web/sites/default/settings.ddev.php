@@ -98,6 +98,9 @@ $settings['cache']['default'] = 'cache.backend.redis';
 $settings['container_yamls'][] = 'modules/contrib/redis/redis.services.yml';
 $settings['container_yamls'][] = 'modules/contrib/redis/example.services.yml';
 
+// We use nginx but this error can confuse users.
+$settings['auto_create_htaccess'] = FALSE;
+
 /**
  * State caching.
  *
@@ -126,4 +129,4 @@ if (file_exists(__DIR__ . '/settings.fast404.php')) {
 require __DIR__ . '/../bot_trap_protection.php';
 
 // Disable CrowdSec's "whisper" locally. So one doesn't get blocked locally, or PHPUnit can work well.
-$config['crowdsec.settings']['whisper']['enable'] = 0;
+$config['crowdsec.settings']['plugins']['whisper']['enable'] = 0;

@@ -11,6 +11,7 @@ RUN set -eux; \
       --no-install-recommends \
       --no-install-suggests \
       optipng \
+      parallel \
       jpegoptim; \
     apt-get clean; \
     rm -rf /var/lib/apt/lists/*

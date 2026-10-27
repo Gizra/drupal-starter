@@ -11,7 +11,7 @@ enum FontSizeEnum: string {
   case Xs = 'xs';
   case Sm = 'sm';
   case Base = 'base';
-  case LG = 'lg';
+  case Lg = 'lg';
   case Xl = 'xl';
   case TwoXl = '2xl';
   case ThreeXl = '3xl';
