@@ -23,7 +23,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   id = "iframe_to_media"
  * )
  */
-class IframeToMedia extends MediaEmbedProcessPluginBase implements ContainerFactoryPluginInterface {
+final class IframeToMedia extends MediaEmbedProcessPluginBase implements ContainerFactoryPluginInterface {
 
   /**
    * Regex pattern to extract iframe properties.
@@ -41,20 +41,6 @@ class IframeToMedia extends MediaEmbedProcessPluginBase implements ContainerFact
    * @var \Drupal\migrate\Plugin\MigrationInterface
    */
   protected $migration;
-
-  /**
-   * The entity type manager service.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
-   * The logging service.
-   *
-   * @var \Drupal\Core\Logger\LoggerChannelInterface
-   */
-  protected $logger;
 
   /**
    * Constructor.
@@ -82,8 +68,8 @@ class IframeToMedia extends MediaEmbedProcessPluginBase implements ContainerFact
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition, MigrationInterface $migration = NULL): MigrateProcessInterface {
-    return new self(
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition, ?MigrationInterface $migration = NULL): MigrateProcessInterface {
+    return new static(
       $configuration,
       $plugin_id,
       $plugin_definition,

@@ -1,0 +1,31 @@
+_meta:
+  version: '1.0'
+  entity_type: shortcut
+  uuid: 9c8f9ff3-7963-4779-a6e9-fd3d562e3137
+  bundle: default
+  default_langcode: en
+default:
+  title:
+    -
+      value: 'Style Guide'
+  link:
+    -
+      uri: 'internal:/style-guide'
+      title: ''
+      options: {  }
+  metatag:
+    -
+      tag: meta
+      attributes:
+        name: title
+        content: '| Drupal Starter'
+    -
+      tag: meta
+      attributes:
+        name: description
+        content: 'This is the Drupal Starter project.'
+    -
+      tag: link
+      attributes:
+        rel: canonical
+        href: 'https://drupal-starter.ddev.site:4443/homepage'

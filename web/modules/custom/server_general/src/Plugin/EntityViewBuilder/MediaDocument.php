@@ -3,9 +3,8 @@
 namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\media\MediaInterface;
-use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
-use Drupal\server_general\InnerElementTrait;
+use Drupal\server_general\ThemeTrait\DocumentsThemeTrait;
 
 /**
  * The "Document" media plugin.
@@ -18,8 +17,7 @@ use Drupal\server_general\InnerElementTrait;
  */
 class MediaDocument extends EntityViewBuilderPluginAbstract {
 
-  use BuildFieldTrait;
-  use InnerElementTrait;
+  use DocumentsThemeTrait;
 
   /**
    * Build the "Card" view mode.
@@ -36,7 +34,7 @@ class MediaDocument extends EntityViewBuilderPluginAbstract {
     /** @var \Drupal\file\FileInterface $file */
     $file = $this->getReferencedEntityFromField($entity, 'field_media_file');
 
-    $build[] = $this->buildInnerElementMediaDocument(
+    $build[] = $this->buildElementDocument(
       $entity->getName(),
       $file->createFileUrl(),
     );

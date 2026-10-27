@@ -1,0 +1,12 @@
+diff --git a/src/CronRule.php b/src/CronRule.php
+index 9ac710a..5287b24 100644
+--- a/src/CronRule.php
++++ b/src/CronRule.php
+@@ -21,6 +21,7 @@ class CronRule {
+   static private $cache = array();
+   static private $instances = array();
+   private $last_run;
++  private $last_ran;
+   private $next_run;
+   private $parsed;
+ 

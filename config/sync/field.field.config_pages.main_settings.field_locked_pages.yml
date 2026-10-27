@@ -1,0 +1,29 @@
+uuid: 843b0432-49b0-4b60-8a82-6510f21eba7e
+langcode: en
+status: true
+dependencies:
+  config:
+    - config_pages.type.main_settings
+    - field.storage.config_pages.field_locked_pages
+    - node.type.landing_page
+id: config_pages.main_settings.field_locked_pages
+field_name: field_locked_pages
+entity_type: config_pages
+bundle: main_settings
+label: 'Locked pages'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      landing_page: landing_page
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

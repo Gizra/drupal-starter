@@ -1,0 +1,18 @@
+#!/bin/bash
+
+ADVISORIES=`composer audit --format=json | jq -r '.advisories | keys | join(", ")'`
+
+if [ -z "$ADVISORIES" ]; then
+  echo "No security issues found"
+  exit
+fi
+
+echo "The following packages require a security update: $ADVISORIES"
+
+FIX=`echo $ADVISORIES | sed 's/,//g'`
+
+# Help with the update of drupal core.
+# @see https://www.drupal.org/docs/updating-drupal/updating-drupal-core-via-composer#s-update-drupal-core-code
+FIX=`echo $FIX | sed 's/drupal\/core/drupal\/core-*/g'`
+
+echo "Suggestion: run 'ddev composer update -W $FIX' to fix the issues."

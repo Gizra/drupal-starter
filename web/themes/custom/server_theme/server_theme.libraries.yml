@@ -1,5 +1,4 @@
 global-styling:
-  version: 1.0
   css:
     theme:
       dist/css/style.css: {}
@@ -33,21 +32,31 @@ view-more:
 roboto:
   css:
     base:
-      '//fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap': { external: true }
+      '//fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap':
+        external: true
+        minified: true
 
 opensans:
   css:
     base:
-      '//fonts.googleapis.com/css?family=Open+Sans:400,400i,700': { external: true }
+      '//fonts.googleapis.com/css?family=Open+Sans:400,400i,700&display=swap':
+        external: true
+        minified: true
 
 font-awesome:
   css:
     theme:
-      /libraries/fontawesome/css/all.min.css: {}
+      /libraries/font-awesome/css/all.min.css: {}
 
 slick:
+  remote: https://github.com/kenwheeler/slick
+  version: 1.8.0
+  license:
+    name: MIT
+    url: https://github.com/kenwheeler/slick/blob/master/LICENSE
+    gpl-compatible: true
   js:
-    /libraries/slick-carousel/slick/slick.js: {}
+    /libraries/slick-carousel/slick/slick.min.js: { minified: true }
     dist/js/slick-carousel.js: {}
   css:
     theme:
@@ -64,3 +73,17 @@ anchor:
     /libraries/anchor-js/anchor.min.js: {}
   dependencies:
     - core/drupal
+
+messages:
+  js:
+    dist/js/messages.js: {}
+  dependencies:
+    - core/drupal
+
+expanding-text:
+  js:
+    dist/js/expanding-text.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/once

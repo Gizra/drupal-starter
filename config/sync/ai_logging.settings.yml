@@ -1,0 +1,12 @@
+_core:
+  default_config_hash: PtpX6t_RohQmgxQDoqN2cOQa3aulrjodsmMLJTLZGkc
+prompt_logging: true
+prompt_logging_output: true
+prompt_logging_tags: ''
+prompt_logging_excluded_tags: ''
+prompt_logging_max_messages: 1000
+prompt_logging_max_age: 30
+thread_tag_prefixes:
+  - ai_agents_thread_
+  - ai_assistant_thread_
+thread_primary_tag_pattern: ai_agents_prompt_%

@@ -6,5 +6,6 @@ dependencies:
     - media
 id: media.entity_browser
 label: 'Entity browser'
+description: ''
 targetEntityType: media
 cache: true

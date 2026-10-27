@@ -282,6 +282,7 @@ display:
         type: full
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 9
           total_pages: null
           id: 0
@@ -396,7 +397,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
             reduce: false
           is_grouped: false
           group_info:
@@ -438,7 +438,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
           is_grouped: false
           group_info:
             label: ''
@@ -479,7 +478,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
             reduce: false
           is_grouped: false
           group_info:

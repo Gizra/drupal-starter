@@ -6,9 +6,8 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
-use Drupal\server_general\ElementTrait;
-use Drupal\server_general\ElementWrapTrait;
 use Drupal\server_general\ProcessedTextBuilderTrait;
+use Drupal\server_general\ThemeTrait\PeopleTeasersThemeTrait;
 
 /**
  * The "Person teaser" paragraph plugin.
@@ -23,8 +22,8 @@ use Drupal\server_general\ProcessedTextBuilderTrait;
  */
 class ParagraphPersonTeaser extends EntityViewBuilderPluginAbstract {
 
-  use ElementTrait;
-  use ElementWrapTrait;
+
+  use PeopleTeasersThemeTrait;
   use ProcessedTextBuilderTrait;
 
   /**
@@ -45,7 +44,7 @@ class ParagraphPersonTeaser extends EntityViewBuilderPluginAbstract {
     $image_url = !empty($image['url']) ? $image['url'] : '';
     $image_alt = !empty($image['alt']) ? $image['alt'] : $name;
 
-    $element = $this->buildInnerElementPersonTeaser(
+    $element = $this->buildElementPersonTeaser(
       $image_url,
       $image_alt,
       $name,

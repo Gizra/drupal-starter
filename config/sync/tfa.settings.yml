@@ -1,7 +1,7 @@
 _core:
   default_config_hash: ls2wXvXf4vms4y6c-xMUgSp8ZmVmwFy5NgL0DIPgU_0
 langcode: en
-enabled: true
+enabled: false
 required_roles:
   content_editor: content_editor
   administrator: administrator
@@ -31,6 +31,7 @@ validation_plugin_settings:
     name_prefix: TFA
     issuer: Drupal
 validation_skip: 1
+users_without_tfa_redirect: false
 encryption: tfa
 tfa_flood_uid_only: 1
 tfa_flood_window: 300

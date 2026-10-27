@@ -1,0 +1,7 @@
+server_rollbar_test.rollbar_error:
+  path: '/admin/debug/rollbar-error-reporting'
+  defaults:
+    _title: 'Rollbar debug'
+    _controller: '\Drupal\server_rollbar_test\Controller\RollbarError::build'
+  requirements:
+    _permission: 'debug rollbar'

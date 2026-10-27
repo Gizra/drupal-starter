@@ -2,6 +2,8 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
+use Symfony\Component\HttpFoundation\Response;
+
 /**
  * A test case to test search integration.
  */
@@ -20,6 +22,7 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
       'title' => $english_node_title,
       'type' => 'news',
       'langcode' => 'en',
+      'moderation_state' => 'published',
     ]);
     $this->triggerPostRequestIndexing();
     $this->waitForSearchIndex(function () use ($english_node_title) {
@@ -42,6 +45,7 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
       'title' => $english_node_title,
       'type' => 'news',
       'langcode' => 'en',
+      'moderation_state' => 'published',
     ]);
     $this->triggerPostRequestIndexing();
     $this->waitForSearchIndex(function () use ($english_node_title) {
@@ -63,14 +67,14 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
       'type' => 'news',
       'title' => 'aspecialword in the title',
       'body' => 'something else in the body',
-      'status' => 1,
+      'moderation_state' => 'published',
     ]);
     $node->setPublished()->save();
     $node = $this->createNode([
       'type' => 'news',
       'title' => 'something else in the title',
       'field_body' => 'aspecialword in the body',
-      'status' => 1,
+      'moderation_state' => 'published',
     ]);
     $node->setPublished()->save();
     $this->triggerPostRequestIndexing();
@@ -118,14 +122,14 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
    * @see https://stackoverflow.com/questions/77230889/how-do-i-fix-symfony-6-error-input-value-contains-a-non-scalar-value
    */
   public function testSpecialQueryParameter() {
-    $this->failOnPhpWatchdogMessages = FALSE;
     $this->drupalGet('/search', [
       'query' => [
         'key[$testing]' => '1',
       ],
     ]);
-    $this->assertSession()->statusCodeEquals(400);
-    $this->assertSession()->elementExists('css', '#search-input');
+    $this->assertSession()->statusCodeEquals(Response::HTTP_BAD_REQUEST);
+    // We have an error message that describes the problem.
+    $this->assertStringContainsString("contains a non-scalar", $this->getCurrentPage()->getContent());
   }
 
   /**

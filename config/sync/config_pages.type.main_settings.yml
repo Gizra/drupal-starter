@@ -1,0 +1,17 @@
+uuid: bacfcb65-5e85-401e-9fc4-5de11fa14e75
+langcode: en
+status: true
+dependencies: {  }
+id: main_settings
+label: 'Main settings'
+token: false
+context:
+  show_warning: true
+  group:
+    language: false
+  fallback:
+    language: ''
+menu:
+  path: /admin/config/system/main-settings
+  weight: 0
+  description: 'Website settings'

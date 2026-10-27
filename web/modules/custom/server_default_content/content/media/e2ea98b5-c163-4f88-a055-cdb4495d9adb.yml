@@ -1,0 +1,59 @@
+_meta:
+  version: '1.0'
+  entity_type: media
+  uuid: e2ea98b5-c163-4f88-a055-cdb4495d9adb
+  bundle: image
+  default_langcode: en
+  depends:
+    11318276-1099-48d3-ae54-1e4746558d2e: user
+    1c44a711-5a44-4f0c-8256-7b4a52c3ea97: file
+default:
+  status:
+    -
+      value: true
+  uid:
+    -
+      entity: 11318276-1099-48d3-ae54-1e4746558d2e
+  name:
+    -
+      value: 403.png
+  created:
+    -
+      value: 1732227045
+  revision_translation_affected:
+    -
+      value: true
+  metatag:
+    -
+      tag: meta
+      attributes:
+        name: title
+        content: '| Drupal Starter'
+    -
+      tag: meta
+      attributes:
+        name: description
+        content: 'This is the Drupal Starter project.'
+    -
+      tag: link
+      attributes:
+        rel: canonical
+        href: 'https://drupal-starter.ddev.site:4443/homepage'
+  path:
+    -
+      alias: ''
+      langcode: en
+      pathauto: 0
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  field_media_image:
+    -
+      entity: 1c44a711-5a44-4f0c-8256-7b4a52c3ea97
+      alt: '403 access denied'
+      title: ''
+      width: 603
+      height: 283

@@ -1,0 +1,22 @@
+uuid: ecdddc03-a596-4905-b822-2251deb98058
+langcode: en
+status: true
+dependencies:
+  config:
+    - config_pages.type.main_settings
+    - field.field.config_pages.main_settings.field_locked_pages
+id: config_pages.main_settings.default
+targetEntityType: config_pages
+bundle: main_settings
+mode: default
+content:
+  field_locked_pages:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  search_api_excerpt: true

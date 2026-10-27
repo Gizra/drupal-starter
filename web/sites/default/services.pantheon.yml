@@ -1,4 +1,5 @@
 parameters:
+  security.enable_super_user: false
   session.storage.options:
     # Default ini options for sessions.
     #

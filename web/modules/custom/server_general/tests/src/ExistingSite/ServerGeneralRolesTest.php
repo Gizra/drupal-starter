@@ -28,7 +28,7 @@ class ServerGeneralRolesTest extends ServerGeneralTestBase {
     $this->assertRoleExists('content_editor');
     $this->assertRoleHasPermissions('content_editor', [
       'access content overview',
-      'access toolbar',
+      'access navigation',
       'administer nodes',
       'view own unpublished content',
       'view the administration theme',

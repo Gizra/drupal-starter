@@ -65,4 +65,3 @@ migration_dependencies:
     - paragraph_quick_links
     - paragraph_quote
     - user
-

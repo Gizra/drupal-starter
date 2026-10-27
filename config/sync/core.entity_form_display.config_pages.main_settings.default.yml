@@ -1,0 +1,29 @@
+uuid: 05c58d99-c85b-4018-99bc-acec007d0a9c
+langcode: en
+status: true
+dependencies:
+  config:
+    - config_pages.type.main_settings
+    - field.field.config_pages.main_settings.field_locked_pages
+  module:
+    - tagify
+id: config_pages.main_settings.default
+targetEntityType: config_pages
+bundle: main_settings
+mode: default
+content:
+  field_locked_pages:
+    type: tagify_entity_reference_autocomplete_widget
+    weight: 1
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      placeholder: ''
+      suggestions_dropdown: 1
+      show_entity_id: 0
+      show_info_label: 0
+      info_label: ''
+    third_party_settings: {  }
+hidden:
+  label: true

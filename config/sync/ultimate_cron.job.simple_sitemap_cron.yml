@@ -8,7 +8,7 @@ title: 'Default cron handler'
 id: simple_sitemap_cron
 weight: 0
 module: simple_sitemap
-callback: simple_sitemap_cron
+callback: 'simple_sitemap#cron'
 scheduler:
   id: simple
 launcher:

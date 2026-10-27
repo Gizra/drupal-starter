@@ -1,0 +1,43 @@
+uuid: 5413dc04-0341-46b8-bb86-b171277a9276
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.form.field_description
+    - field.field.paragraph.form.field_title
+    - field.field.paragraph.form.field_webform
+    - paragraphs.paragraphs_type.form
+  module:
+    - text
+    - webform
+id: paragraph.form.default
+targetEntityType: paragraph
+bundle: form
+mode: default
+content:
+  field_description:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_webform:
+    type: webform_entity_reference_entity_view
+    label: above
+    settings:
+      source_entity: true
+      lazy: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

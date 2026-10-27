@@ -3,11 +3,12 @@ web_environment:
   # Un comment when working on a migration and the source is different DDEV
   # installation. And Change the `SomeName` to match the remote source.
   # This is used in setting.ddev.php
+  # see https://github.com/Gizra/drupal-starter/blob/d9a29f739e7a24a3598207bb51cf7fc01b1c495c/web/sites/default/settings.ddev.php#L31-L33
   # - DDEV_MIGRATE_REMOTE_SOURCE=ddev-SomeName-db
 hooks:
   post-start:
     # Private files directory.
-    - exec: mkdir /var/www/private
+    - exec: mkdir -p /var/www/private
 
     # Create a private key for Two-factor Authentication if not yet added.
     - exec-host: ddev set-tfa-key
@@ -18,9 +19,8 @@ hooks:
     # Import translations.
     - exec: robo locale:import
 
-    # Compile theme in debug, so we can develop with all Tailwinds' classes.
-    # On deploy, we purge un-needed CSS.
-    - exec-host: ddev robo theme:compile-debug
+    # Compile the theme (CSS, JS, fonts, and images).
+    - exec-host: ddev theme:compile
 
     # Install the default content.
     - exec: drush pm-enable default_content --no-interaction
@@ -41,13 +41,33 @@ hooks:
     # Enable Devel.
     - exec: drush pm-enable devel -y
 
-    # Login as admin.
+    # @see https://www.drupal.org/node/947312
+    - exec: drush user-block --uid=1
+
+    # Login as AdminOne.
     - exec-host: ddev login
 
-    # Make sure PHP CLI has no memory limit, this is
-    # especially for unit testing.
-    # Web requests should be still limited, as the
-    # hosting environment won't provide unlimited
-    # memory either.
-    # @see https://github.com/drud/ddev/issues/1825#issuecomment-529964728
-    - exec: perl -pi -e 's/memory_limit.*$/memory_limit = -1/' /etc/php/${DDEV_PHP_VERSION}/cli/conf.d/*.ini
+  post-import-db:
+    # Run updates, sync config, and deploy hooks.
+    - exec: drush deploy
+    # Reindex.
+    - exec: drush sapi-c
+    - exec: drush sapi-i
+    # Compile theme.
+    - exec-host: ddev theme:compile
+     # Get rid of sensitive user data.
+    - exec: drush sql:sanitize --yes
+    # Login as admin.
+    - exec-host: ddev login
+  post-pull:
+    # Run updates, sync config, and deploy hooks.
+    - exec: drush deploy
+    # Reindex.
+    - exec: drush sapi-c
+    - exec: drush sapi-i
+    # Compile theme.
+    - exec-host: ddev theme:compile
+     # Get rid of sensitive user data.
+    - exec: drush sql:sanitize --yes
+    # Login as admin.
+    - exec-host: ddev login

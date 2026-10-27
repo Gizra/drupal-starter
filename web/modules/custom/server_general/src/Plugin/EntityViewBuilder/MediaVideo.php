@@ -6,8 +6,7 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\media\MediaInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
-use Drupal\server_general\ElementMediaTrait;
-use Drupal\server_general\ElementWrapTrait;
+use Drupal\server_general\ThemeTrait\ElementMediaThemeTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -21,8 +20,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class MediaVideo extends EntityViewBuilderPluginAbstract {
 
-  use ElementMediaTrait;
-  use ElementWrapTrait;
+  use ElementMediaThemeTrait;
 
   // Update from design as needed.
   const VIDEO_FULL_MAX_WIDTH = 1920;

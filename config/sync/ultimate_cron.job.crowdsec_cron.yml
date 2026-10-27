@@ -1,0 +1,17 @@
+uuid: f3fbc19e-792d-4a54-951e-2377006f88b0
+langcode: en
+status: true
+dependencies:
+  module:
+    - crowdsec
+title: 'Default cron handler'
+id: crowdsec_cron
+weight: 0
+module: crowdsec
+callback: 'crowdsec#cron'
+scheduler:
+  id: simple
+launcher:
+  id: serial
+logger:
+  id: database

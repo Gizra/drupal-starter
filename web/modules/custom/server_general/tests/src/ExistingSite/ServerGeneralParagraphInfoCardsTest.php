@@ -2,13 +2,15 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
-use Drupal\paragraphs\Entity\Paragraph;
+use Drupal\Tests\server_general\Traits\ParagraphCreationTrait;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Test 'Info cards' paragraph type.
  */
 class ServerGeneralParagraphInfoCardsTest extends ServerGeneralParagraphTestBase {
+
+  use ParagraphCreationTrait;
 
   /**
    * {@inheritdoc}
@@ -48,25 +50,26 @@ class ServerGeneralParagraphInfoCardsTest extends ServerGeneralParagraphTestBase
       $title = 'This is the Info card title ' . $key;
       $subtitle = 'This is the Info card subtitle ' . $key;
 
-      /** @var \Drupal\paragraphs\ParagraphInterface $paragraph */
-      $paragraph = Paragraph::create(['type' => 'info_card']);
-      $paragraph->set('field_info_card_header', $header);
-      $paragraph->set('field_title', $title);
-      $paragraph->set('field_subtitle', $subtitle);
-      $paragraph->save();
-      $this->markEntityForCleanup($paragraph);
+      $paragraph = $this->createParagraph([
+        'type' => 'info_card',
+        'field_info_card_header' => $header,
+        'field_title' => $title,
+        'field_subtitle' => $subtitle,
+      ]);
+
       $paragraphs[] = $paragraph;
     }
 
     // Create accordion.
     $title = 'This is the Info cards title';
     $body = 'This is the Info cards body';
-    $paragraph = Paragraph::create(['type' => $this->getEntityBundle()]);
-    $paragraph->set('field_title', $title);
-    $paragraph->set('field_body', $body);
-    $paragraph->set('field_info_cards', $paragraphs);
-    $paragraph->save();
-    $this->markEntityForCleanup($paragraph);
+
+    $paragraph = $this->createParagraph([
+      'type' => $this->getEntityBundle(),
+      'field_title' => $title,
+      'field_body' => $body,
+      'field_info_cards' => $paragraphs,
+    ]);
 
     $user = $this->createUser();
     $node = $this->createNode([
@@ -76,6 +79,7 @@ class ServerGeneralParagraphInfoCardsTest extends ServerGeneralParagraphTestBase
       'field_paragraphs' => [
         $this->getParagraphReferenceValues($paragraph),
       ],
+      'moderation_state' => 'published',
     ]);
     $node->setPublished()->save();
 

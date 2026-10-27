@@ -5,11 +5,14 @@ dependencies:
   config:
     - field.field.node.news.field_body
     - field.field.node.news.field_featured_image
+    - field.field.node.news.field_metatag
     - field.field.node.news.field_publish_date
     - field.field.node.news.field_tags
+    - field.field.node.news.field_wikidata_id
     - node.type.news
   module:
     - datetime
+    - metatag
     - text
     - user
 id: node.news.default
@@ -17,6 +20,11 @@ targetEntityType: node
 bundle: news
 mode: default
 content:
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: -20
+    region: content
   field_body:
     type: text_default
     label: above
@@ -31,6 +39,13 @@ content:
       link: true
     third_party_settings: {  }
     weight: 103
+    region: content
+  field_metatag:
+    type: metatag_empty_formatter
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 107
     region: content
   field_publish_date:
     type: datetime_default
@@ -55,5 +70,6 @@ content:
     weight: 100
     region: content
 hidden:
+  field_wikidata_id: true
   langcode: true
   search_api_excerpt: true

@@ -13,7 +13,7 @@ _meta:
 default:
   revision_uid:
     -
-      entity: 49afcccd-7be9-4b3b-9bc5-0b56ed065fa0
+      target_id: 1
   status:
     -
       value: true
@@ -35,6 +35,20 @@ default:
   revision_translation_affected:
     -
       value: true
+  moderation_state:
+    -
+      value: published
+  metatag:
+    -
+      tag: meta
+      attributes:
+        name: title
+        content: 'Li Europan lingues | Drupal Starter'
+    -
+      tag: link
+      attributes:
+        rel: canonical
+        href: 'https://drupal-starter.ddev.site:4443/news/li-europan-lingues'
   path:
     -
       alias: /news/li-europan-lingues

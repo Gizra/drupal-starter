@@ -6,8 +6,7 @@ namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\media\MediaInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
-use Drupal\server_general\ElementMediaTrait;
-use Drupal\server_general\ElementWrapTrait;
+use Drupal\server_general\ThemeTrait\ElementMediaThemeTrait;
 
 /**
  * The "Media: Image" plugin.
@@ -20,8 +19,14 @@ use Drupal\server_general\ElementWrapTrait;
  */
 class MediaImage extends EntityViewBuilderPluginAbstract {
 
-  use ElementMediaTrait;
-  use ElementWrapTrait;
+  use ElementMediaThemeTrait;
+
+  /**
+   * The iFrame URL helper service.
+   *
+   * @var \Drupal\media\IFrameUrlHelper
+   */
+  protected $iFrameUrlHelper;
 
   /**
    * The responsive image style to use on Hero.
