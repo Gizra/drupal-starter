@@ -260,15 +260,10 @@ class RoboFile extends Tasks {
     }
 
     $result = $task
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- updb --no-interaction")
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- cr")
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- cim --no-interaction")
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- cim --no-interaction")
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- cr")
+      ->exec("terminus remote:drush $pantheon_terminus_environment -- deploy")
       // Pre-warm the Twig template cache so the first anonymous
       // request after deploy gets a cached hit.
       ->exec("terminus remote:drush $pantheon_terminus_environment -- twig:compile")
-      ->exec("terminus remote:drush $pantheon_terminus_environment -- deploy:hook --no-interaction")
       ->run()
       ->getExitCode();
     if ($result !== 0) {
