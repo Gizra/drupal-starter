@@ -8,6 +8,7 @@ use Robo\Tasks;
 use RoboComponents\AutoUpdateTrait;
 use RoboComponents\BootstrapTrait;
 use RoboComponents\DeploymentTrait;
+use RoboComponents\DevelopmentTrait;
 use RoboComponents\PantheonRemoteTrait;
 use RoboComponents\PhpcsTrait;
 use RoboComponents\ProjectConfigTrait;
@@ -29,6 +30,7 @@ class RoboFile extends Tasks {
   use AutoUpdateTrait;
   use BootstrapTrait;
   use DeploymentTrait;
+  use DevelopmentTrait;
   use ExportFromConfig;
   use ImportToConfig;
   use ImportToUi;
