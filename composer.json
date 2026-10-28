@@ -114,7 +114,7 @@
         "behat/mink-selenium2-driver": "^1.6",
         "brianium/paratest": "^6.11",
         "consolidation/robo": "^5",
-        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.2.1",
         "drupal/cache_review": "1.1.x-dev@dev",
         "drupal/coder": "^8.3.1",
         "drupal/devel": "^5",
