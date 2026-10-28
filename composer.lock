@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "32d70d165d0c91ebf862ee94362afdf3",
+    "content-hash": "01356b8d509531d6f9032805141cf6bf",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -18707,21 +18707,21 @@
         },
         {
             "name": "mpyw/phpunit-patch-serializable-comparison",
-            "version": "v0.0.4",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mpyw/phpunit-patch-serializable-comparison.git",
-                "reference": "a2f1d0a4c42330c2d7caf4338e3d5edb9f2270e5"
+                "reference": "04b0481e925836dfa926a55cbfbb8dbc854ffe97"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mpyw/phpunit-patch-serializable-comparison/zipball/a2f1d0a4c42330c2d7caf4338e3d5edb9f2270e5",
-                "reference": "a2f1d0a4c42330c2d7caf4338e3d5edb9f2270e5",
+                "url": "https://api.github.com/repos/mpyw/phpunit-patch-serializable-comparison/zipball/04b0481e925836dfa926a55cbfbb8dbc854ffe97",
+                "reference": "04b0481e925836dfa926a55cbfbb8dbc854ffe97",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3",
-                "sebastian/comparator": "^1.0 || ^2.0 || ^3.0 || ^4.0 || ^5.0 || ^6.0 || ^7.0"
+                "sebastian/comparator": "^1.0 || ^2.0 || ^3.0 || ^4.0 || ^5.0 || ^6.0 || ^7.0 || >=8.0 <8.2"
             },
             "require-dev": {
                 "phpunit/phpunit": ">=4.8"
@@ -18730,6 +18730,9 @@
             "autoload": {
                 "files": [
                     "./files/ComparisonFailure.php"
+                ],
+                "exclude-from-classmap": [
+                    "vendor/sebastian/comparator/src/ComparisonFailure.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -18756,9 +18759,10 @@
             ],
             "support": {
                 "issues": "https://github.com/mpyw/phpunit-patch-serializable-comparison/issues",
-                "source": "https://github.com/mpyw/phpunit-patch-serializable-comparison/tree/v0.0.4"
+                "source": "https://github.com/mpyw/phpunit-patch-serializable-comparison/tree/v1.0.0"
             },
-            "time": "2025-03-04T01:14:05+00:00"
+            "abandoned": true,
+            "time": "2026-06-13T04:30:27+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -20122,16 +20126,16 @@
         },
         {
             "name": "sebastian/exporter",
-            "version": "4.0.8",
+            "version": "4.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/exporter.git",
-                "reference": "14c6ba52f95a36c3d27c835d65efc7123c446e8c"
+                "reference": "4352c1a3df741a7ba9e61af6fed51d1fee41cbf7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/14c6ba52f95a36c3d27c835d65efc7123c446e8c",
-                "reference": "14c6ba52f95a36c3d27c835d65efc7123c446e8c",
+                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/4352c1a3df741a7ba9e61af6fed51d1fee41cbf7",
+                "reference": "4352c1a3df741a7ba9e61af6fed51d1fee41cbf7",
                 "shasum": ""
             },
             "require": {
@@ -20187,7 +20191,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/exporter/issues",
-                "source": "https://github.com/sebastianbergmann/exporter/tree/4.0.8"
+                "source": "https://github.com/sebastianbergmann/exporter/tree/4.0.9"
             },
             "funding": [
                 {
@@ -20207,7 +20211,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-09-24T06:03:27+00:00"
+            "time": "2026-08-11T04:55:59+00:00"
         },
         {
             "name": "sebastian/global-state",
@@ -20456,16 +20460,16 @@
         },
         {
             "name": "sebastian/recursion-context",
-            "version": "4.0.6",
+            "version": "4.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/recursion-context.git",
-                "reference": "539c6691e0623af6dc6f9c20384c120f963465a0"
+                "reference": "c85be6922b7fd365942b986b9a50397d65407611"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/539c6691e0623af6dc6f9c20384c120f963465a0",
-                "reference": "539c6691e0623af6dc6f9c20384c120f963465a0",
+                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/c85be6922b7fd365942b986b9a50397d65407611",
+                "reference": "c85be6922b7fd365942b986b9a50397d65407611",
                 "shasum": ""
             },
             "require": {
@@ -20507,7 +20511,7 @@
             "homepage": "https://github.com/sebastianbergmann/recursion-context",
             "support": {
                 "issues": "https://github.com/sebastianbergmann/recursion-context/issues",
-                "source": "https://github.com/sebastianbergmann/recursion-context/tree/4.0.6"
+                "source": "https://github.com/sebastianbergmann/recursion-context/tree/4.0.7"
             },
             "funding": [
                 {
@@ -20527,7 +20531,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-08-10T06:57:39+00:00"
+            "time": "2026-08-11T05:25:24+00:00"
         },
         {
             "name": "sebastian/resource-operations",

@@ -124,7 +124,7 @@
         "gizra/drupal-robo": "^0.1.0",
         "mikey179/vfsstream": "^1.6",
         "mink/webdriver-classic-driver": "^1.1",
-        "mpyw/phpunit-patch-serializable-comparison": "^0.0.4",
+        "mpyw/phpunit-patch-serializable-comparison": "^1.0.0",
         "natxet/cssmin": "^3.0",
         "phpspec/prophecy-phpunit": "^2",
         "scssphp/scssphp": "^2.1.0",
