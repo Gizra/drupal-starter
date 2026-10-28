@@ -386,7 +386,7 @@ function server_general_form_language_content_settings_form_alter(array &$form, 
     }
 
     // Check the box to make the paragraph translatable.
-    $form['settings']['paragraph'][$para_type]['translatable']['# '] = TRUE;
+    $form['settings']['paragraph'][$para_type]['translatable']['#default_value'] = TRUE;
 
     // Check the boxes to make the fields translatable.
     foreach ($paragraph_element['fields'] as $field_name => $field_element) {
