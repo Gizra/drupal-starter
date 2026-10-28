@@ -1,0 +1,9 @@
+a.language-link.is-active {
+  @apply font-bold;
+}
+
+.lang-dropdown-select-element {
+  @apply border-0 bg-right pe-[28px] py-0;
+
+  background-image: url("../images/chevron-down.svg");
+}

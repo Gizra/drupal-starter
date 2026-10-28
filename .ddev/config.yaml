@@ -1,7 +1,6 @@
-name: drupal-starter
 type: drupal10
 docroot: web
-php_version: "8.2"
+php_version: "8.3"
 webserver_type: nginx-fpm
 router_http_port: "8880"
 router_https_port: "4443"
@@ -10,7 +9,8 @@ additional_hostnames: []
 additional_fqdns: []
 database:
     type: mariadb
-    version: "10.5"
+    version: "11.8"
+fail_on_hook_fail: true
 use_dns_when_possible: true
 composer_version: "2"
 web_environment:
@@ -19,8 +19,8 @@ corepack_enable: false
 
 # Key features of DDEV's config.yaml:
 
-# name: <projectname> # Name of the project, automatically provides
-#   http://projectname.ddev.site and https://projectname.ddev.site
+# name is intentionally omitted so DDEV derives it from the directory name,
+# enabling git worktree support. See README.md.
 
 # type: <projecttype>  # backdrop, craftcms, django4, drupal, drupal6, drupal7, laravel, magento, magento2, php, python, shopware6, silverstripe, typo3, wordpress
 # See https://ddev.readthedocs.io/en/stable/users/quickstart/ for more
@@ -203,7 +203,7 @@ corepack_enable: false
 
 # disable_settings_management: false
 # If true, DDEV will not create CMS-specific settings files like
-# Drupal's settings.php/settings.ddev.php or TYPO3's AdditionalConfiguration.php
+# Drupal's settings.php/settings.ddev.php or TYPO3's additional.php
 # In this case the user must provide all such settings.
 
 # You can inject environment variables into the web container with:
@@ -265,7 +265,7 @@ corepack_enable: false
 # and you can't erase existing hooks or all environment variables.
 # However, with "override_config: true" in a particular config.*.yaml file,
 # 'use_dns_when_possible: false' can override the existing values, and
-# hooks:
+#
 #   post-start: []
 # or
 # web_environment: []
@@ -280,8 +280,8 @@ corepack_enable: false
 # See https://ddev.readthedocs.io/en/stable/users/extend/custom-commands/ for more
 # information on the commands that can be extended and the tasks you can define
 # for them. Example:
-#hooks:
-# post-import-db:
-#   - exec: drush sql:sanitize
-#   - exec: drush updatedb
-#   - exec: drush cache:rebuild
+hooks:
+ post-import-db:
+   - exec: drush sql:sanitize --yes
+ post-pull:
+   - exec: drush sql:sanitize --yes

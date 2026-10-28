@@ -4,6 +4,9 @@ _meta:
   uuid: 82f7ecf2-108a-4966-80df-bf67b9e22866
   default_langcode: en
 default:
+  uid:
+    -
+      target_id: 1
   filename:
     -
       value: profile-4-400x400_1.jpg

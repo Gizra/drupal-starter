@@ -1,0 +1,5 @@
+_core:
+  default_config_hash: j7bK14eM7s1Qw35yZNCuw4ILj3FecNtdRkc4Qqy7eZ0
+api_key: open_ai
+moderation: true
+host: ''

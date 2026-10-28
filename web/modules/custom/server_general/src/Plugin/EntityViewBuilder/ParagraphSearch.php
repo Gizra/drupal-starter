@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace Drupal\server_general\Plugin\EntityViewBuilder;
 
 use Drupal\Core\Block\BlockManagerInterface;
+use Drupal\Core\Render\RendererInterface;
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\pluggable_entity_view_builder\EntityViewBuilderPluginAbstract;
-use Drupal\server_general\ElementTrait\SearchTrait;
 use Drupal\server_general\EmbedBlockTrait;
+use Drupal\server_general\ThemeTrait\SearchThemeTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -24,7 +25,7 @@ use Symfony\Component\HttpFoundation\Request;
 class ParagraphSearch extends EntityViewBuilderPluginAbstract {
 
   use EmbedBlockTrait;
-  use SearchTrait;
+  use SearchThemeTrait;
 
   /**
    * The machine name of the facets to show.
@@ -57,12 +58,20 @@ class ParagraphSearch extends EntityViewBuilderPluginAbstract {
   protected Request $request;
 
   /**
+   * The renderer service.
+   *
+   * @var \Drupal\Core\Render\RendererInterface
+   */
+  protected RendererInterface $renderer;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     $build = parent::create($container, $configuration, $plugin_id, $plugin_definition);
     $build->blockManager = $container->get('plugin.manager.block');
     $build->request = $container->get('request_stack')->getCurrentRequest();
+    $build->renderer = $container->get('renderer');
 
     return $build;
   }
@@ -96,7 +105,11 @@ class ParagraphSearch extends EntityViewBuilderPluginAbstract {
     $element = $this->buildElementSearchTermFacetsAndResults(
       $facets_items,
       $this->hasFilters('key'),
-      views_embed_view('search', 'embed_1'),
+      [
+        '#type' => 'view',
+        '#name' => 'search',
+        '#display_id' => 'embed_1',
+      ],
       $search_key,
     );
 
@@ -116,10 +129,23 @@ class ParagraphSearch extends EntityViewBuilderPluginAbstract {
    * @return bool
    *   True, if filters are used.
    */
-  protected function hasFilters($key = 'search_api_fulltext'): bool {
-    return $this->request->query->filter($key) ||
-      $this->request->query->filter('f') ||
-      $this->request->query->filter('page');
+  protected function hasFilters(string $key = 'search_api_fulltext'): bool {
+    // Fix for the "Input value 'f' contains an array" error.
+    // Check if key exists in query parameters.
+    $key_exists = $this->request->query->has($key) && !empty($this->request->query->get($key));
+
+    // Check if 'f' exists and properly handle it as an array.
+    $f_exists = FALSE;
+    if ($this->request->query->has('f')) {
+      // Get 'f' parameter safely, regardless of whether it's an array or not.
+      $f = $this->request->query->all('f');
+      $f_exists = !empty($f);
+    }
+
+    // Check if page parameter exists.
+    $page_exists = $this->request->query->has('page') && $this->request->query->get('page') !== NULL;
+
+    return $key_exists || $f_exists || $page_exists;
   }
 
 }

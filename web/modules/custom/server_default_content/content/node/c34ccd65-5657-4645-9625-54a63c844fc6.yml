@@ -37,6 +37,17 @@ default:
   moderation_state:
     -
       value: published
+  metatag:
+    -
+      tag: meta
+      attributes:
+        name: title
+        content: 'Blind Texts | Drupal Starter'
+    -
+      tag: link
+      attributes:
+        rel: canonical
+        href: 'https://drupal-starter.ddev.site:4443/news/blind-texts'
   path:
     -
       alias: /news/blind-texts

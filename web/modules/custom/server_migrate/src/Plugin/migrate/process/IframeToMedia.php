@@ -43,20 +43,6 @@ final class IframeToMedia extends MediaEmbedProcessPluginBase implements Contain
   protected $migration;
 
   /**
-   * The entity type manager service.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
-   * The logging service.
-   *
-   * @var \Drupal\Core\Logger\LoggerChannelInterface
-   */
-  protected $logger;
-
-  /**
    * Constructor.
    *
    * @param array $configuration
@@ -82,7 +68,7 @@ final class IframeToMedia extends MediaEmbedProcessPluginBase implements Contain
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition, MigrationInterface $migration = NULL): MigrateProcessInterface {
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition, ?MigrationInterface $migration = NULL): MigrateProcessInterface {
     return new static(
       $configuration,
       $plugin_id,

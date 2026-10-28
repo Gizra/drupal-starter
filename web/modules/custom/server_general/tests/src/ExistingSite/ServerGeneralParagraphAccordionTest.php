@@ -2,13 +2,15 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
-use Drupal\paragraphs\Entity\Paragraph;
+use Drupal\Tests\server_general\Traits\ParagraphCreationTrait;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Test 'Accordion' paragraph type.
  */
 class ServerGeneralParagraphAccordionTest extends ServerGeneralParagraphTestBase {
+
+  use ParagraphCreationTrait;
 
   /**
    * {@inheritdoc}
@@ -47,24 +49,25 @@ class ServerGeneralParagraphAccordionTest extends ServerGeneralParagraphTestBase
       $title = 'This is the Accordion item title ' . $key;
       $body = 'This is the Accordion item description ' . $key;
 
-      /** @var \Drupal\paragraphs\ParagraphInterface $paragraph */
-      $paragraph = Paragraph::create(['type' => 'accordion_item']);
-      $paragraph->set('field_title', $title);
-      $paragraph->set('field_body', $body);
-      $paragraph->save();
-      $this->markEntityForCleanup($paragraph);
+      $paragraph = $this->createParagraph([
+        'type' => 'accordion_item',
+        'field_title' => $title,
+        'field_body' => $body,
+      ]);
+
       $paragraphs[] = $paragraph;
     }
 
     // Create accordion.
     $title = 'This is the Accordion title';
     $body = 'This is the Accordion description';
-    $paragraph = Paragraph::create(['type' => $this->getEntityBundle()]);
-    $paragraph->set('field_title', $title);
-    $paragraph->set('field_body', $body);
-    $paragraph->set('field_accordion_items', $paragraphs);
-    $paragraph->save();
-    $this->markEntityForCleanup($paragraph);
+
+    $paragraph = $this->createParagraph([
+      'type' => $this->getEntityBundle(),
+      'field_title' => $title,
+      'field_body' => $body,
+      'field_accordion_items' => $paragraphs,
+    ]);
 
     $user = $this->createUser();
     $node = $this->createNode([

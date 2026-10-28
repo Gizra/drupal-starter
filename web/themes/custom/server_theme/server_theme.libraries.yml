@@ -1,5 +1,4 @@
 global-styling:
-  version: 1.0
   css:
     theme:
       dist/css/style.css: {}
@@ -47,7 +46,7 @@ opensans:
 font-awesome:
   css:
     theme:
-      /libraries/fontawesome/css/all.min.css: {}
+      /libraries/font-awesome/css/all.min.css: {}
 
 slick:
   remote: https://github.com/kenwheeler/slick
@@ -74,3 +73,17 @@ anchor:
     /libraries/anchor-js/anchor.min.js: {}
   dependencies:
     - core/drupal
+
+messages:
+  js:
+    dist/js/messages.js: {}
+  dependencies:
+    - core/drupal
+
+expanding-text:
+  js:
+    dist/js/expanding-text.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/once

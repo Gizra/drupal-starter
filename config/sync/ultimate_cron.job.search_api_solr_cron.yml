@@ -8,7 +8,7 @@ title: 'Default cron handler'
 id: search_api_solr_cron
 weight: 0
 module: search_api_solr
-callback: search_api_solr_cron
+callback: 'search_api_solr#cron'
 scheduler:
   id: simple
 launcher:

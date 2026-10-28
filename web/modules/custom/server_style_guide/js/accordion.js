@@ -21,6 +21,8 @@
       }
       $slick.slick('setPosition');
     });
+    // Trigger resize.
+    $(window).trigger('resize');
   });
 
   // Check if hash exist, and if so try to open its pane.

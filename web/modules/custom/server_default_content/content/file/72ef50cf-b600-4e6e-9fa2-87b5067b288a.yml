@@ -4,6 +4,9 @@ _meta:
   uuid: 72ef50cf-b600-4e6e-9fa2-87b5067b288a
   default_langcode: en
 default:
+  uid:
+    -
+      target_id: 1
   filename:
     -
       value: skyline-1600x900_55.jpg

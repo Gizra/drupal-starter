@@ -2,15 +2,17 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
+use Drupal\Tests\server_general\Traits\ParagraphCreationTrait;
 use Drupal\file\Entity\File;
 use Drupal\media\Entity\Media;
-use Drupal\paragraphs\Entity\Paragraph;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Test 'Documents' paragraph type.
  */
 class ServerGeneralParagraphDocumentsTest extends ServerGeneralParagraphTestBase {
+
+  use ParagraphCreationTrait;
 
   /**
    * {@inheritdoc}
@@ -45,9 +47,11 @@ class ServerGeneralParagraphDocumentsTest extends ServerGeneralParagraphTestBase
     $title = 'This is the title';
     $body = 'This is the description';
 
-    $paragraph = Paragraph::create(['type' => $this->getEntityBundle()]);
-    $paragraph->set('field_title', $title);
-    $paragraph->set('field_body', $body);
+    $paragraph = $this->createParagraph([
+      'type' => $this->getEntityBundle(),
+      'field_title' => $title,
+      'field_body' => $body,
+    ]);
 
     // Create several Media documents.
     $file = File::create([

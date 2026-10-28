@@ -1,0 +1,29 @@
+_meta:
+  version: '1.0'
+  entity_type: file
+  uuid: 04626283-cdc2-4801-b700-d41077299080
+  default_langcode: en
+  depends:
+    11318276-1099-48d3-ae54-1e4746558d2e: user
+default:
+  uid:
+    -
+      entity: 11318276-1099-48d3-ae54-1e4746558d2e
+  filename:
+    -
+      value: 403.png
+  uri:
+    -
+      value: 'public://403.png'
+  filemime:
+    -
+      value: image/png
+  filesize:
+    -
+      value: 12686
+  status:
+    -
+      value: true
+  created:
+    -
+      value: 1732228848

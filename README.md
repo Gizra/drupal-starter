@@ -1,4 +1,7 @@
-[![Build Status](https://app.travis-ci.com/Gizra/drupal-starter.svg?branch=main)](https://app.travis-ci.com/Gizra/drupal-starter)
+[![Build Status](https://github.com/Gizra/drupal-starter/actions/workflows/ci.yml/badge.svg)](https://github.com/Gizra/drupal-starter/actions)
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=250256146)
+
 
 # Drupal 10 Starter
 
@@ -16,24 +19,41 @@ scripts. The reason for this is that it's
 assumed PHP developers are more comfortable with PHP than Bash, and it provides
 us with easier iteration, reading and manipulating yaml files, pre-defined
 [tasks](https://robo.li/tasks/Assets/), etc.
-1. We use Travis-CI for continuous integration. A pre-configured and working
-`.travis.yaml` is part of this repo.
+1. We use GitHub Actions for continuous integration. Pre-configured and working
+workflows are part of this repo.
 1. We use Pantheon for hosting. A `ddev robo deploy:pantheon` will take care of
 deployments. See more under ["Deploy to Pantheon"](#deploy-to-pantheon) section.
 1. We use [Pluggable Entity View Builder](https://www.drupal.org/project/pluggable_entity_view_builder) to define how an entity should look like. See [example](https://github.com/Gizra/drupal-starter/blob/main/web/modules/custom/server_general/src/Plugin/EntityViewBuilder/NodeLandingPage.php).
 
-## Requirements
+## GitHub Codespaces
 
-* [DDEV](https://ddev.readthedocs.io/en/stable/)
+You can open this project in GitHub Codespaces by clicking the badge at the top of this README. This will open a Codespace with the project already cloned and ready to go.
 
-## Installation
+Once the installation is complete (takes about 10 minutes), you can use `ddev login` to log in to the site as admin user using your default browser.
+
+The Codespace comes with [Claude Code](https://docs.anthropic.com/en/docs/claude-code) pre-installed for agentic coding. Run `claude` in the terminal to get started. For the best authentication experience, open your Codespace in VS Code rather than in the browser.
+
+## Local Installation
+
+The only requirement is having [DDEV](https://ddev.readthedocs.io/en/stable/) installed.
 
     ddev composer install
     cp .ddev/config.local.yaml.example .ddev/config.local.yaml
     ddev restart
 
 Once the Drupal installation is complete you can use `ddev login` to
-log in to the site as user 1 using your default browser.
+log in to the site as admin user using your default browser.
+
+## Git Worktree support
+
+You might need several instances of the project running simultaneously (e.g.,
+parallel feature branches, AI agent workflows, or PR reviews).
+See how [DDEV handles it](https://www.fldrupal.camp/session/use-git-worktree-ddev-run-multiple-versions-same-site). There's also an [add-on for this](https://github.com/elabx/ddev-worktrees?tab=readme-ov-file#ddev-worktree):
+```
+ddev add-on install esanmiguel/ddev-worktree
+```
+
+The project name is omitted from [config.yaml](https://github.com/Gizra/drupal-starter/blob/main/.ddev/config.yaml), so DDEV can use the directory name, which is needed in this scenario.
 
 ## Default content management
 
@@ -76,20 +96,20 @@ Please refer to the [Default content documentation](https://www.drupal.org/docs/
 
 ## Theme Development
 
-By default, `ddev restart` compiles the theme using Robo (`ddev robo theme:compile-debug`)
+By default, `ddev restart` compiles the theme using npm scripts (`ddev theme:compile`).
 
-This is used only for watching Tailwind styles, it's not compiling js, images, etc.
+This compiles CSS (Tailwind), JS, fonts, and images into the `dist/` directory.
 
-On the local development environment, which is using TailWind's [JIT](https://tailwindcss.com/docs/just-in-time-mode) (Just-In-Time), execute:
+On the local development environment, execute:
 
 ```bash
 ddev theme:watch
 ```
 
-This will compile Tailwind and keep watching for any changes.
+This will run an initial build and then watch for any changes to CSS, JS, fonts, and images.
 
-When running `ddev robo theme:compile` it will purge any TailWind's CSS class
-which is not found in the code, twig, or under `tailwind.config.js` `whitelist` property.
+When running `ddev theme:compile`, Tailwind uses JIT (Just-In-Time) mode and only includes CSS classes
+found in the source paths declared via `@source` directives in `src/css/style.css`.
 
 The directory structure:
  - `src/` - put all source stylesheets images, fonts, etc here.
@@ -102,7 +122,7 @@ For theme development, it's advisable to entirely turn off caching: https://www.
 It is advised to use Drupal's Responsive image module.
 
 If there are new breakpoints added, or existing breakpoints updated in
-`server_theme/tailwind.config.js`, you must ensure to also update the Drupal
+`src/css/style.css` (via `@theme` custom properties), you must ensure to also update the Drupal
 breakpoints configuration file for the theme `server_theme.breakpoints.yml` so
 that the media queries for the responsive images are in sync with tailwind's.
 It is advisable to finalize this configuration before any responsive image
@@ -165,14 +185,64 @@ The starter kit comes out of the box with Solr.
 It can happen that an index is polluted and Search API cannot restore it using "Delete all indexed items". Then there's a Drush command of the integration module to reset the index, drop all data inside:
 
 ```bash
-ddev exec terminus remote:drush gizra-drupal-starter.qa search-api-pantheon:force-cleanup
+ddev terminus remote:drush gizra-drupal-starter.qa search-api-pantheon:force-cleanup
 ```
 
 Then you can re-index the data and check the sanity of the search.
 
+## AI Integration
+
+This project supports AI-based features using OpenAI.
+
+1. Obtain your [API key](https://platform.openai.com/settings/organization/api-keys) from OpenAI.
+1. Add the API key to your DDEV global configuration `ddev config global --web-environment-add="OPENAI_API_KEY=your-key-here"`
+1. `ddev restart`
+1. Upon deployment to Pantheon, you can add the API key as a secret:
+```bash
+ddev terminus secret:site:set gizra-drupal-starter openai_api_key your-key-here --type=runtime --scope=web,user
+```
+## reCAPTCHA Configuration
+
+1. Create a site in [Google reCAPTCHA](https://www.google.com/recaptcha/admin/create).
+2. Add the required domains, then retrieve the site key and secret key from the reCAPTCHA settings.
+3. Add these keys to the reCAPTCHA configuration at:
+`/admin/config/people/captcha/recaptcha`
+4. Save the configuration.
+
+Note: reCAPTCHA will not work without these keys.
+
+## Agent-queryable search
+
+The starter publishes its search so an AI agent can query it directly instead of
+scraping the HTML `/search` page:
+
+- `GET /api/search?key=<term>&type=<bundle>&limit=<n>` — anonymous, read-only
+  fulltext search over the Solr index, returning `{count, results:[{title, url,
+  snippet, type}]}`. Results respect node access, so only published, public
+  content is exposed.
+- `GET /api/search/openapi.yaml` — the OpenAPI 3.1 description of that endpoint
+  (`web/modules/custom/server_general/search.openapi.yaml`), with the live
+  origin filled in automatically.
+- `GET /.well-known/api-catalog` — an [RFC 9727](https://www.rfc-editor.org/rfc/rfc9727)
+  linkset pointing at the OpenAPI description.
+- `GET /.well-known/ai-catalog.json` — Google's Agentic Resource Discovery
+  catalog, exposing a `description` and `representativeQueries`.
+
+**Per project**, tailor two things to the site:
+
+1. The `description` and `representativeQueries` in the
+   `server_general.agent_discovery` config (edit
+   `config/sync/server_general.agent_discovery.yml`, then `ddev drush cim`).
+2. The `info.description` in `search.openapi.yaml`, describing what content the
+   site holds.
+
 ## PHPCS (Code Sniffer)
 
     ddev phpcs
+
+## Short comments
+
+A comment, or a paragraph in a `.md` file, is at most 30 words.
 
 ## Tests
 
@@ -186,19 +256,76 @@ See the [example](https://github.com/Gizra/drupal-starter/blob/main/web/modules/
     ddev phpunit --filter ServerGeneralHomepageTest
 
     # Run a single method from a test file.
+    ddev phpunit --filter testUniqueTestMethodName
+
+    # Run a single method from a test file.
     ddev phpunit --filter testHomepageCache web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralHomepageTest.php
+
+### Parallel Testing
+
+The project uses [ParaTest](https://github.com/paratestphp/paratest) for parallel test execution to improve speed. When running `ddev phpunit` without arguments, tests are automatically run in parallel using all available CPU cores, except for tests marked with `@group sequential` which run separately in serial mode.
+
+Tests requiring sequential execution (e.g., cache tests, form submission tests) should be marked with the `@group sequential` annotation. ParaTest automatically excludes Rollbar tests unless explicitly requested.
 
 We also have capability to write tests which run on a headless chrome browser with
 Javascript capabilities. See [`Drupal\Tests\server_general\ExistingSite\ServerGeneralSelenium2TestBase`](https://github.com/Gizra/drupal-starter/blob/aa3c204dc7ac279964a694c675c35062c7fbcd9f/web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralSelenium2TestBase.php)
 for the test base, and [`Drupal\Tests\server_general\ExistingSite\ServerGeneralHomepageTest`](https://github.com/Gizra/drupal-starter/blob/aa3c204dc7ac279964a694c675c35062c7fbcd9f/web/modules/custom/server_general/tests/src/ExistingSite/ServerGeneralHomepageTest.php) for the
-example implementation. By extending the above base class you can also take screenshots using the
-`takeScreenshot()` method. This captures and saves the screenshot in `/web/sites/simpletest/screenshots`.
-**Note: You should not leave calls to `takeScreenshot` in the codebase when committing, this is meant only for
-local debugging purposes.**
+example implementation.
 
-You can also watch what the tests are doing in the browser using noVNC. To do so, simply open a browser and open
-https://drupal-starter.ddev.site:7900 and click Connect. The password is `secret`. Now simply run the tests
-and you can see the test running in the browser.
+### Debugging
+
+For Selenium tests, use `takeScreenshot()` to save screenshots to `/web/sites/simpletest/screenshots`.
+
+Watch tests live via noVNC at https://drupal-starter.ddev.site:7900 (click Connect, no password needed).
+
+Chrome runs headless on CI only; locally you can always watch.
+
+For faster, virtual browser-based tests, you can use `createHtmlSnapshot` and it will dump the HTML content
+of the virtual browser into the `phpunit_debug` directory. For the exact filename, refer to the output of
+`ddev drush watchdog-show --type=server_general`.
+
+**Note: You should not leave calls to `takeScreenshot` or `createHtmlSnapshot` in the codebase when committing,
+this is meant only for local debugging purposes.**
+
+### Contrib module coverage
+
+The `ddev phpunit-contrib` command allows you to run PHPUnit tests specifically for contributed modules within your Drupal site. It allows you to ensure the integrity of a module after applying custom patch(es) to it.
+
+#### Usage
+
+```bash
+ddev phpunit-contrib <module_name>
+```
+
+#### Example
+
+To run PHPUnit tests for the `migrate_tools` contributed module, you would use:
+
+```bash
+ddev phpunit-contrib migrate_tools
+```
+
+### Accessibility Testing (WCAG 2.2 AA)
+
+WCAG 2.2 AA checks via [Playwright](https://playwright.dev/) and
+[`@axe-core/playwright`](https://www.npmjs.com/package/@axe-core/playwright).
+The suite lives in `accessibility-testing/` and needs a running DDEV site.
+
+```bash
+cd accessibility-testing
+npm ci
+npx playwright install --with-deps
+
+# Run the suite (targets http://drupal-starter.ddev.site:8880 by default,
+# override with BASE_URL).
+npx playwright test
+
+# Open the HTML report; each test's Attachments section links to the
+# full WCAG violation report for that page.
+npx playwright show-report
+```
+
+Also runs in CI via `.github/workflows/playwright.yml` — no hosted environment needed.
 
 ## Debugging
 
@@ -221,39 +348,16 @@ Make sure to add the correct site name under `environment_variables.project`.
 
 There's a Robo command to do the entire process of creating a new project:
 ```
-ddev robo bootstrap:project <project_name> <github_repository_url> <terminus_token> <github_token> [<docker_mirror_url> [<http_basic_auth_user> [<http_basic_auth_password>]]]
+ddev robo bootstrap:project <project_name> <github_repository_url> <terminus_token> <github_token> [<http_basic_auth_user> [<http_basic_auth_password>]]
 ```
 See the details [here](https://github.com/Gizra/drupal-starter/blob/main/robo-components/BootstrapTrait.php).
-
-As this repository gets copied several times, for different projects, it gets tedious to port small fixes.
-For larger-scale changes, due to conflicts and per-project considerations, we need to apply
-changes manually., However for tiny, trivial changes, such as Travis fixes, we have the following tool:
-```
-# Go to the root of all the projects
-cd /home/user/your-projects
-# If no export is provided, command will ask entering manually the names.
-export REPOSITORIES=[client1 client2 client3]
-/path/to/starter/scripts/mass_patch.sh [gh_token_that_can_create_prs] /tmp/our-little-patch "PR title"
-```
-
-This must be executed natively (i.e. no inside `ddev ssh`).
-It will try to refresh the working copies there and apply the patch. If it succeeds, it opens
-a pull request in the destination repository.
-That provides a fast track to spread changes for those parts of the Starter Kit that typically
-remain unchanged after cloning (CI scripts, testing scripts, DDEV configuration and commands, and so on).
-
-You can also specify the repositories using a configuration file:
-```
-cp scripts/mass_patch.example.config.sh scripts/mass_patch.config.sh
-```
-Then edit `scripts/mass_patch.config.sh` and add the proper project names.
 
 #### Create your site
 
 Then, you can create a new site in Pantheon which can also be done with a
 [terminus command](https://pantheon.io/docs/guides/drupal8-commandline):
 
-    ddev exec terminus site:create my-site "My Site" "Drupal 10 Start State"
+    ddev terminus site:create my-site "My Site" "Drupal 10 Start State"
 
 #### Change to nested docroot structure
 
@@ -328,23 +432,66 @@ assembles it from the Git log.
 
 ## Automatic Deployment to Pantheon
 
-In order to deploy upon every merge automatically by Travis, you shall:
+### Prerequisites
 
-1. Initiate QA (`qa` branch) multidev environment for the given project.
+The GitHub Actions workflows for automatic deployment are already configured in the repository. You just need to set up the necessary credentials.
+
+### Setup Steps
+
+In order to deploy upon every merge automatically using GitHub Actions:
+
+1. Ensure QA (`qa` branch) multidev environment exists for the given project. This is automatically created during bootstrap, or can be created manually.
 1. Double-check if `./.ddev/providers/pantheon.yaml` contains the proper Pantheon project name.
 1. Get a [Pantheon machine token](https://pantheon.io/docs/machine-tokens) (using a dummy new Pantheon user ideally, one user per project for the sake of security)
-1. Get a GitHub Personal access token, it is needed for [Travis CLI to authenticate](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token). It will be used like this: `travis login --pro --github-token=`. Also it will be used to post a comment to GitHub to the relevant issue when a merged PR is deployed, so set the expiry date far in the future enough for this.
-1. `ddev robo deploy:config-autodeploy [your terminus token] [your github token]`
-1. `git commit -m "Deployment secrets and configuration"`
-1. Add the public key in `travis-key.pub` to the newly created dummy [Pantheon user](https://pantheon.io/docs/ssh-keys)
-1. Actualize `public static string $githubProject = 'Gizra/the-client';` in the `RoboFile.php`.
+1. Get a GitHub Personal access token. It will be used to post a comment to GitHub to the relevant issue when a merged PR is deployed, so set the expiry date far in the future enough for this.
+1. Run the autodeploy configuration command:
+   ```bash
+   ddev robo deploy:config-autodeploy [your terminus token] [your github token]
+   ```
+   
+   This generates an SSH key pair, installs [GitHub CLI](https://cli.github.com/) if needed, and offers to configure GitHub Secrets and Variables automatically.
 
-Optionally you can specify which target branch you'd like to push on Pantheon, by default it's `master`, so the target is the DEV environment, but alternatively you can issue:
-`ddev robo deploy:config-autodeploy [your terminus token] [your github token] [pantheon project name] [gh_branch] [pantheon_branch]`
+1. Follow the instructions provided by the command to:
+   - Add the SSH public key (`pantheon-key.pub`) to your [Pantheon account](https://pantheon.io/docs/ssh-keys)
+   - If using automated setup: Confirm when prompted to automatically configure GitHub Secrets and Variables
+   - If setting up manually: Configure GitHub Secrets (TERMINUS_TOKEN, PANTHEON_DEPLOY_KEY, GH_TOKEN) and Variables (PANTHEON_GIT_URL, ROLLBAR_SERVER_TOKEN, DEPLOY_EXCLUDE_WARNING) as instructed
+
+**Note**: The `bootstrap:project` command sets `getGithubProject()` in `RoboFile.php` automatically. Otherwise, update it manually.
+
+### Tag-based Deployments
 
 After you have automatic deployment for a project, you are able to deploy to Pantheon `test` and `live` using Git tags.
-`git tag 0.1.2` will imply a deployment to the `test` environment (and `dev` - as enforced by Pantheon).
-`git tag 0.1.2_live` will imply a deployment to `live`. In order to make it fast, you need to first create the tag that deploy to `test`, then you need to tag the same commit with a tag suffixed with `_live`.
+
+    # Deploy to TEST (and DEV - as enforced by Pantheon).
+    git tag 0.1.2
+    git push origin 0.1.2
+
+    # Deploy to LIVE.
+    git tag 0.1.2_live
+    git push origin 0.1.2_live
+
+For speed, first tag for `test`, then tag the same commit with `_live`.
+
+> **Important:** Always `git push origin <tag>` **before** publishing the GitHub release.
+> The release UI alone may not fire the `push` event, silently skipping deployment.
+
+### Manual Steps
+
+For certain releases, you may need to execute manual scripts after deployment. Place release-specific scripts in the `manual_steps/` directory with the version as the filename (e.g., `manual_steps/2.10.0.sh`).
+
+The script receives the environment as a parameter (`test` or `live`):
+
+```bash
+#!/bin/bash
+set -e
+
+ENV="${1:-TEST}"
+
+# Example: Clear cache after deployment
+ddev . terminus remote:drush "drupal-starter-site.$ENV" -- cr
+```
+
+When deploying a tag (e.g., `2.10.0` or `2.10.0_live`), the script `manual_steps/2.10.0.sh` will be called automatically after the sync. If no script exists for the version, deployment continues normally.
 
 ### Excluding Warnings in Deployment
 
@@ -354,24 +501,57 @@ loop, you can maintain an exclude list to filter out these acceptable warnings.
 
 To set up an exclude list:
 
-In your .travis.yml, set the `DEPLOY_EXCLUDE_WARNING` environment variable with a list of warnings to exclude.
+In your GitHub repository settings, create a configuration variable `DEPLOY_EXCLUDE_WARNING` with a list of warnings to exclude.
 The warning names should be separated by a | character.
 
 Example:
-```yml
-env:
-global:
-- DEPLOY_EXCLUDE_WARNING="Search API|Another"
+```
+DEPLOY_EXCLUDE_WARNING="Search API|Another"
 ```
 
 The deployment script will read this environment variable and exclude the specified warnings when posting to GitHub.
 
 ## Pulling DB & Files From Pantheon
 
+First make sure you have a [Pantheon machine token](https://docs.pantheon.io/machine-tokens): `TERMINUS_MACHINE_TOKEN=abcde` in `.ddev/.env`.
+
+Then, check what is the configuration of `.ddev/providers/pantheon.yml`
+
+Here for example is configured to pull the DB and Files from QA:
+```
+environment_variables:
+  project: your-project.qa
+```
+
+Beware pulling the database and files from Pantheon will replace your existing
+install without doing a backup.
+
     ddev auth ssh
 
     # Pull DB & Files
     ddev pull pantheon
+
+    # To pull only the database:
+    ddev pull pantheon --skip-files
+
+## Use remote services from Pantheon
+
+Pantheon provides a managed SQL database, filesystem for the public and
+private files, Redis and more for your Drupal website.
+`terminus` exposed the connection information for those services, the Starter
+Kit allows you to connect easily. To have the connection information inside the
+DDEV container, you need to perform ahead, once:
+```
+ddev auth ssh
+ddev terminus login --machine-token=[token]
+```
+
+Examples:
+```
+ddev robo pantheon:connect-sql qa
+ddev robo pantheon:connect-sftp live
+ddev robo pantheon:connect-redis mymultidev
+```
 
 ## Stage File Proxy
 If you don't want to copy production files locally, you can enable stage_file_proxy module.
@@ -421,23 +601,57 @@ Purges entries related to IP `193.165.2.3` from Pantheon's `test` environment, o
 ## DDOS attack mitigation
 
 If you experience a site outage or a slowdown, you should consider DDOS attack
-as a possible root cause.
+as a possible root cause. First make sure you have a
+[Pantheon machine token](https://docs.pantheon.io/machine-tokens): `TERMINUS_MACHINE_TOKEN=abcde` in `.ddev/.env`.
+
 ```
+ddev auth ssh # One-time prerequisite
 ddev robo security:check-ddos
 ```
 
 Will provide a list of top IP address by number of requests. If the top few IP
 addresses issue the majority of the requests, spot check a few requests from
 the access log, then ban those IPs if they issue malicious requests.
-Check `web/sites/default/settings.pantheon.php` on how to block individual IPs
+Check [settings.pantheon.php](https://github.com/Gizra/drupal-starter/blob/24dd08d2deef80d0df1651d1295ce2a928b8deb9/web/sites/default/settings.pantheon.php#L13) on how to block individual IPs
 on Pantheon.
 
 If that simple check if not enough, if there's uncertainity, [`goaccess`](https://goaccess.io/man)
 can help to understand the nature of the traffic. You can run `goaccess` with this command:
 
 ```
+ddev auth ssh # One-time prerequisite
 ddev robo security:access-log-overview
 ```
+
+## AI crawlers
+
+`web/robots.txt` ships per-vendor AI bot rules. Bots are listed individually so
+you can tune training, search, and retrieval bots separately.
+
+The baseline **allows** all named AI bots except faceted-search URLs (wasted
+crawl budget) and `Google-Extended` (free Gemini training opt-out, no Search
+impact). Revisit per project on the Go Live Checklist.
+
+### Restricting a training bot to part of the site
+
+`robots.txt` groups do **not** merge — a bot obeys only its most specific
+group. Add path-scoped `Disallow` rules to that group:
+
+```
+User-agent: GPTBot
+Disallow: *?f%5B*
+Disallow: *&f%5B*
+Disallow: /licensed-collection/
+Disallow: /archive/rights-restricted/
+```
+
+Scope by the URL path of the content type or collection you need to protect.
+
+### Verifying bot identity
+
+Any client can fake a `User-agent` header. To *enforce* policy, verify requests
+via the vendor's IP ranges or forward-confirmed reverse DNS at the CDN/WAF layer
+(e.g. Cloudflare verified-bot rules).
 
 ## Importing/Exporting translations
 
@@ -506,9 +720,40 @@ To import the config translations:
 
 ## Two-factor Authentication (TFA)
 
-TFA is enabled for the Administrator and Content editor users.
+TFA is disabled by default. Edit the [Pantheon-specific settings](https://github.com/Gizra/drupal-starter/blob/main/web/sites/default/settings.pantheon.php#L96) to activate it.
 The default settings under `/admin/config/people/tfa` define "Skip Validation" is 1. That is,
 when a privileged user will login, they must enable their TFA. Otherwise, on a second
 login, they will already be blocked. A site admin may reset their validation tries
 under the `/admin/people` page.
 The TFA method that is enabled is one that uses Google authenticator (or similar).
+
+You should set the TFA secret using:
+```bash
+ddev terminus secret:site:set gizra-drupal-starter tfa_key $(openssl rand -base64 32) --type=runtime --scope=web,user
+```
+
+If you need to override the secret on a specific Pantheon environment:
+```bash
+ddev terminus secret:site:set gizra-drupal-starter.qa tfa_key $(openssl rand -base64 32)
+```
+
+## WAF - Crowdsec
+
+It is recommended to use a proper WAF, either from Cloudflare, or from another vendor, but
+for smaller sites, it is not always possible.  [Crowdsec](https://www.crowdsec.net/) is integrated
+to protect the client sites from known malicious visitors. If used in conjuction with Cloudflare or with other type of gateway that hides the originating address,
+you need to make sure Drupal is aware of the real IP of the visitors.
+
+## Go Live Checklist
+
+- [ ] [Enable 2FA](https://github.com/Gizra/drupal-starter/blob/ce2f737bda16e550ee0c8accfd40f44e2d60a703/web/sites/default/settings.pantheon.php#L95-L97)
+- [ ] Bump Pantheon plan
+- [ ] Set up automatic backups
+- [ ] DNS config
+- [ ] Redirects
+- [ ] Ensure email sending (SMTP) works
+- [ ] Remove http auth for LIVE environment
+- [ ] Confirm dev/staging "don't index" setting has been removed (sitemap + robots meta)
+- [ ] Decide whether robots.txt / CDN should allow or block search and AI retrieval bots (GPTBot family, ClaudeBot family, PerplexityBot family, Meta-ExternalAgent) — recommendation: allow
+- [ ] Confirm preview-control meta tags (nosnippet, max-image-preview) aren't overly restrictive
+- [ ] Confirm Google-Extended is disallowed in robots.txt (free Gemini/Vertex training opt-out, no effect on Search/AI Overviews)

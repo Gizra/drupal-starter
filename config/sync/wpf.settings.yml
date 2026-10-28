@@ -1,0 +1,33 @@
+_core:
+  default_config_hash: Zz0MiEpGpRsSM81JunRrcLuDDV6mhBGcv-AJwlIzRdY
+quality: 75
+styles:
+  disabled:
+    card: 0
+    hero_lg_1x: 0
+    hero_lg_2x: 0
+    hero_md_1x: 0
+    hero_md_2x: 0
+    hero_mobile_1x: 0
+    hero_mobile_2x: 0
+    hero_sm_1x: 0
+    hero_sm_2x: 0
+    hero_xl_1x: 0
+    hero_xl_2x: 0
+    large: 0
+    media_entity_browser_thumbnail: 0
+    media_library: 0
+    medium: 0
+    prose_image: 0
+    prose_image_x2: 0
+    quote_lg_1x: 0
+    quote_lg_2x: 0
+    quote_md_1x: 0
+    quote_md_2x: 0
+    quote_mobile_1x: 0
+    quote_mobile_2x: 0
+    quote_sm_1x: 0
+    quote_sm_2x: 0
+    quote_xl_1x: 0
+    quote_xl_2x: 0
+    thumbnail: 0

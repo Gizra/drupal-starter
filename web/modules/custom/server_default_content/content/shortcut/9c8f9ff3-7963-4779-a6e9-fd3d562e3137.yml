@@ -13,3 +13,19 @@ default:
       uri: 'internal:/style-guide'
       title: ''
       options: {  }
+  metatag:
+    -
+      tag: meta
+      attributes:
+        name: title
+        content: '| Drupal Starter'
+    -
+      tag: meta
+      attributes:
+        name: description
+        content: 'This is the Drupal Starter project.'
+    -
+      tag: link
+      attributes:
+        rel: canonical
+        href: 'https://drupal-starter.ddev.site:4443/homepage'

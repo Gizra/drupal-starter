@@ -12,7 +12,7 @@ default:
       value: true
   uid:
     -
-      target_id: 0
+      target_id: 1
   name:
     -
       value: 'Drupal starter'
@@ -22,6 +22,22 @@ default:
   revision_translation_affected:
     -
       value: true
+  metatag:
+    -
+      tag: meta
+      attributes:
+        name: title
+        content: '| Drupal Starter'
+    -
+      tag: meta
+      attributes:
+        name: description
+        content: 'This is the Drupal Starter project.'
+    -
+      tag: link
+      attributes:
+        rel: canonical
+        href: 'https://drupal-starter.ddev.site:4443/homepage'
   path:
     -
       alias: ''
