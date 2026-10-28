@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "32d70d165d0c91ebf862ee94362afdf3",
+    "content-hash": "cf63c4e897d6206cac2aacdf2db73491",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -301,21 +301,6 @@
             "time": "2026-03-20T21:10:52+00:00"
         },
         {
-            "name": "choices/choices",
-            "version": "11.0.2",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/Choices-js/Choices/archive/refs/tags/v11.0.2.zip"
-            },
-            "type": "drupal-library",
-            "extra": {
-                "installer-name": "choices"
-            },
-            "license": [
-                "MIT"
-            ]
-        },
-        {
             "name": "christian-riesen/otp",
             "version": "2.7.0",
             "source": {
@@ -376,21 +361,6 @@
                 "source": "https://github.com/ChristianRiesen/otp/tree/2.7.0"
             },
             "time": "2021-02-23T20:13:30+00:00"
-        },
-        {
-            "name": "codemirror/codemirror",
-            "version": "5.65.12",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/components/codemirror/archive/refs/tags/5.65.12.zip"
-            },
-            "type": "drupal-library",
-            "extra": {
-                "installer-name": "codemirror"
-            },
-            "license": [
-                "MIT"
-            ]
         },
         {
             "name": "composer/ca-bundle",
@@ -2627,17 +2597,17 @@
         },
         {
             "name": "drupal/captcha",
-            "version": "2.0.8",
+            "version": "2.0.10",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/captcha.git",
-                "reference": "2.0.8"
+                "reference": "2.0.10"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/captcha-2.0.8.zip",
-                "reference": "2.0.8",
-                "shasum": "7000566e8ee60d2aa4d0b038ba8d59ccf9663891"
+                "url": "https://ftp.drupal.org/files/projects/captcha-2.0.10.zip",
+                "reference": "2.0.10",
+                "shasum": "f1052ffe99ec2f8246f7da75e467b281fc2d804a"
             },
             "require": {
                 "drupal/core": "^9.5 || ^10 || ^11"
@@ -2645,8 +2615,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "2.0.8",
-                    "datestamp": "1753284367",
+                    "version": "2.0.10",
+                    "datestamp": "1772046216",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -5006,17 +4976,17 @@
         },
         {
             "name": "drupal/metatag",
-            "version": "2.2.0",
+            "version": "2.2.3",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/metatag.git",
-                "reference": "2.2.0"
+                "reference": "2.2.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/metatag-2.2.0.zip",
-                "reference": "2.2.0",
-                "shasum": "b6ae4b665a49771d5139644c71cb3d5a68cb4828"
+                "url": "https://ftp.drupal.org/files/projects/metatag-2.2.3.zip",
+                "reference": "2.2.3",
+                "shasum": "e9dae2295557c07ed688b0025e208b3e908f8b8e"
             },
             "require": {
                 "drupal/core": "^10.3 || ^11",
@@ -5024,7 +4994,9 @@
                 "php": ">=8.0"
             },
             "require-dev": {
-                "drupal/forum": "1.x-dev",
+                "drupal/diff": "*",
+                "drupal/forum": "^1.0",
+                "drupal/graphql": "^3",
                 "drupal/hal": "^1 || ^2 || ^9",
                 "drupal/metatag_dc": "*",
                 "drupal/metatag_open_graph": "*",
@@ -5036,8 +5008,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "2.2.0",
-                    "datestamp": "1758622371",
+                    "version": "2.2.3",
+                    "datestamp": "1793108775",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -5313,22 +5285,22 @@
         },
         {
             "name": "drupal/pantheon_advanced_page_cache",
-            "version": "2.3.3",
+            "version": "2.4.1",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/pantheon_advanced_page_cache.git",
-                "reference": "2.3.3"
+                "reference": "2.4.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/pantheon_advanced_page_cache-2.3.3.zip",
-                "reference": "2.3.3",
-                "shasum": "804cae4172d40fb3bdf61cb178aa5c8b684e7ed2"
+                "url": "https://ftp.drupal.org/files/projects/pantheon_advanced_page_cache-2.4.1.zip",
+                "reference": "2.4.1",
+                "shasum": "abcc7e5f0c3a306f19c47b7f1557a932533d7906"
             },
             "require": {
-                "drupal/core": "^9.4 || ^10 || ^11",
+                "drupal/core": "^10 || ^11",
                 "guzzlehttp/psr7": "^2.4.5",
-                "php": ">=7.4",
+                "php": ">=8.1",
                 "symfony/http-foundation": "^6 || ^7"
             },
             "require-dev": {
@@ -5345,8 +5317,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "2.3.3",
-                    "datestamp": "1752255051",
+                    "version": "2.4.1",
+                    "datestamp": "1788291954",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -5361,11 +5333,11 @@
             "notification-url": "https://packages.drupal.org/8/downloads",
             "scripts": {
                 "code:fix": [
-                    "vendor/bin/phpcs --config-set installed_paths vendor/drupal/coder/coder_sniffer",
+                    "vendor/bin/phpcs --config-set installed_paths vendor/drupal/coder/coder_sniffer,vendor/slevomat/coding-standard,vendor/sirbrillig/phpcs-variable-analysis",
                     "vendor/bin/phpcbf . --ignore=vendor src"
                 ],
                 "code:lint": [
-                    "vendor/bin/phpcs --config-set installed_paths vendor/drupal/coder/coder_sniffer",
+                    "vendor/bin/phpcs --config-set installed_paths vendor/drupal/coder/coder_sniffer,vendor/slevomat/coding-standard,vendor/sirbrillig/phpcs-variable-analysis",
                     "vendor/bin/phpcs --ignore=RoboFile.php,vendor,.github . "
                 ],
                 "test": [
@@ -5891,17 +5863,17 @@
         },
         {
             "name": "drupal/recaptcha",
-            "version": "3.4.0",
+            "version": "3.5.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/recaptcha.git",
-                "reference": "8.x-3.4"
+                "reference": "8.x-3.5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/recaptcha-8.x-3.4.zip",
-                "reference": "8.x-3.4",
-                "shasum": "95fa7ac5dd064ea6a1c14fc4881778bf68200598"
+                "url": "https://ftp.drupal.org/files/projects/recaptcha-8.x-3.5.zip",
+                "reference": "8.x-3.5",
+                "shasum": "ab6b18e75759c0739054cb876e40256c2150c777"
             },
             "require": {
                 "drupal/captcha": "^1.15 || ^2.0",
@@ -5911,8 +5883,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-3.4",
-                    "datestamp": "1723563033",
+                    "version": "8.x-3.5",
+                    "datestamp": "1786398980",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -5931,10 +5903,6 @@
                 {
                     "name": "See other contributors",
                     "homepage": "https://www.drupal.org/node/147903/committers"
-                },
-                {
-                    "name": "diolan",
-                    "homepage": "https://www.drupal.org/user/2336786"
                 },
                 {
                     "name": "hass",
@@ -8415,141 +8383,6 @@
                 }
             ],
             "time": "2025-12-05T14:53:09+00:00"
-        },
-        {
-            "name": "jquery/chosen",
-            "version": "1.8.7",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/harvesthq/chosen/releases/download/v1.8.7/chosen_v1.8.7.zip"
-            },
-            "type": "drupal-library",
-            "extra": {
-                "installer-name": "jquery.chosen"
-            },
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "jquery/hotkeys",
-            "version": "0.2.0",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/jeresig/jquery.hotkeys/archive/refs/tags/0.2.0.zip"
-            },
-            "type": "drupal-library",
-            "extra": {
-                "installer-name": "jquery.hotkeys"
-            },
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "jquery/image-picker",
-            "version": "0.3.1",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/rvera/image-picker/archive/refs/tags/0.3.1.zip"
-            },
-            "type": "drupal-library",
-            "extra": {
-                "installer-name": "jquery.image-picker"
-            },
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "jquery/inputmask",
-            "version": "5.0.9",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/RobinHerbots/jquery.inputmask/archive/refs/tags/5.0.9.zip"
-            },
-            "type": "drupal-library",
-            "extra": {
-                "installer-name": "jquery.inputmask"
-            },
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "jquery/intl-tel-input",
-            "version": "17.0.19",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/jackocnr/intl-tel-input/archive/refs/tags/v17.0.19.zip"
-            },
-            "type": "drupal-library",
-            "extra": {
-                "installer-name": "jquery.intl-tel-input"
-            },
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "jquery/rateit",
-            "version": "1.1.5",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/gjunge/rateit.js/archive/refs/tags/1.1.5.zip"
-            },
-            "type": "drupal-library",
-            "extra": {
-                "installer-name": "jquery.rateit"
-            },
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "jquery/select2",
-            "version": "4.0.13",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/select2/select2/archive/refs/tags/4.0.13.zip"
-            },
-            "type": "drupal-library",
-            "extra": {
-                "installer-name": "jquery.select2"
-            },
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "jquery/textcounter",
-            "version": "0.9.1",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/ractoon/jQuery-Text-Counter/archive/refs/tags/0.9.1.zip"
-            },
-            "type": "drupal-library",
-            "extra": {
-                "installer-name": "jquery.textcounter"
-            },
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "jquery/timepicker",
-            "version": "1.14.0",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/jonthornton/jquery-timepicker/archive/refs/tags/1.14.0.zip"
-            },
-            "type": "drupal-library",
-            "extra": {
-                "installer-name": "jquery.timepicker"
-            },
-            "license": [
-                "MIT"
-            ]
         },
         {
             "name": "justinrainbow/json-schema",
@@ -11888,16 +11721,16 @@
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "2.3.8",
+            "version": "2.3.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "ec4293f7caf9936acce286b589ccb84faf1aa88d"
+                "reference": "a53805ef8d85b89318cc177ba7ea6ec914f188a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/ec4293f7caf9936acce286b589ccb84faf1aa88d",
-                "reference": "ec4293f7caf9936acce286b589ccb84faf1aa88d",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/a53805ef8d85b89318cc177ba7ea6ec914f188a9",
+                "reference": "a53805ef8d85b89318cc177ba7ea6ec914f188a9",
                 "shasum": ""
             },
             "require": {
@@ -11929,9 +11762,9 @@
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
             "support": {
                 "issues": "https://github.com/phpstan/phpdoc-parser/issues",
-                "source": "https://github.com/phpstan/phpdoc-parser/tree/2.3.8"
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/2.3.10"
             },
-            "time": "2026-10-26T20:24:50+00:00"
+            "time": "2026-10-28T10:20:57+00:00"
         },
         {
             "name": "phpstan/phpstan",
@@ -12047,36 +11880,6 @@
                 "source": "https://github.com/phpstan/phpstan-deprecation-rules/tree/2.0.5"
             },
             "time": "2026-07-22T06:50:43+00:00"
-        },
-        {
-            "name": "popperjs/popperjs",
-            "version": "2.11.6",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/@popperjs/core/-/core-2.11.6.tgz"
-            },
-            "type": "drupal-library",
-            "extra": {
-                "installer-name": "popperjs"
-            },
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "progress-tracker/progress-tracker",
-            "version": "2.0.7",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/NigelOToole/progress-tracker/archive/refs/tags/2.0.7.zip"
-            },
-            "type": "drupal-library",
-            "extra": {
-                "installer-name": "progress-tracker"
-            },
-            "license": [
-                "MIT"
-            ]
         },
         {
             "name": "psr/cache",
@@ -12977,21 +12780,6 @@
             "time": "2024-03-02T06:30:58+00:00"
         },
         {
-            "name": "signature_pad/signature_pad",
-            "version": "2.3.0",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/szimek/signature_pad/archive/refs/tags/v2.3.0.zip"
-            },
-            "type": "drupal-library",
-            "extra": {
-                "installer-name": "signature_pad"
-            },
-            "license": [
-                "MIT"
-            ]
-        },
-        {
             "name": "solarium/solarium",
             "version": "7.0.0",
             "source": {
@@ -13112,21 +12900,6 @@
                 "source": "https://github.com/steverhoades/oauth2-openid-connect-server/tree/v3.0.1"
             },
             "time": "2024-09-26T16:19:13+00:00"
-        },
-        {
-            "name": "svg-pan-zoom/svg-pan-zoom",
-            "version": "3.6.1",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/ariutta/svg-pan-zoom/archive/refs/tags/3.6.1.zip"
-            },
-            "type": "drupal-library",
-            "extra": {
-                "installer-name": "svg-pan-zoom"
-            },
-            "license": [
-                "BSD-2-Clause"
-            ]
         },
         {
             "name": "symfony/cache",
@@ -14729,16 +14502,16 @@
         },
         {
             "name": "symfony/polyfill-intl-grapheme",
-            "version": "v1.43.0",
+            "version": "v1.43.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-grapheme.git",
-                "reference": "5cac8f4db97208823aa353f59a01faad2da52c75"
+                "reference": "5a8f33c87aeecffce24e721b5064fab05f4becf8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-grapheme/zipball/5cac8f4db97208823aa353f59a01faad2da52c75",
-                "reference": "5cac8f4db97208823aa353f59a01faad2da52c75",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-grapheme/zipball/5a8f33c87aeecffce24e721b5064fab05f4becf8",
+                "reference": "5a8f33c87aeecffce24e721b5064fab05f4becf8",
                 "shasum": ""
             },
             "require": {
@@ -14787,7 +14560,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-intl-grapheme/tree/v1.43.0"
+                "source": "https://github.com/symfony/polyfill-intl-grapheme/tree/v1.43.3"
             },
             "funding": [
                 {
@@ -14807,7 +14580,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-09-25T15:46:47+00:00"
+            "time": "2026-10-15T09:18:53+00:00"
         },
         {
             "name": "symfony/polyfill-intl-idn",
@@ -14983,16 +14756,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.43.0",
+            "version": "v1.43.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "4d5d331bf731e0aedbc6b2f5e61135b7b7996a72"
+                "reference": "122889ed24dc000165bcbfd77ec412f15cbdfc6a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/4d5d331bf731e0aedbc6b2f5e61135b7b7996a72",
-                "reference": "4d5d331bf731e0aedbc6b2f5e61135b7b7996a72",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/122889ed24dc000165bcbfd77ec412f15cbdfc6a",
+                "reference": "122889ed24dc000165bcbfd77ec412f15cbdfc6a",
                 "shasum": ""
             },
             "require": {
@@ -15044,7 +14817,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.43.0"
+                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.43.3"
             },
             "funding": [
                 {
@@ -15064,7 +14837,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-09-24T15:19:04+00:00"
+            "time": "2026-10-28T09:35:49+00:00"
         },
         {
             "name": "symfony/polyfill-php56",
@@ -16813,36 +16586,6 @@
                 }
             ],
             "time": "2026-10-12T12:34:30+00:00"
-        },
-        {
-            "name": "tabby/tabby",
-            "version": "12.0.3",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/cferdinandi/tabby/archive/refs/tags/v12.0.3.zip"
-            },
-            "type": "drupal-library",
-            "extra": {
-                "installer-name": "tabby"
-            },
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "tippyjs/tippyjs",
-            "version": "6.3.7",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/tippy.js/-/tippy.js-6.3.7.tgz"
-            },
-            "type": "drupal-library",
-            "extra": {
-                "installer-name": "tippyjs"
-            },
-            "license": [
-                "MIT"
-            ]
         },
         {
             "name": "twig/html-extra",
