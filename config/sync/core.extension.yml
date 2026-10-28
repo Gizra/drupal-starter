@@ -5,6 +5,8 @@ module:
   ai_api_explorer: 0
   ai_automators: 0
   ai_ckeditor: 0
+  ai_content_assistant: 0
+  ai_content_assistant_mcp: 0
   ai_content_suggestions: 0
   ai_image_alt_text: 0
   ai_logging: 0
@@ -15,12 +17,14 @@ module:
   block_content: 0
   block_plugin_view_builder: 0
   breakpoint: 0
+  captcha: 0
   ckeditor5: 0
   config: 0
   config_filter: 0
   config_ignore: 0
   config_pages: 0
   config_translation: 0
+  consumers: 0
   content_moderation: 0
   contextual: 0
   crop: 0
@@ -38,6 +42,7 @@ module:
   facets: 0
   field: 0
   field_ui: 0
+  field_widget_actions: 0
   file: 0
   filter: 0
   focal_point: 0
@@ -54,7 +59,10 @@ module:
   layout_discovery: 0
   link: 0
   locale: 0
+  m4032404: 0
   maxlength: 0
+  mcp_server: 0
+  mcp_server_oauth: 0
   media: 0
   media_entity_browser: 0
   media_library: 0
@@ -76,6 +84,7 @@ module:
   path_alias: 0
   pluggable_entity_view_builder: 0
   real_aes: 0
+  recaptcha: 0
   redirect: 0
   redis: 0
   responsive_image: 0
@@ -89,8 +98,14 @@ module:
   search_api_pantheon: 0
   search_api_solr: 0
   seckit: 0
+  serialization: 0
   server_style_guide: 0
   shortcut: 0
+  simple_oauth: 0
+  simple_oauth_21: 0
+  simple_oauth_client_registration: 0
+  simple_oauth_pkce: 0
+  simple_oauth_server_metadata: 0
   simple_sitemap: 0
   smart_trim: 0
   system: 0
@@ -103,6 +118,7 @@ module:
   update: 0
   user: 0
   username_enumeration_prevention: 0
+  views_autosubmit: 0
   views_ui: 0
   webform: 0
   webform_ui: 0

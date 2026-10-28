@@ -493,6 +493,15 @@ $settings['update_free_access'] = FALSE;
 # $settings['file_assets_path'] = 'sites/default/files';
 
 /**
+ * Asset aggregate garbage collection threshold.
+ *
+ * During cache clears, JavaScript and CSS aggregates older than this threshold
+ * will be deleted. Set this to 0 to immediately delete all files, e.g. during
+ * development.
+ */
+# $settings['aggregate_gc_threshold'] = 86400 * 45;
+
+/**
  * Public file base URL:
  *
  * An alternative base URL to be used for serving public files. This must
@@ -602,6 +611,18 @@ $settings['update_free_access'] = FALSE;
 # $settings['file_temp_path'] = '/tmp';
 
 /**
+ * Automatically create an Apache HTTP .htaccess file in writable directories.
+ *
+ * This setting can be disabled if you are not using Apache HTTP server, or if
+ * you have a web server configuration that protects the various writable file
+ * directories.
+ *
+ * @see \Drupal\Component\FileSecurity\FileSecurity::writeHtaccess()
+ * @see https://www.drupal.org/docs/administering-a-drupal-site/security-in-drupal/securing-file-permissions-and-ownership
+ */
+# $settings['auto_create_htaccess'] = FALSE;
+
+/**
  * Session write interval:
  *
  * Set the minimum interval between each session write to database.
@@ -623,7 +644,7 @@ $settings['update_free_access'] = FALSE;
  */
 # $settings['locale_custom_strings_en'][''] = [
 #   'Home' => 'Front page',
-#   '@count min' => '@count minutes',
+#   'Last run @time ago' => 'Last run was done @time ago',
 # ];
 
 /**
@@ -685,6 +706,24 @@ $settings['update_free_access'] = FALSE;
  */
 # $config['system.site']['name'] = 'My Drupal site';
 # $config['user.settings']['anonymous'] = 'Visitor';
+
+/**
+ * Enable HTML5 form validation.
+ *
+ * Drupal 12 will disable HTML5 form validation by default due to issues with
+ * usability and accessibility.  Setting this to TRUE will allow user agents to
+ * continue performing client-side HTML5 validation. This prevents Drupal's
+ * Form API (FAPI) validation from executing, so FAPI validation error messages
+ * may not be displayed including those for required elements.
+ *
+ * Setting this to FALSE will cause HTML5 validation to be disabled on all
+ * forms. Only Drupal's server-side validation will be executed.
+ *
+ * This setting will be removed in Drupal 13.
+ *
+ * @see https://www.drupal.org/node/3537128
+ */
+# $settings['enable_html5_validation'] = TRUE;
 
 /**
  * Load services definition file.
@@ -829,6 +868,23 @@ $settings['migrate_node_migrate_type_classic'] = FALSE;
 # $settings['migrate_source_version'] = '';
 # $settings['migrate_file_public_path'] = '';
 # $settings['migrate_file_private_path'] = '';
+
+/**
+ * Media oEmbed discovery trusted host configuration.
+ *
+ * The oEmbed spec allows for provider/resource discovery by fetching a URL. The
+ * patterns here restrict which domains Drupal will make a request to for oEmbed
+ * discovery.
+ *
+ * For example:
+ * @code
+ * $settings['media_oembed_discovery_trusted_host_patterns'] = [
+ *   '^www\.example\.com$',
+ * ];
+ * @endcode
+ * will allow the site to make oEmbed discovery requests to www.example.com.
+ */
+# $settings['media_oembed_discovery_trusted_host_patterns'] = [];
 
 /**
  * Load local development override configuration, if available.

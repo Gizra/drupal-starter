@@ -30,7 +30,9 @@ jobs:
       PANTHEON_GIT_URL: ${{ vars.PANTHEON_GIT_URL }}
       DEPLOY_EXCLUDE_WARNING: ${{ vars.DEPLOY_EXCLUDE_WARNING }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -77,7 +79,7 @@ jobs:
       ROLLBAR_SERVER_TOKEN: ${{ vars.ROLLBAR_SERVER_TOKEN }}
       PANTHEON_GIT_URL: ${{ vars.PANTHEON_GIT_URL }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -105,10 +107,15 @@ jobs:
         run: ./ci-scripts/prepare_deploy.sh
 
       - name: Deploy tag to Pantheon
-        run: ddev robo deploy:tag-pantheon --no-interaction ${{ github.ref_name }} master
+        env:
+          SAFE_REF: ${{ github.ref_name }}
+        run: ddev robo deploy:tag-pantheon --no-interaction "$SAFE_REF" master
 
       - name: Sync Pantheon
         run: ddev robo deploy:pantheon-sync
+
+      - name: Run manual steps
+        run: ./ci-scripts/manual_step.sh test
 
   deploy-live:
     name: "Deploy to Pantheon LIVE"
@@ -124,7 +131,7 @@ jobs:
       ROLLBAR_SERVER_TOKEN: ${{ vars.ROLLBAR_SERVER_TOKEN }}
       PANTHEON_GIT_URL: ${{ vars.PANTHEON_GIT_URL }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -155,10 +162,15 @@ jobs:
         run: ./ci-scripts/prepare_deploy.sh
 
       - name: Deploy tag to Pantheon
-        run: ddev robo deploy:tag-pantheon --no-interaction ${{ github.ref_name }} master
+        env:
+          SAFE_REF: ${{ github.ref_name }}
+        run: ddev robo deploy:tag-pantheon --no-interaction "$SAFE_REF" master
 
       - name: Sync Pantheon TEST
         run: ddev robo deploy:pantheon-sync
 
       - name: Sync Pantheon LIVE
         run: ddev robo deploy:pantheon-sync live
+
+      - name: Run manual steps
+        run: ./ci-scripts/manual_step.sh live

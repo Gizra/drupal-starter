@@ -1,0 +1,17 @@
+uuid: 5a3661da-73c1-4576-94b4-9742940f414d
+langcode: en
+status: true
+dependencies:
+  module:
+    - server_general
+title: 'Default cron handler'
+id: server_general_cron
+weight: 0
+module: server_general
+callback: 'server_general#cron'
+scheduler:
+  id: simple
+launcher:
+  id: serial
+logger:
+  id: database

@@ -1,0 +1,14 @@
+header_style: atx
+suppress_errors: true
+strip_tags: true
+strip_placeholder_links: true
+bold_style: '**'
+italic_style: '*'
+remove_nodes: ''
+hard_break: false
+list_item_style: '-'
+preserve_comments: false
+use_autolinks: true
+table_pipe_escape: \|
+table_caption_side: top
+strip_whitespace: true
