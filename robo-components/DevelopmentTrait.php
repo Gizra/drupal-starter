@@ -174,6 +174,8 @@ PHP;
    *
    * @param bool $should_be_enabled
    *   TRUE if cache should be active, FALSE if null backend.
+   *
+   * @throws \Exception
    */
   protected function verifyCacheState(bool $should_be_enabled): void {
     $result = $this->taskExec('drush ev "echo \Drupal::service(\'cache.render\')->getBackendClass();"')
@@ -181,21 +183,18 @@ PHP;
       ->run();
 
     if ($result->getExitCode() !== 0) {
-      $this->yell("Could not verify cache state — drush eval failed.");
-      return;
+      throw new \Exception("Could not verify cache state — drush eval failed.");
     }
 
     $backend = trim($result->getMessage());
     $is_null = str_contains($backend, 'NullBackend');
 
     if ($should_be_enabled && $is_null) {
-      $this->yell("Verification failed: render cache still uses NullBackend.");
-      return;
+      throw new \Exception("Verification failed: render cache still uses NullBackend.");
     }
 
     if (!$should_be_enabled && !$is_null) {
-      $this->yell("Verification failed: render cache uses '$backend' instead of NullBackend.");
-      return;
+      throw new \Exception("Verification failed: render cache uses '$backend' instead of NullBackend.");
     }
 
     $state = $should_be_enabled ? 'enabled' : 'disabled';
