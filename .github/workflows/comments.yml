@@ -16,7 +16,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           # The merge commit and both its parents, which is all `HEAD^1` needs.
           fetch-depth: 2
