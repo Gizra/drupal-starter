@@ -43,7 +43,7 @@ jobs:
         env:
           BASE_URL: http://drupal-starter.ddev.site:8880
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: ${{ !cancelled() }}
         with:
           name: accessibility-report
