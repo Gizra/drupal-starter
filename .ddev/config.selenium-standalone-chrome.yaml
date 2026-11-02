@@ -28,4 +28,4 @@ web_environment:
   - DRUPAL_NIGHTWATCH_OUTPUT=reports/nightwatch
   # DTT
   - DTT_BASE_URL=http://web
-  - DTT_MINK_DRIVER_ARGS=[\"chrome\", {\"browserName\":\"chrome\",\"goog:loggingPrefs\":{\"performance\":\"ALL\"},\"goog:chromeOptions\":{\"w3c\":false,\"args\":[\"--disable-dev-shm-usage\",\"--disable-gpu\",\"--headless\",\"--dns-prefetch-disable\"]}}, \"http://selenium-chrome:4444/wd/hub\"]
+  - DTT_MINK_DRIVER_ARGS=[\"chrome\", {\"browserName\":\"chrome\",\"goog:chromeOptions\":{\"w3c\":false,\"args\":[\"--disable-dev-shm-usage\",\"--disable-gpu\",\"--headless\",\"--dns-prefetch-disable\"]}}, \"http://selenium-chrome:4444/wd/hub\"]
