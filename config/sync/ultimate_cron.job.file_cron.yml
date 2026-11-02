@@ -8,7 +8,7 @@ title: 'Deletes temporary files'
 id: file_cron
 weight: 0
 module: file
-callback: file_cron
+callback: 'file#cron'
 scheduler:
   id: simple
 launcher:

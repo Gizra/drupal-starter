@@ -4,6 +4,6 @@ server_style_guide.style_guide:
     _controller: '\Drupal\server_style_guide\Controller\StyleGuideController::styleGuidePage'
     _title: 'Style Guide'
   requirements:
-    _permission: 'access content'
+    _permission: 'access style guide'
   options:
     no_cache: 'TRUE'

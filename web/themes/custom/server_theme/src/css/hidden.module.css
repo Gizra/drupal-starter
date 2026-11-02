@@ -1,0 +1,35 @@
+/**
+ * @file
+ * Utility classes to hide elements - Tailwind v4 compatible version.
+ * This file replaces Drupal core's hidden.module.css to prevent conflicts
+ * with Tailwind's responsive .hidden utilities.
+ */
+
+/**
+ * Hide elements visually, but keep them available for screen readers.
+ */
+.visually-hidden {
+  position: absolute !important;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  width: 1px;
+  height: 1px;
+  word-wrap: normal;
+}
+
+.visually-hidden.focusable:active,
+.visually-hidden.focusable:focus,
+.visually-hidden.focusable:focus-within {
+  position: static !important;
+  overflow: visible;
+  clip: auto;
+  width: auto;
+  height: auto;
+}
+
+/**
+ * Hide visually and from screen readers, but maintain layout.
+ */
+.invisible {
+  visibility: hidden;
+}

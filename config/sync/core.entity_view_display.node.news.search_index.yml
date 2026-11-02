@@ -6,8 +6,10 @@ dependencies:
     - core.entity_view_mode.node.search_index
     - field.field.node.news.field_body
     - field.field.node.news.field_featured_image
+    - field.field.node.news.field_metatag
     - field.field.node.news.field_publish_date
     - field.field.node.news.field_tags
+    - field.field.node.news.field_wikidata_id
     - node.type.news
   module:
     - datetime
@@ -18,6 +20,11 @@ targetEntityType: node
 bundle: news
 mode: search_index
 content:
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: -20
+    region: content
   field_body:
     type: text_default
     label: above
@@ -56,5 +63,7 @@ content:
     weight: 100
     region: content
 hidden:
+  field_metatag: true
+  field_wikidata_id: true
   langcode: true
   search_api_excerpt: true

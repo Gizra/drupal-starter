@@ -1,0 +1,70 @@
+name: Dependabot config export
+
+# When Dependabot bumps PHP dependencies, newer Drupal modules may ship
+# update hooks that modify active config. Without running `drush cex`, the
+# exported config under `config/sync` drifts from what a fresh install with
+# the bumped versions would produce, and `drush cim` fails on deploy.
+#
+# This workflow installs the site from existing config against the bumped
+# versions, runs database updates, exports config, and pushes the resulting
+# diff back onto the Dependabot PR branch.
+#
+# Requirement: `GH_TOKEN` must be set as a Dependabot secret
+# (repo Settings -> Secrets and variables -> Dependabot). Workflows triggered
+# by Dependabot only see Dependabot secrets, not Actions secrets.
+
+on:
+  pull_request:
+    paths:
+      - 'composer.lock'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  DDEV_NO_INSTRUMENTATION: true
+
+jobs:
+  config-export:
+    name: "Drush cex for Dependabot PR"
+    if: github.actor == 'dependabot[bot]' && startsWith(github.head_ref, 'dependabot/composer/')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GH_TOKEN }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Install DDEV
+        run: ./ci-scripts/install_ddev.sh
+
+      - name: Install Drupal
+        run: ./ci-scripts/install_drupal.sh
+
+      - name: Run database updates
+        run: ddev drush updb -y
+
+      - name: Export configuration
+        run: ddev drush cex -y
+
+      - name: Commit and push config changes
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          if [ -z "$(git status --porcelain config/)" ]; then
+            echo "No config changes to commit."
+            exit 0
+          fi
+          git config user.name "dependabot[bot]"
+          git config user.email "49699333+dependabot[bot]@users.noreply.github.com"
+          git add config/
+          # [dependabot skip] prefix preserves this commit when Dependabot
+          # rebases the PR on its own follow-up updates.
+          git commit -m "[dependabot skip] Export config after dependency update"
+          git push origin "HEAD:$HEAD_REF"

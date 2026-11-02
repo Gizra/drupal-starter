@@ -228,6 +228,11 @@ function server_general_form_alter(array &$form, FormStateInterface $form_state)
   /** @var \Drupal\server_general\LockedPages $locked_pages_service */
   $locked_pages_service = \Drupal::service('server_general.locked_pages');
 
+  // Hide or disable scheduler fields on locked pages.
+  if (\Drupal::moduleHandler()->moduleExists('scheduler')) {
+    server_general_alter_scheduler_fields($form, $entity, $locked_pages_service);
+  }
+
   // Check if node is locked or not.
   if (!$locked_pages_service->isNodeLocked($entity)) {
     return;
@@ -351,5 +356,151 @@ function server_general_preprocess_media_oembed_iframe(array &$variables) {
   // @see https://support.google.com/youtube/answer/171780
   if (strpos((string) $variables['media'], 'youtube.com') !== FALSE) {
     $variables['media'] = IFrameMarkup::create(str_replace('youtube.com/', 'youtube-nocookie.com/', $variables['media']));
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for language_content_settings_form().
+ *
+ * When admin visits the content translation settings page, the following code
+ * will enable the translations for any newly created paragraphs.
+ */
+function server_general_form_language_content_settings_form_alter(array &$form, FormStateInterface $form_state) {
+  if (empty($form['settings']['paragraph'])) {
+    return;
+  }
+
+  $entity_definition_update_manager = \Drupal::entityDefinitionUpdateManager();
+  $logger = \Drupal::logger('server_general');
+
+  foreach ($form['settings']['paragraph'] as $para_type => $paragraph_element) {
+    if (!is_array($paragraph_element) || empty($paragraph_element['translatable']) || $paragraph_element['translatable']['#type'] !== 'checkbox') {
+      continue;
+    }
+
+    // Skip paragraphs that already have translation config.
+    // We avoid content_translation.manager->isEnabled() because
+    // it conflates "disabled" with "not yet configured".
+    $translation_config = \Drupal::configFactory()->get("language.content_settings.paragraph.{$para_type}");
+    if (!empty($translation_config->getRawData())) {
+      continue;
+    }
+
+    // Check the box to make the paragraph translatable.
+    $form['settings']['paragraph'][$para_type]['translatable']['#default_value'] = TRUE;
+
+    // Check the boxes to make the fields translatable.
+    foreach ($paragraph_element['fields'] as $field_name => $field_element) {
+      // Uncheck the 'status' & 'created' fields.
+      if (in_array($field_name, ['status', 'created'])) {
+        $form['settings']['paragraph'][$para_type]['fields'][$field_name]['#default_value'] = FALSE;
+        continue;
+      }
+
+      // Skip if not a valid field.
+      $field_definition = $entity_definition_update_manager->getFieldStorageDefinition($field_name, 'paragraph');
+      if (empty($field_definition)) {
+        $logger->error('Field %field_name does not exist in paragraph type %paragraph_type.', [
+          '%field_name' => $field_name,
+          '%paragraph_type' => $para_type,
+        ]);
+        continue;
+      }
+
+      // Uncheck any paragraph reference fields.
+      // @see https://www.drupal.org/docs/contributed-modules/paragraphs/multilingual-paragraphs-configuration.
+      if ($field_definition->getType() == 'entity_reference_revisions') {
+        $form['settings']['paragraph'][$para_type]['fields'][$field_name]['#default_value'] = FALSE;
+        continue;
+      }
+
+      // Check all other fields.
+      $form['settings']['paragraph'][$para_type]['fields'][$field_name]['#default_value'] = TRUE;
+    }
+  }
+}
+
+/**
+ * Alter scheduler fields on locked node edit forms.
+ *
+ * @param array $form
+ *   The form array.
+ * @param \Drupal\node\NodeInterface $entity
+ *   The node entity.
+ * @param \Drupal\server_general\LockedPages $locked_pages_service
+ *   The locked pages service.
+ */
+function server_general_alter_scheduler_fields(array &$form, NodeInterface $entity, $locked_pages_service): void {
+  if (!$locked_pages_service->isNodeLocked($entity)) {
+    return;
+  }
+
+  $publish_on = $entity->hasField('publish_on') ? $entity->get('publish_on')->value : NULL;
+  $unpublish_on = $entity->hasField('unpublish_on') ? $entity->get('unpublish_on')->value : NULL;
+
+  $request_time = \Drupal::time()->getCurrentTime();
+  $has_future_dates = ($publish_on > $request_time) || ($unpublish_on > $request_time);
+
+  // If scheduled dates exist, make them readonly with a warning.
+  if ($has_future_dates) {
+    $form['scheduler_settings']['#description'] = [
+      '#type' => 'inline_template',
+      '#template' => '<strong class="action-link--danger">{{ message }}</strong>',
+      '#context' => [
+        'message' => t('This page is locked. Scheduling dates cannot be changed.'),
+      ],
+    ];
+    $form['publish_on']['widget'][0]['value']['#attributes']['readonly'] = 'readonly';
+    $form['publish_on']['widget'][0]['value']['#attributes']['disabled'] = TRUE;
+    $form['unpublish_on']['widget'][0]['value']['#attributes']['readonly'] = 'readonly';
+    $form['unpublish_on']['widget'][0]['value']['#attributes']['disabled'] = TRUE;
+    return;
+  }
+
+  // No scheduled dates: remove scheduler fields entirely.
+  $scheduler_fields = ['publish_on', 'unpublish_on', 'scheduler_settings'];
+  foreach ($scheduler_fields as $field) {
+    unset($form[$field]);
+  }
+}
+
+/**
+ * Implements hook_scheduler_publishing_allowed().
+ */
+function server_general_scheduler_publishing_allowed(NodeInterface $entity): bool {
+  /** @var \Drupal\server_general\LockedPages $locked_pages_service */
+  $locked_pages_service = \Drupal::service('server_general.locked_pages');
+
+  return !$locked_pages_service->isNodeLocked($entity);
+}
+
+/**
+ * Implements hook_scheduler_unpublishing_allowed().
+ */
+function server_general_scheduler_unpublishing_allowed(NodeInterface $entity): bool {
+  /** @var \Drupal\server_general\LockedPages $locked_pages_service */
+  $locked_pages_service = \Drupal::service('server_general.locked_pages');
+
+  return !$locked_pages_service->isNodeLocked($entity);
+}
+
+/**
+ * Implements hook_page_attachments().
+ */
+function server_general_page_attachments(array &$attachments) {
+  // Add noindex,nofollow meta tag to error pages (404 and 403).
+  // These pages are identified by their path aliases.
+  $current_path = \Drupal::service('path.current')->getPath();
+  $alias = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
+
+  if (in_array($alias, ['/404', '/403'])) {
+    $noindex_tag = [
+      '#tag' => 'meta',
+      '#attributes' => [
+        'name' => 'robots',
+        'content' => 'noindex,nofollow',
+      ],
+    ];
+    $attachments['#attached']['html_head'][] = [$noindex_tag, 'noindex_error_pages'];
   }
 }

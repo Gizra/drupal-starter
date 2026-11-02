@@ -1,13 +1,21 @@
-{% if width == 'lg' %}
-  {% set size_classes = 'max-w-lg' %}
-{% elseif width == 'xl' %}
-  {% set size_classes = 'max-w-xl' %}
-{% elseif width == '2xl' %}
-  {% set size_classes = 'max-w-2xl' %}
-{% elseif width == '3xl' %}
-  {% set size_classes = 'max-w-3xl' %}
-{% endif %}
+{#
+Maps the `width` prop to a Tailwind max-width class.
+Any value not listed here (including empty/undefined) silently
+falls back to '' — no width constraint is applied, and no error
+is thrown. See `default('')` below.
+#}
+{% set size_map = {
+  'lg': 'max-w-lg',
+  'xl': 'max-w-xl',
+  '2xl': 'max-w-2xl',
+  '3xl': 'max-w-3xl',
+} %}
 
-<div class="{{ size_classes }} {{ is_center ? 'mx-auto' }}">
+{% set classes = [
+  size_map[width] | default(''),
+  is_center ? 'mx-auto',
+] | filter(v => v) | join(' ') %}
+
+<div class="{{ classes }}">
   {{ element }}
 </div>

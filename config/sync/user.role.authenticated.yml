@@ -7,7 +7,6 @@ dependencies:
     - filter.format.webform_default
   module:
     - filter
-    - google_analytics
     - media
     - shortcut
     - system
@@ -20,7 +19,6 @@ is_admin: false
 permissions:
   - 'access content'
   - 'access shortcuts'
-  - 'opt-in or out of google analytics tracking'
   - 'use text format basic_html'
   - 'use text format webform_default'
   - 'view media'

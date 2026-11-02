@@ -8,7 +8,7 @@ title: 'Purges deleted Field API data'
 id: field_cron
 weight: 0
 module: field
-callback: field_cron
+callback: 'field#cron'
 scheduler:
   id: simple
 launcher:

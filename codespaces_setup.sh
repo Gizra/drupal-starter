@@ -14,9 +14,11 @@ wait_for_docker
 
 # Remove lynx to prevent it opening a GUI while installing, which
 # would cause the build to get stuck after the `ddev restart`.
-sudo apt-get remove -y lynx
+echo "Removing lynx..."
+sudo apt-get remove -y lynx 2>/dev/null || echo "lynx not found, skipping..."
 
 # Proceed with commands requiring Docker
+echo "Running ddev composer install..."
 ddev composer install
 cp .ddev/config.local.yaml.example .ddev/config.local.yaml
 

@@ -8,7 +8,7 @@ title: 'Update indexes'
 id: update_cron
 weight: 0
 module: update
-callback: update_cron
+callback: 'update#cron'
 scheduler:
   id: simple
 launcher:

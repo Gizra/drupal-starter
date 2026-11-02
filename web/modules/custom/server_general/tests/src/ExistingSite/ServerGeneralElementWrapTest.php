@@ -2,7 +2,7 @@
 
 namespace Drupal\Tests\server_general\ExistingSite;
 
-use Drupal\server_general\ElementWrapTrait;
+use Drupal\server_general\ThemeTrait\ElementWrapThemeTrait;
 
 /**
  * ElementWrapTrait tests.
@@ -12,7 +12,7 @@ use Drupal\server_general\ElementWrapTrait;
  */
 class ServerGeneralElementWrapTest extends ServerGeneralTestBase {
 
-  use ElementWrapTrait;
+  use ElementWrapThemeTrait;
 
   /**
    * Tests ElementWrapTrait::filterEmptyElements.

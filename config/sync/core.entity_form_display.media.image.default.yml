@@ -6,7 +6,7 @@ dependencies:
     - field.field.media.image.field_caption
     - field.field.media.image.field_media_credit
     - field.field.media.image.field_media_image
-    - image.style.large
+    - image.style.focal_point_preview
     - media.type.image
   module:
     - focal_point
@@ -44,7 +44,7 @@ content:
     region: content
     settings:
       progress_indicator: throbber
-      preview_image_style: large
+      preview_image_style: focal_point_preview
       preview_link: true
       offsets: '50,50'
     third_party_settings: {  }

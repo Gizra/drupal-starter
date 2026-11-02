@@ -1,0 +1,5 @@
+_core:
+  default_config_hash: pCiLiuWSHwJXzSTjI8TzUVXLkDoa113uhepJiIh7PF8
+enforcement: mandatory
+s256_enabled: true
+plain_enabled: true

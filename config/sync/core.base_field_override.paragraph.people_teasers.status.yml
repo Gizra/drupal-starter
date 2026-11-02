@@ -1,0 +1,22 @@
+uuid: 61e9601e-85aa-4244-8228-2bd0591d532f
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.people_teasers
+id: paragraph.people_teasers.status
+field_name: status
+entity_type: paragraph
+bundle: people_teasers
+label: Published
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

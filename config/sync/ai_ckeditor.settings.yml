@@ -1,0 +1,10 @@
+_core:
+  default_config_hash: 2xvTnAFagtSdmE-GLvKO4EwssCJHk6BSGpXhGko58jM
+prompts:
+  complete: ''
+  modify_prompt: ai_ckeditor_modify__default
+  reformat: ai_ckeditor_reformat__default
+  spellfix: ai_ckeditor_spellfix__default
+  summarize: ai_ckeditor_summarize__default
+  tone: ai_ckeditor_tone__default
+  translate: ai_ckeditor_translate__default

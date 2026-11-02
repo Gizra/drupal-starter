@@ -1,0 +1,11 @@
+uuid: 3e82f0be-c636-42a6-b852-bc7574b97da0
+langcode: en
+status: true
+dependencies: {  }
+id: ai_ckeditor_reformat__default
+label: 'Default prompt for reformatting CKEditor text'
+type: ai_ckeditor_reformat
+prompt: |-
+  Please fix this text to be marked up with semantic HTML using only lists, headers, or paragraph tags:
+
+  {inputText}

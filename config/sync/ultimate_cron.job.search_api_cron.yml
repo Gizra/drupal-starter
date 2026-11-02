@@ -8,7 +8,7 @@ title: 'Default cron handler'
 id: search_api_cron
 weight: 0
 module: search_api
-callback: search_api_cron
+callback: 'search_api#cron'
 scheduler:
   id: simple
 launcher:

@@ -1,0 +1,5 @@
+#ddev-generated
+services:
+  selenium-chrome:
+    external_links:
+      - "ddev-router:${DDEV_PROJECT}.${DDEV_TLD}"

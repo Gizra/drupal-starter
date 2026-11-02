@@ -1,4 +1,8 @@
 parameters:
+  # Toggles the super user access policy. If your website has at least one user
+  # with the Administrator role, it is advised to set this to false. This allows
+  # you to make user 1 a regular user, strengthening the security of your site.
+  security.enable_super_user: false
   session.storage.options:
     # Default ini options for sessions.
     #
@@ -37,6 +41,13 @@ parameters:
     # @default none
     # cookie_domain: '.example.com'
     #
+    # Set the SameSite cookie attribute: 'None', 'Lax', or 'Strict'. If set,
+    # this value will override the server value. See
+    # https://www.php.net/manual/en/session.security.ini.php for more
+    # information.
+    # @default no value
+    cookie_samesite: Lax
+    #
     # Set the session ID string length. The length can be between 22 to 256. The
     # PHP recommended value is 48. See
     # https://www.php.net/manual/session.security.ini.php for more information.
@@ -53,6 +64,11 @@ parameters:
     # \Drupal\Core\Session\SessionConfiguration::__construct()
     # @default 6
     sid_bits_per_character: 6
+    # By default, Drupal generates a session cookie name based on the full
+    # domain name. Set the name_suffix to a short random string to ensure this
+    # session cookie name is unique on different installations on the same
+    # domain and path (for example, when migrating from Drupal 7).
+    name_suffix: ''
   twig.config:
     # Twig debugging:
     #
@@ -72,7 +88,7 @@ parameters:
     #
     # Enabling Twig debugging is not recommended in production environments.
     # @default false
-    debug: true
+    debug: false
     # Twig auto-reload:
     #
     # Automatically recompile Twig templates whenever the source code changes.
@@ -147,6 +163,14 @@ parameters:
       #
       # @default []
       tags: []
+    # Renderer cache debug:
+    #
+    # Allows cache debugging output for each rendered element.
+    #
+    # Enabling render cache debugging is not recommended in production
+    # environments.
+    # @default false
+    debug: false
   # Cacheability debugging:
   #
   # Responses with cacheability metadata (CacheableResponseInterface instances)
@@ -161,15 +185,15 @@ parameters:
   # @default false
   http.response.debug_cacheability_headers: false
   factory.keyvalue: {}
-    # Default key/value storage service to use.
-    # @default keyvalue.database
-    # default: keyvalue.database
-    # Collection-specific overrides.
-    # state: keyvalue.database
+  # Default key/value storage service to use.
+  # @default keyvalue.database
+  # default: keyvalue.database
+  # Collection-specific overrides.
+  # state: keyvalue.database
   factory.keyvalue.expirable: {}
-    # Default key/value expirable storage service to use.
-    # @default keyvalue.database.expirable
-    # default: keyvalue.database.expirable
+  # Default key/value expirable storage service to use.
+  # @default keyvalue.database.expirable
+  # default: keyvalue.database.expirable
   # Allowed protocols for URL generation.
   filter_protocols:
     - http
@@ -196,11 +220,20 @@ parameters:
     allowedHeaders: []
     # Specify allowed request methods, specify ['*'] to allow all possible ones.
     allowedMethods: []
-    # Configure requests allowed from specific origins.
+    # Configure requests allowed from specific origins. Do not include trailing
+    # slashes with URLs.
     allowedOrigins: ['*']
+    # Configure requests allowed from origins, matching against regex patterns.
+    allowedOriginsPatterns: []
     # Sets the Access-Control-Expose-Headers header.
     exposedHeaders: false
     # Sets the Access-Control-Max-Age header.
     maxAge: false
     # Sets the Access-Control-Allow-Credentials header.
     supportsCredentials: false
+
+  queue.config:
+    # The maximum number of seconds to wait if a queue is temporarily suspended.
+    # This is not applicable when a queue is suspended but does not specify
+    # how long to wait before attempting to resume.
+    suspendMaximumWait: 30

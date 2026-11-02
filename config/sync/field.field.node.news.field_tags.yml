@@ -6,6 +6,13 @@ dependencies:
     - field.storage.node.field_tags
     - node.type.news
     - taxonomy.vocabulary.tags
+  module:
+    - ai_translate
+third_party_settings:
+  ai_translate:
+    entity_reference:
+      translate_references: default
+    translate_references: default
 id: node.news.field_tags
 field_name: field_tags
 entity_type: node
@@ -24,6 +31,6 @@ settings:
     sort:
       field: name
       direction: asc
-    auto_create: false
+    auto_create: true
     auto_create_bundle: ''
 field_type: entity_reference

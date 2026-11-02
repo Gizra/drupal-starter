@@ -10,7 +10,7 @@
   is_bold ? 'font-bold',
   is_underline ? 'underline',
   font_size_class,
-] | join(' ') | trim %}
+] | filter(v => v) | join(' ') %}
 
 <div class="{{ classes }}">
   {{ element }}

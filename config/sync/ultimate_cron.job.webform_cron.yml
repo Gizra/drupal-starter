@@ -8,7 +8,7 @@ title: 'Default cron handler'
 id: webform_cron
 weight: 0
 module: webform
-callback: webform_cron
+callback: 'webform#cron'
 scheduler:
   id: simple
 launcher:

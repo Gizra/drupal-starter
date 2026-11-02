@@ -12,7 +12,7 @@ bundle: info_card
 label: Header
 description: 'The value that should appear on the top of the card (e.g. "100%").'
 required: true
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

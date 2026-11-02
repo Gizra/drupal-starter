@@ -1,0 +1,5 @@
+services:
+  selenium-chrome:
+    environment:
+      - SCREEN_WIDTH=1920
+      - SCREEN_HEIGHT=1920

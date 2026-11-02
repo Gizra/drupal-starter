@@ -1,0 +1,55 @@
+form {
+
+  .form-item {
+    @apply flex flex-col gap-y-4;
+  }
+
+  .description {
+    @apply text-gray-500 text-sm;
+  }
+
+  input.button {
+    @apply bg-gray-500 hover:bg-gray-700 text-white py-2 px-4 rounded mt-4;
+  }
+}
+
+.contact-form,
+.webform-submission-form {
+  @apply inline-flex flex-col space-y-5 items-start justify-start;
+
+  .form-item {
+    @apply flex flex-col space-y-2;
+  }
+
+  .form-required:after {
+    @apply mx-0.5;
+    content: "*";
+    color: #dc2323;
+  }
+
+  .form-type-checkbox {
+    @apply inline h-7;
+    input {
+      @apply h-4;
+    }
+  }
+
+  [type="text"],
+  [type="email"],
+  [type="password"],
+  select {
+    @apply h-14 w-72 md:w-[30rem] rounded-lg;
+  }
+
+  .form-textarea-wrapper textarea {
+    @apply h-56 w-72 md:w-[30rem] lg:w-[48rem] rounded-lg;
+  }
+}
+
+.js-search-form {
+  @apply transform origin-right scale-x-0 transition duration-300;
+
+  .js-search-form-open & {
+    @apply scale-x-100;
+  }
+}

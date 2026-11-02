@@ -4,11 +4,15 @@ status: true
 dependencies:
   config:
     - field.field.node.landing_page.field_is_title_hidden
+    - field.field.node.landing_page.field_metatag
     - field.field.node.landing_page.field_paragraphs
     - node.type.landing_page
+    - workflows.workflow.default
   module:
-    - paragraphs
+    - content_moderation
+    - metatag
     - path
+    - server_general
 id: node.landing_page.default
 targetEntityType: node
 bundle: landing_page
@@ -27,8 +31,16 @@ content:
     settings:
       display_label: true
     third_party_settings: {  }
+  field_metatag:
+    type: metatag_firehose
+    weight: 101
+    region: content
+    settings:
+      sidebar: true
+      use_details: true
+    third_party_settings: {  }
   field_paragraphs:
-    type: paragraphs
+    type: paragraphs_edit
     weight: 10
     region: content
     settings:
@@ -52,6 +64,12 @@ content:
     region: content
     settings:
       include_locked: false
+    third_party_settings: {  }
+  moderation_state:
+    type: moderation_state_default
+    weight: 100
+    region: content
+    settings: {  }
     third_party_settings: {  }
   path:
     type: path

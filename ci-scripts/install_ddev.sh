@@ -7,7 +7,7 @@ else
   docker login --password "$DOCKER_PASSWORD" --username amitaibu
 fi
 
-DDEV_VERSION="v1.24.1"
+DDEV_VERSION="v1.24.10"
 
 if ! command -v ddev &>/dev/null; then
     echo "Installing ddev."
@@ -17,7 +17,7 @@ else
     echo "ddev $DDEV_VERSION is already installed."
 fi
 
-# Upon travis_retry, have a fresh start.
+# Clean up Docker system if retrying.
 docker system prune -a --volumes -f
 
 echo "Configuring ddev."

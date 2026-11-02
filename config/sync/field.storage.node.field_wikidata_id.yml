@@ -1,0 +1,21 @@
+uuid: 247a0b44-ce26-4be8-ac1f-ad04afd37ea6
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_wikidata_id
+field_name: field_wikidata_id
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
