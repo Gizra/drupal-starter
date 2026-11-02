@@ -5,7 +5,14 @@ dependencies:
   config:
     - media.type.image
   module:
+    - content_translation
     - image
+third_party_settings:
+  content_translation:
+    translation_sync:
+      alt: alt
+      title: title
+      file: 0
 id: media.image.thumbnail
 field_name: thumbnail
 entity_type: media
@@ -13,7 +20,7 @@ bundle: image
 label: Thumbnail
 description: 'The thumbnail of the media item.'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
