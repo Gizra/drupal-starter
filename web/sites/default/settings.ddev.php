@@ -6,7 +6,6 @@
  */
 
 $settings['container_yamls'][] = DRUPAL_ROOT . '/sites/default/services.yml';
-$settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml';
 
 $host = "db";
 $port = 3306;
@@ -68,6 +67,23 @@ $settings['trusted_host_patterns'] = ['.*'];
 // better performance.
 $settings['class_loader_auto_detect'] = FALSE;
 
+// Caching on during CI/tests, off during local dev.
+// Override in /web/sites/default/settings.local.php.
+$is_ci = defined('DTT_BASE_URL') || getenv('CI');
+$config['system.performance']['css']['preprocess'] = $is_ci;
+$config['system.performance']['js']['preprocess'] = $is_ci;
+if (!$is_ci) {
+  // Enable local development services.
+  $settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml';
+  // Disable the render cache.
+  $settings['cache']['bins']['render'] = 'cache.backend.null';
+  // Disable Internal Page Cache.
+  $settings['cache']['bins']['page'] = 'cache.backend.null';
+  // Disable Dynamic Page Cache.
+  $settings['cache']['bins']['dynamic_page_cache'] = 'cache.backend.null';
+}
+
+// Include /web/sites/default/settings.local.php if it exists.
 if (isset($app_root) && isset($site_path)) {
   if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
     include $app_root . '/' . $site_path . '/settings.local.php';
@@ -110,9 +126,6 @@ $settings['auto_create_htaccess'] = FALSE;
  * lot of dynamic keys which could result in a very large cache.
  */
 $settings['state_cache'] = TRUE;
-
-//$config['system.performance']['css']['preprocess'] = FALSE;
-//$config['system.performance']['js']['preprocess'] = FALSE;
 
 // Excludes modules from configuration export, as they should not be enabled on
 // production.
