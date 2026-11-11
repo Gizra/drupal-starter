@@ -60,13 +60,12 @@ $settings['trusted_host_patterns'] = ['.*'];
 // better performance.
 $settings['class_loader_auto_detect'] = FALSE;
 
-// Cache settings for local development. Below enables caching during testing,
-// and disables caching at other times on ddev which is handy during development.
-// If you wish to override below settings, you can do so in
-// /web/sites/default/settings.local.php (not /web/sites/settings.local.php!).
-$config['system.performance']['css']['preprocess'] = defined('DTT_BASE_URL');
-$config['system.performance']['js']['preprocess'] = defined('DTT_BASE_URL');
-if (!defined('DTT_BASE_URL')) {
+// Caching on during CI/tests, off during local dev.
+// Override in /web/sites/default/settings.local.php.
+$is_ci = defined('DTT_BASE_URL') || getenv('CI');
+$config['system.performance']['css']['preprocess'] = $is_ci;
+$config['system.performance']['js']['preprocess'] = $is_ci;
+if (!$is_ci) {
   // Enable local development services.
   $settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml';
   // Disable the render cache.

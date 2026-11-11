@@ -47,4 +47,8 @@ if [ -n "$ROLLBAR_SERVER_TOKEN" ]; then
   ddev config global --web-environment-add="ROLLBAR_SERVER_TOKEN=$ROLLBAR_SERVER_TOKEN"
 fi
 
+if [ -n "$CI" ]; then
+  ddev config global --web-environment-add="CI=$CI"
+fi
+
 echo "DDEV installation completed successfully."
