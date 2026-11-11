@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "64cce3215f489407549b7e3df69ea22d",
+    "content-hash": "9132fe9fb898193c11f4acc589f7c62b",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -7563,7 +7563,8 @@
                 "issues": "https://www.drupal.org/project/issues/webform?version=8.x",
                 "docs": "https://www.drupal.org/docs/8/modules/webform",
                 "forum": "https://drupal.stackexchange.com/questions/tagged/webform"
-            }
+            },
+            "published-time": "2026-09-23T14:56:04+00:00"
         },
         {
             "name": "drupal/wpf",
@@ -7775,17 +7776,24 @@
         },
         {
             "name": "e0ipso/simple_oauth_21",
-            "version": "v1.13.0",
+            "version": "v1.13.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/e0ipso/simple_oauth_21.git",
-                "reference": "9ed04e9b181bc34c6a6505825fbdcc1c2289b966"
+                "reference": "b45cbce5f1eb87c1ba0f89dcebd3d61bd2fe4a7f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/e0ipso/simple_oauth_21/zipball/9ed04e9b181bc34c6a6505825fbdcc1c2289b966",
-                "reference": "9ed04e9b181bc34c6a6505825fbdcc1c2289b966",
+                "url": "https://api.github.com/repos/e0ipso/simple_oauth_21/zipball/b45cbce5f1eb87c1ba0f89dcebd3d61bd2fe4a7f",
+                "reference": "b45cbce5f1eb87c1ba0f89dcebd3d61bd2fe4a7f",
                 "shasum": ""
+            },
+            "provide": {
+                "drupal/simple_oauth_client_registration": "self.version",
+                "drupal/simple_oauth_device_flow": "self.version",
+                "drupal/simple_oauth_native_apps": "self.version",
+                "drupal/simple_oauth_pkce": "self.version",
+                "drupal/simple_oauth_server_metadata": "self.version"
             },
             "require-dev": {
                 "drupal/coder": "^8",
@@ -7808,9 +7816,9 @@
             "description": "Implements OAuth 2.1 on top of Simple OAuth for Drupal",
             "support": {
                 "issues": "https://github.com/e0ipso/simple_oauth_21/issues",
-                "source": "https://github.com/e0ipso/simple_oauth_21/tree/v1.13.0"
+                "source": "https://github.com/e0ipso/simple_oauth_21/tree/v1.13.1"
             },
-            "time": "2025-11-03T17:00:51+00:00"
+            "time": "2026-09-29T14:31:47+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -21468,5 +21476,5 @@
     "platform-dev": {
         "ext-posix": "*"
     },
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.11.0"
 }
