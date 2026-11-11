@@ -31,7 +31,7 @@ jobs:
     if: github.actor == 'dependabot[bot]' && startsWith(github.head_ref, 'dependabot/composer/')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.GH_TOKEN }}
