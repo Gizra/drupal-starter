@@ -6,7 +6,6 @@
  */
 
 $settings['container_yamls'][] = DRUPAL_ROOT . '/sites/default/services.yml';
-$settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml';
 
 $host = "db";
 $port = 3306;
@@ -62,7 +61,7 @@ $settings['trusted_host_patterns'] = ['.*'];
 $settings['class_loader_auto_detect'] = FALSE;
 
 // Cache settings for local development. Below enables caching during testing,
-// and disables caching at other times on ddev which is handy during develoment.
+// and disables caching at other times on ddev which is handy during development.
 // If you wish to override below settings, you can do so in
 // /web/sites/default/settings.local.php (not /web/sites/settings.local.php!).
 $config['system.performance']['css']['preprocess'] = defined('DTT_BASE_URL');
@@ -118,9 +117,6 @@ $settings['container_yamls'][] = 'modules/contrib/redis/example.services.yml';
  * lot of dynamic keys which could result in a very large cache.
  */
 $settings['state_cache'] = TRUE;
-
-//$config['system.performance']['css']['preprocess'] = FALSE;
-//$config['system.performance']['js']['preprocess'] = FALSE;
 
 // Excludes modules from configuration export, as they should not be enabled on
 // production.
