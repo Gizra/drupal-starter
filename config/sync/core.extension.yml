@@ -18,6 +18,7 @@ module:
   block_content: 0
   block_plugin_view_builder: 0
   breakpoint: 0
+  captcha: 0
   ckeditor5: 0
   config: 0
   config_filter: 0
@@ -43,6 +44,7 @@ module:
   facets_exposed_filters: 0
   field: 0
   field_ui: 0
+  field_widget_actions: 0
   file: 0
   filter: 0
   focal_point: 0
@@ -84,6 +86,7 @@ module:
   path_alias: 0
   pluggable_entity_view_builder: 0
   real_aes: 0
+  recaptcha: 0
   redirect: 0
   redis: 0
   responsive_image: 0
@@ -117,6 +120,7 @@ module:
   update: 0
   user: 0
   username_enumeration_prevention: 0
+  views_autosubmit: 0
   views_ui: 0
   webform: 0
   webform_ui: 0

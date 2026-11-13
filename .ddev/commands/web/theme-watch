@@ -9,7 +9,7 @@ cd ./web/themes/custom/server_theme || exit 1
 
 # Ensure dependencies are installed
 if [ ! -d node_modules ]; then
-  npm install || exit 1
+  npm ci || exit 1
 fi
 
 # Ensure an initial build exists

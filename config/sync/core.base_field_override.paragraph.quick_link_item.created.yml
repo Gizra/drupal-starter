@@ -1,0 +1,18 @@
+uuid: 796f18c8-c313-4b33-af32-86ec61fb9e58
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.quick_link_item
+id: paragraph.quick_link_item.created
+field_name: created
+entity_type: paragraph
+bundle: quick_link_item
+label: 'Authored on'
+description: 'The time that the Paragraph was created.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

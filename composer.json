@@ -29,9 +29,9 @@
         "ext-intl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "bower-asset/font-awesome": "^6",
+        "bower-asset/font-awesome": "^7",
         "composer/installers": "^1.9",
-        "cweagans/composer-patches": "^1.7",
+        "cweagans/composer-patches": "~2.0",
         "drupal/admin_toolbar": "^3.4",
         "drupal/ai": "^1.0",
         "drupal/ai_content_assistant": "^1.0",
@@ -69,16 +69,18 @@
         "drupal/migrate_plus": "^6.0",
         "drupal/migrate_source_csv": "^3.4",
         "drupal/migrate_tools": "^6.0",
-        "drupal/pantheon_advanced_page_cache": "2.3.3",
+        "drupal/pantheon_advanced_page_cache": "2.4.1",
         "drupal/paragraphs": "^1.17",
         "drupal/paragraphs_edit": "^3.0",
         "drupal/password_policy": "^4.0",
         "drupal/pathauto": "^1.12",
         "drupal/pluggable_entity_view_builder": "^1.1",
         "drupal/real_aes": "^2.5",
+        "drupal/recaptcha": "^3.4",
         "drupal/redirect": "^1.6",
         "drupal/redis": "^1.7",
         "drupal/rollbar": "^2.1",
+        "drupal/scheduler": "^2.3",
         "drupal/schema_metatag": "^3.0",
         "drupal/search_api": "^1.18",
         "drupal/search_api_pantheon": "^8.3",
@@ -93,6 +95,7 @@
         "drupal/ultimate_cron": "^2.0@alpha",
         "drupal/upgrade_status": "^4.3.8",
         "drupal/username_enumeration_prevention": "^1.3",
+        "drupal/views_autosubmit": "^1.6",
         "drupal/webform": "^6.3@beta",
         "drupal/wpf": "^1.2",
         "drush/drush": "^13",
@@ -120,7 +123,7 @@
         "drupal/drupal_test_assertions": "^1.0",
         "drupal/potx": "^1.0@alpha",
         "gettext/gettext": "^5.7",
-        "gizra/drupal-robo": "^0.1.0",
+        "gizra/drupal-robo": "^0.2.0",
         "mikey179/vfsstream": "^1.6",
         "mink/webdriver-classic-driver": "^1.1",
         "mpyw/phpunit-patch-serializable-comparison": "^0.0.4",
@@ -155,6 +158,7 @@
             "mglaman/composer-drupal-lenient": true,
             "oomphinc/composer-installers-extender": true,
             "php-http/discovery": true,
+            "symfony/runtime": true,
             "wikimedia/composer-merge-plugin": true
         }
     },
@@ -162,7 +166,38 @@
         "patchLevel": {
             "drupal/core": "-p2"
         },
-        "patches-file": "composer.patches.json",
+        "patches": {
+            "consolidation/robo": {
+                "Symfony Console 7.4+ addCommand() compat (robo#1185)": "patches/robo-console-addcommand.patch"
+            },
+            "drupal/core": {
+                "d.o. #3315245": "patches/2938.patch",
+                "d.o. #2351685": "https://www.drupal.org/files/issues/2023-02-03/2351685-22.patch",
+                "d.o. #3400204": "https://www.drupal.org/files/issues/2024-06-27/3400204-claro-layout-overflow-fix-2.patch",
+                "d.o. #2137815": "https://www.drupal.org/files/issues/2025-11-11/2137815-225.patch"
+            },
+            "drupal/entity_reference_revisions": {
+                "d.o. #2799479": "patches/entity_reference_revisions-2799479.LLM-rerolled.patch"
+            },
+            "drupal/ultimate_cron": {
+                "d.o. #3351276": "patches/ultimate_cron-3351276.LLM-rerolled.patch"
+            },
+            "drupal/webp": {
+                "d.o. #3281606": "patches/webp-3281606.patch"
+            },
+            "npm-asset/anchor-js": {
+                "remove font-face": "patches/remove-anchorjs-fontface.patch"
+            },
+            "drupal/seckit": {
+                "d.o. #3206728": "https://www.drupal.org/files/issues/2024-09-06/seckit-2_x-src-field-length-3206728-8.patch"
+            },
+            "drupal/rollbar": {
+                "d.o. #3432364": "patches/3432364-rollbar-vars.patch"
+            },
+            "drupal/schema_metatag": {
+                "d.o. #3415013": "patches/3415013-schema-webpage-extra-fields.patch"
+            }
+        },
         "drupal-scaffold": {
             "locations": {
                 "web-root": "web/"
@@ -176,17 +211,31 @@
             }
         },
         "installer-paths": {
-            "web/core": ["type:drupal-core"],
-            "web/modules/contrib/{$name}": ["type:drupal-module"],
-            "web/profiles/contrib/{$name}": ["type:drupal-profile"],
-            "web/themes/contrib/{$name}": ["type:drupal-theme"],
-            "drush/Commands/contrib/{$name}": ["type:drupal-drush"],
-            "web/modules/custom/{$name}": ["type:drupal-custom-module"],
-            "web/themes/custom/{$name}": ["type:drupal-custom-theme"],
+            "web/core": [
+                "type:drupal-core"
+            ],
+            "web/modules/contrib/{$name}": [
+                "type:drupal-module"
+            ],
+            "web/profiles/contrib/{$name}": [
+                "type:drupal-profile"
+            ],
+            "web/themes/contrib/{$name}": [
+                "type:drupal-theme"
+            ],
+            "drush/Commands/contrib/{$name}": [
+                "type:drupal-drush"
+            ],
+            "web/modules/custom/{$name}": [
+                "type:drupal-custom-module"
+            ],
+            "web/themes/custom/{$name}": [
+                "type:drupal-custom-theme"
+            ],
             "web/libraries/{$name}": [
-              "type:drupal-library",
-              "type:bower-asset",
-              "type:npm-asset"
+                "type:drupal-library",
+                "type:bower-asset",
+                "type:npm-asset"
             ]
         },
         "installer-types": [
@@ -199,7 +248,10 @@
             ]
         },
         "drupal-core-project-message": {
-            "include-keys": ["homepage", "support"],
+            "include-keys": [
+                "homepage",
+                "support"
+            ],
             "post-create-project-cmd-message": [
                 "<bg=blue;fg=white>                                                         </>",
                 "<bg=blue;fg=white>  Congratulations, you've installed the Drupal codebase  </>",
@@ -207,7 +259,6 @@
                 "<bg=blue;fg=white>                                                         </>",
                 "",
                 "<bg=yellow;fg=black>Next steps</>:",
-
                 "  * Install the site: https://www.drupal.org/docs/8/install",
                 "  * Read the user guide: https://www.drupal.org/docs/user_guide/en/index.html",
                 "  * Get support: https://www.drupal.org/support",

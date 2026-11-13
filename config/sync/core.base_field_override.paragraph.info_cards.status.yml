@@ -1,0 +1,22 @@
+uuid: 59050852-f42a-4b0b-815e-0897a6df4fa7
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.info_cards
+id: paragraph.info_cards.status
+field_name: status
+entity_type: paragraph
+bundle: info_cards
+label: Published
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

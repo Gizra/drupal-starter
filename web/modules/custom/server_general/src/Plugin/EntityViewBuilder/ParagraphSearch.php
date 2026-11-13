@@ -73,7 +73,11 @@ class ParagraphSearch extends EntityViewBuilderPluginAbstract {
     }
 
     $build[] = $this->buildElementSearchTermAndResults(
-      views_embed_view('search', 'embed_1'),
+      [
+        '#type' => 'view',
+        '#name' => 'search',
+        '#display_id' => 'embed_1',
+      ],
       $search_key,
     );
 

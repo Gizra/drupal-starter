@@ -32,6 +32,27 @@ class ServerGeneralTranslatorTest extends ServerGeneralTestBase {
   }
 
   /**
+   * Tests redirect when trying to add an already-existing translation.
+   */
+  public function testRedirectWhenTranslationAlreadyExists(): void {
+    $node = $this->createNode([
+      'title' => 'Test node',
+      'type' => 'landing_page',
+      'status' => 1,
+      'moderation_state' => 'published',
+    ]);
+    $node->addTranslation('es', ['title' => 'Test node ES'])->save();
+
+    // Trying to add a translation that already exists redirects to overview.
+    $this->drupalGet(sprintf("/node/%s/translations/add/en/es", $node->id()));
+    $this->assertSession()->addressEquals(sprintf("/node/%s/translations", $node->id()));
+
+    // Adding a translation that does not yet exist shows the translation form.
+    $this->drupalGet(sprintf("/node/%s/translations/add/en/ar", $node->id()));
+    $this->assertSession()->addressEquals(sprintf("/node/%s/translations/add/en/ar", $node->id()));
+  }
+
+  /**
    * The translator access to content types.
    */
   public function testNode() {

@@ -292,8 +292,7 @@ text_files:
     عندما
     لدى
     جميع
-  protwords: |
-
+  protwords: ''
   accents: ''
   synonyms: |
     drupal, durpal
