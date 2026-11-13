@@ -51,7 +51,7 @@ class ServerGeneralRobotsTxtTest extends ExistingSiteBase {
     // instead of inheriting it from "User-agent: *".
     $this->assertGreaterThanOrEqual(
       2,
-      substr_count($content, 'Disallow: *?f%5B*'),
+      substr_count($content, 'Disallow: *?type%5B*'),
       'The facet protection is repeated inside the AI-bot groups, not only in "User-agent: *".'
     );
   }

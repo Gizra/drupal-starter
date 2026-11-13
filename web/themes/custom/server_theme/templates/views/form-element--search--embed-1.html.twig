@@ -1,0 +1,24 @@
+{#
+/**
+ * @file
+ * Theme override for a facet of the search view.
+ *
+ * Every facet (exposed filter) of the search view uses this wrapper: a
+ * "Filter by" title, then the widget. Links are themed in
+ * bef-links--search--embed-1.html.twig.
+ *
+ * To style a single facet, copy this file and add the filter identifier, e.g.
+ * form-element--search--embed-1--type.html.twig.
+ */
+#}
+{% set title = element['#title'] %}
+<div{{ attributes.addClass('flex', 'flex-col', 'gap-y-5') }}>
+  {% if title is not empty %}
+    <h3 class="text-2xl">
+      {% trans %}
+        Filter by {{ title }}
+      {% endtrans %}
+    </h3>
+  {% endif %}
+  {{ children }}
+</div>

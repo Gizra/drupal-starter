@@ -93,27 +93,49 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
   }
 
   /**
-   * Tests the sanity of facet configurations.
+   * Test the content type facet.
    */
-  public function testFacetConfigSanity() {
-    $facets = \Drupal::entityTypeManager()
-      ->getStorage('facets_facet')
-      ->loadMultiple();
+  public function testContentTypeFacet() {
+    $title = 'A facetedword news node';
+    $this->createNode([
+      'title' => $title,
+      'type' => 'news',
+      'moderation_state' => 'published',
+    ]);
+    $this->triggerPostRequestIndexing();
+    $this->waitForSearchIndex(function () use ($title) {
+      $assert = $this->assertSession();
+      $this->drupalGet('/search', [
+        'query' => [
+          'key' => 'facetedword',
+        ],
+      ]);
+      $assert->elementTextContains('css', '.view-search', 'Filter by Content type');
 
-    if (empty($facets)) {
-      return;
-    }
+      // The facet link keeps the search term.
+      $link = $assert->elementExists('css', '.view-search a.bef-link[data-bef-value="news"]');
+      $href = urldecode($link->getAttribute('href'));
+      $this->assertStringContainsString('key=facetedword', $href);
+      $this->assertStringContainsString('type[news]=news', $href);
 
-    /** @var \Drupal\facets\FacetInterface $facet */
-    foreach ($facets as $facet) {
-      $config_value = $facet->get('only_visible_when_facet_source_is_visible');
+      $this->drupalGet('/search', [
+        'query' => [
+          'key' => 'facetedword',
+          'type' => ['news' => 'news'],
+        ],
+      ]);
+      $assert->elementTextContains('css', '.view-search', $title);
+      $assert->elementExists('css', '.view-search a.bef-link--selected[data-bef-value="news"]');
 
-      if (!$config_value) {
-        continue;
-      }
-      $this->fail("The facet {$facet->id()} has 'only_visible_when_facet_source_is_visible' set to true. It is not compatible with Paragraphs-based embedding and rendering.");
-    }
-    $this->expectNotToPerformAssertions();
+      // A content type without results filters everything out.
+      $this->drupalGet('/search', [
+        'query' => [
+          'key' => 'facetedword',
+          'type' => ['landing_page' => 'landing_page'],
+        ],
+      ]);
+      $assert->elementTextNotContains('css', '.view-search', $title);
+    });
   }
 
   /**
@@ -127,18 +149,8 @@ class ServerGeneralSearchTest extends ServerGeneralSearchTestBase {
         'key[$testing]' => '1',
       ],
     ]);
-    $this->assertSession()->statusCodeEquals(Response::HTTP_BAD_REQUEST);
-    // We have an error message that describes the problem.
-    $this->assertStringContainsString("contains a non-scalar", $this->getCurrentPage()->getContent());
-  }
-
-  /**
-   * Test that facets are set to be preserved when using filters in Search view.
-   */
-  public function testFacetsPreservedWhenUsingFilters() {
-    $config = $this->container->get('config.factory')->get('views.view.search');
-    $preserve_facets = $config->get('display.default.display_options.query.options.preserve_facet_query_args');
-    $this->assertTrue($preserve_facets);
+    // The invalid search term is ignored.
+    $this->assertSession()->statusCodeEquals(Response::HTTP_OK);
   }
 
 }
