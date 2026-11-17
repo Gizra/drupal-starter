@@ -1,0 +1,55 @@
+# `ddev pull pantheon-backup` imports the latest Pantheon backup of the
+# environment below, instead of a fresh dump. Needs TERMINUS_MACHINE_TOKEN in
+# .ddev/.env.
+
+environment_variables:
+  project: gizra-drupal-starter.live
+
+auth_command:
+  command: |
+    set -eu -o pipefail
+    if [ -z "${TERMINUS_MACHINE_TOKEN:-}" ]; then echo "Please make sure you have set TERMINUS_MACHINE_TOKEN in .ddev/.env" && exit 1; fi
+    terminus auth:login --machine-token="${TERMINUS_MACHINE_TOKEN}" || ( echo "terminus auth login failed, check your TERMINUS_MACHINE_TOKEN" && exit 1 )
+
+db_pull_command:
+  command: |
+    set -eu -o pipefail
+    ls /var/www/html/.ddev >/dev/null # This just refreshes stale NFS if possible
+    pushd /var/www/html/.ddev/.downloads >/dev/null
+    # terminus backup:get --to can save part of a backup and still exit 0, so
+    # ask it for the link only and fetch that with curl, which resumes a
+    # dropped download.
+    file=$(terminus backup:info ${project} --element=db --field=file)
+    rm -f tmp.db.sql.gz
+    for attempt in 1 2 3 4 5; do
+      # Links expire, so each attempt gets a new link to the same file.
+      # --speed-limit is not a cap: curl aborts below 1 KB/s for 60 seconds.
+      url=$(terminus backup:get ${project} --file="$file") &&
+        curl -sS --fail -C - --speed-limit 1024 --speed-time 60 -o tmp.db.sql.gz "$url" && break
+      echo "Download stopped (attempt $attempt of 5), resuming..."
+      sleep 5
+    done
+    # Stop here, before anything is imported, if the backup is incomplete.
+    gzip -t tmp.db.sql.gz
+    # Replace any DEFINERs added to triggers and stored procedures.
+    gunzip -c tmp.db.sql.gz | sed -e 's/DEFINER[ ]*=[ ]*[^*]*\*/\*/' | gzip > db.sql.gz
+    rm tmp.db.sql.gz
+
+files_pull_command:
+  command: |
+    set -eu -o pipefail
+    ls /var/www/html/.ddev >/dev/null # This just refreshes stale NFS if possible
+    pushd /var/www/html/.ddev/.downloads >/dev/null
+    # Downloaded the same way as the database backup, see db_pull_command.
+    file=$(terminus backup:info ${project} --element=files --field=file)
+    rm -f files.tgz
+    for attempt in 1 2 3 4 5; do
+      url=$(terminus backup:get ${project} --file="$file") &&
+        curl -sS --fail -C - --speed-limit 1024 --speed-time 60 -o files.tgz "$url" && break
+      echo "Download stopped (attempt $attempt of 5), resuming..."
+      sleep 5
+    done
+    # Stop here, before anything is unpacked, if the archive is incomplete.
+    gzip -t files.tgz
+    mkdir -p files && tar --strip-components=1 -C files -zxf files.tgz
+    rm files.tgz

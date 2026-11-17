@@ -534,6 +534,10 @@ install without doing a backup.
     # To pull only the database:
     ddev pull pantheon --skip-files
 
+To import the latest backup of the live environment instead of a fresh dump,
+which resumes a dropped download, use `ddev pull pantheon-backup`. The
+environment is set in `.ddev/providers/pantheon-backup.yaml`.
+
 ## Use remote services from Pantheon
 
 Pantheon provides a managed SQL database, filesystem for the public and

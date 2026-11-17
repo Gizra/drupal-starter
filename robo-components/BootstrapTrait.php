@@ -155,6 +155,11 @@ trait BootstrapTrait {
       ->to($project_name . '.qa')
       ->run();
 
+    $this->taskReplaceInFile('.bootstrap/.ddev/providers/pantheon-backup.yaml')
+      ->from('gizra-drupal-starter.live')
+      ->to($project_name . '.live')
+      ->run();
+
     $this->taskReplaceInFile('.bootstrap/composer.json')
       ->from('drupal-starter')
       ->to(strtolower($github_repo_name))
